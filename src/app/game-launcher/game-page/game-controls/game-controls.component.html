@@ -1,0 +1,23 @@
+<div class="controls-container">
+  <div class="exit-game-launcher font-icons font-icons--close" (click)="exitGameLauncher()"></div>
+  @if (!isFullScreen) {
+  <div class="toggle-fullscreen font-icons font-icons--full" (click)="openFullscreen()"></div>
+  } @if (isFullScreen) {
+  <div class="toggle-fullscreen font-icons font-icons--full-close" (click)="closeFullscreen()"></div>
+  }
+  <div
+    (click)="changeGameScreen(1)"
+    [class.active]="activeControl === 1"
+    class="split-1 font-icons font-icons--screen"
+  ></div>
+  <div
+    (click)="changeGameScreen(2)"
+    [class.active]="activeControl === 2"
+    class="split-2 font-icons font-icons--screen-2"
+  ></div>
+  <div
+    (click)="changeGameScreen(4)"
+    class="split-4 font-icons font-icons--screen-4"
+    [class.active]="activeControl === 4"
+  ></div>
+</div>

@@ -1,0 +1,195 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "angular-pp": {
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "pt-BR": "src/translations/json/pt-BR.json"
+        }
+      },
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "changeDetection": "OnPush"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": {
+              "base": "dist"
+            },
+            "index": "src/index.html",
+            "polyfills": ["@angular/localize/init", "src/polyfills.ts"],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/apple-touch-icon.png",
+              "src/robots.txt",
+              "src/sitemap.xml",
+              "src/deploy-config.json",
+              "src/assetslocal",
+              "src/assets",
+              "src/assetshtml",
+              {
+                "glob": "**/*",
+                "input": "static",
+                "output": "/static/"
+              }
+            ],
+            "styles": ["src/main.scss"],
+            "scripts": [],
+            "allowedCommonJsDependencies": ["moment"],
+            "browser": "src/main.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [".", "node_modules", "src"]
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "14kb",
+                  "maximumError": "14kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "assets": [
+                "src/apple-touch-icon.png",
+                "src/robots.txt",
+                "src/sitemap.xml",
+                "src/deploy-config.json",
+                "src/assets",
+                "src/assetslocal",
+                "src/assetshtml",
+                {
+                  "glob": "**/*",
+                  "input": "static",
+                  "output": "/static/"
+                }
+              ]
+            },
+            "ci": {
+              "progress": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "angular-pp:build:production"
+            },
+            "development": {
+              "buildTarget": "angular-pp:build:development"
+            },
+            "development-ssl": {
+              "ssl": true,
+              "sslCert": "ssl/test.betaki.bet.br.pem",
+              "sslKey": "ssl/test.betaki.bet.br-key.pem",
+              "host": "test.betaki.bet.br",
+              "port": 4200,
+              "buildTarget": "angular-pp:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n",
+          "options": {
+            "buildTarget": "angular-pp:build"
+          }
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": ["src/polyfills.ts"],
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "scripts": [],
+            "styles": ["src/main.scss"],
+            "assets": ["src/apple-touch-icon.png", "src/robots.txt", "src/sitemap.xml", "src/assets", "src/assetslocal"]
+          },
+          "configurations": {
+            "ci": {
+              "progress": false,
+              "watch": false
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
+        },
+        "cypress-run": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "angular-pp:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "angular-pp:serve:production"
+            }
+          }
+        },
+        "cypress-open": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "watch": true,
+            "headless": false
+          }
+        },
+        "e2e": {
+          "builder": "@cypress/schematic:cypress",
+          "options": {
+            "devServerTarget": "angular-pp:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "angular-pp:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

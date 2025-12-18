@@ -1,0 +1,91 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+@use "theme/theme-icons";
+
+.game-container {
+  display: flex;
+  width: 100%;
+  flex-flow: column;
+  gap: 2.5rem;
+
+  @include utils.media("gt-sm-1") {
+    gap: 0.5rem;
+  }
+
+  .title-container {
+    display: flex;
+    line-height: 2.5rem;
+    padding: 0 0.125rem;
+    width: 100%;
+
+    .title-back-button {
+      width: 2.5rem;
+      height: 2.5rem;
+      line-height: 2.5rem;
+      border-radius: 0.375rem;
+      text-align: center;
+      cursor: pointer;
+
+      &:hover {
+        background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+      }
+    }
+
+    .title-text {
+      padding-left: 1rem;
+      font-size: 0.9375rem;
+      font-family: Roboto, Verdana, sans-serif;
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    }
+
+    .title-close-button {
+      display: none;
+      color: rgba(255, 255, 255, 35%);
+    }
+
+    .font-icons {
+      line-height: 2.5rem;
+      width: 2.5rem;
+      background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.7);
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .font-icons:hover {
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    }
+  }
+
+  &.multi-screen {
+    gap: 0;
+
+    .title-container {
+      justify-content: space-between;
+      background-color: rgba(28, 29, 36, 50%);
+      padding: 0;
+
+      .title-back-button {
+        display: none;
+      }
+
+      .title-close-button {
+        display: flex;
+        font-size: 1rem;
+        place-content: center;
+        background-color: unset;
+      }
+    }
+  }
+}
+
+.iframe-container,
+.game-iframe {
+  height: 100%;
+  width: 100%;
+}
+
+.iframe-container {
+  display: flex;
+}

@@ -1,0 +1,276 @@
+/* stylelint-disable selector-max-specificity */
+/* stylelint-disable selector-max-compound-selectors */
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+
+@use "theme/theme-variables" as theme-variables;
+
+:host {
+  min-height: calc(100vh - 6.25rem);
+  display: grid;
+  height: 100%;
+
+  @include utils.media(lt-sm-2) {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+}
+
+.game-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+}
+
+.game-controls-modal {
+  position: absolute;
+  right: -3rem;
+  top: 3rem;
+
+  &.no-in-play {
+    top: 0;
+  }
+}
+
+.game-launcher-wrapper {
+  //position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2.75rem 0 0.25rem;
+  top: 5rem;
+  bottom: 4.375rem;
+  left: 0;
+  right: 0;
+
+  &.theatre-mode {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    .game-controls-modal {
+      display: none;
+    }
+  }
+
+  //Overrides for "Theatre mode could come here - should we implement it (alternatively use .theathre-mode)
+  // @media only screen and (max-width: 56.25rem) {
+  // }
+}
+
+.game-grid-wrapper {
+  position: relative;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  &.multi-screen {
+    .game-controls-modal {
+      top: 0;
+    }
+  }
+}
+
+.game-grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 0.25rem;
+}
+
+.game-item-wrapper,
+.game-search-wrapper {
+  width: 100%;
+  display: inline-flex;
+
+  &.multi-screen {
+    width: calc(50% - 0.125rem);
+  }
+}
+
+.game-search-wrapper {
+  align-items: center;
+  padding: 0 2rem;
+  background: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  place-content: center;
+}
+
+app-game-page-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.game-footer {
+  height: 4.5rem;
+}
+
+.game-close-dialog {
+  z-index: 103;
+  display: flex;
+  align-self: center;
+  position: absolute;
+  top: 9.375rem;
+}
+
+.game-close-dialog-dimmer-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.25);
+
+  z-index: 102;
+}
+
+.game-background {
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 0;
+  transition: background 1s linear;
+
+  img {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 2s ease-in;
+  }
+}
+
+//*****************************************************************************
+//#region Overrides for Game Search component(s) in Game screens
+//*****************************************************************************
+:host ::ng-deep .game-search-wrapper .game-search-container {
+  max-width: 37.125rem;
+}
+
+:host
+  ::ng-deep
+  .game-search-wrapper
+  .form-input-search.footer-input-search.footer-input-search
+  .mat-mdc-text-field-wrapper
+  .mat-mdc-input-element,
+:host ::ng-deep .game-search-wrapper .form-input-search .search-icon {
+  color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.55);
+  font-size: 1.0625rem;
+
+  &::placeholder {
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.55);
+  }
+
+  /* stylelint-disable-next-line selector-no-vendor-prefix */
+  &:-ms-input-placeholder {
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.55);
+  }
+
+  /* stylelint-disable-next-line selector-no-vendor-prefix */
+  &::-ms-input-placeholder {
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.55);
+  }
+}
+
+:host
+  ::ng-deep
+  .game-search-wrapper
+  .form-input-search.footer-input-search.footer-input-search
+  .mat-mdc-text-field-wrapper {
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-100");
+}
+
+.missing-cookies-consent {
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  &.multi-screen {
+    width: calc(50% - 0.125rem);
+  }
+}
+
+//*****************************************************************************
+//#endregion Overrides for Game Search component(s) in Game screens
+//*****************************************************************************
+
+.game-wrapper {
+  display: flex;
+  height: calc(100% - 72px);
+}
+
+/*******************************************************************************
+ * Mobile game launcher styles
+ * These styles are applied when the game launcher is in mobile view.
+ ******************************************************************************/
+.mobile-game-top-container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 7001;
+  aspect-ratio: auto;
+
+  .mobile-game-header {
+    height: 48px;
+    width: 100%;
+    z-index: 7009;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    .back-button {
+      font-size: 28px;
+      height: 48px;
+      width: 48px;
+      color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+      font-weight: 600;
+      display: flex; /* enables flexbox */
+      justify-content: center; /* centers horizontally */
+      align-items: center; /* centers vertically */
+    }
+  }
+
+  .mobile-game-wrapper {
+    width: 100%;
+    height: 100%;
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow-y: hidden;
+
+    .game-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  }
+}

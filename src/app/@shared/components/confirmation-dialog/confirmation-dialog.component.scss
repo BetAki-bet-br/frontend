@@ -1,0 +1,34 @@
+@use "sass:map" as map;
+@use "src/theme/utils";
+@use "sass:color" as color;
+@use "theme/theme-variables" as theme-variables;
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  place-items: stretch;
+  gap: 2rem;
+
+  span:first-child {
+    text-align: center;
+  }
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  button {
+    //color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  }
+}
+
+.confirm-button {
+  //background-color: map.get(theme-variables.$app-custom-colors, "red-100");
+}
+
+.cancel-button {
+  //background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+}

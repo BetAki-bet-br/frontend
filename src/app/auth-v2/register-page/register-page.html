@@ -1,0 +1,374 @@
+<div class="main-container flex flex-col">
+  @if (currentPage() === 'form') {
+  <div class="flex justify-center">
+    <div class="w-1/2 bg-accent rounded-l-lg hidden lg:flex items-center justify-center">
+      <p class="font-bold text-2xl">BANNER TELA REGISTRO</p>
+    </div>
+
+    <div
+      class="bg-[#FFF] w-full h-full lg:w-3/4 rounded-lg lg:rounded-l-[0px] md:rounded-r-lg md:min-h-[500px] flex flex-col justify-center sm:pt-4!"
+    >
+      <img
+        src="assets/banner2.png"
+        alt="Banner"
+        width="1024"
+        height="250"
+        class="w-full h-auto rounded-t-lg md:hidden"
+      />
+      <!-- inner banner -->
+      <h1 class="flex items-center justify-center text-lg sm:mt-0 sm:ps-10 mb-0! sm:text-3xl font-bold">
+        Crie sua conta
+      </h1>
+      <form class="flex flex-col py-8 w-full gap-4 px-6 sm:px-10 text-xs" [formGroup]="form" (ngSubmit)="register()">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="bg-accent rounded-full w-6 h-6 flex items-center justify-center font-bold">1</span>
+            <span class="font-bold">Dados pessoais</span>
+          </div>
+          <h2 class="font-bold text-lg mt-4">INSIRA SEUS DADOS</h2>
+          <div class="flex flex-col gap-4 mt-2">
+            <div>
+              <div class="relative">
+                <input
+                  placeholder="CPF"
+                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  [class.border-red-500!]="
+                    form.get('cpf')?.invalid && (form.get('cpf')?.touched || form.get('cpf')?.dirty)
+                  "
+                  type="text"
+                  id="cpf"
+                  formControlName="cpf"
+                  mask="000.000.000-00"
+                />
+                @if (form.get('cpf')?.pending) {
+                <div class="absolute right-10 top-1/2 -translate-y-1/2">
+                  <svg
+                    class="animate-spin h-5 w-5 text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </div>
+                }
+                <img
+                  src="/assets/icons/user-form.svg"
+                  alt="CPF Icon"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5"
+                  [class.red-icon]="
+                    form.get('cpf')?.invalid && (form.get('cpf')?.touched || form.get('cpf')?.dirty)
+                  "
+                />
+              </div>
+              @if (form.get('cpf')?.invalid && (form.get('cpf')?.touched || form.get('cpf')?.dirty)) {
+              <div class="text-red-500 text-xs mt-1">
+                @if (form.get('cpf')?.hasError('required')) {
+                <span>Não pode ficar em branco.</span>
+                } @if (form.get('cpf')?.hasError('cpfInvalid')) {
+                <span>CPF inválido.</span>
+                } @if (form.get('cpf')?.hasError('usernameTaken')) {
+                <span>Este CPF já está em uso.</span>
+                }
+              </div>
+              }
+            </div>
+
+            <div>
+              <div class="relative">
+                <input
+                  placeholder="E-mail"
+                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  [class.border-red-500!]="
+                    form.get('email')?.invalid &&
+                    (form.get('email')?.touched || form.get('email')?.dirty)
+                  "
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                />
+                @if (form.get('email')?.pending) {
+                <div class="absolute right-10 top-1/2 -translate-y-1/2">
+                  <svg
+                    class="animate-spin h-5 w-5 text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </div>
+                }
+                <img
+                  src="/assets/icons/email-form.svg"
+                  alt="Ícone de E-mail"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-shark-950 hover:text-shark-800"
+                  [class.red-icon]="
+                    form.get('email')?.invalid &&
+                    (form.get('email')?.touched || form.get('email')?.dirty)
+                  "
+                />
+              </div>
+              @if (form.get('email')?.invalid && (form.get('email')?.touched || form.get('email')?.dirty)) {
+              <div class="text-red-500 text-xs mt-1">
+                @if (form.get('email')?.hasError('required')) {
+                <span>Não pode ficar em branco.</span>
+                } @if (form.get('email')?.hasError('email')) {
+                <span>E-mail inválido.</span>
+                } @if (form.get('email')?.hasError('emailTaken')) {
+                <span>Este e-mail já está em uso.</span>
+                }
+              </div>
+              }
+            </div>
+
+            <div>
+              <div class="relative">
+                <input
+                  placeholder="Telefone"
+                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  [class.border-red-500!]="
+                    form.get('phone')?.invalid &&
+                    (form.get('phone')?.touched || form.get('phone')?.dirty)
+                  "
+                  type="tel"
+                  id="phone"
+                  formControlName="phone"
+                  mask="(00) 00000-0000"
+                  [dropSpecialCharacters]="false"
+                />
+                <img
+                  src="/assets/icons/phone-form.svg"
+                  alt="Phone Icon"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-shark-950 hover:text-shark-800"
+                  [class.red-icon]="
+                    form.get('phone')?.invalid &&
+                    (form.get('phone')?.touched || form.get('phone')?.dirty)
+                  "
+                />
+              </div>
+              @if (form.get('phone')?.invalid && (form.get('phone')?.touched || form.get('phone')?.dirty)) {
+              <div class="text-red-500 text-xs mt-1">
+                @if (form.get('phone')?.hasError('required')) {
+                <span>Não pode ficar em branco.</span>
+                } @if (form.get('phone')?.hasError('minlength') || form.get('phone')?.hasError('maxlength')) {
+                <span>Telefone inválido.</span>
+                }
+              </div>
+              }
+            </div>
+
+            <div>
+              <div class="relative">
+                <input
+                  #dateOfBirthInput
+                  placeholder="Data de Nascimento"
+                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  [class.border-red-500!]="
+                    form.get('dateOfBirth')?.invalid &&
+                    (form.get('dateOfBirth')?.touched || form.get('dateOfBirth')?.dirty)
+                  "
+                  [type]="dateInputType"
+                  (focus)="dateInputType = 'date'"
+                  (blur)="!form.get('dateOfBirth')?.value && (dateInputType = 'text')"
+                  id="dateOfBirth"
+                  formControlName="dateOfBirth"
+                />
+                <button
+                  type="button"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer focus:outline-none focus:ring-0"
+                  (click)="dateOfBirthInput.focus()"
+                  [class.red-icon]="
+                    form.get('dateOfBirth')?.invalid &&
+                    (form.get('dateOfBirth')?.touched || form.get('dateOfBirth')?.dirty)
+                  "
+                >
+                  <img src="/assets/icons/calendar.svg" alt="Calendar Icon" />
+                </button>
+              </div>
+              @if (form.get('dateOfBirth')?.invalid && (form.get('dateOfBirth')?.touched ||
+              form.get('dateOfBirth')?.dirty)) {
+              <div class="text-red-500 text-xs mt-1">
+                @if (form.get('dateOfBirth')?.hasError('required')) {
+                <span>Não pode ficar em branco.</span>
+                } @if (form.get('dateOfBirth')?.hasError('underage')) {
+                <span>Usuário não permitido.</span>
+                }
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="font-bold text-lg">SENHA DE ACESSO</h2>
+          <div class="flex flex-col gap-4 mt-2">
+            <div>
+              <div class="relative">
+                <input
+                  placeholder="Senha"
+                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  [class.border-red-500!]="
+                    form.get('password')?.invalid &&
+                    (form.get('password')?.touched || form.get('password')?.dirty)
+                  "
+                  [type]="showPassword() ? 'text' : 'password'"
+                  id="password"
+                  formControlName="password"
+                />
+                <button
+                  type="button"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer text-shark-950 hover:text-shark-800 focus:outline-none focus:ring-0"
+                  (click)="togglePasswordVisibility()"
+                  [class.red-icon]="
+                    form.get('password')?.invalid &&
+                    (form.get('password')?.touched || form.get('password')?.dirty)
+                  "
+                >
+                  <img
+                    [src]="
+                      showPassword() ? '/assets/icons/eye-open.svg' : '/assets/icons/hide-pass.svg'
+                    "
+                    alt="Password Icon"
+                  />
+                </button>
+              </div>
+              @if (form.get('password')?.invalid && (form.get('password')?.touched || form.get('password')?.dirty)) {
+              <div class="text-red-500 text-xs mt-1">
+                @if (form.get('password')?.hasError('required')) {
+                <span>Não pode ficar em branco.</span>
+                } @if (form.get('password')?.hasError('minlength')) {
+                <span>Muito curto (mínimo 8 caracteres).</span>
+                } @if (form.get('password')?.hasError('passwordStrength')) {
+                <span>A senha deve incluir letras maiúsculas e minúsculas, um número e um caractere especial.</span>
+                }
+              </div>
+              }
+            </div>
+
+            <div>
+              <div class="relative">
+                <input
+                  placeholder="Confirme sua senha"
+                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  [class.border-red-500!]="
+                    form.hasError('passwordsMismatch') &&
+                    (form.get('confirm-password')?.touched ||
+                      form.get('confirm-password')?.dirty)
+                  "
+                  [type]="showConfirmPassword() ? 'text' : 'password'"
+                  id="confirm-password"
+                  formControlName="confirm-password"
+                />
+                <button
+                  type="button"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer text-shark-950 hover:text-shark-800 focus:outline-none focus:ring-0"
+                  (click)="toggleConfirmPasswordVisibility()"
+                  [class.red-icon]="
+                    form.hasError('passwordsMismatch') &&
+                    (form.get('confirm-password')?.touched ||
+                      form.get('confirm-password')?.dirty)
+                  "
+                >
+                  <img
+                    [src]="
+                      showConfirmPassword()
+                        ? '/assets/icons/eye-open.svg'
+                        : '/assets/icons/hide-pass.svg'
+                    "
+                    alt="Password Icon"
+                  />
+                </button>
+              </div>
+              @if (form.hasError('passwordsMismatch') && (form.get('confirm-password')?.touched ||
+              form.get('confirm-password')?.dirty)) {
+              <div class="text-red-500 text-xs mt-1">
+                <span>As senhas devem corresponder.</span>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-center gap-2">
+          <input type="checkbox" id="terms" formControlName="termsAccepted" required />
+          <label for="terms" class="text-xs sm:text-sm">
+            Declaro que li e aceito os
+            <a class="text-accent" routerLink="/terms-and-conditions">Termos e condições gerais</a> e
+            <a class="text-accent" routerLink="/privacy-policy">Politica de Privacidade</a>
+          </label>
+        </div>
+
+        @if (registerError()) {
+        <div class="text-red-500 text-center">{{ registerError() }}</div>
+        }
+
+        <button
+          class="flex p-2 justify-center gap-x-2 cursor-pointer rounded-xl bg-betaki-500 p-2 sm:p-4 text-lg font-bold w-1/2 m-auto sm:w-full transition-opacity duration-200 ease-in-out hover:opacity-80"
+          type="submit"
+          [disabled]="form.invalid || submitLoading()"
+          [class.opacity-50]="form.invalid || submitLoading()"
+        >
+          @if (submitLoading()) {
+          <svg
+            class="animate-spin h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          } @else { Criar conta }
+        </button>
+
+        <div class="flex justify-center items-center gap-x-5">
+          <span class="text-xs sm:text-sm">Já tem uma conta?</span>
+          <button
+            routerLink="/auth/login"
+            class="text-xs sm:text-sm font-bold border-2 border-betaki-500 py-2 px-3 rounded-lg transition-colors hover:bg-betaki-500 hover:text-white cursor-pointer"
+            type="button"
+          >
+            Entrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  } @if (currentPage() === 'success') {
+  <div class="flex flex-col items-center justify-center outer-wrapper">
+    <div class="register-container flex flex-col items-center justify-center">
+      <div class="register-content flex flex-col items-center jusitfy-center">
+        <img class="success-img mb-8" alt="check" [src]="'assets/general/icons/success-check.svg' | cdnize" />
+        <span class="title" translate>Welcome to Betaki</span>
+        <span class="subtitle" translate>Congratulations, you're now a new enthusiast.</span>
+      </div>
+    </div>
+
+    <span class="welcome-bold-text" translate>Are you ready to have fun?</span>
+    <span class="welcome-normal-text" translate>Complete the identity verification and start playing.</span>
+
+    <button (click)="onVerify()" class="register-button" mat-button>
+      <span translate>Verify now</span>
+    </button>
+    <span class="divider" translate>Or</span>
+    <button routerLink="/" class="register-button home-screen" mat-stroked-button>
+      <span translate>Home screen</span>
+    </button>
+  </div>
+  }
+</div>

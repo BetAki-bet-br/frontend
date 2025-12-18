@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BetAki</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #1e1e1e;
+        padding: 20px;
+      }
+
+      .maintenance-container {
+        text-align: center;
+        max-width: 600px;
+      }
+
+      .logo {
+        margin-bottom: 20px;
+      }
+
+      .logo img {
+        max-width: 80px;
+        height: auto;
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 15px;
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        color: #495057;
+      }
+
+      .maintenance-message {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .maintenance-text-message p {
+        margin: 0px;
+      }
+
+      .maintenance-icon {
+        font-size: 20px;
+        margin-bottom: 20px;
+        color: #ffffff;
+      }
+
+      .contact-info {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #d1d1d1;
+        font-size: 14px;
+      }
+
+      .social-links {
+        margin-top: 20px;
+      }
+
+      .social-links a {
+        display: inline-block;
+        margin: 0 10px;
+        font-size: 24px;
+        text-decoration: none;
+        transition: transform 0.3s;
+      }
+
+      .social-links a:hover {
+        transform: scale(1.2);
+      }
+
+      .social-links img {
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+      }
+
+      @media (max-width: 768px) {
+        .maintenance-container {
+          padding: 20px;
+        }
+        h1 {
+          font-size: 20px;
+        }
+        p {
+          font-size: 14px;
+        }
+      }
+
+      .icon-wrench::before {
+        content: '🚧';
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="maintenance-container">
+      <div class="logo">
+        <img src="https://campeonatoserraria.com.br/static/betaki-logo.webp" alt="BetAki logo" />
+      </div>
+
+      <div class="maintenance-message">
+        <div class="maintenance-icon pulse">
+          <span class="icon-wrench"></span>
+        </div>
+
+        <h1>AVISO IMPORTANTE</h1>
+
+        <div class="maintenance-icon pulse">
+          <span class="icon-wrench"></span>
+        </div>
+      </div>
+
+      <div class="maintenance-text-message">
+        <p>A plataforma está em manutenção programada no momento.</p>
+        <p>Estamos fazendo ajustes para melhorar ainda mais sua experiência. 🔧 ⚙️</p>
+
+        <p>Voltamos em breve.</p>
+        <p>Agradecemos sua compreensão e seguimos juntos no jogo.</p>
+      </div>
+
+      <div class="contact-info">
+        <p>Enquanto isso, aproveite para acompanhar nossas redes e ficar por dentro das novidades.</p>
+
+        <div class="social-links">
+          <a href="https://www.instagram.com/betakioficial?igsh=em90NDYyZHY2bWs=" title="Instagram" target="_blank">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png"
+              alt="Instagram icon"
+            />
+          </a>
+          <a href="https://www.tiktok.com/@betakioficial?_t=ZM-8wIW1zJeS4D&_r=1" title="TikTok" target="_blank">
+            <img src="https://static-00.iconduck.com/assets.00/tiktok-icon-1890x2048-ihin0vop.png" alt="TikTok icon" />
+          </a>
+          <a href="https://x.com/oficialbetaki?s=21" title="X" target="_blank">
+            <img
+              src="https://assets.streamlinehq.com/image/private/w_300,h_300,ar_1/f_auto/v1/icons/logos/x-jvgvt5gje92oz29ez4fgd.png/x-0muuxjzgzvtlpaduv3p4k2s.png?_a=DATAdtAAZAA0"
+              alt="X icon"
+            />
+          </a>
+          <a href="https://t.me/+ipUxRRqh3dEyNTUx" title="Telegram" target="_blank">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/1200px-Telegram_logo.svg.png"
+              alt="Telegram icon"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

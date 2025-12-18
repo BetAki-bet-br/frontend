@@ -1,0 +1,7 @@
+<div class="bonuses-container">
+  <div class="bonuses-wrapper">
+    @for (bonus of bonusList; track bonus) {
+    <div class="bonus-item" [innerHTML]="bonus.templateOngoingHtml"></div>
+    }
+  </div>
+</div>

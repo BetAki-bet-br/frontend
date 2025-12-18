@@ -1,0 +1,60 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+mat-sidenav-container {
+  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+
+  @include utils.media("lt-sm-2") {
+    padding-bottom: 3.5rem;
+  }
+}
+
+.close-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1rem;
+
+  mat-icon {
+    cursor: pointer;
+  }
+}
+
+mat-sidenav {
+  height: 100%;
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  border-right: 1px solid rgba(255, 255, 255, 10%);
+
+  &:not(.mobile) {
+    /* stylelint-disable-next-line declaration-no-important */
+    padding-top: 3.313rem;
+  }
+
+  &.mobile {
+    width: 100%;
+  }
+}
+
+.mobile-sidenav-header {
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 34px;
+  gap: 34px;
+
+  @include utils.media("gt-sm-2") {
+    display: none;
+  }
+
+  .header-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .close-icon {
+      cursor: pointer;
+    }
+  }
+}

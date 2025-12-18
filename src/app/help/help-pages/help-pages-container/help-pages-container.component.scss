@@ -1,0 +1,14 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+.help-page-container {
+  &.bonus-terms-and-conditions {
+    max-height: 100dvh;
+    overflow: auto;
+  }
+
+  @include utils.media("lt-sm-2") {
+    padding: 0;
+  }
+}

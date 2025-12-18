@@ -1,0 +1,66 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+app-sidenav-menu {
+  flex: 1;
+}
+
+.main-container {
+  flex: 1;
+  display: flex;
+  flex-flow: row;
+  margin: 0 auto;
+  width: 100%;
+  background-color: #f1f1f1;
+  padding: 0 1rem;
+
+  @include utils.media("lt-sm-2") {
+    flex-flow: column;
+  }
+}
+
+.profile-info-container {
+  display: flex;
+  flex-flow: column;
+  gap: 1.5rem;
+  padding: 1.5rem 1rem 1.25rem 0;
+  width: 18rem;
+  min-width: 18rem;
+
+  @include utils.media("lt-sm-2") {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.player-info-host {
+  @include utils.media("lt-sm-2") {
+    display: block;
+    padding-top: 1.5rem;
+  }
+}
+
+.profile-menu-host {
+  height: 100%;
+
+  &.mobile {
+    display: none;
+
+    @include utils.media("lt-sm-2") {
+      display: block;
+    }
+  }
+}
+
+.hide-mobile {
+  @include utils.media("lt-sm-2") {
+    display: none;
+  }
+}
+
+.hide-desktop {
+  @include utils.media("gt-sm-1") {
+    display: none;
+  }
+}

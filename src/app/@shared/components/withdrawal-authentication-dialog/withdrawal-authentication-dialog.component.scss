@@ -1,0 +1,9 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "sass:color" as color;
+@use "theme/theme-variables" as theme-variables;
+
+.description {
+  font-size: 0.875rem;
+  text-align: center;
+}

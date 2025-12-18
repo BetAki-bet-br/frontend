@@ -1,0 +1,40 @@
+<div
+  animate.enter="animate-enter-slide-down"
+  animate.leave="animate-leave-slide-up"
+  [class]="'flex justify-center items-center ' + class()"
+>
+  <div class="flex flex-col gap-2 w-full">
+    <div
+      class="relative flex w-full flex-row items-center ps-3 pr-1"
+      [class.justify-between]="!isExpanded()"
+      [class.justify-center]="isExpanded()"
+      [class.mb-4]="isExpanded()"
+      [class.mt-2]="isExpanded()"
+    >
+      <button
+        (click)="navigateBack()"
+        [class.hidden]="!isExpanded()"
+        class="absolute left-0 text-md md:text-lg leading-normal transition-colors hover:text-betaki-600 flex items-center cursor-pointer text-white"
+        type="button"
+      >
+        <img src="/assets/icons/arrow-left.svg" dir="ltr" alt="Voltar" class="inline h-5 w-5 mr-1" />
+        <span class="hidden sm:block"> Voltar </span>
+      </button>
+
+      <h5 class="text-base font-semibold leading-normal text-white md:text-xl line-clamp-1">{{ title() }}</h5>
+
+      <a
+        [routerLink]="overrideLink() || ['category', categoryId()]"
+        [class.hidden]="isExpanded()"
+        class="text-sm xs:text-md leading-normal text-white transition-colors bg-betaki-darker rounded-s-full rounded-e-full p-1 px-3 hover:text-betaki-600 flex items-center"
+      >
+        <span class="text-nowrap flex items-center">
+          <span class="font-bold text-xs sm:text-sm">{{ gameCount() }}</span>
+        </span>
+        <img src="/assets/icons/arrow-right.svg" alt="Ver todos" class="inline h-3 w-3 ml-2" />
+      </a>
+    </div>
+
+    <ng-content></ng-content>
+  </div>
+</div>

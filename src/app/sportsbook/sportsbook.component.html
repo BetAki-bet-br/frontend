@@ -1,0 +1,12 @@
+<div class="page-container">
+  <div id="container" class="preload-container">
+    @if (safeUrl) {
+    <iframe
+      #sportsbookIframe
+      [src]="safeUrl"
+      frameborder="0"
+      allow="geolocation;camera;fullscreen;accelerometer;gyroscope;magnetometer;"
+    ></iframe>
+    }
+  </div>
+</div>

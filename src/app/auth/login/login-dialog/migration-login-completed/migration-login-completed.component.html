@@ -1,0 +1,17 @@
+<app-base-dialog [displayCloseButton]="true" [title]="'Login to your account' | translate">
+  <p dialogContent translate>
+    Your documents are under review. You can log in to your account after successfully verifying your email address.
+    Check your inbox and click on a link in the sent email.
+  </p>
+
+  <ng-container dialogButtons>
+    <button mat-button class="button-text-small label-dark flex-grow" (click)="closeDialog()">
+      {{ 'Close' | translate }}
+    </button>
+  </ng-container>
+
+  <div class="helper-text" translate>
+    Didn't receive verification email? Contact our
+    <span class="support-team-text" translate (click)="onChatClick()">Support team</span>
+  </div>
+</app-base-dialog>

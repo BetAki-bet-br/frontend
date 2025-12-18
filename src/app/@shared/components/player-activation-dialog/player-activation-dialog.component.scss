@@ -1,0 +1,12 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+.link {
+  text-decoration: none;
+  cursor: pointer;
+
+  &.sign-in-link {
+    font-weight: 600;
+  }
+}

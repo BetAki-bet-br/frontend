@@ -1,0 +1,20 @@
+<div class="flex flex-col items-center justify-center outer-wrapper">
+  <div class="register-container flex flex-col items-center justify-center">
+    <div class="register-content flex flex-col items-center jusitfy-center">
+      <img class="success-img mb-8" alt="check" [src]="'assets/general/icons/success-check.svg' | cdnize" />
+      <span class="title" translate>Welcome to Betaki</span>
+      <span class="subtitle" translate>Congratulations, you're now a new enthusiast.</span>
+    </div>
+  </div>
+
+  <span class="welcome-bold-text" translate>Are you ready to have fun?</span>
+  <span class="welcome-normal-text" translate>Complete the identity verification and start playing.</span>
+
+  <button (click)="verify.emit()" class="register-button" mat-button>
+    <span translate>Verify now</span>
+  </button>
+  <span class="divider" translate>Or</span>
+  <button routerLink="/" class="register-button home-screen" mat-stroked-button>
+    <span translate>Home screen</span>
+  </button>
+</div>

@@ -1,0 +1,55 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+.page-container {
+  padding-top: 1.5rem;
+  padding-bottom: 6rem;
+  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+
+  @include utils.media("lt-sm-2") {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.banner-promotions-container {
+  display: flex;
+  flex-flow: column;
+  gap: 2.25rem;
+  width: 100%;
+  max-width: theme-variables.$home-content-max-width;
+
+  @include utils.media("lt-sm-2") {
+    gap: 1.5rem;
+  }
+}
+
+.banners-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+
+  @include utils.media("lt-sm-2") {
+    gap: 1.5rem;
+  }
+}
+
+.banners-wrapper > div {
+  flex: 0 1 calc(50% - 1rem);
+  box-sizing: border-box;
+
+  @include utils.media("lt-sm-2") {
+    flex: 1;
+  }
+}
+
+.promo-banner {
+  img {
+    max-width: 100%;
+  }
+}
+
+img.promo-image {
+  max-width: 100%;
+}

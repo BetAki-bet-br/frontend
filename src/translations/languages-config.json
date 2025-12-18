@@ -1,0 +1,12 @@
+{
+  "en-US": {
+    "englishName": "English",
+    "nativeName": "English",
+    "flagIconName": "en.svg"
+  },
+  "pt-BR": {
+    "englishName": "Portuguese",
+    "nativeName": "Português",
+    "flagIconName": "br.svg"
+  }
+}

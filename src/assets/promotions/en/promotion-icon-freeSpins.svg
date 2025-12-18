@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>42B4CC7E-7B08-4193-B84A-54BEE2FAF52D</title>
+    <defs>
+        <circle id="path-1" cx="20" cy="20" r="20"></circle>
+        <rect id="path-3" x="0" y="0" width="30" height="16" rx="1"></rect>
+    </defs>
+    <g id="Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-660.000000, -748.000000)" id="notification-icon-freeSpins">
+            <g transform="translate(660.000000, 748.000000)" id="Group-13">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Oval" fill="#1A1062" xlink:href="#path-1"></use>
+                <g id="Group-4" mask="url(#mask-2)">
+                    <g transform="translate(2.000000, 12.000000)">
+                        <g id="Group-9" stroke-width="1" fill="none" transform="translate(3.000000, 0.000000)">
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <rect stroke="#F5F5F5" x="-0.5" y="-0.5" width="31" height="17" rx="1"></rect>
+                            <g id="Group-2" mask="url(#mask-4)">
+                                <g transform="translate(2.000000, 13.000000)">
+                                    <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="8" height="14" rx="0.5"></rect>
+                                    <polygon id="Star" fill="#3725A2" points="4 8.5 2.23664424 9.42705098 2.57341523 7.46352549 1.14683045 6.07294902 3.11832212 5.78647451 4 4 4.88167788 5.78647451 6.85316955 6.07294902 5.42658477 7.46352549 5.76335576 9.42705098"></polygon>
+                                </g>
+                            </g>
+                            <g id="Group-2-Copy-3" mask="url(#mask-4)">
+                                <g transform="translate(2.000000, -3.000000)">
+                                    <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="8" height="14" rx="0.5"></rect>
+                                    <polygon id="Star" fill="#3725A2" points="4 8.5 2.23664424 9.42705098 2.57341523 7.46352549 1.14683045 6.07294902 3.11832212 5.78647451 4 4 4.88167788 5.78647451 6.85316955 6.07294902 5.42658477 7.46352549 5.76335576 9.42705098"></polygon>
+                                </g>
+                            </g>
+                            <g id="Group-3" mask="url(#mask-4)">
+                                <g transform="translate(11.000000, -14.000000)">
+                                    <g id="Group-2" transform="translate(0.000000, 16.000000)">
+                                        <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="8" height="12" rx="0.5"></rect>
+                                        <rect id="Rectangle-Copy-3" fill="#FFFFFF" x="0" y="0" width="8" height="12" rx="0.5"></rect>
+                                        <polygon id="Star" fill="#3725A2" points="4 7.5 2.23664424 8.42705098 2.57341523 6.46352549 1.14683045 5.07294902 3.11832212 4.78647451 4 3 4.88167788 4.78647451 6.85316955 5.07294902 5.42658477 6.46352549 5.76335576 8.42705098"></polygon>
+                                    </g>
+                                    <g id="Group-2-Copy-2">
+                                        <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="8" height="14" rx="0.5"></rect>
+                                        <polygon id="Star" fill="#FFD13A" points="4 8.5 2.23664424 9.42705098 2.57341523 7.46352549 1.14683045 6.07294902 3.11832212 5.78647451 4 4 4.88167788 5.78647451 6.85316955 6.07294902 5.42658477 7.46352549 5.76335576 9.42705098"></polygon>
+                                    </g>
+                                </g>
+                            </g>
+                            <g id="Group-2" mask="url(#mask-4)">
+                                <g transform="translate(20.000000, -11.000000)">
+                                    <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="8" height="14" rx="0.5"></rect>
+                                    <polygon id="Star" fill="#3725A2" points="4 8.5 2.23664424 9.42705098 2.57341523 7.46352549 1.14683045 6.07294902 3.11832212 5.78647451 4 4 4.88167788 5.78647451 6.85316955 6.07294902 5.42658477 7.46352549 5.76335576 9.42705098"></polygon>
+                                </g>
+                            </g>
+                            <g id="Group-2-Copy" mask="url(#mask-4)">
+                                <g transform="translate(20.000000, 5.000000)">
+                                    <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="8" height="14" rx="0.5"></rect>
+                                    <polygon id="Star" fill="#3725A2" points="4 8.5 2.23664424 9.42705098 2.57341523 7.46352549 1.14683045 6.07294902 3.11832212 5.78647451 4 4 4.88167788 5.78647451 6.85316955 6.07294902 5.42658477 7.46352549 5.76335576 9.42705098"></polygon>
+                                </g>
+                            </g>
+                        </g>
+                        <path d="M35,5 L35.5,5 C35.7761424,5 36,5.22385763 36,5.5 L36,10.5 C36,10.7761424 35.7761424,11 35.5,11 L35,11 L35,11" id="Path" fill="#FFFFFF"></path>
+                        <path d="M0,5 L0.5,5 C0.776142375,5 1,5.22385763 1,5.5 L1,10.5 C1,10.7761424 0.776142375,11 0.5,11 L0,11 L0,11" id="Path-Copy" fill="#FFFFFF" transform="translate(0.500000, 8.000000) rotate(-180.000000) translate(-0.500000, -8.000000) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

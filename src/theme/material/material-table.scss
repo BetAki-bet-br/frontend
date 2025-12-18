@@ -1,0 +1,92 @@
+@use "sass:map" as map;
+@use "src/theme/theme-variables" as vars;
+@use "sass:color" as color;
+
+//*****************************************************************************
+//#region Mat Table
+//*****************************************************************************
+.mat-mdc-table .mat-mdc-header-cell {
+  border: none;
+
+  &.text-center .mat-sort-header-container {
+    justify-content: center;
+  }
+
+  .mat-sort-header-content {
+    color: color.adjust(map.get(vars.$app-custom-colors, "neutral-black"), $alpha: -0.07);
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 16px;
+  }
+}
+
+.mdc-data-table__content {
+  .mat-mdc-cell {
+    background-color: map.get(vars.$app-custom-colors, "neutral-200");
+    border: 0.75rem solid map.get(vars.$app-custom-colors, "neutral-200");
+    border-bottom: none;
+    color: map.get(vars.$app-custom-colors, "neutral-black");
+    font-size: 0.75rem;
+    letter-spacing: 0.0175rem;
+    line-height: 1rem;
+    padding: 0;
+  }
+
+  .mat-mdc-cell:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-right-width: 0.0625rem;
+  }
+
+  .mat-mdc-cell:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-left-width: 0.0625rem;
+  }
+
+  .mat-mdc-cell:not(:first-child, :last-child) {
+    border-left-width: 0.0625rem;
+    border-right-width: 0.0625rem;
+  }
+
+  .mdc-data-table__row:last-child {
+    height: 4rem;
+
+    .mat-mdc-cell {
+      border-bottom: 0.75rem solid map.get(vars.$app-custom-colors, "neutral-200");
+    }
+  }
+}
+
+/* stylelint-disable scss/operator-no-unspaced */
+.mat-mdc-paginator,
+.mat-mdc-paginator-outer-container {
+  background-color: transparent;
+  color: map.get(vars.$app-custom-colors, "betaki-black100");
+
+  .mat-mdc-icon-button[disabled][disabled] {
+    --mat-icon-button-icon-color: #{color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.75)};
+    --mat-icon-button-disabled-icon-color: #{color.adjust(
+        map.get(vars.$app-custom-colors, "betaki-black100"),
+        $alpha: -0.75
+      )};
+  }
+
+  .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
+    fill: #{color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.75)};
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .mat-mdc-icon-button .mat-mdc-paginator-icon {
+    fill: #{map.get(vars.$app-custom-colors, "betaki-black100")};
+  }
+
+  .mat-mdc-paginator-page-size {
+    display: none;
+  }
+}
+
+//*****************************************************************************
+//#endregion Table
+//*****************************************************************************

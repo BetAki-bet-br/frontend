@@ -1,0 +1,25 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/theme-variables" as theme-variables;
+
+.controls-container {
+  display: flex;
+  flex-direction: column;
+  width: 2.5rem;
+  text-align: center;
+}
+
+.font-icons {
+  line-height: 2.5rem;
+  width: 2.5rem;
+  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.7);
+  color: rgba(255, 255, 255, 35%);
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.active,
+.font-icons:hover {
+  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+}

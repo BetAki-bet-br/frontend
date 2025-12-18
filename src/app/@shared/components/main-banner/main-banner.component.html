@@ -1,0 +1,71 @@
+<div class="main-banner-swiper-container">
+  <!-- More banners -->
+  @if ((bannersSmall?.length ?? 0) > 1 || (bannersLarge?.length ?? 0) > 1) {
+  <div class="multiple-banners-swiper-container flex">
+    <!-- Swiper -->
+    <swiper-container #swiperContainer (slidechange)="onSlideChange($event)" class="main-banner-swiper" init="false">
+      <!-- Left navigation -->
+      <div class="swiper-nav-container-left flex flex-col justify-center items-end">
+        <div class="swiper-navigation-logo flex flex-col justify-center items-center">
+          <mat-icon class="swiper-nav-left-icon">arrow_back_ios</mat-icon>
+        </div>
+      </div>
+      <!-- Left navigation mobile -->
+      <!-- <div
+        class="swiper-nav-container-left-mobile flex flex-col justify-center items-end"
+        *ngIf="showPrevNavigation && showArrowsMobile"
+        >
+        <div class="swiper-navigation-logo flex flex-col justify-center items-center">
+          <mat-icon class="swiper-nav-left-icon">chevron_left</mat-icon>
+        </div>
+      </div> -->
+      @if ((bannersSmall?.length ?? 0) > 1) {
+      <ng-container>
+        @for (bannerItem of bannersSmall; track bannerItem) {
+        <swiper-slide class="flex-hide--gt-sm-1">
+          <div [innerHTML]="bannerItem?.templateHtml"></div>
+        </swiper-slide>
+        }
+      </ng-container>
+      } @if ((bannersLarge?.length ?? 0) > 1) {
+      <ng-container>
+        @for (bannerItem of bannersLarge; track bannerItem) {
+        <swiper-slide class="flex-hide--lt-sm-2">
+          <div [innerHTML]="bannerItem?.templateHtml"></div>
+        </swiper-slide>
+        }
+      </ng-container>
+      }
+      <!-- Right navigation -->
+      <div class="swiper-nav-container-right flex flex-col justify-center items-start">
+        <div class="swiper-navigation-logo flex flex-col justify-center items-center">
+          <mat-icon class="swiper-nav-right-icon">arrow_forward_ios</mat-icon>
+        </div>
+      </div>
+      <!-- Right navigation mobile -->
+      <!-- <div
+      class="swiper-nav-container-right-mobile flex flex-col justify-center items-start"
+      *ngIf="showNextNavigation && showArrowsMobile"
+      >
+      <div class="swiper-navigation-logo flex flex-col justify-center items-center">
+        <mat-icon class="swiper-nav-right-icon">chevron_right</mat-icon>
+      </div>
+    </div> -->
+    </swiper-container>
+  </div>
+  }
+
+  <!-- One banner: mobile -->
+  @if (bannersSmall?.length === 1) {
+  <div class="single-main-banner flex-hide--gt-sm-1">
+    <div [innerHTML]="bannersSmall?.[0]?.templateHtml"></div>
+  </div>
+  }
+
+  <!-- One banner: desktop -->
+  @if (bannersLarge?.length === 1) {
+  <div class="single-main-banner flex-hide--lt-sm-2">
+    <div [innerHTML]="bannersLarge?.[0]?.templateHtml"></div>
+  </div>
+  }
+</div>

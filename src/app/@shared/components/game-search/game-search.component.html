@@ -1,0 +1,67 @@
+<div class="game-search-container">
+  @if (gameName && games !== null && games !== undefined && games.length > 0) {
+  <!-- Non scrollable search container for static display if results -->
+  @if (games.length <= nrOfVisibleResults) {
+  <div class="search-container static" [style.max-height]="searchContainerHeight + 'px'">
+    <ul class="search-list">
+      @for (game of games; track gameTrackBy($index, game)) {
+      <li>
+        <ng-container *ngTemplateOutlet="searchItem; context: { $implicit: game }" />
+      </li>
+      }
+    </ul>
+  </div>
+  }
+  <!-- Scrollable search container for virtual results -->
+  @if (games.length > nrOfVisibleResults) {
+  <cdk-virtual-scroll-viewport
+    class="search-container virtual"
+    [style.height]="searchContainerHeight + 'px'"
+    itemSize="68"
+  >
+    <ul class="search-list">
+      <li *cdkVirtualFor="let game of games; trackBy: gameTrackBy">
+        <ng-container *ngTemplateOutlet="searchItem; context: { $implicit: game }" />
+      </li>
+    </ul>
+  </cdk-virtual-scroll-viewport>
+  } }
+
+  <mat-form-field appearance="outline" class="form-input-search-games" subscriptSizing="dynamic">
+    <input
+      #searchInput
+      matInput
+      type="text"
+      class="search-input"
+      [placeholder]="placeholderText"
+      [formControl]="nameControl"
+      autocomplete="off"
+      (focus)="searchInput.placeholder = ''"
+      (blur)="searchInput.placeholder = placeholderText"
+    />
+    <div class="search-suffix" matPrefix>
+      @if (!nameControl.value) {
+      <button class="search-close font-icons font-icons--search"></button>
+      } @if (nameControl.value) {
+      <button (click)="closeSearch()" class="search-close font-icons font-icons--close"></button>
+      }
+    </div>
+  </mat-form-field>
+</div>
+
+<ng-template #searchItem let-game>
+  <a (click)="launchGame(game.externalGameId)" class="search-item" target="_self">
+    <img
+      class="search-image"
+      [src]="game.gameDesktopAssetPath"
+      (error)="onImgError($event)"
+      [alt]="game.gameName"
+      loading="true"
+      width="52"
+      height="52"
+    />
+    <span #searchTitle [matTooltip]="isEllipsisActive(searchTitle, game.gameName)" class="search-title">{{
+      game.gameName
+    }}</span>
+  </a>
+</ng-template>

@@ -1,0 +1,128 @@
+/* stylelint-disable max-nesting-depth */
+/* stylelint-disable no-descending-specificity */
+/* stylelint-disable selector-max-specificity */
+
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "src/theme/theme-variables" as vars;
+@use "theme/utils" as utils;
+
+//*****************************************************************************
+//#region Custom component snackbar
+//*****************************************************************************
+.mat-mdc-snack-bar-container.custom-component-snackbar {
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 15%), 0 1px 3px 0 rgba(0, 0, 0, 30%);
+  padding: 0;
+  min-width: 12.5rem;
+  min-height: auto;
+  margin-top: 3.625rem;
+  margin-right: 1.5rem;
+  margin-left: 1.5rem;
+  max-width: unset;
+
+  @include utils.media("lt-sm-2") {
+    margin-top: 1.625rem;
+  }
+
+  .mdc-snackbar__surface {
+    padding: 0;
+    max-width: 50rem;
+    min-width: 12.5rem;
+  }
+
+  .mat-mdc-snack-bar-label {
+    padding: 0;
+  }
+
+  .message {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    word-break: break-word;
+    letter-spacing: 0.25px;
+    font-weight: 400;
+  }
+
+  .mat-icon {
+    width: 1rem;
+    height: 1rem;
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+
+  .close-icon-container {
+    position: absolute;
+    text-align: right;
+    color: map.get(vars.$app-custom-colors, "betaki-white100");
+    right: 0.625rem;
+
+    @include utils.media("lt-sm-2") {
+      top: 0.625rem;
+    }
+
+    .mat-icon {
+      cursor: pointer;
+    }
+  }
+
+  .custom-snackbar-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 1.5rem;
+    margin-right: 1.875rem;
+    width: 50rem;
+    height: 56px;
+    justify-content: center;
+
+    @include utils.media("lt-sm-2") {
+      height: unset;
+      width: unset;
+    }
+
+    .snackbar-icon {
+      display: flex;
+      flex-direction: row;
+
+      .warning-icon {
+        color: map.get(vars.$app-custom-colors, "red-75");
+      }
+
+      .success-icon {
+        display: none;
+        color: map.get(vars.$app-custom-colors, "greenblue-300");
+      }
+    }
+  }
+
+  &.success {
+    @include utils.media("lt-sm-2") {
+      margin-bottom: 3.875rem;
+    }
+
+    .mdc-snackbar__surface {
+      background: map.get(vars.$app-custom-colors, "betaki-success");
+
+      .mdc-snackbar__label {
+        color: map.get(vars.$app-custom-colors, "betaki-white100");
+      }
+    }
+  }
+
+  &.error {
+    @include utils.media("lt-sm-2") {
+      margin-bottom: 3.875rem;
+    }
+    margin-bottom: 1.875rem;
+
+    .mdc-snackbar__surface {
+      background: map.get(vars.$app-custom-colors, "betaki-error");
+
+      .mdc-snackbar__label {
+        color: map.get(vars.$app-custom-colors, "betaki-white100");
+      }
+    }
+  }
+}
+//*****************************************************************************
+//#endregion Custom component snackbar
+//*****************************************************************************

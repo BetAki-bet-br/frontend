@@ -1,0 +1,24 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "src/theme/theme-variables" as vars;
+@use "theme/utils" as utils;
+
+//*****************************************************************************
+//#region Tooltip
+//*****************************************************************************
+
+.mat-mdc-tooltip {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+  --custom-background: #{color.adjust(map.get(vars.$app-custom-colors, "neutral-10"), $alpha: -0.25)};
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+  --custom-color: #{color.adjust(map.get(vars.$app-custom-colors, "neutral-white"), $alpha: -0.25)};
+  --mat-tooltip-container-color: var(--custom-background);
+  --mat-tooltip-supporting-text-color: var(--custom-color);
+  --mat-tooltip-supporting-text-font: Roboto, sans-serif;
+  --mat-tooltip-supporting-text-size: 0.625rem;
+  --mat-tooltip-container-shape: 0.5rem;
+}
+
+//*****************************************************************************
+//#endregion Toggle button
+//*****************************************************************************

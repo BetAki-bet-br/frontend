@@ -1,0 +1,46 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+.verification-form {
+  max-height: 18.75rem;
+  height: 100%;
+  overflow: auto;
+  margin-bottom: 2rem;
+
+  @include utils.media("lt-sm-2") {
+    max-height: calc(100vh - 20.75rem);
+  }
+}
+
+.field-wrapper-edit {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .form-field-label {
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    font-size: 0.75rem;
+    margin-bottom: 0;
+    margin-left: 1rem;
+    font-weight: 400;
+    line-height: normal;
+  }
+}
+
+.telephone-prefix {
+  color: #b5b5b2;
+  padding-left: 0.5rem;
+  padding-top: 0.1rem;
+  display: inline-block;
+  font-weight: 100;
+
+  @include utils.media("lt-sm-2") {
+    font-size: 0.75rem;
+  }
+
+  &.read-only {
+    font-size: 0.875rem;
+  }
+}

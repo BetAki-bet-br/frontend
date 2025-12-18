@@ -1,0 +1,199 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+:host {
+  display: contents;
+}
+
+a {
+  text-decoration: none;
+}
+
+.game-container {
+  //width: 9.25rem;
+  //height: 12.375rem;
+
+  .game-tile-content {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .game-tile-img-wrapper {
+    position: relative;
+  }
+
+  @include utils.media("xs") {
+    //width: 6rem;
+    //height: 8rem;
+  }
+
+  @include utils.media("sm-1") {
+    //width: 6rem;
+    //height: 8rem;
+  }
+
+  position: relative;
+  border-radius: 0.35rem;
+  overflow: hidden;
+  //background-color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+  padding: 0;
+
+  .game-tile-placeholder-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    //aspect-ratio: 1/1;
+    aspect-ratio: 114/130;
+  }
+
+  .game-img-container2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 1rem;
+
+      @include utils.media("lt-sm-2") {
+        border-radius: 0.35rem;
+      }
+    }
+  }
+
+  .game-play-hidden-container {
+    display: flex;
+    align-content: center;
+    flex-flow: column;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.3);
+    transition: opacity 0.3s ease;
+
+    .demo-link {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 13%;
+    }
+
+    .game-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      font-size: 2.25rem;
+      line-height: 2.25rem;
+      opacity: 1;
+      margin: 0 auto;
+      pointer-events: auto;
+      cursor: pointer;
+      color: map.get(theme-variables.$app-custom-colors, neutral-white);
+    }
+
+    .play-text {
+      position: relative;
+      display: inline-flex;
+      white-space: nowrap;
+      color: map.get(theme-variables.$app-custom-colors, neutral-white);
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-style: normal;
+      font-weight: 400;
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+
+  .game-play-hidden-mobile-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+  }
+}
+
+.game-tile-img {
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+  display: block;
+  object-fit: fill;
+}
+
+mat-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 2.25rem;
+  line-height: 2.25rem;
+  position: relative;
+}
+
+.game-info-container {
+  display: flex;
+  flex-flow: column;
+  gap: 0.2338rem;
+  width: 100%;
+  // background-color: map.get(theme-variables.$app-custom-colors, "neutral-32");
+  padding: 0.5rem 0;
+
+  @include utils.media("lt-sm-2") {
+    padding: 0.2344rem 0.2344rem 0.3519rem;
+  }
+
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .game-name {
+    // font-size: 0.8153rem;
+    // font-weight: 600;
+    // line-height: 1.1658rem;
+    // letter-spacing: 0.0088rem;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.8744rem;
+    letter-spacing: 0.0065rem;
+    padding-left: 0.5rem;
+
+    @include utils.media("lt-sm-2") {
+      font-size: 0.75rem;
+      line-height: normal;
+      letter-spacing: normal;
+    }
+  }
+
+  .game-provider {
+    font-size: 0.6988rem;
+    line-height: 1.16rem;
+    letter-spacing: 0.0233rem;
+
+    @include utils.media("lt-sm-2") {
+      font-size: 0.5rem;
+      line-height: normal;
+      letter-spacing: normal;
+    }
+  }
+}

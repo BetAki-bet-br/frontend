@@ -1,0 +1,18 @@
+@use "sass:map" as map;
+@use "theme/theme-variables" as theme-variables;
+
+.subtitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+}
+
+.description {
+  font-size: 0.75rem;
+  color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+}
+
+.confirm-button,
+.cancel-button {
+  width: 7rem;
+}

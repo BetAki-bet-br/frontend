@@ -1,0 +1,34 @@
+.scrolling-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.scrolling-container {
+  display: flex;
+  width: fit-content;
+  animation: scroll 30s linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  // 45 sec animation in mobile
+  @media (max-width: 768px) {
+    animation-duration: 45s;
+  }
+}
+
+.scrolling-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

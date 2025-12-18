@@ -1,0 +1,2190 @@
+/*
+ * Global application theme.
+ * Framework overrides and customization goes here.
+ */
+
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "@angular/material" as mat;
+@use "flex-common" as flex-common;
+@use "material/material-index";
+@use "theme/utils" as utils;
+@use "./theme-variables" as theme-variables;
+@use "./theme-icons";
+@use "./animations";
+@use "./icon-colors";
+// @use "./components/basic-page-container-content";
+// @use "./components/promotions-terms-and-conditions-content";
+
+// Theme fonts
+@use "theme/theme-fonts" as theme-fonts; // Theme customization
+
+/*
+ * Entry point of global application style.
+ * Component-specific style should not go here and be included directly as part of the components.
+ */
+
+@use "@icore/ngx-atl-pp-templates-shared/index" as templates-shared;
+
+// Theme variables, must be included before the libraries to allow overriding defaults
+
+@use "./material-theming" as material-theming;
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+@include material-theming.angular-material-theme(material-theming.$app-theme);
+@include mat.all-component-themes(material-theming.$app-theme);
+
+// Typography is defined in the app-theme
+// @include mat.all-component-typographies($custom-typography);
+
+// // Swiper
+// @import "swiper/scss";
+// @import "swiper/scss/navigation";
+// @import "swiper/scss/pagination";
+
+//*****************************************************************************
+//#region Global
+//*****************************************************************************
+// stylelint-disable-next-line selector-max-universal
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  height: 100%;
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  font-family: Roboto, sans-serif;
+  color: #1e1e1e;
+
+  &.no-scroll {
+    position: fixed;
+    overflow-y: scroll;
+  }
+}
+
+body {
+  .intercom-lightweight-app {
+    z-index: 999;
+  }
+}
+
+svg {
+  pointer-events: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: Roboto, sans-serif;
+}
+
+h1 {
+  margin: 0 0 1.625rem;
+  font-size: 2rem;
+}
+
+p {
+  font-family: Roboto, sans-serif;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  // Fallback for older browsers
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+// OVERRIDE form inputs min font size to 1 rem for iphones - to prevent automatic page
+// zooming !
+// too many over the code - overriding every one on iphone with global !important
+// adding exclusions for style lint for this
+@include utils.is-iphone {
+  :where(input, textarea, select) {
+    //font-size: min(1rem, 100%) !important;  // this was suggested, but not working for all fields
+    /* stylelint-disable-next-line declaration-no-important */
+    font-size: 16px !important; // using concrete size in px for iphones
+    /* stylelint-disable-next-line declaration-no-important, property-no-vendor-prefix */
+    -webkit-text-size-adjust: 100% !important;
+  }
+}
+
+.info-content {
+  color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+
+  p {
+    font-size: 0.875rem;
+    line-height: 2.5rem;
+    letter-spacing: -0.0187rem;
+    margin-block-start: 0.5rem;
+    margin-block-end: 0.5rem;
+
+    a {
+      font-family: Roboto, sans-serif;
+      color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    @include utils.media("lt-sm-2") {
+      margin-block-start: 0.375rem;
+      margin-block-end: 1rem;
+    }
+  }
+
+  h1 {
+    font-size: 2rem;
+    line-height: 3rem;
+    letter-spacing: -1px;
+    margin: 0 0 1rem;
+
+    @include utils.media("lt-sm-2") {
+      font-size: 1.75rem;
+    }
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    line-height: 2.5rem;
+    letter-spacing: -0.8px;
+    margin: unset;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+    line-height: 2.5rem;
+    letter-spacing: 0;
+  }
+
+  h4 {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+    letter-spacing: -0.3px;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    letter-spacing: -0.25px;
+  }
+}
+
+.page-container {
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-msg {
+  display: block;
+  width: 100%;
+  font-size: 0.75rem;
+  text-align: left;
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  line-height: 1.2;
+  font-weight: 700;
+  // padding: 0.3125rem 0 0;
+  margin: 0 auto;
+}
+
+.h-36 {
+  height: 2.5rem;
+  padding-top: 0.2rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+a.nostyle {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.read-more {
+  color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  text-decoration: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.dialog-close-button {
+  width: 2.25rem;
+  height: 2.5rem;
+  padding-top: 0.2rem;
+  color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.55);
+  transition: color 0.3s ease;
+  background-color: unset;
+  border: 0;
+  cursor: pointer;
+
+  &:hover {
+    color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+  }
+
+  @include utils.media("lt-sm-2") {
+    display: none;
+  }
+}
+
+// .title {
+//   padding-bottom: 0.563rem;
+// }
+
+// .title::after {
+//   content: " ";
+//   display: block;
+//   border-bottom: 2px solid map.get(theme-variables.$app-custom-colors, "Betaki_error");
+//   width: 1.5rem;
+//   padding-top: 0.375rem;
+// }
+
+.subtitle-m,
+.subtitle-gray-m {
+  padding-bottom: 0.563rem;
+  font-size: 1.5rem;
+}
+
+.subtitle-m::after,
+.subtitle-s::after,
+.subtitle-gray-m::after,
+.subtitle-gray-s::after {
+  content: " ";
+  display: block;
+  border-bottom: 2px solid map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  width: 1.5rem;
+  padding-top: 0.375rem;
+}
+
+.subtitle-gray-m::after,
+.subtitle-gray-s::after {
+  border-bottom: 2px solid map.get(theme-variables.$app-custom-colors, "neutral-35");
+}
+
+.subtitle-s,
+.subtitle-gray-s {
+  padding-bottom: 0.563rem;
+  font-size: 1rem;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+//*****************************************************************************
+//#endregion Global
+//*****************************************************************************
+
+//*****************************************************************************
+//#region CDK Components
+//*****************************************************************************
+// for header dropdown selector
+.cdk-overlay-container {
+  z-index: 2000;
+
+  .cdk-overlay-dark-backdrop {
+    background: map.get(theme-variables.$app-custom-colors, "neutral-black-overlay");
+    opacity: 0.64;
+  }
+
+  .mat-mdc-menu-panel {
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    margin: 2rem 0 0 -2rem;
+
+    &.mdc-menu-surface {
+      border-radius: 1rem;
+    }
+  }
+
+  .cdk-dialog-container {
+    // disable cdk dialog outline
+    outline: 0 solid transparent;
+    height: auto;
+  }
+
+  .mat-mdc-menu-content {
+    ::-webkit-scrollbar {
+      width: 0.3125rem;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: map.get(theme-variables.$app-custom-colors, "neutral-10");
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+      border-radius: 0.125rem;
+      margin: 0;
+    }
+  }
+
+  .mat-mdc-menu-panel.language-panel {
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+
+    .mat-mdc-menu-content {
+      padding: 0;
+    }
+  }
+}
+
+.material-dialog {
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 0;
+
+    @include utils.media("gt-sm-4") {
+      border-radius: 0.75rem;
+    }
+
+    app-base-dialog {
+      padding: 0;
+    }
+  }
+}
+
+.tooltip-container {
+  text-align: left;
+  line-height: 1rem;
+}
+
+//*****************************************************************************
+//#endregion CDK Components
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Swiper
+//*****************************************************************************
+.main-banner-swiper-container {
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+
+  .swiper-pagination {
+    &.swiper-pagination-horizontal {
+      background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.85);
+      height: 2.375rem;
+      min-width: 3.875rem;
+      width: max-content;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: calc(50% - (3.875rem / 2));
+      margin-right: 50%;
+    }
+
+    .swiper-pagination-bullet {
+      --swiper-pagination-bullet-horizontal-gap: 0.188rem;
+
+      width: 0.5rem;
+      background-color: map.get(theme-variables.$app-custom-colors, "neutral-100");
+      opacity: 1;
+    }
+
+    .swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+      width: 1.375rem;
+    }
+
+    .swiper-pagination-bullet-custom {
+      border-radius: 0.125rem;
+      height: 0.188rem;
+    }
+  }
+
+  .swiper-wrapper {
+    align-items: center;
+  }
+
+  // override template
+  .banner-title {
+    /* stylelint-disable-next-line declaration-no-important */
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_error") !important;
+  }
+
+  .banner-button {
+    background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+    /* stylelint-disable-next-line declaration-no-important */
+    color: map.get(theme-variables.$app-custom-colors, "neutral-10") !important;
+
+    &.template-button {
+      &:hover {
+        background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_error"), $lightness: 10%);
+      }
+    }
+  }
+}
+
+.footer-logo-swiper .swiper-slide {
+  width: auto;
+  max-width: 12rem;
+  align-content: center;
+}
+
+.footer-logo-swiper.swiper {
+  @include utils.media("lt-md") {
+    padding-left: 2.4rem;
+    padding-right: 2.4rem;
+  }
+}
+
+//*****************************************************************************
+//#endregion Swiper
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Header Dropdown Menu
+//*****************************************************************************
+.header-dropdown-select {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding-left: 0.3125rem;
+
+  .expand-icon-container {
+    display: flex;
+    flex-direction: row;
+
+    mat-icon {
+      transition: transform 0.3s ease;
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    }
+
+    .expanded {
+      transform: rotate(180deg);
+      transition: transform 0.3s ease;
+    }
+  }
+}
+
+.header-dropdown-container-large {
+  width: 13.25rem;
+}
+
+.header-dropdown-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+
+  .header-dropdown-item-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    //cursor: pointer;
+    text-decoration: none;
+    width: 9.9375rem;
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+
+    .header-dropdown-item-icon {
+      width: 2rem;
+      margin-right: 0.5rem;
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    }
+
+    .header-dropdown-item-text {
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+      font-size: 0.8125rem;
+      font-weight: 400;
+    }
+
+    /* stylelint-disable-next-line no-descending-specificity */
+    .mat-mdc-menu-content {
+      border-radius: 0%;
+    }
+  }
+}
+
+.header-dropdown.mat-mdc-menu-panel {
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  margin-top: 0;
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .mat-mdc-menu-content {
+    padding: 0;
+  }
+}
+
+.header-dropdown.mat-mdc-menu-panel.mat-mdc-menu-panel {
+  max-width: 23.875rem;
+}
+
+//*****************************************************************************
+//#endregion Header Dropdown Menu
+//*****************************************************************************
+
+//#region Side nav menu
+//******
+
+app-sidenav-menu {
+  .mat-drawer-inner-container {
+    overflow: hidden;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+
+    /* IE and Edge */
+    scrollbar-width: none;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .mat-drawer-inner-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mat-sidenav-transition .mat-sidenav-backdrop.mat-sidenav-shown {
+    background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.15);
+  }
+
+  .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.15);
+    transition: opacity 0.3s ease;
+  }
+}
+
+.sidenav-container {
+  .mat-drawer:not(.mat-drawer-side) {
+    box-shadow: none;
+  }
+
+  mat-sidenav {
+    box-shadow: none;
+  }
+
+  .sidenav-content {
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.25);
+  }
+}
+
+.mat-drawer-container {
+  color: unset;
+}
+
+//#end region Side nav menu
+//*
+
+//#region Progress bar
+//*******
+
+.level-progress {
+  width: 100%;
+  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.5);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.25rem;
+
+  .level-threshold {
+    margin-bottom: 0.25rem;
+
+    .level-span {
+      margin-left: 0.1875rem;
+    }
+
+    span {
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+      font-size: 0.75rem;
+      font-weight: 400;
+      line-height: 2.5rem;
+      text-align: left;
+      letter-spacing: 0.0187rem;
+    }
+
+    .points-value {
+      margin-left: auto;
+
+      .grey-points-value {
+        color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.35);
+      }
+    }
+  }
+
+  mat-progress-bar {
+    .mdc-linear-progress__buffer {
+      .mdc-linear-progress__buffer-bar {
+        background-color: map.get(theme-variables.$app-custom-colors, primary-300);
+      }
+    }
+
+    .mdc-linear-progress__bar {
+      .mdc-linear-progress__bar-inner {
+        background-color: map.get(theme-variables.$app-custom-colors, Betaki_error);
+        border-color: map.get(theme-variables.$app-custom-colors, Betaki_error);
+      }
+    }
+
+    --mat-progress-bar-track-height: 0.1875rem;
+  }
+}
+
+//#end region Progress bar
+//*****
+
+//*****************************************************************************
+//#region Base dialog Component
+//*****************************************************************************
+/* stylelint-disable max-nesting-depth */
+.base-dialog-content {
+  .terms-and-conditions-content > div {
+    overflow-y: auto;
+  }
+
+  p {
+    overflow: hidden;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    text-align: center;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+    margin: 0 0 1.5rem;
+  }
+
+  .align-left {
+    p {
+      text-align: left;
+    }
+  }
+
+  &.cc {
+    p {
+      margin: 0;
+
+      span {
+        margin: 0;
+      }
+    }
+  }
+
+  .base-dialog-button-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    &.cc {
+      gap: 0.3rem;
+      padding-top: 1.9rem;
+
+      button {
+        border: none;
+        background-color: transparent;
+        flex-shrink: none;
+
+        a {
+          border-radius: 0.63rem;
+          padding: 0.44rem 1.5rem;
+          border: 1px solid map.get(theme-variables.$app-custom-colors, "Betaki_success");
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 1.125rem;
+          letter-spacing: 0.048rem;
+
+          /* stylelint-disable-next-line selector-max-specificity */
+          &.cc-allow:hover {
+            background-color: map.get(theme-variables.$app-custom-colors, "betaki-green50");
+            border: 1px solid #869502;
+          }
+
+          &.cc-deny {
+            background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+            border-color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+
+            /* stylelint-disable-next-line selector-max-specificity */
+            &:hover {
+              background-color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+              border-color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* stylelint-enable max-nesting-depth */
+//*****************************************************************************
+//#endregion Base dialog
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Progress Spinner
+//*****************************************************************************
+
+app-bonus-opt-in-result-dialog {
+  .mat-mdc-progress-spinner {
+    --mat-progress-spinner-active-indicator-color: black;
+  }
+}
+
+app-loader .mat-mdc-progress-spinner {
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 0.0625rem;
+
+  circle,
+  .mat-spinner circle {
+    stroke: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  }
+}
+
+//*****************************************************************************
+//#endregion Progress Spinner
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Dialog terms and conditions
+//*****************************************************************************
+.dialog-terms-and-conditions {
+  justify-content: center;
+  overflow-y: auto;
+
+  .page-container .basic-page-container.help {
+    border-radius: 0.375rem;
+  }
+
+  .page-container .help-page-container {
+    max-width: 75rem;
+    width: calc(100% - 1.125rem);
+    padding: 1.25rem;
+    margin: 0;
+    border-radius: 0.75rem;
+    margin-top: 1.25rem;
+    margin-bottom: 3.125rem;
+
+    @include utils.media("gt-sm-1") {
+      padding: 2.5rem;
+    }
+  }
+}
+
+//*****************************************************************************
+//#endregion Dialog terms and conditions
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Custom dropdown
+//*****************************************************************************
+
+.custom-dropdown {
+  padding-top: 0;
+  height: calc(100% - 0.5rem);
+
+  .mat-mdc-select-trigger {
+    height: 100%;
+
+    .mat-mdc-select-value {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 100%;
+    }
+
+    .mat-mdc-select-arrow-wrapper {
+      width: 2.375rem;
+      height: 2.375rem;
+      justify-content: center;
+      border-radius: 0.25rem;
+      background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+      margin-right: -0.6875rem;
+    }
+  }
+}
+
+.filter-dropdown {
+  &.mat-mdc-select-panel {
+    &::-webkit-scrollbar {
+      width: 0.3125rem;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: map.get(theme-variables.$app-custom-colors, "grey-200");
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: map.get(theme-variables.$app-custom-colors, "grey-400");
+      border-radius: 0.25rem;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: map.get(theme-variables.$app-custom-colors, "grey-700");
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+  }
+
+  .mat-mdc-option .mdc-list-item__primary-text {
+    white-space: nowrap;
+  }
+}
+
+//*****************************************************************************
+//#endregion Custom dropdown
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Games common
+//*****************************************************************************
+.games-page-content {
+  width: 100%;
+  max-width: theme-variables.$home-content-max-width;
+
+  .winners-section {
+    margin-top: 1rem;
+
+    @include utils.media("gt-sm-2") {
+      margin-top: 3rem;
+    }
+  }
+}
+
+/* General padding of content from the left and rigth sides of the screen. */
+.games-content-padding {
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  @include utils.media("lt-lg") {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @include utils.media("lt-sm-2") {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+.games-categories-nav {
+  width: 100%;
+  justify-content: center;
+  padding: 0;
+  max-width: theme-variables.$home-content-max-width;
+
+  @include utils.media("lt-sm-2") {
+    margin-bottom: 1rem;
+  }
+}
+
+app-games-tiles {
+  display: block;
+}
+
+.games-container {
+  width: 100%;
+  justify-content: center;
+  max-width: 1218px;
+
+  > app-games-tiles {
+    margin-bottom: 2.73rem;
+
+    @include utils.media("lt-sm-2") {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.category-cards {
+  max-width: theme-variables.$home-content-max-width;
+}
+
+.category-cards-padding,
+.casino-wins-padding {
+  padding: 0 2rem;
+
+  @include utils.media("lt-sm-2") {
+    padding: 0 1.5rem;
+  }
+}
+
+//*****************************************************************************
+//#endregion Games common
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Angular Material - mat-select
+//*****************************************************************************
+
+.mat-mdc-select-panel {
+  font-size: 0.9375rem;
+
+  &.mdc-menu-surface {
+    &.mdc-menu-surface--open {
+      min-width: fit-content;
+    }
+  }
+}
+
+//*****************************************************************************
+//#endregion Angular Material - mat-select
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Angular Material - mat-bottom-sheet
+//*****************************************************************************
+
+.cdk-overlay-pane {
+  .mat-bottom-sheet-container {
+    background-color: transparent;
+    overflow: unset;
+    padding: 0;
+  }
+}
+
+//*****************************************************************************
+//#endregion Angular Material - mat-bottom-sheet
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Angular Material - Media rules
+//*****************************************************************************
+
+@media screen and (max-width: 320px) {
+  // devices smaller than 320px have issues displaying large calendars, so we
+  // have to remove width/height restrictions so it can be auto fitted based on
+  // content size (this allows users to use the calendar)
+  .mat-datepicker-content {
+    .mat-datepicker-content-container {
+      .mat-calendar {
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+
+  // devices smaller than 320px have issues displaying dropdowns with large texts,
+  // so we have to reset white-space restrictions and enable word-break option
+  // (this allows users to see options with long texts)
+  .mat-mdc-select-panel {
+    .mat-mdc-option {
+      .mdc-list-item__primary-text {
+        white-space: normal;
+        word-break: break-word;
+      }
+    }
+  }
+}
+
+@include utils.media("xs") {
+  .mat-mdc-dialog-container {
+    div[class*="mdc-dialog__container"] {
+      div[class*="mdc-dialog__surface"] {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+  }
+}
+
+//*****************************************************************************
+//#endregion Angular Material - Media rules
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Terms & Conditions help page
+//*****************************************************************************
+.tc-container {
+  ol {
+    counter-reset: item;
+    padding-inline-start: 0;
+
+    ol {
+      padding-inline-start: 25px;
+    }
+  }
+
+  ol > li {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+
+    li {
+      font-weight: normal;
+      margin-bottom: 0;
+    }
+  }
+
+  ol > li::before {
+    content: counters(item, ".") " ";
+    counter-increment: item;
+    padding-right: 4px;
+  }
+}
+
+//*****************************************************************************
+//#endregion Terms & Conditions help page
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Cookie Consent
+//*****************************************************************************
+/* stylelint-disable declaration-no-important */
+.dialog-container {
+  position: relative;
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  height: 100%;
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
+  border-radius: 1rem;
+  overflow: hidden;
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+
+  &.cc {
+    padding: 0;
+  }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .logo {
+    z-index: 1;
+    max-width: 5.625rem;
+    max-height: 2.3rem;
+
+    @include utils.media("lt-sm-2") {
+      overflow-y: scroll;
+      // max-width: 2.25rem;
+      // max-height: 0.9375rem;
+    }
+  }
+
+  .close-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:hover {
+      color: color.adjust(map.get(theme-variables.$app-custom-colors, "betaki-black100"), $alpha: -0.4);
+    }
+  }
+
+  .title {
+    text-align: center;
+    margin: 1.5rem 0;
+  }
+}
+
+app-process-verification-dialog {
+  .dialog-container {
+    .title {
+      margin-bottom: 0.375rem;
+    }
+  }
+}
+
+.cc-window {
+  max-height: 19rem !important;
+  height: 100% !important;
+  max-width: 37.5rem !important;
+  width: 100% !important;
+  border-radius: 1rem !important;
+  z-index: 9999 !important;
+
+  @include utils.media("lt-sm-2") {
+    max-height: 20rem !important;
+  }
+}
+
+.cc-animate.cc-revoke.cc-bottom {
+  transform: none !important;
+}
+
+.cc-revoke.cc-bottom {
+  border-radius: 0 !important;
+}
+
+body:not(:has(.cc-window.cc-invisible)) {
+  .cc-revoke {
+    display: block !important;
+    content: "" !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: map.get(theme-variables.$app-custom-colors, "neutral-black-overlay");
+    opacity: 0.64;
+    z-index: 9998 !important;
+  }
+}
+
+@include utils.media("lt-sm-2") {
+  .cc-right {
+    right: unset !important;
+  }
+
+  .cc-bottom {
+    bottom: 0 !important;
+  }
+}
+
+// .cc-banner {
+//   height: 4.375rem !important;
+//   //background-color: map.get(theme-variables.$app-custom-colors, "Betaki_success") !important;
+//   align-content: center !important;
+//   text-align: center !important;
+
+//   & .logo-img {
+//     width: 5.625rem !important;
+//     //filter: brightness(0) invert(1) !important;
+//   }
+// }
+
+// .cc-header {
+//   height: 2.4375rem !important;
+//   font-weight: 700 !important;
+//   font-size: 2rem !important;
+//   font-family: Roboto, sans-serif !important;
+//   color: map.get(theme-variables.$app-custom-colors, "betaki-black100") !important;
+//   text-align: center !important;
+//   margin-top: 1rem !important;
+// }
+
+// .cc-btn {
+//   // font-weight: 700 !important;
+//   // font-size: 0.875rem !important;
+//   // font-family: Roboto, sans-serif !important;
+//   // border-radius: 0.5rem !important;
+//   // //min-width: 8.75rem !important;
+//   // //height: 2.5rem !important;
+//   // display: flex !important;
+//   // color: map.get(theme-variables.$app-custom-colors, "neutral-black") !important;
+//   // justify-content: center !important;
+//   border: none !important;
+
+//   & .material-icons-outlined {
+//     min-width: 4.375rem;
+//   }
+
+//   &.cc-deny {
+//     // background-color: map.get(theme-variables.$app-custom-colors, "neutral-white") !important;
+//     // border: 0.1rem solid map.get(theme-variables.$app-custom-colors, "Betaki_success") !important;
+//   }
+// }
+
+// .cc-message {
+//   font-size: 1rem !important;
+//   font-family: Roboto, sans-serif !important;
+//   line-height: 20px !important;
+//   display: flex !important;
+//   padding: 0 1rem !important;
+//   text-align: center !important;
+//   margin-bottom: 0 !important;
+// }
+
+// .cc-link {
+//   text-decoration: none !important;
+//   font-size: 0.875rem !important;
+//   display: flex !important;
+//   flex-direction: row !important;
+//   justify-self: center !important;
+// }
+
+// .cc-revoke {
+//   @include utils.media("lt-sm-2") {
+//     transform: rotate(-90deg) !important;
+//     right: -3em !important;
+//     bottom: 6em !important;
+
+//     @include utils.is-iphone {
+//       bottom: 8em !important;
+//     }
+//   }
+// }
+
+//*****************************************************************************
+//#endregion Cookie Consent
+//*****************************************************************************
+//*****************************************************************************
+//#region Profile pages - Tables
+//*****************************************************************************
+
+// Message page image fit
+app-messages {
+  .expandable-content {
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+app-popup-message-dialog {
+  .base-dialog-content {
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.player-profile-page-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0 2rem;
+  gap: 1rem;
+
+  @include utils.media("lt-sm-2") {
+    padding: 1rem 0 2.5rem;
+  }
+
+  .section-data {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 17.8125rem;
+
+    .section-title {
+      font-size: 1rem;
+      text-align: center;
+      font-weight: 700;
+      width: 100%;
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+
+      @include utils.media("lt-sm-2") {
+        font-size: 0.75rem;
+      }
+    }
+  }
+
+  .page-section {
+    background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+    border-radius: 1rem;
+    padding: 1.5rem;
+    min-width: 17.8125rem;
+
+    .section-item-container {
+      display: flex;
+      flex-flow: row wrap;
+      flex-direction: row;
+      justify-content: space-between;
+      text-decoration: none;
+      align-items: center;
+      gap: 1rem;
+
+      @include utils.media("lt-sm-2") {
+        flex-wrap: wrap;
+        gap: 1rem 0;
+      }
+
+      &.nowrap {
+        flex-wrap: nowrap;
+      }
+    }
+
+    @include utils.media("lt-sm-2") {
+      padding: 1rem;
+    }
+  }
+
+  .page-section-multiple {
+    background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+    border-radius: 1rem;
+    padding: 0.5rem 1.5rem;
+    flex-direction: column;
+    min-width: 17.8125rem;
+
+    .section-item-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      text-decoration: none;
+      padding: 1rem 0;
+
+      @include utils.media("lt-sm-2") {
+        flex-wrap: wrap;
+        gap: 1rem 0;
+      }
+
+      &.nowrap {
+        flex-wrap: nowrap;
+      }
+    }
+  }
+
+  .section-item-collapsable {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .section-item {
+    background-color: white;
+    text-decoration: none;
+    font-weight: 400;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1rem;
+    flex: 1;
+
+    &.flex-wrap {
+      flex-flow: row wrap;
+    }
+
+    @include utils.media("lt-xs-1") {
+      &.wrap {
+        flex-wrap: wrap;
+      }
+    }
+
+    .item-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    .item-icon-2 {
+      width: 2rem;
+      height: 2rem;
+      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    .item-label {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1rem;
+    }
+
+    .item-value {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      font-size: 1rem;
+      letter-spacing: -0.64px;
+      font-weight: 800;
+      line-height: 1.5rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.5rem;
+
+      .prefix {
+        color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+        font-size: 1rem;
+        letter-spacing: -0.64px;
+        line-height: 1.5rem;
+      }
+
+      .amount {
+        color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+        font-size: 1rem;
+        letter-spacing: -0.64px;
+        line-height: 1.5rem;
+      }
+    }
+
+    .item-value-transactions {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.5rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    @include utils.media("lt-sm-2") {
+      .item-value {
+        font-size: 1.5rem;
+      }
+
+      .item-value .prefix {
+        font-size: 0.5rem;
+        font-weight: 800;
+      }
+
+      .item-value .amount {
+        font-size: 1.5rem;
+      }
+    }
+
+    .item-title {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.5rem;
+    }
+
+    .item-description {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.3125rem;
+    }
+
+    .item-description-text {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 1.3125rem;
+    }
+  }
+
+  .section-item-active {
+    .link-title,
+    .link-description {
+      font-weight: 700;
+    }
+  }
+
+  .section-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    gap: 1rem; // 1rem confirmed by UX
+
+    @include utils.media("lt-sm-2") {
+      width: 100%;
+      gap: 1rem;
+    }
+
+    &.align-left {
+      justify-content: flex-start;
+      align-self: flex-start;
+      align-items: flex-end;
+    }
+
+    &.align-baseline {
+      justify-content: flex-start;
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+
+    &.no-fullwidth {
+      width: unset;
+
+      @include utils.media("lt-xs-1") {
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+
+    .section-action {
+      color: white !important;
+      border-radius: 0.625rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.773px;
+      line-height: 1.125rem;
+      border: 1px solid #869502;
+      padding: 0.69rem 1.5rem;
+
+      &.button {
+        align-self: flex-start;
+        margin-top: 1rem;
+      }
+
+      @include utils.media("lt-sm-2") {
+        width: 100%;
+      }
+    }
+
+    .section-action-2 {
+      background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      border-radius: 0.625rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.773px;
+      line-height: 1.125rem;
+      border: 1px solid #869502;
+      padding: 0.44rem 1.5rem;
+
+      @include utils.media("lt-sm-2") {
+        width: 100%;
+      }
+
+      &.withdrawal-action {
+        background-color: #373a18;
+        color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+        border: unset;
+      }
+    }
+
+    .section-action-edit {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.125rem;
+      letter-spacing: 0.773px;
+      cursor: pointer;
+      white-space: nowrap;
+
+      @include utils.media("lt-sm-2") {
+        font-size: 0.875rem;
+      }
+
+      @include utils.media("lt-md") {
+        white-space: normal;
+        text-align: right;
+      }
+    }
+
+    .section-action-edit-disabled {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-green30");
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.125rem;
+      letter-spacing: 0.773px;
+
+      @include utils.media("lt-sm-2") {
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+  .item-additional-text {
+    text-align: right;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1.3125rem;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    display: flex;
+    align-self: center;
+    white-space: nowrap;
+  }
+
+  .item-date {
+    text-align: right;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.3125rem;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+    display: flex;
+    align-self: center;
+    white-space: nowrap;
+
+    @include utils.media("lt-sm-2") {
+      white-space: normal;
+    }
+  }
+
+  .section-navigation {
+    width: 1.25rem;
+    height: 1rem;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .section-icon-16 {
+    width: 1rem;
+    height: 1rem;
+    font-size: 1rem;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    align-self: center;
+  }
+
+  .section-icon-20 {
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 1.25rem;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    align-self: center;
+  }
+
+  .section-icon-24 {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.5rem;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    align-self: center;
+  }
+}
+
+.table-page-container {
+  width: 100%;
+  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.9);
+  border-radius: 0.375rem;
+
+  .filter-container {
+    padding: 1.5rem 1rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-flow: row;
+
+    @include utils.media("lt-sm-2") {
+      flex-flow: column;
+    }
+  }
+
+  @include utils.media("gt-sm-1") {
+    .filter-container.date-only {
+      .filter-date {
+        justify-content: right;
+      }
+
+      .filter-form-field {
+        max-width: 10.1875rem;
+      }
+    }
+  }
+
+  .select-container,
+  .filter-date {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .select-container {
+    gap: 1rem;
+
+    @include utils.media("lt-sm-2") {
+      flex-flow: column;
+      width: 100%;
+    }
+  }
+
+  .filter-form-field {
+    height: 2.5rem;
+    padding-top: 0.2rem;
+    width: 100%;
+    max-width: 14rem;
+
+    @include utils.media("lt-sm-2") {
+      max-width: unset;
+    }
+  }
+
+  .date-filter-divider {
+    min-width: 1.5rem;
+    color: map.get(theme-variables.$app-custom-colors, "gray-500");
+    text-align-last: center;
+  }
+}
+
+.profile-pages-base-table {
+  .mat-mdc-table {
+    background: inherit;
+
+    .mat-mdc-header-cell {
+      border-bottom: 1px solid color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.95);
+      text-transform: uppercase;
+    }
+
+    .mat-mdc-header-cell .mat-sort-header-content {
+      color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.55);
+      font-weight: normal;
+      justify-content: flex-start;
+    }
+  }
+
+  .mdc-data-table__content {
+    /* stylelint-disable-next-line no-descending-specificity */
+    .mat-mdc-cell {
+      background-color: inherit;
+      border: none;
+      border-bottom: 1px solid color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.95);
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+      border-radius: 0;
+
+      &:first-child {
+        padding-left: 0.5rem;
+      }
+    }
+
+    .mdc-data-table__row:last-child {
+      height: 2.5rem;
+      padding-top: 0.2rem;
+      border-radius: 0;
+
+      /* stylelint-disable-next-line selector-max-specificity */
+      .mat-mdc-cell {
+        border-bottom: 1px solid
+          color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.95);
+      }
+    }
+  }
+
+  .expanded-detail-container {
+    min-height: 3.25rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 1.125rem;
+
+    & > div {
+      width: 100%;
+      display: flex;
+      flex-flow: column;
+    }
+  }
+
+  .expanded-detail-content {
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+
+    .data-item {
+      color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.5);
+      flex: 1;
+    }
+
+    .data-value {
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+      text-transform: none;
+    }
+
+    &:first-child {
+      padding-top: 0.5rem;
+    }
+
+    &:last-child {
+      padding-bottom: 0.5rem;
+    }
+  }
+}
+
+.profile-pages-base-table .mat-mdc-cell .table-cell-content {
+  background-color: inherit;
+  border: none;
+  min-height: 2.5rem;
+  height: unset;
+}
+
+.profile-pages-base-table table.mat-mdc-table {
+  padding: 0.75rem;
+}
+
+.profile-pages-data-card-container {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  gap: 0.5rem;
+  padding-top: 1rem;
+}
+
+.profile-pages-data-card {
+  display: flex;
+  flex-flow: column;
+  padding: 1rem;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.9);
+  border-radius: 0.375rem;
+
+  @include utils.media("gt-sm-1") {
+    display: none;
+  }
+
+  .top-section,
+  .bottom-section {
+    display: flex;
+    flex-flow: row;
+  }
+
+  .top-content-left,
+  .top-content-right {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .top-content-left {
+    flex: 1;
+  }
+
+  .top-content-right {
+    justify-content: space-between;
+  }
+
+  .top-content-right.place-end {
+    place-content: end;
+  }
+
+  .expand-button-container {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+  }
+
+  .bottom-section {
+    gap: 1.5rem;
+  }
+
+  .expandable-section {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .expandable-section.gap {
+    gap: 0.75rem;
+  }
+
+  .expandable-content-container {
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+  }
+
+  .divider {
+    border-bottom: 1px solid color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.95);
+  }
+
+  .expandable-content {
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+  }
+
+  .wrapper {
+    width: 100%;
+  }
+
+  .expandable-item-container {
+    display: flex;
+    flex-flow: column;
+    gap: 0.125rem;
+  }
+
+  .bottom-content-container,
+  .top-content-left {
+    gap: 0.125rem;
+  }
+
+  .data-card-item,
+  .bottom-content-item,
+  .expandable-item {
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.5);
+  }
+
+  .data-card-value {
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  }
+
+  .bottom-content-value {
+    font-size: 0.875rem;
+  }
+}
+
+.address {
+  height: auto;
+
+  .form-input-readonly .mat-mdc-text-field-wrapper .mat-mdc-form-field-infix,
+  mat-form-field,
+  .form-input-readonly .mat-mdc-text-field-wrapper,
+  .form-input-readonly .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex {
+    height: auto !important;
+  }
+}
+
+//*****************************************************************************
+//#endregion Profile pages - Tables
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Overrides for Profile pages - Tables
+//*****************************************************************************
+
+.casino-wins-table table.mat-mdc-table {
+  padding: 0;
+
+  thead .mdc-data-table__header-cell {
+    padding: 0 0.75rem;
+
+    &:first-child {
+      padding-left: 0;
+    }
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity, selector-max-compound-selectors */
+  tbody tr td:first-child .table-cell-content {
+    padding: 0;
+  }
+}
+
+//*****************************************************************************
+//#endregion Overrides for Profile pages - Tables
+//*****************************************************************************
+
+//*****************************************************************************
+//#region PP overrides for Templates Shared styles
+//*****************************************************************************
+
+.banner-background-illustration > .banner-container {
+  .content-container .title {
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  }
+
+  .cta-container .cta-button {
+    font-family: Roboto, sans-serif;
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    &:hover {
+      background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_error"), $lightness: 10%);
+      transition: background-color 0.3s ease;
+    }
+  }
+
+  .cta-container .cta-text {
+    /* stylelint-disable-next-line selector-max-specificity */
+    &:hover {
+      color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+      transition: color 0.3s ease;
+    }
+  }
+}
+
+.banner-background-illustration {
+  height: 14.1rem !important;
+  width: 25rem !important;
+}
+
+app-login-page {
+  .banner-background-illustration {
+    height: 75rem !important;
+    width: 20rem !important;
+    border-radius: 2rem;
+  }
+}
+
+app-register-page-init {
+  .banner-background-illustration {
+    height: 26.25rem !important;
+    width: 57.5rem !important;
+    border-radius: 2rem;
+
+    @include utils.media("lt-sm-2") {
+      min-width: 15rem !important;
+      height: 10.5rem !important;
+      width: 100% !important;
+    }
+  }
+}
+
+app-shell-player-profile {
+  .deposit-banner-container {
+    .banner-background-illustration {
+      width: 20rem !important;
+      height: 45rem !important;
+      border-radius: 1rem;
+    }
+  }
+}
+
+.banner-background-illustration.small {
+  height: 3.125rem !important;
+  width: 8.125rem !important;
+}
+
+.promotion-banner-template.bki.banner-offering {
+  height: 100%;
+  min-width: unset;
+
+  .promo-image {
+    max-width: 100%;
+    height: unset;
+    min-height: unset;
+  }
+
+  .top-content {
+    flex-wrap: wrap;
+  }
+}
+
+.bonuses-container .promotion-banner-template.bki,
+.bonuses-container .bonus-template.bki.bonus-offering {
+  height: 100%;
+  min-width: unset;
+
+  /* stylelint-disable-next-line no-descending-specificity, selector-max-specificity */
+  .promo-image {
+    max-width: 100%;
+    height: unset;
+    min-height: unset;
+  }
+
+  /* stylelint-disable-next-line selector-max-specificity */
+  .top-content {
+    flex-wrap: wrap;
+  }
+}
+
+/* stylelint-disable-next-line selector-max-specificity */
+.bonuses-container .bonus-template.bonus-in-progress-active.bonus-template.bki {
+  min-width: unset;
+
+  @include utils.media("lt-sm-2") {
+    /* stylelint-disable-next-line selector-max-specificity */
+    .top-content {
+      flex-flow: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    .header-container {
+      flex-wrap: wrap;
+    }
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    .timer-container {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.bonus-template.bki .cta-container .cta-button,
+.promotion-banner-template.bki .cta-container .cta-button {
+  /* stylelint-disable-next-line selector-max-specificity */
+  &:hover {
+    background-color: map.get(theme-variables.$app-custom-colors, "betaki-green50");
+    border: 1px solid map.get(theme-variables.$app-custom-colors, "betaki-green100");
+  }
+}
+
+//*****************************************************************************
+//#endregion PP overrides for Templates Shared styles
+//*****************************************************************************
+
+//*****************************************************************************
+//#region PP Onboarding dialog content
+//*****************************************************************************
+
+.sign-up-stepper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  ::-webkit-scrollbar {
+    width: 0.625rem;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  ::-webkit-scrollbar-track {
+    background: map.get(theme-variables.$app-custom-colors, "grey-200");
+    border-radius: 0.75rem;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  ::-webkit-scrollbar-thumb {
+    background: map.get(theme-variables.$app-custom-colors, "grey-400");
+    border-radius: 0.75rem;
+    margin: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  ::-webkit-scrollbar-thumb:hover {
+    background: map.get(theme-variables.$app-custom-colors, "grey-700");
+  }
+}
+
+.sign-up-stepper .mat-horizontal-stepper-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sign-up-stepper .mat-horizontal-content-container {
+  overflow: auto;
+}
+
+.sign-up-stepper .mat-horizontal-stepper-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+app-caf-onboarding {
+  display: flex;
+  height: 100%;
+}
+
+//*****************************************************************************
+//#endregion PP Onboarding dialog content
+//*****************************************************************************
+
+//*****************************************************************************
+//#region PP Last session dialog content overrides
+//*****************************************************************************
+.last-session-base-dialog {
+  .top-bar .logo {
+    height: 2rem;
+    width: 4.875rem;
+  }
+}
+
+//*****************************************************************************
+//#endregion PP Last session dialog content overrides
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Breadcrumbs component overrides
+//*****************************************************************************
+
+.banner-promotions-container {
+  .breadcrumbs-wrapper {
+    padding: 0 0.625rem;
+
+    @include utils.media("lt-sm-2") {
+      padding: 0;
+    }
+
+    .player-profile-header {
+      @include utils.media("lt-sm-2") {
+        padding: 0;
+      }
+    }
+  }
+}
+
+//*****************************************************************************
+//#endregion Breadcrumbs component overrides
+//*****************************************************************************
+
+//*****************************************************************************
+//#region Mat paginator component overrides
+//*****************************************************************************
+.mat-paginator {
+  color: black;
+}
+
+.mat-paginator .mat-button,
+.mat-paginator .mat-icon-button {
+  color: black;
+}
+
+//*****************************************************************************
+//#endregion Mat paginator component overrides
+//*****************************************************************************

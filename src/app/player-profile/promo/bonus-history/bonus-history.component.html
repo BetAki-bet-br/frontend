@@ -1,0 +1,143 @@
+<div class="player-profile-page-container">
+  <div class="bonuses-history-container">
+    <div class="panel-content">
+      <div class="form-wrapper flex flex-wrap flex-col--lt-sm-2 gap-x-6 gap-y-4 full-width" [formGroup]="filterForm">
+        <div class="field-wrapper-edit">
+          <div class="form-field-label" translate>Status</div>
+          <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+            <mat-select
+              formControlName="status"
+              placeholder="Select"
+              multiple
+              #selectType
+              [matTooltip]="selectType.triggerValue"
+            >
+              @for (item of statusList; track item) {
+              <mat-option [value]="item">
+                {{ item.label | translate }}
+              </mat-option>
+              }
+            </mat-select>
+            @if (filterForm.controls.status.hasError('required')) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Required</mat-error>
+            </ng-container>
+            }
+            <mat-icon [class]="selectType.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
+              selectType.panelOpen ? 'expand_less' : 'expand_more'
+            }}</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="field-wrapper-edit">
+          <div class="form-field-label" translate>Period</div>
+          <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+            <mat-select
+              formControlName="period"
+              placeholder="Select"
+              #selectPeriod
+              [matTooltip]="selectPeriod.triggerValue"
+            >
+              @for (item of periodList; track item) {
+              <mat-option [value]="item">
+                {{ item.label | translate }}
+              </mat-option>
+              }
+            </mat-select>
+            <mat-icon [class]="selectPeriod.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
+              selectPeriod.panelOpen ? 'expand_less' : 'expand_more'
+            }}</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col--lt-sm-2 gap-x-6 gap-y-4">
+          <div class="field-wrapper-edit">
+            <div class="form-field-label" translate>From</div>
+            <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+              <input
+                matInput
+                [matDatepicker]="pickerFrom"
+                (click)="pickerFrom.open()"
+                placeholder="{{ 'From' | translate }}"
+                formControlName="dateFrom"
+                [max]="currentDate"
+                [readonly]="true || isMobile()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="pickerFrom">
+                <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #pickerFrom />
+              @if (filterForm.controls.dateFrom.hasError('dateRangeError')) {
+              <ng-container>
+                <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
+              </ng-container>
+              }
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper-edit">
+            <div class="form-field-label" translate>To</div>
+            <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+              <input
+                matInput
+                [matDatepicker]="pickerTo"
+                (click)="pickerTo.open()"
+                placeholder="{{ 'To' | translate }}"
+                formControlName="dateTo"
+                [min]="minimumDate"
+                [max]="currentDate"
+                [readonly]="true || isMobile()"
+              />
+              <mat-datepicker-toggle matSuffix [for]="pickerTo">
+                <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
+              </mat-datepicker-toggle>
+              <mat-datepicker #pickerTo />
+              @if (filterForm.controls.dateFrom.hasError('dateRangeError')) {
+              <ng-container>
+                <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
+              </ng-container>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-wrap flex-col--lt-sm-2 gap-x-6 gap-y-4 full-width">
+        <div class="section-actions">
+          <button [disabled]="filterForm.invalid" mat-button class="section-action flex-grow" (click)="searchItems()">
+            <span translate>Search</span>
+          </button>
+        </div>
+      </div>
+      @if (pagedData.length) {
+      <div class="table-container">
+        <ng-container *ngTemplateOutlet="bonusHistoryTable" />
+      </div>
+      }
+    </div>
+  </div>
+
+  <ng-template #bonusHistoryTable>
+    @for (record of pagedData; track record) {
+    <mat-card>
+      <div class="table-row flex-col--lt-sm-2">
+        <div class="col wide">
+          <div class="label" translate>Bonus name</div>
+          <div class="value">{{ record.bonusFriendlyName || record.bonusName }}</div>
+        </div>
+        <div class="col wide">
+          <div class="label" translate>Received on</div>
+          <div class="value">{{ record.acceptedDate | date : dateFormat }}</div>
+        </div>
+        <div class="col wide">
+          <div class="label" translate>Bonus amount</div>
+          <div class="value">
+            {{ record.currency }} {{ dataStoreService.getNumberInLocalFormat(record.redeemedAmount ?? 0) }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="label" translate>Status</div>
+          <div class="value" translate>{{ record.status }}</div>
+        </div>
+      </div>
+    </mat-card>
+    }
+    <mat-paginator [length]="bonusHistoryData.length" [pageSize]="tablePageSize" (page)="onPageChange($event)" />
+  </ng-template>
+</div>

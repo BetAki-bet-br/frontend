@@ -1,0 +1,14 @@
+<app-base-dialog [customClass]="'md:h-1/2 xl:h-1/3  2xl:w-1/4!'" [title]="'Unable to confirm location' | translate">
+  <p dialogContent>
+    {{
+      'We are unable to confirm your location, and it looks like an ad blocker might be active on your device. To access your account, please try disabling it.'
+        | translate
+    }}
+  </p>
+
+  <ng-container dialogButtons>
+    <button mat-button class="button-text-small label-dark flex w-full flex-grow" (click)="closeDialog()">
+      <span>{{ 'Close' | translate }}</span>
+    </button>
+  </ng-container>
+</app-base-dialog>

@@ -1,0 +1,18 @@
+.awarded-gradient {
+  // Use a pseudo-element to create an overlay on top of the image.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0; // Cover the entire parent.
+    background: linear-gradient(180.19deg, rgba(158, 62, 107, 0) 43.61%, #271b48 99.83%);
+
+    // The parent element has `rounded-lg` (0.5rem).
+    // The pseudo-element needs to have the same border-radius to not overflow the rounded corners,
+    // as the parent does not have `overflow: hidden`.
+    border-radius: 0.5rem;
+  }
+}
+
+.bg-gradient-awarded {
+  background: linear-gradient(161.87deg, #f4cc32 13.18%, #181616 93.23%), #0f2135;
+}

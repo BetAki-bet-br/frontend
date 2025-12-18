@@ -1,0 +1,44 @@
+<div
+  id="{{ 'game-card-' + game().id }}"
+  class="group overflow-hidden {{ class() }}"
+  tabindex="0"
+  [ngClass]="{
+    'w-full': layout() === 'responsive',
+    'w-32 sm:w-[150px] lg:w-[165px]': layout() === 'fixed'
+  }"
+>
+  <div
+    class="relative overflow-hidden rounded-lg shadow-lg bg-shark-900 aspect-[3/4] cursor-pointer transition-transform"
+  >
+    <div class="absolute inset-0 transition-transform duration-300 group-hover:scale-120">
+      <img
+        [src]="gameImageUrl | cdnize"
+        [alt]="game().name"
+        width="420"
+        draggable="false"
+        height="560"
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <div class="hidden group-hover:block absolute top-3 left-3 z-10">
+      <span
+        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-shark-950/50 text-shark-50/80 backdrop-blur-sm"
+      >
+        {{ game().gameTypeName }}
+      </span>
+    </div>
+    <!-- <div class="absolute bottom-0 left-0 right-0 px-4 py-0 z-10">
+      <p
+        class="hidden group-hover:block text-shark-100 text-sm opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:-translate-y-1"
+      >
+        {{ game().productSupplierName }}
+      </p>
+    </div> -->
+  </div>
+  <h3
+    class="text-white font-bold text-sm sm:text-base mb-1 transition-transform duration-300 group-hover:-translate-y-0 truncate ps-2"
+  >
+    {{ game().name }}
+  </h3>
+</div>
