@@ -10,7 +10,8 @@ describe('AccountClosureDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), AccountClosureDialogComponent],
+      declarations: [AccountClosureDialogComponent],
+      imports: [TranslateModule.forRoot()],
       providers: [{ provide: DialogRef, useValue: {} }],
     }).compileComponents();
 

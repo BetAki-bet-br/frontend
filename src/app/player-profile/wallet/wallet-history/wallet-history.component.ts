@@ -1,39 +1,16 @@
-import { MatButtonModule } from '@angular/material/button';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  inject,
-  DestroyRef,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
-import { DateAdapter, MatNativeDateModule, MatOption } from '@angular/material/core';
-import { MatPaginatorIntl, PageEvent, MatPaginator } from '@angular/material/paginator';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
+import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { DataStoreService } from '@app/@core';
 import { TwentyFourDateFormat } from '@app/@core/date-formats';
 import { TableColumn } from '@app/@shared/components/base-table/base-table.component';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { FilterTransactionTypeEnum, TransactionHistoryModel, TransactionStatusEnum } from '@app/@shared/models';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelect } from '@angular/material/select';
-import { MatIcon } from '@angular/material/icon';
-import {
-  MatAccordion,
-  MatExpansionPanel,
-  MatExpansionPanelHeader,
-  MatExpansionPanelTitle,
-} from '@angular/material/expansion';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DatePipe } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
 
 export interface WalletHistoryFormGroup {
   period: FormControl<IdLabel | null>;
@@ -49,41 +26,14 @@ export interface IdLabel {
   label: string;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-wallet-history',
   templateUrl: './wallet-history.component.html',
   styleUrls: ['./wallet-history.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelect,
-    MatOption,
-    PageBreadcrumbsComponent,
-    MatIcon,
-    MatNativeDateModule,
-    MatAccordion,
-    MatExpansionPanel,
-    MatExpansionPanelHeader,
-    MatExpansionPanelTitle,
-    MatPaginator,
-    MatButtonModule,
-    TranslateModule,
-    DatePipe,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-  ],
 })
 export class WalletHistoryComponent implements OnInit {
-  dataStoreService = inject(DataStoreService);
-  private playerProfileService = inject(PlayerProfileService);
-  private cdr = inject(ChangeDetectorRef);
-  private deviceService = inject(DeviceDetectorService);
-  private dateAdapter = inject<DateAdapter<any>>(DateAdapter);
-  private translateService = inject(TranslateService);
-  private paginatorIntl = inject(MatPaginatorIntl);
-  private destroyRef = inject(DestroyRef);
-
   breadcrumbs: Breadcrumbs[] = [
     {
       svgIcon: 'essentials-home',
@@ -170,7 +120,15 @@ export class WalletHistoryComponent implements OnInit {
   TransactionStatusEnum = TransactionStatusEnum;
   isDataLoading = false;
 
-  constructor() {
+  constructor(
+    public dataStoreService: DataStoreService,
+    private playerProfileService: PlayerProfileService,
+    private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService,
+    private dateAdapter: DateAdapter<any>,
+    private translateService: TranslateService,
+    private paginatorIntl: MatPaginatorIntl
+  ) {
     this.dateAdapter.setLocale(this.playerProfileService.getPlayerLocale());
   }
 
@@ -194,7 +152,7 @@ export class WalletHistoryComponent implements OnInit {
 
     this.filterForm
       .get('period')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      ?.valueChanges.pipe(untilDestroyed(this))
       .subscribe((value) => {
         if (value) {
           const today = new Date();
@@ -234,7 +192,7 @@ export class WalletHistoryComponent implements OnInit {
 
     this.filterForm
       .get('dateFrom')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      ?.valueChanges.pipe(untilDestroyed(this))
       .subscribe((value: Date | null) => {
         if (value) {
           // value.setHours(0, 0, 0, 0);
@@ -253,7 +211,7 @@ export class WalletHistoryComponent implements OnInit {
 
     this.filterForm
       .get('dateTo')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      ?.valueChanges.pipe(untilDestroyed(this))
       .subscribe((value: Date | null) => {
         if (value) {
           // value.setHours(23, 59, 59, 999);
@@ -295,7 +253,7 @@ export class WalletHistoryComponent implements OnInit {
     this.isDataLoading = true;
     this.playerProfileService
       .getWalletTransactions(this.filterForm.value)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(untilDestroyed(this))
       .subscribe({
         next: (data) => {
           this.tableData = data.transactions ? [...data.transactions] : [];

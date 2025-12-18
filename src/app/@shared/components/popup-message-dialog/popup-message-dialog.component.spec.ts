@@ -8,7 +8,7 @@ describe('PopupMessageDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PopupMessageDialogComponent],
+      declarations: [PopupMessageDialogComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PopupMessageDialogComponent);

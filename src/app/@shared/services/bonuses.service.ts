@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
@@ -36,15 +36,17 @@ interface BonusDataExtended extends BonusData {
   providedIn: 'root',
 })
 export class BonusesService {
-  private bonusServiceApi = inject(BonusService);
-  private credentialsService = inject(CredentialsService);
-  private configurationService = inject(ConfigurationService);
-  private dataStoreService = inject(DataStoreService);
-  private translateService = inject(TranslateService);
-  private templateService = inject(TemplateService);
-  private renderTemplate = inject(RenderTemplatePipe);
-  private languageService = inject(I18nService);
-  private cmsService = inject(CmsService);
+  constructor(
+    private bonusServiceApi: BonusService,
+    private credentialsService: CredentialsService,
+    private configurationService: ConfigurationService,
+    private dataStoreService: DataStoreService,
+    private translateService: TranslateService,
+    private templateService: TemplateService,
+    private renderTemplate: RenderTemplatePipe,
+    private languageService: I18nService,
+    private cmsService: CmsService
+  ) {}
 
   getBonuses(): Observable<GetBonusResponse | null> {
     if (!this.credentialsService.isAuthenticated()) return of(null);

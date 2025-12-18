@@ -1,11 +1,6 @@
-import { MatButtonModule } from '@angular/material/button';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { ActionType } from '../promotions.component';
-import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
-import { MatIcon } from '@angular/material/icon';
-import { UpperCasePipe } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 
 export interface PromotionActionDialogData {
   type: ActionType;
@@ -20,14 +15,15 @@ export interface PromotionActionDialogData {
   templateUrl: './promotion-action-dialog.component.html',
   styleUrls: ['./promotion-action-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, MatIcon, MatButtonModule, TranslateModule, UpperCasePipe],
 })
 export class PromotionActionDialogComponent implements OnInit {
-  private dialogRef = inject<DialogRef<PromotionActionDialogComponent>>(DialogRef);
-  data = inject<PromotionActionDialogData>(DIALOG_DATA);
-  private cdr = inject(ChangeDetectorRef);
-
   loadingIndex: number = 0;
+
+  constructor(
+    private dialogRef: DialogRef<PromotionActionDialogComponent>,
+    @Inject(DIALOG_DATA) public data: PromotionActionDialogData,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     let interval;

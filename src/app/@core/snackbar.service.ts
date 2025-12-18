@@ -14,7 +14,7 @@
  * you may have.
  */
 
-import { Injectable, NgZone, inject } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { MatSnackBarHorizontalPosition } from '@angular/material/snack-bar';
 import { MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -28,9 +28,7 @@ import { TranslateService } from '@ngx-translate/core';
   providedIn: 'root',
 })
 export class SnackbarService {
-  snackBar = inject(MatSnackBar);
-  translateService = inject(TranslateService);
-  private zone = inject(NgZone);
+  constructor(public snackBar: MatSnackBar, public translateService: TranslateService, private zone: NgZone) {}
 
   /* public openPrimary(
     message: string = '',

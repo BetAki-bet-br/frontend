@@ -1,16 +1,14 @@
-import { RouterModule } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WalletDepositComponent } from './wallet-deposit.component';
 import { PaymentsService } from '@app/@shared/services/payment.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateModule } from '@ngx-translate/core';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PlayerService } from '@icore/ngx-portalgateway-api-client-atl';
 import { MockCtgApiService } from '@app/@shared/http/ctg-api.service.mock';
 import { Dialog } from '@angular/cdk/dialog';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { PipesModule } from '@app/@pipes/pipes.module';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('WalletDepositComponent', () => {
   let component: WalletDepositComponent;
@@ -18,7 +16,8 @@ describe('WalletDepositComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PipesModule, WalletDepositComponent, RouterModule],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, RouterTestingModule, PipesModule],
+      declarations: [WalletDepositComponent],
       providers: [
         { provide: PaymentsService, useValue: {} },
         { provide: MatSnackBar, useValue: {} },
@@ -27,8 +26,6 @@ describe('WalletDepositComponent', () => {
           useClass: MockCtgApiService,
         },
         { provide: Dialog, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

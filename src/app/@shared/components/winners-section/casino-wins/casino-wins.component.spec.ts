@@ -17,7 +17,8 @@ describe('CasinoWinsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CasinoWinsComponent],
+      declarations: [CasinoWinsComponent],
+      imports: [TranslateModule.forRoot()],
       providers: [
         { provide: GlobalizationService, useValue: {} },
         {

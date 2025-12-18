@@ -1,17 +1,17 @@
 <div class="promotion-container page-container">
-  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs"></app-page-breadcrumbs>
 
   <div class="money-split-section">
     <div class="bonus-type-strip">
       <div class="bonus-type" translate>Casino bonus</div>
       <div class="bonus-amount">
-        {{ currencySymbol }} {{ casinoBonusBalanceAmount | number : '1.2' : dataStoreService.defaultLanguage }}
+        {{ currencySymbol }} {{ casinoBonusBalanceAmount | number: '1.2':dataStoreService.defaultLanguage }}
       </div>
     </div>
     <div class="bonus-type-strip">
       <div class="bonus-type" translate>Sportsbook bonus</div>
       <div class="bonus-amount">
-        {{ currencySymbol }} {{ sportsbookBonusBalanceAmount | number : '1.2' : dataStoreService.defaultLanguage }}
+        {{ currencySymbol }} {{ sportsbookBonusBalanceAmount | number: '1.2':dataStoreService.defaultLanguage }}
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
       </ng-template>
       <ng-template matTabContent>
         <div class="profile-promo-offering-container">
-          <app-bonus-offering [bonusList]="bonusOfferList" [bannerList]="bannerOfferList" />
+          <app-bonus-offering [bonusList]="bonusOfferList" [bannerList]="bannerOfferList"></app-bonus-offering>
         </div>
       </ng-template>
     </mat-tab>
@@ -43,7 +43,7 @@
       </ng-template>
       <ng-template matTabContent>
         <div class="profile-promo-ongoing-container">
-          <app-bonus-ongoing [bonusList]="bonusOngoingList" />
+          <app-bonus-ongoing [bonusList]="bonusOngoingList"></app-bonus-ongoing>
         </div>
       </ng-template>
     </mat-tab>
@@ -54,7 +54,7 @@
       </ng-template>
       <ng-template matTabContent>
         <div class="profile-promo-active-container">
-          <app-bonus-active [bonusList]="bonusActiveList" />
+          <app-bonus-active [bonusList]="bonusActiveList"></app-bonus-active>
         </div>
       </ng-template>
     </mat-tab>
@@ -65,7 +65,7 @@
       </ng-template>
       <ng-template matTabContent>
         <div class="profile-promo-history-container">
-          <app-bonus-history />
+          <app-bonus-history></app-bonus-history>
         </div>
       </ng-template>
     </mat-tab>

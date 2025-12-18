@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Logger } from '@app/@shared/logger.service';
 import { BehaviorSubject, Observable, catchError, map, of, take, throwError } from 'rxjs';
 import { environment } from '@env/environment';
@@ -62,8 +62,6 @@ export enum EnumEdgeCaseCountries {
   providedIn: 'root',
 })
 export class GeoLocationService {
-  private httpClient = inject(HttpClient);
-
   private _geoLocationData: BehaviorSubject<GeoLocationMapped | null> = new BehaviorSubject<GeoLocationMapped | null>(
     null
   );
@@ -73,6 +71,8 @@ export class GeoLocationService {
   // last checked: 2023_07_10 at 10:18 AM
   private basePath: string | null = environment?.API_GEOLOCATION_PATH ?? null;
   private defaultHeaders = new HttpHeaders();
+
+  constructor(private httpClient: HttpClient) {}
 
   getLocationByIP(): Observable<GeoLocationMapped | null> {
     // check if geolocation data exists in memory

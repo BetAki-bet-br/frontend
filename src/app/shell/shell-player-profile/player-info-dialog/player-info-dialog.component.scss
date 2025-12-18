@@ -1,15 +1,9 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
-@use "theme/material-theming" as material-theming; // Import the new theming file
-@use "@angular/material" as mat; // Import mat for individual theme mixins
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as util;
+@import "src/theme/theme-variables";
 
 :host {
-  // Apply only the necessary angular material themes to this host.
-  @include mat.button-theme(material-theming.$app-theme);
-  @include mat.icon-theme(material-theming.$app-theme);
-
   display: block;
   border-radius: 1rem;
   height: 100%;
@@ -17,10 +11,10 @@
 
 .dialog-container {
   position: relative;
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  background-color: map.get($app-custom-colors, "neutral-10");
   border-radius: 0.75rem;
   height: 100%;
-  color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.4);
+  color: color.adjust(map.get($app-custom-colors, "neutral-black"), $alpha: -0.4);
 
   .close-icon-container {
     position: absolute;
@@ -32,11 +26,11 @@
       font-size: 1.7rem;
       width: 1.7rem;
       height: 1.7rem;
-      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+      color: map.get($app-custom-colors, "neutral-white");
       cursor: pointer;
 
       &:hover {
-        color: map.get(theme-variables.$app-custom-colors, "neutral-100");
+        color: map.get($app-custom-colors, "neutral-100");
       }
     }
   }
@@ -54,17 +48,17 @@
     align-items: center;
     gap: 0.5rem;
     height: 2.75rem;
-    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
-    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    background-color: map.get($app-custom-colors, "neutral-10");
+    color: map.get($app-custom-colors, "neutral-white");
     border-radius: 0.25rem;
     padding: 0 1rem;
     cursor: pointer;
 
     &:hover {
-      background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+      background-color: map.get($app-custom-colors, "neutral-10");
 
-      @include utils.media("lt-sm-2") {
-        background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+      @include util.media("lt-sm-2") {
+        background-color: map.get($app-custom-colors, "neutral-10");
       }
     }
 
@@ -98,15 +92,14 @@
     font-weight: 500;
     letter-spacing: 0.0313rem;
     height: 2.5rem;
-    border-bottom: 0.0625rem solid
-      color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.93);
+    border-bottom: 0.0625rem solid color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.93);
     border-radius: unset;
     text-transform: uppercase;
 
     &:hover {
       background: unset;
       background-color: unset;
-      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+      color: map.get($app-custom-colors, "neutral-white");
     }
   }
 
@@ -116,7 +109,7 @@
 }
 
 .profile-info-divider {
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  background-color: map.get($app-custom-colors, "neutral-10");
   width: calc(100% + 3rem);
   height: 0.125rem;
   margin: 0 -1.5rem 0.75rem;
@@ -128,26 +121,26 @@
   }
 
   .profile-account-balance-container {
-    @include utils.media("lt-sm-2") {
+    @include util.media("lt-sm-2") {
       height: 2.75rem;
       margin-bottom: 0.125rem;
     }
   }
 
   .profile-account-balance-main {
-    @include utils.media("lt-sm-2") {
+    @include util.media("lt-sm-2") {
       font-size: 1.75rem;
     }
   }
 
   .profile-account-balance-currency {
-    @include utils.media("lt-sm-2") {
+    @include util.media("lt-sm-2") {
       font-size: 1.75rem;
     }
   }
 
   .profile-account-deposit-button-container {
-    @include utils.media("lt-sm-2") {
+    @include util.media("lt-sm-2") {
       margin-top: 0.875rem;
     }
   }

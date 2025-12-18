@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, inject } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { AssetsService } from '@app/@shared/assets.service';
 import { Logger } from '@app/@shared/logger.service';
 
@@ -13,7 +13,7 @@ const log = new Logger('CdnPipe');
   name: 'cdnize',
 })
 export class CdnizePipe implements PipeTransform {
-  private assetsService = inject(AssetsService);
+  constructor(private assetsService: AssetsService) {}
 
   transform(path: string | undefined): string {
     return this.assetsService.cdnizeUrl(path || '');

@@ -1,85 +1,102 @@
-@if (!isMobile()) {
-<div class="game-page-wrapper">
-  @if (isDialogOpen) {
-  <div class="game-close-dialog-dimmer-background" (click)="dimmerClick()"></div>
-  }
+<ng-container *ngIf="!isMobile(); else mobile">
+  <div class="game-page-wrapper">
+    <div class="game-close-dialog-dimmer-background" (click)="dimmerClick()" *ngIf="isDialogOpen"></div>
 
-  <div class="game-background">
-    <img src="" alt="" />
-  </div>
+    <div class="game-background">
+      <img src="" alt="" />
+    </div>
 
-  <div class="game-wrapper">
-    <div class="game-launcher-wrapper">
-      @if (gameScreens.length > 0) {
-      <div #gameGridWrapper class="game-grid-wrapper" [class.multi-screen]="multiScreen">
-        <div class="game-grid-container">
-          @for (gameScreen of gameScreens; track gameScreen) { @if (gameScreen?.screenState === screenState.Active) {
-          @if (cookiesConsent) { @switch (gameScreen.gameState) { @case (gameState.InPlay) {
-          <app-game-launch
-            [gameScreen]="gameScreen"
-            [isLive]="isLive"
-            class="game-item-wrapper"
-            [class.multi-screen]="multiScreen"
-          />
-          } @case (gameState.InSearch) {
-          <app-game-search
-            [LIMIT]="3"
-            [GameScreenPosition]="gameScreen.position"
-            class="game-search-wrapper"
-            [class.multi-screen]="multiScreen"
-          />
-          } } } @else {
-          <div class="missing-cookies-consent game-item-wrapper p-[5px]" [class.multi-screen]="multiScreen">
-            <div>
-              {{ 'Cookie Consent is required to start playing. You must accept our cookie policy.' | translate }}
-            </div>
-            <div>{{ 'Please review and accept the policy to enable gameplay.' | translate }}</div>
+    <div class="game-wrapper">
+      <div class="game-launcher-wrapper">
+        <div
+          #gameGridWrapper
+          *ngIf="gameScreens.length > 0"
+          class="game-grid-wrapper"
+          [ngClass]="{ 'multi-screen': multiScreen }"
+        >
+          <div class="game-grid-container">
+            <ng-container *ngFor="let gameScreen of gameScreens">
+              <ng-container *ngIf="gameScreen?.screenState === screenState?.Active" [ngSwitch]="gameScreen.gameState">
+                <ng-container *ngIf="cookiesConsent">
+                  <app-game-launch
+                    *ngSwitchCase="gameState.InPlay"
+                    [gameScreen]="gameScreen"
+                    [isLive]="isLive"
+                    class="game-item-wrapper"
+                    [ngClass]="{ 'multi-screen': multiScreen }"
+                  ></app-game-launch>
+                </ng-container>
+
+                <div
+                  *ngIf="!cookiesConsent"
+                  class="missing-cookies-consent game-item-wrapper p-20"
+                  [ngClass]="{ 'multi-screen': multiScreen }"
+                >
+                  <div>
+                    {{ 'Cookie Consent is required to start playing. You must accept our cookie policy.' | translate }}
+                  </div>
+                  <div>{{ 'Please review and accept the policy to enable gameplay.' | translate }}</div>
+                </div>
+
+                <ng-container *ngIf="cookiesConsent">
+                  <app-game-search
+                    *ngSwitchCase="gameState.InSearch"
+                    [LIMIT]="3"
+                    [GameScreenPosition]="gameScreen.position"
+                    class="game-search-wrapper"
+                    [ngClass]="{ 'multi-screen': multiScreen }"
+                  ></app-game-search>
+                </ng-container>
+              </ng-container>
+            </ng-container>
           </div>
-          } } }
+
+          <app-game-controls
+            [isLive]="isLive"
+            class="game-controls-modal"
+            [ngClass]="{ 'no-in-play': !isInPlay() }"
+          ></app-game-controls>
         </div>
       </div>
+    </div>
 
-      <app-game-controls [isLive]="isLive" class="game-controls-modal" [class.no-in-play]="!isInPlay()" />
-      }
+    <app-game-page-footer></app-game-page-footer>
+
+    <app-game-close-dialog
+      class="game-close-dialog"
+      (confirmed)="onConfirmation()"
+      (canceled)="onCancelation()"
+      [gameNames]="gameNamesToClose"
+      *ngIf="isDialogOpen"
+      [@slideInOut]
+    >
+    </app-game-close-dialog>
+  </div>
+</ng-container>
+
+<ng-template #mobile>
+  <div class="mobile-game-top-container">
+    <div class="mobile-game-header">
+      <a [routerLink]="[lobbyPath]" class="back-button">
+        <mat-icon class="icon">close</mat-icon>
+      </a>
+
+      <ng-container *ngIf="false">
+        <button class="back-button" (click)="goBack()">
+          <mat-icon class="icon">close</mat-icon>
+        </button>
+      </ng-container>
+    </div>
+    <div class="mobile-game-wrapper">
+      <iframe
+        #mobileGameFrame
+        class="game-iframe"
+        referrerpolicy="origin"
+        frameBorder="0"
+        *ngIf="mobileGameURL && mobileIframeVisible"
+        allowfullscreen
+        [src]="mobileGameURL"
+      ></iframe>
     </div>
   </div>
-
-  <app-game-page-footer />
-
-  @if (isDialogOpen) {
-  <app-game-close-dialog
-    class="game-close-dialog"
-    (confirmed)="onConfirmation()"
-    (canceled)="onCancelation()"
-    [gameNames]="gameNamesToClose"
-    [@slideInOut]
-  />
-  }
-</div>
-} @else {
-<div class="mobile-game-top-container">
-  <div class="mobile-game-header">
-    <a [routerLink]="[lobbyPath]" class="back-button">
-      <mat-icon class="icon">close</mat-icon>
-    </a>
-
-    @if (false) {
-    <button class="back-button" (click)="goBack()">
-      <mat-icon class="icon">close</mat-icon>
-    </button>
-    }
-  </div>
-  <div class="mobile-game-wrapper">
-    @if (mobileGameURL && mobileIframeVisible) {
-    <iframe
-      #mobileGameFrame
-      class="game-iframe"
-      referrerpolicy="origin"
-      frameBorder="0"
-      allowfullscreen
-      [src]="mobileGameURL"
-    ></iframe>
-    }
-  </div>
-</div>
-}
+</ng-template>

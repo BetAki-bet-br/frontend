@@ -11,7 +11,8 @@ describe('AccountReverificationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PipesModule, AccountReverificationDialogComponent],
+      imports: [TranslateModule.forRoot(), PipesModule],
+      declarations: [AccountReverificationDialogComponent],
       providers: [{ provide: DialogRef, useValue: {} }],
     }).compileComponents();
 

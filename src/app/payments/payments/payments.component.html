@@ -12,22 +12,30 @@
     </p>
   </div>
 
-  <div class="payments-table-selection-container flex gap-2">
-    <div (click)="selectDeposit()" [class.active]="selectedDeposit">WALLET</div>
-    <div (click)="selectWithdrawal()" [class.active]="selectedWithdrawal">WITHDRAWALS</div>
+  <div class="payments-table-selection-container flex-row gap-8">
+    <div (click)="selectDeposit()" [ngClass]="{ active: selectedDeposit }">WALLET</div>
+    <div (click)="selectWithdrawal()" [ngClass]="{ active: selectedWithdrawal }">WITHDRAWALS</div>
   </div>
 
-  <div class="payments-table-container" [class.hidden]="selectedWithdrawal">
-    <app-payments-table [tableActionTitle]="'Deposit'" [paymentMethods]="depositMethods" [username]="username" />
+  <div class="payments-table-container" [ngClass]="{ hidden: selectedWithdrawal }">
+    <app-payments-table
+      [tableActionTitle]="'Deposit'"
+      [paymentMethods]="depositMethods"
+      [username]="username"
+    ></app-payments-table>
   </div>
 
   <div class="table-divider"></div>
 
-  <div class="payments-table-container" [class.hidden]="selectedDeposit">
-    <app-payments-table [tableActionTitle]="'Withdraw'" [paymentMethods]="withdrawMethods" [username]="username" />
+  <div class="payments-table-container" [ngClass]="{ hidden: selectedDeposit }">
+    <app-payments-table
+      [tableActionTitle]="'Withdraw'"
+      [paymentMethods]="withdrawMethods"
+      [username]="username"
+    ></app-payments-table>
   </div>
 
-  <div class="footer-note" [class.hidden]="selectedDeposit">
+  <div class="footer-note" [ngClass]="{ hidden: selectedDeposit }">
     <p translate>
       <span class="footer-char">* </span>Bank Transfer Fee - 3.75% and 5 EUR fixed commission / A fee may be charged by
       the intermediary banks

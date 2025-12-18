@@ -1,10 +1,7 @@
-import { Injectable, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'ellipsis',
-})
-@Injectable({
-  providedIn: 'root',
 })
 export class EllipsisPipe implements PipeTransform {
   transform(value: string | null | undefined, maxLength: number): string {

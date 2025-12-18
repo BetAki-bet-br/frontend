@@ -1,38 +1,21 @@
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
+import { Dialog } from '@angular/cdk/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  inject,
-  DestroyRef,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import {
   FaceAuthenticatorDialogComponent,
   FaceAuthenticatorDialogData,
 } from '@app/@shared/components/face-authenticator-dialog/face-authenticator-dialog.component';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { defaultPasswordValidators } from '@app/@shared/form-utils';
-import { PasswordStrengthIndicatorComponent } from '@app/@shared/components/password-strength-indicator/password-strength-indicator.component';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { PortalGatewayErrorResponse } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 import { catchError, EMPTY, of, Subscription, switchMap, throwError } from 'rxjs';
-
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 
 interface PasswordResetForm {
   oldPassword: FormControl<string | null>;
@@ -40,33 +23,14 @@ interface PasswordResetForm {
   newPasswordConfirm: FormControl<string | null>;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-profile-settings-edit-password',
   templateUrl: './profile-settings-edit-password.component.html',
   styleUrls: ['./profile-settings-edit-password.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    PageBreadcrumbsComponent,
-    DialogModule,
-  ],
 })
 export class ProfileSettingsEditPasswordComponent implements OnInit, OnDestroy {
-  private cdr = inject(ChangeDetectorRef);
-  private dialog = inject(Dialog);
-  private playerProfileService = inject(PlayerProfileService);
-  private snackbarService = inject(SnackbarService);
-  private translateService = inject(TranslateService);
-  private authDialogService = inject(AuthDialogService);
-  private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-
   breadcrumbs: Breadcrumbs[] = [
     {
       svgIcon: 'essentials-home',
@@ -106,9 +70,17 @@ export class ProfileSettingsEditPasswordComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
 
-  constructor() {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private dialog: Dialog,
+    private playerProfileService: PlayerProfileService,
+    private snackbarService: SnackbarService,
+    private translateService: TranslateService,
+    private authDialogService: AuthDialogService,
+    private router: Router
+  ) {
     this.passwordResetForm.controls.newPasswordConfirm.addValidators(this.passwordConfirmValidator);
-    this.passwordResetForm.controls.newPassword.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+    this.passwordResetForm.controls.newPassword.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
       this.passwordResetForm.controls.newPasswordConfirm.updateValueAndValidity();
     });
   }

@@ -14,7 +14,7 @@
  * you may have.
  */
 
-import { Directive, EventEmitter, HostBinding, HostListener, Output, inject } from '@angular/core';
+import { Directive, EventEmitter, HostBinding, HostListener, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -22,12 +22,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   selector: '[appFileUpload]',
 })
 export class FileUploadDirective {
-  snackbar = inject(MatSnackBar);
-  private translateService = inject(TranslateService);
-
-  @Output() emitItems = new EventEmitter<FileList>();
+  @Output() emitItems = new EventEmitter<any>();
   // Used for setting the class when user is using drag'n'drop
   @HostBinding('class.fileover') fileover?: boolean;
+
+  constructor(public snackbar: MatSnackBar, private translateService: TranslateService) {}
 
   /**
    * Sets fileover to true when user drags a file over the div

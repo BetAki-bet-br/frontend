@@ -9,7 +9,8 @@ describe('ConfirmationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatDialogModule, ConfirmationDialogComponent],
+      declarations: [ConfirmationDialogComponent],
+      imports: [MatDialogModule],
       providers: [{ provide: MatDialogRef, useValue: {} }],
     }).compileComponents();
 

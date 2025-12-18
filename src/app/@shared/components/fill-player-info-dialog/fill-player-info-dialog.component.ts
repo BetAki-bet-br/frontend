@@ -1,12 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { Logger } from '@app/@shared/logger.service';
@@ -14,16 +6,16 @@ import { CountryCode } from '@app/@shared/models';
 import { GeoLocationService } from '@app/@shared/services/geolocation.service';
 import { validateNumber } from '@app/@shared/utils/validate-number';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
-import { FaceAuthUpdatePlayerRequest, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import {
+  FaceAuthUpdatePlayerRequest,
+  PlayerDetails,
+  UpdatePlayerRequest,
+} from '@icore/ngx-portalgateway-api-client-atl';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { forkJoin, map, switchMap } from 'rxjs';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { DialogRef } from '@angular/cdk/dialog';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
-import { LoaderComponent } from '../../loader/loader.component';
-import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
-import { LowerCasePipe } from '@angular/common'; // Explicitly import LowerCasePipe
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('ProfileSettingsInfoComponent');
 
@@ -32,37 +24,14 @@ export interface FillPlayerInfoDialogResult {
 }
 type FillInfoStatus = 'Fulfilled' | 'Partial' | 'Failed';
 
+@UntilDestroy()
 @Component({
   selector: 'app-fill-player-info-dialog',
   templateUrl: './fill-player-info-dialog.component.html',
   styleUrls: ['./fill-player-info-dialog.component.scss'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    TranslateModule, // Assuming translate pipe comes from here
-    BaseDialogComponent,
-    LoaderComponent,
-    CdnizePipe,
-    LowerCasePipe,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FillPlayerInfoDialogComponent implements OnInit {
-  private dialogRef = inject<DialogRef<FillPlayerInfoDialogResult>>(DialogRef);
-  private fb = inject(FormBuilder);
-  private playerProfileService = inject(PlayerProfileService);
-  private configurationService = inject(ConfigurationService);
-  private geoLocationService = inject(GeoLocationService);
-  private snackbarService = inject(SnackbarService);
-  private translate = inject(TranslateService);
-  private destroyRef = inject(DestroyRef);
   isDataLoading = true;
   mobilePhoneAdded: boolean = false;
   countryCodeList: CountryCode[] = [];
@@ -87,6 +56,16 @@ export class FillPlayerInfoDialogComponent implements OnInit {
   // export to template
   validateNumber = validateNumber;
 
+  constructor(
+    private dialogRef: DialogRef<FillPlayerInfoDialogResult>,
+    private fb: FormBuilder,
+    private playerProfileService: PlayerProfileService,
+    private configurationService: ConfigurationService,
+    private geoLocationService: GeoLocationService,
+    private snackbarService: SnackbarService,
+    private translate: TranslateService
+  ) {}
+
   get mobilePrefixControl() {
     return this.fillPlayerInfoForm.controls.mobilePrefix;
   }
@@ -103,7 +82,7 @@ export class FillPlayerInfoDialogComponent implements OnInit {
       countryCodeList: this.playerProfileService.getCountryCodes(),
     })
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
+        untilDestroyed(this),
         switchMap((data) => {
           return this.geoLocationService.getLocationByIP().pipe(
             map((d) => {
@@ -168,8 +147,8 @@ export class FillPlayerInfoDialogComponent implements OnInit {
 
     // disable already filled fata fields
     Object.keys(this.fillPlayerInfoForm.value).map((key) => {
-      if (key !== 'mobilePrefix' && (this.fillPlayerInfoForm.value as any)[key]) {
-        (this.fillPlayerInfoForm.controls as any)[key].disable({ emitEvent: false });
+      if (key !== 'mobilePrefix' && this.fillPlayerInfoForm.value[key]) {
+        this.fillPlayerInfoForm.controls[key].disable({ emitEvent: false });
       }
     });
 
@@ -219,7 +198,7 @@ export class FillPlayerInfoDialogComponent implements OnInit {
 
     this.playerProfileService
       .updatePlayerSettings(request)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(untilDestroyed(this))
       .subscribe({
         next: (response) => {
           this.getData(false);

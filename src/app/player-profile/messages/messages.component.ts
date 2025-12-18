@@ -1,41 +1,25 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  inject,
-  DestroyRef,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { TableColumn, TableConfig } from '@app/@shared/components/base-table-msgs/base-table-msgs.component';
 import {
   BaseConfirmationDialogData,
   BaseConfirmationDialogResult,
   ConfirmationDialogComponent,
 } from '@app/@shared/components/confirmation-dialog/confirmation-dialog.component';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { PlayerMessageResolved } from '@app/@shared/models';
 import { MessageService } from '@app/@shared/services/message.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { ChangeMessageTypeEnum, PopupStateEnum } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 import { concatMap, from } from 'rxjs';
 import { PlayerProfileService } from '../player-profile.service';
 import { getTableColumns } from './table.config';
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { TableColumn, TableConfig } from '@app/@shared/components/base-table/base-table.component';
 
+@UntilDestroy()
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
@@ -48,27 +32,8 @@ import { TableColumn, TableConfig } from '@app/@shared/components/base-table/bas
     ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatExpansionModule,
-    PageBreadcrumbsComponent,
-  ],
 })
 export class MessagesComponent implements OnInit {
-  playerProfileService = inject(PlayerProfileService);
-  private messageService = inject(MessageService);
-  private cdr = inject(ChangeDetectorRef);
-  private dialog = inject(MatDialog);
-  private translateService = inject(TranslateService);
-  private paginatorIntl = inject(MatPaginatorIntl);
-  private destroyRef = inject(DestroyRef);
-
   @ViewChild('arrowTemplate', { static: true }) arrowTemplate?: TemplateRef<any>;
   @ViewChild('expandableRowTemplate', { static: true }) expandableRowTemplate?: TemplateRef<any>;
 
@@ -115,6 +80,15 @@ export class MessagesComponent implements OnInit {
   selection: number[] = [];
 
   PopupStateEnum = PopupStateEnum;
+
+  constructor(
+    public playerProfileService: PlayerProfileService,
+    private messageService: MessageService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private translateService: TranslateService,
+    private paginatorIntl: MatPaginatorIntl
+  ) {}
 
   ngOnInit(): void {
     this.tableColumns = getTableColumns(this.arrowTemplate);
@@ -261,7 +235,7 @@ export class MessagesComponent implements OnInit {
     // on dialog closed
     dialogRef
       .afterClosed()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(untilDestroyed(this))
       .subscribe((result) => {
         if (result && result?.success) {
           const selected = this.tableData.filter((x) => x.selected).map((y) => y.id ?? 0) ?? [];

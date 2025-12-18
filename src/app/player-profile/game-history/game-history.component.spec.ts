@@ -24,7 +24,8 @@ describe('GameHistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), GameHistoryComponent],
+      declarations: [GameHistoryComponent],
+      imports: [TranslateModule.forRoot()],
       providers: [
         {
           provide: PlayerService,

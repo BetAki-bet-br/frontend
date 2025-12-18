@@ -26,7 +26,8 @@ describe('FaceAuthenticatorDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), FaceAuthenticatorDialogComponent],
+      imports: [TranslateModule.forRoot()],
+      declarations: [FaceAuthenticatorDialogComponent],
       providers: [
         { provide: PlayerService, useClass: MockCtgApiService },
         { provide: MessageService, useClass: MockCtgApiService },

@@ -10,7 +10,8 @@ describe('LoaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, MaterialModule, LoaderComponent],
+      imports: [BrowserAnimationsModule, MaterialModule],
+      declarations: [LoaderComponent],
     }).compileComponents();
   }));
 

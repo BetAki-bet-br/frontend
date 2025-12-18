@@ -14,8 +14,8 @@ import {
 import { MockCtgApiService } from '@app/@shared/http/ctg-api.service.mock';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpBackend, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpBackend } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AuthenticationGuard', () => {
   let authenticationGuard: AuthenticationGuard;
@@ -37,7 +37,7 @@ describe('AuthenticationGuard', () => {
     mockSnapshot = jasmine.createSpyObj<RouterStateSnapshot>('RouterStateSnapshot', ['toString']);
 
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
       providers: [
         AuthenticationGuard,
         { provide: CredentialsService, useClass: MockCredentialsService },
@@ -50,8 +50,6 @@ describe('AuthenticationGuard', () => {
         { provide: ProdGameService, useClass: MockCtgApiService },
         { provide: ActivatedRoute, useValue: {} },
         HttpBackend,
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
       ],
     });
 

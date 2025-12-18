@@ -10,7 +10,8 @@ describe('VipProgramCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), VipProgramCardComponent],
+      declarations: [VipProgramCardComponent],
+      imports: [TranslateModule.forRoot()],
       providers: [HttpBackend],
     }).compileComponents();
 

@@ -10,7 +10,8 @@ describe('MigrationLoginCompletedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PipesModule, MigrationLoginCompletedComponent],
+      imports: [TranslateModule.forRoot(), PipesModule],
+      declarations: [MigrationLoginCompletedComponent],
       providers: [{ provide: DialogRef, useValue: {} }],
     }).compileComponents();
 

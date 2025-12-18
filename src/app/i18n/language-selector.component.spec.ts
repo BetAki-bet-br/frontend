@@ -13,13 +13,8 @@ describe('LanguageSelectorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        MaterialModule,
-        TranslateModule.forRoot(),
-        PipesModule,
-        LanguageSelectorComponent,
-      ],
+      imports: [BrowserAnimationsModule, MaterialModule, TranslateModule.forRoot(), PipesModule],
+      declarations: [LanguageSelectorComponent],
       providers: [I18nServiceMock],
     }).compileComponents();
   }));

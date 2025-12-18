@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Logger } from '../logger.service';
 import { Observable, Subject, map, of } from 'rxjs';
 import {
@@ -18,15 +18,15 @@ const log = new Logger('TemplateService');
   providedIn: 'root',
 })
 export class TemplateService {
-  private dataStoreService = inject(DataStoreService);
-  private templateService = inject(TemplateServiceApi);
-  private router = inject(Router);
-
   private templateActionSub = new Subject<TemplateAction | null>();
 
   templateActionSub$ = this.templateActionSub.asObservable();
 
-  constructor() {
+  constructor(
+    private dataStoreService: DataStoreService,
+    private templateService: TemplateServiceApi,
+    private router: Router
+  ) {
     this.addGlobalEventListener();
   }
 

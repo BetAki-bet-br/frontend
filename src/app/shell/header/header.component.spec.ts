@@ -1,6 +1,6 @@
-import { RouterModule } from '@angular/router';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { MaterialModule } from '@app/material.module';
 import { AuthenticationService, CredentialsService } from '@app/auth';
@@ -20,8 +20,7 @@ import {
 import { MockCtgApiService } from '@app/@shared/http/ctg-api.service.mock';
 import { TemplateService } from '@app/@shared/services/template.service';
 import { MockTemplateService } from '@app/@shared/services/template.service.mock';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -29,7 +28,15 @@ describe('HeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule, TranslateModule.forRoot(), I18nModule, PipesModule, HeaderComponent, RouterModule],
+      imports: [
+        RouterTestingModule,
+        MaterialModule,
+        TranslateModule.forRoot(),
+        I18nModule,
+        PipesModule,
+        HttpClientTestingModule,
+      ],
+      declarations: [HeaderComponent],
       providers: [
         { provide: AuthenticationService, useClass: MockAuthenticationService },
         { provide: CredentialsService, useClass: MockCredentialsService },
@@ -39,8 +46,6 @@ describe('HeaderComponent', () => {
         { provide: ProdGameService, useClass: MockCtgApiService },
         { provide: BannerService, useClass: MockCtgApiService },
         { provide: TemplateService, useClass: MockTemplateService },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
   }));

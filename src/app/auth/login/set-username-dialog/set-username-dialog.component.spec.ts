@@ -14,7 +14,8 @@ describe('SetUsernameDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), SetUsernameDialogComponent],
+      declarations: [SetUsernameDialogComponent],
+      imports: [TranslateModule.forRoot()],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: DIALOG_DATA, useValue: {} },

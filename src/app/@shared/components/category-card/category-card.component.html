@@ -1,11 +1,11 @@
 <div
-  class="category-card flex flex-col"
-  [style]="{
+  class="category-card flex-col"
+  [ngStyle]="{
     'background-image': 'url(' + (!isMobile ? cardData.backgroundImg : cardData.backgroundMobileImg) + ')'
   }"
 >
-  <div class="flex description">&nbsp;</div>
-  <div class="flex action-contaniner">
+  <div class="flex-row description">&nbsp;</div>
+  <div class="flex-row action-contaniner">
     <a mat-button translate [routerLink]="cardData.buttonUrl">
       {{ cardData.buttonText }}
     </a>

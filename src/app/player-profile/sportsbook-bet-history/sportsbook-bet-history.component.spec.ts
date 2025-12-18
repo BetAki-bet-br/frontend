@@ -25,7 +25,8 @@ describe('SportsbookHistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), SportsbookHistoryComponent, RenderTemplatePipe],
+      declarations: [SportsbookHistoryComponent, RenderTemplatePipe],
+      imports: [TranslateModule.forRoot()],
       providers: [
         {
           provide: PlayerService,

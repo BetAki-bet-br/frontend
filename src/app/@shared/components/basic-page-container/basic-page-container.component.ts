@@ -6,7 +6,6 @@ import {
   Input,
   Renderer2,
   ViewChild,
-  inject,
 } from '@angular/core';
 
 @Component({
@@ -16,7 +15,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BasicPageContainerComponent {
-  private renderer = inject(Renderer2);
-
   @Input() help: string = '';
+
+  constructor(private renderer: Renderer2) {}
 }

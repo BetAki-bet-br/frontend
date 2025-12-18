@@ -1,13 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { BasicPageContainerComponent } from '@app/@shared/components/basic-page-container/basic-page-container.component';
-
-import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 interface SupportForm {
   email: FormControl<string | null>;
@@ -19,15 +11,6 @@ interface SupportForm {
   templateUrl: './support.component.html',
   styleUrls: ['./support.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    CdnizePipe,
-  ],
 })
 export class SupportComponent {
   supportForm: FormGroup<SupportForm> = new FormGroup({

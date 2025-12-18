@@ -8,7 +8,7 @@ describe('BonusOfferingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BonusOfferingComponent],
+      declarations: [BonusOfferingComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BonusOfferingComponent);

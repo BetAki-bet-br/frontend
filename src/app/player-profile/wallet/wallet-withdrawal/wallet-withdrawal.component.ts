@@ -1,34 +1,14 @@
-import { MatButtonModule } from '@angular/material/button';
 import { Dialog } from '@angular/cdk/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  inject,
-  DestroyRef,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher, MatOption } from '@angular/material/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { ExternalConfigsLoader } from '@app/@core/external-configs-loader';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import { Logger } from '@app/@shared';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Logger, UntilDestroy, untilDestroyed } from '@app/@shared';
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import {
   WithdrawalAuthenticationDialogComponent,
   WithdrawalAuthenticationDialogResult,
@@ -37,18 +17,13 @@ import { WithdrawalDialogComponent } from '@app/@shared/components/withdrawal-di
 import { TransactionStatusStringEnum, WithdrawalError } from '@app/@shared/models';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { PaymentsService } from '@app/@shared/services/payment.service';
-import { PlayerStatusService } from '@app/@shared/services/player.status.service';
+import { PlayerStatusService } from '@app/@shared/services/player.service';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { environment } from '@env/environment';
 import { PaymentRequest, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { catchError, map, of, Subscription, switchMap, throwError } from 'rxjs';
-import { MatIcon } from '@angular/material/icon';
-import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
-import { MatError, MatSelect } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MaterialModule } from '@app/@shared/material.module';
 
 const log = new Logger('WalletWithdrawalComponent');
 
@@ -69,42 +44,15 @@ enum WithdrawalTypeEnum {
   Email = 'email',
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-wallet-withdrawal',
   templateUrl: './wallet-withdrawal.component.html',
   styleUrls: ['./wallet-withdrawal.component.scss'],
   providers: [{ provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    PageBreadcrumbsComponent,
-    MatIcon,
-    MatSelect,
-    MatInputModule,
-    MatError,
-    MatButtonModule,
-    TranslateModule,
-    MaterialModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatOption,
-  ],
 })
 export class WalletWithdrawalComponent implements OnInit, OnDestroy {
-  private paymentsService = inject(PaymentsService);
-  private cdr = inject(ChangeDetectorRef);
-  private snackbarService = inject(SnackbarService);
-  private translateService = inject(TranslateService);
-  private dialog = inject(Dialog);
-  private dataStoreService = inject(DataStoreService);
-  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
-  private tawkToScriptService = inject(TawkToScriptService);
-  private playerService = inject(PlayerStatusService);
-  private authDialogService = inject(AuthDialogService);
-  private paymentService = inject(PaymentsService);
-  private configurationService = inject(ConfigurationService);
-  private externalConfigsLoader = inject(ExternalConfigsLoader);
-  private destroyRef = inject(DestroyRef);
-
   balance = 0;
   balanceCurrency = '';
   balanceString = '';
@@ -155,6 +103,22 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
     },
   ];
 
+  constructor(
+    private paymentsService: PaymentsService,
+    private cdr: ChangeDetectorRef,
+    private snackbarService: SnackbarService,
+    private translateService: TranslateService,
+    private dialog: Dialog,
+    private dataStoreService: DataStoreService,
+    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService,
+    private tawkToScriptService: TawkToScriptService,
+    private playerService: PlayerStatusService,
+    private authDialogService: AuthDialogService,
+    private paymentService: PaymentsService,
+    private configurationService: ConfigurationService,
+    private externalConfigsLoader: ExternalConfigsLoader
+  ) {}
+
   get amountControl() {
     return this.withdrawalForm.controls.amount;
   }
@@ -182,7 +146,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.balanceVisible = this.dataStoreService.balanceVisible;
 
-    this.playerService.balanceSub$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((balance) => {
+    this.playerService.balanceSub$.pipe(untilDestroyed(this)).subscribe((balance) => {
       this.balance = balance?.withdrawableBalance ?? 0;
       const currencySymbol = this.dataStoreService.getCurrencySymbol(
         this.dataStoreService.defaultLanguage,
@@ -192,7 +156,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
       this.balanceString = this.dataStoreService.getNumberInLocalFormat(balance?.withdrawableBalance ?? 0, 2);
     });
 
-    this.externalConfigsLoader.configsLoaded$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((loaded) => {
+    this.externalConfigsLoader.configsLoaded$.pipe(untilDestroyed(this)).subscribe((loaded) => {
       if (loaded) {
         let paymentTestModeEnabled: any = environment.deployConfig.paymentTestModeEnabled;
         if (typeof paymentTestModeEnabled === 'string') {

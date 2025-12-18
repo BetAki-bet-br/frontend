@@ -11,7 +11,8 @@ describe('AdblockerDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PipesModule, AdblockerDialogComponent],
+      imports: [TranslateModule.forRoot(), PipesModule],
+      declarations: [AdblockerDialogComponent],
       providers: [{ provide: DialogRef, useValue: {} }],
     }).compileComponents();
 

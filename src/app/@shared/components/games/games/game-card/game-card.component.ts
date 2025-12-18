@@ -1,7 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { AssetsService } from '@app/@shared/assets.service';
@@ -21,18 +18,9 @@ export interface GameCardGameSelectedEvent {
   selector: 'app-game-card',
   templateUrl: './game-card.component.html',
   styleUrls: ['./game-card.component.scss'],
-  imports: [CommonModule, MatIconModule, RouterModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameCardComponent {
-  assetsService = inject(AssetsService);
-  credentialsService = inject(CredentialsService);
-  private router = inject(Router);
-  private authDialogService = inject(AuthDialogService);
-  private dataStoreService = inject(DataStoreService);
-  private route = inject(ActivatedRoute);
-  private gameStateService = inject(GameStateService);
-
   @Input() public game: GameTile | null = null;
   @Input() public indexOfElement: number | null = null;
   @Input() public emitEvent = false;
@@ -45,6 +33,16 @@ export class GameCardComponent {
   missingImgUrl = this.assetsService.cdnizeUrl('assets/general/logo/game-placeholder.jpg');
   placeholderImgUrl = EMBEDDED_IMAGES.gameTilePlaceholder;
   demoPlayEnabled = environment.demoPlayEnabled;
+
+  constructor(
+    public assetsService: AssetsService,
+    public credentialsService: CredentialsService,
+    private router: Router,
+    private authDialogService: AuthDialogService,
+    private dataStoreService: DataStoreService,
+    private route: ActivatedRoute,
+    private gameStateService: GameStateService
+  ) {}
 
   get isMobile() {
     return this.dataStoreService.isDeviceMobile();

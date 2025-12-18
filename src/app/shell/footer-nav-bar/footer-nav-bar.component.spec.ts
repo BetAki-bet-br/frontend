@@ -8,7 +8,7 @@ describe('FooterNavBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FooterNavBarComponent],
+      declarations: [FooterNavBarComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FooterNavBarComponent);

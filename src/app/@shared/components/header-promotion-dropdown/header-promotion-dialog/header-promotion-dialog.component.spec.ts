@@ -15,7 +15,8 @@ describe('HeaderPromotionDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DialogModule, TranslateModule.forRoot(), HeaderPromotionDialogComponent, RenderTemplatePipe],
+      declarations: [HeaderPromotionDialogComponent, RenderTemplatePipe],
+      imports: [DialogModule, TranslateModule.forRoot()],
       providers: [
         { provide: DIALOG_DATA, useValue: { promotion: 'test' } },
         { provide: DialogRef, useValue: {} },

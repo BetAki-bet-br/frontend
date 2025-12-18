@@ -147,7 +147,7 @@ export const TEMPLATES: TemplateData[] = [
     width="32"
     onerror="this.onerror=null; this.src='{{promotionIconPlaceholder}}'"
   />
-  <div class="flex flex-col full-width" style="position: relative">
+  <div class="flex-col full-width" style="position: relative">
     <span class="promo-heading text-ellipsis">{{Title}}</span>
     <span class="promo-text text-ellipsis">{{Description}}</span>
     <div class="show-more-wrapper">
@@ -192,12 +192,12 @@ export const TEMPLATES: TemplateData[] = [
     htmlDefinition: `
 <div class="promotion-notification-activate-template">
   <div class="header-text pr-22">{{Title 1}}</div>
-  <div class="flex flex-col items-center gap-24">
-    <div class="flex flex-col gap-16 items-center mt-16">
+  <div class="flex-col items-center gap-24">
+    <div class="flex-col gap-16 items-center mt-16">
       <span class="promotion-title">{{Title 2}}</span>
       <span class="sub promotion-title">{{Description}}</span>
     </div>
-    <div class="flex flex-col gap-2 items-center justify-center">
+    <div class="flex-col gap-2 items-center justify-center">
       <img
         id="promotion-image-id"
         class="promotion-image {{^showImage}}hidden{{/showImage}}"
@@ -209,7 +209,7 @@ export const TEMPLATES: TemplateData[] = [
       />
       <span class="small promotion-title">{{promotionTitle}}</span>
     </div>
-    <div class="flex flex-col items-center gap-2">
+    <div class="flex-col items-center gap-2">
       <span class="sub promotion-title">{{activeUntilText}}</span>
       <div class="flex items-center gap-8 countdown-container">
         <div class="countdown-item flex flex-col gap-2 items-center">
@@ -230,7 +230,7 @@ export const TEMPLATES: TemplateData[] = [
         </div>
       </div>
     </div>
-    <div class="flex flex-col justify-center items-center">
+    <div class="flex-col justify-center items-center">
       <div class="activate-button-container">
         <button
           class="template-button activate-button"
@@ -287,8 +287,8 @@ export const TEMPLATES: TemplateData[] = [
     description: 'Banner Template 1',
     htmlDefinition: `
 <div class="banner-template-image">
-  <div class="tile-container flex justify-start">
-    <div class="tile flex flex-col justify-center items-start">
+  <div class="tile-container flex-row justify-start">
+    <div class="tile flex-col justify-center items-start">
       <img
         class="img"
         src="{{Image 1}}"
@@ -328,8 +328,8 @@ export const TEMPLATES: TemplateData[] = [
     description: 'Banner Template 2',
     htmlDefinition: `
 <div class="banner-template-image small">
-  <div class="tile-container flex justify-start">
-    <div class="tile flex flex-col justify-start items-center">
+  <div class="tile-container flex-row justify-start">
+    <div class="tile flex-col justify-start items-center">
       <img
         class="img"
         src="{{Image 1}}"
@@ -583,7 +583,7 @@ export const TEMPLATES: TemplateData[] = [
     htmlDefinition: `
     <div class="banner-background-illustration content-left">
       <div class="banner-container absolute">
-        <img
+        <img 
           class="background-image"
           alt="banner"
           src="{{Image 1 - background}}"
@@ -719,7 +719,7 @@ export const TEMPLATES: TemplateData[] = [
     htmlDefinition: `
     <div class="banner-background-illustration content-middle">
       <div class="banner-container absolute">
-        <img
+        <img 
           class="background-image"
           alt="banner"
           src="{{Image 1 - background}}"
@@ -783,7 +783,7 @@ export const TEMPLATES: TemplateData[] = [
     htmlDefinition: `
     <div class="banner-background-illustration small content-left">
     <div class="banner-container absolute">
-      <img
+      <img 
         class="background-image"
         alt="banner"
         src="{{Image 1 - background}}"
@@ -795,7 +795,7 @@ export const TEMPLATES: TemplateData[] = [
           <div class="content-text">{{Text 1}}</div>
         </div>
         <div class="cta-container">
-          <button
+          <button 
             class="cta-button"
             onclick="event.stopPropagation();
                   window.dispatchEvent(
@@ -834,7 +834,7 @@ export const TEMPLATES: TemplateData[] = [
     htmlDefinition: `
     <div class="banner-background-illustration small content-left wide">
     <div class="banner-container absolute">
-      <img
+      <img 
         class="background-image"
         alt="banner"
         src="{{Image 1 - background}}"
@@ -846,7 +846,7 @@ export const TEMPLATES: TemplateData[] = [
           <div class="content-text">{{Text 1}}</div>
         </div>
         <div class="cta-container">
-          <button
+          <button 
             class="cta-button"
             onclick="event.stopPropagation();
                   window.dispatchEvent(
@@ -885,7 +885,7 @@ Open URLs in new tab
     htmlDefinition: `
     <div class="banner-background-illustration small content-right">
     <div class="banner-container absolute">
-      <img
+      <img 
         class="background-image"
         alt="banner"
         src="{{Image 1 - background}}"
@@ -897,7 +897,7 @@ Open URLs in new tab
           <div class="content-text">{{Text 1}}</div>
         </div>
         <div class="cta-container">
-          <button
+          <button 
             class="cta-button"
             onclick="event.stopPropagation();
                   window.dispatchEvent(
@@ -936,7 +936,7 @@ Open URLs in new tab
     htmlDefinition: `
   <div class="banner-background-illustration small content-right wide">
   <div class="banner-container absolute">
-    <img
+    <img 
       class="background-image"
       alt="banner"
       src="{{Image 1 - background}}"
@@ -948,7 +948,7 @@ Open URLs in new tab
         <div class="content-text">{{Text 1}}</div>
       </div>
       <div class="cta-container">
-        <button
+        <button 
           class="cta-button"
           onclick="event.stopPropagation();
                 window.dispatchEvent(
@@ -983,7 +983,7 @@ Open URLs in new tab
     name: 'Background illustration - Image only',
     description: 'Banner Template 13',
     htmlDefinition: `
-    <div class="banner-background-illustration"
+    <div class="banner-background-illustration" 
       onclick="
       window.dispatchEvent(
         new window.CustomEvent(
@@ -999,7 +999,7 @@ Open URLs in new tab
       );
     ">
       <div class="banner-container absolute">
-        <img
+        <img 
           class="background-image"
           alt="banner"
           src="{{Image 1 - background}}"
@@ -1023,7 +1023,7 @@ Open URLs in new tab
     name: 'Background illustration small - Image only',
     description: 'Banner Template 14',
     htmlDefinition: `
-    <div class="banner-background-illustration small"
+    <div class="banner-background-illustration small" 
       onclick="
       window.dispatchEvent(
         new window.CustomEvent(
@@ -1039,7 +1039,7 @@ Open URLs in new tab
       );
     ">
       <div class="banner-container absolute">
-        <img
+        <img 
           class="background-image"
           alt="banner"
           src="{{Image 1 - background}}"
@@ -1072,7 +1072,7 @@ Button - Label
     description: 'Bonus Template 1',
     htmlDefinition: `
     <div class="bonus-template bonus-offering">
-      <img
+      <img 
         class="promo-image"
         alt="promo-image"
         src="{{Image 1}}"
@@ -1098,8 +1098,8 @@ Button - Label
           </div>
         </div>
         <div class="cta-container">
-          <button
-            class="cta-button"
+          <button 
+            class="cta-button" 
             translate
             onclick="window.dispatchEvent(
               new window.CustomEvent(
@@ -1227,8 +1227,8 @@ Progress value
           </div>
         </div>
         <div class="cta-container">
-          <button
-            class="cta-button"
+          <button 
+            class="cta-button" 
             onclick="window.dispatchEvent(
               new window.CustomEvent(
                 'globalTemplateEvent',
@@ -1269,7 +1269,7 @@ Time remaining
     description: 'Banner Template 1',
     htmlDefinition: `
     <div class="promotion-banner-template banner-offering">
-      <img
+      <img 
         class="promo-image"
         alt="promo-image"
         src="{{Image 1}}"
@@ -1295,8 +1295,8 @@ Time remaining
           </div>
         </div>
         <div class="cta-container">
-          <button
-            class="cta-button"
+          <button 
+            class="cta-button" 
             onclick="window.dispatchEvent(
               new window.CustomEvent(
                 'globalTemplateEvent',

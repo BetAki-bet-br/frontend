@@ -1,7 +1,6 @@
-import { RouterModule } from '@angular/router';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedModule } from '@shared';
@@ -18,7 +17,6 @@ import {
 import { MockCtgApiService } from '@app/@shared/http/ctg-api.service.mock';
 import { MockTemplateService } from '@app/@shared/services/template.service.mock';
 import { TemplateService } from '@app/@shared/services/template.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -30,10 +28,11 @@ describe('HomeComponent', () => {
         BrowserAnimationsModule,
         MaterialModule,
         SharedModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
         TranslateModule.forRoot(),
-        HomeComponent,
-        RouterModule,
       ],
+      declarations: [HomeComponent],
       providers: [
         { provide: COMPONENT_TYPES_MAP, useValue: ComponentTypesMap },
         { provide: ProdGameService, useClass: MockCtgApiService },
@@ -41,8 +40,6 @@ describe('HomeComponent', () => {
         { provide: PlayerService, useClass: MockCtgApiService },
         { provide: BannerService, useClass: MockCtgApiService },
         { provide: TemplateService, useClass: MockTemplateService },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
   }));

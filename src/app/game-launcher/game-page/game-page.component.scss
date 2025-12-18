@@ -1,10 +1,10 @@
 /* stylelint-disable selector-max-specificity */
 /* stylelint-disable selector-max-compound-selectors */
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
 
-@use "theme/theme-variables" as theme-variables;
+@import "src/theme/theme-variables";
 
 :host {
   min-height: calc(100vh - 6.25rem);
@@ -103,7 +103,7 @@
 .game-search-wrapper {
   align-items: center;
   padding: 0 2rem;
-  background: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  background: map.get($app-custom-colors, "neutral-10");
   place-content: center;
 }
 
@@ -131,13 +131,13 @@ app-game-page-footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.25);
+  background-color: color.adjust(map.get($app-custom-colors, "neutral-black"), $alpha: -0.25);
 
   z-index: 102;
 }
 
 .game-background {
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  background-color: map.get($app-custom-colors, "neutral-10");
   bottom: 0;
   left: 0;
   position: fixed;
@@ -175,21 +175,21 @@ app-game-page-footer {
   .mat-mdc-text-field-wrapper
   .mat-mdc-input-element,
 :host ::ng-deep .game-search-wrapper .form-input-search .search-icon {
-  color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.55);
+  color: color.adjust(map.get($app-custom-colors, "neutral-black"), $alpha: -0.55);
   font-size: 1.0625rem;
 
   &::placeholder {
-    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.55);
+    color: color.adjust(map.get($app-custom-colors, "neutral-black"), $alpha: -0.55);
   }
 
   /* stylelint-disable-next-line selector-no-vendor-prefix */
   &:-ms-input-placeholder {
-    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.55);
+    color: color.adjust(map.get($app-custom-colors, "neutral-black"), $alpha: -0.55);
   }
 
   /* stylelint-disable-next-line selector-no-vendor-prefix */
   &::-ms-input-placeholder {
-    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.55);
+    color: color.adjust(map.get($app-custom-colors, "neutral-black"), $alpha: -0.55);
   }
 }
 
@@ -198,11 +198,11 @@ app-game-page-footer {
   .game-search-wrapper
   .form-input-search.footer-input-search.footer-input-search
   .mat-mdc-text-field-wrapper {
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-100");
+  background-color: map.get($app-custom-colors, "neutral-100");
 }
 
 .missing-cookies-consent {
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  background-color: map.get($app-custom-colors, "neutral-10");
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -253,7 +253,7 @@ app-game-page-footer {
       font-size: 28px;
       height: 48px;
       width: 48px;
-      color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+      color: map.get($app-custom-colors, "Betaki_success");
       font-weight: 600;
       display: flex; /* enables flexbox */
       justify-content: center; /* centers horizontally */

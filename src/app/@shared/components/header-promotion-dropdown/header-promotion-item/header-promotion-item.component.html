@@ -1,5 +1,3 @@
-@for (promotion of promotions; track promotion) {
-<div class="promotion-item-container" (click)="onPromotionClickMobile($event)">
+<div class="promotion-item-container" *ngFor="let promotion of promotions" (click)="onPromotionClickMobile($event)">
   <div [innerHTML]="promotion.templateHtml"></div>
 </div>
-}

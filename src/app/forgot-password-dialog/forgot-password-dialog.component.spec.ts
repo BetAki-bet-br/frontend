@@ -16,7 +16,8 @@ describe('ForgotPasswordDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PipesModule, ForgotPasswordDialogComponent],
+      declarations: [ForgotPasswordDialogComponent],
+      imports: [TranslateModule.forRoot(), PipesModule],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: HttpClient, useValue: {} },

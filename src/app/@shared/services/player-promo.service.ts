@@ -1,5 +1,5 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CredentialsService } from '@app/auth';
 import { BonusService } from '@icore/ngx-portalgateway-api-client-atl';
@@ -11,12 +11,14 @@ import { MessageDialogComponent } from '../components/message-dialog/message-dia
   providedIn: 'root',
 })
 export class PlayerPromoService {
-  private activatedRoute = inject(ActivatedRoute);
-  private dialog = inject(Dialog);
-  private credentialsService = inject(CredentialsService);
-  private router = inject(Router);
-  private translateService = inject(TranslateService);
-  private bonusService = inject(BonusService);
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private dialog: Dialog,
+    private credentialsService: CredentialsService,
+    private router: Router,
+    private translateService: TranslateService,
+    private bonusService: BonusService
+  ) {}
 
   /**
    * Handle promotion activation urls.

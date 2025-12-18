@@ -1,11 +1,11 @@
-@use "sass:map" as map;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 .page-container {
   padding-top: 1.5rem;
   padding-bottom: 6rem;
-  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  background-color: map.get($app-custom-colors, "betaki-grey30");
 
   @include utils.media("lt-sm-2") {
     padding-left: 1.5rem;
@@ -18,7 +18,7 @@
   flex-flow: column;
   gap: 2.25rem;
   width: 100%;
-  max-width: theme-variables.$home-content-max-width;
+  max-width: $home-content-max-width;
 
   @include utils.media("lt-sm-2") {
     gap: 1.5rem;

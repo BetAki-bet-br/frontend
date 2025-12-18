@@ -1,10 +1,10 @@
-<div class="main-container flex flex-col gap-1">
-  <app-page-breadcrumbs (backButtonClicked)="backButtonClicked()" [breadcrumbs]="breadcrumbs" />
+<div class="main-container flex flex-col gap-16">
+  <app-page-breadcrumbs (backButtonClicked)="backButtonClicked()" [breadcrumbs]="breadcrumbs"></app-page-breadcrumbs>
   <div class="player-profile-page-container">
-    <div class="page-section balance-header flex justify-between items-center">
-      <div class="balance flex flex-col">
+    <div class="page-section balance-header flex-row justify-between items-center">
+      <div class="balance flex-col">
         <span translate class="balance-span">Withdrawable balance</span>
-        <div class="flex items-center">
+        <div class="flex-row items-center">
           <div class="prefix">
             {{ balanceCurrency }}
           </div>
@@ -14,7 +14,7 @@
 
           <mat-icon
             fontSet="material-icons-outlined"
-            class="visibility-icon ml-4"
+            class="visibility-icon ml-16"
             (click)="changeBalanceVisibility()"
             >{{ balanceVisible ? 'visibility_off' : 'visibility' }}</mat-icon
           >
@@ -23,12 +23,11 @@
       <button mat-stroked-button (click)="updateBalance()">{{ 'Update' | translate }}</button>
     </div>
 
-    @if (withdrawStep === 1) {
-    <div class="page-section pix-container">
+    <div class="page-section pix-container" *ngIf="withdrawStep === 1">
       <div class="section-item-container nowrap">
         <a class="section-item" (click)="openPix()">
-          <mat-icon class="item-icon" svgIcon="finance-pix" />
-          <div class="flex flex-col">
+          <mat-icon class="item-icon" svgIcon="finance-pix"></mat-icon>
+          <div class="flex-col">
             <div class="item-title">
               {{ 'Pix' | translate }}
             </div>
@@ -42,136 +41,142 @@
         </a>
       </div>
     </div>
-    } @if (withdrawStep === 2) {
-    <div class="page-section gap-0.5" [formGroup]="withdrawalForm">
-      <div class="info-bar flex">
-        <mat-icon fontSet="material-icons-outlined">info</mat-icon>
-        <span>{{
-          'Use a Pix key linked to the CPF registered on our website. Otherwise, the transaction will not be processed.'
-            | translate
-        }}</span>
-      </div>
-      <div class="flex gap-2 form-container">
-        <div class="flex flex-wrap flex flex-col--lt-sm-2 gap-x-6 gap-y-4 full-width">
-          <!-- Type -->
-          <div class="withdrawal-type field-wrapper-edit flex-2">
-            <div
-              class="form-label"
-              [class.error-label]="typeControl.invalid && (typeControl.touched || typeControl.dirty)"
-              translate
-            >
-              Type
-            </div>
-            <mat-form-field appearance="outline" class="form-input-select-secondary" subscriptSizing="dynamic">
-              <mat-select formControlName="type" placeholder="Select" #selectType>
-                @for (item of typeList; track item) {
-                <mat-option [value]="item.value">
-                  {{ item.label | translate }}
-                </mat-option>
-                }
-              </mat-select>
-              <mat-icon [class]="selectType.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
-                selectType.panelOpen ? 'expand_less' : 'expand_more'
-              }}</mat-icon>
-            </mat-form-field>
-          </div>
-          <!-- Value -->
-          <div class="withdrawal-value flex flex-col form-field flex-4">
-            <div
-              class="form-label"
-              [class.error-label]="keyControl.invalid && (keyControl.touched || keyControl.dirty)"
-              translate
-            >
-              Provide your PIX key
-            </div>
-            <mat-form-field
-              appearance="outline"
-              subscriptSizing="dynamic"
-              class="form-input-primary keep-desktop-size error-border mb-4"
-            >
-              <input [placeholder]="valuePlaceholder | translate" matInput formControlName="key" />
-              @if (keyControl.hasError('required') && (keyControl.touched || keyControl.dirty)) {
-              <ng-container>
-                <mat-error class="error-message" translate>
-                  <ng-container>Key is required</ng-container>
-                </mat-error>
-              </ng-container>
-              }
-            </mat-form-field>
-          </div>
-          <!-- Amount  -->
-          <div class="withdrawal-amount flex flex-col form-field flex-1">
-            <div
-              class="form-label"
-              [class.error-label]="amountControl.invalid && (amountControl.touched || amountControl.dirty)"
-              translate
-            >
-              How much would you like to withdraw?
-            </div>
-            <mat-form-field
-              appearance="outline"
-              subscriptSizing="dynamic"
-              class="form-input-primary keep-desktop-size error-border mb-4"
-            >
-              <input placeholder="R$ 0,00" matInput formControlName="amount" type="number" />
-              <mat-hint translate>*Minimum amount: R$ 20.00</mat-hint>
-              @if (amountControl.hasError('required') && (amountControl.touched || amountControl.dirty)) {
-              <ng-container>
-                <mat-error class="error-message" translate>
-                  <ng-container>Amount is required.</ng-container>
-                </mat-error>
-              </ng-container>
-              } @if (amountControl.hasError('min') && (amountControl.touched || amountControl.dirty)) {
-              <ng-container>
-                <mat-error class="error-message" translate>
-                  <ng-container>
-                    {{ 'The minimum withdrawal amount is' | translate }} {{ minAmount }} {{ currency }}.
-                    {{ 'Please enter a valid amount.' | translate }}
-                  </ng-container>
-                </mat-error>
-              </ng-container>
-              } @if (amountControl.hasError('max') && (amountControl.touched || amountControl.dirty)) {
-              <ng-container>
-                <mat-error class="error-message" translate>
-                  <ng-container>
-                    {{ 'The maximum withdrawal amount is' | translate }} {{ maxAmount }} {{ currency }}.
-                    {{ 'Please enter a valid amount.' | translate }}
-                  </ng-container>
-                </mat-error>
-              </ng-container>
-              } @if ( amountControl.hasError('notEnoughFunds') && !amountControl.hasError('max') &&
-              !amountControl.hasError('min') && (amountControl.touched || amountControl.dirty) ) {
-              <ng-container>
-                <mat-error class="error-message" translate>
-                  {{ 'Balance is too low' | translate }}. {{ 'Please enter a valid amount.' | translate }}</mat-error
-                >
-              </ng-container>
-              }
-            </mat-form-field>
-          </div>
-          <!-- Button -->
-          <button class="withdraw-button flex-2" (click)="withdraw()" [disabled]="withdrawalForm.invalid" mat-button>
-            <span translate>Withdraw</span>
-          </button>
-        </div>
-      </div>
-      <div class="flex lg:w-1/3 m-auto flex-col mt-4 w-full text-xs sm:text-md text-center gap-y-4">
-        <img src="/assets/icons/agecap.svg" alt="Age cap" class="w-16 h-16 m-auto" />
+  </div>
 
-        <span class="font-bold"> Jogue com Responsabilidade!</span>
-        <p>
-          O jogo deve ser uma forma de entretenimento saudável. Pratique sempre o jogo consciente e fique atento aos
-          sinais de comportamento compulsivo.
-        </p>
-        <button
-          class="flex p-2 justify-center items-center m-auto mt-3 gap-x-2 font-bold text-white cursor-pointer rounded-xl bg-betaki-500 p-2 transition-opacity duration-200 ease-in-out hover:opacity-80"
-          (click)="onChatClick()"
-        >
-          <img src="/assets/icons/support-icon.svg" alt="Casino" class="w-6 h-6" />
-          Precisa de ajuda?
+  <div class="page-section pix-input flex-col gap-8" [formGroup]="withdrawalForm" *ngIf="withdrawStep === 2">
+    <div class="info-bar flex-row">
+      <mat-icon fontSet="material-icons-outlined">info</mat-icon>
+      <span>{{
+        'Use a Pix key linked to the CPF registered on our website. Otherwise, the transaction will not be processed.'
+          | translate
+      }}</span>
+    </div>
+
+    <div class="flex-row gap-8 form-container">
+      <div class="flex-row flex-wrap flex-col--lt-sm-2 gapx-24 gapy-16 full-width">
+        <!-- Type -->
+        <div class="withdrawal-type field-wrapper-edit flex-2">
+          <div
+            class="form-label"
+            [class.error-label]="typeControl.invalid && (typeControl.touched || typeControl.dirty)"
+            translate
+          >
+            Type
+          </div>
+          <mat-form-field appearance="outline" class="form-input-select-secondary" subscriptSizing="dynamic">
+            <mat-select formControlName="type" placeholder="Select" #selectType [matTooltip]="selectType.triggerValue">
+              <mat-option *ngFor="let item of typeList" [value]="item.value">
+                {{ item.label | translate }}
+              </mat-option>
+            </mat-select>
+            <mat-icon [class]="selectType.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
+              selectType.panelOpen ? 'expand_less' : 'expand_more'
+            }}</mat-icon>
+          </mat-form-field>
+        </div>
+        <!-- Value -->
+        <div class="withdrawal-value flex-col form-field flex-4">
+          <div
+            class="form-label"
+            [class.error-label]="keyControl.invalid && (keyControl.touched || keyControl.dirty)"
+            translate
+          >
+            Provide your PIX key
+          </div>
+          <mat-form-field
+            appearance="outline"
+            subscriptSizing="dynamic"
+            class="form-input-primary keep-desktop-size error-border mb-16"
+          >
+            <input [placeholder]="valuePlaceholder | translate" matInput formControlName="key" />
+            <mat-error
+              *ngIf="keyControl?.hasError('required') && (keyControl.touched || keyControl.dirty)"
+              class="error-message"
+              translate
+            >
+              Key is required</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <!-- Amount  -->
+        <div class="withdrawal-amount flex-col form-field flex-1">
+          <div
+            class="form-label"
+            [class.error-label]="amountControl.invalid && (amountControl.touched || amountControl.dirty)"
+            translate
+          >
+            How much would you like to withdraw?
+          </div>
+          <mat-form-field
+            appearance="outline"
+            subscriptSizing="dynamic"
+            class="form-input-primary keep-desktop-size error-border mb-16"
+          >
+            <input placeholder="R$ 0,00" matInput formControlName="amount" type="number" />
+            <mat-hint translate>Minimum amount: R$ 20.00</mat-hint>
+            <mat-error
+              *ngIf="amountControl?.hasError('required') && (amountControl.touched || amountControl.dirty)"
+              class="error-message"
+              translate
+            >
+              Amount is required.</mat-error
+            >
+            <mat-error
+              *ngIf="amountControl?.hasError('min') && (amountControl.touched || amountControl.dirty)"
+              class="error-message"
+              translate
+            >
+              {{ 'The minimum withdrawal amount is' | translate }} {{ minAmount }} {{ currency }}.
+              {{ 'Please enter a valid amount.' | translate }}</mat-error
+            >
+            <mat-error
+              *ngIf="amountControl?.hasError('max') && (amountControl.touched || amountControl.dirty)"
+              class="error-message"
+              translate
+            >
+              {{ 'The maximum withdrawal amount is' | translate }} {{ maxAmount }} {{ currency }}.
+              {{ 'Please enter a valid amount.' | translate }}</mat-error
+            >
+            <mat-error
+              *ngIf="
+                amountControl?.hasError('notEnoughFunds') &&
+                !amountControl?.hasError('max') &&
+                !amountControl?.hasError('min') &&
+                (amountControl.touched || amountControl.dirty)
+              "
+              class="error-message"
+              translate
+            >
+              {{ 'Balance is too low' | translate }}. {{ 'Please enter a valid amount.' | translate }}</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <!-- Button -->
+        <button class="withdraw-button flex-2" (click)="withdraw()" [disabled]="withdrawalForm.invalid" mat-button>
+          <span translate>Withdraw</span>
         </button>
       </div>
     </div>
-    }
+
+    <div class="policy-and-chat-container">
+      <div class="flex-col gap-8 items-center policy-container">
+        <img class="age-icon" src="assets/general/icons/18-plus.svg" />
+
+        <div translate class="responsible-gaming-text">
+          <div><b>Jogue com Responsabilidade</b></div>
+          <div>
+            O jogo deve ser uma forma de entretenimento saudável. Pratique sempre o jogo consciente e fique atento aos
+            sinais de comportamento compulsivo.
+          </div>
+        </div>
+      </div>
+
+      <button class="live-chat-button" (click)="onChatClick()" mat-button>
+        <div class="flex-row items-center gap-16">
+          <span translate> Do you need help? </span>
+          <mat-icon svgIcon="help-chat-icon"></mat-icon>
+        </div>
+      </button>
+    </div>
   </div>
 </div>

@@ -9,35 +9,21 @@ import {
   OnInit,
   SimpleChanges,
   ViewChild,
-  CUSTOM_ELEMENTS_SCHEMA,
-  inject,
 } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { GameCategoriesService } from '@app/@core/game-categories.service';
 import { AppBreakpoints } from '@app/@shared';
 import { GameProviderData, GameTile } from '@app/@shared/models';
 import { I18nService } from '@app/i18n';
-import { SwiperOptions } from 'swiper/types';
-import { SwiperContainer } from 'swiper/element';
+import { SwiperOptions } from 'swiper';
 import { NavigationOptions } from 'swiper/types';
-import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule instead of MatIcon
-import { GameCardComponent } from './game-card/game-card.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-games-tiles',
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss'],
-  imports: [MatIconModule, GameCardComponent, RouterLink, TranslateModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Add CUSTOM_ELEMENTS_SCHEMA here
 })
 export class GameTilesComponent implements OnChanges, OnInit, AfterViewInit {
-  private breakpointObserver = inject(BreakpointObserver);
-  private gameCategoriesService = inject(GameCategoriesService);
-  private i18nService = inject(I18nService);
-  private route = inject(ActivatedRoute);
-
-  @ViewChild('swiperContainer') swiperContainer!: ElementRef<SwiperContainer>;
   @ViewChild('gameGridContainer', { static: true }) gameGridContainer!: ElementRef<HTMLElement>;
   @Input() initialLoadAmount = 10;
   @Input() gameCatalog = '';
@@ -48,7 +34,13 @@ export class GameTilesComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() showOnlyInitialRows = true; // should list show only initialRows (no auto rows) ?
   @Input() set categoryId(categoryId: number | undefined) {
     this._categoryId = categoryId;
-    this.updateSwiperNavigation();
+
+    this.swiperConfig.navigation = {
+      nextEl: `.games-swiper-navigation-right-${categoryId}`,
+      prevEl: `.games-swiper-navigation-left-${categoryId}`,
+      enabled: true,
+    } as NavigationOptions;
+    this.swiperConfig = { ...this.swiperConfig };
   }
 
   get categoryId(): number | undefined {
@@ -77,15 +69,22 @@ export class GameTilesComponent implements OnChanges, OnInit, AfterViewInit {
     navigation: {
       nextEl: `.games-swiper-navigation-right-${this.categoryId}`,
       prevEl: `.games-swiper-navigation-left-${this.categoryId}`,
+      enabled: true,
     },
     scrollbar: { draggable: true },
   };
 
-  constructor() {
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private gameCategoriesService: GameCategoriesService,
+    private i18nService: I18nService,
+    private route: ActivatedRoute
+  ) {
     this.breakpointObserver.observe(AppBreakpoints.LtSmall2).subscribe((value) => {
       this.swiperConfig.slidesPerView = value.matches ? 'auto' : 6;
       this.swiperConfig.spaceBetween = value.matches ? 7.5 : 22.36;
-      this.initializeSwiper();
+
+      this.swiperConfig = { ...this.swiperConfig };
     });
   }
 
@@ -109,27 +108,9 @@ export class GameTilesComponent implements OnChanges, OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.initializeSwiper();
     setTimeout(() => {
       this.checkForHiddenColumns();
     });
-  }
-
-  updateSwiperNavigation() {
-    this.swiperConfig.navigation = {
-      nextEl: `.games-swiper-navigation-right-${this.categoryId}`,
-      prevEl: `.games-swiper-navigation-left-${this.categoryId}`,
-    } as NavigationOptions;
-    this.initializeSwiper();
-  }
-
-  initializeSwiper() {
-    if (this.swiperContainer) {
-      const swiperEl = this.swiperContainer.nativeElement;
-      const swiperParams = this.swiperConfig;
-      Object.assign(swiperEl, swiperParams);
-      swiperEl.initialize();
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

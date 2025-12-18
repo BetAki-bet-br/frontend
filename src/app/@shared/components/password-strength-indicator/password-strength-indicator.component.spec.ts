@@ -9,7 +9,8 @@ describe('PasswordStrengthIndicatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PasswordStrengthIndicatorComponent],
+      imports: [TranslateModule.forRoot()],
+      declarations: [PasswordStrengthIndicatorComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PasswordStrengthIndicatorComponent);

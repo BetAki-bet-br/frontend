@@ -1,70 +1,70 @@
 <div class="player-profile-header-wrapper">
-  @if (showTopBar) {
-  <div class="player-profile-header" [class.logged-out]="!isLoggedIn">
+  <div class="player-profile-header" [class.logged-out]="!isLoggedIn" *ngIf="showTopBar">
     <div class="breadcrumbs-container">
-      @for (item of breadcrumbsList; track item) { @if (item.url) {
-      <a class="breadcrumbs-link" [routerLink]="item.url" translate>
-        <div class="breadcrumbs-item">
-          @if (item.icon) {
-          <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon">{{ item.icon }}</mat-icon>
-          } @if (item.svgIcon) {
-          <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon" svgIcon="{{ item.svgIcon }}" />
-          } @if (item.text) {
-          <div [class]="{ 'breadcrumbs-divider': item.divider, 'breadcrumbs-text': !item.divider, last: item.last }">
+      <ng-container *ngFor="let item of breadcrumbsList">
+        <a class="breadcrumbs-link" [routerLink]="item.url" translate *ngIf="item.url">
+          <div class="breadcrumbs-item">
+            <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon" *ngIf="item.icon">{{
+              item.icon
+            }}</mat-icon>
+            <mat-icon
+              fontSet="material-icons-outlined"
+              class="breadcrumbs-icon"
+              svgIcon="{{ item.svgIcon }}"
+              *ngIf="item.svgIcon"
+            ></mat-icon>
+            <div
+              [ngClass]="{ 'breadcrumbs-divider': item.divider, 'breadcrumbs-text': !item.divider, last: item.last }"
+              *ngIf="item.text"
+            >
+              {{ item.text | translate }}
+            </div>
+          </div>
+        </a>
+        <div class="breadcrumbs-item" [routerLink]="item.url" translate *ngIf="!item.url">
+          <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon" *ngIf="item.icon">{{
+            item.icon
+          }}</mat-icon>
+          <mat-icon
+            fontSet="material-icons-outlined"
+            class="breadcrumbs-icon"
+            svgIcon="{{ item.svgIcon }}"
+            *ngIf="item.svgIcon"
+          ></mat-icon>
+          <div
+            [ngClass]="{ 'breadcrumbs-divider': item.divider, 'breadcrumbs-text': !item.divider, last: item.last }"
+            *ngIf="item.text"
+          >
             {{ item.text | translate }}
           </div>
-          }
         </div>
-      </a>
-      } @if (!item.url) {
-      <div class="breadcrumbs-item" [routerLink]="item.url" translate>
-        @if (item.icon) {
-        <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon">{{ item.icon }}</mat-icon>
-        } @if (item.svgIcon) {
-        <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon" svgIcon="{{ item.svgIcon }}" />
-        } @if (item.text) {
-        <div [class]="{ 'breadcrumbs-divider': item.divider, 'breadcrumbs-text': !item.divider, last: item.last }">
-          {{ item.text | translate }}
-        </div>
-        }
-      </div>
-      } }
+      </ng-container>
     </div>
-    <div class="player-profile-contact-container xl:pe-3">
-      <mat-icon class="link-icon" svgIcon="essentials-headset-2" (click)="onSupportClick()" />
-      @if (isLoggedIn) {
-      <div class="mail" routerLink="/profile/messages">
-        <mat-icon class="link-icon" svgIcon="essentials-mail-2" />
-        @if (displayNumberOfMessages) {
-        <div class="mail-notifications">{{ messageCount$ | async }}</div>
-        }
+    <div class="player-profile-contact-container">
+      <mat-icon class="link-icon" svgIcon="essentials-headset-2" (click)="onSupportClick()"></mat-icon>
+      <div *ngIf="isLoggedIn" class="mail" routerLink="/profile/messages">
+        <mat-icon class="link-icon" svgIcon="essentials-mail-2"></mat-icon>
+        <div class="mail-notifications" *ngIf="displayNumberOfMessages">{{ messageCount$ | async }}</div>
       </div>
-      }
     </div>
+
     <div class="player-profile-mobile-container">
-      <mat-icon class="link-icon" svgIcon="essentials-headset-2" (click)="onSupportClick()" />
-      @if (isLoggedIn) {
-      <div class="mail" routerLink="/profile/messages">
-        <mat-icon class="link-icon" svgIcon="essentials-mail-2" />
-        @if (displayNumberOfMessages) {
-        <div class="mail-notifications">{{ messageCount$ | async }}</div>
-        }
+      <mat-icon class="link-icon" svgIcon="essentials-headset-2" (click)="onSupportClick()"></mat-icon>
+
+      <div *ngIf="isLoggedIn" class="mail" routerLink="/profile/messages">
+        <mat-icon class="link-icon" svgIcon="essentials-mail-2"></mat-icon>
+        <div class="mail-notifications" *ngIf="displayNumberOfMessages">{{ messageCount$ | async }}</div>
       </div>
-      }
     </div>
-    @if (isOnProfilePage() && isLoggedIn) {
-    <div class="player-profile-navigation-container">
+    <div *ngIf="isOnProfilePage() && isLoggedIn" class="player-profile-navigation-container">
       <mat-icon class="link-icon" (click)="onOpenPlayerMenu()" fontSet="material-icons-outlined">settings</mat-icon>
-      <mat-icon class="link-icon" routerLink="/" svgIcon="essentials-close" />
+      <mat-icon class="link-icon" routerLink="/" svgIcon="essentials-close"></mat-icon>
     </div>
-    }
   </div>
-  } @if (!isOnGeneralProfilePage()) {
-  <div class="player-profile-mobile-page-title-strip">
+  <div *ngIf="!isOnGeneralProfilePage()" class="player-profile-mobile-page-title-strip">
     <mat-icon (click)="onBack()" fontSet="material-icons-outlined" class="breadcrumbs-icon">chevron_left </mat-icon>
     <div class="mobile-page-title" translate>
       {{ lastBreadcrumbText }}
     </div>
   </div>
-  }
 </div>

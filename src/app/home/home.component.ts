@@ -1,49 +1,27 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { GameCategoriesService, GameCategoryLobbyEnum } from '@app/@core/game-categories.service';
 import { AssetsService } from '@app/@shared/assets.service';
-import { CategoryCardData, CategoryCardComponent } from '@app/@shared/components/category-card/category-card.component';
+import { CategoryCardData } from '@app/@shared/components/category-card/category-card.component';
 import { Logger } from '@app/@shared/logger.service';
 import { GameMenuCategoryModel, GameProviderData, GameTile } from '@app/@shared/models';
 import { CmsService } from '@app/@shared/services/cms.service';
 import { GamesService } from '@app/@shared/services/games/games.service';
 import { CredentialsService } from '@app/auth';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, switchMap } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { WinnersSectionComponent } from '@app/@shared/components/winners-section/winners-section.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MainBannerComponent } from '@app/@shared/components/main-banner/main-banner.component';
 
 const log = new Logger('HomeComponent');
 
+@UntilDestroy()
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    MainBannerComponent,
-    CategoryCardComponent,
-    WinnersSectionComponent,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-  ],
 })
 export class HomeComponent implements OnInit {
-  private gamesService = inject(GamesService);
-  private cmsService = inject(CmsService);
-  private credentialService = inject(CredentialsService);
-  private router = inject(Router);
-  private gameCategoryService = inject(GameCategoriesService);
-  private translate = inject(TranslateService);
-  private assetsService = inject(AssetsService);
-  private destroyRef = inject(DestroyRef);
-
   gameCategories: GameMenuCategoryModel[] = [];
   initialLoadAmount = 18;
 
@@ -77,16 +55,24 @@ export class HomeComponent implements OnInit {
   // Used as flag so that the navigation and onInit events do not trigger loading of data 2x
   private isInitialDataLoaded = false;
 
-  constructor() {
+  constructor(
+    private gamesService: GamesService,
+    private cmsService: CmsService,
+    private credentialService: CredentialsService,
+    private router: Router,
+    private gameCategoryService: GameCategoriesService,
+    private translate: TranslateService,
+    private assetsService: AssetsService
+  ) {
     // Reload the data if navigated. This is here only to catch same route navigation.
-    this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
+    this.router.events.pipe(untilDestroyed(this)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.loadLobbyData();
       }
     });
 
     // Reload lobby data when user logs in
-    this.credentialService.isAuthenticated$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((isAuth) => {
+    this.credentialService.isAuthenticated$.pipe(untilDestroyed(this)).subscribe((isAuth) => {
       this.isAuthenticated = isAuth;
 
       if (isAuth === true) {

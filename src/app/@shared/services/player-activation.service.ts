@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CheckUserRegistrationReturn, FaceAuthResponse, PlayerService } from '@icore/ngx-portalgateway-api-client-atl';
 import { catchError, filter, map, Observable, of, switchMap, take, tap } from 'rxjs';
@@ -22,16 +22,18 @@ const log = new Logger('PlayerActivationService');
   providedIn: 'root',
 })
 export class PlayerActivationService {
-  private activatedRoute = inject(ActivatedRoute);
-  private playerServiceApi = inject(PlayerService);
-  private dialog = inject(Dialog);
-  private authDialog = inject(AuthDialogService);
-  private dataStoreService = inject(DataStoreService);
-  private credentialsService = inject(CredentialsService);
-  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
-  private router = inject(Router);
-  private snackbarService = inject(SnackbarService);
-  private translateService = inject(TranslateService);
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private playerServiceApi: PlayerService,
+    private dialog: Dialog,
+    private authDialog: AuthDialogService,
+    private dataStoreService: DataStoreService,
+    private credentialsService: CredentialsService,
+    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService,
+    private router: Router,
+    private snackbarService: SnackbarService,
+    private translateService: TranslateService
+  ) {}
 
   /**
    * Handle email activation urls.

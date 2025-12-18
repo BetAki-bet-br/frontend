@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GameTilesComponent } from './games.component';
 import { ProdGameService } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule } from '@ngx-translate/core';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('GameTilesComponent', () => {
   let component: GameTilesComponent;
@@ -11,8 +11,9 @@ describe('GameTilesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), GameTilesComponent],
-      providers: [{ provide: ProdGameService, useValue: {} }, provideHttpClient(withInterceptorsFromDi())],
+      declarations: [GameTilesComponent],
+      imports: [TranslateModule.forRoot(), HttpClientModule],
+      providers: [{ provide: ProdGameService, useValue: {} }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameTilesComponent);

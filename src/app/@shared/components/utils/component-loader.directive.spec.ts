@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-test',
   template: `<div>Test template component</div>`,
-  imports: [],
 })
 export class TestComponent implements OnInit {
   constructor() {}
@@ -20,11 +19,8 @@ export class TestComponent implements OnInit {
   selector: 'app-test-input',
   template: `
     <div>Test template component</div>
-    @if (displaySecondDiv) {
-    <div></div>
-    }
+    <div *ngIf="displaySecondDiv"></div>
   `,
-  imports: [],
 })
 export class TestInputComponent implements OnInit {
   @Input() displaySecondDiv = false;
@@ -71,9 +67,8 @@ const ComponentTypesMap: ComponentTypesMapType = {
       [appComponentLoader]="componentData"
       [componentType]="componentType"
       (componentInstanceChange)="onComponentInstanceChange($event)"
-    />
+    ></ng-template>
   `,
-  imports: [],
 })
 export class ComponentLoaderWrapperComponent implements OnInit {
   @Input() componentType: string = 'test';
@@ -98,13 +93,8 @@ describe('ComponentLoaderDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        ComponentLoaderDirective,
-        ComponentLoaderWrapperComponent,
-        TestComponent,
-        TestInputComponent,
-      ],
+      declarations: [ComponentLoaderDirective, ComponentLoaderWrapperComponent, TestComponent, TestInputComponent],
+      imports: [CommonModule],
       providers: [{ provide: COMPONENT_TYPES_MAP, useValue: ComponentTypesMap }],
     }).compileComponents();
   }));

@@ -10,58 +10,29 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Logger } from '@app/@shared/logger.service';
 import { GameStateService } from '@app/@shared/services/game-state.service';
 import { NavigationService } from '@app/@shared/services/navigation.service';
 import { CredentialsService } from '@app/auth';
 import { AuthDialogService } from '@app/auth/auth-dialog.service';
 import { environment } from '@env/environment';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DestroyRef } from '@angular/core';
-import { NgcCookieConsentService, NgcCookieConsentModule } from 'ngx-cookieconsent';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NgcCookieConsentService } from 'ngx-cookieconsent';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Subscription } from 'rxjs';
 import { GameLauncherService } from '../game-launcher.service';
 import { CloseGamesDialog, GameScreen, GameState, ScreenState } from '../game-screen.model';
 
-import { TranslateModule } from '@ngx-translate/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { GameControlsComponent } from './game-controls/game-controls.component';
-import { GamePageFooterComponent } from './game-page-footer/game-page-footer.component';
-import { GameCloseDialogComponent } from '../game-close-dialog/game-close-dialog.component';
-import { GameLaunchComponent } from '../game-launch/game-launch.component';
-import { GameSearchComponent } from '@app/@shared/components/game-search/game-search.component';
-import { GhostColorLayer } from '../../games-page/components/ghost-color-layer/ghost-color-layer';
-
 const log = new Logger('app-game-page');
 
+@UntilDestroy()
 @Component({
   selector: 'app-game-page',
   templateUrl: './game-page.component.html',
   styleUrls: ['./game-page.component.scss'],
-  imports: [
-    RouterLink,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-    NgcCookieConsentModule,
-    GameControlsComponent,
-    GamePageFooterComponent,
-    GameCloseDialogComponent,
-    GameLaunchComponent,
-    GameSearchComponent,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('slideInOut', [
@@ -74,21 +45,6 @@ const log = new Logger('app-game-page');
   ],
 })
 export class GamePageComponent implements OnInit, OnDestroy, AfterViewInit {
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-  gameLauncherService = inject(GameLauncherService);
-  private renderer = inject(Renderer2);
-  private cdr = inject(ChangeDetectorRef);
-  private titleService = inject(Title);
-  private credentialsService = inject(CredentialsService);
-  private deviceService = inject(DeviceDetectorService);
-  private ccService = inject(NgcCookieConsentService);
-  private authDialogService = inject(AuthDialogService);
-  private sanitizer = inject(DomSanitizer);
-  private navigationService = inject(NavigationService);
-  private gameStateService = inject(GameStateService);
-
   @ViewChild('gameGridWrapper') gameGridWrapper!: ElementRef;
   @ViewChild('mobileGameFrame') mobileGameFrame!: ElementRef;
 
@@ -116,7 +72,21 @@ export class GamePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public mobileIframeVisible = false;
 
-  constructor() {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    public gameLauncherService: GameLauncherService,
+    private renderer: Renderer2,
+    private cdr: ChangeDetectorRef,
+    private titleService: Title,
+    private credentialsService: CredentialsService,
+    private deviceService: DeviceDetectorService,
+    private ccService: NgcCookieConsentService,
+    private authDialogService: AuthDialogService,
+    private sanitizer: DomSanitizer,
+    private navigationService: NavigationService,
+    private gameStateService: GameStateService
+  ) {
     log.debug('Opened game page for:', this.activatedRoute.snapshot.paramMap.get('gameId'));
   }
 
@@ -374,7 +344,7 @@ export class GamePageComponent implements OnInit, OnDestroy, AfterViewInit {
         : null;
     } else {
       this.authState = this.credentialsService.isAuthenticated$
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(untilDestroyed(this))
         .subscribe((authenticated) => {
           this.username = this.credentialsService.credentials?.username;
           this.isAuthenticated = authenticated;

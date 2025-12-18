@@ -1,21 +1,15 @@
-<app-base-dialog
-  [title]="'Account Closure' | translate"
-  [customClass]="'md:h-75! lg:w-1/4!'"
-  [displayCloseButton]="true"
->
+<app-base-dialog [title]="'Account Closure' | translate" [displayCloseButton]="true">
   <p dialogContent>
     {{ 'Are you sure you want to close your account? This action is permanent and cannot be undone.' | translate }}
   </p>
 
   <ng-container dialogButtons>
-    <div class="flex gap-4">
-      <button mat-stroked-button class="button-text-small label-dark flex-grow" (click)="cancel()">
-        <span translate>Cancel</span>
-      </button>
+    <button mat-stroked-button class="button-text-small label-dark flex-grow" (click)="cancel()">
+      <span translate>Cancel</span>
+    </button>
 
-      <button mat-button class="button-text-small label-dark flex-grow" (click)="confirm()">
-        <span translate>Close Account</span>
-      </button>
-    </div>
+    <button mat-button class="button-text-small label-dark flex-grow" (click)="confirm()">
+      <span translate>Close Account</span>
+    </button>
   </ng-container>
 </app-base-dialog>

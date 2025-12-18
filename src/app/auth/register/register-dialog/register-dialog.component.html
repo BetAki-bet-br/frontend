@@ -1,7 +1,7 @@
 <app-base-dialog [displayCloseButton]="true" [height]="dialogHeight" title="">
   <!-- Title -->
   <div dialogContent>
-    <div class="login-header-text mb-6.5" translate [class.hidden]="isStepTwo">
+    <div class="login-header-text mb-26" translate [class.hidden]="isStepTwo">
       Register at <span>{{ brandName }}</span>
     </div>
     <!-- Content -->
@@ -19,9 +19,9 @@
               [registerForm]="registerForm"
               [registerError]="registerError"
               [countriesCode]="countriesCode"
-            />
+            ></app-personal-data>
             <!-- Sign in -->
-            <div class="flex flex-wrap justify-center items-baseline gap-1 mt-2">
+            <div class="flex-row flex-wrap justify-center items-baseline gap-4 mt-8">
               <div class="info-text" translate>Already have an account?</div>
               <a class="link" (click)="onClose({ closeEvent: 'signIn' })" translate>Sign In now</a>
             </div>
@@ -30,24 +30,26 @@
         <mat-step [stepControl]="onboardingForm" [editable]="!onboardingCompleted" [completed]="onboardingCompleted">
           <!-- CAF onboarding wizard -->
           <ng-template matStepContent>
-            @if (onboardingUrl) {
-            <app-caf-onboarding [onboardingUrl]="onboardingUrl" (onboardingFinished)="onOnboardingFinished($event)" />
-            }
+            <app-caf-onboarding
+              *ngIf="onboardingUrl"
+              [onboardingUrl]="onboardingUrl"
+              (onboardingFinished)="onOnboardingFinished($event)"
+            ></app-caf-onboarding>
           </ng-template>
         </mat-step>
         <mat-step>
           <ng-template matStepContent>
-            <div class="flex flex-col gap-2.5">
-              <app-caf-onboarding-completed />
+            <div class="flex-col gap-10">
+              <app-caf-onboarding-completed></app-caf-onboarding-completed>
 
               <!-- Close button -->
-              <div class="flex flex-wrap justify-center items-baseline gap-1">
+              <div class="flex-row flex-wrap justify-center items-baseline gap-4">
                 <button
                   mat-button
                   class="button-text-small label-dark flex-grow"
                   (click)="onClose({ closeEvent: 'closeDialog' })"
                 >
-                  <span class="register-button-text mr-2" translate>Close</span>
+                  <span class="register-button-text mr-8" translate>Close</span>
                 </button>
               </div>
             </div>

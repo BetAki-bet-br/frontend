@@ -1,8 +1,8 @@
-@use "sass:map" as map;
-@use "theme/utils" as utils;
+@use "sass:map";
+@use "src/theme/utils" as util;
 
-@use "sass:color" as color;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:color";
+@import "src/theme/theme-variables";
 
 :host ::ng-deep app-base-dialog {
   .dialog-container {

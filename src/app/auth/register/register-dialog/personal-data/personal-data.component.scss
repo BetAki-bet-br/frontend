@@ -1,7 +1,7 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 :host ::ng-deep .country-form-field {
   .mat-mdc-text-field-wrapper {
@@ -20,7 +20,7 @@
 
   .register-button-text {
     text-transform: uppercase;
-    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    color: map.get($app-custom-colors, "neutral-white");
     font-weight: 400;
   }
 }
@@ -60,7 +60,7 @@
   height: 2.25rem;
   width: 3.625rem;
   border-radius: 0.25rem;
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  background-color: map.get($app-custom-colors, "neutral-white");
   cursor: pointer;
 
   img {
@@ -75,13 +75,13 @@
   width: 6rem;
   min-width: 3.75rem;
   height: 2.25rem;
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-30");
+  background-color: map.get($app-custom-colors, "neutral-30");
   padding-left: 0.75rem;
   padding-top: 0.1875rem;
 
   .label {
     font-size: 0.5rem;
-    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.25);
+    color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.25);
     margin-bottom: 0.125rem;
   }
 
@@ -93,23 +93,23 @@
 
     .country-code-text {
       font-size: 0.75rem;
-      color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.25);
+      color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.25);
     }
   }
 }
 
 .register-error {
   font-size: 0.75rem;
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  color: map.get($app-custom-colors, "Betaki_error");
 }
 
 .info-text {
-  color: map.get(theme-variables.$app-custom-colors, "neutral-40");
+  color: map.get($app-custom-colors, "neutral-40");
   font-size: 0.75rem;
 }
 
 .link {
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  color: map.get($app-custom-colors, "Betaki_error");
   font-family: Sailec-Medium, sans-serif, Verdana;
   text-decoration: none;
   font-size: 0.75rem;
@@ -118,13 +118,13 @@
 
 .showHidePasswordButton {
   .showHidePasswordIcon {
-    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.25);
+    color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.25);
     transition: color 0.3s ease;
   }
 
   &:hover {
     .showHidePasswordIcon {
-      color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.4);
+      color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.4);
     }
   }
 }

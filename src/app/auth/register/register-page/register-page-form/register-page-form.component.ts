@@ -1,26 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  EventEmitter,
-  OnInit,
-  Output,
-  inject,
-} from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter,
 } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core'; // Added MatNativeDateModule
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DataStoreService } from '@app/@core';
 import { Logger } from '@app/@shared';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component'; // Added PageBreadcrumbsComponent
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import {
   cpfValidator,
   defaultPasswordValidators,
@@ -39,16 +27,8 @@ import { UsernameOrEmailTakenValidator } from '@app/@shared/validators/username-
 import { FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { AuthenticationService } from '@app/auth/authentication.service';
 import { PlayerService } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateModule, TranslateService } from '@ngx-translate/core'; // Added TranslateModule
-import { CommonModule } from '@angular/common'; // Added CommonModule
-import { MatFormFieldModule } from '@angular/material/form-field'; // Added MatFormFieldModule
-import { MatInputModule } from '@angular/material/input'; // Added MatInputModule
-import { MatIcon, MatIconModule } from '@angular/material/icon'; // Added MatIconModule
-import { MatDatepickerModule } from '@angular/material/datepicker'; // Added MatDatepickerModule
-import { MatCheckboxModule } from '@angular/material/checkbox'; // Added MatCheckboxModule
-
-import { RouterModule } from '@angular/router'; // Added RouterModule
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('RegisterPageFormComponent');
 
@@ -62,24 +42,11 @@ export interface RegistrationForm {
   dateOfBirth: FormControl<string | null>;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-register-page-form',
   templateUrl: './register-page-form.component.html',
   styleUrls: ['./register-page-form.component.scss'],
-  imports: [
-    // Added imports array
-    CommonModule,
-    TranslateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    PageBreadcrumbsComponent,
-    ReactiveFormsModule,
-    RouterModule,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
@@ -92,14 +59,6 @@ export interface RegistrationForm {
   ],
 })
 export class RegisterPageFormComponent implements OnInit {
-  private cdr = inject(ChangeDetectorRef);
-  private translate = inject(TranslateService);
-  private authenticationService = inject(AuthenticationService);
-  private playerService = inject(PlayerService);
-  private dataStoreService = inject(DataStoreService);
-  private legitimuzService = inject(LegitimuzGeolocationService);
-  private affiliateService = inject(AffiliatesService);
-  private destroyRef = inject(DestroyRef);
   @Output() registerSuccessful = new EventEmitter<FaceAuthParams | null>();
 
   breadcrumbs: Breadcrumbs[] = [
@@ -153,6 +112,16 @@ export class RegisterPageFormComponent implements OnInit {
   // export to template
   validateNumber = validateNumber;
 
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService,
+    private authenticationService: AuthenticationService,
+    private playerService: PlayerService,
+    private dataStoreService: DataStoreService,
+    private legitimuzService: LegitimuzGeolocationService,
+    private affiliateService: AffiliatesService
+  ) {}
+
   ngOnInit(): void {
     // Retrieve and set device fingerprint requestId
     // this.authenticationService.getFingerprintData().then((requestId) => {
@@ -161,7 +130,7 @@ export class RegisterPageFormComponent implements OnInit {
 
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
 
-    this.registerForm?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+    this.registerForm?.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
       if (this.registerError) {
         this.registerError = '';
       }
@@ -192,7 +161,7 @@ export class RegisterPageFormComponent implements OnInit {
     // Mark all controls as touched so errors are displayed
     for (const key in this.registerForm?.controls) {
       if (Object.prototype.hasOwnProperty.call(this.registerForm?.controls, key)) {
-        const control = (this.registerForm?.controls as any)[key] as AbstractControl;
+        const control = this.registerForm?.controls[key] as AbstractControl;
         control.markAsTouched();
         control.markAsDirty();
       }

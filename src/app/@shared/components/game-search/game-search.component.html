@@ -1,31 +1,31 @@
 <div class="game-search-container">
-  @if (gameName && games !== null && games !== undefined && games.length > 0) {
-  <!-- Non scrollable search container for static display if results -->
-  @if (games.length <= nrOfVisibleResults) {
-  <div class="search-container static" [style.max-height]="searchContainerHeight + 'px'">
-    <ul class="search-list">
-      @for (game of games; track gameTrackBy($index, game)) {
-      <li>
-        <ng-container *ngTemplateOutlet="searchItem; context: { $implicit: game }" />
-      </li>
-      }
-    </ul>
-  </div>
-  }
-  <!-- Scrollable search container for virtual results -->
-  @if (games.length > nrOfVisibleResults) {
-  <cdk-virtual-scroll-viewport
-    class="search-container virtual"
-    [style.height]="searchContainerHeight + 'px'"
-    itemSize="68"
-  >
-    <ul class="search-list">
-      <li *cdkVirtualFor="let game of games; trackBy: gameTrackBy">
-        <ng-container *ngTemplateOutlet="searchItem; context: { $implicit: game }" />
-      </li>
-    </ul>
-  </cdk-virtual-scroll-viewport>
-  } }
+  <ng-container *ngIf="gameName && games !== null && games !== undefined && games.length > 0">
+    <!-- Non scrollable search container for static display if results -->
+    <div
+      *ngIf="games.length <= nrOfVisibleResults"
+      class="search-container static"
+      [ngStyle]="{ 'max-height': searchContainerHeight + 'px' }"
+    >
+      <ul class="search-list">
+        <li *ngFor="let game of games; trackBy: gameTrackBy">
+          <ng-container *ngTemplateOutlet="searchItem; context: { $implicit: game }"></ng-container>
+        </li>
+      </ul>
+    </div>
+    <!-- Scrollable search container for virtual results -->
+    <cdk-virtual-scroll-viewport
+      *ngIf="games.length > nrOfVisibleResults"
+      class="search-container virtual"
+      [ngStyle]="{ height: searchContainerHeight + 'px' }"
+      itemSize="68"
+    >
+      <ul class="search-list">
+        <li *cdkVirtualFor="let game of games; trackBy: gameTrackBy">
+          <ng-container *ngTemplateOutlet="searchItem; context: { $implicit: game }"></ng-container>
+        </li>
+      </ul>
+    </cdk-virtual-scroll-viewport>
+  </ng-container>
 
   <mat-form-field appearance="outline" class="form-input-search-games" subscriptSizing="dynamic">
     <input
@@ -40,11 +40,12 @@
       (blur)="searchInput.placeholder = placeholderText"
     />
     <div class="search-suffix" matPrefix>
-      @if (!nameControl.value) {
-      <button class="search-close font-icons font-icons--search"></button>
-      } @if (nameControl.value) {
-      <button (click)="closeSearch()" class="search-close font-icons font-icons--close"></button>
-      }
+      <button *ngIf="!nameControl.value" class="search-close font-icons font-icons--search"></button>
+      <button
+        *ngIf="nameControl.value"
+        (click)="closeSearch()"
+        class="search-close font-icons font-icons--close"
+      ></button>
     </div>
   </mat-form-field>
 </div>

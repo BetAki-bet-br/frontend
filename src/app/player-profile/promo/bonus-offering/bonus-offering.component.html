@@ -1,9 +1,11 @@
 <div class="bonuses-container">
   <div class="bonuses-wrapper">
-    @for (bonus of bonusList; track bonus) {
-    <div class="bonus-item" [innerHTML]="bonus.templateOffersHtml"></div>
-    } @for (banner of bannerList; track banner) {
-    <div class="bonus-item" [innerHTML]="banner.templateHtml"></div>
-    }
+    <ng-container *ngFor="let bonus of bonusList">
+      <div class="bonus-item" [innerHTML]="bonus.templateOffersHtml"></div>
+    </ng-container>
+
+    <ng-container *ngFor="let banner of bannerList">
+      <div class="bonus-item" [innerHTML]="banner.templateHtml"></div>
+    </ng-container>
   </div>
 </div>

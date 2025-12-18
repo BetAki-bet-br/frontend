@@ -1,6 +1,6 @@
-@use "sass:map" as map;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 /*
 .games-container {
@@ -11,7 +11,7 @@
   > app-games-tiles {
     margin-bottom: 3rem;
 
-    @include utils.media("lt-sm-2") {
+    @include util.media("lt-sm-2") {
       margin-bottom: 2rem;
     }
   }
@@ -21,27 +21,27 @@
   //flex-direction: column;
   //gap: 3rem;
 
-  // @include utils.media("xs") {
+  // @include util.media("xs") {
   //   padding: 0;
   //   padding: 0 4vw;
   //   //gap: 2rem;
   // }
 
-  // @include utils.media("lt-md") {
+  // @include util.media("lt-md") {
   //   padding: 0 0.5rem;
   // }
 
-  // @include utils.media("sm-2") {
+  // @include util.media("sm-2") {
   //   // max-width: 768px;
   //   padding: 0 1.5rem;
   // }
-  // @include utils.media("md") {
+  // @include util.media("md") {
   //   // max-width: 960px;
   //   padding: 0 1rem;
   // }
 
   // &.game-tiles {
-  //   @include utils.media("lt-sm") {
+  //   @include util.media("lt-sm") {
   //     width: calc(100% - 1rem);
   //     margin: 0 0.5rem;
   //   }
@@ -74,6 +74,6 @@
 }
 
 app-category-card {
-  --category-card-padding: #{theme-variables.$home-category-card-content-padding};
-  --category-card-padding-mobile: #{theme-variables.$home-category-card-content-padding-mobile};
+  --category-card-padding: #{$home-category-card-content-padding};
+  --category-card-padding-mobile: #{$home-category-card-content-padding-mobile};
 }

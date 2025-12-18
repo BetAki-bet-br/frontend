@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { GamesService } from '@app/@shared/services/games/games.service';
 import { Observable, of } from 'rxjs';
@@ -8,8 +8,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ProviderGuard implements CanActivate {
-  private router = inject(Router);
-  private gamesService = inject(GamesService);
+  constructor(private router: Router, private gamesService: GamesService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return of(true); // Allow access to the route

@@ -8,7 +8,7 @@ describe('VipLevelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VipLevelComponent],
+      declarations: [VipLevelComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(VipLevelComponent);

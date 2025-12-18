@@ -19,7 +19,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { PlayerProfileServiceMock } from '@app/player-profile/player-profile.service.mock';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('BonusHistoryComponent', () => {
   let component: BonusHistoryComponent;
@@ -27,7 +27,8 @@ describe('BonusHistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), BonusHistoryComponent, RenderTemplatePipe],
+      imports: [TranslateModule.forRoot(), HttpClientModule],
+      declarations: [BonusHistoryComponent, RenderTemplatePipe],
       providers: [
         {
           provide: PlayerService,
@@ -45,7 +46,6 @@ describe('BonusHistoryComponent', () => {
         { provide: Dialog, useValue: {} },
         { provide: PlayerProfileService, useClass: PlayerProfileServiceMock },
         RenderTemplatePipe,
-        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

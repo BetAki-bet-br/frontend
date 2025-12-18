@@ -1,0 +1,49 @@
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
+
+:host {
+  display: block;
+  height: 100%;
+  border-radius: 1rem;
+  animation: custom-dialog-enter 0.5s ease;
+  transform: translateY(0%);
+  background-color: map.get($app-custom-colors, "neutral-white");
+
+  @include utils.media("lt-sm-2") {
+    border-radius: unset;
+  }
+}
+
+@keyframes custom-dialog-enter {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0%);
+  }
+}
+
+::-webkit-scrollbar {
+  width: 0.625rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: map.get($app-custom-colors, "grey-200");
+  border-radius: 0.75rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: map.get($app-custom-colors, "grey-400");
+  border-radius: 0.75rem;
+  margin: 0;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: map.get($app-custom-colors, "grey-700");
+}

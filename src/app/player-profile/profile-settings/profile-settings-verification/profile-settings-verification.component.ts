@@ -1,22 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Logger } from '@app/@shared';
-import {
-  FileUploadConfiguration,
-  FileUploadComponent,
-} from '@app/@shared/components/file-uploader/file-upload.component';
+import { FileUploadConfiguration } from '@app/@shared/components/file-uploader/file-upload.component';
 import { MessageDialogComponent } from '@app/@shared/components/message-dialog/message-dialog.component';
 import { CountryCode } from '@app/@shared/models';
 import { GeoLocationMapped, GeoLocationService } from '@app/@shared/services/geolocation.service';
@@ -28,12 +16,8 @@ import {
   PlayerDocument,
   UpdatePlayerRequest,
 } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription, catchError, of, switchMap, throwError } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { PageBreadcrumbsComponent } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
-import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 
 const log = new Logger('ProfileSettingsVerificationComponent');
 
@@ -47,33 +31,8 @@ interface phoneVerificationForm {
   templateUrl: './profile-settings-verification.component.html',
   styleUrls: ['./profile-settings-verification.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-    MatTooltipModule,
-    FileUploadComponent,
-    CdnizePipe,
-  ],
 })
 export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
-  dialog = inject(MatDialog);
-  private playerProfileService = inject(PlayerProfileService);
-  private geoLocationService = inject(GeoLocationService);
-  private snackbarService = inject(SnackbarService);
-  private configurationService = inject(ConfigurationService);
-  private cdr = inject(ChangeDetectorRef);
-  private translate = inject(TranslateService);
-
   countriesCode: CountryCode[] = [];
 
   phoneVerificationForm: FormGroup<phoneVerificationForm> = new FormGroup({
@@ -106,6 +65,16 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
   validateNumber = validateNumber;
 
   private subscription: Subscription = new Subscription();
+
+  constructor(
+    public dialog: MatDialog,
+    private playerProfileService: PlayerProfileService,
+    private geoLocationService: GeoLocationService,
+    private snackbarService: SnackbarService,
+    private configurationService: ConfigurationService,
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     // fetch country codes
@@ -213,9 +182,8 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
     });
   }
 
-  uploadFile(files: FileList) {
-    const file = files[0];
-    this.fileUploading = (files as any).inputId;
+  uploadFile(file: File) {
+    this.fileUploading = (file as any).inputId;
     this.cdr.markForCheck();
     this.playerProfileService.uploadDocument(file).subscribe({
       complete: () => {

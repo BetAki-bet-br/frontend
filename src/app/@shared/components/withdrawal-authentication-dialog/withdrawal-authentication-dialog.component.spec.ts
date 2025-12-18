@@ -8,7 +8,7 @@ describe('WithdrawalAuthenticationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WithdrawalAuthenticationDialogComponent],
+      declarations: [WithdrawalAuthenticationDialogComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WithdrawalAuthenticationDialogComponent);

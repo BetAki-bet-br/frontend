@@ -1,4 +1,4 @@
-<div class="vip-container flex flex-col items-center">
+<div class="vip-container flex-col items-center">
   <h1>{{ 'The Comtrade Gaming VIP Program' | translate }}</h1>
   <p class="vip-description">
     {{
@@ -7,10 +7,12 @@
     }}
   </p>
 
-  <div class="vip-programs-container flex justify-center flex-wrap">
-    @for (program of vipPrograms; track program) {
-    <app-vip-program-card class="vip-program-card" [program]="program" />
-    }
+  <div class="vip-programs-container flex-row justify-center flex-wrap">
+    <app-vip-program-card
+      class="vip-program-card"
+      *ngFor="let program of vipPrograms"
+      [program]="program"
+    ></app-vip-program-card>
   </div>
 </div>
 
@@ -22,9 +24,7 @@
     you:
   </p>
 
-  @if (readMoreHidden) {
-  <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read more...</p>
-  }
+  <p *ngIf="readMoreHidden" class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read more...</p>
 
   <div [class.hidden]="readMoreHidden">
     <div class="read-more-expanded">
@@ -41,7 +41,5 @@
     </div>
   </div>
 
-  @if (!readMoreHidden) {
-  <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read less...</p>
-  }
+  <p *ngIf="!readMoreHidden" class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read less...</p>
 </app-welcome-message>

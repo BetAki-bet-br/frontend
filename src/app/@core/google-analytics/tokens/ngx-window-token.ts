@@ -1,5 +1,5 @@
-import { InjectionToken, inject, DOCUMENT } from '@angular/core';
-
+import { InjectionToken, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { GaWindow } from './ngx-google-analytics-window';
 
 /**

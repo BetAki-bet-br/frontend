@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { environment } from '@env/environment';
 import { BehaviorSubject, forkJoin, map } from 'rxjs';
@@ -17,9 +17,7 @@ export class ExternalConfigsLoader {
 
   private httpClient: HttpClient;
 
-  constructor() {
-    const handler = inject(HttpBackend);
-
+  constructor(handler: HttpBackend) {
     // We manually create the HttpClient with HttpBackend, so to not trigger HttpInterceptors,
     // as those have a dependency to the Authentication service and GTM service and it breaks the GTM service
     this.httpClient = new HttpClient(handler);

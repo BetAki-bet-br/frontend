@@ -5,26 +5,20 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Inject,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Logger } from '@app/@shared/logger.service';
 import { PortalGatewayErrorResponse } from '@app/@shared/models/api';
 import { AuthenticationService, LoginContext } from '@app/auth/authentication.service';
 import { Credentials } from '@app/auth/credentials.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { finalize, Subscription } from 'rxjs';
 import { AdblockerDialogComponent } from '../adblocker-dialog/adblocker-dialog.component';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
-import { LoaderComponent } from '@app/@shared/loader/loader.component';
 
 const log = new Logger('LoginDialogComponent');
 
@@ -59,27 +53,9 @@ export interface LoginDialogResult {
   selector: 'app-login-dialog',
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.scss'],
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    BaseDialogComponent,
-    LoaderComponent,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginDialogComponent implements OnInit {
-  private dialogRef = inject<DialogRef<LoginDialogResult>>(DialogRef);
-  data = inject<LoginDialogData>(DIALOG_DATA);
-  private fb = inject(FormBuilder);
-  private authenticationService = inject(AuthenticationService);
-  private cdr = inject(ChangeDetectorRef);
-  private router = inject(Router);
-  private translate = inject(TranslateService);
-  private dialog = inject(Dialog);
-
   @ViewChild('usernameInput', { static: true }) usernameInput!: ElementRef<HTMLElement>;
 
   error: string = '';
@@ -97,7 +73,16 @@ export class LoginDialogComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
 
-  constructor() {
+  constructor(
+    private dialogRef: DialogRef<LoginDialogResult>,
+    @Inject(DIALOG_DATA) public data: LoginDialogData,
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private translate: TranslateService,
+    private dialog: Dialog
+  ) {
     const url = this.router.createUrlTree(['/users/password/new']).toString();
     this.errorParams = { url }; // Pass the URL to the translation
   }
@@ -132,7 +117,7 @@ export class LoginDialogComponent implements OnInit {
     // Mark all controls as touched so errors are displayed
     for (const key in this.loginForm.controls) {
       if (Object.prototype.hasOwnProperty.call(this.loginForm.controls, key)) {
-        const control = (this.loginForm.controls as any)[key] as AbstractControl;
+        const control = this.loginForm.controls[key] as AbstractControl;
         control.markAsTouched();
         control.markAsDirty();
       }

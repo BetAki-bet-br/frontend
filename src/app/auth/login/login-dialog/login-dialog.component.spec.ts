@@ -13,7 +13,8 @@ describe('LoginDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PipesModule, LoginDialogComponent],
+      imports: [TranslateModule.forRoot(), PipesModule],
+      declarations: [LoginDialogComponent],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: DIALOG_DATA, useValue: {} },

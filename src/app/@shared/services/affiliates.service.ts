@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { Observable, filter, map, take } from 'rxjs';
 import { AffiliateData } from '../models';
@@ -11,8 +11,7 @@ const log = new Logger('AffiliatesService');
   providedIn: 'root',
 })
 export class AffiliatesService {
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
 
   /**
    * Handle affiliates links. Saves affiliates query parameters to Local storage.

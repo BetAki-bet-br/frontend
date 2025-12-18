@@ -22,11 +22,9 @@
         (click)="globalSearchService.disableGlobalSearch()"
       ></button>
     </mat-form-field>
-    @if (gameName && filters !== null && filters !== undefined && filters.length > 0) {
-    <div class="search-container">
+    <div class="search-container" *ngIf="gameName && filters !== null && filters !== undefined && filters.length > 0">
       <ul class="search-list">
-        @for (item of filters; track item) {
-        <li>
+        <li *ngFor="let item of filters">
           <a (click)="launchGame(item.externalGameId)" class="search-item" target="_self">
             <img
               class="search-image"
@@ -40,9 +38,7 @@
             <span class="search-title">{{ item.gameName }}</span>
           </a>
         </li>
-        }
       </ul>
     </div>
-    }
   </div>
 </div>

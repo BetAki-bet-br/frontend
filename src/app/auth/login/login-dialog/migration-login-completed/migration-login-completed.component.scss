@@ -1,13 +1,13 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 .helper-text {
-  color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.7);
+  color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.7);
 }
 
 .support-team-text {
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  color: map.get($app-custom-colors, "Betaki_error");
   cursor: pointer;
 }

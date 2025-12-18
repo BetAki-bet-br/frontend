@@ -1,8 +1,8 @@
 <div class="account-responsible-gaming-page page-container" [formGroup]="form">
-  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs"></app-page-breadcrumbs>
 
   <!-- Bonus tabs -->
-  <mat-tab-group #tabGroup class="tab-group-container-primary mt-2" mat-stretch-tabs="false" appScrollToCenter>
+  <mat-tab-group #tabGroup class="tab-group-container-primary mt-8" mat-stretch-tabs="false" appScrollToCenter>
     <!-- Offering bonus Tab -->
     <mat-tab class="offering-tab">
       <ng-template mat-tab-label>
@@ -13,7 +13,7 @@
           [limits]="limits"
           [currencyCode]="playerInfo?.currencyCode ?? ''"
           (refreshLimits)="loadData()"
-        />
+        ></app-responsible-limits>
       </ng-template>
     </mat-tab>
     <!-- Ongoing bonus Tab -->
@@ -32,7 +32,7 @@
           "
           (refreshLimits)="loadData()"
           (updateLimit)="setTimeoutLimit($event)"
-        />
+        ></app-responsible-limit-duration>
       </ng-template>
     </mat-tab>
     <!-- History bonus Tab -->
@@ -51,7 +51,7 @@
               | translate
           "
           (updateLimit)="setSelfExclusion($event)"
-        />
+        ></app-responsible-limit-duration>
       </ng-template>
     </mat-tab>
   </mat-tab-group>
@@ -60,12 +60,12 @@
 <!-- <div class="account-responsible-gaming-page" [formGroup]="form">
   <app-player-profile-page-header [breadcrumbs]="breadcrumbs"></app-player-profile-page-header>
   <! -- Profile header -- >
-  <div class="subtitle-m mb-1 mobile-hidden" translate>Responsible Gambling</div>
-  <div class="header mobile flex justify-center">
+  <div class="subtitle-m mb-4 mobile-hidden" translate>Responsible Gambling</div>
+  <div class="header mobile flex-row justify-center">
     <div class="back-button" [routerLink]="'/profile'">
       <mat-icon fontSet="material-icons-outlined">keyboard_arrow_left</mat-icon>
     </div>
-    <div class="flex">
+    <div class="flex-row">
       <span translate>Responsible Gambling</span>
     </div>
   </div>

@@ -1,0 +1,114 @@
+@use "sass:map";
+@use "src/theme/utils" as util;
+
+@import "src/theme/theme-variables";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: map.get($app-custom-colors, "betaki-grey30");
+}
+
+app-sidenav-menu {
+  flex: 1;
+}
+
+.main-container {
+  flex: 1;
+  background-color: map.get($app-custom-colors, "betaki-grey30");
+  display: flex;
+  flex-flow: row;
+  margin: 0 auto;
+  max-width: 77.125rem;
+  width: 100%;
+  padding: 0 1rem;
+  margin-top: 4.75rem;
+
+  @include util.media("lt-sm-2") {
+    flex-flow: column;
+    margin-top: 3.375rem;
+  }
+}
+
+.header {
+  position: fixed;
+  z-index: 999;
+
+  &.not-mobile {
+    @include util.media("lt-sm-2") {
+      display: none;
+    }
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+  }
+
+  &.mobile {
+    @include util.media("gt-sm-1") {
+      display: none;
+    }
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+  }
+}
+// Main container
+.profile-info-container {
+  display: flex;
+  flex-flow: column;
+  gap: 1.5rem;
+  padding: 2.5rem 1rem 1.25rem 0;
+  width: 18rem;
+  min-width: 18rem;
+
+  @include util.media("lt-sm-2") {
+    width: 100%;
+    padding: 0;
+    //padding-bottom: 0.75rem;
+  }
+}
+
+.player-info-host {
+  @include util.media("lt-sm-2") {
+    display: block;
+    padding-top: 1.5rem;
+  }
+}
+
+.profile-menu-host {
+  height: 100%;
+
+  &.mobile {
+    display: none;
+
+    @include util.media("lt-sm-2") {
+      display: block;
+    }
+  }
+}
+
+.footer-nav-bar-mobile {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  z-index: 2000;
+
+  @include util.media("gt-sm-1") {
+    display: none;
+  }
+}
+
+.hide-mobile {
+  @include util.media("lt-sm-2") {
+    display: none;
+  }
+}
+
+.hide-desktop {
+  @include util.media("gt-sm-1") {
+    display: none;
+  }
+}

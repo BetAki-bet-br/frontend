@@ -2,7 +2,7 @@
  * Application global variables.
  */
 
-@use "sass:map" as map;
+@use "sass:map";
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
@@ -21,7 +21,6 @@ $app-custom-colors: (
   // Neutral colors: text, borders, icons, etc
   "neutral-black-overlay": #111,
   "neutral-black": #000,
-  "neutral-dark": #1e1e1e,
   "neutral-white": #fff,
   "neutral-10": #0d0f03,
   "neutral-10-35": #0d0f0359,
@@ -44,9 +43,6 @@ $app-custom-colors: (
   "Betaki_black": #090b01,
   "Betaki_black_30": #090b014d,
   "Betaki_black_40": #080a01,
-
-  "ATL_white10": #d3d4d7,
-  "ATL_white75": #d3d4d7,
 
   "Betaki_ebano_profundo": #070707,
   "Betaki_ebano_profundo_75": #070707bf,
@@ -80,10 +76,10 @@ $app-custom-colors: (
   "Betaki_error": #f06143,
   "Betaki_error300": #fd3f3f,
 
-  "Betaki_success": #869502,
-  "Betaki_success30": #8695024d,
+  "Betaki_success": #bcd200,
+  "Betaki_success30": #bcd2004d,
   "Betaki_success50": #d0d93f,
-  "Betaki_success75": #869502bf,
+  "Betaki_success75": #bcd200bf,
   "Betaki_success100": #398e3d,
 
   "Betaki_yellow": #f0cd43,
@@ -104,17 +100,17 @@ $app-custom-colors: (
   "betaki-black10": #2024001a,
   "betaki-black30": #2024004d,
   "betaki-black100": #202400,
-  "betaki-green30": #8695024d,
-  "betaki-green50": #86950280,
-  "betaki-green100": #869502,
+  "betaki-green30": #bcd2004d,
+  "betaki-green50": #bcd20080,
+  "betaki-green100": #bcd200,
   "betaki-success": #398e3d,
   "betaki-error": #fd3f3f
 );
 
 // $action-gradient: linear-gradient(
 //   to right,
-//   map.get(theme-variables.$app-custom-colors, "blue-50"),
-//   map.get(theme-variables.$app-custom-colors, "purple")
+//   map.get($app-custom-colors, "blue-50"),
+//   map.get($app-custom-colors, "purple")
 // );
 
 // max width of the main content (on the home page only?)

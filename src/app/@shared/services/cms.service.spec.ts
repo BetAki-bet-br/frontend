@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { CmsService } from './cms.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { BannerService } from '@icore/ngx-portalgateway-api-client-atl';
@@ -15,13 +15,12 @@ describe('CmsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      imports: [HttpClientModule, TranslateModule.forRoot()],
       providers: [
         RenderTemplatePipe,
         { provide: BannerService, useClass: MockCtgApiService },
         { provide: ActivatedRoute, useValue: {} },
         { provide: TemplateService, useClass: MockTemplateService },
-        provideHttpClient(withInterceptorsFromDi()),
       ],
     });
     service = TestBed.inject(CmsService);

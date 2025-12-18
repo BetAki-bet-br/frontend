@@ -1,22 +1,22 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 .info-text {
-  color: map.get(theme-variables.$app-custom-colors, "neutral-40");
+  color: map.get($app-custom-colors, "neutral-40");
   font-size: 0.75rem;
 }
 
 .link {
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  color: map.get($app-custom-colors, "Betaki_error");
   font-family: Roboto, sans-serif, Verdana;
   text-decoration: none;
   font-size: 0.75rem;
   cursor: pointer;
 
   &.forgot-password {
-    color: map.get(theme-variables.$app-custom-colors, "neutral-40");
+    color: map.get($app-custom-colors, "neutral-40");
     margin: 1rem 0;
     font-size: 0.75rem;
   }
@@ -49,7 +49,7 @@
   flex-direction: column;
 
   .form-field-label {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get($app-custom-colors, "betaki-black100");
     font-size: 0.75rem;
     margin-bottom: 0;
     margin-left: 1rem;
@@ -69,6 +69,6 @@
 }
 
 .custom-icon-button {
-  color: map.get(theme-variables.$app-custom-colors, "neutral-33");
+  color: map.get($app-custom-colors, "neutral-33");
   padding: 20px 0 0;
 }

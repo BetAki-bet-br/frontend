@@ -1,7 +1,7 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 :host ::ng-deep app-base-dialog {
   .dialog-container {
@@ -19,7 +19,7 @@
 
     @include utils.media("lt-sm-2") {
       /* stylelint-disable-next-line declaration-no-important */
-      background-color: map.get(theme-variables.$app-custom-colors, "neutral-10") !important;
+      background-color: map.get($app-custom-colors, "neutral-10") !important;
     }
   }
 }
@@ -43,26 +43,26 @@
 }
 
 :host ::ng-deep .mat-stepper-horizontal-line {
-  border-top-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  border-top-color: map.get($app-custom-colors, "neutral-white");
   border-top-width: 0.125rem;
 }
 
 :host ::ng-deep .mat-step-icon {
   height: 2.5rem;
   width: 2.5rem;
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  background-color: map.get($app-custom-colors, "neutral-white");
   font-size: 0.875rem;
-  color: map.get(theme-variables.$app-custom-colors, "neutral-20");
+  color: map.get($app-custom-colors, "neutral-20");
 }
 
 :host ::ng-deep .mat-step-icon-selected {
-  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
-  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  background-color: map.get($app-custom-colors, "Betaki_error");
+  color: map.get($app-custom-colors, "neutral-white");
 }
 
 :host ::ng-deep .mat-step-icon-state-done {
-  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
-  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  background-color: map.get($app-custom-colors, "Betaki_error");
+  color: map.get($app-custom-colors, "neutral-white");
 }
 
 :host ::ng-deep .mat-step-label {
@@ -75,7 +75,7 @@
 
 :host ::ng-deep .onboarding-completed-wrapper {
   padding-top: 1.5rem;
-  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get($app-custom-colors, "neutral-white");
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
@@ -84,19 +84,19 @@
 }
 
 .info-text {
-  color: map.get(theme-variables.$app-custom-colors, "neutral-40");
+  color: map.get($app-custom-colors, "neutral-40");
   font-size: 0.75rem;
 }
 
 .link {
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  color: map.get($app-custom-colors, "Betaki_error");
   font-family: Roboto, sans-serif, Verdana;
   text-decoration: none;
   font-size: 0.75rem;
   cursor: pointer;
 
   &.forgot-password {
-    color: map.get(theme-variables.$app-custom-colors, "neutral-40");
+    color: map.get($app-custom-colors, "neutral-40");
     margin: 1rem 0;
     font-size: 0.75rem;
   }
@@ -115,7 +115,7 @@
 
   .register-button-text {
     text-transform: uppercase;
-    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    color: map.get($app-custom-colors, "neutral-white");
     font-weight: 400;
   }
 }
@@ -136,7 +136,7 @@
     width: 2.25rem;
     height: 2.25rem;
     border-radius: 0.25rem;
-    background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.7);
+    background-color: color.adjust(map.get($app-custom-colors, "neutral-10"), $alpha: -0.7);
     cursor: pointer;
   }
 
@@ -153,7 +153,7 @@
 
 .login-header-text {
   font-size: 1.25rem;
-  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get($app-custom-colors, "neutral-white");
   text-align: center;
 }
 

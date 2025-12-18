@@ -1,7 +1,7 @@
 <app-base-dialog [title]="'Promotion confirmation' | translate">
-  <div dialogContent class="flex flex-col items-center">
-    <div class="subtitle mb-3">{{ data.subtitle ?? '' | translate }}</div>
-    <div class="description mb-[30px]">{{ data.description | translate }}</div>
+  <div dialogContent class="flex-col items-center">
+    <div class="subtitle mb-12">{{ data.subtitle ?? '' | translate }}</div>
+    <div class="description mb-30">{{ data.description | translate }}</div>
   </div>
 
   <ng-container dialogButtons>

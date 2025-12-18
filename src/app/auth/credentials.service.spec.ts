@@ -1,13 +1,12 @@
-import { RouterModule } from '@angular/router';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '@app/@shared';
 import { MaterialModule } from '@app/material.module';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { CredentialsService, Credentials } from './credentials.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 const credentialsKey = 'credentials';
 
@@ -16,13 +15,8 @@ describe('CredentialsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SharedModule, MaterialModule, TranslateModule.forRoot(), RouterModule],
-      providers: [
-        FormBuilder,
-        CredentialsService,
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-      ],
+      imports: [HttpClientTestingModule, SharedModule, MaterialModule, RouterTestingModule, TranslateModule.forRoot()],
+      providers: [FormBuilder, CredentialsService],
     });
 
     credentialsService = TestBed.inject(CredentialsService);

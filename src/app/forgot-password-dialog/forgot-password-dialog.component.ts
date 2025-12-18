@@ -1,19 +1,11 @@
-import { DialogRef, DialogModule } from '@angular/cdk/dialog'; // Added DialogModule
-// Added CommonModule
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // Added ReactiveFormsModule
-import { MatButtonModule } from '@angular/material/button'; // Added MatButtonModule
-import { MatFormFieldModule } from '@angular/material/form-field'; // Added MatFormFieldModule
-import { MatInputModule } from '@angular/material/input'; // Added MatInputModule
-import { MatError } from '@angular/material/form-field'; // Added MatError
-import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component'; // Added BaseDialogComponent
-import { LoaderComponent } from '@app/@shared/loader/loader.component'; // Added LoaderComponent
+import { DialogRef } from '@angular/cdk/dialog';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Logger } from '@app/@shared';
 import { AuthenticationService } from '@app/auth/authentication.service';
 import { finalize } from 'rxjs';
 import { AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { cpfValidator } from '@app/@shared/form-utils';
-import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
 
 const log = new Logger('ForgotPassswordDialogComponent');
 
@@ -30,24 +22,8 @@ interface ForgotPasswordForm {
   templateUrl: './forgot-password-dialog.component.html',
   styleUrls: ['./forgot-password-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    BaseDialogComponent,
-    MatFormFieldModule,
-    MatInputModule,
-    MatError,
-    MatButtonModule,
-    LoaderComponent,
-    DialogModule,
-  ],
 })
 export class ForgotPasswordDialogComponent {
-  private dialogRef = inject<DialogRef<ForgotPasswordDialogResult>>(DialogRef);
-  private cdr = inject(ChangeDetectorRef);
-  private authenticationService = inject(AuthenticationService);
-  private authDialogService = inject(AuthDialogService);
-
   forgotPasswordForm: FormGroup<ForgotPasswordForm> = new FormGroup({
     cpf: new FormControl('', [Validators.required, cpfValidator()]),
   });
@@ -55,6 +31,13 @@ export class ForgotPasswordDialogComponent {
   isDataLoading: boolean = false;
 
   public errorMessage = '';
+
+  constructor(
+    private dialogRef: DialogRef<ForgotPasswordDialogResult>,
+    private cdr: ChangeDetectorRef,
+    private authenticationService: AuthenticationService,
+    private authDialogService: AuthDialogService
+  ) {}
 
   onClose(result?: ForgotPasswordDialogResult) {
     this.dialogRef.close(result);

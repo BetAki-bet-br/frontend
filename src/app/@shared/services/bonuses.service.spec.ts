@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { BonusesService } from './bonuses.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 
@@ -10,8 +10,8 @@ describe('BonusesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      providers: [RenderTemplatePipe, provideHttpClient(withInterceptorsFromDi())],
+      imports: [TranslateModule.forRoot(), HttpClientModule],
+      providers: [RenderTemplatePipe],
     });
     service = TestBed.inject(BonusesService);
   });

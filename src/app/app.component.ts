@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription, merge, of, tap } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { AssetsService } from './@shared/assets.service';
@@ -11,12 +11,15 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { TooltipComponent } from '@angular/material/tooltip';
 import { I18nService } from '@app/i18n';
 import { environment } from '@env/environment';
-import { AppBreakpoints, Logger } from '@shared';
-import { NgcCookieConsentService } from 'ngx-cookieconsent';
+import { AppBreakpoints, Logger, UntilDestroy, untilDestroyed } from '@shared';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
+import { NgcCookieConsentService, NgcStatusChangeEvent } from 'ngx-cookieconsent';
 import { ExternalConfigsLoader } from './@core/external-configs-loader';
 import { GameCategoriesService } from './@core/game-categories.service';
+import { GlobalSearchService } from './@shared/global-search.service';
 import { AffiliatesService } from './@shared/services/affiliates.service';
 import { CmsService } from './@shared/services/cms.service';
+import { GamesService } from './@shared/services/games/games.service';
 import { GoogleTagManagerImplementationService } from './@shared/services/google-tag-manager-implementation.service';
 import {
   LegitimuzGeolocationAction,
@@ -24,60 +27,58 @@ import {
 } from './@shared/services/legitimuz-geolocation.service';
 import { MessageService } from './@shared/services/message.service';
 import { PlayerActivationService } from './@shared/services/player-activation.service';
-import { PlayerStatusService } from './@shared/services/player.status.service';
+import { PlayerStatusService } from './@shared/services/player.service';
 import { SeoService } from './@shared/services/seo.service';
 import { CredentialsService } from './auth';
 import { AuthDialogService } from './auth/auth-dialog.service';
 import { IconsList } from './icons-list';
-
+import { AgeConfirmationDialogComponent } from './users/age-confirmation-dialog/age-confirmation-dialog.component';
+import { DOCUMENT } from '@angular/common';
 import { PlayerPromoService } from './@shared/services/player-promo.service';
-import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
-import { LegitimuzScriptLoaderService } from './@shared/services/legitimuz-script-loader';
-import { TawktoScriptLoader } from './@shared/services/tawkto-script-loader';
 
 const log = new Logger('App');
+declare const zE: any;
 
+@UntilDestroy()
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterModule, TranslateModule],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-  private activatedRoute = inject(ActivatedRoute);
-  private titleService = inject(Title);
-  private translateService = inject(TranslateService);
-  private i18nService = inject(I18nService);
-  private assetService = inject(AssetsService);
-  private cmsService = inject(CmsService);
-  private affiliatesService = inject(AffiliatesService);
-  private playerActivationService = inject(PlayerActivationService);
-  private playerStatusService = inject(PlayerStatusService);
-  private messageService = inject(MessageService);
-  private credentialsService = inject(CredentialsService);
-  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
-  private seoService = inject(SeoService);
-  private breakpointObserver = inject(BreakpointObserver);
-  private gameCategoryService = inject(GameCategoriesService);
-  private ccService = inject(NgcCookieConsentService);
-  private dialog = inject(Dialog);
-  private legitimuzScriptLoaderService = inject(LegitimuzScriptLoaderService);
-  private authService = inject(AuthDialogService);
-  private tawktoScriptLoaderService = inject(TawktoScriptLoader);
-  private legitimuzGeolocationService = inject(LegitimuzGeolocationService);
-  private playerPromoService = inject(PlayerPromoService);
-  private metaService = inject(Meta);
-
   private routerSubscription: Subscription | undefined;
 
-  constructor() {
-    this.legitimuzScriptLoaderService.loadGeolocSdk();
-    this.legitimuzScriptLoaderService.loadOcrSdk();
-    this.tawktoScriptLoaderService.loadScript();
+  private gtmService?: GoogleTagManagerService;
 
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title,
+    private translateService: TranslateService,
+    private i18nService: I18nService,
+    private assetService: AssetsService,
+    private cmsService: CmsService,
+    private affiliatesService: AffiliatesService,
+    private playerActivationService: PlayerActivationService,
+    private playerStatusService: PlayerStatusService,
+    private messageService: MessageService,
+    private gamesService: GamesService,
+    private credentialsService: CredentialsService,
+    private globalSearchService: GlobalSearchService,
+    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService,
+    private seoService: SeoService,
+    private breakpointObserver: BreakpointObserver,
+    private gameCategoryService: GameCategoriesService,
+    private ccService: NgcCookieConsentService,
+    private dialog: Dialog,
+    private authService: AuthDialogService,
+    private legitimuzGeolocationService: LegitimuzGeolocationService,
+    private externalConfigsLoader: ExternalConfigsLoader,
+    private playerPromoService: PlayerPromoService,
+    @Inject(DOCUMENT) private doc: Document,
+    private metaService: Meta
+  ) {
     Object.defineProperty(TooltipComponent.prototype, 'message', {
       set(v: any) {
         const el = document.querySelectorAll('.mdc-tooltip__surface');
@@ -89,7 +90,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    log.debug('Initializating platform');
+    log.debug('init');
+
+    // Remove the loading screen when app is initialized
+    const element = document.getElementById('preloading-div');
+    element?.remove();
+
     // Set version
     this.setAppVersion();
 
@@ -116,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }),
         filter((route) => route.outlet === 'primary'),
         switchMap((route) => route.data),
-        takeUntilDestroyed(this.destroyRef)
+        untilDestroyed(this)
       )
       .subscribe((event) => {
         const title = event['title'];
@@ -138,7 +144,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
     // Update player balance and number of unread messages on route change
-    this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
+    this.router.events.pipe(untilDestroyed(this)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.playerStatusService.updatePlayerBalance().subscribe();
         this.messageService.updateUnreadCount().subscribe();
@@ -161,62 +167,75 @@ export class AppComponent implements OnInit, OnDestroy {
     this.cmsService.getActiveMainBanners(this.breakpointObserver.isMatched(AppBreakpoints.LtSmall2)).subscribe();
 
     // Preload All games
-    // this.gameCategoryService.gameCategories$
-    //   .pipe(
-    //     switchMap((categoryIds) => {
-    //       return this.gamesService.getGames(categoryIds['All Games']?.toString());
-    //     })
-    //   )
-    //   .subscribe();
+    this.gameCategoryService.gameCategories$
+      .pipe(
+        switchMap((categoryIds) => {
+          return this.gamesService.getGames(categoryIds['All Games']?.toString());
+        })
+      )
+      .subscribe();
 
     // Reload "All Games" when user logs in. This is so the search is populated as soon as possible.
     // Logout redirects to root page which handles that event.
-    // this.credentialsService.isAuthenticated$
-    //   .pipe(
-    //     takeUntilDestroyed(this.destroyRef),
-    //     filter((isAuth) => isAuth === true),
-    //     tap((_) => {
-    //       log.info('Reloading All Games');
-    //     }),
-    //     switchMap((_) => {
-    //       return this.gameCategoryService.gameCategories$;
-    //     }),
-    //     switchMap((categoryIds) => {
-    //       return this.gamesService.getGames(categoryIds['All Games'].toString());
-    //     })
-    //   )
-    //   .subscribe();
+    this.credentialsService.isAuthenticated$
+      .pipe(
+        untilDestroyed(this),
+        filter((isAuth) => isAuth === true),
+        tap((_) => {
+          log.info('Reloading All Games');
+        }),
+        switchMap((_) => {
+          return this.gameCategoryService.gameCategories$;
+        }),
+        switchMap((categoryIds) => {
+          return this.gamesService.getGames(categoryIds['All Games'].toString());
+        })
+      )
+      .subscribe();
 
-    // this.routerSubscription = this.router.events.subscribe((event) => {
-    //   if (event instanceof NavigationEnd) {
-    //     this.globalSearchService.disableGlobalSearch();
-    //   }
-    // });
-    // this.openAgeVerificationDialog();
+    this.routerSubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.globalSearchService.disableGlobalSearch();
+      }
+    });
+    this.openAgeVerificationDialog();
 
     this.checkTCVerification();
 
     this.setSeoMetadata();
+
+    this.manageZendeskChat();
+
+    this.setCookiePolicyTranslations();
+
+    this.externalConfigsLoader.load().then(() => {
+      this.legitimuzGeolocationService.initialize(
+        LegitimuzGeolocationAction.Check,
+        environment.deployConfig.legitimuzSDKToken
+      );
+    });
+
+    this.geolocationCheck();
   }
 
-  // private openAgeVerificationDialog() {
-  //   if (localStorage.getItem('age-verified') !== 'true') {
-  //     const dialogRef = this.dialog.open(AgeConfirmationDialogComponent, { autoFocus: false });
+  private openAgeVerificationDialog() {
+    if (localStorage.getItem('age-verified') !== 'true') {
+      const dialogRef = this.dialog.open(AgeConfirmationDialogComponent, { autoFocus: false });
 
-  //     dialogRef.closed.pipe(take(1)).subscribe((res) => {
-  //       if (!res) {
-  //         this.openAgeVerificationDialog();
-  //       } else {
-  //         localStorage.setItem('age-verified', 'true');
-  //       }
-  //     });
-  //   }
-  // }
+      dialogRef.closed.pipe(take(1)).subscribe((res) => {
+        if (!res) {
+          this.openAgeVerificationDialog();
+        } else {
+          localStorage.setItem('age-verified', 'true');
+        }
+      });
+    }
+  }
 
   private checkTCVerification() {
     this.credentialsService.isAuthenticated$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
+        untilDestroyed(this),
         filter((isAuth) => isAuth === true),
         switchMap(() => {
           if (localStorage.getItem('T&C_ActionId')) {
@@ -234,7 +253,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeUntilDestroyed(this.destroyRef)
+        untilDestroyed(this)
       )
       .subscribe(() => {
         // Find the current activated route
@@ -291,46 +310,103 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private handleActivationUrls() {
     // Email verification urls
-    this.playerActivationService.processEmailActivationUrl().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.playerActivationService.processEmailActivationUrl().pipe(untilDestroyed(this)).subscribe();
 
     // Activation urls
-    this.playerActivationService.processActivationUrl().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.playerActivationService.processActivationUrl().pipe(untilDestroyed(this)).subscribe();
 
     // Inactive player activation urls
-    this.playerActivationService.processInactiveUrl().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.playerActivationService.processInactiveUrl().pipe(untilDestroyed(this)).subscribe();
 
     // Annual income report urls
-    this.playerActivationService.processAnnualIncomeReportUrl().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.playerActivationService.processAnnualIncomeReportUrl().pipe(untilDestroyed(this)).subscribe();
 
-    this.playerPromoService.processPromoActivationUrl().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
-
-    this.legitimuzScriptLoaderService.geolocSdkLoaded$
-      .pipe(
-        filter((loaded) => loaded), // Ensure it's true
-        take(1), // Execute only once after loaded
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(() => {
-        this.legitimuzGeolocationService.initialize(
-          LegitimuzGeolocationAction.Check,
-          environment.deployConfig.legitimuzSDKToken
-        );
-        log.debug('Legitimuz Geolocation initialized after SDK loaded');
-        this.geolocationCheck();
-      });
-
-    log.debug('Legitimuz Geolocation initialization scheduled');
+    this.playerPromoService.processPromoActivationUrl().pipe(untilDestroyed(this)).subscribe();
 
     // Redirect URLs
     // this.playerActivationService
     //   .processRedirectUrl()
-    //   .pipe(takeUntilDestroyed(this.destroyRef))
+    //   .pipe(untilDestroyed(this))
     //   .subscribe(() => {
     //     this.router.navigate([], {
     //       relativeTo: this.activatedRoute,
     //       queryParams: {},
     //     });
     //   });
+  }
+
+  private manageZendeskChat() {
+    // hide chat bubble after page initialized
+    if (typeof zE === 'function') {
+      try {
+        zE('messenger', 'hide');
+      } catch {
+        //If account is expired remove zendesk iframe
+        this.removeZendeskOnError();
+        console.warn('Zendesk error');
+      }
+    } else {
+      console.warn('zE is not defined');
+    }
+
+    // callback for hiding chat bubble after closing it
+    try {
+      zE('messenger:on', 'close', function () {
+        zE('messenger', 'hide');
+      });
+    } catch {
+      console.warn('Zendesk error');
+    }
+  }
+
+  //removes zendesk iframe by id
+  private removeZendeskOnError() {
+    const element = document.getElementById('launcher');
+    if (element) {
+      element.hidden = true;
+    } else {
+      setTimeout(() => {
+        this.removeZendeskOnError();
+      }, 100); // Check every 100ms
+    }
+  }
+
+  private setCookiePolicyTranslations() {
+    this.translateService
+      .get([
+        'This site uses cookies',
+        'This website uses cookies to ensure you get the best experience on our website.',
+        'Got it',
+        'Cookie Policy',
+        'REFUSE COOKIES',
+        'ALLOW COOKIES',
+        'Learn more',
+      ])
+      .subscribe((data) => {
+        const config = this.ccService.getConfig();
+        if (config) {
+          config.content = config.content ?? {}; // Ensure `content` exists
+          config.content.header = data['This site uses cookies'] ?? '';
+          config.content.message =
+            data['This website uses cookies to ensure you get the best experience on our website.'] ?? '';
+          config.content.dismiss = data['Got it'] ?? '';
+          config.content.allow = data['ALLOW COOKIES'] ?? '';
+          config.content.deny = data['REFUSE COOKIES'] ?? '';
+          config.content.link = data['Learn more'] ?? '';
+          config.content.policy = data['Cookie Policy'] ?? '';
+        }
+
+        this.ccService.destroy(); // remove previous cookie bar (with default messages)
+        this.ccService.init(this.ccService.getConfig()); // update config with translated messages
+      });
+
+    this.ccService.statusChange$.pipe(untilDestroyed(this)).subscribe((event: NgcStatusChangeEvent) => {
+      this.ccService.fadeOut();
+    });
+
+    if (this.ccService?.hasAnswered()) {
+      this.ccService.toggleRevokeButton(false);
+    }
   }
 
   private geolocationCheck() {
