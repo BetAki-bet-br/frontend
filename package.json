@@ -70,7 +70,6 @@
     "@biesbjerg/ngx-translate-extract-marker": "^1.0.0",
     "@cypress/schematic": "^2.0.3",
     "@lhci/cli": "^0.12.0",
-    "@ngneat/until-destroy": "^9.0.0",
     "@ngx-rocket/scripts": "^5.2.2",
     "@types/jasmine": "^4.3.1",
     "@types/jasminewd2": "^2.0.8",
