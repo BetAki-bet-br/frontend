@@ -17,6 +17,21 @@ import { CredentialsService } from '@app/auth';
 import { PortalService } from '@app/@shared/services/portal.service';
 import { GameService } from '@app/@shared/services/game.service';
 import { ModalService } from '@app/@shared/services/modal.service';
+import { CategoryOrderService } from '@app/@shared/services/category-order.service';
+
+export type SectionType =
+  | 'game-list'
+  | 'recent-games'
+  | 'mais-premiados'
+  | 'winners-list'
+  | 'top-10-list'
+  | 'providers-carousel';
+
+export interface PageSection {
+  id: string | number;
+  type: SectionType;
+  data: any;
+}
 
 @Component({
   selector: 'app-games-list-page',
@@ -48,8 +63,30 @@ export class GamesListPage {
   private gameService = inject(GameService);
   private sessionService = inject(CredentialsService);
   private portalService = inject(PortalService);
+  private categoryOrderService = inject(CategoryOrderService);
 
   subLevels = toSignal(this.route.data.pipe(map((data) => data['games'] as SubLevel[] | undefined)));
+
+  categoryOrder = toSignal(this.categoryOrderService.getCategoryOrder(this.portalService.portalId, 'Casino'));
+
+  sortedSubLevels = computed(() => {
+    const levels = this.subLevels();
+    const order = this.categoryOrder();
+
+    if (!levels) return undefined;
+    if (!order) return levels;
+
+    return [...levels].sort((a, b) => {
+      const indexA = order.indexOf(a.name);
+      const indexB = order.indexOf(b.name);
+
+      if (indexA === -1 && indexB === -1) return 0;
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+
+      return indexA - indexB;
+    });
+  });
 
   recentGamesIds = this.sessionService.isAuthenticated()
     ? toSignal(
@@ -63,7 +100,7 @@ export class GamesListPage {
   recentGames = computed(() => {
     if (!this.sessionService.isAuthenticated()) return [];
 
-    const allGames = this.subLevels()?.flatMap((sl) => sl.gameMains) ?? [];
+    const allGames = this.sortedSubLevels()?.flatMap((sl) => sl.gameMains) ?? [];
     const recentIds = this.recentGamesIds();
     if (!allGames.length || !recentIds || !recentIds.length) {
       return [];
@@ -88,26 +125,21 @@ export class GamesListPage {
   });
 
   maisPremiados = computed(() => {
-    const levels = this.subLevels();
+    const levels = this.sortedSubLevels();
     if (!levels) return undefined;
 
     const categoryId = '502';
-    const sublevel = levels.find((level) => level.id === categoryId);
-
-    console.log('Mais Premiados SubLevel:', sublevel);
-    return sublevel;
+    return levels.find((level) => level.id === categoryId);
   });
 
   filteredSubLevels = computed(() => {
     const category = this.selectedCategory();
-    const levels = this.subLevels();
+    const levels = this.sortedSubLevels();
     const selProviders = this.selectedProviders();
 
     let filteredLevels = levels;
 
     if (category) {
-      console.log('Filtering levels by category:', category);
-      console.log('Available levels:', levels);
       filteredLevels = levels?.filter((level) => String(level.id) === String(category.id));
     }
 
@@ -126,21 +158,82 @@ export class GamesListPage {
     return filteredLevels;
   });
 
-  otherCategories = computed(() => {
-    const maisPremiadosId = this.maisPremiados()?.id;
-    return this.filteredSubLevels()?.filter((level) => level.id !== maisPremiadosId) ?? [];
-  });
-
   destaquesAoVivo = computed(() => {
-    const levels = this.subLevels();
+    const levels = this.sortedSubLevels();
     if (!levels) return undefined;
     const categoryId = '1000094';
     return levels.find((level) => level.id === categoryId);
   });
 
   top10games = computed(() => {
-    console.log(this.destaquesAoVivo());
     return this.destaquesAoVivo()?.gameMains.slice(0, 10) ?? [];
+  });
+
+  pageLayout = computed(() => {
+    const allSubLevels = this.filteredSubLevels() ?? [];
+
+    if (this.isFilterActive()) {
+      return allSubLevels
+        .filter((subLevel) => subLevel.gameMains.length > 0)
+        .map((subLevel) => ({
+          id: subLevel.id,
+          type: 'game-list',
+          data: subLevel,
+        }));
+    }
+
+    const layout: PageSection[] = [];
+    const premiados = this.maisPremiados();
+
+    if (this.recentGames()?.length) {
+      layout.push({
+        id: 'recent',
+        type: 'recent-games',
+        data: { title: 'Jogados Recentemente', games: this.recentGames() },
+      });
+    }
+
+    if (premiados?.gameMains.length) {
+      layout.push({
+        id: premiados.id,
+        type: 'mais-premiados',
+        data: { title: '🔥 Mais premiados', ...premiados },
+      });
+    }
+
+    const regularCategories = allSubLevels.filter((sl) => sl.id !== premiados?.id);
+
+    regularCategories.forEach((subLevel, index) => {
+      if (subLevel.gameMains.length > 0) {
+        layout.push({ id: subLevel.id, type: 'game-list', data: subLevel });
+      }
+
+      if (index === 3) {
+        layout.push({
+          id: 'winners',
+          type: 'winners-list',
+          data: { games: this.sortedSubLevels()!, winnersToList: this.winnersCount() },
+        });
+      }
+
+      if (index === 7 && this.top10games().length > 0) {
+        layout.push({
+          id: 'top-10',
+          type: 'top-10-list',
+          data: { categoryId: 1000094, games: this.top10games() },
+        });
+      }
+    });
+
+    if (this.providers()?.length) {
+      layout.push({
+        id: 'providers',
+        type: 'providers-carousel',
+        data: { providers: this.providers()!, categoryId: 'providers' },
+      });
+    }
+
+    return layout;
   });
 
   onFilterSelect(category: GameCategory | null): void {
@@ -166,7 +259,6 @@ export class GamesListPage {
 
   handleGameClick(game: GameMain): void {
     if (this.screenWidth() > 640) {
-      console.log('Navigating to game detail page for', game.externalId);
       this.router.navigate(['/game', game.externalId]);
       return;
     }
@@ -225,7 +317,6 @@ export class GamesListPage {
   });
 
   onResize(): void {
-    console.log(window.innerWidth);
     this.screenWidth.set(window.innerWidth);
   }
 }

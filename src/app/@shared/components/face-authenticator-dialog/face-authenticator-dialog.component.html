@@ -6,7 +6,7 @@
   customClass="bg-[#3C3B3B]!"
 >
   <div dialogContent class="iframe-container">
-    @if (safeUrl && !isLoading) {
+    @if (safeUrl) {
     <iframe
       [src]="safeUrl"
       frameborder="0"

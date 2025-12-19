@@ -16,15 +16,13 @@ export const environment = {
   demoPlayEnabled: false,
   indexPageTitle: 'BetAki | Apostas Regulamentadas, Super Odds e Diversão Garantida', // from environment-betaki.prod.ts
 
-  // THIS IS OVERRIDEN BY THE CONFIGURATION LOADED IN RUNTIME from <root>/deploy-config.json
-  // The values below are the defaults from deploy-config.json as a fallback
   deployConfig: {
     apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
     gaTrackingCode: 'GTM-KSQFD799',
     assetsBaseUrl: '',
     assetsPath: '',
     assetsQueryString: '',
-    gamesThumbsBaseUrl: '',
+    gamesThumbsBaseUrl: 'https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails',
     gamesThumbsUrlSuffix: '',
     antillephoneLicensingSealId: '',
     antillephoneLicensingScriptMethodId: '',

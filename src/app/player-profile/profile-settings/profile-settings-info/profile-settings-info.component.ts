@@ -203,20 +203,18 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
       this.days = getDays(year, month ? month.id : this.defaultMonth);
     });
     // on email status changes
-    this.profileGeneralForm.controls.email.statusChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((status: any) => {
-        if (status === 'INVALID') {
-          if (this.profileGeneralForm.controls.email.hasError('email')) {
-            this.snackbarService.openCustomError(
-              this.translate.instant('Please insert a valid email address'),
-              'center',
-              'top',
-              4000
-            );
-          }
+    this.profileGeneralForm.controls.email.statusChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((status: any) => {
+      if (status === 'INVALID') {
+        if (this.profileGeneralForm.controls.email.hasError('email')) {
+          this.snackbarService.openCustomError(
+            this.translate.instant('Please insert a valid email address'),
+            'center',
+            'top',
+            4000
+          );
         }
-      });
+      }
+    });
 
     this.getData(false);
   }

@@ -1,24 +1,24 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { GameMain } from '@app/games-page/models/game.models';
-import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
+import { AssetsService } from '@app/@shared/assets.service';
 
 @Component({
   selector: 'app-game-card',
-  imports: [CommonModule, CdnizePipe],
+  imports: [CommonModule, NgOptimizedImage],
   templateUrl: './game-card.html',
   styleUrl: './game-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameCard {
+  private assetsService = inject(AssetsService);
   game = input.required<GameMain>();
   class = input<string>('');
   layout = input<'fixed' | 'responsive'>('fixed');
+  isPriority = input<boolean>(false);
 
   get gameImageUrl(): string {
     if (!this.game()) return '';
-    return `https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails/${
-      this.game().externalId
-    }.webp`;
+    return this.assetsService.getGameImageUrl(this.game().externalId);
   }
 }

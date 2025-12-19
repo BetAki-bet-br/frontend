@@ -20,6 +20,7 @@
       :root {
         /* Cores extraídas do Tailwind config */
         --color-betaki-500: #bcd200;
+        --color-accent: #c6d42d;
         --color-shark-50: #fff;
         --color-shark-500: #727272;
         --color-shark-700: #424242;
@@ -57,11 +58,13 @@
         width: 100%;
         padding-top: 1.75rem; /* pt-7 */
         background-color: var(--bg-footer);
-        border-top: 1px solid var(--color-betaki-500);
+        border-top: 1px solid var(--color-accent);
         color: var(--color-text);
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
+        z-index: 5;
       }
 
       .footer-wrapper {
@@ -69,14 +72,12 @@
         flex-direction: column;
         width: 100%;
         max-width: 48rem; /* max-w-3xl */
-        /* No mobile: mx-0 (padrão) */
       }
 
       @media (min-width: 40rem) {
         /* sm */
         .footer-wrapper {
-          /* sm:mx-30 -> 30 * 0.25rem = 7.5rem */
-          margin-inline: 7.5rem;
+          margin-inline: 7.5rem; /* sm:mx-30 */
         }
       }
 
@@ -84,7 +85,6 @@
         /* md */
         .footer-wrapper {
           max-width: 56rem; /* md:max-w-4xl */
-          /* A margem de 7.5rem (sm:mx-30) continua valendo aqui pois não foi sobrescrita no original */
         }
       }
 
@@ -96,7 +96,6 @@
       }
 
       /* --- Grid de Links --- */
-      /* Layout: 2 colunas no mobile, 4 colunas no desktop */
       .links-grid {
         display: grid;
         width: 100%;
@@ -123,7 +122,7 @@
         }
       }
 
-      /* Colunas de Links (Sobre, Comunidade, Aposte) */
+      /* Colunas de Links */
       .col-links {
         grid-column: span 1 / span 1;
         justify-self: start;
@@ -134,20 +133,17 @@
         .col-links {
           justify-self: center; /* md:justify-self-center */
         }
-        /* Ajuste fino: O título costuma ser alinhado à esquerda do bloco, mas o bloco centralizado */
       }
 
-      /* Coluna Pagamentos (com botão) */
+      /* Coluna Pagamentos */
       .col-pagamentos {
         grid-column: span 1 / span 1;
-        justify-self: center; /* justify-self-center */
+        justify-self: center;
         display: flex;
         flex-direction: column;
-        align-items: center; /* Centraliza itens internamente */
+        align-items: center;
       }
 
-      /* Para alinhar o título "Pagamentos" à esquerda do bloco visual (como os outros),
-       mas manter o bloco centralizado na grid. O original tinha text-left. */
       .col-pagamentos h5 {
         width: 100%;
         text-align: left;
@@ -172,7 +168,7 @@
       .sponsorship-title {
         font-size: 1.25rem; /* text-xl */
         line-height: 1.5;
-        font-weight: 400; /* Removido font-bold */
+        font-weight: 400;
         text-align: center;
       }
       @media (min-width: 48rem) {
@@ -286,6 +282,7 @@
       .sponsorship-logos {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap; /* flex-wrap */
         align-items: center;
         justify-content: center;
         margin-top: 0.5rem; /* mt-2 */
@@ -297,6 +294,23 @@
         .sponsorship-logos {
           gap: 2.5rem; /* sm:gap-10 */
         }
+      }
+
+      /* Links de patrocinio */
+      .sponsor-link {
+        display: block;
+      }
+
+      .sponsor-img {
+        height: 5rem; /* h-20 (80px) */
+        width: auto;
+      }
+
+      .h-23 {
+        height: 5.75rem !important; /* 92px */
+      }
+      .w-auto {
+        width: auto;
       }
 
       /* --- Seção Regulatório --- */
@@ -388,9 +402,11 @@
         <div class="links-grid">
           <!-- Coluna 1: Sobre -->
           <div class="col-links">
-            <h5 class="col-title">Sobre o Bet Aki</h5>
-            <a class="footer-link" href="#" onclick="return navigateToPP('/terms')">Termos e Condições</a>
-            <a class="footer-link" href="#" onclick="return navigateToPP('/responsible-gaming')">Jogo Responsável</a>
+            <h5 class="col-title">Sobre o BetAki</h5>
+            <a class="footer-link" href="#" onclick="return navigateToPP('/terms-and-conditions')"
+              >Termos e Condições</a
+            >
+            <a class="footer-link" href="#" onclick="return navigateToPP('/rgl')">Jogo Responsável</a>
             <a class="footer-link" href="#" onclick="return navigateToPP('/privacy-policy')">Política de Privacidade</a>
             <a class="footer-link" href="#" onclick="return navigateToPP('/aml-policy')">Política AML</a>
           </div>
@@ -400,8 +416,8 @@
             <h5 class="col-title">Comunidade</h5>
             <a class="footer-link" href="#" onclick="return navigateToPP('/promotions')">Promoções</a>
             <a class="footer-link" href="#" onclick="return navigate('https://blog.betaki.bet.br')">Blog</a>
-            <a class="footer-link" href="#" onclick="return navigateToPP('/help')">Central de Ajuda</a>
-            <a class="footer-link" href="#" onclick="return navigateToPP('/support')">Canais de Atendimento</a>
+            <a class="footer-link" href="#" onclick="return navigateToPP('/customer-support')">Central de Ajuda</a>
+            <a class="footer-link" href="#" onclick="return navigateToPP('/contact')">Canais de Atendimento</a>
           </div>
 
           <!-- Coluna 3: Aposte -->
@@ -418,17 +434,17 @@
             <h5 class="col-title">Pagamentos</h5>
 
             <img
-              src="https://pp-assets.icbkiassets.com/cmslibrary/betaki/assets/general/payments/pix.svg"
+              src="/assets/footer/pix.png"
               alt="Pix logo"
               width="100"
               height="36"
               style="height: 2.5rem; width: auto"
             />
 
-            <button type="button" class="btn-contact" onclick="return openChat()">
+            <button type="button" class="btn-contact" onclick="return openTawkChat()">
               <span style="margin-right: 0.5rem; display: flex">
                 <img
-                  src="https://app--betaki-footer.us-central1.hosted.app/assets/icons/chat-icon.svg"
+                  src="/assets/icons/chat-icon.svg"
                   alt=""
                   width="18"
                   height="18"
@@ -446,7 +462,7 @@
         <!-- LOGO E SOCIAIS -->
         <div class="brand-section">
           <img
-            src="https://app--betaki-footer.us-central1.hosted.app/assets/brand/logo-white-color.svg"
+            src="/assets/brand/logo-white-color.svg"
             alt="BetAki logo"
             width="120"
             height="45"
@@ -456,7 +472,7 @@
           <div class="socials-wrapper">
             <a class="btn-social" href="#" target="_blank">
               <img
-                src="https://app--betaki-footer.us-central1.hosted.app/assets/icons/instagram-icon.svg"
+                src="/assets/icons/instagram-icon.svg"
                 alt="Instagram"
                 width="18"
                 height="18"
@@ -465,7 +481,7 @@
             </a>
             <a class="btn-social" href="#" target="_blank">
               <img
-                src="https://app--betaki-footer.us-central1.hosted.app/assets/icons/telegram-icon.svg"
+                src="/assets/icons/telegram-icon.svg"
                 alt="Telegram"
                 width="18"
                 height="18"
@@ -474,7 +490,7 @@
             </a>
             <a class="btn-social" href="#" target="_blank">
               <img
-                src="https://app--betaki-footer.us-central1.hosted.app/assets/icons/tiktok-icon.svg"
+                src="/assets/icons/tiktok-icon.svg"
                 alt="TikTok"
                 width="18"
                 height="18"
@@ -483,7 +499,7 @@
             </a>
             <a class="btn-social" href="#" target="_blank">
               <img
-                src="https://app--betaki-footer.us-central1.hosted.app/assets/icons/facebook-icon.svg"
+                src="/assets/icons/facebook-icon.svg"
                 alt="Facebook"
                 width="18"
                 height="18"
@@ -498,24 +514,18 @@
 
         <!-- PATROCÍNIO -->
         <div class="sponsorship-section">
-          <!-- Título sem bold -->
           <h5 class="sponsorship-title">A Bet Aki tem orgulho em patrocinar:</h5>
 
           <div class="sponsorship-logos">
-            <img
-              src="https://app--betaki-footer.us-central1.hosted.app/assets/footer/scfc.png"
-              alt="SCFC logo"
-              width="80"
-              height="80"
-              style="height: 5rem; width: auto"
-            />
-            <img
-              src="https://betaki-staging-latest.onrender.com/assets/footer/forro-e-mulher.png"
-              alt="Forró e Mulher logo"
-              width="200"
-              height="71"
-              style="height: 5rem; width: auto"
-            />
+            <a href="https://www.instagram.com/sampaiocorrea" target="_blank" class="sponsor-link">
+              <img src="/assets/footer/scfc.png" alt="SCFC logo" class="h-23 w-auto" />
+            </a>
+            <a href="https://www.instagram.com/uberlandiaesporteclube" target="_blank" class="sponsor-link">
+              <img src="/assets/footer/escudo_uec.png" alt="UEC brand" class="sponsor-img" />
+            </a>
+            <a href="https://www.instagram.com/forroemulherfestival" target="_blank" class="sponsor-link">
+              <img src="/assets/footer/forro-e-mulher.png" alt="Forró e Mulher logo" class="sponsor-img" />
+            </a>
           </div>
         </div>
 
@@ -529,7 +539,7 @@
             target="_blank"
           >
             <img
-              src="https://app--betaki-footer.us-central1.hosted.app/assets/footer/autorizado.png"
+              src="/assets/footer/autorizado.png"
               alt="Autorizado pelo ministério da fazenda"
               width="150"
               height="44"
@@ -538,7 +548,7 @@
           </a>
           <a href="https://www.reclameaqui.com.br/empresa/bet-aki/" target="_blank">
             <img
-              src="https://app--betaki-footer.us-central1.hosted.app/assets/footer/reclame-aqui.png"
+              src="/assets/footer/reclame-aqui.png"
               alt="Selo Reclame Aqui"
               width="200"
               height="71"
@@ -567,36 +577,26 @@
 
         <!-- CERTIFICAÇÕES (Providers) -->
         <div class="certifications-section">
+          <img src="/assets/footer/gaming-labs.png" alt="Gaming Labs" height="32" style="height: 2rem; width: auto" />
           <img
-            src="https://icbkircsa01.blob.core.windows.net/cmslibrary/betaki/assets/rgl/gaming-lab-certified.svg"
-            alt="GLI"
-            height="32"
-            style="height: 2rem; width: auto"
-          />
-          <img
-            src="https://icbkircsa01.blob.core.windows.net/cmslibrary/betaki/assets/rgl/gordon-moody.svg"
+            src="/assets/footer/gordon-moody.png"
             alt="Gordon Moody"
             height="32"
-            style="height: 2rem; width: auto"
+            style="height: 1.5rem; width: auto"
           />
           <img
-            src="https://icbkircsa01.blob.core.windows.net/cmslibrary/betaki/assets/rgl/18-plus.svg"
-            alt="18+"
+            src="/assets/footer/jogue-com-responsabilidade.png"
+            alt="Responsabilidade"
             height="32"
-            style="height: 2rem; width: auto"
+            style="height: 1.5rem; width: auto"
           />
           <img
-            src="https://icbkircsa01.blob.core.windows.net/cmslibrary/betaki/assets/rgl/be-gamble-aware.svg"
+            src="/assets/footer/be-gamble-aware.png"
             alt="BeGambleAware"
             height="32"
-            style="height: 2rem; width: auto"
+            style="height: 2.5rem; width: auto"
           />
-          <img
-            src="https://icbkircsa01.blob.core.windows.net/cmslibrary/betaki/assets/rgl/ibia.svg"
-            alt="IBIA"
-            height="32"
-            style="height: 2rem; width: auto"
-          />
+          <img src="/assets/footer/ibia.png" alt="IBIA" height="32" style="height: 2rem; width: auto" />
         </div>
 
         <!-- DIVISOR -->
@@ -604,9 +604,9 @@
 
         <!-- LINKS INFERIORES -->
         <div class="bottom-links">
-          <span class="bottom-link-item">Ouvidoria</span>
-          <span class="bottom-link-item">Denúncias</span>
-          <span class="bottom-link-item">Privacidade</span>
+          <span class="bottom-link-item" onclick="return navigateToPP('/customer-support')">Ouvidoria</span>
+          <span class="bottom-link-item" onclick="return navigateToPP('#')">Denúncias</span>
+          <span class="bottom-link-item" onclick="return navigateToPP('/privacy-policy')">Privacidade</span>
         </div>
       </div>
     </div>
@@ -622,7 +622,7 @@
         return false;
       }
 
-      openChat = function () {
+      openTawkChat = function () {
         window.top.postMessage({ type: 'CHAT', path: 'open' }, '*');
         return false;
       };
@@ -630,13 +630,7 @@
       function sendFooterHeight() {
         const footer = document.getElementById('ppFooterContainer');
         if (footer) {
-          window.parent.postMessage(
-            JSON.stringify({
-              type: 'iframeHeight',
-              height: footer.offsetHeight,
-            }),
-            '*'
-          );
+          window.parent.postMessage(JSON.stringify({ type: 'iframeHeight', height: footer.offsetHeight }), '*');
         }
       }
 

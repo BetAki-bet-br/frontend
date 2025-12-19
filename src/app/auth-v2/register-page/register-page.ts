@@ -26,6 +26,7 @@ import { ageValidator } from '@app/helpers/ageValidator';
 import { passwordsMatchValidator } from '@app/helpers/passwordsMatchValidator';
 import { passwordStrengthValidator } from '@app/helpers/passwordStrengthValidator';
 import { NgxMaskDirective } from 'ngx-mask';
+import { NgOptimizedImage } from '@angular/common';
 
 interface NavigatorWithDeviceMemory extends Navigator {
   readonly deviceMemory?: number;
@@ -35,7 +36,15 @@ interface NavigatorWithDeviceMemory extends Navigator {
   selector: 'app-register-page',
   templateUrl: './register-page.html',
   styleUrls: ['./register-page.scss'],
-  imports: [RouterLink, ReactiveFormsModule, NgxMaskDirective, CdnizePipe, TranslateModule, MatButtonModule],
+  imports: [
+    RouterLink,
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    CdnizePipe,
+    TranslateModule,
+    MatButtonModule,
+    NgOptimizedImage,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterPage implements OnInit {

@@ -17,6 +17,20 @@ import { GameService } from '@app/@shared/services/game.service';
 import { PortalService } from '@app/@shared/services/portal.service';
 import { SubLevel, GameMain, GameCategory, Provider } from '../models/game.models';
 import { CredentialsService } from '@app/auth';
+import { CategoryOrderService } from '@app/@shared/services/category-order.service';
+
+export type SectionType =
+  | 'game-list'
+  | 'recent-games'
+  | 'winners-list'
+  | 'top-10-live-list'
+  | 'providers-carousel';
+
+export interface PageSection {
+  id: string | number;
+  type: SectionType;
+  data: any;
+}
 
 @Component({
   selector: 'app-live-games-list-page',
@@ -48,8 +62,30 @@ export class LiveGamesListPage {
   private gameService = inject(GameService);
   private portalService = inject(PortalService);
   private sessionService = inject(CredentialsService);
+  private categoryOrderService = inject(CategoryOrderService);
 
   subLevels = toSignal(this.route.data.pipe(map((data) => data['games'] as SubLevel[] | undefined)));
+
+  categoryOrder = toSignal(this.categoryOrderService.getCategoryOrder(this.portalService.portalId, 'Live Casino'));
+
+  sortedSubLevels = computed(() => {
+    const levels = this.subLevels();
+    const order = this.categoryOrder();
+
+    if (!levels) return undefined;
+    if (!order) return levels;
+
+    return [...levels].sort((a, b) => {
+      const indexA = order.indexOf(a.name);
+      const indexB = order.indexOf(b.name);
+
+      if (indexA === -1 && indexB === -1) return 0;
+      if (indexA === -1) return 1;
+      if (indexB === -1) return -1;
+
+      return indexA - indexB;
+    });
+  });
 
   recentGamesIds = this.sessionService.isAuthenticated()
     ? toSignal(
@@ -60,13 +96,9 @@ export class LiveGamesListPage {
       )
     : signal([]);
 
-  constructor() {
-    console.log(this.subLevels());
-  }
-
   recentGames = computed(() => {
     if (!this.sessionService.isAuthenticated()) return [];
-    const allGames = this.subLevels()?.flatMap((sl) => sl.gameMains) ?? [];
+    const allGames = this.sortedSubLevels()?.flatMap((sl) => sl.gameMains) ?? [];
     const recentIds = this.recentGamesIds();
     if (!allGames.length || !recentIds || !recentIds.length) {
       return [];
@@ -91,19 +123,16 @@ export class LiveGamesListPage {
   });
 
   destaquesCassino = computed(() => {
-    const levels = this.subLevels();
+    const levels = this.sortedSubLevels();
     if (!levels) return undefined;
 
     const categoryId = '1000124'; // from the messy file
-    const sublevel = levels.find((level) => level.id === categoryId);
-
-    console.log('Destaques Ao Vivo SubLevel:', sublevel);
-    return sublevel;
+    return levels.find((level) => level.id === categoryId);
   });
 
   filteredSubLevels = computed(() => {
     const category = this.selectedCategory();
-    const levels = this.subLevels();
+    const levels = this.sortedSubLevels();
     const selProviders = this.selectedProviders();
 
     let filteredLevels = levels;
@@ -127,12 +156,72 @@ export class LiveGamesListPage {
     return filteredLevels;
   });
 
-  otherCategories = computed(() => {
-    const destaquesId = this.destaquesCassino()?.id;
-    return this.filteredSubLevels()?.filter((level) => level.id !== destaquesId) ?? [];
-  });
-
   top10games = computed(() => this.destaquesCassino()?.gameMains.slice(0, 10) ?? []);
+
+  pageLayout = computed(() => {
+    const allSubLevels = this.filteredSubLevels() ?? [];
+
+    if (this.isFilterActive()) {
+      return allSubLevels
+        .filter((subLevel) => subLevel.gameMains.length > 0)
+        .map(
+          (subLevel) =>
+            ({
+              id: subLevel.id,
+              type: 'game-list',
+              data: subLevel,
+            } as PageSection)
+        );
+    }
+
+    const layout: PageSection[] = [];
+
+    if (this.recentGames()?.length) {
+      layout.push({
+        id: 'recent',
+        type: 'recent-games',
+        data: {
+          title: 'Jogados Recentemente',
+          games: this.recentGames(),
+          overrideLink: '/games/live/category/recent',
+        },
+      });
+    }
+
+    const regularCategories = allSubLevels;
+
+    regularCategories.forEach((subLevel, index) => {
+      if (subLevel.gameMains.length > 0) {
+        layout.push({ id: subLevel.id, type: 'game-list', data: subLevel });
+      }
+
+      if (index === 3) {
+        layout.push({
+          id: 'winners',
+          type: 'winners-list',
+          data: { games: this.sortedSubLevels()!, winnersToList: this.winnersCount() },
+        });
+      }
+
+      if (index === 7 && this.top10games().length > 0) {
+        layout.push({
+          id: 'top-10-live',
+          type: 'top-10-live-list',
+          data: { categoryId: 1000124, games: this.top10games() },
+        });
+      }
+    });
+
+    if (this.providers()?.length) {
+      layout.push({
+        id: 'providers',
+        type: 'providers-carousel',
+        data: { providers: this.providers()!, categoryId: 'providers' },
+      });
+    }
+
+    return layout;
+  });
 
   private screenWidth = signal(window.innerWidth);
 
@@ -212,6 +301,7 @@ export class LiveGamesListPage {
 
   openGameDetails(game: GameMain): void {
     this.selectedGame.set(game);
+    this.modalService.open('gameDetail');
   }
 
   openFilterModal(): void {
@@ -232,5 +322,6 @@ export class LiveGamesListPage {
 
   closeGameDetails(): void {
     this.selectedGame.set(null);
+    this.modalService.close('gameDetail');
   }
 }

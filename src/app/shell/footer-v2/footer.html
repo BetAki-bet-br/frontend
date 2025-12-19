@@ -15,21 +15,21 @@
       }
       <div class="justify-self-center col-span-1">
         <h5 class="text-xl md:text-2xl leading-normal font-bold text-left mb-3">Pagamentos</h5>
-        <img ngSrc="/assets/footer/pix.png" alt="Pix logo" class="h-10 w-auto" priority width="100" height="36" />
+        <img src="/assets/footer/pix.png" alt="Pix logo" class="h-10 w-auto" width="100" height="36" />
         <button
           type="button"
           class="inline-flex mt-4 items-center justify-center font-medium transition-colors cursor-pointer rounded-md focus:outline-none focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-sm border-2 border-transparent text-betaki-500 w-auto bg-shark-950! hover:bg-shark-50/20!"
           (click)="openTawkChat()"
         >
           <span class="mr-2">
-            <img ngSrc="/assets/icons/chat-icon.svg" alt="" width="54" height="53" class="w-[1.125rem] h-auto" /> </span
+            <img src="/assets/icons/chat-icon.svg" alt="" width="54" height="53" class="w-[1.125rem] h-auto" /> </span
           >Contate-nos
         </button>
       </div>
     </div>
     <div class="bg-shark-700 h-px mt-6 mx-10"></div>
     <div class="flex flex-col xs:flex-row justify-center items-center mt-6 gap-5">
-      <img ngSrc="/assets/brand/logo-white-color.svg" alt="BetAki logo" class="h-10 w-auto" width="120" height="45" />
+      <img src="/assets/brand/logo-white-color.svg" alt="BetAki logo" class="h-10 w-auto" width="120" height="45" />
 
       <div class="socials flex flex-row items-center justify-center gap-3">
         @for (icon of socialIcons; track icon.src) {
@@ -56,16 +56,16 @@
     <div class="flex flex-col justify-center items-center mt-6 gap-2">
       <h5 class="text-xl md:text-2xl leading-normal text-center">A Bet Aki tem orgulho em patrocinar:</h5>
 
-      <div class="flex flex-row items-center justify-center gap-4 sm:gap-10 mt-2">
-        <img ngSrc="/assets/footer/scfc.png" alt="SCFC logo" class="h-20 w-auto" width="80" height="80" />
-        <img ngSrc="/assets/footer/escudo_uec.png" alt="UEC brand" class="h-20 w-auto" width="200" height="71" />
-        <img
-          ngSrc="/assets/footer/forro-e-mulher.png"
-          alt="Forró e Mulher logo"
-          class="h-20 w-auto"
-          width="200"
-          height="71"
-        />
+      <div class="flex flex-row flex-wrap items-center justify-center gap-4 sm:gap-10 mt-2">
+        <a href="https://www.instagram.com/sampaiocorrea" target="_blank">
+          <img src="/assets/footer/scfc.png" alt="SCFC logo" class="h-15 h-20 w-auto" />
+        </a>
+        <a href="https://www.instagram.com/uberlandiaesporteclube" target="_blank">
+          <img src="/assets/footer/escudo_uec.png" alt="UEC brand" class="h-23 w-auto" />
+        </a>
+        <a href="https://www.instagram.com/forroemulherfestival" target="_blank">
+          <img src="/assets/footer/forro-e-mulher.png" alt="Forró e Mulher logo" class="h-15 h-20 w-auto" />
+        </a>
       </div>
     </div>
     <div class="bg-shark-700 h-px my-6 mx-10"></div>
@@ -76,7 +76,7 @@
         target="_blank"
       >
         <img
-          ngSrc="/assets/footer/autorizado.png"
+          src="/assets/footer/autorizado.png"
           alt="Autorizado pelo ministério da fazenda logo"
           class="h-auto w-40"
           width="150"
@@ -89,7 +89,7 @@
         target="_blank"
       >
         <img
-          ngSrc="/assets/footer/reclame-aqui.png"
+          src="/assets/footer/reclame-aqui.png"
           alt="Selo Reclame Aqui"
           class="h-auto w-40"
           width="200"
@@ -114,7 +114,7 @@
 
     <div class="w-full flex flex-wrap items-center justify-center gap-4 md:gap-5 mt-6">
       @for (image of certificationImages; track image.src) {
-      <img [ngSrc]="image.src" [alt]="image.alt" [class]="image.class" [width]="image.width" [height]="image.height" />
+      <img [src]="image.src" [alt]="image.alt" [class]="image.class" [width]="image.width" [height]="image.height" />
       }
     </div>
 
@@ -123,9 +123,10 @@
       @for (item of supportOptions; track $index) {
       <p
         class="text-xs leading-normal text-betaki-500 hover:underline font-normal text-center cursor-pointer"
-        [ngClass]="{ 'pe-3 border-e border-shark-500': $index < supportOptions.length - 1 }"
+        [routerLink]="item.url"
+        [class]="{ 'pe-3 border-e border-shark-500': $index < supportOptions.length - 1 }"
       >
-        {{ item }}
+        {{ item.name }}
       </p>
       }
     </div>

@@ -22,7 +22,6 @@ import {
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher, MatOption } from '@angular/material/core';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
-import { ExternalConfigsLoader } from '@app/@core/external-configs-loader';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Logger } from '@app/@shared';
 import {
@@ -48,7 +47,6 @@ import { MatIcon } from '@angular/material/icon';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatError, MatSelect } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { MaterialModule } from '@app/@shared/material.module';
 
 const log = new Logger('WalletWithdrawalComponent');
 
@@ -83,7 +81,6 @@ enum WithdrawalTypeEnum {
     MatError,
     MatButtonModule,
     TranslateModule,
-    MaterialModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     MatOption,
@@ -102,7 +99,6 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   private authDialogService = inject(AuthDialogService);
   private paymentService = inject(PaymentsService);
   private configurationService = inject(ConfigurationService);
-  private externalConfigsLoader = inject(ExternalConfigsLoader);
   private destroyRef = inject(DestroyRef);
 
   balance = 0;
@@ -192,21 +188,17 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
       this.balanceString = this.dataStoreService.getNumberInLocalFormat(balance?.withdrawableBalance ?? 0, 2);
     });
 
-    this.externalConfigsLoader.configsLoaded$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((loaded) => {
-      if (loaded) {
-        let paymentTestModeEnabled: any = environment.deployConfig.paymentTestModeEnabled;
-        if (typeof paymentTestModeEnabled === 'string') {
-          paymentTestModeEnabled = paymentTestModeEnabled.toLowerCase() === 'true';
-        }
-        if (paymentTestModeEnabled) {
-          this.withdrawalForm.controls.amount?.setValidators([
-            this.customMinMaxValidator(this.minAmountTestMode, this.maxAmount),
-            this.minBalanceValidator(),
-          ]);
-          this.withdrawalForm?.updateValueAndValidity();
-        }
-      }
-    });
+    let paymentTestModeEnabled: any = environment.deployConfig.paymentTestModeEnabled;
+    if (typeof paymentTestModeEnabled === 'string') {
+      paymentTestModeEnabled = paymentTestModeEnabled.toLowerCase() === 'true';
+    }
+    if (paymentTestModeEnabled) {
+      this.withdrawalForm.controls.amount?.setValidators([
+        this.customMinMaxValidator(this.minAmountTestMode, this.maxAmount),
+        this.minBalanceValidator(),
+      ]);
+      this.withdrawalForm?.updateValueAndValidity();
+    }
 
     this.configurationService.getPlayerInfo().subscribe((res) => {
       this.playerInfo = res;

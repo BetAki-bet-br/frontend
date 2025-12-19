@@ -4,6 +4,7 @@ import { FullscreenService } from '@app/@shared/services/fullscreen.service';
 import { RoutingService } from '@app/@shared/services/routing.service';
 import { SidebarService } from '@app/@shared/services/sidebar-mobile.service';
 import { CdnizePipe } from '../../@pipes/cdnize.pipe';
+import { NgOptimizedImage } from '@angular/common';
 
 interface MobileMenuItem {
   label: string;
@@ -17,7 +18,7 @@ interface MobileMenuItem {
 
 @Component({
   selector: 'app-mobile-menu',
-  imports: [RouterLink, CdnizePipe],
+  imports: [RouterLink, NgOptimizedImage],
   templateUrl: './mobile-menu.html',
   styleUrl: './mobile-menu.scss',
 })

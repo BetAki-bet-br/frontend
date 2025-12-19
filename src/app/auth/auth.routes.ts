@@ -6,7 +6,7 @@ import { ResetPaswordComponent } from '@app/users/reset-pasword/reset-pasword.co
 import { EmailVerifiedSuccessComponent } from '@app/users/email-verified-success/email-verified-success.component';
 import { LoginPage } from '@app/auth-v2/login-page/login-page';
 import { RegisterPage } from '@app/auth-v2/register-page/register-page';
-import { publicAuthGuard } from '@app/promotions/auth.guard';
+import { publicAuthGuard } from '@app/auth.guard';
 import { AuthLayoutPage } from '@app/auth-v2/auth-layout-page';
 
 export const routes: Routes = [

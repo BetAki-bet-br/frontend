@@ -1,12 +1,11 @@
 import { Routes } from '@angular/router';
-
-import { SportsbookComponent } from '@app/sportsbook/sportsbook.component';
+import { Sportsbook } from '@app/sportsbook/sportsbook.component';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: SportsbookComponent,
+    component: Sportsbook,
     data: {
       title: '',
       robots: ['index', 'follow'],

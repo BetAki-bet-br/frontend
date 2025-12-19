@@ -12,12 +12,12 @@
   >
     <div class="absolute inset-0 transition-transform duration-300 group-hover:scale-120">
       <img
-        [src]="gameImageUrl | cdnize"
+        [ngSrc]="gameImageUrl"
         [alt]="game().name"
-        width="420"
+        fill
         draggable="false"
-        height="560"
         class="w-full h-full object-cover"
+        [priority]="isPriority()"
       />
     </div>
 

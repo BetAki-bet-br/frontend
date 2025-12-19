@@ -45,6 +45,7 @@ import {
 import { AdblockerDialogComponent } from '@app/auth/login/adblocker-dialog/adblocker-dialog.component';
 import { AuthenticationService, LoginContext } from '@app/auth/authentication.service';
 import { AuthEvent, AuthEventsService } from '@app/auth/auth-events.service';
+import { NgOptimizedImage } from '@angular/common';
 
 const log = new Logger('LoginPageComponent');
 
@@ -61,6 +62,7 @@ const log = new Logger('LoginPageComponent');
     NgxMaskDirective,
     MatIconModule,
     MatButtonModule,
+    NgOptimizedImage,
   ],
   providers: [NgxMaskDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,

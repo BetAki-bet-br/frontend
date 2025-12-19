@@ -91,6 +91,8 @@ export class FaceAuthenticatorDialogComponent implements OnInit, OnDestroy {
       ? this.data.faceAuthParams?.faceAuthUrl
       : this.data.faceAuthParams?.faceAuthUrlQR;
 
+    console.log('faceAuthUrl', faceAuthUrl);
+
     if (faceAuthUrl) {
       const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(faceAuthUrl);
       this.safeUrl = sanitizedUrl;

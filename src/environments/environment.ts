@@ -16,31 +16,30 @@ export const environment = {
   demoPlayEnabled: false,
   indexPageTitle: '[DEV] BetAki | Apostas Regulamentadas, Super Odds e Diversão Garantida',
 
-  // THIS IS OVERRIDEN BY THE CONFIGURATION LOADED IN RUNTIME from <root>/deploy-config.json
   deployConfig: {
-    apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6ab', // from environment-betaki.ts
-    gaTrackingCode: 'GTM-KSQFD799', // Google analytics ID
+    apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
+    gaTrackingCode: '',
     assetsBaseUrl: '',
     assetsPath: '',
     assetsQueryString: '',
-    gamesThumbsBaseUrl: '',
+    gamesThumbsBaseUrl: 'https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails',
     gamesThumbsUrlSuffix: '',
     antillephoneLicensingSealId: '',
     antillephoneLicensingScriptMethodId: '',
     antillephoneLicensingApgSealJsUrl: '',
     longVersion: '',
-    gtmId: 'GTM-KSQFD799', // Google Tag Manager ID
-    fingerprintApiKey: '', //Fingerprint Api Key
-    fingerprintEndpoint: '',
-    affiliateDataExpiryOffset: 168,
+    gtmId: 'GTM-KSQFD799',
+    cmsSlugPostfix: 'betaki',
+    brandId: 4,
+    desktopPortalId: 5,
+    mobilePortalId: 6,
+    fingerprintApiKey: 'f3cW3iUlT4Fa02Wuh0Jo',
+    fingerprintEndpoint: 'https://fngint.betaki.bet.br',
     seoHostname: 'https://betaki.bet.br/',
     sportsbookIntegration: 'betaki',
     sportsbookSDK: 'https://sb2wsdk-altenar2-stage.biahosted.com/altenarWSDK.js',
-    cmsSlugPostfix: '',
-    brandId: 2,
-    desktopPortalId: 5,
-    mobilePortalId: 6,
-    brandName: '',
+    affiliateDataExpiryOffset: 168,
+    brandName: 'Betaki',
     socialInstagramUrl: 'https://www.instagram.com/betakioficial',
     socialTikTokUrl: 'https://www.tiktok.com/@betakioficial?_t=ZM-8tTSPMU6MMg&_r=1',
     socialTwitterUrl: 'https://x.com/oficialbetaki?s=11',

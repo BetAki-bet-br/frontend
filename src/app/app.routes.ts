@@ -4,11 +4,11 @@ import { ProfileLayoutComponent } from './shell/shell-player-profile/profile-lay
 import { ShellComponent } from './shell/shell-common/shell.component';
 import { AuthenticationGuard } from './auth';
 import { GamesPage } from './games-page/games-page';
-import { GAMES_ROUTES } from './games/games.routes-v2';
+import { GAMES_ROUTES } from './games-page/games.routes';
 import { IngamePage } from './games-page/ingame-page/ingame-page';
 import { ingamePageResolver } from './games-page/ingame-page/ingame-page.resolver';
-import { privateAuthGuard } from './promotions/auth.guard';
-import { playerStatusGuard } from './promotions/player-status.guard';
+import { privateAuthGuard } from './auth.guard';
+import { playerStatusGuard } from './player-status.guard';
 
 export const appRoutes: Routes = [
   {
@@ -28,7 +28,7 @@ export const appRoutes: Routes = [
         path: 'games',
         component: GamesPage,
         title: 'Cassino - Bet Aki',
-        children: GAMES_ROUTES,
+        loadChildren: () => import('./games-page/games.routes').then((m) => m.GAMES_ROUTES),
       },
       {
         path: 'game/:id',

@@ -16,7 +16,7 @@
         [class.rounded-e-3xl]="item.routerLink === '/'"
         [class.border-betaki-500]="item.routerLink === '/'"
       >
-        <img [src]="item.icon | cdnize" [alt]="item.label" class="w-7 h-7" />
+        <img [src]="item.icon" [alt]="item.label" class="w-7 h-7" />
         @if (item.label) {
         <span class="">{{ item.label }}</span>
         }
@@ -30,7 +30,10 @@
         class="absolute bottom-0 flex flex-col items-center justify-center pt-3 w-[70px] h-[calc(100%+10px)] bg-black rounded-t-[50px] mb-1"
       >
         <img
-          [src]="isLinkActive(item) ? (item.iconActive | cdnize) : (item.icon | cdnize)"
+          priority
+          [ngSrc]="isLinkActive(item) ? (item.iconActive )! : (item.icon)"
+          width="25"
+          height="25"
           [alt]="item.label"
           class="w-9 h-9"
         />
@@ -44,7 +47,10 @@
       class="flex flex-1 flex-col items-center justify-center h-full pb-1 pt-1"
     >
       <img
-        [src]="isLinkActive(item) ? (item.iconActive | cdnize) : (item.icon | cdnize)"
+        priority
+        width="25"
+        height="25"
+        [ngSrc]="isLinkActive(item) ? (item.iconActive)! : (item.icon)"
         [alt]="item.label"
         class="w-6 h-6 mb-1"
       />
@@ -57,7 +63,15 @@
       (click)="item.action && item.action()"
       class="flex flex-1 flex-col items-center justify-center h-full pb-1 pt-1 cursor-pointer"
     >
-      <img [src]="item.icon  | cdnize" [alt]="item.label" class="w-6 h-6 white-icon mb-1" style="fill: #fff" />
+      <img
+        priority
+        width="25"
+        height="25"
+        [ngSrc]="item.icon"
+        [alt]="item.label"
+        class="w-6 h-6 white-icon mb-1"
+        style="fill: #fff"
+      />
       <span class="">{{ item.label }}</span>
     </button>
     } }

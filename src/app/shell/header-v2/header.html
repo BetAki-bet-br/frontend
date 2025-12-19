@@ -11,7 +11,6 @@
       <img
         [src]="'/assets/brand/logo-white.svg' | cdnize"
         alt="BetAki Logo"
-        priority
         width="243"
         height="91"
         class="h-8 w-auto"
@@ -22,9 +21,8 @@
       <img
         [src]="'/assets/icons/logo-white.png' | cdnize"
         alt="BetAki Logo"
-        priority
-        width="243"
-        height="91"
+        width="48"
+        height="48"
         class="h-10 w-auto"
       />
     </a>
@@ -73,9 +71,9 @@
         <img
           ngSrc="/assets/icons/promotion-icon.svg"
           alt="Icone de promoção"
-          width="20"
+          width="28"
           priority
-          height="21"
+          height="26"
           class="w-5 h-5"
         />
       </button>
@@ -101,7 +99,14 @@
         class="items-center justify-center font-medium transition-colors cursor-pointer rounded-md focus:outline-none focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed p-1 text-sm border-2 border-transparent bg-transparent text-betaki-500 hover:bg-shark-50/20 hover:text-betaki-600 w-auto"
         (click)="toggleProfileModal(); $event.stopPropagation()"
       >
-        <img src="/assets/icons/user-icon.svg" alt="Ícone de usuário" class="w-7 h-7" />
+        <img
+          ngSrc="/assets/icons/user-icon.svg"
+          width="20"
+          height="20"
+          priority
+          alt="Ícone de usuário"
+          class="w-7 h-7"
+        />
       </button>
 
       <div class="bg-white flex rounded-lg items-center p-0.75 sm:px-1">
@@ -131,7 +136,7 @@
   >
     <button
       (click)="goBack()"
-      class="text-md md:text-lg leading-normal transition-colors hover:text-betaki-600 flex items-center cursor-pointer text-white"
+      class="text-md md:text-lg leading-normal transition-colors hover:font-bold flex items-center cursor-pointer text-white"
     >
       <img src="/assets/icons/arrow-left-white.svg" dir="ltr" alt="Voltar" class="inline h-5 w-5 mr-1" />
       <div class="xs:hidden">
@@ -148,7 +153,7 @@
     </div>
     <div class="absolute hidden xs:block xs:left-1/2 -translate-x-1/2 md:hidden">
       <a class="cursor-pointer" routerLink="/">
-        <img [ngSrc]="betakiMobileLogo" alt="Betaki Logo" width="100" height="30" class="h-10 w-auto" />
+        <img [ngSrc]="betakiMobileLogo" alt="Betaki Logo" width="48" height="48" class="h-10 w-auto" />
       </a>
     </div>
     <div class="flex flex-row items-center justify-center gap-1 text-white">
@@ -182,7 +187,7 @@
 
       <div>
         <button
-          class="bg-accent text-white text-sm px-2 py-2 md:px-4 md:py-2 rounded-md transition-opacity duration-200 ease-in-out hover:opacity-80 cursor-pointer font-bold"
+          class="bg-[#353817] text-white text-sm px-2 py-2 md:px-4 md:py-2 rounded-md transition-opacity duration-200 ease-in-out hover:opacity-80 cursor-pointer font-bold"
           routerLink="/profile/wallet/deposit"
         >
           Depósito

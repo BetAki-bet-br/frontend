@@ -80,10 +80,6 @@ const materialCheckboxDefaultOptions: MatCheckboxDefaultOptions = {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    {
-      provide: 'googleTagManagerId',
-      useFactory: () => environment.deployConfig.gtmId,
-    },
     provideTranslateService({
       defaultLanguage: 'pt-BR',
     }),

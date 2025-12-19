@@ -31,7 +31,6 @@ import {
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { ExternalConfigsLoader } from './external-configs-loader';
 
 const log = new Logger('DataStoreService');
 
@@ -100,7 +99,6 @@ export interface CurrentBannersData {
 export class DataStoreService {
   private deviceService = inject(DeviceDetectorService);
   private i18nService = inject(I18nService);
-  private externalConfigsLoader = inject(ExternalConfigsLoader);
 
   public credentials: Credentials | null = null;
 
@@ -251,27 +249,8 @@ export class DataStoreService {
   }
 
   constructor() {
-    const externalConfigsLoader = this.externalConfigsLoader;
-
     this.setDevicePortalID();
-    externalConfigsLoader.configsLoaded$.subscribe((loaded) => {
-      if (loaded) {
-        // set default language
-        this.defaultLanguage = environment.deployConfig.defaultLanguage;
-        // set default portal id
-        this.defaultPortalId = +environment.deployConfig.desktopPortalId;
-        // set default dektop portal id
-        this.desktopPortalId = +environment.deployConfig.desktopPortalId;
-        // set default mobile portal id
-        this.mobilePortalId = +environment.deployConfig.mobilePortalId;
-        // set configuration cache
-
-        this.setDevicePortalID();
-
-        // restore configuration cache from storage
-        this.restoreConfigurationCache();
-      }
-    });
+    this.restoreConfigurationCache();
   }
 
   /**

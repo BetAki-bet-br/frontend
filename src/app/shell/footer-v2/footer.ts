@@ -1,5 +1,6 @@
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 
 interface Link {
@@ -28,9 +29,14 @@ interface CertificationImage {
   height?: number;
 }
 
+interface SupportOption {
+  name: string;
+  url: string;
+}
+
 @Component({
   selector: 'app-footer',
-  imports: [NgOptimizedImage, NgClass],
+  imports: [RouterLink],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
@@ -135,7 +141,11 @@ export class Footer {
     },
   ];
 
-  supportOptions: string[] = ['Ouvidoria', 'Denúncias', 'Privacidade'];
+  supportOptions: SupportOption[] = [
+    { name: 'Ouvidoria', url: '/customer-support' },
+    { name: 'Denúncias', url: '' },
+    { name: 'Privacidade', url: '/privacy-policy' },
+  ];
 
   openTawkChat(): void {
     this.tawkMessengerService.maximize();

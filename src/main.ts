@@ -1,6 +1,5 @@
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { register } from 'swiper/element/bundle';
 
 import { environment } from '@env/environment';
 import localePtExtra from '@angular/common/locales/extra/pt';
@@ -14,7 +13,6 @@ if (environment.production) {
   enableProdMode();
 }
 
-register();
 registerLocaleData(localePt, 'pt-BR', localePtExtra);
 
 bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));

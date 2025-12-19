@@ -1,8 +1,0 @@
-@use "sass:map" as map;
-@use "theme/theme-variables" as theme-variables;
-
-h2 {
-  a {
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
-  }
-}

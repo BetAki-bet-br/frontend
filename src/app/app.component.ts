@@ -13,7 +13,6 @@ import { I18nService } from '@app/i18n';
 import { environment } from '@env/environment';
 import { AppBreakpoints, Logger } from '@shared';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
-import { ExternalConfigsLoader } from './@core/external-configs-loader';
 import { GameCategoriesService } from './@core/game-categories.service';
 import { AffiliatesService } from './@shared/services/affiliates.service';
 import { CmsService } from './@shared/services/cms.service';
@@ -92,9 +91,6 @@ export class AppComponent implements OnInit, OnDestroy {
     log.debug('Initializating platform');
     // Set version
     this.setAppVersion();
-
-    // Init GTM
-    this.googleTagManagerServiceImpl.init();
 
     // Initialize the intercom chat service
     // this.intercomService.init();

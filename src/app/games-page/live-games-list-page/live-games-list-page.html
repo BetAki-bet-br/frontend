@@ -6,91 +6,62 @@
     (filterSelect)="onFilterSelect($event)"
   ></app-game-filter-list>
 
-  @if (!isFilterActive()) { @if (recentGames() && recentGames().length > 0) {
+  @for (section of pageLayout(); track section.id) { @switch (section.type) { @case ('recent-games') {
   <app-game-list
-    categoryId="recent"
-    title="Jogados Recentemente"
-    [gameCount]="recentGames().length"
-    [overrideLink]="'/games/category/recent'"
+    [categoryId]="section.id"
+    [title]="section.data.title"
+    [gameCount]="section.data.games.length"
+    [overrideLink]="section.data.overrideLink"
   >
     <div
       appDragScroll
       class="shrink-0 flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 px-3 md:ps-3"
     >
-      @for (game of recentGames().slice(0, recentGamesCount()); track game.id; let i = $index) {
+      @for (game of section.data.games.slice(0, recentGamesCount()); track game.id; let i = $index) {
       <app-game-card
         [game]="game"
-        [class.mr-3]="recentGames().slice(0, recentGamesCount()).length - 1 === i"
+        [class.mr-3]="section.data.games.slice(0, recentGamesCount()).length - 1 === i"
         (click)="handleGameClick(game)"
+        [isPriority]="$index < 5"
       ></app-game-card>
       }
     </div>
   </app-game-list>
-  } } @for (subLevel of filteredSubLevels()?.slice(0, 4); track subLevel.id) { @if(subLevel.gameMains.length > 0) {
-  <app-game-list [categoryId]="subLevel.id" [gameCount]="subLevel.gameMains.length" [title]="subLevel.name">
+  } @case ('game-list') { @if(section.data.gameMains.length > 0) {
+  <app-game-list [categoryId]="section.data.id" [gameCount]="section.data.gameMains.length" [title]="section.data.name">
     <div
       appDragScroll
       class="shrink-0 flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3"
     >
-      @for (game of subLevel.gameMains.slice(0, gamesCount()); track game.id; let i = $index) {
+      @for (game of section.data.gameMains.slice(0, gamesCount()); track game.id; let i = $index) {
       <app-game-card
         [game]="game"
-        [class.mr-3]="subLevel.gameMains.slice(0, gamesCount()).length - 1 === i"
+        [class.mr-3]="section.data.gameMains.slice(0, gamesCount()).length - 1 === i"
         (click)="handleGameClick(game)"
       ></app-game-card>
       }
     </div>
   </app-game-list>
-  } } @if (!isFilterActive()) {
+  } } @case ('winners-list') {
   <app-winners-list
-    [winnersToList]="winnersCount()"
+    [winnersToList]="section.data.winnersToList"
     (gameClick)="handleGameClick($event)"
-    [games]="subLevels()!"
+    [games]="section.data.games"
   ></app-winners-list>
-  } @for (subLevel of filteredSubLevels()?.slice(4, 8); track subLevel.id) { @if(subLevel.gameMains.length > 0) {
-  <app-game-list [categoryId]="subLevel.id" [gameCount]="subLevel.gameMains.length" [title]="subLevel.name">
-    <div
-      appDragScroll
-      class="shrink-0 flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3"
-    >
-      @for (game of subLevel.gameMains.slice(0, gamesCount()); track game.id;let i = $index) {
-      <app-game-card
-        [game]="game"
-        [class.mr-3]="subLevel.gameMains.slice(0, gamesCount()).length - 1 === i"
-        (click)="handleGameClick(game)"
-      ></app-game-card>
-      }
-    </div>
-  </app-game-list>
-  } } @if (!isFilterActive()) {
+  } @case ('top-10-live-list') {
   <app-top-10-live-list
-    [categoryId]="1000124"
-    [games]="top10games()"
+    [categoryId]="section.data.categoryId"
+    [games]="section.data.games"
     (gameClick)="handleGameClick($event)"
   ></app-top-10-live-list>
-  } @for (subLevel of filteredSubLevels()?.slice(8); track subLevel.id) { @if(subLevel.gameMains.length > 0) {
-  <app-game-list [categoryId]="subLevel.id" [gameCount]="subLevel.gameMains.length" [title]="subLevel.name">
-    <div
-      appDragScroll
-      class="shrink-0 flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3"
-    >
-      @for (game of subLevel.gameMains.slice(0, gamesCount()); track game.id;let i = $index) {
-      <app-game-card
-        [game]="game"
-        [class.mr-3]="subLevel.gameMains.slice(0, gamesCount()).length - 1 === i"
-        (click)="handleGameClick(game)"
-      ></app-game-card>
-      }
-    </div>
-  </app-game-list>
-  } } @if (!isFilterActive()) {
-  <app-providers-carousel [providers]="providers()!" categoryId="providers"></app-providers-carousel>
-  }
+  } @case ('providers-carousel') {
+  <app-providers-carousel [providers]="section.data.providers" [categoryId]="section.data.categoryId"></app-providers-carousel>
+  } } }
 </div>
 
 <app-game-detail-modal
   [game]="selectedGame()!"
-  [isOpen]="!!selectedGame()"
+  [isOpen]="isGameDetailModalOpen()"
   (closeModal)="closeGameDetails()"
 ></app-game-detail-modal>
 <app-game-filter-modal

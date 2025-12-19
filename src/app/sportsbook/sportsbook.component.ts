@@ -7,6 +7,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
+  Renderer2,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -19,7 +20,6 @@ import { SportsbookService } from '@app/@shared/services/sportsbook.service';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { CredentialsService } from '@app/auth';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
-import { NgcCookieConsentService } from 'ngx-cookieconsent';
 import { distinctUntilChanged, map, Subscription, switchMap } from 'rxjs';
 
 const log = new Logger('SportsbookComponent');
@@ -31,11 +31,11 @@ const log = new Logger('SportsbookComponent');
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SportsbookService],
 })
-export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
+export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
   private sportsbookService = inject(SportsbookService);
   private router = inject(Router);
-  private ccService = inject(NgcCookieConsentService);
   private cdr = inject(ChangeDetectorRef);
+  private renderer = inject(Renderer2);
   private route = inject(ActivatedRoute);
   private sanitizer = inject(DomSanitizer);
   private credentialsService = inject(CredentialsService);
@@ -45,20 +45,20 @@ export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
   private dialog = inject(Dialog);
   private loadingService = inject(LoadingService);
 
+  private unlisten!: () => void;
+
   @ViewChild('sportsbookIframe') iframeRef!: ElementRef;
 
   footerURL = `${window.location.origin}/static/footer.html`;
   casinoLobby = '/games';
 
-  public cookiesConsent = true;
   private routeSub: Subscription = new Subscription();
   private mainContainer: HTMLElement | null = null;
 
   safeUrl: SafeResourceUrl | undefined;
-  isLive = false;
   isAuth = false;
 
-  private messageListener = (event: MessageEvent) => {
+  private handleMessage = (event: MessageEvent) => {
     // Optional: Restrict to trusted origin
     //if (event.origin !== 'https://your-static-content.com') return;
     //log.warn('Received event:', event);
@@ -78,8 +78,6 @@ export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
         log.debug('Received CHAT message:', message);
         if (message.path === 'open') {
           this.tawkToScriptService.maximize();
-        } else if (message.path === 'close') {
-          this.tawkToScriptService.minimize();
         }
         break;
       // Event from sportsbook to notify that it is ready
@@ -106,29 +104,24 @@ export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadingService.show();
   }
 
+  ngAfterViewInit(): void {
+    this.unlisten = this.renderer.listen('window', 'message', this.handleMessage);
+    this.mainContainer = this.el.nativeElement.closest('.main-container');
+    if (this.mainContainer) {
+      this.mainContainer.style.height = '100%';
+      this.mainContainer.style.minHeight = '100dvh';
+    }
+  }
+
   ngOnInit(): void {
-    window.addEventListener('message', this.messageListener);
-
-    this.routeSub.add(
-      this.route.data.subscribe((res) => {
-        if (res['isLive']) {
-          this.isLive = true;
-        } else {
-          this.isLive = false;
-        }
-      })
-    );
-
     this.routeSub.add(
       this.route.url
         .pipe(
           map((segments) => segments.join('/')),
           distinctUntilChanged()
         )
-        .subscribe((res) => {
-          {
-            this.loadSportsbookUrl();
-          }
+        .subscribe(() => {
+          this.loadSportsbookUrl();
         })
     );
 
@@ -141,21 +134,15 @@ export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  ngAfterViewInit(): void {
-    this.mainContainer = this.el.nativeElement.closest('.main-container');
-    if (this.mainContainer) {
-      this.mainContainer.style.height = '100%';
-      this.mainContainer.style.minHeight = '100dvh';
-    }
-  }
-
   ngOnDestroy(): void {
     if (this.mainContainer) {
       this.mainContainer.style.height = ''; // Clear the inline style
     }
 
     this.routeSub.unsubscribe();
-    window.removeEventListener('message', this.messageListener);
+    if (this.unlisten) {
+      this.unlisten();
+    }
   }
 
   private loadSportsbookUrl() {
@@ -209,20 +196,20 @@ export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setSportsbookUrl(lobbyUrl: string, logout = false) {
-    if (!this.router.url.includes('/sportsbook-live') && !this.isLive) {
-      lobbyUrl += 'selectedDefaultTab=Early';
+    const [base, query] = lobbyUrl.split('?');
+    const params = new URLSearchParams(query);
+    const isLive = this.router.url.includes('/sportsbook-live');
 
-      if (logout) {
-        lobbyUrl += '&operatorToken=logout';
-      }
-    } else if (logout) {
-      lobbyUrl += 'operatorToken=logout';
+    if (!isLive) {
+      params.set('selectedDefaultTab', 'Early');
     }
 
-    // Sanitize the URL to prevent security issues
-    const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(lobbyUrl);
+    if (logout) {
+      params.set('operatorToken', 'logout');
+    }
 
-    this.safeUrl = sanitizedUrl;
+    const finalUrl = `${base}?${params.toString()}`;
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(finalUrl);
     this.cdr.markForCheck();
   }
 

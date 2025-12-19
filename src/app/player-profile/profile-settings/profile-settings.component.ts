@@ -26,13 +26,29 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
+import { CdnizePipe } from '../../@pipes/cdnize.pipe';
+
+export interface VerificationStatus {
+  phone: boolean;
+  address: boolean;
+  email: boolean;
+  kyc: boolean;
+}
 
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss', '../../shell/shell-player-profile/shell-player-profile-common.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslateModule, MatIconModule, MatButtonModule, MatDividerModule, PageBreadcrumbsComponent],
+  imports: [
+    RouterLink,
+    TranslateModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule,
+    PageBreadcrumbsComponent,
+    CdnizePipe,
+  ],
 })
 export class ProfileSettingsComponent implements OnInit, OnDestroy {
   private playerService = inject(PlayerStatusService);
@@ -62,6 +78,13 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
       text: 'My account',
     },
   ];
+
+  verificationStatus: VerificationStatus = {
+    phone: false,
+    address: false,
+    email: false,
+    kyc: false,
+  };
 
   balanceVisibilitySub = new Subscription();
 
@@ -96,6 +119,19 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       })
     );
+
+    this.playerProfileService
+      .getPlayerVerificationStatus()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((response) => {
+        this.verificationStatus = {
+          phone: response?.phoneNumber ?? false,
+          address: response?.address ?? false,
+          email: response?.email ?? false,
+          kyc: response?.kycStatus ?? false,
+        };
+        this.cdr.detectChanges();
+      });
   }
 
   ngOnDestroy(): void {

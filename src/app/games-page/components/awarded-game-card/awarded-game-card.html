@@ -9,12 +9,12 @@
     <div class="relative flex-grow">
       <div class="absolute inset-0 rounded-lg awarded-gradient">
         <img
-          [src]="gameImageUrl"
+          [ngSrc]="gameImageUrl"
           [alt]="game().name"
           draggable="false"
-          width="420"
-          height="560"
+          fill
           class="w-full h-full awarded-img object-cover rounded-lg"
+          [priority]="isPriority()"
         />
       </div>
 

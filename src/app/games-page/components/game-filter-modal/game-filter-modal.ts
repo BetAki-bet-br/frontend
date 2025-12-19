@@ -7,7 +7,6 @@ import { Provider } from '@app/games-page/models/game.models';
   templateUrl: './game-filter-modal.html',
   styleUrls: ['./game-filter-modal.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
 })
 export class GameFilterModal {
   isOpen = input<boolean>(false);

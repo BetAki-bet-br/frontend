@@ -25,18 +25,16 @@
             </div>
             <!-- Hide balance functionality is currently scoped out -->
             <!-- <div class="show-icon ml-2">
-            <mat-icon
-              *ngIf="!balanceVisible"
+            @if (!balanceVisible) {<mat-icon
               class="material-icons-outlined"
               (click)="balanceVisible = !balanceVisible"
               >visibility</mat-icon
-              >
-              <mat-icon
-                *ngIf="balanceVisible"
+              >}
+            @if (balanceVisible) {<mat-icon
                 class="material-icons-outlined"
                 (click)="balanceVisible = !balanceVisible"
                 >visibility_off</mat-icon
-                >
+                >}
               </div> -->
           </div>
         </div>
@@ -228,5 +226,46 @@
         <mat-icon fontSet="material-icons-outlined" class="section-icon-16">chevron_right</mat-icon>
       </div>
     </a>
+  </div>
+
+  <div class="verification-section flex flex-col">
+    <div translate class="verification-header">Required checks to request a withdrawal</div>
+    <div class="verification-items-container flex flex-row gap-4">
+      <!-- <div class="flex-row items-center gap-8">
+        <mat-icon *ngIf="verificationStatus.phone" class="verified-icon" fontSet="material-icons">verified</mat-icon>
+        <img
+          *ngIf="!verificationStatus.phone"
+          class="not-verified-icon"
+          [src]="'assets/general/icons/verified.svg' | cdnize"
+        />
+        <div class="verification-label" [ngClass]="{ 'not-verified': !verificationStatus.phone }" translate>Phone</div>
+      </div> -->
+      <div class="flex flex-row items-center gap-2">
+        @if (verificationStatus.address) {<mat-icon class="verified-icon" fontSet="material-icons">verified</mat-icon>}
+        @if (!verificationStatus.address) {<img
+          class="not-verified-icon"
+          [src]="'assets/general/icons/verified.svg' | cdnize"
+        />}
+        <div class="verification-label" [class]="{ 'not-verified': !verificationStatus.address }" translate>
+          Address
+        </div>
+      </div>
+      <div class="flex flex-row items-center gap-2">
+        @if (verificationStatus.email) {<mat-icon class="verified-icon" fontSet="material-icons">verified</mat-icon>}
+        @if (!verificationStatus.email) {<img
+          class="not-verified-icon"
+          [src]="'assets/general/icons/verified.svg' | cdnize"
+        />}
+        <div class="verification-label" [class]="{ 'not-verified': !verificationStatus.email }" translate>E-mail</div>
+      </div>
+      <div class="flex flex-row items-center gap-2">
+        @if (verificationStatus.kyc) {<mat-icon class="verified-icon" fontSet="material-icons">verified</mat-icon>} @if
+        (!verificationStatus.kyc) {<img
+          class="not-verified-icon"
+          [src]="'assets/general/icons/verified.svg' | cdnize"
+        />}
+        <div class="verification-label" [class]="{ 'not-verified': !verificationStatus.kyc }" translate>KYC</div>
+      </div>
+    </div>
   </div>
 </div>

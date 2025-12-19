@@ -5,7 +5,7 @@ import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 export const routes: Routes = [
   {
     path: 'sportsbook',
-    loadComponent: () => import('./sportsbook.component').then((m) => m.SportsbookComponent),
+    loadComponent: () => import('./sportsbook.component').then((m) => m.Sportsbook),
     data: {
       title: 'Apostas Futebol',
       description: 'Maiores campeonatos com bônus exclusivos e super odds.',
@@ -14,7 +14,7 @@ export const routes: Routes = [
   },
   {
     path: 'sportsbook-live',
-    loadComponent: () => import('./sportsbook.component').then((m) => m.SportsbookComponent),
+    loadComponent: () => import('./sportsbook.component').then((m) => m.Sportsbook),
     data: {
       title: 'Esportes ao vivo',
       description: 'Aposte ao vivo com emoção em tempo real!',

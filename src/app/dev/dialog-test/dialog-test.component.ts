@@ -30,7 +30,6 @@ import { AgeConfirmationDialogComponent } from '@app/users/age-confirmation-dial
   templateUrl: './dialog-test.component.html',
   styleUrls: ['./dialog-test.component.scss'],
   standalone: true,
-  imports: [CommonModule],
 })
 export class DialogTestComponent {
   private dialog = inject(Dialog);

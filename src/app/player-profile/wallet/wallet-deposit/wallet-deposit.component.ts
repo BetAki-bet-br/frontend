@@ -1,11 +1,17 @@
 import { MatButtonModule } from '@angular/material/button';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject, DestroyRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  DestroyRef,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { DataStoreService } from '@app/@core';
-import { ExternalConfigsLoader } from '@app/@core/external-configs-loader';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import {
   Breadcrumbs,
@@ -68,7 +74,6 @@ export class WalletDepositComponent implements OnInit {
   private cmsService = inject(CmsService);
   private router = inject(Router);
   private authDialogService = inject(AuthDialogService);
-  private externalConfigsLoader = inject(ExternalConfigsLoader);
   private destroyRef = inject(DestroyRef);
 
   balance = 0;
@@ -129,18 +134,14 @@ export class WalletDepositComponent implements OnInit {
       this.balanceString = this.dataStoreService.getNumberInLocalFormat(balance?.totalBalance ?? 0, 2);
     });
 
-    this.externalConfigsLoader.configsLoaded$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((loaded) => {
-      if (loaded) {
-        let paymentTestModeEnabled: any = environment.deployConfig.paymentTestModeEnabled;
-        if (typeof paymentTestModeEnabled === 'string') {
-          paymentTestModeEnabled = paymentTestModeEnabled.toLowerCase() === 'true';
-        }
-        if (paymentTestModeEnabled) {
-          this.depositForm.controls.amount?.setValidators([Validators.min(this.minAmountTestMode)]);
-          this.depositForm?.updateValueAndValidity();
-        }
-      }
-    });
+    let paymentTestModeEnabled: any = environment.deployConfig.paymentTestModeEnabled;
+    if (typeof paymentTestModeEnabled === 'string') {
+      paymentTestModeEnabled = paymentTestModeEnabled.toLowerCase() === 'true';
+    }
+    if (paymentTestModeEnabled) {
+      this.depositForm.controls.amount?.setValidators([Validators.min(this.minAmountTestMode)]);
+      this.depositForm?.updateValueAndValidity();
+    }
   }
 
   goToSecondStep() {
