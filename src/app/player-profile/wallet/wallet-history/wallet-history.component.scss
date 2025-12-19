@@ -1,6 +1,6 @@
-@use "sass:map";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 :host {
   flex: 1;
@@ -25,11 +25,11 @@
 }
 
 .approved {
-  color: map.get($app-custom-colors, "ATL_success");
+  color: map.get(theme-variables.$app-custom-colors, "ATL_success");
 }
 
 .declined {
-  color: map.get($app-custom-colors, "Betaki_error");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
 }
 
 .mobile-hidden {
@@ -45,7 +45,7 @@
 }
 
 .header-divider {
-  border-bottom: 1px solid map.get($app-custom-colors, "ATL_white20");
+  border-bottom: 1px solid map.get(theme-variables.$app-custom-colors, "ATL_white20");
   margin-top: 0.5rem;
   margin-left: -1.5rem;
   margin-right: -1.5rem;
@@ -53,7 +53,7 @@
 
 .header {
   font-size: 1.5rem;
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
 
   @include utils.media("lt-sm-2") {
     font-size: 0.875rem;
@@ -68,7 +68,7 @@
 }
 
 .no-records-mobile {
-  color: map.get($app-custom-colors, "ATL_white75");
+  color: map.get(theme-variables.$app-custom-colors, "ATL_white75");
   font-size: 0.875rem;
   margin-top: 1.5rem;
 }
@@ -93,7 +93,7 @@
 }
 
 .transaction-details-field {
-  color: map.get($app-custom-colors, "betaki-black100");
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 600;
@@ -101,7 +101,7 @@
 }
 
 .transaction-details-value {
-  color: map.get($app-custom-colors, "betaki-black100");
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
   text-align: right;
   font-size: 0.875rem;
   font-style: normal;
@@ -110,7 +110,7 @@
 }
 
 .transaction-details-summary-field {
-  color: map.get($app-custom-colors, "betaki-black100");
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 500;
@@ -118,7 +118,7 @@
 }
 
 .transaction-details-summary-value {
-  color: map.get($app-custom-colors, "betaki-black100");
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
   text-align: right;
   font-size: 0.875rem;
   font-style: normal;
@@ -134,7 +134,7 @@
   flex-direction: column;
 
   .form-field-label {
-    color: map.get($app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
     font-size: 0.75rem;
     margin-bottom: 0.25rem;
     margin-left: 1rem;
@@ -143,7 +143,7 @@
   }
 
   .toggle-icon {
-    // color: map.get($app-custom-colors, "betaki-black100");
+    // color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
     padding: 0 12px 0 0;
     font-size: 1rem;
     width: 1rem;
@@ -151,7 +151,7 @@
   }
 
   .toggle-icon-focused {
-    color: map.get($app-custom-colors, "betaki-green100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
     padding: 0 0.75rem 0 0;
     font-size: 1rem;
     width: 1rem;
@@ -177,7 +177,7 @@
     flex-direction: row;
     gap: 0.25rem;
     font-size: 0.75rem;
-    color: map.get($app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
   }
 
   .pager-navigation {
@@ -190,14 +190,14 @@
       height: 1rem;
       font-size: 1rem;
       cursor: pointer;
-      color: map.get($app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
     }
 
     .navigation-icon-disabled {
       width: 1rem;
       height: 1rem;
       font-size: 1rem;
-      color: map.get($app-custom-colors, "betaki-grey80");
+      color: map.get(theme-variables.$app-custom-colors, "betaki-grey80");
     }
   }
 }

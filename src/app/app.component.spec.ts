@@ -1,9 +1,10 @@
+import { RouterModule } from '@angular/router';
 import { async, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 import { Dialog } from '@angular/cdk/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FingerprintjsProAngularService } from '@fingerprintjs/fingerprintjs-pro-angular';
 import {
@@ -34,13 +35,12 @@ fdescribe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
         TranslateModule.forRoot(),
-        HttpClientModule,
         NgcCookieConsentModule.forRoot({}),
         MatSnackBarModule,
+        AppComponent,
+        RouterModule,
       ],
-      declarations: [AppComponent],
       providers: [
         { provide: GamesService, useClass: MockGamesService },
         { provide: MessageService, useClass: MockGamesService },
@@ -62,6 +62,7 @@ fdescribe('AppComponent', () => {
             getApiKey: () => 'test_key', // ensure this matches the logic in your useFactory
           },
         },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
   });

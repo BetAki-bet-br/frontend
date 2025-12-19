@@ -10,8 +10,7 @@ describe('PaymentsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PaymentsComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), PaymentsComponent],
       providers: [HttpBackend],
     }).compileComponents();
 

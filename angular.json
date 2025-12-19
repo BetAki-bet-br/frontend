@@ -4,6 +4,12 @@
   "newProjectRoot": "projects",
   "projects": {
     "angular-pp": {
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "pt-BR": "src/translations/json/pt-BR.json"
+        }
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -19,12 +25,13 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist",
+            "outputPath": {
+              "base": "dist"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["@angular/localize/init", "src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -34,14 +41,20 @@
               "src/deploy-config.json",
               "src/assetslocal",
               "src/assets",
+              "src/assetshtml",
               {
                 "glob": "**/*",
                 "input": "static",
                 "output": "/static/"
-              }              
+              }
             ],
-            "styles": ["src/main.scss", "node_modules/cookieconsent/build/cookieconsent.min.css"],
-            "scripts": ["node_modules/cookieconsent/build/cookieconsent.min.js"]
+            "styles": ["src/main.scss"],
+            "scripts": [],
+            "allowedCommonJsDependencies": ["moment"],
+            "browser": "src/main.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [".", "node_modules", "src"]
+            }
           },
           "configurations": {
             "production": {
@@ -65,31 +78,8 @@
               ],
               "outputHashing": "all"
             },
-            "production-betaki": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "14kb",
-                  "maximumError": "14kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment-betaki.prod.ts"
-                }
-              ],
-              "outputHashing": "all"
-            },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -100,37 +90,11 @@
                 "src/deploy-config.json",
                 "src/assets",
                 "src/assetslocal",
+                "src/assetshtml",
                 {
                   "glob": "**/*",
                   "input": "static",
                   "output": "/static/"
-                }              
-              ]
-            },
-            "development-betaki": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
-              "assets": [
-                "src/apple-touch-icon.png",
-                "src/robots.txt",
-                "src/sitemap.xml",
-                "src/deploy-config.json",
-                "src/assets",
-                "src/assetslocal",
-                {
-                  "glob": "**/*",
-                  "input": "static",
-                  "output": "/static/"
-                }              
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment-betaki.ts"
                 }
               ]
             },
@@ -141,45 +105,39 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
-              "browserTarget": "angular-pp:build:production"
-            },
-            "production-betaki": {
-              "browserTarget": "angular-pp:build:production-betaki"
+              "buildTarget": "angular-pp:build:production"
             },
             "development": {
-              "browserTarget": "angular-pp:build:development"
+              "buildTarget": "angular-pp:build:development"
             },
             "development-ssl": {
-              "browserTarget": "angular-pp:build:development",
               "ssl": true,
               "sslCert": "ssl/test.betaki.bet.br.pem",
               "sslKey": "ssl/test.betaki.bet.br-key.pem",
               "host": "test.betaki.bet.br",
-              "port": 4200
-            },
-            "development-betaki": {
-              "browserTarget": "angular-pp:build:development-betaki"
-            },
-            "ci": {
-              "progress": false
+              "port": 4200,
+              "buildTarget": "angular-pp:build:development"
             }
           },
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@angular/build:extract-i18n",
           "options": {
-            "browserTarget": "angular-pp:build"
+            "buildTarget": "angular-pp:build"
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "scripts": [],
@@ -231,7 +189,6 @@
       }
     }
   },
-  "defaultProject": "angular-pp",
   "cli": {
     "analytics": false
   }

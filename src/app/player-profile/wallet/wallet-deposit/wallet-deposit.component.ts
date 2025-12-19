@@ -1,26 +1,34 @@
+import { MatButtonModule } from '@angular/material/button';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { ExternalConfigsLoader } from '@app/@core/external-configs-loader';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import {
+  Breadcrumbs,
+  PageBreadcrumbsComponent,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { Logger } from '@app/@shared/logger.service';
 import { Banner } from '@app/@shared/models';
 import { CategoryKeyEnum } from '@app/@shared/models/template.model';
 import { CmsService } from '@app/@shared/services/cms.service';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { PaymentsService } from '@app/@shared/services/payment.service';
-import { PlayerStatusService } from '@app/@shared/services/player.service';
+import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { environment } from '@env/environment';
 import { CreatePaymentResponse, PaymentRequest } from '@icore/ngx-portalgateway-api-client-atl';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of, switchMap } from 'rxjs';
+import { MatFormField, MatHint, MatError } from '@angular/material/form-field';
+import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
+import { MatInputModule } from '@angular/material/input';
+import { A11yModule } from '@angular/cdk/a11y';
 
 const log = new Logger('WalletDepositComponent');
 
@@ -28,14 +36,41 @@ interface DepositForm {
   amount: FormControl<string | null>;
 }
 
-@UntilDestroy()
 @Component({
   selector: 'app-wallet-deposit',
   templateUrl: './wallet-deposit.component.html',
   styleUrls: ['./wallet-deposit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    PageBreadcrumbsComponent,
+    MatFormField,
+    MatHint,
+    MatError,
+    MatButtonModule,
+    RouterLink,
+    CdnizePipe,
+    TranslateModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    A11yModule,
+  ],
 })
 export class WalletDepositComponent implements OnInit {
+  private paymentsService = inject(PaymentsService);
+  private cdr = inject(ChangeDetectorRef);
+  private clipboard = inject(Clipboard);
+  private snackbarService = inject(SnackbarService);
+  private translateService = inject(TranslateService);
+  private dataStoreService = inject(DataStoreService);
+  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
+  private playerService = inject(PlayerStatusService);
+  private tawkToScriptService = inject(TawkToScriptService);
+  private cmsService = inject(CmsService);
+  private router = inject(Router);
+  private authDialogService = inject(AuthDialogService);
+  private externalConfigsLoader = inject(ExternalConfigsLoader);
+  private destroyRef = inject(DestroyRef);
+
   balance = 0;
   balanceCurrency = '';
   balanceString = '';
@@ -78,29 +113,13 @@ export class WalletDepositComponent implements OnInit {
     return `${length}ch`;
   }
 
-  constructor(
-    private paymentsService: PaymentsService,
-    private cdr: ChangeDetectorRef,
-    private clipboard: Clipboard,
-    private snackbarService: SnackbarService,
-    private translateService: TranslateService,
-    private dataStoreService: DataStoreService,
-    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService,
-    private playerService: PlayerStatusService,
-    private tawkToScriptService: TawkToScriptService,
-    private cmsService: CmsService,
-    private router: Router,
-    private authDialogService: AuthDialogService,
-    private externalConfigsLoader: ExternalConfigsLoader
-  ) {}
-
   get amountControl() {
     return this.depositForm.controls.amount;
   }
 
   ngOnInit(): void {
     this.loadBanner();
-    this.playerService.balanceSub$.pipe(untilDestroyed(this)).subscribe((balance) => {
+    this.playerService.balanceSub$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((balance) => {
       this.balance = balance?.totalBalance ?? 0;
       const currencySymbol = this.dataStoreService.getCurrencySymbol(
         this.dataStoreService.defaultLanguage,
@@ -110,7 +129,7 @@ export class WalletDepositComponent implements OnInit {
       this.balanceString = this.dataStoreService.getNumberInLocalFormat(balance?.totalBalance ?? 0, 2);
     });
 
-    this.externalConfigsLoader.configsLoaded$.pipe(untilDestroyed(this)).subscribe((loaded) => {
+    this.externalConfigsLoader.configsLoaded$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((loaded) => {
       if (loaded) {
         let paymentTestModeEnabled: any = environment.deployConfig.paymentTestModeEnabled;
         if (typeof paymentTestModeEnabled === 'string') {
@@ -262,6 +281,7 @@ export class WalletDepositComponent implements OnInit {
   private loadBanner() {
     this.cmsService.getBannersBySlug(CategoryKeyEnum.DepositPage, this.currentStep - 1).subscribe((res) => {
       this.bannerItem = res;
+      console.log('Loaded banner item:', this.bannerItem);
       this.cdr.markForCheck();
     });
   }

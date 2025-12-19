@@ -1,6 +1,6 @@
-@use "sass:map";
-@use "sass:color";
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/theme-variables" as theme-variables;
 
 .button-row {
   display: flex;
@@ -10,7 +10,7 @@
 
 // .dialog-content {
 //   margin-top: 2rem;
-//   color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.25);
+//   color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.25);
 //   font-size: 0.875rem;
 //   line-height: 1.225rem;
 //   margin-bottom: 1rem;

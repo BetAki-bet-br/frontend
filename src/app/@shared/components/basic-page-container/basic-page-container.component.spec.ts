@@ -8,7 +8,7 @@ describe('BasicPageContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BasicPageContainerComponent],
+      imports: [BasicPageContainerComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BasicPageContainerComponent);

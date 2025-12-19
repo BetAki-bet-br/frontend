@@ -3,15 +3,15 @@ import { TestBed } from '@angular/core/testing';
 import { GamesService } from './games.service';
 import { ProdGameService } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('GamesService', () => {
   let service: GamesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientModule],
-      providers: [{ provide: ProdGameService, useValue: {} }],
+      imports: [TranslateModule.forRoot()],
+      providers: [{ provide: ProdGameService, useValue: {} }, provideHttpClient(withInterceptorsFromDi())],
     });
     service = TestBed.inject(GamesService);
   });

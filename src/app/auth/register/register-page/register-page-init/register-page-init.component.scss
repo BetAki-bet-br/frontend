@@ -1,14 +1,14 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .banner-container {
   max-width: 57.5rem;
   width: 100%;
   min-height: 26.25rem;
   height: 100%;
-  background-color: map.get($app-custom-colors, "neutral-white");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   border-radius: 2rem;
 
   @include utils.media("lt-sm-2") {
@@ -19,7 +19,7 @@
 .register-content {
   max-width: 57.5rem;
   border-radius: 2rem;
-  background-color: map.get($app-custom-colors, "neutral-white");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   padding: 4rem 4rem 6rem;
 
   .title {
@@ -46,7 +46,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: map.get($app-custom-colors, "Betaki_black");
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
 
     mat-icon {
       font-size: 2rem;

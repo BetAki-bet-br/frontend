@@ -1,21 +1,38 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  OnChanges,
+  SimpleChanges,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
 import { CurrentBannersData } from '@app/@core';
 import { swiperBreakpointsLarge, swiperBreakpointsSmall } from '@app/@shared/app-breakpoints';
 import { Logger } from '@app/@shared/logger.service';
-import { UntilDestroy } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
-import Swiper, { SwiperOptions } from 'swiper';
+import { Swiper, SwiperOptions } from 'swiper/types';
+import { SwiperContainer } from 'swiper/element';
+// Added CommonModule
+import { MatIconModule } from '@angular/material/icon'; // Added MatIconModule
+// Register Swiper custom elements
+import { register } from 'swiper/element/bundle';
+register();
 
 const log = new Logger('MainBanner');
 
-@UntilDestroy()
 @Component({
   selector: 'app-main-banner',
   templateUrl: './main-banner.component.html',
   styleUrls: ['./main-banner.component.scss'],
+  imports: [MatIconModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // Allow custom elements like swiper-container and swiper-slide
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainBannerComponent {
+export class MainBannerComponent implements AfterViewInit, OnChanges {
+  @ViewChild('swiperContainer') swiperContainer!: ElementRef<SwiperContainer>;
   // START: For banner placeholder
   @Input() bannerData: CurrentBannersData | null = {
     currentBannersLarge: [
@@ -36,7 +53,6 @@ export class MainBannerComponent {
     navigation: {
       nextEl: '.swiper-nav-container-right',
       prevEl: '.swiper-nav-container-left',
-      enabled: false,
     },
     scrollbar: { draggable: true },
     autoplay: {
@@ -71,7 +87,6 @@ export class MainBannerComponent {
     navigation: {
       nextEl: '.swiper-nav-container-right-mobile',
       prevEl: '.swiper-nav-container-left-mobile',
-      enabled: false,
     },
     scrollbar: { draggable: true },
     autoplay: {
@@ -94,16 +109,35 @@ export class MainBannerComponent {
     return this.bannerData?.currentBannersLarge;
   }
 
-  onSwiper(swiper: Swiper) {
-    log.info(swiper);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['bannerData'] && !changes['bannerData'].firstChange) {
+      this.initializeSwiper();
+    }
   }
 
-  onSlideChange(swiper: Swiper[]) {
-    if (swiper.length === 0) {
+  ngAfterViewInit(): void {
+    this.initializeSwiper();
+  }
+
+  initializeSwiper() {
+    if (this.swiperContainer) {
+      const swiperEl = this.swiperContainer.nativeElement;
+      const swiperParams =
+        (this.bannerData?.currentBannersLarge?.length ?? 0) > 1 ? this.configLarge : this.configSmall;
+
+      Object.assign(swiperEl, swiperParams);
+
+      swiperEl.initialize();
+    }
+  }
+
+  onSlideChange(e: CustomEvent<[Swiper]>) {
+    const swiper = e.detail[0];
+    if (!swiper) {
       return;
     }
 
-    this.showPrevNavigation = !swiper[0]?.isBeginning;
-    this.showNextNavigation = !swiper[0]?.isEnd;
+    this.showPrevNavigation = !swiper.isBeginning;
+    this.showNextNavigation = !swiper.isEnd;
   }
 }

@@ -1,8 +1,12 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, inject } from '@angular/core';
 import { I18nService, LanguageConfig } from './i18n.service';
-import { TranslateService } from '@ngx-translate/core';
-import { KeyValue } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CommonModule, KeyValue } from '@angular/common';
 import { Logger } from '@app/@shared/logger.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 
 const log = new Logger('LanguageSelectorComponent');
 
@@ -11,8 +15,12 @@ const log = new Logger('LanguageSelectorComponent');
   templateUrl: './language-selector.component.html',
   styleUrls: ['./language-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, TranslateModule, MatMenuModule, MatButtonModule, MatIconModule, CdnizePipe],
 })
 export class LanguageSelectorComponent implements OnInit {
+  private i18nService = inject(I18nService);
+  translateService = inject(TranslateService);
+
   @Input() isLogin = true;
   @Input() icon = false;
   @Input() sidenav = false;
@@ -24,8 +32,6 @@ export class LanguageSelectorComponent implements OnInit {
   isMenuClosed = true;
 
   private languagesInternal: KeyValue<string, LanguageConfig | undefined>[] = [];
-
-  constructor(private i18nService: I18nService, public translateService: TranslateService) {}
 
   ngOnInit() {
     this.refreshLanguages();

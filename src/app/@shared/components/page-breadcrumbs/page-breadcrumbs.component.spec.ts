@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PageBreadcrumbsComponent } from './page-breadcrumbs.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpBackend, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpBackend, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DataStoreService } from '@app/@core';
 import { ExternalConfigsLoader } from '@app/@core/external-configs-loader';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -15,9 +15,7 @@ describe('PageBreadcrumbsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PageBreadcrumbsComponent],
-      imports: [TranslateModule.forRoot(), HttpClientModule, MatSnackBarModule],
-
+      imports: [TranslateModule.forRoot(), MatSnackBarModule, PageBreadcrumbsComponent],
       providers: [
         DataStoreService,
         ExternalConfigsLoader,
@@ -25,6 +23,7 @@ describe('PageBreadcrumbsComponent', () => {
         HttpBackend,
         { provide: Dialog, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

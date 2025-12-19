@@ -1,6 +1,6 @@
-@use "sass:map";
-@use "src/theme/utils" as util;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .help-page-container {
   &.bonus-terms-and-conditions {
@@ -8,7 +8,7 @@
     overflow: auto;
   }
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     padding: 0;
   }
 }

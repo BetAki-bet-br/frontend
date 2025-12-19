@@ -24,7 +24,7 @@ import { PlayerProfileService } from '../player-profile.service';
 import { PlayerProfileServiceMock } from '../player-profile.service.mock';
 import { PlayerStatusService } from '@app/@shared/services/player.service';
 import { MockPlayerStatusService } from '@app/@shared/services/player-service.mock';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { of } from 'rxjs';
@@ -44,8 +44,7 @@ describe('PromoComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [PromoComponent],
-      imports: [MatSnackBarModule, TranslateModule.forRoot(), MatDialogModule, HttpClientModule],
+      imports: [MatSnackBarModule, TranslateModule.forRoot(), MatDialogModule, PromoComponent],
       providers: [
         SnackbarService,
         MatSnackBar,
@@ -68,6 +67,7 @@ describe('PromoComponent', () => {
         { provide: PlayerStatusService, useClass: MockPlayerStatusService },
         RenderTemplatePipe,
         { provide: ActivatedRoute, useValue: activatedRouteStub },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

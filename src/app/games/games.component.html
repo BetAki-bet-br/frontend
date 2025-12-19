@@ -1,44 +1,36 @@
 <div class="page-container">
   <!-- Game search -->
-  <app-game-search class="app-game-search"></app-game-search>
+  <app-game-search class="app-game-search" />
   <!-- Main banner -->
-  <app-main-banner [bannerData]="banners$ | async" [showArrowsMobile]="false"></app-main-banner>
+  <app-main-banner [bannerData]="banners$ | async" [showArrowsMobile]="false" />
   <!-- Home page content -->
   <div class="games-categories-nav">
-    <app-game-filters></app-game-filters>
+    <app-game-filters />
   </div>
   <div class="games-container game-tiles games-content-padding">
-    <ng-container *ngIf="(isGamesLobby$ | async) === false; else gameTiles">
-      <app-providers [isProvidersPage]="true" [initialRows]="0" [showArrowsMobile]="false"></app-providers>
-    </ng-container>
-    <ng-template #gameTiles>
-      <ng-container *ngFor="let category of gameCategories">
-        <app-games-tiles
-          *ngIf="category.games.length > 0"
-          [initialLoadAmount]="initialLoadAmount"
-          [selectedProviderList]="selectedProviderList"
-          [gamesList]="category.games"
-          [categoryId]="category.id"
-          [gameCatalog]="category.name"
-          [gameCatalogCleanName]="category.cleanName"
-          [initialRows]="initialRows"
-        >
-        </app-games-tiles>
-      </ng-container>
-      <app-providers *ngIf="gameCategories.length > 1" [showArrowsMobile]="false"></app-providers>
-    </ng-template>
+    @if ((isGamesLobby$ | async) === false) {
+    <app-providers [isProvidersPage]="true" [initialRows]="0" [showArrowsMobile]="false" />
+    } @else { @for (category of gameCategories; track category) { @if (category.games.length > 0) {
+    <app-games-tiles
+      [initialLoadAmount]="initialLoadAmount"
+      [selectedProviderList]="selectedProviderList"
+      [gamesList]="category.games"
+      [categoryId]="category.id"
+      [gameCatalog]="category.name"
+      [gameCatalogCleanName]="category.cleanName"
+      [initialRows]="initialRows"
+    />
+    } } @if (gameCategories.length > 1) {
+    <app-providers [showArrowsMobile]="false" />
+    } }
   </div>
 
-  <ng-container *ngIf="false">
-    <!-- removed for GLI version -->
-    <div class="games-page-content flex-col justify-center items-center content-center">
-      <app-winners-section
-        class="winners-section"
-        [withBackground]="true"
-        [hidePoolJackpot]="true"
-      ></app-winners-section>
-    </div>
-  </ng-container>
+  @if (false) {
+  <!-- removed for GLI version -->
+  <div class="games-page-content flex flex-col justify-center items-center content-center">
+    <app-winners-section class="winners-section" [withBackground]="true" [hidePoolJackpot]="true" />
+  </div>
+  }
 
-  <ng-content select="[welcome-message]"></ng-content>
+  <ng-content select="[welcome-message]" />
 </div>

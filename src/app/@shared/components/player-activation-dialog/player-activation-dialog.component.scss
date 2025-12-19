@@ -1,6 +1,6 @@
-@use "sass:map";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .link {
   text-decoration: none;

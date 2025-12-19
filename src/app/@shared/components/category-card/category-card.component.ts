@@ -1,5 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AppBreakpoints } from '@app/@shared';
 import { environment } from '@env/environment';
 import { map, Subscription } from 'rxjs';
@@ -17,8 +18,12 @@ export interface CategoryCardData {
   templateUrl: './category-card.component.html',
   styleUrls: ['./category-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink],
 })
 export class CategoryCardComponent implements OnInit, OnDestroy {
+  private breakpointObserver = inject(BreakpointObserver);
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() cardData: CategoryCardData = {
     description: '',
     buttonText: '',
@@ -32,8 +37,6 @@ export class CategoryCardComponent implements OnInit, OnDestroy {
   brandId = environment.deployConfig.brandId;
 
   private subscription = new Subscription();
-
-  constructor(private breakpointObserver: BreakpointObserver, private cdr: ChangeDetectorRef) {}
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();

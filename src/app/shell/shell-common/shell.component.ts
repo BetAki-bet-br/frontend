@@ -1,23 +1,41 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { GlobalSearchService } from '@app/@shared/global-search.service';
-import { PlayerStatusService } from '@app/@shared/services/player.service';
+import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { CredentialsService } from '@app/auth';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
-import { UntilDestroy, untilDestroyed } from '@shared';
 import { forkJoin } from 'rxjs';
 import { SidenavMenuComponent } from '../sidenav-menu/sidenav-menu.component';
 
-@UntilDestroy()
+import { Header } from '../header-v2/header';
+import { Footer } from '../footer-v2/footer';
+import { MobileMenu } from '../mobile-menu/mobile-menu';
+import { RoutingService } from '@app/@shared/services/routing.service';
+import { SidebarMobile } from '../sidebar-mobile/sidebar-mobile';
+import { Loading } from '@app/@shared/components/loading/loading';
+import { InlineLoading } from '@app/@shared/components/inline-loading/inline-loading';
+import { LoadingService } from '@app/@shared/components/loading/loading.service';
+
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [Header, RouterOutlet, Footer, MobileMenu, SidebarMobile, Loading, InlineLoading],
 })
 export class ShellComponent {
+  globalSearchService = inject(GlobalSearchService);
+  private credentialsService = inject(CredentialsService);
+  private configurationService = inject(ConfigurationService);
+  private playerService = inject(PlayerStatusService);
+  private router = inject(Router);
+  routingService = inject(RoutingService);
+  private cdr = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
+  readonly loadingService = inject(LoadingService);
   @ViewChild(SidenavMenuComponent, { static: false }) sidenavMenu!: SidenavMenuComponent;
 
   isSignedIn$ = this.credentialsService.isAuthenticated$;
@@ -28,15 +46,8 @@ export class ShellComponent {
 
   isSportsbook = false;
 
-  constructor(
-    public globalSearchService: GlobalSearchService,
-    private credentialsService: CredentialsService,
-    private configurationService: ConfigurationService,
-    private playerService: PlayerStatusService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {
-    this.isSignedIn$?.pipe(untilDestroyed(this)).subscribe({
+  constructor() {
+    this.isSignedIn$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
         if (res) {
           this.getPlayerInfo();
@@ -44,7 +55,7 @@ export class ShellComponent {
       },
     });
 
-    this.router.events.pipe(untilDestroyed(this)).subscribe((event) => {
+    this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
       if (event instanceof NavigationEnd) {
         // Remove footer on sportsbook. '/' is because sportsbook is home
         const tree = this.router.parseUrl(this.router.url);
@@ -68,7 +79,7 @@ export class ShellComponent {
       playerInfo: this.configurationService.getPlayerInfo(),
       playerData: this.playerService.updatePlayerData(),
     })
-      .pipe(untilDestroyed(this))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ({ playerInfo }) => {
           this.playerInfo = playerInfo;

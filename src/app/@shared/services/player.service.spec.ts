@@ -11,7 +11,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { MockCtgApiService } from '../http/ctg-api.service.mock';
 import { Dialog } from '@angular/cdk/dialog';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { EllipsisPipe } from '@app/@pipes/ellipsis.pipe';
@@ -23,7 +23,7 @@ describe('PlayerService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()],
       providers: [
         { provide: LoyaltyService, useClass: MockCtgApiService },
         { provide: BalanceService, useClass: MockCtgApiService },
@@ -41,6 +41,7 @@ describe('PlayerService', () => {
         { provide: MatSnackBar, useValue: {} },
         RenderTemplatePipe,
         EllipsisPipe,
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     });
     service = TestBed.inject(PlayerStatusService);

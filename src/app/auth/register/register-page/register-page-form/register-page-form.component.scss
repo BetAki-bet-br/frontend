@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 :host {
   width: 100%;
@@ -10,7 +10,7 @@
 }
 
 .register-form-container {
-  color: map.get($app-custom-colors, "Betaki_black");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
   max-width: 41.25rem;
   width: 100%;
   padding: 0 2rem;
@@ -30,7 +30,7 @@
 }
 
 .register-form-section {
-  background-color: map.get($app-custom-colors, "betaki-white100");
+  background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
   border-radius: 2rem;
   gap: 1rem;
   padding: 2.5rem 2rem;
@@ -57,7 +57,7 @@
   }
 
   .tab-number {
-    background-color: map.get($app-custom-colors, "Betaki_success");
+    background-color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
     border-radius: 2rem;
     width: 2.5rem;
     height: 2.5rem;
@@ -117,7 +117,7 @@
   }
 
   span {
-    color: map.get($app-custom-colors, "Betaki_olivia");
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
   }
 }
 
@@ -126,7 +126,7 @@
 }
 
 .error-icon {
-  color: map.get($app-custom-colors, "Betaki_error");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
 }
 
 @include utils.media("lt-sm-2") {
@@ -136,7 +136,7 @@
 }
 
 .link {
-  color: map.get($app-custom-colors, "Betaki_success");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
   text-decoration: none;
 }
 
@@ -147,10 +147,10 @@ mat-checkbox {
 }
 
 mat-icon {
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
 
   &:hover {
-    color: color.adjust(map.get($app-custom-colors, "Betaki_olivia"), $alpha: -0.4);
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_olivia"), $alpha: -0.4);
   }
 }
 
@@ -164,7 +164,7 @@ mat-icon {
 }
 
 .checkbox-text {
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
   float: left;
   text-align: left;
 

@@ -5,9 +5,9 @@ import {
   ComponentRef,
   OnChanges,
   SimpleChanges,
-  Inject,
   EventEmitter,
   Output,
+  inject,
 } from '@angular/core';
 import { Logger } from '@app/@shared/logger.service';
 import { ComponentTypes, COMPONENT_TYPES_MAP, ComponentTypesMapType } from './component-types';
@@ -30,6 +30,9 @@ const log = new Logger('ComponentLoaderDirective');
   exportAs: 'componentLoader',
 })
 export class ComponentLoaderDirective implements OnChanges {
+  viewContainerRef = inject(ViewContainerRef);
+  private componentTypesMap = inject<ComponentTypesMapType>(COMPONENT_TYPES_MAP);
+
   /** Data for the component */
   @Input() set appComponentLoader(val: any) {
     this._val = val;
@@ -44,11 +47,6 @@ export class ComponentLoaderDirective implements OnChanges {
   private _componentRef?: ComponentRef<any>;
   private _componentCreated = false;
   private _val: any;
-
-  constructor(
-    public viewContainerRef: ViewContainerRef,
-    @Inject(COMPONENT_TYPES_MAP) private componentTypesMap: ComponentTypesMapType
-  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     // log.debug('changes', changes);

@@ -9,8 +9,7 @@ describe('BaseTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BaseTableComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), BaseTableComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BaseTableComponent);

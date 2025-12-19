@@ -11,8 +11,7 @@ describe('LastSessionDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LastSessionDialogComponent],
-      imports: [TranslateModule.forRoot(), PipesModule],
+      imports: [TranslateModule.forRoot(), PipesModule, LastSessionDialogComponent],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: DIALOG_DATA, useValue: '' },

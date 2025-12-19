@@ -8,12 +8,14 @@ const HttpsProxyAgent = require('https-proxy-agent');
  */
 const proxyConfig = [
   {
-    context: '/api',
-    target: 'https://icbkistppbetaki.extctglwr.com/',
+    context: ['/api'],
+    target: 'https://betaki.bet.br/api',
     changeOrigin: true,
     secure: false,
     logLevel: 'debug',
-    debug: true,
+    pathRewrite: {
+      '^/api': '',
+    },
   },
 ];
 

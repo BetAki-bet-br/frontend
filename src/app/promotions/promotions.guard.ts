@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { CredentialsService } from '@app/auth';
 
@@ -6,7 +6,8 @@ import { CredentialsService } from '@app/auth';
   providedIn: 'root',
 })
 export class PromotionsGuard implements CanActivate {
-  constructor(private credentialsService: CredentialsService, private router: Router) {}
+  private credentialsService = inject(CredentialsService);
+  private router = inject(Router);
 
   canActivate(): boolean {
     if (this.credentialsService.isAuthenticated()) {

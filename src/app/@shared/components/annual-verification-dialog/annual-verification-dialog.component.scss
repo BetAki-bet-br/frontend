@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .verification-form {
   max-height: 18.75rem;
@@ -20,7 +20,7 @@
   flex-direction: column;
 
   .form-field-label {
-    color: map.get($app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
     font-size: 0.75rem;
     margin-bottom: 0;
     margin-left: 1rem;

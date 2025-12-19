@@ -1,15 +1,15 @@
 <div class="player-profile-page-container">
-  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs"></app-page-breadcrumbs>
+  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
 
   <div class="welcome-strip" translate>
     Hi, <span>{{ playerFirstName }}!</span>
   </div>
 
-  <div class="page-section gap-8 flex-col">
+  <div class="page-section gap-2 flex flex-col">
     <div class="section-item-container">
       <div class="section-item">
-        <div class="flex-col gap-8--lt-sm-2">
-          <div class="flex-col item-label">
+        <div class="flex flex-col gap-8--lt-sm-2">
+          <div class="flex flex-col item-label">
             {{ 'Account balance' | translate }}
           </div>
           <div class="item-value">
@@ -17,24 +17,27 @@
               {{ balanceCurrency }}
             </div>
             <div class="amount">
-              <span *ngIf="balanceVisible">{{ balanceString }}</span>
-              <span *ngIf="!balanceVisible">****</span>
+              @if (balanceVisible) {
+              <span>{{ balanceString }}</span>
+              } @if (!balanceVisible) {
+              <span>****</span>
+              }
             </div>
             <!-- Hide balance functionality is currently scoped out -->
-            <!-- <div class="show-icon ml-8">
-              <mat-icon
-                *ngIf="!balanceVisible"
-                class="material-icons-outlined"
-                (click)="balanceVisible = !balanceVisible"
-                >visibility</mat-icon
+            <!-- <div class="show-icon ml-2">
+            <mat-icon
+              *ngIf="!balanceVisible"
+              class="material-icons-outlined"
+              (click)="balanceVisible = !balanceVisible"
+              >visibility</mat-icon
               >
               <mat-icon
                 *ngIf="balanceVisible"
                 class="material-icons-outlined"
                 (click)="balanceVisible = !balanceVisible"
                 >visibility_off</mat-icon
-              >
-            </div> -->
+                >
+              </div> -->
           </div>
         </div>
       </div>
@@ -42,7 +45,11 @@
         <button mat-button class="section-action deposit-action" routerLink="/profile/wallet/deposit">
           <span translate>Deposit</span>
         </button>
-        <button mat-button class="section-action-2 withdrawal-action" routerLink="/profile/wallet/withdrawal">
+        <button
+          mat-button
+          class="section-action-2 withdrawal-action text-white!"
+          routerLink="/profile/wallet/withdrawal"
+        >
           <span translate>Withdrawal</span>
         </button>
       </div>
@@ -50,8 +57,8 @@
     <div class="divider"></div>
     <div class="section-item-contaier">
       <div class="section-item">
-        <div class="flex-row items-center justify-between full-width">
-          <div class="flex-col balance-label">
+        <div class="flex items-center justify-between full-width">
+          <div class="flex flex-col balance-label">
             {{ 'Withdrawable balance' | translate }}
           </div>
           <div class="item-value">
@@ -59,17 +66,18 @@
               {{ balanceCurrency }}
             </div>
             <div class="amount-secondary">
-              <span *ngIf="balanceVisible">{{
-                this.dataStoreService.getNumberInLocalFormat(balance?.withdrawableBalance ?? 0, 2)
-              }}</span>
-              <span *ngIf="!balanceVisible">****</span>
+              @if (balanceVisible) {
+              <span>{{ this.dataStoreService.getNumberInLocalFormat(balance?.withdrawableBalance ?? 0, 2) }}</span>
+              } @if (!balanceVisible) {
+              <span>****</span>
+              }
             </div>
           </div>
         </div>
       </div>
       <div class="section-item">
-        <div class="flex-row items-center justify-between full-width">
-          <div class="flex-col balance-label">
+        <div class="flex items-center justify-between full-width">
+          <div class="flex flex-col balance-label">
             {{ 'Sportsbook bonus balance' | translate }}
           </div>
           <div class="item-value">
@@ -77,17 +85,18 @@
               {{ balanceCurrency }}
             </div>
             <div class="amount-secondary">
-              <span *ngIf="balanceVisible">{{
-                this.dataStoreService.getNumberInLocalFormat(balance?.bonusSportsbookBalance ?? 0, 2)
-              }}</span>
-              <span *ngIf="!balanceVisible">****</span>
+              @if (balanceVisible) {
+              <span>{{ this.dataStoreService.getNumberInLocalFormat(balance?.bonusSportsbookBalance ?? 0, 2) }}</span>
+              } @if (!balanceVisible) {
+              <span>****</span>
+              }
             </div>
           </div>
         </div>
       </div>
       <div class="section-item">
-        <div class="flex-row items-center justify-between full-width">
-          <div class="flex-col balance-label">
+        <div class="flex items-center justify-between full-width">
+          <div class="flex flex-col balance-label">
             {{ 'Casino bonus balance' | translate }}
           </div>
           <div class="item-value">
@@ -95,10 +104,11 @@
               {{ balanceCurrency }}
             </div>
             <div class="amount-secondary">
-              <span *ngIf="balanceVisible">{{
-                this.dataStoreService.getNumberInLocalFormat(balance?.bonusCasinoBalance ?? 0, 2)
-              }}</span>
-              <span *ngIf="!balanceVisible">****</span>
+              @if (balanceVisible) {
+              <span>{{ this.dataStoreService.getNumberInLocalFormat(balance?.bonusCasinoBalance ?? 0, 2) }}</span>
+              } @if (!balanceVisible) {
+              <span>****</span>
+              }
             </div>
           </div>
         </div>
@@ -119,9 +129,9 @@
   <div class="page-section-multiple">
     <div class="section-item-container nowrap">
       <a class="section-item" routerLink="/profile/general/info">
-        <mat-icon class="item-icon" svgIcon="essentials-risk-management"></mat-icon>
-        <div class="flex-col">
-          <div class="flex-col item-title">
+        <mat-icon class="item-icon" svgIcon="essentials-risk-management" />
+        <div class="flex flex-col">
+          <div class="flex flex-col item-title">
             {{ 'Account details' | translate }}
           </div>
         </div>
@@ -131,13 +141,13 @@
       </a>
     </div>
 
-    <mat-divider class="mat-divider"></mat-divider>
+    <mat-divider class="mat-divider" />
 
     <div class="section-item-container verification nowrap" (click)="onIdentityVerificationClick()">
       <a class="section-item">
-        <mat-icon class="item-icon" svgIcon="essentials-account-box"></mat-icon>
-        <div class="flex-col">
-          <div class="flex-col item-title">
+        <mat-icon class="item-icon" svgIcon="essentials-account-box" />
+        <div class="flex flex-col">
+          <div class="flex flex-col item-title">
             {{ 'Identity verification' | translate }}
           </div>
         </div>
@@ -153,15 +163,15 @@
     <!-- <div class="section-item-container phone-verification nowrap" (click)="onPhoneVerificationClick()">
       <a class="section-item">
         <mat-icon class="item-icon" svgIcon="essentials-phone"></mat-icon>
-        <div class="flex-col">
-          <div class="flex-col item-title">
+        <div class="flex flex-col">
+          <div class="flex flex-col item-title">
             {{ 'Phone number verification' | translate }}
           </div>
-          <div class="flex-col item-description">
+          <div class="flex flex-col item-description">
             {{
-              phoneNumberVerified
-                ? ('The phone number is verified' | translate)
-                : ('The phone number is not verified' | translate)
+            phoneNumberVerified
+            ? ('The phone number is verified' | translate)
+            : ('The phone number is not verified' | translate)
             }}
           </div>
         </div>
@@ -175,9 +185,9 @@
   <div class="page-section">
     <div class="section-item-container nowrap">
       <a class="section-item" routerLink="/profile/promo">
-        <mat-icon class="item-icon" svgIcon="essentials-star"></mat-icon>
-        <div class="flex-col">
-          <div class="flex-col item-title">
+        <mat-icon class="item-icon" svgIcon="essentials-star" />
+        <div class="flex flex-col">
+          <div class="flex flex-col item-title">
             {{ 'Promotions and bonuses' | translate }}
           </div>
         </div>
@@ -191,9 +201,9 @@
   <div class="page-section">
     <a class="section-item-container nowrap" routerLink="/profile/responsible-gambling">
       <div class="section-item">
-        <mat-icon class="item-icon" svgIcon="essentials-security"></mat-icon>
-        <div class="flex-col">
-          <div class="flex-col item-title">
+        <mat-icon class="item-icon" svgIcon="essentials-security" />
+        <div class="flex flex-col">
+          <div class="flex flex-col item-title">
             {{ 'Player protection' | translate }}
           </div>
         </div>
@@ -207,9 +217,9 @@
   <div class="page-section">
     <a class="section-item-container support nowrap" (click)="onSupportClick()">
       <div class="section-item">
-        <mat-icon class="item-icon" svgIcon="essentials-headset"></mat-icon>
-        <div class="flex-col">
-          <div class="flex-col item-title">
+        <mat-icon class="item-icon" svgIcon="essentials-headset" />
+        <div class="flex flex-col">
+          <div class="flex flex-col item-title">
             {{ 'Help and support' | translate }}
           </div>
         </div>

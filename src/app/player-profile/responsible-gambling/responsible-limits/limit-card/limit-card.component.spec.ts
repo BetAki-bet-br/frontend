@@ -9,8 +9,7 @@ describe('LimitCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [LimitCardComponent],
+      imports: [TranslateModule.forRoot(), LimitCardComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LimitCardComponent);

@@ -1,16 +1,16 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .dialog-title {
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   text-align: center;
   font-size: 1.125rem;
   margin-bottom: 15px;
 }
 
 .migration-login-dialog-content {
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   font-size: 0.75rem;
 }

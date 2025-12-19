@@ -7,7 +7,7 @@
       }}
     </p>
 
-    <div class="verification-form flex-col gap-16" [formGroup]="profileGeneralForm">
+    <div class="verification-form flex flex-col gap-4" [formGroup]="profileGeneralForm">
       <div class="field-wrapper-edit">
         <div class="form-field-label" translate>First name</div>
         <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
@@ -75,9 +75,11 @@
         <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
           <!-- <input matInput type="text" formControlName="country" /> -->
           <mat-select formControlName="country" placeholder="Select" class="no-arrow">
-            <mat-option *ngFor="let item of countryList" [value]="item">
+            @for (item of countryList; track item) {
+            <mat-option [value]="item">
               {{ item.name }}
             </mat-option>
+            }
           </mat-select>
         </mat-form-field>
       </div>

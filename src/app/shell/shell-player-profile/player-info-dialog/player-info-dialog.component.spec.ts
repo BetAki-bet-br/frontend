@@ -16,8 +16,7 @@ describe('PlayerInfoDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [PlayerInfoDialogComponent],
+      imports: [TranslateModule.forRoot(), PlayerInfoDialogComponent],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: DIALOG_DATA, useValue: {} },

@@ -1,24 +1,28 @@
-<div class="wallet-container flex-col">
+<div class="wallet-container flex flex-col">
   <!-- Profile header -->
-  <div class="subtitle-m mb-4 mobile-hidden" translate>Wallet</div>
-  <div class="header mobile flex-row justify-center">
+  <div class="subtitle-m mb-1 mobile-hidden" translate>Wallet</div>
+  <div class="header mobile flex justify-center">
     <div class="back-button" [routerLink]="currentRoute ? '/profile/wallet/deposit' : '/profile'">
       <mat-icon fontSet="material-icons-outlined">keyboard_arrow_left</mat-icon>
     </div>
-    <div class="flex-row">
+    <div class="flex">
       <span [class.title-gray]="currentRoute" [routerLink]="'/profile/wallet/deposit'" translate>Wallet</span>
-      <span [class.title-gray]="currentRoute" *ngIf="currentRoute">/</span>
-      <span *ngIf="currentRoute" translate> {{ currentRoute }} </span>
+      @if (currentRoute) {
+      <span [class.title-gray]="currentRoute">/</span>
+      } @if (currentRoute) {
+      <span translate> {{ currentRoute }} </span>
+      }
     </div>
   </div>
   <div class="divider mobile"></div>
-  <div class="profile-link-container mobile" *ngIf="!currentRoute">
+  @if (!currentRoute) {
+  <div class="profile-link-container mobile">
     <a class="profile-link" routerLink="/profile/wallet/deposit" [routerLinkActive]="['profile-link-active']" translate>
-      <div class="flex-col">
-        <div class="flex-col link-title">
+      <div class="flex flex-col">
+        <div class="flex flex-col link-title">
           {{ 'DEPOSIT' | translate }}
         </div>
-        <div class="flex-col link-description">
+        <div class="flex flex-col link-description">
           {{ 'Deposit money.' | translate }}
         </div>
       </div>
@@ -29,29 +33,30 @@
       [routerLinkActive]="['profile-link-active']"
       translate
     >
-      <div class="flex-col">
-        <div class="flex-col link-title">
+      <div class="flex flex-col">
+        <div class="flex flex-col link-title">
           {{ 'WITHDRAWAL' | translate }}
         </div>
-        <div class="flex-col link-description">
+        <div class="flex flex-col link-description">
           {{ 'Withdraw money.' | translate }}
         </div>
       </div>
     </a>
   </div>
-
-  <div class="mt-22 mobile" *ngIf="currentRoute === 'Deposit'">
-    <app-wallet-deposit></app-wallet-deposit>
+  } @if (currentRoute === 'Deposit') {
+  <div class="mt-[22px] mobile">
+    <app-wallet-deposit />
   </div>
-
-  <div class="mt-22 mobile" *ngIf="currentRoute === 'Withdrawal'">
-    <app-wallet-withdrawal></app-wallet-withdrawal>
+  } @if (currentRoute === 'Withdrawal') {
+  <div class="mt-[22px] mobile">
+    <app-wallet-withdrawal />
   </div>
+  }
 
   <!-- Profile tabs -->
   <mat-tab-group
     #tabGroup
-    class="tab-group-container-primary mt-10 mobile-hidden"
+    class="tab-group-container-primary mt-2.5 mobile-hidden"
     mat-stretch-tabs="false"
     (selectedTabChange)="onTabChange($event)"
     [selectedIndex]="selectedIndex"
@@ -62,16 +67,16 @@
       <ng-template mat-tab-label>
         {{ 'Deposit' | translate }}
       </ng-template>
-      <div class="mt-22 mobile-padding">
-        <app-wallet-deposit></app-wallet-deposit>
+      <div class="mt-[22px] mobile-padding">
+        <app-wallet-deposit />
       </div>
     </mat-tab>
     <mat-tab class="withdrawal-tab">
       <ng-template mat-tab-label>
         {{ 'Withdrawal' | translate }}
       </ng-template>
-      <div class="mt-22 mobile-padding">
-        <app-wallet-withdrawal></app-wallet-withdrawal>
+      <div class="mt-[22px] mobile-padding">
+        <app-wallet-withdrawal />
       </div>
     </mat-tab>
   </mat-tab-group>

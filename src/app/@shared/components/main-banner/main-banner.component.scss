@@ -1,12 +1,12 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables";
 
 /* stylelint-disable declaration-no-important, selector-max-compound-selectors */
 
 :host {
-  max-width: $home-content-max-width;
+  max-width: 1218px;
   width: 100%;
   margin-bottom: 1rem;
 }
@@ -35,14 +35,14 @@
 
 .swiper-nav-container-left {
   width: 64px;
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
   left: 32px;
   z-index: 20;
   height: 100%;
-  background-color: map.get($app-custom-colors, "neutral-10-35");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10-35");
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -55,7 +55,7 @@
 
   // Remove individual transform
   &:hover {
-    background-color: map.get($app-custom-colors, "neutral-10-50");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10-50");
     display: flex;
   }
 
@@ -65,7 +65,7 @@
     border-radius: 0.5rem;
 
     .swiper-nav-left-icon {
-      color: map.get($app-custom-colors, "neutral-400");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-400");
       font-size: 2rem;
       font-weight: bold;
       height: 2rem;
@@ -82,14 +82,14 @@
 
 .swiper-nav-container-right {
   width: 64px;
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
   right: -32px;
   z-index: 20;
   height: 100%;
-  background-color: map.get($app-custom-colors, "neutral-10-35");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10-35");
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -102,7 +102,7 @@
 
   // Remove individual transform
   &:hover {
-    background-color: map.get($app-custom-colors, "neutral-10-50");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10-50");
   }
 
   .swiper-navigation-logo {
@@ -111,7 +111,7 @@
     border-radius: 0.5rem;
 
     .swiper-nav-right-icon {
-      color: map.get($app-custom-colors, "neutral-400");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-400");
       font-size: 2rem;
       font-weight: bold;
       height: 2rem;
@@ -129,8 +129,8 @@
 .swiper-nav-container-left-mobile {
   flex-shrink: 0;
   border-radius: 1.084rem;
-  background: map.get($app-custom-colors, "neutral-white");
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  background: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
   width: 1.5rem;
   height: 1.5rem;
   position: absolute;
@@ -169,8 +169,8 @@
 .swiper-nav-container-right-mobile {
   flex-shrink: 0;
   border-radius: 1.084rem;
-  background: map.get($app-custom-colors, "neutral-white");
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  background: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
   width: 1.5rem;
   height: 1.5rem;
   position: absolute;

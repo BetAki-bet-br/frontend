@@ -8,11 +8,18 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router'; // Added RouterModule
 import { filter, map, merge, Observable, of, Subscription, switchMap } from 'rxjs';
 
-import { MatBottomSheet, MatBottomSheetConfig, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import {
+  MatBottomSheet,
+  MatBottomSheetConfig,
+  MatBottomSheetRef,
+  MatBottomSheetModule,
+} from '@angular/material/bottom-sheet'; // Added MatBottomSheetModule
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { GameCategoryLobbyEnum } from '@app/@core/game-categories.service';
 import { GlobalSearchService } from '@app/@shared/global-search.service';
@@ -22,13 +29,36 @@ import {
   GameFiltersProvidersDrawerComponentData,
   GameFiltersProvidersDrawerComponentResult,
 } from '../game-filters-providers/game-filters-providers.component';
+import { CommonModule } from '@angular/common'; // Added CommonModule
+import { MatIconModule } from '@angular/material/icon'; // Added MatIconModule
+import { MatButtonModule } from '@angular/material/button'; // Added MatButtonModule
+import { MatListModule } from '@angular/material/list'; // Added MatListModule
+import { MatTooltipModule } from '@angular/material/tooltip'; // Added MatTooltipModule
+import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
 
 @Component({
   selector: 'app-game-filters',
   templateUrl: './game-filters.component.html',
   styleUrls: ['./game-filters.component.scss'],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatBottomSheetModule,
+    MatIconModule,
+    MatButtonModule,
+    MatListModule,
+    MatTooltipModule,
+    TranslateModule,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameFiltersComponent implements AfterViewInit, OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  router = inject(Router);
+  globalSearchService = inject(GlobalSearchService);
+  private configurationService = inject(ConfigurationService);
+  private _bottomDrawer = inject(MatBottomSheet);
+
   @Input() providers: GameProviderData[] = [];
   @Input() providersIsLoading = false;
   @Output() selectedProviderListChange = new EventEmitter<GameProviderData[]>();
@@ -66,13 +96,7 @@ export class GameFiltersComponent implements AfterViewInit, OnInit, OnDestroy {
 
   providersDrawerState: boolean = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    public router: Router,
-    public globalSearchService: GlobalSearchService,
-    private configurationService: ConfigurationService,
-    private _bottomDrawer: MatBottomSheet
-  ) {
+  constructor() {
     const navigationEndUrl$ = this.router.events.pipe(
       filter((navEvent) => navEvent instanceof NavigationEnd),
       map((navEvent) => {

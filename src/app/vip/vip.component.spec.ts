@@ -9,8 +9,7 @@ describe('VipComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [VipComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), VipComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(VipComponent);

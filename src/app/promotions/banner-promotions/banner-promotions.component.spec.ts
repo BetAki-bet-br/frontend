@@ -14,8 +14,7 @@ describe('BannerPromotionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BannerPromotionsComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), BannerPromotionsComponent],
       providers: [
         { provide: TemplateService, useClass: MockTemplateService },
         { provide: PromotionService, useClass: MockCtgApiService },

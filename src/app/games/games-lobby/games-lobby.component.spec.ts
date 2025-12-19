@@ -12,8 +12,7 @@ describe('GamesLobbyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GamesLobbyComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), GamesLobbyComponent],
       providers: [{ provide: ProdGameService, useValue: {} }, HttpBackend, { provide: ActivatedRoute, useValue: {} }],
     }).compileComponents();
 

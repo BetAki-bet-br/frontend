@@ -1,34 +1,34 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { Logger } from '@app/@shared/logger.service';
 import { AccountResolved } from '@app/@shared/models';
 import { Loyalty, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subscription, map } from 'rxjs';
 import { FirstDepositCheckService } from '@app/@shared/services/first-deposit-check.service';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { Router } from '@angular/router';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DecimalPipe } from '@angular/common';
 
 const log = new Logger('ProfileInfoHeaderComponent');
-@UntilDestroy()
 @Component({
+  imports: [MatProgressBarModule, MatButtonModule, DecimalPipe],
   selector: 'app-profile-info-sidenav',
   templateUrl: './profile-info-sidenav.component.html',
   styleUrls: ['./profile-info-sidenav.component.scss'],
 })
 export class ProfileInfoSidenavComponent implements OnDestroy {
+  dataStoreService = inject(DataStoreService);
+  private firstDepostiCheckService = inject(FirstDepositCheckService);
+  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
+  private router = inject(Router);
+
   @Input() playerInfo: PlayerDetails | undefined = undefined;
   @Input() loyaltyPoints: Loyalty | null = null;
   @Input() balance: AccountResolved | null = null;
 
   private profileFulfilledSub = new Subscription();
-
-  constructor(
-    public dataStoreService: DataStoreService,
-    private firstDepostiCheckService: FirstDepositCheckService,
-    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService,
-    private router: Router
-  ) {}
 
   ngOnDestroy(): void {
     this.profileFulfilledSub.unsubscribe();

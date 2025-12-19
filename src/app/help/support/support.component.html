@@ -1,18 +1,22 @@
 <div class="page-container">
-  <div [formGroup]="supportForm" class="flex-col contact-form-container">
+  <div [formGroup]="supportForm" class="flex flex-col contact-form-container">
     <h1>{{ 'Contact Form' | translate }}</h1>
     <span>{{ 'Please, fill the information below. All fields are required.' | translate }}</span>
-    <div class="flex-col mb-12">
+    <div class="flex flex-col mb-3">
       <mat-form-field class="form-input" subscriptSizing="dynamic">
         <input matInput placeholder="Email" formControlName="email" autocomplete="off" />
-        <mat-error class="error-msg" *ngIf="supportForm.get('email')?.errors">
-          {{ "can't be blank" | translate }}
-        </mat-error>
+        @if (supportForm.get('email')?.errors) {
+        <ng-container>
+          <mat-error class="error-msg">
+            {{ "can't be blank" | translate }}
+          </mat-error>
+        </ng-container>
+        }
       </mat-form-field>
     </div>
 
-    <div class="flex-col mb-24">
-      <mat-form-field appearance="outline" class="textarea-container flex-col form-input">
+    <div class="flex flex-col mb-6">
+      <mat-form-field appearance="outline" class="textarea-container flex flex-col form-input">
         <textarea
           matInput
           rows="5"
@@ -23,34 +27,36 @@
           style="resize: none"
         ></textarea>
       </mat-form-field>
-      <div class="error-msg" *ngIf="supportForm.get('message')?.errors">
+      @if (supportForm.get('message')?.errors) {
+      <div class="error-msg">
         {{ "can't be blank" | translate }}
       </div>
+      }
     </div>
 
-    <div class="flex-col">
+    <div class="flex flex-col">
       <button mat-button class="send-button button-larger-text" (click)="sendContactFormHandler()">
         {{ 'send message' | translate | uppercase }}
       </button>
     </div>
 
-    <div class="flex-row contact-containter mt-32">
-      <a href="mailto:support@comtradegaming.com" class="contact-card flex-row justify-center items-center">
-        <div class="contact-icon flex-col justify-center">
+    <div class="flex contact-containter mt-8">
+      <a href="mailto:support@comtradegaming.com" class="contact-card flex justify-center items-center">
+        <div class="contact-icon flex flex-col justify-center">
           <img src="{{ 'assets/general/icons/contact-headphones-purple.svg' | cdnize }}" alt="support" />
         </div>
-        <div class="flex-col">
+        <div class="flex flex-col">
           <span class="contact-title">{{ 'Support' | translate }}</span>
-          <span class="contact-link">help@comtradegaming.com</span>
+          <span class="contact-link">help&#64;comtradegaming.com</span>
         </div>
       </a>
-      <a href="mailto:complaints@comtradegaming.com" class="contact-card flex-row justify-center items-center">
-        <div class="contact-icon flex-col justify-center">
+      <a href="mailto:complaints@comtradegaming.com" class="contact-card flex justify-center items-center">
+        <div class="contact-icon flex flex-col justify-center">
           <img src="{{ 'assets/general/icons/contact-complaints-purple.svg' | cdnize }}" alt="complaints" />
         </div>
-        <div class="flex-col">
+        <div class="flex flex-col">
           <span class="contact-title">{{ 'Complaints' | translate }}</span>
-          <span class="contact-link">complaints@comtradegaming.com</span>
+          <span class="contact-link">complaints&#64;comtradegaming.com</span>
         </div>
       </a>
     </div>

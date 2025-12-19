@@ -1,198 +1,31 @@
 // stylelint-disable
 
-@use "sass:map";
-@import "./utils";
+@use "sass:map" as map;
+@use "./utils" as *; // Certifique-se que este arquivo existe e contém o mixin 'media' e a variavel $breakpoints
 
-// Common Flex layout css classes
-// Inspired by Tailwind CSS
+// =============================================================================
+// FLEX COMMON - MIGRATION MODE
+// Classes conflitantes com Tailwind Base foram removidas.
+// Mantidas apenas variações com sufixos (--md, --lg) e utilitários sem par no Tailwind.
+// =============================================================================
 
-// Flex
-.flex {
-  display: flex;
-}
-
-// Flex Direction
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
-.flex-row-reverse {
-  display: flex;
-  flex-direction: row-reverse;
-}
-.flex-col {
-  display: flex;
-  flex-direction: column;
-}
-.flex-col-reverse {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-// Flex Wrap
-.flex-wrap {
-  flex-wrap: wrap;
-}
-.flex-wrap-reverse {
-  flex-wrap: wrap-reverse;
-}
-.flex-nowrap {
-  flex-wrap: nowrap;
-}
-
-// Justify content
-.justify-start {
-  justify-content: flex-start;
-}
-.justify-end {
-  justify-content: flex-end;
-}
-.justify-center {
-  justify-content: center;
-}
-.justify-between {
-  justify-content: space-between;
-}
-.justify-around {
-  justify-content: space-around;
-}
-.justify-evenly {
-  justify-content: space-evenly;
-}
-
-// Justify Items
-.justify-items-start {
-  justify-items: start;
-}
-.justify-items-end {
-  justify-items: end;
-}
-.justify-items-center {
-  justify-items: center;
-}
-.justify-items-stretch {
-  justify-items: stretch;
-}
-
-// Align Content
-.content-center {
-  align-content: center;
-}
-.content-start {
-  align-content: flex-start;
-}
-.content-end {
-  align-content: flex-end;
-}
-.content-between {
-  align-content: space-between;
-}
-.content-around {
-  align-content: space-around;
-}
-.content-evenly {
-  align-content: space-evenly;
-}
-.content-baseline {
-  align-content: baseline;
-}
-
-// Align items
-.items-start {
-  align-items: flex-start;
-}
-.items-end {
-  align-items: flex-end;
-}
-.items-center {
-  align-items: center;
-}
-.items-baseline {
-  align-items: baseline;
-}
-.items-stretch {
-  align-items: stretch;
-}
-
-// fxHide, fxShow
+// fxHide (Tailwind usa .hidden, então .flex-hide é seguro manter para legado)
 .flex-hide {
   display: none;
 }
 
-// Flex gap (0px - 48px, increments 2px)
-$gapList: 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50;
-@each $gap in $gapList {
-  .gap-#{$gap} {
-    gap: #{$gap}px;
-  }
-  .gapx-#{$gap} {
-    column-gap: #{$gap}px;
-  }
-  .gapy-#{$gap} {
-    row-gap: #{$gap}px;
-  }
-}
+// Nota: Os loops de Padding, Margin e Gap bases (ex: .p-10, .gap-10) foram removidos
+// para evitar conflito com a escala REM do Tailwind.
+// Use classes do Tailwind (ex: p-2.5) ou valores arbitrários (ex: p-[10px]).
 
-// Padding (0px - 48px, increments 2px)
-$paddingList: 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50;
-@each $padding in $paddingList {
-  .p-#{$padding} {
-    padding: #{$padding}px;
-  }
-  .px-#{$padding} {
-    padding-left: #{$padding}px;
-    padding-right: #{$padding}px;
-  }
-  .py-#{$padding} {
-    padding-top: #{$padding}px;
-    padding-bottom: #{$padding}px;
-  }
-  .pt-#{$padding} {
-    padding-top: #{$padding}px;
-  }
-  .pr-#{$padding} {
-    padding-right: #{$padding}px;
-  }
-  .pb-#{$padding} {
-    padding-bottom: #{$padding}px;
-  }
-  .pl-#{$padding} {
-    padding-left: #{$padding}px;
-  }
-}
+// =============================================================================
+// BREAKPOINTS (LEGACY SUPPORT)
+// Mantidos pois usam sufixo '--' (BEM-like), não conflitando com prefixos ':' do Tailwind
+// =============================================================================
 
-// Margin (0px - 48px, increments 2px)
-$marginList: 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48;
-@each $margin in $marginList {
-  .m-#{$margin} {
-    margin: #{$margin}px;
-  }
-  .mx-#{$margin} {
-    margin-left: #{$margin}px;
-    margin-right: #{$margin}px;
-  }
-  .my-#{$margin} {
-    margin-top: #{$margin}px;
-    margin-bottom: #{$margin}px;
-  }
-  .mt-#{$margin} {
-    margin-top: #{$margin}px;
-  }
-  .mr-#{$margin} {
-    margin-right: #{$margin}px;
-  }
-  .mb-#{$margin} {
-    margin-bottom: #{$margin}px;
-  }
-  .ml-#{$margin} {
-    margin-left: #{$margin}px;
-  }
-}
-
-// Breakpoints
 @each $bpKey in map.keys($breakpoints) {
   @include media($bpKey) {
-    // Flex
+    // Flex Display
     .flex--#{$bpKey}:not(.hidden) {
       display: flex;
     }
@@ -200,54 +33,36 @@ $marginList: 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 
       display: inline-flex;
     }
 
+    // Flex Properties
     .flex-enable--#{$bpKey} {
       flex: 1;
     }
-
     .flex-disable--#{$bpKey} {
       flex: 0;
     }
-
     .flex-grow--#{$bpKey} {
       flex: 1 1 100%;
     }
-
     .flex-nogrow--#{$bpKey} {
       flex: 0 1 auto;
     }
-
     .flex-noshrink--#{$bpKey} {
       flex: 1 0 auto;
     }
-
     .flex-full-height--#{$bpKey} {
       height: 100%;
     }
-
     .flex-full-width--#{$bpKey} {
       width: 100%;
     }
 
-    // Flex Direction
-    .flex-row--#{$bpKey}:not(.hidden) {
-      display: flex;
-      flex-direction: row;
-      // row-gap: 0 ;
-    }
-    .flex-row-reverse--#{$bpKey}:not(.hidden) {
-      display: flex;
-      flex-direction: row-reverse;
-      // row-gap: 0 ;
-    }
     .flex-col--#{$bpKey}:not(.hidden) {
       display: flex;
       flex-direction: column;
-      // column-gap: 0 ;
     }
     .flex-col-reverse--#{$bpKey}:not(.hidden) {
       display: flex;
       flex-direction: column-reverse;
-      // column-gap: 0 ;
     }
 
     // Flex Wrap
@@ -377,23 +192,9 @@ $marginList: 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 
       min-height: 100%;
     }
 
-    // fxHide, fxShow
+    // fxHide legacy
     .flex-hide--#{$bpKey} {
       display: none;
-    }
-
-    // Flex gap (0px - 48px, increments 2px)
-    $gapList: 0, 2, 4, 6, 8, 10, 12, 14, 16;
-    @each $gap in $gapList {
-      .gap-#{$gap}--#{$bpKey} {
-        gap: #{$gap}px;
-      }
-      .gapx-#{$gap}--#{$bpKey} {
-        gap: 0 #{$gap}px;
-      }
-      .gapy-#{$gap}--#{$bpKey} {
-        gap: #{$gap}px 0;
-      }
     }
   }
 }

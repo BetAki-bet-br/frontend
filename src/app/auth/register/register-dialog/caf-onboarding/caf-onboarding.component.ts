@@ -1,19 +1,30 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+// Added CommonModule
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-caf-onboarding',
   templateUrl: './caf-onboarding.component.html',
   styleUrls: ['./caf-onboarding.component.scss'],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CafOnboardingComponent implements OnInit, OnDestroy {
+  protected sanitizer = inject(DomSanitizer);
+
   @Input() onboardingUrl: string | undefined;
   @Output() onboardingFinished = new EventEmitter<string>();
 
   safeUrl: SafeResourceUrl | undefined;
-
-  constructor(protected sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     if (this.onboardingUrl) {

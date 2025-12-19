@@ -18,8 +18,7 @@ describe('GamesCustomComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [GamesCustomComponent],
+      imports: [TranslateModule.forRoot(), GamesCustomComponent],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: ProdGameService, useValue: {} },

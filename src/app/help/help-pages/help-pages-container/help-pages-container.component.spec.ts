@@ -8,7 +8,7 @@ describe('HelpPagesContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HelpPagesContainerComponent],
+      imports: [HelpPagesContainerComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HelpPagesContainerComponent);

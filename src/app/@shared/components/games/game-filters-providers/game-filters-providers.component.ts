@@ -1,11 +1,17 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject } from '@angular/core';
-import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatListOption } from '@angular/material/list';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef, MatBottomSheetModule } from '@angular/material/bottom-sheet'; // Added MatBottomSheetModule
+import { MatListOption, MatListModule, MatSelectionListChange } from '@angular/material/list'; // Added MatListModule
+import { MatIconModule } from '@angular/material/icon'; // Added MatIconModule
+import { MatButtonModule } from '@angular/material/button'; // Added MatButtonModule
+import { CommonModule } from '@angular/common'; // Added CommonModule
 import { GameProviderData } from '@app/@shared/models';
 import { GameCategory } from '@icore/ngx-portalgateway-api-client-atl';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, map, of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
+import { SupplierNameTransformPipe } from '@app/@pipes/supplier-name-transform.pipe'; // Added SupplierNameTransformPipe
+import { UpperCasePipe } from '@angular/common'; // Added UpperCasePipe
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface GameFiltersProvidersDrawerComponentData {
   providersList: GameProviderData[];
@@ -19,13 +25,29 @@ export interface GameFiltersProvidersDrawerComponentResult {
   selected: GameProviderData[];
 }
 
-@UntilDestroy()
 @Component({
   selector: 'app-game-providers-drawer',
   templateUrl: 'game-filters-providers-drawer.components.html',
   styleUrls: ['./game-filters-providers.component.scss'],
+  imports: [
+    // Added imports array
+    CommonModule,
+    MatBottomSheetModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    TranslateModule,
+    SupplierNameTransformPipe,
+    UpperCasePipe,
+  ],
 })
 export class GameFiltersProvidersDrawerComponent {
+  private data = inject<GameFiltersProvidersDrawerComponentData>(MAT_BOTTOM_SHEET_DATA);
+  private _bottomSheetRef =
+    inject<MatBottomSheetRef<GameFiltersProvidersDrawerComponent, GameFiltersProvidersDrawerComponentResult>>(
+      MatBottomSheetRef
+    );
+  private destroyRef = inject(DestroyRef);
   isMultiple = false;
   menuCategories?: GameCategory[] = [];
   menuCategoriesUrl: string[] = [];
@@ -36,25 +58,26 @@ export class GameFiltersProvidersDrawerComponent {
 
   private selectedOptions: GameProviderData[] = [];
 
-  constructor(
-    @Inject(MAT_BOTTOM_SHEET_DATA) private data: GameFiltersProvidersDrawerComponentData,
-    private _bottomSheetRef: MatBottomSheetRef<
-      GameFiltersProvidersDrawerComponent,
-      GameFiltersProvidersDrawerComponentResult
-    >
-  ) {
+  constructor() {
+    const data = this.data;
+
     this.selectedOptions = [...(data?.selectedOptions ?? [])];
     (data?.isMultiple$ ?? of(false))
       .pipe(
         map((result) => (this.data.isLoading ? false : result)),
-        untilDestroyed(this)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe({ next: (result) => (this.isMultiple = result) });
   }
 
-  onProvidersChange(model: SelectionModel<MatListOption>) {
-    if (model && model.selected && model.selected !== null && model.selected.length > 0) {
-      const selectedIds: string[] = model.selected.map((s) => s.value);
+  onProvidersChange(event: MatSelectionListChange) {
+    if (
+      event &&
+      event.source.selectedOptions &&
+      event.source.selectedOptions !== null &&
+      event.source.selectedOptions.hasValue()
+    ) {
+      const selectedIds: string[] = event.source.selectedOptions.selected.map((s) => s.value);
       this.selectedOptions = (this.data?.providersList ?? []).filter((p) =>
         selectedIds.find((t) => t.toString() === p.id.toString())
       );

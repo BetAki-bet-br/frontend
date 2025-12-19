@@ -1,10 +1,11 @@
+import { RouterModule } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileInfoHeaderComponent } from './profile-info-header.component';
 import { AuthenticationService } from '@app/auth';
 import { SharedModule } from '@app/@shared';
 import { TranslateModule } from '@ngx-translate/core';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import {
   BalanceService,
   GlobalizationService,
@@ -12,7 +13,7 @@ import {
   PlayerService,
   ProdGameService,
 } from '@icore/ngx-portalgateway-api-client-atl';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PromotionsService } from '@app/promotions/promotions.service';
 import { MockPromotionsService } from '@app/promotions/promotions.service,mock';
 import { MatMenuModule } from '@angular/material/menu';
@@ -24,8 +25,7 @@ describe('ProfileInfoHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedModule, TranslateModule.forRoot(), RouterTestingModule, HttpClientModule, MatMenuModule],
-      declarations: [ProfileInfoHeaderComponent],
+      imports: [SharedModule, TranslateModule.forRoot(), MatMenuModule, ProfileInfoHeaderComponent, RouterModule],
       providers: [
         { provide: AuthenticationService, useValue: {} },
         { provide: PromotionsService, useClass: MockPromotionsService },
@@ -36,6 +36,7 @@ describe('ProfileInfoHeaderComponent', () => {
         LoyaltyService,
         HttpClient,
         BalanceService,
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

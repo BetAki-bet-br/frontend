@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { GameCategoriesService } from '@app/@core/game-categories.service';
 import { AssetsService } from '@app/@shared/assets.service';
@@ -31,6 +31,12 @@ const TMPGameIds = [
   providedIn: 'root',
 })
 export class WinnersService {
+  private gameApi = inject(ProdGameService);
+  private dataStoreService = inject(DataStoreService);
+  assetsService = inject(AssetsService);
+  private gameCategoryService = inject(GameCategoriesService);
+  private gamesService = inject(GamesService);
+
   private emptyLatestWinnersSubject = new BehaviorSubject(true);
   private emptyTopWinnersSubject = new BehaviorSubject(true);
 
@@ -38,14 +44,6 @@ export class WinnersService {
   emptyWinners$ = combineLatest([this.emptyLatestWinnersSubject.asObservable(), this.emptyTopWinnersSubject]).pipe(
     map(([emptyLatestWinners, emptyTopWinners]) => emptyLatestWinners && emptyTopWinners)
   );
-
-  constructor(
-    private gameApi: ProdGameService,
-    private dataStoreService: DataStoreService,
-    public assetsService: AssetsService,
-    private gameCategoryService: GameCategoriesService,
-    private gamesService: GamesService
-  ) {}
 
   /**
    * Get next `nrOfWinners`. If time of validity has expired or there are no winners cached, request new data from API.

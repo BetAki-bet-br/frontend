@@ -15,14 +15,14 @@ import { DateAdapter, NativeDateAdapter } from '@angular/material/core';
 import { Dialog } from '@angular/cdk/dialog';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { PlayerStatusService } from '@app/@shared/services/player.service';
-import { HttpBackend, HttpClientModule } from '@angular/common/http';
+import { HttpBackend, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('PlayerProfileService', () => {
   let service: PlayerProfileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RenderTemplatePipe],
+      imports: [TranslateModule.forRoot(), RenderTemplatePipe],
       providers: [
         { provide: PlayerService, useClass: MockCtgApiService },
         { provide: ProdGameService, useValue: {} },
@@ -36,8 +36,8 @@ describe('PlayerProfileService', () => {
         { provide: Dialog, useValue: {} },
         { provide: PlayerStatusService, useClass: MockCtgApiService },
         HttpBackend,
+        provideHttpClient(withInterceptorsFromDi()),
       ],
-      imports: [TranslateModule.forRoot(), HttpClientModule],
     });
     service = TestBed.inject(PlayerProfileService);
   });

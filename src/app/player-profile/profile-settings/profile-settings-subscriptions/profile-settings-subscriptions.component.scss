@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as util;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 :host {
   width: 100%;
@@ -10,7 +10,7 @@
 .subscriptions-item-label {
   min-width: 10rem;
   font-size: 0.875rem;
-  color: map.get($app-custom-colors, "betaki-grey100");
+  color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
 }
 
 .subscriptions-container {
@@ -19,7 +19,7 @@
   width: 100%;
   max-width: unset;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     margin-top: 2rem;
   }
 
@@ -35,7 +35,7 @@
     .subscriptions-item-label {
       min-width: 18.75rem;
       font-size: 1rem;
-      color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.25);
+      color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.25);
     }
 
     .active-label {
@@ -43,14 +43,14 @@
       flex-direction: row;
       align-items: center;
       font-size: 0.75rem;
-      color: color.adjust(map.get($app-custom-colors, "Betaki_error"), $alpha: -0.65);
+      color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_error"), $alpha: -0.65);
       padding-top: 0.1875rem;
       width: 2rem;
     }
 
     &.active {
       .active-label {
-        color: map.get($app-custom-colors, "Betaki_error");
+        color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
       }
     }
   }

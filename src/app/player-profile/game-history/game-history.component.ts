@@ -1,18 +1,37 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
-import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
+import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { TwentyFourDateFormat } from '@app/@core/date-formats';
-import { GenericDataModel, TableColumn } from '@app/@shared/components/base-table/base-table.component';
-import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import {
+  GenericDataModel,
+  TableColumn,
+  BaseTableComponent,
+} from '@app/@shared/components/base-table/base-table.component';
+import {
+  PageBreadcrumbsComponent,
+  Breadcrumbs,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { BaseTableMsgsComponent } from '@app/@shared/components/base-table-msgs/base-table-msgs.component';
 import { HistoryResolved, TransactionStatusEnum } from '@app/@shared/models';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { switchMap } from 'rxjs';
 import { PlayerProfileService } from '../player-profile.service';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltip } from '@angular/material/tooltip';
 
 export interface GameHistoryFormGroup {
   period: FormControl<IdLabel | null>;
@@ -27,14 +46,41 @@ export interface IdLabel {
   label: string;
 }
 
-@UntilDestroy()
 @Component({
   selector: 'app-game-history',
   templateUrl: './game-history.component.html',
   styleUrls: ['./game-history.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    MatDividerModule,
+    PageBreadcrumbsComponent,
+    MatTooltip,
+  ],
 })
 export class GameHistoryComponent implements OnInit {
+  dataStoreService = inject(DataStoreService);
+  private configurationService = inject(ConfigurationService);
+  private playerProfileService = inject(PlayerProfileService);
+  private cdr = inject(ChangeDetectorRef);
+  private deviceService = inject(DeviceDetectorService);
+  private dateAdapter = inject<DateAdapter<any>>(DateAdapter);
+  private translateService = inject(TranslateService);
+  private paginatorIntl = inject(MatPaginatorIntl);
+  private destroyRef = inject(DestroyRef);
+
   breadcrumbs: Breadcrumbs[] = [
     {
       svgIcon: 'essentials-home',
@@ -108,16 +154,7 @@ export class GameHistoryComponent implements OnInit {
 
   playerCurrency: string = '';
 
-  constructor(
-    public dataStoreService: DataStoreService,
-    private configurationService: ConfigurationService,
-    private playerProfileService: PlayerProfileService,
-    private cdr: ChangeDetectorRef,
-    private deviceService: DeviceDetectorService,
-    private dateAdapter: DateAdapter<any>,
-    private translateService: TranslateService,
-    private paginatorIntl: MatPaginatorIntl
-  ) {
+  constructor() {
     this.dateAdapter.setLocale(this.playerProfileService.getPlayerLocale());
   }
 
@@ -140,7 +177,7 @@ export class GameHistoryComponent implements OnInit {
 
     this.filterForm
       .get('period')
-      ?.valueChanges.pipe(untilDestroyed(this))
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
         if (value) {
           const today = new Date();
@@ -180,7 +217,7 @@ export class GameHistoryComponent implements OnInit {
 
     this.filterForm
       .get('dateFrom')
-      ?.valueChanges.pipe(untilDestroyed(this))
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value: Date | null) => {
         if (value) {
           value.setHours(0, 0, 0, 0);
@@ -199,7 +236,7 @@ export class GameHistoryComponent implements OnInit {
 
     this.filterForm
       .get('dateTo')
-      ?.valueChanges.pipe(untilDestroyed(this))
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value: Date | null) => {
         if (value) {
           value.setHours(23, 59, 59, 999);
@@ -241,7 +278,7 @@ export class GameHistoryComponent implements OnInit {
     if (element.wasExpanded !== true && element.id) {
       this.playerProfileService
         .getTransactionDetails(element.id.toString())
-        .pipe(untilDestroyed(this))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((result) => {
           element.transactionDetails = result;
           if (result?.length > 0) {
@@ -286,7 +323,7 @@ export class GameHistoryComponent implements OnInit {
           return this.playerProfileService.getGameHistory(this.filterForm.value);
         })
       )
-      .pipe(untilDestroyed(this))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => {
           this.tableData = data.historyListResolved ? [...data.historyListResolved] : [];

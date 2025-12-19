@@ -1,23 +1,22 @@
-@use "sass:map";
-@use "src/theme/utils" as util;
-@use "sass:color";
-
-@import "src/theme/theme-variables";
+@use "theme/theme-variables" as theme-variables;
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "sass:color" as color;
 
 .game-filters-container {
   display: flex;
-  background-color: map.get($app-custom-colors, "neutral-10");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
   border-radius: 0;
   align-items: center;
   margin: 3rem 1.5rem;
   position: relative;
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     margin: 1rem 0;
   }
 
-  @media (min-width: $home-content-max-width) {
+  @media (min-width: theme-variables.$home-content-max-width) {
     border-radius: 0.5rem;
   }
 
@@ -33,7 +32,7 @@
       gap: 0.75rem;
       align-items: center;
 
-      @include util.media("lt-sm-2") {
+      @include utils.media("lt-sm-2") {
         display: none;
       }
     }
@@ -58,7 +57,7 @@
     gap: 3rem;
     transition: transform 0.3s ease;
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       gap: 1rem;
       overflow-x: auto;
       padding: 0 0.5rem;
@@ -83,14 +82,14 @@
     .category-circle {
       width: 6.25rem;
       height: 6.25rem;
-      background: linear-gradient(180deg, #bcd200 0%, #616c00 100%);
+      background: linear-gradient(180deg, #869502 0%, #616c00 100%);
       box-shadow: 0 -15px 23.5px 0 rgba(0, 0, 0, 25%) inset;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
 
-      @include util.media("lt-sm-2") {
+      @include utils.media("lt-sm-2") {
         width: 3.5rem;
         height: 3.5rem;
       }
@@ -104,7 +103,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
 
-      @include util.media("lt-sm-2") {
+      @include utils.media("lt-sm-2") {
         font-size: 0.75rem;
         line-height: 0.75rem;
         letter-spacing: 0.042px;
@@ -117,25 +116,25 @@
       width: 4.125rem;
       height: 4.125rem;
 
-      @include util.media("lt-sm-2") {
+      @include utils.media("lt-sm-2") {
         width: 1.8rem;
         min-width: 1.8rem;
       }
     }
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       min-width: 3.5rem;
     }
   }
 
   .category-item:first-of-type {
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       margin-left: 0.5rem;
     }
   }
 
   .category-item:last-of-type {
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       padding-right: 0.5rem;
       flex-shrink: 0;
     }
@@ -151,13 +150,13 @@
 
   &.selected {
     svg path {
-      fill: map.get($app-custom-colors, "Betaki_error");
+      fill: map.get(theme-variables.$app-custom-colors, "Betaki_error");
     }
   }
 
   &:hover {
     svg path {
-      fill: map.get($app-custom-colors, "Betaki_error");
+      fill: map.get(theme-variables.$app-custom-colors, "Betaki_error");
     }
   }
 }
@@ -176,15 +175,15 @@
   font-size: 0.8125rem;
   font-family: Roboto, Verdana, sans-serif;
   gap: 0.375rem;
-  background-color: color.adjust(map.get($app-custom-colors, "neutral-10"), $alpha: -0.7);
+  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.7);
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     width: 100%;
     justify-content: space-between;
   }
 
   .arrow-down-icon {
-    color: map.get($app-custom-colors, "neutral-white");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
     height: 1rem;
     width: 1rem;
     font-size: 1rem;
@@ -194,17 +193,17 @@
     &.open {
       transition: opacity 0.3s ease, transform 0.3s ease;
       transform: rotate(0deg);
-      color: map.get($app-custom-colors, "neutral-white");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
       opacity: 1;
     }
   }
 
   &:hover {
-    background-color: map.get($app-custom-colors, "Betaki_error");
+    background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
     transition: background-color 0.3s ease;
 
     .arrow-down-icon {
-      color: map.get($app-custom-colors, "neutral-white");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
       opacity: 1;
     }
   }
@@ -217,15 +216,15 @@
   position: absolute;
   top: 4rem;
   margin: 0;
-  box-shadow: 0 0 1.125rem -0.25rem color.adjust(map.get($app-custom-colors, "neutral-black"), $alpha: -0.7),
-    inset 0 0 0 0.0625rem color.adjust(map.get($app-custom-colors, "neutral-black"), $alpha: -0.97);
+  box-shadow: 0 0 1.125rem -0.25rem color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.7),
+    inset 0 0 0 0.0625rem color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.97);
   border-radius: 0.25rem;
-  background-color: map.get($app-custom-colors, "neutral-10");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
   z-index: 10;
   max-height: 26.5rem;
   padding: 0.25rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     width: 100%;
     top: 6.1875rem;
     right: 0;
@@ -247,12 +246,12 @@
     .checkbox-asset {
       height: 1rem;
       width: 1rem;
-      background-color: map.get($app-custom-colors, "neutral-10");
+      background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
       border-radius: 0.125rem;
       cursor: pointer;
 
       &.selected {
-        background-color: map.get($app-custom-colors, "neutral-10");
+        background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
         background-repeat: no-repeat;
         background-position: center center;
       }
@@ -271,10 +270,10 @@
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
-    color: map.get($app-custom-colors, "neutral-white");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
 
     &.selected {
-      color: map.get($app-custom-colors, "Betaki_error");
+      color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
     }
 
     &.multiple {
@@ -282,8 +281,8 @@
     }
 
     &:hover {
-      background-color: map.get($app-custom-colors, "Betaki_error");
-      color: map.get($app-custom-colors, "neutral-10");
+      background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-10");
       transition: background-color 0.3s ease;
       cursor: pointer;
     }
@@ -314,13 +313,13 @@
   place-items: center;
   flex-direction: row;
   gap: 0.5rem;
-  background-color: color.adjust(map.get($app-custom-colors, "neutral-10"), $alpha: -0.7);
+  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.7);
   border-radius: 0.375rem;
-  border: 1px solid color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.5);
+  border: 1px solid color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.5);
   padding: 0.375rem 0.625rem;
   cursor: pointer;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     width: 100%;
     padding: 0.5rem 1rem;
     margin-right: 1rem;
@@ -331,7 +330,7 @@
     font-family: Roboto, Verdana, sans-serif;
     font-size: 0.75rem;
     line-height: 1.125rem;
-    color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.25);
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.25);
     user-select: none;
   }
 
@@ -343,12 +342,12 @@
   }
 
   &:hover {
-    border-color: map.get($app-custom-colors, neutral-white);
+    border-color: map.get(theme-variables.$app-custom-colors, neutral-white);
     transition: border-color 0.3s ease;
 
     span,
     .search-icon {
-      color: map.get($app-custom-colors, neutral-white);
+      color: map.get(theme-variables.$app-custom-colors, neutral-white);
       transition: color 0.3s ease;
     }
   }
@@ -359,11 +358,11 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: map.get($app-custom-colors, "neutral-10");
+  background: map.get(theme-variables.$app-custom-colors, "neutral-10");
 }
 
 ::-webkit-scrollbar-thumb {
-  background: map.get($app-custom-colors, "Betaki_error");
+  background: map.get(theme-variables.$app-custom-colors, "Betaki_error");
   border-radius: 0.125rem;
   margin: 0;
 }
@@ -381,7 +380,7 @@
 .provider-search-container-mobile {
   display: none;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     display: flex;
     width: 100%;
     gap: 1rem;
@@ -394,6 +393,6 @@
 }
 
 app-game-search {
-  color: map.get($app-custom-colors, "neutral-10");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-10");
   z-index: 10;
 }

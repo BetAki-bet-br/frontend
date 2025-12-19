@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { AssetsService } from '@app/@shared/assets.service';
 import { GamesService } from '@app/@shared/services/games/games.service';
@@ -30,16 +30,14 @@ export interface MenuGameCategory {
   providedIn: 'root',
 })
 export class ConfigurationService {
-  constructor(
-    private dataStoreService: DataStoreService,
-    private globalizationServiceApi: GlobalizationService,
-    private playerServiceApi: PlayerService,
-    private gameServiceApi: ProdGameService,
-    private gameService: GamesService,
-    private gameCategoriesService: GameCategoriesService,
-    private assetsService: AssetsService,
-    private i18nService: I18nService
-  ) {}
+  private dataStoreService = inject(DataStoreService);
+  private globalizationServiceApi = inject(GlobalizationService);
+  private playerServiceApi = inject(PlayerService);
+  private gameServiceApi = inject(ProdGameService);
+  private gameService = inject(GamesService);
+  private gameCategoriesService = inject(GameCategoriesService);
+  private assetsService = inject(AssetsService);
+  private i18nService = inject(I18nService);
 
   getCountriesList(): Observable<Country[]> {
     // if already cached, return from dataStore

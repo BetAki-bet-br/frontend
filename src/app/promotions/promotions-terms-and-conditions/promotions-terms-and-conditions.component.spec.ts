@@ -8,7 +8,7 @@ describe('PromotionsTermsAndConditionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PromotionsTermsAndConditionsComponent],
+      imports: [PromotionsTermsAndConditionsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PromotionsTermsAndConditionsComponent);

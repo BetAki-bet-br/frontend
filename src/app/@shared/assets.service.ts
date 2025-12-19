@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '@env/environment';
@@ -11,6 +11,10 @@ const log = new Logger('AssetsService');
 
 @Injectable({ providedIn: 'root' })
 export class AssetsService {
+  private iconService = inject(MatIconRegistry);
+  private sanitizer = inject(DomSanitizer);
+  private translateService = inject(TranslateService);
+
   gameTileImageFormat = 'jpg';
   gameBackgroundImageFormat = 'jpg';
 
@@ -19,11 +23,7 @@ export class AssetsService {
 
   private readonly providersLogoBasePath = 'assets/general/providers/';
 
-  constructor(
-    private iconService: MatIconRegistry,
-    private sanitizer: DomSanitizer,
-    private translateService: TranslateService
-  ) {
+  constructor() {
     // subscribe to language changes
     this.langChangeSubscription = this.translateService.onLangChange?.subscribe((event: LangChangeEvent) => {
       if (event.lang) {

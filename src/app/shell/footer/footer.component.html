@@ -9,117 +9,117 @@
   </div>
 
   <div class="footer-sponsorship-logo">
-    <swiper [config]="configSponsorship" (swiper)="onSwiper($event)">
+    <swiper-container #sponsorshipSwiper init="false">
       <!-- Left navigation -->
-      <!-- <div slot="container-start" class="swiper-nav-container-left hidden flex-col justify-center items-start">
-        <div class="swiper-navigation-logo flex-col justify-center items-start">
-          <mat-icon class="swiper-nav-left-icon">arrow_back</mat-icon>
-        </div>
-      </div> -->
-      <!-- Right navigation -->
-      <!-- <div slot="container-start" class="swiper-nav-container-right hidden flex-col justify-center items-end">
-        <div class="swiper-navigation-logo flex-col justify-center items-start">
-          <mat-icon class="swiper-nav-right-icon">arrow_forward</mat-icon>
-        </div>
-      </div> -->
-      <!-- Swiper slides -->
-      <ng-container *ngFor="let logoItem of footerSponsorshipData">
-        <ng-template swiperSlide>
-          <div class="sponsorship-swiper">
-            <img alt="logo slider" class="logo" [src]="logoItem.logo | cdnize" />
-          </div>
-        </ng-template>
-      </ng-container>
-    </swiper>
-    <!-- <div class="title">
-      <span translate>Sampaio Corrêa</span>
+      <!-- <div slot="container-start" class="swiper-nav-container-left hidden flex flex-col justify-center items-start">
+      <div class="swiper-navigation-logo flex flex-col justify-center items-start">
+        <mat-icon class="swiper-nav-left-icon">arrow_back</mat-icon>
+      </div>
     </div> -->
+      <!-- Right navigation -->
+      <!-- <div slot="container-start" class="swiper-nav-container-right hidden flex flex-col justify-center items-end">
+    <div class="swiper-navigation-logo flex-col justify-center items-start">
+      <mat-icon class="swiper-nav-right-icon">arrow_forward</mat-icon>
+    </div>
+  </div> -->
+      <!-- Swiper slides -->
+      @for (logoItem of footerSponsorshipData; track logoItem) {
+      <swiper-slide>
+        <div class="sponsorship-swiper">
+          <img alt="logo slider" class="logo" [src]="logoItem.logo | cdnize" />
+        </div>
+      </swiper-slide>
+      }
+    </swiper-container>
+    <!-- <div class="title">
+<span translate>Sampaio Corrêa</span>
+</div> -->
   </div>
 
   <div class="inner">
     <div class="footer-container-promo">
-      <!-- <div class="footer-promo first gap-24">
-        <a class="footer-main-logo-container" href="/">
-          <img class="footer-main-logo" alt="BetAki" [src]="'assets/general/logo/betaki-logo.png' | cdnize" />
-        </a>
-        <a class="footer-main-logo-container" href="/">
-          <img
-            class="verificada-logo"
-            alt="Verificada Reclame Aqui"
-            [src]="'assets/affiliates/verificada-reclame-aqui.png' | cdnize"
-          />
-        </a>
-      </div> -->
+      <!-- <div class="footer-promo first gap-6">
+    <a class="footer-main-logo-container" href="/">
+      <img class="footer-main-logo" alt="BetAki" [src]="'assets/general/logo/betaki-logo.png' | cdnize" />
+    </a>
+    <a class="footer-main-logo-container" href="/">
+      <img
+        class="verificada-logo"
+        alt="Verificada Reclame Aqui"
+        [src]="'assets/affiliates/verificada-reclame-aqui.png' | cdnize"
+        />
+    </a>
+  </div> -->
 
       <!-- DESKTOP -->
       <div class="footer-menu-block-desktop-container">
         <div class="footer-menu-block">
-          <div class="footer-menu-title flex flex-row">
+          <div class="footer-menu-title flex">
             <div translate>Company</div>
           </div>
-          <ng-container *ngTemplateOutlet="companyMenu"></ng-container>
+          <ng-container *ngTemplateOutlet="companyMenu" />
         </div>
       </div>
 
       <div class="footer-menu-block-desktop-container">
         <div class="footer-menu-block">
-          <div class="footer-menu-title flex flex-row justify-between">
+          <div class="footer-menu-title flex justify-between">
             <div translate>Follow us</div>
           </div>
-          <ng-container *ngTemplateOutlet="followUsMenu"></ng-container>
+          <ng-container *ngTemplateOutlet="followUsMenu" />
         </div>
       </div>
 
       <div class="footer-menu-block-desktop-container">
-        <div class="flex flex-col">
-          <div class="footer-menu-title flex flex-row justify-between last">
+        <div class="flex flex flex-col">
+          <div class="footer-menu-title flex justify-between last">
             <div translate>Payments</div>
           </div>
-          <ng-container *ngTemplateOutlet="paymentsMenu"></ng-container>
+          <ng-container *ngTemplateOutlet="paymentsMenu" />
         </div>
       </div>
 
       <!-- MOBILE -->
       <div class="footer-menu-mobile-container">
         <div class="footer-menu-container">
-          <div class="flex flex-row company-menu">
+          <div class="flex company-menu">
             <mat-accordion class="footer-accordion">
               <mat-expansion-panel class="footer-expansion-panel">
                 <mat-expansion-panel-header>
                   <mat-panel-title class="accordion-title" translate> Company </mat-panel-title>
                 </mat-expansion-panel-header>
-                <ng-container *ngTemplateOutlet="companyMenu"></ng-container>
+                <ng-container *ngTemplateOutlet="companyMenu" />
               </mat-expansion-panel>
               <!-- <div class="footer-expansion-panel">
-                <span class="accordion-title" translate> Follow us </span>
-                <ng-container *ngTemplateOutlet="followUsMenu"></ng-container>
-              </div> -->
+          <span class="accordion-title" translate> Follow us </span>
+          <ng-container *ngTemplateOutlet="followUsMenu"></ng-container>
+        </div> -->
               <!-- <mat-expansion-panel class="footer-expansion-panel">
-                <mat-expansion-panel-header>
-                  <mat-panel-title class="accordion-title" translate>Follow us</mat-panel-title>
-                </mat-expansion-panel-header>
-                <ng-container *ngTemplateOutlet="followUsMenu"></ng-container>
-              </mat-expansion-panel> -->
+        <mat-expansion-panel-header>
+          <mat-panel-title class="accordion-title" translate>Follow us</mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-container *ngTemplateOutlet="followUsMenu"></ng-container>
+      </mat-expansion-panel> -->
             </mat-accordion>
           </div>
-          <div class="flex flex-row">
-            <div class="accordion-title flex flex-col justify-between last">
+          <div class="flex">
+            <div class="accordion-title flex flex flex-col justify-between last">
               <div translate>Payments</div>
-              <div class="footer-payments-logo flex-row">
-                <div class="flex flex-col">
+              <div class="footer-payments-logo flex">
+                <div class="flex flex flex-col">
                   <a class="" href="/">
                     <img alt="Pix" [src]="'assets/general/payments/pix.svg' | cdnize" />
                   </a>
                 </div>
-                <!-- <div class="payments-mobile flex flex-wrap flex-end gap-16">
-                  <a class="footer-main-logo-container" href="/">
-                    <img
-                    class="verificada-logo"
-                    alt="Verificada Reclame Aqui"
-                    [src]="'assets/affiliates/verificada-reclame-aqui.png' | cdnize"
-                    />
-                  </a>
-                </div> -->
+                <!-- <div class="payments-mobile flex flex-wrap flex-end gap-1">
+        <a class="footer-main-logo-container" href="/">
+          <img
+            class="verificada-logo"
+            alt="Verificada Reclame Aqui"
+            [src]="'assets/affiliates/verificada-reclame-aqui.png' | cdnize"
+            />
+        </a>
+      </div> -->
               </div>
             </div>
           </div>
@@ -127,34 +127,34 @@
       </div>
     </div>
 
-    <div class="flex flex-col justify-center">
+    <div class="flex flex flex-col justify-center">
       <a class="footer-main-logo-container" href="/">
-        <img class="footer-main-logo" alt="BetAki" [src]="'assets/general/logo/betaki-logo.png' | cdnize" />
+        <img class="footer-main-logo" alt="Bet Aki" [src]="'assets/general/logo/betaki-logo.png' | cdnize" />
       </a>
       <!-- <div class="footer-middle">
-              <div class="footer-text company flex flex-row">
-                {{
-                  'A BetAki.bet.br is an online entertainment platform operated by Vanguard Entretenimento Brasil LTDA, registered ' +
-                    'under CNPJ No. 56.885.537/0001-30, headquartered at Rua do Brum, No. 248, Store 1, Recife, PE, ZIP Code ' +
-                    '50.030-260, duly authorized by the Brazilian Government through the Secretariat of Prizes and Betting (Ministry ' +
-                    'of Finance), according to SPA/MF Ordinance No. 2.104 of December 30, 2024. BetAki offers its users an innovative ' +
-                    'experience in fixed-odds betting, fully compliant with Brazilian regulations. The platform holds the GLI Brazil ' +
-                    'certification, issued by Gaming Laboratories International (GLI), ensuring the highest standards of integrity ' +
-                    'and security in the sector.' | translate
-                }}
-              </div>
-            </div> -->
+  <div class="footer-text company flex">
+    {{
+    'A BetAki.bet.br is an online entertainment platform operated by Vanguard Entretenimento Brasil LTDA, registered ' +
+    'under CNPJ No. 56.885.537/0001-30, headquartered at Rua do Brum, No. 248, Store 1, Recife, PE, ZIP Code ' +
+    '50.030-260, duly authorized by the Brazilian Government through the Secretariat of Prizes and Betting (Ministry ' +
+    'of Finance), according to SPA/MF Ordinance No. 2.104 of December 30, 2024. BetAki offers its users an innovative ' +
+    'experience in fixed-odds betting, fully compliant with Brazilian regulations. The platform holds the GLI Brazil ' +
+    'certification, issued by Gaming Laboratories International (GLI), ensuring the highest standards of integrity ' +
+    'and security in the sector.' | translate
+    }}
+  </div>
+</div> -->
     </div>
 
     <div class="footer-middle">
-      <div class="footer-text company flex flex-row">
-        A betaki.bet.br é uma plataforma de entretenimento online operada pela Vanguard Entretenimento Brasil LTDA
-        inscrita sob CNPJ nº 56.885.537/0001-30, com sede no endereço Rua Padre Carapuceiro, nº 706, Sala 801, Edifício
-        Carlos Pena Filho, CEP: 51.020-280, Boa Viagem, Recife/PE, devidamente autorizada pelo Governo Brasileiro
-        através da Secretaria de Prêmios e Apostas (Ministério da Fazenda), conforme Portaria SPA/MF nº 693 de 1 de
-        abril de 2025. A BetAki oferece aos seus usuários uma experiência inovadora em apostas de quota fixa, em total
-        conformidade com as regulamentações brasileiras. A plataforma conta com a certificação GLI Brasil, emitida pela
-        Gaming Laboratories International (GLI), assegurando os mais altos padrões de integridade e segurança no setor.
+      <div class="footer-text company flex">
+        é uma plataforma de entretenimento online operada pela Vanguard Entretenimento Brasil LTDA inscrita sob CNPJ nº
+        56.885.537/0001-30, com sede no endereço Rua Padre Carapuceiro, nº 706, Sala 801, Edifício Carlos Pena Filho,
+        CEP: 51.020-280, Boa Viagem, Recife/PE, devidamente autorizada pelo Governo Brasileiro através da Secretaria de
+        Prêmios e Apostas (Ministério da Fazenda), conforme Portaria SPA/MF nº 693 de 1 de abril de 2025. A BetAki
+        oferece aos seus usuários uma experiência inovadora em apostas de quota fixa, em total conformidade com as
+        regulamentações brasileiras. A plataforma conta com a certificação GLI Brasil, emitida pela Gaming Laboratories
+        International (GLI), assegurando os mais altos padrões de integridade e segurança no setor.
       </div>
     </div>
 
@@ -163,20 +163,21 @@
     <div class="container">
       <div class="box">
         <div class="footer-middle">
-          <div class="flex-row items-center justify-center providers-wrapper">
-            <div class="flex flex-wrap" *ngFor="let logoItem of footerProviderData">
-              <ng-container *ngIf="logoItem.link; else noLink">
-                <a [href]="logoItem.link" target="_blank" rel="noopener noreferrer">
-                  <img class="provider-logo" [src]="logoItem.logo | cdnize" alt="logo slider" />
-                </a>
-              </ng-container>
-              <ng-template #noLink>
+          <div class="flex items-center justify-center providers-wrapper">
+            @for (logoItem of footerProviderData; track logoItem) {
+            <div class="flex flex-wrap">
+              @if (logoItem.link) {
+              <a [href]="logoItem.link" target="_blank" rel="noopener noreferrer">
                 <img class="provider-logo" [src]="logoItem.logo | cdnize" alt="logo slider" />
-              </ng-template>
+              </a>
+              } @else {
+              <img class="provider-logo" [src]="logoItem.logo | cdnize" alt="logo slider" />
+              }
             </div>
+            }
           </div>
 
-          <div class="footer-text flex flex-row justify-between">
+          <div class="footer-text flex justify-between">
             {{
               'Play responsibly. Gaming should be a form of healthy entertainment. Always practice conscious gaming and stay alert to signs of compulsive behavior.'
                 | translate
@@ -188,15 +189,15 @@
       <div class="divider"></div>
 
       <div class="follow-us-mobile">
-        <ng-container *ngTemplateOutlet="followUsMenu"></ng-container>
+        <ng-container *ngTemplateOutlet="followUsMenu" />
       </div>
 
       <div class="divider"></div>
     </div>
 
     <!-- footer-middle -->
-    <div class="flex flex-col justify-center mt-16">
-      <div class="flex justify-center mb-27">
+    <div class="flex flex flex-col justify-center mt-4">
+      <div class="flex justify-center mb-[27px]">
         <button
           mat-button
           class="support-button"
@@ -204,7 +205,7 @@
           (mouseenter)="hovered = true"
           (mouseleave)="hovered = false"
         >
-          <div class="support-text flex-row justify-center gap-4">
+          <div class="support-text flex justify-center gap-1">
             {{ 'Support' | translate }}
             <div class="justify-center items-center">
               <img
@@ -222,15 +223,14 @@
         </button>
       </div>
       <div class="copyright-mobile">
-        <div class="copyright-text flex flex-row justify-center">
+        <div class="copyright-text flex justify-center">
           {{ '2025 © BetAki. All rights reserved.' | translate }}
         </div>
       </div>
-      <div class="mt-24">
-        <app-footer-my-summary
-          *ngIf="isAuthenticated && showFooter"
-          [mySummaryData]="footerMySummaryData"
-        ></app-footer-my-summary>
+      <div class="mt-6">
+        @if (isAuthenticated && showFooter) {
+        <app-footer-my-summary [mySummaryData]="footerMySummaryData" />
+        }
       </div>
     </div>
   </div>
@@ -337,7 +337,7 @@
 <ng-template #followUsMenu>
   <div class="menu follow-links">
     <ul class="footer-menu-list">
-      <li class="footer-menu-item gap-8">
+      <li class="footer-menu-item gap-2">
         <div class="footer-menu-link follow-us">
           <a class="follow-us-link" target="_blank" [href]="instagramUrl">
             <img

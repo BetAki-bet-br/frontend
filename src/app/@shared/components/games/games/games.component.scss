@@ -1,8 +1,8 @@
-@use "sass:map";
-@use "src/theme/utils" as util;
-@use "sass:color";
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "sass:color" as color;
 
-@import "src/theme/theme-variables";
+@use "theme/theme-variables" as theme-variables;
 
 a {
   text-decoration: none;
@@ -18,9 +18,9 @@ a {
   padding: 0 0 1rem;
   letter-spacing: -0.25px;
   grid-column: 1 / -1;
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     padding-bottom: 0.75rem;
   }
 
@@ -29,7 +29,7 @@ a {
     margin-top: 0.25rem;
     width: 1.5rem;
     height: 0.125rem;
-    background-color: map.get($app-custom-colors, "Betaki_error");
+    background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
     border-radius: 6.25rem;
   }
 }
@@ -41,7 +41,7 @@ a {
   font-size: 1.5rem;
   line-height: 2.25rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     font-size: 1rem;
     line-height: 1.5rem;
   }
@@ -102,11 +102,11 @@ a {
   padding-top: 2.5rem;
   // min-height: 2.75rem;
 
-  @media (max-width: $home-content-max-width) {
+  @media (max-width: theme-variables.$home-content-max-width) {
     padding-top: 1.5rem;
   }
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     padding-top: 1rem;
   }
 
@@ -115,21 +115,21 @@ a {
     font-family: Roboto, sans-serif;
     // min-height: 2.75rem;
     border-radius: 0.375rem;
-    color: map.get($app-custom-colors, "Betaki_error");
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
     background-color: inherit;
     font-size: 0.75rem;
     line-height: 1.125rem;
     font-weight: 400;
     text-transform: uppercase;
-    border: 0.0625rem solid map.get($app-custom-colors, "Betaki_error");
+    border: 0.0625rem solid map.get(theme-variables.$app-custom-colors, "Betaki_error");
     padding: 0.375rem 1.125rem;
 
     &:hover {
-      background-color: color.adjust(map.get($app-custom-colors, "Betaki_error"), $alpha: -0.9);
+      background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_error"), $alpha: -0.9);
     }
 
     /*
-    @include util.media("xs") {
+    @include utils.media("xs") {
       width: 19rem;
     }
     */
@@ -148,7 +148,7 @@ a {
   padding-left: 0;
   margin-bottom: 1.5rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     padding-left: 0;
     margin-bottom: 1rem;
   }
@@ -156,14 +156,14 @@ a {
   .label {
     // font-size: 1.3976rem;
     // line-height: 1.8646rem;
-    color: map.get($app-custom-colors, "betaki-white100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
     text-transform: uppercase;
     font-size: 2rem;
     font-style: normal;
     font-weight: 700;
     line-height: 1.8646rem;
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       // font-size: 1rem;
       // font-weight: 700;
       // line-height: 0.7031rem;
@@ -195,7 +195,7 @@ a {
   // font-size: 0.7571rem;
   // line-height: 1.1356rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     // padding: 0.1563rem 0.125rem;
     // font-size: 0.5rem;
     // font-weight: 700;
@@ -211,8 +211,8 @@ a {
   // font-size: 1rem;
   // cursor: pointer;
   // text-decoration: none;
-  // color: map.get($app-custom-colors, "neutral-white");
-  color: map.get($app-custom-colors, "betaki-white100");
+  // color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
   font-size: 0.9317rem;
   font-style: normal;
   font-weight: 400;
@@ -220,7 +220,7 @@ a {
   letter-spacing: 0.0088rem;
   margin-right: 0.45rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     // display: none;
     font-size: 0.75rem;
     font-weight: 600;
@@ -241,14 +241,14 @@ a {
     font-size: 2.4456rem;
     line-height: 2.4456rem;
     cursor: pointer;
-    color: map.get($app-custom-colors, "neutral-47");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-47");
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       display: none;
     }
 
     &:not(.swiper-button-disabled) {
-      color: map.get($app-custom-colors, "Betaki_success50");
+      color: map.get(theme-variables.$app-custom-colors, "Betaki_success50");
     }
   }
 }
@@ -265,7 +265,7 @@ a {
 }
 
 :host ::ng-deep .swiper .swiper-slide {
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     //needs to be important. Swipper has default style directly on element selector (highest priority)
     /* stylelint-disable-next-line declaration-no-important */
     width: 8.125rem !important;
@@ -277,8 +277,8 @@ a {
 .mobile-navigation {
   flex-shrink: 0;
   border-radius: 1.084rem;
-  background: map.get($app-custom-colors, "Betaki_success");
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  background: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
   width: 1.5rem;
   height: 1.5rem;
   position: relative;
@@ -299,13 +299,13 @@ a {
     visibility: hidden;
   }
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     &.swiper-button-lock {
       display: block;
     }
   }
 
-  @include util.media("gt-sm-1") {
+  @include utils.media("gt-sm-1") {
     display: none;
   }
 }

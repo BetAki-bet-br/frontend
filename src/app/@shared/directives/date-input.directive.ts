@@ -1,12 +1,12 @@
-import { Directive, HostListener, ElementRef } from '@angular/core';
+import { Directive, HostListener, ElementRef, inject } from '@angular/core';
 
 @Directive({
   selector: '[appDateAutoFormat]',
 })
 export class DateAutoFormatDirective {
-  private previousValue = '';
+  private el = inject(ElementRef);
 
-  constructor(private el: ElementRef) {}
+  private previousValue = '';
 
   @HostListener('input', ['$event']) onInput(event: Event) {
     const input = this.el.nativeElement;

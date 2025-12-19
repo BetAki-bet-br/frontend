@@ -1,16 +1,16 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .main-container {
   width: 100%;
   height: 100%;
-  background-color: map.get($app-custom-colors, "Betaki_grey30");
+  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_grey30");
   display: flex;
   align-items: center;
   flex-direction: column;
-  color: map.get($app-custom-colors, "Betaki_black");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
   gap: 3rem;
   padding-bottom: 3rem;
   text-align: center;

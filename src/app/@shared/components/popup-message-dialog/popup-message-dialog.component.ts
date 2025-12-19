@@ -1,31 +1,39 @@
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { DIALOG_DATA, DialogRef, DialogModule } from '@angular/cdk/dialog'; // Added DialogModule
+import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout'; // Added LayoutModule
+// Added CommonModule
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AppBreakpoints } from '@app/@shared/app-breakpoints';
 import { MessageResolved } from '@app/@shared/models/message.model';
+import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component'; // Added BaseDialogComponent
 import { PopupMessagesService } from '@app/@shared/services/popup-messages.service';
+import { MatButtonModule } from '@angular/material/button'; // Added MatButtonModule
+import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-popup-message-dialog',
   templateUrl: './popup-message-dialog.component.html',
   styleUrls: ['./popup-message-dialog.component.scss'],
+  imports: [DialogModule, LayoutModule, MatButtonModule, TranslateModule, BaseDialogComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopupMessageDialogComponent implements OnInit, OnDestroy {
+  private dialogRef = inject<
+    DialogRef<{
+      actionId: number | null;
+    }>
+  >(DialogRef);
+  data = inject<MessageResolved>(DIALOG_DATA);
+  private popupMessageService = inject(PopupMessagesService);
+  private sanitizer = inject(DomSanitizer);
+  private breakpointObserver = inject(BreakpointObserver);
+  private cdr = inject(ChangeDetectorRef);
+
   isMobile = false;
   private subscriptions = new Subscription();
 
-  constructor(
-    private dialogRef: DialogRef<{ actionId: number | null }>,
-    @Inject(DIALOG_DATA)
-    public data: MessageResolved,
-    private popupMessageService: PopupMessagesService,
-    private sanitizer: DomSanitizer,
-    private breakpointObserver: BreakpointObserver,
-    private cdr: ChangeDetectorRef
-  ) {
+  constructor() {
     this.subscriptions.add(
       this.breakpointObserver.observe([AppBreakpoints.LtSmall2]).subscribe((result) => {
         this.isMobile = result.matches;

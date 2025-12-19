@@ -1,5 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatSnackBarRef, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { MatIcon } from '@angular/material/icon';
 
 export interface CustomSnackbarComponentData {
   message: string;
@@ -10,12 +11,11 @@ export interface CustomSnackbarComponentData {
   selector: 'app-custom-snackbar',
   templateUrl: './custom-snackbar.component.html',
   styleUrls: ['./custom-snackbar.component.scss'],
+  imports: [MatIcon],
 })
 export class CustomSnackbarComponent implements OnInit {
-  constructor(
-    @Inject(MAT_SNACK_BAR_DATA) public data: CustomSnackbarComponentData,
-    private snackbarRef: MatSnackBarRef<CustomSnackbarComponent>
-  ) {}
+  data = inject<CustomSnackbarComponentData>(MAT_SNACK_BAR_DATA);
+  private snackbarRef = inject<MatSnackBarRef<CustomSnackbarComponent>>(MatSnackBarRef);
 
   ngOnInit(): void {}
 

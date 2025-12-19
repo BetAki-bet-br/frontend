@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderPromotionItemComponent } from './header-promotion-item.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DialogModule } from '@angular/cdk/dialog';
 import { PromotionsService } from '@app/promotions/promotions.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -18,14 +18,14 @@ describe('HeaderPromotionItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HeaderPromotionItemComponent],
-      imports: [HttpClientModule, DialogModule, RouterModule, TranslateModule.forRoot()],
+      imports: [DialogModule, RouterModule, TranslateModule.forRoot(), HeaderPromotionItemComponent],
       providers: [
         { provide: PromotionsService, useClass: MockPromotionsService },
         { provide: GamesService, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
         { provide: TemplateService, useClass: MockTemplateService },
         RenderTemplatePipe,
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

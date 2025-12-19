@@ -1,10 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CredentialsService } from '@app/auth';
 import { Observable, Subscription, map, of, switchMap, tap } from 'rxjs';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { Logger } from '../logger.service';
 
 const log = new Logger('IntercomScriptService');
+
+declare global {
+  interface Window {
+    Intercom: any;
+  }
+}
 
 interface IntercomUserData {
   name: string | null;
@@ -22,6 +28,9 @@ interface IntercomUserData {
  */
 @Injectable({ providedIn: 'root' })
 export class IntercomScriptService {
+  private credentialsService = inject(CredentialsService);
+  private configurationService = inject(ConfigurationService);
+
   private intercomUpdateSubscription?: Subscription;
 
   private intercomUpdate$: Observable<IntercomUserData> = this.credentialsService.isAuthenticated$.pipe(
@@ -42,7 +51,7 @@ export class IntercomScriptService {
               user_id: playerInfo?.id?.toString() ?? null,
               email: playerInfo?.eMail ?? null,
               custom_attributes: {
-                full_name: playerInfo?.firstName ?? '' + ' ' + playerInfo?.lastName ?? '',
+                full_name: (playerInfo?.firstName ?? '') + ' ' + (playerInfo?.lastName ?? ''),
               },
               user_hash: this.credentialsService.credentials?.playerHash || null,
             };
@@ -52,9 +61,7 @@ export class IntercomScriptService {
       }
     })
   );
-
-  constructor(private credentialsService: CredentialsService, private configurationService: ConfigurationService) {}
-
+  intercom = window.Intercom;
   init(): void {
     if (this.intercomUpdateSubscription) return;
 

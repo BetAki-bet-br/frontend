@@ -47,8 +47,7 @@ describe('PaymentsTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PaymentsTableComponent],
-      imports: [MatDialogModule],
+      imports: [MatDialogModule, PaymentsTableComponent],
       providers: [
         { provide: PlayerStatusService, useValue: {} },
         { provide: GlobalizationService, useValue: {} },

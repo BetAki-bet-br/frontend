@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CustomContentType, PromotionDetailsResolved } from '@app/@shared/models';
 import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
 import {
@@ -38,18 +38,16 @@ const log = new Logger('PromotionsService');
   providedIn: 'root',
 })
 export class PromotionsService {
-  constructor(
-    private bonusService: BonusService,
-    private languageService: I18nService,
-    private credentialsService: CredentialsService,
-    private renderTemplate: RenderTemplatePipe,
-    private assetsService: AssetsService,
-    private ellipsisPipe: EllipsisPipe,
-    private promotionService: PromotionService,
-    private translateService: TranslateService,
-    private gamesService: GamesService,
-    private templateService: TemplateService
-  ) {}
+  private bonusService = inject(BonusService);
+  private languageService = inject(I18nService);
+  private credentialsService = inject(CredentialsService);
+  private renderTemplate = inject(RenderTemplatePipe);
+  private assetsService = inject(AssetsService);
+  private ellipsisPipe = inject(EllipsisPipe);
+  private promotionService = inject(PromotionService);
+  private translateService = inject(TranslateService);
+  private gamesService = inject(GamesService);
+  private templateService = inject(TemplateService);
 
   /**
    * Finds and returns the "First deposit" promotion in the `promotions` array that the player can opt-in.

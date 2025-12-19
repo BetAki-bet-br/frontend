@@ -1,11 +1,11 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .player-profile-page-container {
-  color: map.get($app-custom-colors, "betaki-black100");
-  background-color: map.get($app-custom-colors, "betaki-grey30");
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
   padding: 2.5rem 2rem;
 
   @include utils.media("lt-sm-2") {
@@ -61,7 +61,7 @@
       letter-spacing: 0.77px;
       text-align: center;
       vertical-align: middle;
-      color: map.get($app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
 
       @include utils.media("lt-sm-2") {
         font-size: 0.875rem;

@@ -1,13 +1,13 @@
-@use "sass:map";
-@use "src/theme/utils" as util;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .section-wrapper {
-  background-color: map.get($app-custom-colors, "neutral-white");
-  color: map.get($app-custom-colors, "neutral-black");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-black");
   padding: 1.25rem 1rem;
 
-  @include util.media(gt-sm-1) {
+  @include utils.media(gt-sm-1) {
     border-radius: 0.375rem;
     padding: 1.5rem;
   }
@@ -36,18 +36,18 @@
   }
 
   .more-info {
-    color: map.get($app-custom-colors, "neutral-10");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-10");
     cursor: pointer;
   }
 
   .country-code {
-    @include util.media(gt-sm-1) {
+    @include utils.media(gt-sm-1) {
       max-width: 11.125rem;
     }
   }
 
   .phone-number {
-    @include util.media(gt-sm-1) {
+    @include utils.media(gt-sm-1) {
       flex-basis: 17rem;
     }
   }
@@ -68,7 +68,7 @@
     height: 2.25rem;
     width: 3.625rem;
     border-radius: 0.25rem;
-    background-color: map.get($app-custom-colors, "neutral-white");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
     cursor: pointer;
 
     img {
@@ -82,7 +82,7 @@
   .phone-verification-wrapper {
     gap: 1rem;
 
-    @include util.media(lt-sm-2) {
+    @include utils.media(lt-sm-2) {
       flex-direction: column;
       gap: 0.5rem;
 
@@ -97,12 +97,12 @@
     height: 3rem;
     text-transform: uppercase;
 
-    @include util.media(lt-sm-2) {
+    @include utils.media(lt-sm-2) {
       width: 100%;
       margin-left: 0;
     }
 
-    @include util.media(gt-sm-1) {
+    @include utils.media(gt-sm-1) {
       flex-basis: 9.625rem;
     }
   }
@@ -114,7 +114,7 @@
   height: 100%;
 
   .delete-icon {
-    color: map.get($app-custom-colors, "neutral-10");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-10");
     font-size: 0.75rem;
     cursor: pointer;
   }
@@ -130,24 +130,24 @@
 }
 
 .history-icon {
-  color: map.get($app-custom-colors, "Betaki_error");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
   height: 0.875rem;
   width: 0.875rem;
 }
 
 .font-icons--check {
-  color: map.get($app-custom-colors, "green-400");
+  color: map.get(theme-variables.$app-custom-colors, "green-400");
 }
 
 .contact-span {
-  color: map.get($app-custom-colors, "neutral-10");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-10");
 }
 
 .file-icon {
-  color: map.get($app-custom-colors, "neutral-black");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-black");
 }
 
-@include util.media("xs") {
+@include utils.media("xs") {
   .documents-container {
     word-break: break-word;
 

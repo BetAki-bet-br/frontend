@@ -1,25 +1,27 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-withdrawal-dialog',
   templateUrl: './withdrawal-dialog.component.html',
   styleUrls: ['./withdrawal-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [BaseDialogComponent, MatIcon, TranslateModule, MatButtonModule],
 })
 export class WithdrawalDialogComponent implements OnInit {
-  constructor(
-    private dialogRef: DialogRef<WithdrawalDialogComponent>,
-    private router: Router,
-    @Inject(DIALOG_DATA)
-    public data: {
-      title: string;
-      description?: string;
-      success: boolean;
-      withdrawalDisabled: boolean;
-    }
-  ) {}
+  private dialogRef = inject<DialogRef<WithdrawalDialogComponent>>(DialogRef);
+  private router = inject(Router);
+  data = inject<{
+    title: string;
+    description?: string;
+    success: boolean;
+    withdrawalDisabled: boolean;
+  }>(DIALOG_DATA);
 
   ngOnInit(): void {}
 

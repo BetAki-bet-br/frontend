@@ -13,8 +13,7 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [ForgotPasswordComponent],
+      imports: [TranslateModule.forRoot(), ForgotPasswordComponent],
       providers: [
         MatSnackBar,
         { provide: AuthenticationService, useClass: MockAuthenticationService },

@@ -1,3 +1,6 @@
+@use "sass:map" as map;
+@use "theme/theme-variables" as theme-variables;
+
 .font-icons {
   font-family: font-icons, sans-serif;
   font-style: normal;
@@ -6,7 +9,7 @@
   text-transform: none;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
-  color: map.get($app-custom-colors, "neutral-100");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-100");
   font-size: 20px;
 
   &.push-notifications__icon::before {

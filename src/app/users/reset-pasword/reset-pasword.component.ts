@@ -1,7 +1,8 @@
-import { ChangeDetectorRef } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { ChangeDetectorRef, inject } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Logger } from '@app/@shared/logger.service';
@@ -10,9 +11,16 @@ import { AuthenticationService } from '@app/auth';
 import { finalize } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
-import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import {
+  Breadcrumbs,
+  PageBreadcrumbsComponent,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { MatFormField } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { LoaderComponent } from '@app/@shared/loader/loader.component';
 
 interface ForgotPasswordForm {
   password: FormControl<string | null>;
@@ -23,10 +31,28 @@ const log = new Logger('ResetPasswordComponent');
 @Component({
   selector: 'app-reset-pasword',
   templateUrl: './reset-pasword.component.html',
+  imports: [
+    MatFormField,
+    MatIcon,
+    MatInputModule,
+    MatButtonModule,
+    TranslateModule,
+    LoaderComponent,
+    PageBreadcrumbsComponent,
+    ReactiveFormsModule,
+  ],
   styleUrls: ['./reset-pasword.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResetPaswordComponent implements OnInit {
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
+  private authenticationService = inject(AuthenticationService);
+  private snackbarService = inject(SnackbarService);
+  private translateService = inject(TranslateService);
+  private tawkToService = inject(TawkToScriptService);
+
   registerForm: FormGroup<ForgotPasswordForm> = new FormGroup(
     {
       password: new FormControl('', [Validators.required, ...defaultPasswordValidators]),
@@ -58,16 +84,6 @@ export class ResetPaswordComponent implements OnInit {
   get passwordMatchError() {
     return this.registerForm.getError('mismatch') && this.registerForm.get('confirmPassword')?.touched;
   }
-
-  constructor(
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute,
-    private authenticationService: AuthenticationService,
-    private snackbarService: SnackbarService,
-    private translateService: TranslateService,
-    private tawkToService: TawkToScriptService
-  ) {}
 
   ngOnInit() {
     const routeParams = this.route.snapshot.params;

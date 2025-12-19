@@ -18,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MockTemplateService } from '@app/@shared/services/template.service.mock';
 import { TemplateService } from '@app/@shared/services/template.service';
 import { CmsService } from '@app/@shared/services/cms.service';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthDialogService } from '@app/auth/auth-dialog.service';
 
 describe('PromotionsComponent', () => {
@@ -27,8 +27,7 @@ describe('PromotionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PromotionsComponent],
-      imports: [HttpClientModule, TranslateModule.forRoot(), MatDialogModule, PipesModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, PipesModule, PromotionsComponent],
       providers: [
         { provide: BonusService, useClass: MockCtgApiService },
         { provide: PlayerStatusService, useValue: {} },
@@ -41,6 +40,7 @@ describe('PromotionsComponent', () => {
         { provide: BannerService, useClass: MockCtgApiService },
         { provide: CmsService, useValue: {} },
         { provide: AuthDialogService, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

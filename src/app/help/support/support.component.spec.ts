@@ -10,8 +10,7 @@ describe('SupportComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SupportComponent],
-      imports: [TranslateModule.forRoot(), PipesModule],
+      imports: [TranslateModule.forRoot(), PipesModule, SupportComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SupportComponent);

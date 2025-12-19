@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { GameCategoriesService } from '@app/@core/game-categories.service';
@@ -9,14 +9,26 @@ import { GameTile } from '@app/@shared/models';
 import { GamesService } from '@app/@shared/services/games/games.service';
 import { GameLauncherService } from '@app/game-launcher/game-launcher.service';
 import { map, Subscription, switchMap } from 'rxjs';
+import { MatFormField } from '@angular/material/form-field';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-global-search',
   templateUrl: './global-search.component.html',
   styleUrls: ['./global-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatFormField, TranslateModule, ReactiveFormsModule],
 })
 export class GlobalSearchComponent implements OnInit, OnDestroy {
+  globalSearchService = inject(GlobalSearchService);
+  private gamesService = inject(GamesService);
+  private fb = inject(FormBuilder);
+  private dataStoreService = inject(DataStoreService);
+  private assetsService = inject(AssetsService);
+  private gameLauncherService = inject(GameLauncherService);
+  private router = inject(Router);
+  private gameCategoryService = inject(GameCategoriesService);
+
   @ViewChild('globalSearchInput', { static: true }) globalSearchInput?: ElementRef;
 
   private subscriptions: Subscription[] = [];
@@ -27,17 +39,6 @@ export class GlobalSearchComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     name: this.fb.control<string>('', { updateOn: 'change' }),
   });
-
-  constructor(
-    public globalSearchService: GlobalSearchService,
-    private gamesService: GamesService,
-    private fb: FormBuilder,
-    private dataStoreService: DataStoreService,
-    private assetsService: AssetsService,
-    private gameLauncherService: GameLauncherService,
-    private router: Router,
-    private gameCategoryService: GameCategoriesService
-  ) {}
 
   ngOnInit() {
     this.subscriptions.push(

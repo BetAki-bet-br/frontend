@@ -9,9 +9,20 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  QueryList,
+  AfterContentChecked,
+  ElementRef,
+  ContentChildren,
+  Signal,
   SimpleChanges,
+  inject,
+  input,
+  signal,
 } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRippleModule } from '@angular/material/core';
 import { AppBreakpoints } from '@app/@shared/app-breakpoints';
+import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -19,8 +30,13 @@ import { Subscription } from 'rxjs';
   templateUrl: './base-dialog.component.html',
   styleUrls: ['./base-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatIconModule, MatRippleModule, CdnizePipe],
 })
-export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges {
+export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterContentChecked {
+  private dialogRef = inject<DialogRef<BaseDialogComponent>>(DialogRef);
+  private breakpointObserver = inject(BreakpointObserver);
+  private cdr = inject(ChangeDetectorRef);
+  size = input<'sm' | 'md' | 'lg' | 'xl'>('sm');
   @Input() position: 'top' | 'center' | 'bottom' = 'center';
   @Input() title!: string;
   @Input() width!: string;
@@ -31,18 +47,16 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges {
   @Input() displayTopBar: boolean = true;
   @Input() fullscreenMobile: boolean = true;
   @Input() widthMobile!: string;
-
   isMobile: boolean = false;
 
   readonly defaultWidth: string = '486px';
 
   private subscriptions: Subscription[] = [];
 
-  constructor(
-    private dialogRef: DialogRef<BaseDialogComponent>,
-    private breakpointObserver: BreakpointObserver,
-    private cdr: ChangeDetectorRef
-  ) {}
+  @ContentChildren('dialogContent', { read: ElementRef })
+  private dialogContentElements!: QueryList<ElementRef>;
+
+  hasDialogContent = signal(false);
 
   ngOnInit(): void {
     if (!this.width) {
@@ -74,6 +88,14 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges {
       this.dialogRef.updateSize(this.isMobile ? '100%' : this.width, this.isMobile ? '100%' : heightTmp);
       this.setPosition(strategy);
       this.dialogRef.updatePosition();
+      this.cdr.markForCheck();
+    }
+  }
+
+  ngAfterContentChecked(): void {
+    const newHasContent = this.dialogContentElements && this.dialogContentElements.length > 0;
+    if (newHasContent !== this.hasDialogContent()) {
+      this.hasDialogContent.set(newHasContent);
       this.cdr.markForCheck();
     }
   }

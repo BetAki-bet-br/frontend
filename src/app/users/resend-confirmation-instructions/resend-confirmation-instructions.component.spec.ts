@@ -12,8 +12,7 @@ describe('ResendConfirmationInstructionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [ResendConfirmationInstructionsComponent],
+      imports: [TranslateModule.forRoot(), ResendConfirmationInstructionsComponent],
       providers: [MatSnackBar, { provide: AuthenticationService, useClass: MockAuthenticationService }],
     }).compileComponents();
 

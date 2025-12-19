@@ -3,7 +3,7 @@ import { ActivatedRoute, convertToParamMap, ParamMap } from '@angular/router';
 import { of } from 'rxjs';
 import { GlobalizationService, PlayerService, ProdGameService } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MockCtgApiService } from '@app/@shared/http/ctg-api.service.mock';
 import { GameFiltersProvidersDrawerComponent } from './game-filters-providers.component';
 import {
@@ -25,8 +25,7 @@ describe('GameFiltersProvidersDrawerComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [GameFiltersProvidersDrawerComponent],
-      imports: [TranslateModule.forRoot(), HttpClientModule, MatDialogModule, MatBottomSheetModule],
+      imports: [TranslateModule.forRoot(), MatDialogModule, MatBottomSheetModule, GameFiltersProvidersDrawerComponent],
       providers: [
         { provide: MatBottomSheet, useValue: {} },
         { provide: MatBottomSheetRef, useValue: {} },
@@ -37,6 +36,7 @@ describe('GameFiltersProvidersDrawerComponent', () => {
         { provide: PlayerService, useClass: MockCtgApiService },
         { provide: ProdGameService, useValue: {} },
         { provide: ProdGameService, useClass: MockCtgApiService },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { GameLauncherService } from '../game-launcher.service';
@@ -11,17 +20,15 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameLaunchComponent implements OnInit, OnChanges, OnDestroy {
+  sanitizer = inject(DomSanitizer);
+  gameLauncherService = inject(GameLauncherService);
+  private router = inject(Router);
+
   @Input() gameScreen: GameScreen | undefined;
   @Input() isLive = false;
   public multiScreen: boolean = false;
   public gameUrl: SafeResourceUrl | undefined;
   private currentlyActive: Subscription = new Subscription();
-
-  constructor(
-    public sanitizer: DomSanitizer,
-    public gameLauncherService: GameLauncherService,
-    private router: Router
-  ) {}
 
   ngOnInit() {
     this.currentlyActive = this.gameLauncherService.currentlyActive$.subscribe((value) => {

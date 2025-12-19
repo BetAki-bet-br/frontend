@@ -1,5 +1,5 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { OptedInEnum } from '@icore/ngx-portalgateway-api-client-atl';
 import { FillPlayerInfoDialogComponent } from '../components/fill-player-info-dialog/fill-player-info-dialog.component';
@@ -19,7 +19,7 @@ import {
 } from '@app/promotions/promotions/promotion-action-dialog/promotion-action-dialog.component';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { DepositDialogComponent } from '../components/deposit-dialog/deposit-dialog.component';
-import { PlayerStatusService } from './player.service';
+import { PlayerStatusService } from './player.status.service';
 import { PromotionDetailsResolved } from '../models';
 import { BonusesService } from './bonuses.service';
 
@@ -29,14 +29,12 @@ const log = new Logger('FirstDepositCheckService');
   providedIn: 'root',
 })
 export class FirstDepositCheckService {
-  constructor(
-    private configurationService: ConfigurationService,
-    private dialog: Dialog,
-    private promotionService: PromotionsService,
-    private router: Router,
-    private playerStatusService: PlayerStatusService,
-    private bonusesService: BonusesService
-  ) {}
+  private configurationService = inject(ConfigurationService);
+  private dialog = inject(Dialog);
+  private promotionService = inject(PromotionsService);
+  private router = inject(Router);
+  private playerStatusService = inject(PlayerStatusService);
+  private bonusesService = inject(BonusesService);
 
   preDepositCheck(openDepositPage: boolean = false) {
     log.debug('Initializing preDeposit check with openDepositPage ' + openDepositPage);

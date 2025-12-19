@@ -8,7 +8,7 @@ describe('GameCloseDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GameCloseDialogComponent],
+      imports: [GameCloseDialogComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameCloseDialogComponent);

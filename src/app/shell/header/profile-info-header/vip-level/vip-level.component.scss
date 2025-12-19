@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "sass:color";
+@use "sass:map" as map;
+@use "sass:color" as color;
 
-@import "src/theme/theme-variables";
+@use "theme/theme-variables" as theme-variables;
 
 .vip-level-container {
   min-width: 8.1875rem;
@@ -16,7 +16,7 @@
 }
 
 .vip-name {
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
 
   text-align: center;
   font-size: 0.75rem;
@@ -27,7 +27,7 @@
 }
 
 .vip-icon {
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
 
   font-size: 1rem;
   height: 1rem;

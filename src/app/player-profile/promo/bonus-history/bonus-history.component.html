@@ -1,10 +1,7 @@
 <div class="player-profile-page-container">
   <div class="bonuses-history-container">
     <div class="panel-content">
-      <div
-        class="form-wrapper flex-row flex-wrap flex-col--lt-sm-2 gapx-24 gapy-16 full-width"
-        [formGroup]="filterForm"
-      >
+      <div class="form-wrapper flex flex-wrap flex-col--lt-sm-2 gap-x-6 gap-y-4 full-width" [formGroup]="filterForm">
         <div class="field-wrapper-edit">
           <div class="form-field-label" translate>Status</div>
           <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
@@ -15,13 +12,17 @@
               #selectType
               [matTooltip]="selectType.triggerValue"
             >
-              <mat-option *ngFor="let item of statusList" [value]="item">
+              @for (item of statusList; track item) {
+              <mat-option [value]="item">
                 {{ item.label | translate }}
               </mat-option>
+              }
             </mat-select>
-            <mat-error *ngIf="filterForm.controls.status?.hasError('required')" class="error-msg" translate>
-              Required</mat-error
-            >
+            @if (filterForm.controls.status.hasError('required')) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Required</mat-error>
+            </ng-container>
+            }
             <mat-icon [class]="selectType.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
               selectType.panelOpen ? 'expand_less' : 'expand_more'
             }}</mat-icon>
@@ -36,16 +37,18 @@
               #selectPeriod
               [matTooltip]="selectPeriod.triggerValue"
             >
-              <mat-option *ngFor="let item of periodList" [value]="item">
+              @for (item of periodList; track item) {
+              <mat-option [value]="item">
                 {{ item.label | translate }}
               </mat-option>
+              }
             </mat-select>
             <mat-icon [class]="selectPeriod.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
               selectPeriod.panelOpen ? 'expand_less' : 'expand_more'
             }}</mat-icon>
           </mat-form-field>
         </div>
-        <div class="flex-row flex-col--lt-sm-2 gapx-24 gapy-16">
+        <div class="flex flex-col--lt-sm-2 gap-x-6 gap-y-4">
           <div class="field-wrapper-edit">
             <div class="form-field-label" translate>From</div>
             <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
@@ -61,10 +64,12 @@
               <mat-datepicker-toggle matSuffix [for]="pickerFrom">
                 <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
               </mat-datepicker-toggle>
-              <mat-datepicker #pickerFrom></mat-datepicker>
-              <mat-error translate class="error-msg" *ngIf="filterForm.controls.dateFrom.hasError('dateRangeError')"
-                >From date cannot be after To date</mat-error
-              >
+              <mat-datepicker #pickerFrom />
+              @if (filterForm.controls.dateFrom.hasError('dateRangeError')) {
+              <ng-container>
+                <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
+              </ng-container>
+              }
             </mat-form-field>
           </div>
           <div class="field-wrapper-edit">
@@ -83,29 +88,34 @@
               <mat-datepicker-toggle matSuffix [for]="pickerTo">
                 <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
               </mat-datepicker-toggle>
-              <mat-datepicker #pickerTo></mat-datepicker>
-              <mat-error translate class="error-msg" *ngIf="filterForm.controls.dateFrom.hasError('dateRangeError')"
-                >From date cannot be after To date</mat-error
-              >
+              <mat-datepicker #pickerTo />
+              @if (filterForm.controls.dateFrom.hasError('dateRangeError')) {
+              <ng-container>
+                <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
+              </ng-container>
+              }
             </mat-form-field>
           </div>
         </div>
       </div>
-      <div class="flex-row flex-wrap flex-col--lt-sm-2 gapx-24 gapy-16 full-width">
+      <div class="flex flex-wrap flex-col--lt-sm-2 gap-x-6 gap-y-4 full-width">
         <div class="section-actions">
           <button [disabled]="filterForm.invalid" mat-button class="section-action flex-grow" (click)="searchItems()">
             <span translate>Search</span>
           </button>
         </div>
       </div>
-      <div class="table-container" *ngIf="pagedData.length">
-        <ng-container *ngTemplateOutlet="bonusHistoryTable"></ng-container>
+      @if (pagedData.length) {
+      <div class="table-container">
+        <ng-container *ngTemplateOutlet="bonusHistoryTable" />
       </div>
+      }
     </div>
   </div>
 
   <ng-template #bonusHistoryTable>
-    <mat-card *ngFor="let record of pagedData">
+    @for (record of pagedData; track record) {
+    <mat-card>
       <div class="table-row flex-col--lt-sm-2">
         <div class="col wide">
           <div class="label" translate>Bonus name</div>
@@ -113,7 +123,7 @@
         </div>
         <div class="col wide">
           <div class="label" translate>Received on</div>
-          <div class="value">{{ record.acceptedDate | date: dateFormat }}</div>
+          <div class="value">{{ record.acceptedDate | date : dateFormat }}</div>
         </div>
         <div class="col wide">
           <div class="label" translate>Bonus amount</div>
@@ -127,7 +137,7 @@
         </div>
       </div>
     </mat-card>
-    <mat-paginator [length]="bonusHistoryData.length" [pageSize]="tablePageSize" (page)="onPageChange($event)">
-    </mat-paginator>
+    }
+    <mat-paginator [length]="bonusHistoryData.length" [pageSize]="tablePageSize" (page)="onPageChange($event)" />
   </ng-template>
 </div>

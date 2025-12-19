@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "sass:color";
+@use "sass:map" as map;
+@use "sass:color" as color;
 
-@import "src/theme/theme-variables";
+@use "theme/theme-variables" as theme-variables;
 
 :host {
   overflow: auto;
@@ -15,19 +15,19 @@ table {
   width: 100%;
   min-height: 4.5rem;
   height: 100%;
-  background-color: map.get($app-custom-colors, "betaki-grey30");
+  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
 }
 
 ::ng-deep .mdc-data-table__content .mat-mdc-cell {
-  border-color: map.get($app-custom-colors, "betaki-grey30");
-  background-color: map.get($app-custom-colors, "betaki-grey30");
+  border-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
 }
 
 ::ng-deep .mdc-data-table__content .mdc-data-table__row:last-child .mat-mdc-cell {
-  border-bottom: map.get($app-custom-colors, "betaki-grey30");
+  border-bottom: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
 }
 
 td:first-child .table-cell-content {
@@ -51,7 +51,7 @@ td:last-child .table-cell-content {
 }
 
 .no-records-text {
-  color: color.adjust(map.get($app-custom-colors, "neutral-black"), $alpha: -0.13);
+  color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-black"), $alpha: -0.13);
   height: 3rem;
   display: flex;
   align-items: flex-start;
@@ -91,7 +91,7 @@ tr.detail-row {
   -webkit-tap-highlight-color: transparent;
 
   &:hover {
-    background-color: map.get($app-custom-colors, "grey-150");
+    background-color: map.get(theme-variables.$app-custom-colors, "grey-150");
     border-radius: 0.75rem;
   }
 
@@ -107,7 +107,7 @@ tr.detail-row {
 }
 
 :host ::ng-deep .mat-mdc-paginator-range-actions {
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
 
   & button {
     filter: invert(1);

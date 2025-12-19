@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CurrentBannersData, DataStoreService } from '@app/@core';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { Logger } from '@app/@shared/logger.service';
@@ -24,21 +24,21 @@ const log = new Logger('CmsService');
   providedIn: 'root',
 })
 export class CmsService {
+  private renderTemplate = inject(RenderTemplatePipe);
+  private bannerService = inject(BannerService);
+  private credentialsService = inject(CredentialsService);
+  private dataStoreService = inject(DataStoreService);
+  private templateService = inject(TemplateService);
+  private breakpointObserver = inject(BreakpointObserver);
+  private slugService = inject(CmsSlugService);
+  private i18nService = inject(I18nService);
+  private translate = inject(TranslateService);
+
   private activeMainBannersSub = new ReplaySubject<CurrentBannersData | null>(1);
 
   activeMainBannersSub$ = this.activeMainBannersSub.asObservable();
 
-  constructor(
-    private renderTemplate: RenderTemplatePipe,
-    private bannerService: BannerService,
-    private credentialsService: CredentialsService,
-    private dataStoreService: DataStoreService,
-    private templateService: TemplateService,
-    private breakpointObserver: BreakpointObserver,
-    private slugService: CmsSlugService,
-    private i18nService: I18nService,
-    private translate: TranslateService
-  ) {
+  constructor() {
     this.initActiveMainBanners();
   }
 
@@ -237,7 +237,10 @@ export class CmsService {
 
       promoBanners$ = forkJoin({ banners: getPromotionTemplates$, templatesList: getTemplatesList$ }).pipe(
         map(({ banners, templatesList }) => {
-          banners.sort((a, b) => {
+          // Filter out null or undefined banners
+          const filteredBanners = (banners || []).filter((b) => b != null);
+
+          filteredBanners.sort((a, b) => {
             const aPosition = a.position ?? Number.MAX_SAFE_INTEGER;
             const bPosition = b.position ?? Number.MAX_SAFE_INTEGER;
 
@@ -245,13 +248,14 @@ export class CmsService {
           });
 
           // Create the banners from the api response
-          const promoBanners: Banner[] = banners.map((b) => {
+          const promoBanners: Banner[] = filteredBanners.map((b) => {
             const template = templatesList.find((t) => t.id === b.templateId)?.htmlDefinition ?? '';
             const content = this.templateService.transformContent(b?.contentFieldValues ?? undefined);
             const renderedTemplate = this.renderTemplate.transform(template, {
               ...content,
               'Time remaining': this.getTimeRemainingText(b.contentSchedule?.endDate),
             });
+
             return {
               title: content[BannerPromotionsPageBannersTemplateFieldsEnum['Header - text']],
               template,
@@ -265,6 +269,7 @@ export class CmsService {
         tap((promoBanners) => {
           // Store the banners
           this.dataStoreService.currentPromotionBanners = promoBanners;
+          console.log('Processed promoBanners:', promoBanners);
         })
       );
     }
@@ -380,7 +385,7 @@ export class CmsService {
     const newCurrentBanners: CurrentBannersData = {};
     if (currentBanners) {
       Object.keys(currentBanners).map((type) => {
-        newCurrentBanners[type] = (currentBanners[type] as Banner[])?.map((banner) => ({
+        (newCurrentBanners as any)[type] = ((currentBanners as any)[type] as Banner[])?.map((banner) => ({
           ...banner,
           // Template that is rendered with Mustache
           templateHtml: this.renderTemplate.transform(banner?.template, banner?.content),

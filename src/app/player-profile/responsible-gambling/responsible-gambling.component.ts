@@ -1,28 +1,64 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
-import { Logger, UntilDestroy, untilDestroyed } from '@app/@shared';
-import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Logger } from '@app/@shared';
+import {
+  Breadcrumbs,
+  PageBreadcrumbsComponent,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { PlayerLimit, TimePeriod } from '@app/@shared/models';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { LimitTypeEnum, PlayerDetails, TimeTypeEnum } from '@icore/ngx-portalgateway-api-client-atl';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin, of, Subscription, switchMap } from 'rxjs';
 import { PlayerProfileService } from '../player-profile.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
+import { MatTabGroup, MatTab, MatTabsModule } from '@angular/material/tabs';
+import { ResponsibleLimitsComponent } from './responsible-limits/responsible-limits.component';
+import { ResponsibleLimitDurationComponent } from './responsible-limit-duration/responsible-limit-duration.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 const log = new Logger('ResponsibleGamblingComponent');
 
-@UntilDestroy()
 @Component({
   selector: 'app-responsible-gambling',
   templateUrl: './responsible-gambling.component.html',
   styleUrls: ['./responsible-gambling.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatTabsModule,
+    MatButtonModule,
+    MatInputModule,
+    PageBreadcrumbsComponent,
+    ResponsibleLimitsComponent,
+    ReactiveFormsModule,
+    ResponsibleLimitDurationComponent,
+    TranslateModule,
+  ],
 })
 export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
+  private playerProfileService = inject(PlayerProfileService);
+  private dataStoreService = inject(DataStoreService);
+  private configurationService = inject(ConfigurationService);
+  private cdr = inject(ChangeDetectorRef);
+  private translateService = inject(TranslateService);
+  private _change = inject(ChangeDetectorRef);
+  private authDialogService = inject(AuthDialogService);
+  private snackbarService = inject(SnackbarService);
+  private destroyRef = inject(DestroyRef);
+
   currentRoute: 'Responsible gambling' | null = null;
 
   breadcrumbs: Breadcrumbs[] = [
@@ -131,16 +167,7 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
 
   private langChangeSubscription!: Subscription;
 
-  constructor(
-    private playerProfileService: PlayerProfileService,
-    private dataStoreService: DataStoreService,
-    private configurationService: ConfigurationService,
-    private cdr: ChangeDetectorRef,
-    private translateService: TranslateService,
-    private _change: ChangeDetectorRef,
-    private authDialogService: AuthDialogService,
-    private snackbarService: SnackbarService
-  ) {
+  constructor() {
     // Warning: this subscription will always be alive for the app's lifetime
     this.langChangeSubscription = this.translateService.onLangChange.subscribe((event: LangChangeEvent) => {
       this.createCoolingOffPeriodsList();
@@ -321,7 +348,7 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
 
     this.playerProfileService
       .playerSetTimeout(newDate)
-      .pipe(untilDestroyed(this))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (result) => {
           this.snackbarService.openCustomSuccess(

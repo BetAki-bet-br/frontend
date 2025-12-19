@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  CUSTOM_ELEMENTS_SCHEMA,
   EventEmitter,
   Input,
   OnChanges,
@@ -12,6 +13,7 @@ import {
   SimpleChanges,
   TemplateRef,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DataStoreService } from '@app/@core';
@@ -22,8 +24,18 @@ import { validateNumber } from '@app/@shared/utils/validate-number';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { LimitStatusEnum, LimitTypeEnum, TimeTypeEnum } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { finalize, Subscription } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatExpansionModule, MatExpansionPanelHeader } from '@angular/material/expansion';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { TimeLeftPipe } from '@app/player-profile/promo/active-promo-tile/time-left.pipe';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { AsyncPipe } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 export const RESPONSIBLE_MAXIMUM_LIMIT = 50000000;
 export const RESPONSIBLE_DEPOSIT_MAXIMUM_LIMIT = 100000000000000000;
@@ -45,8 +57,31 @@ export interface ResponsibleLimitForm {
   templateUrl: './responsible-limits.component.html',
   styleUrls: ['./responsible-limits.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [
+    TranslateModule,
+    MatIcon,
+    MatInputModule,
+    MatExpansionModule,
+    MatSelectModule,
+    MatExpansionPanelHeader,
+    TimeLeftPipe,
+    AsyncPipe,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule,
+  ],
 })
 export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges {
+  private fb = inject(FormBuilder);
+  private translate = inject(TranslateService);
+  private playerProfileService = inject(PlayerProfileService);
+  private snackbarService = inject(SnackbarService);
+  private dialog = inject(Dialog);
+  private dataStoreService = inject(DataStoreService);
+  private cdr = inject(ChangeDetectorRef);
+
   @ViewChild('timeLeftTemplate', { static: true }) timeLeftTemplate?: TemplateRef<any>;
   @ViewChild('statusTemplate', { static: true }) statusTemplate?: TemplateRef<any>;
 
@@ -155,16 +190,6 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
 
   private subscriptions: Subscription = new Subscription();
   private dialogSubscriptions: Subscription[] = [];
-
-  constructor(
-    private fb: FormBuilder,
-    private translate: TranslateService,
-    private playerProfileService: PlayerProfileService,
-    private snackbarService: SnackbarService,
-    private dialog: Dialog,
-    private dataStoreService: DataStoreService,
-    private cdr: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.depositForm.controls.limitPeriod?.updateValueAndValidity();

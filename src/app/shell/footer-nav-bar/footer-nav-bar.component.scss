@@ -1,13 +1,13 @@
-@use "sass:map";
-@use "sass:color";
+@use "sass:map" as map;
+@use "sass:color" as color;
 
-@import "src/theme/theme-variables";
+@use "theme/theme-variables" as theme-variables;
 
 .active-link {
-  color: map.get($app-custom-colors, "Betaki_success");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
 
   &.casino-link {
-    color: map.get($app-custom-colors, "Betaki_success");
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
   }
 }
 
@@ -24,19 +24,19 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    color: map.get($app-custom-colors, "neutral-white");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   }
 
   .category-icon {
     padding-top: 0.5rem;
-    background-color: map.get($app-custom-colors, "Betaki_success");
+    background-color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
     border-radius: 0 0 6.1875rem 6.1875rem;
     padding-bottom: 0.2rem;
     width: 2.3rem;
   }
 
   mat-icon {
-    color: map.get($app-custom-colors, "Betaki_black_40");
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_black_40");
     font-size: 1.5rem;
     height: 1.5rem;
     width: 1.5rem;
@@ -44,8 +44,8 @@
 }
 
 .footer-nav-bar-container {
-  background-color: map.get($app-custom-colors, "Betaki_black_40");
-  color: map.get($app-custom-colors, "neutral-white");
+  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_black_40");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   height: 3.375rem;
   align-items: flex-start;
   justify-content: space-around;
@@ -75,11 +75,11 @@
 }
 
 .sportsbook {
-  background-color: map.get($app-custom-colors, "neutral-white");
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
 }
 
 .sportsbook-category-link {
-  background-color: map.get($app-custom-colors, "Betaki_success");
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
 }

@@ -1,23 +1,49 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DataStoreService } from '@app/@core';
-import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
-import { PlayerStatusService } from '@app/@shared/services/player.service';
+import {
+  Breadcrumbs,
+  PageBreadcrumbsComponent,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '../player-profile.service';
 import { ConfigurationService } from '@app/@core/configuration.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { map, Subscription } from 'rxjs';
 import { AccountResolved } from '@app/@shared/models';
 
-@UntilDestroy()
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { PlayerStatusService } from '@app/@shared/services/player.status.service';
+
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
   styleUrls: ['./profile-settings.component.scss', '../../shell/shell-player-profile/shell-player-profile-common.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, TranslateModule, MatIconModule, MatButtonModule, MatDividerModule, PageBreadcrumbsComponent],
 })
 export class ProfileSettingsComponent implements OnInit, OnDestroy {
+  private playerService = inject(PlayerStatusService);
+  dataStoreService = inject(DataStoreService);
+  private playerProfileService = inject(PlayerProfileService);
+  private cdr = inject(ChangeDetectorRef);
+  private tawkToScriptService = inject(TawkToScriptService);
+  private authDialogService = inject(AuthDialogService);
+  private configurationService = inject(ConfigurationService);
+  private destroyRef = inject(DestroyRef);
+
   balance!: AccountResolved | null;
   balanceCurrency = '';
   balanceString = '';
@@ -39,16 +65,6 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
 
   balanceVisibilitySub = new Subscription();
 
-  constructor(
-    private playerService: PlayerStatusService,
-    public dataStoreService: DataStoreService,
-    private playerProfileService: PlayerProfileService,
-    private cdr: ChangeDetectorRef,
-    private tawkToScriptService: TawkToScriptService,
-    private authDialogService: AuthDialogService,
-    private configurationService: ConfigurationService
-  ) {}
-
   ngOnInit() {
     this.balanceVisible = this.dataStoreService.balanceVisible;
     this.playerService.balanceSub$.subscribe((balance) => {
@@ -68,7 +84,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
 
     this.configurationService
       .getPlayerInfo()
-      .pipe(untilDestroyed(this))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((playerInfo) => {
         this.playerFirstName = playerInfo?.firstName ?? '';
         this.cdr.markForCheck();

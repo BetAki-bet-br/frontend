@@ -1,19 +1,46 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Logger, UntilDestroy, untilDestroyed } from '@app/@shared';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatTabChangeEvent, MatTabGroup, MatTab, MatTabsModule } from '@angular/material/tabs';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Logger } from '@app/@shared';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { WalletWithdrawalComponent } from './wallet-withdrawal/wallet-withdrawal.component';
+import { WalletDepositComponent } from './wallet-deposit/wallet-deposit.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatIcon } from '@angular/material/icon';
 
 const log = new Logger('WalletComponent');
-@UntilDestroy()
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
   styleUrls: ['./wallet.component.scss', '../../shell/shell-player-profile/shell-player-profile-common.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    WalletWithdrawalComponent,
+    WalletDepositComponent,
+    MatTabsModule,
+    TranslateModule,
+    RouterLink,
+    RouterLinkActive,
+    MatIcon,
+  ],
 })
 export class WalletComponent implements OnInit {
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef);
+  private deviceService = inject(DeviceDetectorService);
+  private destroyRef = inject(DestroyRef);
+
   @ViewChild(MatTabGroup) tabGroup?: MatTabGroup;
 
   selectedIndex = 0;
@@ -21,15 +48,8 @@ export class WalletComponent implements OnInit {
 
   currentRoute: 'Withdrawal' | 'Deposit' | null = null;
 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private deviceService: DeviceDetectorService
-  ) {}
-
   ngOnInit(): void {
-    this.activatedRoute.data.pipe(untilDestroyed(this)).subscribe((data) => {
+    this.activatedRoute.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((data) => {
       if (data['tabIndex'] && !this.tabChanged) {
         this.selectedIndex = data['tabIndex'];
         this.cdr.markForCheck();
@@ -37,7 +57,7 @@ export class WalletComponent implements OnInit {
     });
 
     this.checkRouteDepositWithdrawal(this.router.url);
-    this.router.events.pipe(untilDestroyed(this)).subscribe((res) => {
+    this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       if (res instanceof NavigationEnd) {
         this.checkRouteDepositWithdrawal(this.router.url);
       }

@@ -1,6 +1,3 @@
-<app-games
-  *ngIf="(categoryId$ | async) || (provider$ | async)"
-  [categoryId]="categoryId$ | async"
-  [provider]="provider$ | async"
-  [initialRows]="0"
-></app-games>
+@if ((categoryId$ | async) || (provider$ | async)) {
+<app-games [categoryId]="categoryId$ | async" [provider]="provider$ | async" [initialRows]="0" />
+}

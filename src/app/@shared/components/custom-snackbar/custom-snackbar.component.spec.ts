@@ -9,7 +9,7 @@ describe('CustomSnackbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CustomSnackbarComponent],
+      imports: [CustomSnackbarComponent],
       providers: [
         { provide: MAT_SNACK_BAR_DATA, useValue: {} },
         { provide: MatSnackBarRef, useValue: {} },

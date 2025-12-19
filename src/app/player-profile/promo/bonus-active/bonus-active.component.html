@@ -1,7 +1,7 @@
 <div class="bonuses-container">
   <div class="bonuses-wrapper">
-    <ng-container *ngFor="let bonus of bonusList">
-      <div class="bonus-item" [innerHTML]="bonus.templateActiveHtml"></div>
-    </ng-container>
+    @for (bonus of bonusList; track bonus) {
+    <div class="bonus-item" [innerHTML]="bonus.templateActiveHtml"></div>
+    }
   </div>
 </div>

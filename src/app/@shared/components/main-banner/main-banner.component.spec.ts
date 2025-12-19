@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainBannerComponent } from './main-banner.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { BannerService } from '@icore/ngx-portalgateway-api-client-atl';
@@ -16,13 +16,13 @@ describe('MainBannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MainBannerComponent],
-      imports: [HttpClientModule, TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), MainBannerComponent],
       providers: [
         RenderTemplatePipe,
         { provide: BannerService, useClass: MockCtgApiService },
         { provide: ActivatedRoute, useValue: {} },
         { provide: TemplateService, useClass: MockTemplateService },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

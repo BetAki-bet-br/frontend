@@ -2,10 +2,9 @@
 /* stylelint-disable no-descending-specificity */
 /* stylelint-disable selector-max-specificity */
 
-@use "sass:map";
-@use "src/theme/theme-variables" as vars;
-@use "src/theme/utils" as util;
-@import "./theme-variables";
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "../theme-variables" as theme-variables;
 
 .mat-expansion-panel {
   .mat-expansion-panel-content {
@@ -16,7 +15,7 @@
 
   // Overrides for Expansion panel on FAQ page
   &.faq-expansion-panel {
-    background-color: map.get($app-custom-colors, "neutral-200");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-200");
     border-radius: 4px;
     box-shadow: none;
 
@@ -33,16 +32,16 @@
     }
 
     .mat-expansion-panel-header {
-      background: map.get($app-custom-colors, "neutral-200");
+      background: map.get(theme-variables.$app-custom-colors, "neutral-200");
 
-      @include util.media("gt-lg") {
+      @include utils.media("gt-lg") {
         padding: 0 2rem;
       }
     }
 
     .mat-expansion-panel-header:hover {
       .mat-expansion-panel-header-title > h4 {
-        color: map.get($app-custom-colors, "neutral-10");
+        color: map.get(theme-variables.$app-custom-colors, "neutral-10");
       }
     }
 
@@ -56,7 +55,7 @@
         padding: 8px;
 
         .content-wrapper {
-          background-color: map.get($app-custom-colors, "neutral-white");
+          background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
           padding: 8px 16px;
           font-size: 14px;
           line-height: 20px;
@@ -71,7 +70,7 @@
     }
 
     p {
-      @include util.media("lt-sm-2") {
+      @include utils.media("lt-sm-2") {
         font-size: 12px;
       }
     }
@@ -89,7 +88,7 @@
 .mat-accordion {
   .mat-expansion-panel {
     &.profile-panel {
-      background-color: map.get($app-custom-colors, "betaki-white100");
+      background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
       border-radius: 1rem;
       padding: 1.5rem;
       min-width: 15rem;
@@ -105,14 +104,14 @@
       }
 
       .mat-expansion-panel-header {
-        background-color: map.get($app-custom-colors, "betaki-white100");
+        background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
         border-radius: 0;
         padding: 0;
         margin-bottom: 0;
         height: 2.5rem;
 
         &:hover:not([aria-disabled="true"]) {
-          background-color: map.get($app-custom-colors, "betaki-white100");
+          background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
         }
       }
 
@@ -124,7 +123,7 @@
     }
 
     &.messages-panel {
-      background-color: map.get($app-custom-colors, "betaki-white100");
+      background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
       border-radius: 1rem;
       padding: 1.5rem;
       min-width: 15rem;
@@ -140,7 +139,7 @@
       }
 
       .mat-expansion-panel-header {
-        background-color: map.get($app-custom-colors, "betaki-white100");
+        background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
         border-radius: 0;
         padding: 0;
         margin-bottom: 0;
@@ -148,7 +147,7 @@
         align-items: center;
 
         &:hover:not([aria-disabled="true"]) {
-          background-color: map.get($app-custom-colors, "betaki-white100");
+          background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
         }
 
         .mat-expansion-indicator {

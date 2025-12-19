@@ -8,9 +8,10 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router'; // Added RouterModule
 import { Logger } from '@app/@shared';
 import { Banner } from '@app/@shared/models';
 import { CategoryKeyEnum } from '@app/@shared/models/template.model';
@@ -29,13 +30,22 @@ import {
 import { AuthenticationService, LoginContext } from '@app/auth/authentication.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { PortalGatewayErrorResponse } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core'; // Added TranslateModule
 import { finalize, of, Subscription, switchMap } from 'rxjs';
 import { AdblockerDialogComponent } from '../adblocker-dialog/adblocker-dialog.component';
-import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import {
+  Breadcrumbs,
+  PageBreadcrumbsComponent,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component'; // Added PageBreadcrumbsComponent
 import { PopupMessageDialogComponent } from '@app/@shared/components/popup-message-dialog/popup-message-dialog.component';
 import { AuthEvent, AuthEventsService } from '@app/auth';
 import { MessageResolved } from '@app/@shared/models/message.model';
+// Added CommonModule
+import { MatFormFieldModule } from '@angular/material/form-field'; // Added MatFormFieldModule
+import { MatInputModule, MatSuffix } from '@angular/material/input'; // Added MatInputModule
+import { MatIconModule } from '@angular/material/icon'; // Added MatIconModule
+import { LoaderComponent } from '@app/@shared/loader/loader.component'; // Added LoaderComponent
+import { MatButton } from '@angular/material/button';
 
 const log = new Logger('LoginPageComponent');
 
@@ -43,9 +53,34 @@ const log = new Logger('LoginPageComponent');
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    RouterModule,
+    TranslateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButton,
+    MatSuffix,
+    PageBreadcrumbsComponent,
+    LoaderComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginPageComponent implements OnInit, OnDestroy {
+  private fb = inject(FormBuilder);
+  private authenticationService = inject(AuthenticationService);
+  private authEventsService = inject(AuthEventsService);
+  private cdr = inject(ChangeDetectorRef);
+  private router = inject(Router);
+  private translate = inject(TranslateService);
+  private authDialogService = inject(AuthDialogService);
+  private dialog = inject(Dialog);
+  private cmsService = inject(CmsService);
+  private tawkToScriptService = inject(TawkToScriptService);
+  private legitimuzGeolocationService = inject(LegitimuzGeolocationService);
+  private route = inject(ActivatedRoute);
+
   @ViewChild('usernameInput', { static: true }) usernameInput!: ElementRef<HTMLElement>;
 
   error: string = '';
@@ -75,27 +110,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
 
-  constructor(
-    private fb: FormBuilder,
-    private authenticationService: AuthenticationService,
-    private authEventsService: AuthEventsService,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
-    private translate: TranslateService,
-    private authDialogService: AuthDialogService,
-    private dialog: Dialog,
-    private cmsService: CmsService,
-    private tawkToScriptService: TawkToScriptService,
-    private legitimuzGeolocationService: LegitimuzGeolocationService,
-    private route: ActivatedRoute
-  ) {
-    this.subscriptions.add(
-      this.route.queryParams.subscribe((params) => {
-        if (params['redirectURL']) {
-          this.redirectURL = params['redirectURL'];
-        }
-      })
-    );
+  constructor() {
+    const url = this.router.createUrlTree(['/users/password/new']).toString();
   }
 
   togglePassword(): void {
@@ -228,6 +244,21 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             log.debug(`Login error: ${error}`);
 
             const responseError = (error as HttpErrorResponse).error as PortalGatewayErrorResponse;
+
+            if (responseError.errorMessage === 'PlayerLockedOut') {
+              this.router.navigate(['/unlock-account']);
+              return;
+            }
+            if (responseError.errorMessage === 'VerificationRequired') {
+              this.dialog.open<void>(PopupMessageDialogComponent, {
+                data: {
+                  title: this.translate.instant('Verification Required'),
+                  contents: this.translate.instant('VerificationRequired_Info_Text'),
+                  showCloseButton: true,
+                },
+              });
+              return;
+            }
 
             if (responseError?.errorMessage) {
               this.error = responseError.errorMessage;

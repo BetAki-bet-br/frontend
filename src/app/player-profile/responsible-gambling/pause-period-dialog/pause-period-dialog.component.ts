@@ -1,7 +1,10 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Logger } from '@app/@shared/logger.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
+
+import { MatButtonModule } from '@angular/material/button';
 
 export interface PausePeriodDialogData {
   limit: string;
@@ -17,16 +20,15 @@ const log = new Logger('PausePeriodDialogComponent');
 @Component({
   selector: 'app-pause-period-dialog',
   templateUrl: './pause-period-dialog.component.html',
+  imports: [TranslateModule, BaseDialogComponent, MatButtonModule],
   styleUrls: ['./pause-period-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PausePeriodDialogComponent {
-  constructor(
-    private dialogRef: DialogRef<PausePeriodDialogResult>,
-    @Inject(DIALOG_DATA) public data: PausePeriodDialogData,
-    private cdr: ChangeDetectorRef,
-    private translateService: TranslateService
-  ) {}
+  private dialogRef = inject<DialogRef<PausePeriodDialogResult>>(DialogRef);
+  data = inject<PausePeriodDialogData>(DIALOG_DATA);
+  private cdr = inject(ChangeDetectorRef);
+  private translateService = inject(TranslateService);
 
   onClose(confirm: boolean) {
     this.dialogRef.close({

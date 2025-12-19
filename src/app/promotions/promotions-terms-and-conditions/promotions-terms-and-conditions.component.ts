@@ -1,15 +1,19 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Logger } from '@app/@shared';
 import { AssetsService } from '@app/@shared/assets.service';
-import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import {
+  Breadcrumbs,
+  PageBreadcrumbsComponent,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { environment } from '@env/environment';
 import { TranslateService } from '@ngx-translate/core';
 import mustache from 'mustache';
 import { take } from 'rxjs';
+import { BasicPageContainerComponent } from '@app/@shared/components/basic-page-container/basic-page-container.component';
 
 const log = new Logger('HelpPagesLoaderComponent');
 
@@ -18,8 +22,15 @@ const log = new Logger('HelpPagesLoaderComponent');
   templateUrl: './promotions-terms-and-conditions.component.html',
   styleUrls: ['./promotions-terms-and-conditions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [PageBreadcrumbsComponent, BasicPageContainerComponent],
 })
 export class PromotionsTermsAndConditionsComponent implements OnInit {
+  private _assetsService = inject(AssetsService);
+  private _sanitizer = inject(DomSanitizer);
+  private activatedRoute = inject(ActivatedRoute);
+  private cdr = inject(ChangeDetectorRef);
+  private translateService = inject(TranslateService);
+
   public htmlContent: SafeHtml = '';
 
   title: string = '';
@@ -33,14 +44,9 @@ export class PromotionsTermsAndConditionsComponent implements OnInit {
 
   private httpClient: HttpClient;
 
-  constructor(
-    handler: HttpBackend,
-    private _assetsService: AssetsService,
-    private _sanitizer: DomSanitizer,
-    private activatedRoute: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private translateService: TranslateService
-  ) {
+  constructor() {
+    const handler = inject(HttpBackend);
+
     // We manually create the HttpClient with HttpBackend, so to not trigger HttpInterceptors,
     // as those have a dependency to the Authentication service and GTM service and it breaks the GTM service
     this.httpClient = new HttpClient(handler);

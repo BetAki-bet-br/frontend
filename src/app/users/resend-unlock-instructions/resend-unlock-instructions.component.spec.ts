@@ -12,8 +12,7 @@ describe('ResendUnlockInstructionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [ResendUnlockInstructionsComponent],
+      imports: [TranslateModule.forRoot(), ResendUnlockInstructionsComponent],
       providers: [MatSnackBar, { provide: AuthenticationService, useClass: MockAuthenticationService }],
     }).compileComponents();
 

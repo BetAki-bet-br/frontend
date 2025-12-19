@@ -1,19 +1,37 @@
+import { MatButtonModule } from '@angular/material/button';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { ViewportScroller } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ViewportScroller, CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AppBreakpoints } from '@app/@shared/app-breakpoints';
 import { Logger } from '@app/@shared/logger.service';
 import { AccountResolved } from '@app/@shared/models/account-resolved.model';
-import { PlayerStatusService } from '@app/@shared/services/player.service';
+import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { CredentialsService } from '@app/auth';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { environment } from '@env/environment';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
 import { forkJoin, Subscription, take } from 'rxjs';
-import Swiper, { SwiperOptions } from 'swiper';
-import { FooterMySummaryData } from '../footer-my-summary/footer-my-summary.component';
+import { SwiperOptions } from 'swiper/types';
+import { SwiperContainer } from 'swiper/element';
+import { FooterMySummaryData, FooterMySummaryComponent } from '../footer-my-summary/footer-my-summary.component';
+import { MatExpansionPanel, MatExpansionModule } from '@angular/material/expansion';
+import { RouterLink } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 
 const log = new Logger('FooterComponent');
 declare const zE: any;
@@ -33,14 +51,36 @@ export interface FooterCopyright {
   };
 }
 
-@UntilDestroy()
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [
+    CommonModule,
+    MatExpansionPanel,
+    MatExpansionModule,
+    MatButtonModule,
+    FooterMySummaryComponent,
+    RouterLink,
+    TranslateModule,
+    CdnizePipe,
+  ],
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit, AfterViewInit {
+  private breakpointObserver = inject(BreakpointObserver);
+  private credentialsService = inject(CredentialsService);
+  private cdr = inject(ChangeDetectorRef);
+  private viewportScroller = inject(ViewportScroller);
+  private ccService = inject(NgcCookieConsentService);
+  private tawkToScriptService = inject(TawkToScriptService);
+  private playerProfileService = inject(PlayerProfileService);
+  private playerService = inject(PlayerStatusService);
+  private destroyRef = inject(DestroyRef);
+
+  @ViewChild('sponsorshipSwiper') sponsorshipSwiper!: ElementRef<SwiperContainer>;
+
   @Input() balance: AccountResolved | null = null;
   isAuthenticated: boolean | undefined;
   showFooter: boolean = false;
@@ -48,6 +88,7 @@ export class FooterComponent implements OnInit {
   tikTokUrl: string = '/';
   twitterUrl: string = '/';
 
+  // TODO: This config seems to be unused in the template. It might be dead code.
   config: SwiperOptions = {
     slidesPerView: 'auto',
     centeredSlides: true,
@@ -57,9 +98,7 @@ export class FooterComponent implements OnInit {
     navigation: {
       nextEl: '.swiper-nav-right-icon',
       prevEl: '.swiper-nav-left-icon',
-      enabled: true,
     },
-    enabled: true,
     scrollbar: { draggable: true },
   };
 
@@ -70,7 +109,6 @@ export class FooterComponent implements OnInit {
     centerInsufficientSlides: true,
     spaceBetween: 30,
     navigation: false,
-    enabled: false,
     scrollbar: { draggable: false },
   };
 
@@ -117,6 +155,10 @@ export class FooterComponent implements OnInit {
       id: 0,
       logo: 'assets/sponsors/sampaio-correa-logo.svg',
     },
+    {
+      id: 1,
+      logo: 'assets/sponsors/escudo_uec.png',
+    },
   ];
 
   footerMenuItemsData: { [key: string]: boolean } = {
@@ -142,30 +184,16 @@ export class FooterComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private credentialsService: CredentialsService,
-    private cdr: ChangeDetectorRef,
-    private viewportScroller: ViewportScroller,
-    private ccService: NgcCookieConsentService,
-    private tawkToScriptService: TawkToScriptService,
-    private playerProfileService: PlayerProfileService,
-    private playerService: PlayerStatusService
-  ) {}
-
   ngOnInit(): void {
     this.subscriptions.push(
       this.breakpointObserver.observe([AppBreakpoints.GtMedium]).subscribe((state: BreakpointState) => {
         if (state.matches) {
           this.config.navigation = false;
-          this.config.enabled = false;
         } else {
           this.config.navigation = {
             nextEl: '.swiper-nav-right-icon',
             prevEl: '.swiper-nav-left-icon',
-            enabled: true,
           };
-          this.config.enabled = true;
         }
         this.config = { ...this.config };
       })
@@ -175,7 +203,7 @@ export class FooterComponent implements OnInit {
     this.tikTokUrl = environment.deployConfig.socialTikTokUrl;
     this.twitterUrl = environment.deployConfig.socialTwitterUrl;
 
-    this.credentialsService.isAuthenticated$?.pipe(untilDestroyed(this)).subscribe((isAuth) => {
+    this.credentialsService.isAuthenticated$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((isAuth) => {
       this.isAuthenticated = isAuth;
       this.cdr.markForCheck();
 
@@ -185,12 +213,21 @@ export class FooterComponent implements OnInit {
     });
   }
 
-  onChatClick(): void {
-    this.tawkToScriptService.maximize();
+  ngAfterViewInit(): void {
+    this.initializeSponsorshipSwiper();
   }
 
-  onSwiper(swiper: Swiper) {
-    log.debug(swiper);
+  initializeSponsorshipSwiper() {
+    if (this.sponsorshipSwiper) {
+      const swiperEl = this.sponsorshipSwiper.nativeElement;
+      const swiperParams = this.configSponsorship;
+      Object.assign(swiperEl, swiperParams);
+      swiperEl.initialize();
+    }
+  }
+
+  onChatClick(): void {
+    this.tawkToScriptService.maximize();
   }
 
   openPage(url?: string) {

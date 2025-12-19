@@ -1,44 +1,47 @@
+import { MatButtonModule } from '@angular/material/button';
 import { DialogRef } from '@angular/cdk/dialog';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { DataStoreService } from '@app/@core';
-import { AppBreakpoints, Logger, UntilDestroy, untilDestroyed } from '@app/@shared';
+import { AppBreakpoints, Logger } from '@app/@shared';
 import { MessageDialogComponent } from '@app/@shared/components/message-dialog/message-dialog.component';
 import { AccountResolved } from '@app/@shared/models';
-import { PlayerStatusService } from '@app/@shared/services/player.service';
+import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { AuthenticationService } from '@app/auth';
 import { finalize } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
+import { DecimalPipe } from '@angular/common';
 
 const log = new Logger('PlayerInfoDialogComponent');
 
-@UntilDestroy()
 @Component({
   selector: 'app-player-info-dialog',
   templateUrl: './player-info-dialog.component.html',
   styleUrls: ['../shell-player-profile-common.scss', './player-info-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatIcon, MatButtonModule, RouterLink, DecimalPipe, RouterLinkActive],
 })
 export class PlayerInfoDialogComponent implements OnInit {
+  private playerStatusService = inject(PlayerStatusService);
+  private destroyRef = inject(DestroyRef);
+  dataStoreService = inject(DataStoreService);
+  private cdr = inject(ChangeDetectorRef);
+  private dialogRef = inject<DialogRef<MessageDialogComponent>>(DialogRef);
+  private router = inject(Router);
+  private breakpointObserver = inject(BreakpointObserver);
+  private authenticationService = inject(AuthenticationService);
+
   account: AccountResolved | null = null;
   isMobile: boolean = false;
-
-  constructor(
-    private playerStatusService: PlayerStatusService,
-    public dataStoreService: DataStoreService,
-    private cdr: ChangeDetectorRef,
-    private dialogRef: DialogRef<MessageDialogComponent>,
-    private router: Router,
-    private breakpointObserver: BreakpointObserver,
-    private authenticationService: AuthenticationService
-  ) {}
 
   get playerName(): string {
     return `${this.dataStoreService.playerInfoInMemory?.firstName} ${this.dataStoreService.playerInfoInMemory?.lastName}`;
   }
 
   ngOnInit(): void {
-    this.playerStatusService.balanceSub$?.pipe(untilDestroyed(this)).subscribe((response) => {
+    this.playerStatusService.balanceSub$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((response) => {
       if (response) {
         this.account = response;
         this.cdr.markForCheck();
@@ -47,7 +50,7 @@ export class PlayerInfoDialogComponent implements OnInit {
 
     this.breakpointObserver
       .observe([AppBreakpoints.LtSmall2])
-      .pipe(untilDestroyed(this))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state: BreakpointState) => {
         this.isMobile = state.matches;
         if (!this.isMobile) {

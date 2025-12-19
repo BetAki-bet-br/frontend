@@ -1,5 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { Component, OnDestroy, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../auth/authentication.service';
 import { finalize, of, switchMap } from 'rxjs';
@@ -9,10 +10,17 @@ import { ChangeDetectorRef } from '@angular/core';
 import { cpfValidator } from '@app/@shared/form-utils';
 import { Dialog } from '@angular/cdk/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
-import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import {
+  Breadcrumbs,
+  PageBreadcrumbsComponent,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { LoaderComponent } from '@app/@shared/loader/loader.component';
+import { MatIcon } from '@angular/material/icon';
 
 const log = new Logger('ForgotPasswordComponent');
 
@@ -24,8 +32,28 @@ interface ForgotPasswordForm {
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss'],
+  imports: [
+    PageBreadcrumbsComponent,
+    MatFormField,
+    MatLabel,
+    MatInputModule,
+    LoaderComponent,
+    MatButtonModule,
+    TranslateModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ForgotPasswordComponent implements OnDestroy {
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private authenticationService = inject(AuthenticationService);
+  private snackbarService = inject(SnackbarService);
+  private dialog = inject(Dialog);
+  protected sanitizer = inject(DomSanitizer);
+  private translate = inject(TranslateService);
+  private tawkToService = inject(TawkToScriptService);
+  private authDialogService = inject(AuthDialogService);
+
   registerForm: FormGroup<ForgotPasswordForm> = new FormGroup({
     cpf: new FormControl('', [Validators.required, cpfValidator()]),
   });
@@ -54,17 +82,7 @@ export class ForgotPasswordComponent implements OnDestroy {
 
   public errorMessage = '';
 
-  constructor(
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private authenticationService: AuthenticationService,
-    private snackbarService: SnackbarService,
-    private dialog: Dialog,
-    protected sanitizer: DomSanitizer,
-    private translate: TranslateService,
-    private tawkToService: TawkToScriptService,
-    private authDialogService: AuthDialogService
-  ) {
+  constructor() {
     if (this.router?.url.endsWith('unlock-account')) {
       this.descriptionMessage = this.translate.instant(
         'Your account has been locked after 3 incorrect password attempts. To reset your password, please enter your CPF.'

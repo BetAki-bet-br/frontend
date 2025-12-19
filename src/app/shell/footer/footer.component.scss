@@ -1,12 +1,12 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as util;
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
 
-@import "src/theme/theme-variables";
+@use "theme/theme-variables" as theme-variables;
 
 .footer-container {
   width: 100%;
-  background-color: map.get($app-custom-colors, "neutral-10");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
   flex-direction: column;
 }
 
@@ -19,7 +19,7 @@
   border-top: 1px solid #0d0f03;
   max-width: 76.125rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     padding: 1.5rem;
     padding: 1.063rem 0.938rem 1.5rem; //0.938rem
 
@@ -32,7 +32,7 @@
 .footer-sponsorship {
   width: 100%;
   margin: 0;
-  // background: map.get($app-custom-colors, "Betaki_sponsorship_light");
+  // background: map.get(theme-variables.$app-custom-colors, "Betaki_sponsorship_light");
   background: #ffffff1a; // white with 10% opacity
 
   .title {
@@ -48,7 +48,7 @@
     justify-content: center;
     text-transform: uppercase;
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       font-size: 0.875rem;
       line-height: 0.75rem;
     }
@@ -57,7 +57,7 @@
 
 .footer-sponsorship-logo {
   width: 100%;
-  background: map.get($app-custom-colors, "Betaki_sponsorship_dark");
+  background: map.get(theme-variables.$app-custom-colors, "Betaki_sponsorship_dark");
   padding: 0.688rem 0;
 
   .title {
@@ -74,7 +74,7 @@
     display: flex;
     justify-content: center;
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -104,7 +104,7 @@
     // width: 6.9rem;
     height: 2.188rem;
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       margin-top: 1.46rem;
       margin-bottom: 0.119rem;
     }
@@ -150,7 +150,7 @@
   gap: 0.739rem 0.438rem;
   width: 100%;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     width: 75%;
   }
 }
@@ -165,7 +165,7 @@
   height: 4.5rem;
   margin-bottom: 0;
 
-  @include util.media("lt-md") {
+  @include utils.media("lt-md") {
     height: 4.5rem;
   }
 
@@ -175,10 +175,10 @@
     left: 0;
     height: 100%;
     width: 2.0625rem;
-    background-color: map.get($app-custom-colors, "neutral-10");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
 
     .swiper-nav-left-icon {
-      color: map.get($app-custom-colors, "neutral-100");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-100");
       font-size: 1rem;
       font-weight: 100;
       height: auto;
@@ -193,10 +193,10 @@
     right: 0;
     height: 100%;
     width: 2.0625rem;
-    background-color: map.get($app-custom-colors, "neutral-10");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
 
     .swiper-nav-right-icon {
-      color: map.get($app-custom-colors, "neutral-100");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-100");
       font-size: 1rem;
       font-weight: 100;
       height: auto;
@@ -242,7 +242,7 @@
   line-height: 1rem;
   letter-spacing: 0.0093rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     font-size: 0.75rem;
     line-height: 0.75rem;
   }
@@ -268,14 +268,14 @@
       padding-bottom: 1.3rem;
       letter-spacing: 0.187px;
 
-      @include util.media("lt-sm-2") {
+      @include utils.media("lt-sm-2") {
         padding-bottom: 0;
       }
     }
   }
 
   .copyright-text {
-    color: map.get($app-custom-colors, "neutral-white");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
     text-align: center;
     font-size: 0.875rem;
     font-style: normal;
@@ -287,14 +287,14 @@
   .company {
     padding-bottom: 1rem;
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       padding-bottom: 1.5rem;
     }
   }
 }
 
 .support-text {
-  color: map.get($app-custom-colors, "Betaki_success");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
   text-align: center;
   font-size: 12px;
   font-style: normal;
@@ -318,7 +318,7 @@
     height: 33px;
   }
 
-  @include util.media("lt-md") {
+  @include utils.media("lt-md") {
     justify-content: unset;
   }
 }
@@ -326,7 +326,7 @@
 /* stylelint-disable selector-max-specificity */
 .support-button {
   background-color: transparent;
-  color: map.get($app-custom-colors, "Betaki_success");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
@@ -368,12 +368,12 @@
   margin: 0;
   justify-content: space-between;
 
-  @include util.media("gt-sm-2") {
+  @include utils.media("gt-sm-2") {
     flex-direction: row;
     padding-bottom: 0.75rem;
   }
 
-  @include util.media("lt-md") {
+  @include utils.media("lt-md") {
     padding-top: 0;
     padding-bottom: 0;
     align-items: center;
@@ -381,7 +381,7 @@
   }
 }
 
-@include util.media("gt-sm-2") {
+@include utils.media("gt-sm-2") {
   .footer-promo {
     padding-right: 2rem;
   }
@@ -435,7 +435,7 @@
 }
 
 :host ::ng-deep .mat-expansion-indicator::after {
-  color: map.get($app-custom-colors, "neutral-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
 }
 
 .footer-sponsors-block-mobile,
@@ -446,7 +446,7 @@
 
   .footer-sponsors-title {
     height: 1.75rem;
-    color: map.get($app-custom-colors, "neutral-white");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   }
 }
 
@@ -455,7 +455,7 @@
 }
 
 .footer-menu-block-desktop-container {
-  @include util.media("lt-md") {
+  @include utils.media("lt-md") {
     display: none;
   }
 }
@@ -469,7 +469,7 @@
 //     height: 33px;
 //   }
 
-//   @include util.media("lt-md") {
+//   @include utils.media("lt-md") {
 //     justify-content: unset;
 //   }
 // }
@@ -478,7 +478,7 @@
   display: none;
   flex-direction: row;
 
-  @include util.media("lt-md") {
+  @include utils.media("lt-md") {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -489,7 +489,7 @@
 .my-summary-card {
   width: 100%;
 
-  @include util.media("lt-md") {
+  @include utils.media("lt-md") {
     padding: 1.5rem 0;
   }
 }
@@ -499,11 +499,11 @@
   //   display: flex;
   //   flex-direction: column;
 
-  //   @include util.media("lt-md") {
+  //   @include utils.media("lt-md") {
   //     display: none;
   //   }
 
-  //   @include util.media("lt-md") {
+  //   @include utils.media("lt-md") {
   //     padding: 0;
   //   }
   // }
@@ -517,7 +517,7 @@
   justify-content: flex-start;
   align-items: flex-start;
 
-  @include util.media("lt-md") {
+  @include utils.media("lt-md") {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -532,7 +532,7 @@
 //   display: flex;
 //   margin-top: 0.3rem;
 
-//   @include util.media("lt-sm-2") {
+//   @include utils.media("lt-sm-2") {
 //     width: 100%;
 //   }
 // }
@@ -617,7 +617,7 @@
     min-height: 2.5rem;
     padding: 0 0 0.5rem;
     margin: 0;
-    color: color.adjust(map.get($app-custom-colors, "neutral-white"));
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"));
     font-size: 1rem;
     line-height: 1.25rem;
     text-align: left;
@@ -629,7 +629,7 @@
       gap: 1rem;
     }
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       min-height: unset;
       font-size: 0.75rem;
       line-height: 1.25rem;
@@ -643,14 +643,14 @@
     }
 
     &:hover {
-      color: map.get($app-custom-colors, "betaki-green100");
+      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
     }
 
     &.link-active {
-      color: map.get($app-custom-colors, "betaki-green100");
+      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
     }
 
-    @include util.media("gt-sm-1") {
+    @include utils.media("gt-sm-1") {
       text-align: left;
     }
 
@@ -664,14 +664,14 @@
   display: none;
   justify-content: center;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     display: flex;
   }
 }
 
 // other options do not work :(
 .menu {
-  @include util.media("gt-sm-1") {
+  @include utils.media("gt-sm-1") {
     /* stylelint-disable-next-line declaration-no-important */
     height: initial !important;
     /* stylelint-disable-next-line declaration-no-important */
@@ -684,7 +684,7 @@
 .follow-links {
   padding: 0.611rem 0 0.673rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     justify-content: center;
   }
 }
@@ -696,7 +696,7 @@
 .hidden-medium {
   width: 100%;
 
-  @include util.media("gt-sm-2") {
+  @include utils.media("gt-sm-2") {
     display: none;
   }
 }
@@ -725,7 +725,7 @@
   padding: 1.7rem 0;
 
   .copyright-text {
-    color: map.get($app-custom-colors, "neutral-white");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
@@ -733,7 +733,7 @@
     letter-spacing: 0.07px;
   }
 
-  @include util.media("gt-sm-2") {
+  @include utils.media("gt-sm-2") {
     padding: 1.7rem 0 0;
   }
 }
@@ -754,7 +754,7 @@
   order: 3;
   margin-top: 0.75rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     & .divider {
       display: none;
     }

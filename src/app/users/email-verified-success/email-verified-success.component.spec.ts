@@ -8,7 +8,7 @@ describe('EmailVerifiedSuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [EmailVerifiedSuccessComponent],
+      imports: [EmailVerifiedSuccessComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EmailVerifiedSuccessComponent);

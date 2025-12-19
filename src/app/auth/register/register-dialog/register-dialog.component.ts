@@ -1,19 +1,30 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // Added ReactiveFormsModule
 import { cpfValidator, defaultPasswordValidators } from '@app/@shared/form-utils';
 import { Logger } from '@app/@shared/logger.service';
 import { CountryCode, Promotion, RegisterData } from '@app/@shared/models';
 import { AuthenticationService } from '@app/auth/authentication.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { PortalGatewayErrorResponse } from '@shared/models/api/portal-gateway-error-response.model';
-import { Subscription, finalize } from 'rxjs';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatStepper } from '@angular/material/stepper';
+import { Subscription } from 'rxjs';
+import { MatAutocompleteTrigger, MatAutocompleteModule } from '@angular/material/autocomplete'; // Added MatAutocompleteModule
+import { MatStepper, MatStepperModule } from '@angular/material/stepper'; // Added MatStepperModule
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { environment } from '@env/environment';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
+// Added CommonModule
+import { MatFormFieldModule } from '@angular/material/form-field'; // Added MatFormFieldModule
+import { MatInputModule } from '@angular/material/input'; // Added MatInputModule
+import { MatIconModule } from '@angular/material/icon'; // Added MatIconModule
+import { MatCheckboxModule } from '@angular/material/checkbox'; // Added MatCheckboxModule
+import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
+import { RouterModule } from '@angular/router'; // Added RouterModule
+import { PersonalDataComponent } from './personal-data/personal-data.component';
+import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
+import { CafOnboardingComponent } from './caf-onboarding/caf-onboarding.component';
+import { CafOnboardingCompletedComponent } from './caf-onboarding-completed/caf-onboarding-completed.component'; // Added PersonalDataComponent
+// import { CafOnboardingComponent } from '@app/caf-onboarding/caf-onboarding.component';
+// import { CafOnboardingCompletedComponent } from '@app/caf-onboarding-completed/caf-onboarding-completed.component';
 
 const log = new Logger('RegisterDialogComponent');
 
@@ -40,14 +51,34 @@ export interface OnboardingForm {
   executionId: FormControl<string | null>;
 }
 
-@UntilDestroy()
 @Component({
   selector: 'app-register-dialog',
   templateUrl: './register-dialog.component.html',
   styleUrls: ['./register-dialog.component.scss'],
+  imports: [
+    ReactiveFormsModule,
+    RouterModule,
+    TranslateModule,
+    MatAutocompleteModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatCheckboxModule,
+    PersonalDataComponent,
+    BaseDialogComponent,
+    CafOnboardingComponent,
+    CafOnboardingCompletedComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterDialogComponent implements OnInit {
+  private dialogRef = inject<DialogRef<RegisterDialogResult>>(DialogRef);
+  data = inject<RegisterDialogData>(DIALOG_DATA);
+  private cdr = inject(ChangeDetectorRef);
+  private authenticationService = inject(AuthenticationService);
+  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
+
   @ViewChild('stepper') stepper: MatStepper | undefined;
 
   isDataLoading: boolean = false;
@@ -85,14 +116,6 @@ export class RegisterDialogComponent implements OnInit {
   get isStepTwo() {
     return this.preRegistrationCompleted && !this.onboardingCompleted;
   }
-
-  constructor(
-    private dialogRef: DialogRef<RegisterDialogResult>,
-    @Inject(DIALOG_DATA) public data: RegisterDialogData,
-    private cdr: ChangeDetectorRef,
-    private authenticationService: AuthenticationService,
-    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService
-  ) {}
 
   ngOnInit(): void {}
 

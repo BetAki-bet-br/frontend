@@ -1,4 +1,8 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,30 +19,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-
-export interface TableColumn {
-  name: string;
-  dataField: string;
-  sortingField?: string;
-  columnTemplate?: TemplateRef<any>;
-  customClass?: string;
-}
-
-export interface TableConfig {
-  hideHeader?: boolean;
-  disableSort?: boolean;
-  enableExpandableRows?: boolean;
-  expandableRowTemplate?: TemplateRef<any>;
-}
-
-export type GenericDataModel<T> = {
-  isExpanded?: boolean;
-} & T;
+import { animate, state, style, transition, trigger } from '@angular/animations'; // Added animation imports
+import { TableColumn, TableConfig, GenericDataModel } from '../base-table/base-table.component'; // Imported types
 
 @Component({
   selector: 'app-base-table-msgs',
   templateUrl: './base-table-msgs.component.html',
   styleUrls: ['./base-table-msgs.component.scss'],
+  imports: [CommonModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),

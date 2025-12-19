@@ -10,8 +10,7 @@ describe('PageNotFoundComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PageNotFoundComponent],
-      imports: [TranslateModule.forRoot(), PipesModule],
+      imports: [TranslateModule.forRoot(), PipesModule, PageNotFoundComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PageNotFoundComponent);

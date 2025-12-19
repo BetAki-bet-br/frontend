@@ -1,8 +1,8 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as util;
-@import "src/theme/theme-variables";
-@import "src/theme/theme-icons";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+@use "theme/theme-icons";
 
 .game-container {
   display: flex;
@@ -10,7 +10,7 @@
   flex-flow: column;
   gap: 2.5rem;
 
-  @include util.media("gt-sm-1") {
+  @include utils.media("gt-sm-1") {
     gap: 0.5rem;
   }
 
@@ -29,7 +29,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: map.get($app-custom-colors, "neutral-10");
+        background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
       }
     }
 
@@ -37,7 +37,7 @@
       padding-left: 1rem;
       font-size: 0.9375rem;
       font-family: Roboto, Verdana, sans-serif;
-      color: map.get($app-custom-colors, "neutral-white");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
     }
 
     .title-close-button {
@@ -48,13 +48,13 @@
     .font-icons {
       line-height: 2.5rem;
       width: 2.5rem;
-      background-color: color.adjust(map.get($app-custom-colors, "neutral-10"), $alpha: -0.7);
+      background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.7);
       transition: color 0.3s ease;
       cursor: pointer;
     }
 
     .font-icons:hover {
-      color: map.get($app-custom-colors, "neutral-white");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-white");
     }
   }
 

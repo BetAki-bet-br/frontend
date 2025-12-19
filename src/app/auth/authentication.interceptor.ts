@@ -1,39 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { catchError, throwError } from 'rxjs';
 import { CredentialsService } from './credentials.service';
-import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { AuthenticationService } from './authentication.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthenticationInterceptor implements HttpInterceptor {
-  constructor(private credentialsService: CredentialsService, private router: Router) {}
+export const AuthenticationInterceptor: HttpInterceptorFn = (req, next) => {
+  const sessionService = inject(CredentialsService);
+  const authService = inject(AuthenticationService);
+  const token = sessionService.credentials?.sessionKey;
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (request.body?.hasOwnProperty('sessiontoken')) {
-      request.body.sessiontoken = this.credentialsService.credentials?.sessionKey;
-    } else if (request.body?.hasOwnProperty('sessionToken')) {
-      request.body.sessionToken = this.credentialsService.credentials?.sessionKey;
-    }
-    return next.handle(request).pipe(map((response) => this.responseHandler(response)));
+  if (token && !req.url.includes('logout')) {
+    req = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 
-  private responseHandler(response: HttpEvent<any>): HttpEvent<any> {
-    const bodyKey = 'body';
-    const errorKey = 'error';
-
-    if (
-      response[bodyKey]?.errormessage === 'Session not valid' ||
-      response[errorKey]?.errormessage === 'Session not valid'
-    ) {
-      this.router.navigate(['/login'], {
-        state: { unauthorized: true },
-        queryParams: { redirect: this.router.url },
-      });
-      throw { errorMessage: 'Session not valid' };
-    }
-    return response;
-  }
-}
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      console.error('HTTP Error:', error);
+      if (
+        token &&
+        (error.status === 401 ||
+          (error.error && error.error.errorMessage === 'PlayerSessionCheckFailed' && !req.url.includes('logout')))
+      ) {
+        authService.logout();
+      }
+      return throwError(() => error);
+    })
+  );
+};

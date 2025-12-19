@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, inject } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 
 interface DOMRectI {
@@ -16,9 +16,11 @@ interface DOMRectI {
   selector: '[appScrollToCenter]',
 })
 export class MatTabScrollToCenterDirective implements OnDestroy {
+  private element = inject(ElementRef);
+
   subs = new Subscription();
 
-  constructor(private element: ElementRef) {
+  constructor() {
     this.subs.add(
       fromEvent(this.element.nativeElement, 'click').subscribe((clickedContainer) => {
         const scrollContainer = this.element.nativeElement.querySelector('.mat-mdc-tab-list');

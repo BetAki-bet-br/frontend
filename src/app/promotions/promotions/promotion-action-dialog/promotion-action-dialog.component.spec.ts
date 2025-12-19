@@ -10,8 +10,7 @@ describe('PromotionActionDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
-      declarations: [PromotionActionDialogComponent],
+      imports: [TranslateModule.forRoot(), PromotionActionDialogComponent],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: DIALOG_DATA, useValue: {} },

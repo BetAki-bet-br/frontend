@@ -9,8 +9,7 @@ describe('WinnersPromoBlockComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WinnersPromoBlockComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), WinnersPromoBlockComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WinnersPromoBlockComponent);

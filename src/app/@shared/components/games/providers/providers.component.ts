@@ -7,23 +7,42 @@ import {
   Input,
   OnInit,
   ViewChild,
+  AfterViewInit,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { GameCategoriesService, ProvidersLobbyEnum } from '@app/@core/game-categories.service';
 import { AppBreakpoints } from '@app/@shared/app-breakpoints';
 import { AssetsService } from '@app/@shared/assets.service';
 import { GameProviderDataWithUrl } from '@app/@shared/models';
 import { GamesService } from '@app/@shared/services/games/games.service';
 import { switchMap } from 'rxjs';
-import { SwiperOptions } from 'swiper';
+import { SwiperOptions } from 'swiper/types';
+import { SwiperContainer } from 'swiper/element';
+import { CdnizePipe } from '../../../../@pipes/cdnize.pipe';
+import { MatIcon } from '@angular/material/icon';
+import { NgTemplateOutlet } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-providers',
   templateUrl: './providers.component.html',
   styleUrls: ['./providers.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CdnizePipe, MatIcon, RouterLink, NgTemplateOutlet, TranslateModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ProvidersComponent implements OnInit {
+export class ProvidersComponent implements OnInit, AfterViewInit {
+  private breakpointObserver = inject(BreakpointObserver);
+  private gamesService = inject(GamesService);
+  private assetsService = inject(AssetsService);
+  private gameCategoryService = inject(GameCategoriesService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
+
+  @ViewChild('swiperContainer') swiperContainer!: ElementRef<SwiperContainer>;
   @ViewChild('gameGridContainer', { static: true }) providerGridContainer!: ElementRef<HTMLElement>;
   @Input() initialLoadAmount = 10;
   @Input() initialRows = 2; // how many rowst to show initially, 0 is for auto
@@ -51,25 +70,15 @@ export class ProvidersComponent implements OnInit {
     navigation: {
       nextEl: `.games-swiper-navigation-right-providers`,
       prevEl: `.games-swiper-navigation-left-providers`,
-      enabled: true,
     },
     scrollbar: { draggable: true },
   };
 
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private gamesService: GamesService,
-    private assetsService: AssetsService,
-    private gameCategoryService: GameCategoriesService,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
-  ) {
+  constructor() {
     this.breakpointObserver.observe(AppBreakpoints.LtSmall2).subscribe((value) => {
       this.swiperConfig.slidesPerView = value.matches ? 'auto' : 6;
       this.swiperConfig.spaceBetween = value.matches ? 7.5 : 22.36;
-
-      this.swiperConfig = { ...this.swiperConfig };
+      this.initializeSwiper();
     });
   }
 
@@ -85,6 +94,19 @@ export class ProvidersComponent implements OnInit {
     }
 
     this.loadProviders();
+  }
+
+  ngAfterViewInit(): void {
+    this.initializeSwiper();
+  }
+
+  initializeSwiper() {
+    if (this.swiperContainer) {
+      const swiperEl = this.swiperContainer.nativeElement;
+      const swiperParams = this.swiperConfig;
+      Object.assign(swiperEl, swiperParams);
+      swiperEl.initialize();
+    }
   }
 
   onImgError(event: any) {

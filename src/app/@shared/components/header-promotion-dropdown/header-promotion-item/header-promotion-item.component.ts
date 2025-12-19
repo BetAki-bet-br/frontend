@@ -1,11 +1,10 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit, inject } from '@angular/core';
 import {
   HeaderPromotionDialogComponent,
   HeaderPromotionDialogData,
   HeaderPromotionDialogResult,
 } from '../header-promotion-dialog/header-promotion-dialog.component';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { DeclinePlayerBonusContextRequest, PlayerBonusHistory } from '@icore/ngx-portalgateway-api-client-atl';
 import { Router } from '@angular/router';
 import { ActionType } from '@app/promotions/promotions/promotions.component';
@@ -25,10 +24,10 @@ import { TemplateService } from '@app/@shared/services/template.service';
 import { ActionIdEnum } from '@app/@shared/models/template.model';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BonusesService } from '@app/@shared/services/bonuses.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const log = new Logger('HeaderPromotionItemComponent');
 
-@UntilDestroy()
 @Component({
   selector: 'app-header-promotion-item',
   templateUrl: './header-promotion-item.component.html',
@@ -36,23 +35,21 @@ const log = new Logger('HeaderPromotionItemComponent');
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderPromotionItemComponent implements OnInit {
+  private dialog = inject(Dialog);
+  private router = inject(Router);
+  private templateService = inject(TemplateService);
+  private deviceService = inject(DeviceDetectorService);
+  private bonusesService = inject(BonusesService);
+  private destroyRef = inject(DestroyRef);
   @Input() promotions: PromotionDetailsResolved[] = [];
 
   private bonusHistory: PlayerBonusHistory[] = [];
   private isMobile: boolean = this.deviceService.isMobile() || this.deviceService.isTablet();
 
-  constructor(
-    private dialog: Dialog,
-    private router: Router,
-    private templateService: TemplateService,
-    private deviceService: DeviceDetectorService,
-    private bonusesService: BonusesService
-  ) {}
-
   ngOnInit(): void {
     this.bonusesService
       .getBonuses()
-      .pipe(untilDestroyed(this))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response) => {
           this.bonusHistory = response?.playerBonusHistory ?? [];
@@ -65,7 +62,7 @@ export class HeaderPromotionItemComponent implements OnInit {
         },
       });
 
-    this.templateService.templateActionSub$?.pipe(untilDestroyed(this)).subscribe((response) => {
+    this.templateService.templateActionSub$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((response) => {
       const promotionId = response?.data?.promotionId;
       if (response?.actionId === ActionIdEnum.PromotionShowMore && promotionId) {
         this.onPromotionClick(promotionId);
@@ -82,7 +79,7 @@ export class HeaderPromotionItemComponent implements OnInit {
       data: { promotion: this.promotions.find((value) => value.promotionId == id) },
     });
     // on dialog closed
-    dialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {
+    dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
       log.debug('promotion closed', result);
 
       if (result && result?.promotion) {
@@ -107,7 +104,7 @@ export class HeaderPromotionItemComponent implements OnInit {
       const confirmationDialogRef = this.openConfirmationDialog(type, promotion);
 
       // on confirmation dialog closed
-      confirmationDialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {
+      confirmationDialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
         if (result?.success == true) {
           // open loading dialog
           loadingDialogRef = this.openLoadingDialog(type, promotion);
@@ -218,7 +215,7 @@ export class HeaderPromotionItemComponent implements OnInit {
       );
     }
 
-    bonusAction$?.pipe(untilDestroyed(this)).subscribe({
+    bonusAction$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (response) => {
         log.debug('bonusAction reponse:', response);
 
@@ -239,7 +236,7 @@ export class HeaderPromotionItemComponent implements OnInit {
         );
 
         // on dialog closed
-        dialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {
+        dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
           if (type === 'OptIn') {
             const extGameIdContent = this.getCustomContent(bonus, CustomContentType.ExtGameId);
             if (extGameIdContent) this.router.navigate(['/game', extGameIdContent]);
@@ -270,7 +267,7 @@ export class HeaderPromotionItemComponent implements OnInit {
         );
 
         // on dialog closed
-        dialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {
+        dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
           this.router.navigate(['profile/wallet/deposit']);
         });
       },

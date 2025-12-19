@@ -3,7 +3,8 @@
     <div class="category-container">
       <div class="category-scroll-container" (wheel)="onMouseWheel($event)">
         <div class="category-scroll-menu">
-          <div *ngFor="let category of menuGameCategories$ | async; let i = index" class="category-item">
+          @for (category of menuGameCategories$ | async; track category; let i = $index) {
+          <div class="category-item">
             <a
               #categoryLink
               class="category-circle"
@@ -13,10 +14,11 @@
               [routerLinkActiveOptions]="{ exact: category.path === '/' || category.path === '' }"
               (isActiveChange)="scrollCategoryLinkIntoView($event, categoryLink)"
             >
-              <mat-icon [svgIcon]="category.svgIcon ?? ''"></mat-icon>
+              <mat-icon [svgIcon]="category.svgIcon ?? ''" />
             </a>
             <span>{{ category.translate ? (category.name | translate) : category.name }}</span>
           </div>
+          }
         </div>
       </div>
     </div>

@@ -7,38 +7,30 @@
 
   <div
     class="providers-selection-container-mobile"
-    [ngClass]="{'providers-multiple-selection': isMultiple, '': !isMultiple}"
+    [class]="{'providers-multiple-selection': isMultiple, '': !isMultiple}"
   >
-    <mat-selection-list
-      #providersSelectionList
-      (selectionChange)="onProvidersChange(providersSelectionList.selectedOptions)"
-    >
-      <ng-container *ngFor="let provider of providersList; let i = index">
-        <ng-container *ngIf="isMultiple">
-          <mat-list-option
-            class="custom-list-option"
-            [value]="provider.id"
-            [selected]="isSelectedProvider(provider.id)"
-          >
-            {{ provider | supplierNameTransform }}
-          </mat-list-option>
-          <mat-divider *ngIf="!isLastProvider(i)"></mat-divider>
-        </ng-container>
-        <ng-container *ngIf="!isMultiple">
-          <mat-list-item class="custom-list-option" (click)="emitSingleProvider(provider)">
-            {{ provider | supplierNameTransform }}
-          </mat-list-item>
-          <mat-divider *ngIf="!isLastProvider(i)"></mat-divider>
-        </ng-container>
-      </ng-container>
+    <mat-selection-list #providersSelectionList (selectionChange)="onProvidersChange($event)">
+      @for (provider of providersList; track provider; let i = $index) { @if (isMultiple) {
+      <mat-list-option class="custom-list-option" [value]="provider.id" [selected]="isSelectedProvider(provider.id)">
+        {{ provider | supplierNameTransform }}
+      </mat-list-option>
+      @if (!isLastProvider(i)) {
+      <mat-divider />
+      } } @if (!isMultiple) {
+      <mat-list-item class="custom-list-option" (click)="emitSingleProvider(provider)">
+        {{ provider | supplierNameTransform }}
+      </mat-list-item>
+      @if (!isLastProvider(i)) {
+      <mat-divider />
+      } } }
     </mat-selection-list>
   </div>
 
-  <ng-container *ngIf="isMultiple">
-    <div class="providers-action-container-mobile">
-      <button mat-raised-button class="button-filter-confirm" (click)="confirmFilter()">
-        {{ 'apply filter' | uppercase }}
-      </button>
-    </div>
-  </ng-container>
+  @if (isMultiple) {
+  <div class="providers-action-container-mobile">
+    <button mat-raised-button class="button-filter-confirm" (click)="confirmFilter()">
+      {{ 'apply filter' | uppercase }}
+    </button>
+  </div>
+  }
 </div>

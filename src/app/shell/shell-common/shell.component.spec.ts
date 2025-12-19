@@ -1,5 +1,6 @@
+import { RouterModule } from '@angular/router';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '@app/material.module';
@@ -25,8 +26,9 @@ import {
 import { MockCtgApiService } from '@app/@shared/http/ctg-api.service.mock';
 import { TemplateService } from '@app/@shared/services/template.service';
 import { MockTemplateService } from '@app/@shared/services/template.service.mock';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ShellComponent', () => {
   let component: ShellComponent;
@@ -39,9 +41,11 @@ describe('ShellComponent', () => {
         I18nModule,
         BrowserAnimationsModule,
         MaterialModule,
-        RouterTestingModule,
         PipesModule,
-        HttpClientTestingModule,
+        HeaderComponent,
+        FooterComponent,
+        ShellComponent,
+        RouterModule,
       ],
       providers: [
         { provide: AuthenticationService, useClass: MockAuthenticationService },
@@ -57,8 +61,9 @@ describe('ShellComponent', () => {
           provide: NgcCookieConsentService,
           useValue: jasmine.createSpyObj('NgcCookieConsentService', ['hasConsented', 'hasAnswered']),
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
-      declarations: [HeaderComponent, FooterComponent, ShellComponent],
     }).compileComponents();
   }));
 

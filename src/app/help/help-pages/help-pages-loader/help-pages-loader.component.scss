@@ -1,14 +1,14 @@
-@use "sass:map";
-@use "src/theme/utils" as util;
+@use "sass:map" as map;
+@use "theme/utils" as utils;
 
-@import "src/theme/theme-variables";
+@use "theme/theme-variables" as theme-variables;
 
 .html-assets {
-  background: map.get($app-custom-colors, "betaki-white100");
+  background: map.get(theme-variables.$app-custom-colors, "betaki-white100");
   border-radius: 1rem;
   padding: 2rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     border-radius: 0;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
@@ -18,7 +18,7 @@
 .breadcrumbs-container {
   padding: 2.5rem 0.625rem 1.5rem;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     padding: 0.75rem;
     padding-bottom: 1.5rem;
   }

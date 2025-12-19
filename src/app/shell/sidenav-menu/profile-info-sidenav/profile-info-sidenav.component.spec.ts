@@ -26,8 +26,7 @@ describe('ProfileInfoSidenavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfileInfoSidenavComponent],
-      imports: [TranslateModule.forRoot(), DialogModule],
+      imports: [TranslateModule.forRoot(), DialogModule, ProfileInfoSidenavComponent],
       providers: [
         { provide: PlayerStatusService, useValue: {} },
         { provide: GlobalizationService, useValue: {} },

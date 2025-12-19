@@ -1,10 +1,10 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .dialog-title {
-  color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.25);
+  color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.25);
   text-align: center;
   font-size: 1.25rem;
   margin-bottom: 15px;
@@ -53,7 +53,7 @@ input[type="number"] {
   .content {
     @include utils.media("gt-sm-1") {
       /* stylelint-disable-next-line declaration-no-important */
-      padding: unset !important;
+      padding: unset;
     }
   }
 }

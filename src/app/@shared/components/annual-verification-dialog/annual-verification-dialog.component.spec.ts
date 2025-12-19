@@ -8,7 +8,7 @@ describe('AnnualVerificationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AnnualVerificationDialogComponent],
+      imports: [AnnualVerificationDialogComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AnnualVerificationDialogComponent);

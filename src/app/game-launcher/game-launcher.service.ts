@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
@@ -30,6 +30,17 @@ const lastPlayedGamesKey = 'last_player_games';
   providedIn: 'root',
 })
 export class GameLauncherService {
+  private prodGameApi = inject(ProdGameService);
+  private credentialsService = inject(CredentialsService);
+  private configurationService = inject(ConfigurationService);
+  private dataStoreService = inject(DataStoreService);
+  private gamesService = inject(GamesService);
+  private snackbarService = inject(SnackbarService);
+  private translateService = inject(TranslateService);
+  private router = inject(Router);
+  private gameCategoryService = inject(GameCategoriesService);
+  private dialog = inject(Dialog);
+
   private gameScreen = new BehaviorSubject<GameScreen[]>([]);
   gameScreen$ = this.gameScreen.asObservable();
 
@@ -64,19 +75,6 @@ export class GameLauncherService {
     const _demoPlay = environment.demoPlayEnabled ? demoPlay : false;
     this.demoPlaySubject.next(_demoPlay);
   }
-
-  constructor(
-    private prodGameApi: ProdGameService,
-    private credentialsService: CredentialsService,
-    private configurationService: ConfigurationService,
-    private dataStoreService: DataStoreService,
-    private gamesService: GamesService,
-    private snackbarService: SnackbarService,
-    private translateService: TranslateService,
-    private router: Router,
-    private gameCategoryService: GameCategoriesService,
-    private dialog: Dialog
-  ) {}
 
   callOpenDialogFunction(closeGameDialog: CloseGamesDialog) {
     this.callOpenDialogSource.next(closeGameDialog);
@@ -177,7 +175,6 @@ export class GameLauncherService {
   }
 
   setGame(game: GameTile, position: number, relaunch: boolean = false) {
-    this.gameScreen[position] = undefined;
     const arrayCopy = [...this.gameScreen.getValue()];
     arrayCopy[position].game = game;
     arrayCopy[position].gameState = GameState.InPlay;

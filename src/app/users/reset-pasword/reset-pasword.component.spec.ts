@@ -10,7 +10,7 @@ import {
   ProdGameService,
   PromotionService,
 } from '@icore/ngx-portalgateway-api-client-atl';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,8 +27,7 @@ describe('ResetPaswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientModule, MatInputModule, BrowserAnimationsModule],
-      declarations: [ResetPaswordComponent],
+      imports: [TranslateModule.forRoot(), MatInputModule, BrowserAnimationsModule, ResetPaswordComponent],
       providers: [
         MatSnackBar,
         {
@@ -49,6 +48,7 @@ describe('ResetPaswordComponent', () => {
         RenderTemplatePipe,
         EllipsisPipe,
         { provide: Dialog, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

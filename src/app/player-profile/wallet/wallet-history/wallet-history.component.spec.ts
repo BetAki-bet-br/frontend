@@ -25,8 +25,7 @@ describe('WalletHistoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WalletHistoryComponent, RenderTemplatePipe],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), WalletHistoryComponent, RenderTemplatePipe],
       providers: [
         { provide: GlobalizationService, useValue: {} },
         { provide: PlayerService, useValue: {} },

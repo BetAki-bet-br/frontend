@@ -1,6 +1,6 @@
-@use "sass:map";
-@use "src/theme/utils" as util;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 ul:not([class]),
 ol:not([class]) {
@@ -20,18 +20,18 @@ ul:not([class]) > li::before {
   width: 0.3125rem;
   height: 0.3125rem;
   border-radius: 50%;
-  background-color: map.get($app-custom-colors, "neutral-white");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   margin: 0 0.4375rem 0.125rem;
   vertical-align: middle;
 }
 
 a:not([class]) {
-  color: map.get($app-custom-colors, "neutral-10");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-10");
   text-decoration: none;
   font-style: normal;
   transition: color 0.3s ease;
 }
 
 a:not([class]):hover {
-  color: map.get($app-custom-colors, "Betaki_error");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
 }

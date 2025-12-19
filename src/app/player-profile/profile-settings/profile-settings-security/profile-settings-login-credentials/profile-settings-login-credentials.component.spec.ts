@@ -9,8 +9,7 @@ describe('ProfileSettingsLoginCredentialsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfileSettingsLoginCredentialsComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), ProfileSettingsLoginCredentialsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileSettingsLoginCredentialsComponent);

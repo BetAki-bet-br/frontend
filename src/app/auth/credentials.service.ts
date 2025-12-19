@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { Logger } from '@app/@shared/logger.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -39,12 +39,15 @@ const credentialsKey = 'credentials';
   providedIn: 'root',
 })
 export class CredentialsService {
+  private dataStoreService = inject(DataStoreService);
+  private authEventsService = inject(AuthEventsService);
+
   credentials$: BehaviorSubject<Credentials | null> = new BehaviorSubject<Credentials | null>(null);
   isAuthenticated$ = this.credentials$
     .asObservable()
     .pipe(map((credentials) => !!credentials && !this.isFaceAuthenticationRequired()));
 
-  constructor(private dataStoreService: DataStoreService, private authEventsService: AuthEventsService) {
+  constructor() {
     const savedCredentials = sessionStorage.getItem(credentialsKey) || localStorage.getItem(credentialsKey);
     if (savedCredentials) {
       this.restoreSession(savedCredentials);

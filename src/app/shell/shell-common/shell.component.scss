@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "src/theme/utils" as utils;
+@use "sass:map" as map;
+@use "theme/utils" as utils;
 
-@import "src/theme/theme-variables";
+@use "theme/theme-variables" as theme-variables;
 
 :host {
   min-width: 100%;
@@ -14,7 +14,6 @@
 }
 
 .main-container {
-  background-color: map.get($app-custom-colors, "neutral-10");
   padding-top: 4.5rem;
 
   @include utils.media("lt-sm-2") {

@@ -29,7 +29,7 @@ describe('FooterMySummaryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FooterMySummaryComponent],
+      imports: [FooterMySummaryComponent],
       providers: [{ provide: TranslateService, useClass: MockTranslateService }, HttpBackend],
     }).compileComponents();
 

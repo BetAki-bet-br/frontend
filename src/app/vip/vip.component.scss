@@ -1,6 +1,6 @@
-@use "sass:map";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 ul {
   padding-left: 1rem;
@@ -15,7 +15,7 @@ ul {
   }
 
   li::marker {
-    color: map.get($app-custom-colors, "neutral-black");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-black");
     font-size: 0.625rem;
   }
 
@@ -48,7 +48,7 @@ ul {
     margin-bottom: 0.3125rem;
     letter-spacing: -1px;
     text-align: center;
-    color: map.get($app-custom-colors, "neutral-white");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   }
 
   .vip-description {
@@ -59,7 +59,7 @@ ul {
     max-width: 37.1875rem;
     margin-bottom: 1.25rem;
     text-align: center;
-    color: map.get($app-custom-colors, "neutral-white");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   }
 
   .vip-programs-container {

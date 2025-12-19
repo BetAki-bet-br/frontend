@@ -1,21 +1,37 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  inject,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router, RouterLink } from '@angular/router';
 import { GlobalSearchService } from '@app/@shared/global-search.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { MatIcon } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 export interface FooterNavItem {
   label: string;
   icon: string;
   link: string;
 }
-@UntilDestroy()
 @Component({
   selector: 'app-footer-nav-bar',
   templateUrl: './footer-nav-bar.component.html',
   styleUrls: ['./footer-nav-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatIcon, RouterLink, TranslateModule],
 })
 export class FooterNavBarComponent {
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private globalSearchService = inject(GlobalSearchService);
+  private destroyRef = inject(DestroyRef);
+
   @Input() isSportsbook: boolean = false;
   @Output() sidenavToggle = new EventEmitter();
   @Output() sidenavCloseIfOpened = new EventEmitter();
@@ -74,12 +90,8 @@ export class FooterNavBarComponent {
     },
   ];
 
-  constructor(
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private globalSearchService: GlobalSearchService
-  ) {
-    this.router.events.pipe(untilDestroyed(this)).subscribe((res) => {
+  constructor() {
+    this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       this.cdr.markForCheck();
     });
   }

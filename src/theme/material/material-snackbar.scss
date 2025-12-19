@@ -2,10 +2,10 @@
 /* stylelint-disable no-descending-specificity */
 /* stylelint-disable selector-max-specificity */
 
-@use "sass:map";
-@use "sass:color";
+@use "sass:map" as map;
+@use "sass:color" as color;
 @use "src/theme/theme-variables" as vars;
-@use "src/theme/utils" as util;
+@use "theme/utils" as utils;
 
 //*****************************************************************************
 //#region Custom component snackbar
@@ -21,7 +21,7 @@
   margin-left: 1.5rem;
   max-width: unset;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     margin-top: 1.625rem;
   }
 
@@ -56,7 +56,7 @@
     color: map.get(vars.$app-custom-colors, "betaki-white100");
     right: 0.625rem;
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       top: 0.625rem;
     }
 
@@ -74,7 +74,7 @@
     height: 56px;
     justify-content: center;
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       height: unset;
       width: unset;
     }
@@ -95,7 +95,7 @@
   }
 
   &.success {
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       margin-bottom: 3.875rem;
     }
 
@@ -109,7 +109,7 @@
   }
 
   &.error {
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       margin-bottom: 3.875rem;
     }
     margin-bottom: 1.875rem;

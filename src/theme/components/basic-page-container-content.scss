@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "src/theme/utils" as util;
+@use "sass:map" as map;
+@use "theme/utils" as utils;
 
-@import "src/theme/theme-variables";
+@use "theme/theme-variables" as theme-variables;
 
 .basic-page-container {
   h1,
@@ -10,7 +10,7 @@
   h4,
   h5 {
     font-family: Roboto, sans-serif;
-    color: map.get($app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 500;
@@ -31,7 +31,7 @@
   }
 
   p {
-    color: map.get($app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -39,7 +39,7 @@
     margin: 0.5rem 0 1rem;
 
     &.meta {
-      color: map.get($app-custom-colors, "betaki-grey100");
+      color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
       font-size: 0.875rem;
       font-style: normal;
       font-weight: 400;
@@ -52,7 +52,7 @@
   }
 
   a {
-    color: map.get($app-custom-colors, "betaki-green100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -60,7 +60,7 @@
   }
 
   a:hover {
-    color: map.get($app-custom-colors, "betaki-green100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -76,7 +76,7 @@
   ul,
   ol {
     padding: 0 1.5rem;
-    color: map.get($app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;

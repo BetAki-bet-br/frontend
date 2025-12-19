@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Logger } from '@app/@shared/logger.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CredentialsService } from '@app/auth';
 import { PromotionsService } from '../promotions.service';
 import {
@@ -33,19 +33,38 @@ import { AppBreakpoints } from '@app/@shared';
 import { CmsService } from '@app/@shared/services/cms.service';
 import { HelpPagesLoaderComponent } from '@app/help/help-pages/help-pages-loader/help-pages-loader.component';
 import { BonusesService } from '@app/@shared/services/bonuses.service';
+import { MainBannerComponent } from '@app/@shared/components/main-banner/main-banner.component';
+import { WinnersSectionComponent } from '@app/@shared/components/winners-section/winners-section.component';
+import { WelcomeMessageComponent } from '@app/@shared/components/welcome-message/welcome-message.component';
+import { AsyncPipe } from '@angular/common';
 
 const log = new Logger('PromotionsComponent');
 
 export type ActionType = 'OptIn' | 'OptOut' | 'Decline' | 'OptOutAndDecline' | 'Skip';
 
-@UntilDestroy()
 @Component({
   selector: 'app-promotions',
   templateUrl: './promotions.component.html',
   styleUrls: ['./promotions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MainBannerComponent, AsyncPipe, WinnersSectionComponent, WelcomeMessageComponent],
 })
 export class PromotionsComponent implements OnInit {
+  private promotionsService = inject(PromotionsService);
+  private bonusesService = inject(BonusesService);
+  private destroyRef = inject(DestroyRef);
+  credentialsService = inject(CredentialsService);
+  private dialog = inject(Dialog);
+  private router = inject(Router);
+  private authDialogService = inject(AuthDialogService);
+  private cdr = inject(ChangeDetectorRef);
+  private titleService = inject(Title);
+  private templateService = inject(TemplateService);
+  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
+  private breakpointObserver = inject(BreakpointObserver);
+  private bonusTCOverlay = inject(Dialog);
+  private cmsService = inject(CmsService);
+
   /** Used to manually trigger reloading of all the data observables  */
   private manualReloadTriggerSubject = new Subject<any>();
 
@@ -76,22 +95,6 @@ export class PromotionsComponent implements OnInit {
   defaultPromotionCount = 3;
   bonusList: PromotionDetailsResolved[] = [];
 
-  constructor(
-    private promotionsService: PromotionsService,
-    private bonusesService: BonusesService,
-    public credentialsService: CredentialsService,
-    private dialog: Dialog,
-    private router: Router,
-    private authDialogService: AuthDialogService,
-    private cdr: ChangeDetectorRef,
-    private titleService: Title,
-    private templateService: TemplateService,
-    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService,
-    private breakpointObserver: BreakpointObserver,
-    private bonusTCOverlay: Dialog,
-    private cmsService: CmsService
-  ) {}
-
   ngOnInit(): void {
     this.bonusList = this.getDefaultPromotions();
     this.promotions$
@@ -104,7 +107,7 @@ export class PromotionsComponent implements OnInit {
         switchMap(() => {
           return this.templateService.templateActionSub$;
         }),
-        untilDestroyed(this)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((templateAction) => {
         if (templateAction) {
@@ -137,7 +140,7 @@ export class PromotionsComponent implements OnInit {
         switchMap((_) => {
           return this.bonusesService.getBonuses();
         }),
-        untilDestroyed(this)
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe({
         next: (response) => {
@@ -151,7 +154,7 @@ export class PromotionsComponent implements OnInit {
         },
       });
 
-    this.promotionBannerBonus$.pipe(untilDestroyed(this)).subscribe((res) => {
+    this.promotionBannerBonus$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
       const isMobile = this.breakpointObserver.isMatched(AppBreakpoints.LtSmall2);
       const records = isMobile ? res.currentBannersSmall : res.currentBannersLarge;
       /*
@@ -181,7 +184,7 @@ export class PromotionsComponent implements OnInit {
       this.googleTagManagerServiceImpl.pushGtmTag({ event: 'click_deposit_button' });
       //if (this.deviceService.isMobile())
       this.router.navigateByUrl('/profile/wallet/deposit');
-      //else this.firstDepostiCheckService.preDepositCheck().pipe(untilDestroyed(this)).subscribe();
+      //else this.firstDepostiCheckService.preDepositCheck().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     }
   }
 
@@ -210,7 +213,7 @@ export class PromotionsComponent implements OnInit {
         confirmationDialogRef = this.openConfirmationDialog(type, promotion);
 
         // on confirmation dialog closed
-        confirmationDialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {
+        confirmationDialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
           if (result?.success == true) {
             // open loading dialog
             loadingDialogRef = this.openLoadingDialog(type, promotion);
@@ -353,7 +356,7 @@ export class PromotionsComponent implements OnInit {
       );
     }
 
-    bonusAction$?.pipe(untilDestroyed(this)).subscribe({
+    bonusAction$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (response) => {
         log.debug('bonusAction reponse:', response);
 
@@ -374,7 +377,7 @@ export class PromotionsComponent implements OnInit {
         );
 
         // on dialog closed
-        dialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {
+        dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
           if (type === 'OptIn') this.router.navigate(['profile/wallet/deposit']);
           else this.manualReloadTriggerSubject.next('reload');
         });
@@ -400,7 +403,7 @@ export class PromotionsComponent implements OnInit {
         );
 
         // on dialog closed
-        dialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {
+        dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
           this.manualReloadTriggerSubject.next('reload');
         });
       },

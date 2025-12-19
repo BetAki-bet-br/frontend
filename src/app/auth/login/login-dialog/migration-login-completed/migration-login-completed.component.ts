@@ -1,15 +1,20 @@
-import { DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { DialogRef, DialogModule } from '@angular/cdk/dialog'; // Added DialogModule
+// Added CommonModule
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component'; // Added BaseDialogComponent
+import { MatButtonModule } from '@angular/material/button'; // Added MatButtonModule
+import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
 import { TermsAndConditionsUpdatedDialogResult } from '../../terms-and-conditions-updated-dialog/terms-and-conditions-updated-dialog.component';
 
 @Component({
   selector: 'app-migration-login-completed',
   templateUrl: './migration-login-completed.component.html',
   styleUrls: ['./migration-login-completed.component.scss'],
+  imports: [TranslateModule, BaseDialogComponent, MatButtonModule, DialogModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MigrationLoginCompletedComponent {
-  constructor(private dialogRef: DialogRef<TermsAndConditionsUpdatedDialogResult>) {}
+  private dialogRef = inject<DialogRef<TermsAndConditionsUpdatedDialogResult>>(DialogRef);
 
   closeDialog() {
     this.dialogRef.close();

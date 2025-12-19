@@ -1,18 +1,20 @@
-<app-base-dialog width="29rem" [title]="data.title ?? ''" [displayCloseButton]="!!data.showCloseButton && isMobile">
+<app-base-dialog
+  width="29rem"
+  [title]="data.title ?? ''"
+  [customClass]="'md:h-1/2 xl:h-1/2 2xl:w-1/4!'"
+  [displayCloseButton]="!!data.showCloseButton && isMobile"
+>
   <div dialogContent>
-    <ng-container *ngIf="data">
-      <div class="mb-32" [innerHTML]="sanitizedContent"></div>
-    </ng-container>
+    @if (data) {
+    <div class="mb-8" [innerHTML]="sanitizedContent"></div>
+    }
   </div>
 
   <ng-container dialogButtons>
-    <button
-      *ngFor="let action of data.actions"
-      mat-button
-      class="button-text-small label-dark flex-grow"
-      (click)="confirm(action.id ?? null)"
-    >
+    @for (action of data.actions; track action) {
+    <button mat-button class="button-text-small label-dark flex-grow" (click)="confirm(action.id ?? null)">
       <span translate>{{ action.name }}</span>
     </button>
+    }
   </ng-container>
 </app-base-dialog>

@@ -15,8 +15,7 @@ describe('FooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, PipesModule, TranslateModule.forRoot()],
-      declarations: [FooterComponent],
+      imports: [BrowserAnimationsModule, PipesModule, TranslateModule.forRoot(), FooterComponent],
       providers: [
         { provide: ConfigurationService, useClass: MockConfigurationService },
         HttpBackend,

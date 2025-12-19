@@ -8,7 +8,7 @@ import { GaWindow } from './ngx-google-analytics-window';
 /**
  * Check if there is some global function called gtag on Window object, or create an empty function to doesn't brake codes...
  */
-export function getGtagFn(window: GaWindow, dataLayer: DataLayer): GtagFn {
+export function getGtagFn(window: GaWindow, dataLayer: DataLayer): GtagFn | null {
   return window
     ? (window['gtag'] =
         window['gtag'] ||

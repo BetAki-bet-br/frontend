@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import { AsyncPipe, Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,13 +10,16 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  inject,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { MessageService } from '@app/@shared/services/message.service';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { SidenavMenuService } from '@app/shell/sidenav-menu/sidenav-menu.service';
 import { Subscription } from 'rxjs';
+import { MatIcon } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 export interface Breadcrumbs {
   icon?: string;
@@ -32,8 +35,17 @@ export interface Breadcrumbs {
   templateUrl: './page-breadcrumbs.component.html',
   styleUrls: ['./page-breadcrumbs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatIcon, AsyncPipe, TranslateModule, RouterLink],
 })
 export class PageBreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
+  private dataStoreService = inject(DataStoreService);
+  private messageService = inject(MessageService);
+  private cdr = inject(ChangeDetectorRef);
+  private tawkToScriptService = inject(TawkToScriptService);
+  private sidenavService = inject(SidenavMenuService);
+  private router = inject(Router);
+  private location = inject(Location);
+
   @Input() breadcrumbs: Breadcrumbs[] = [];
   @Input() showTopBar: boolean = true;
   @Output() backButtonClicked = new EventEmitter<void>();
@@ -47,16 +59,6 @@ export class PageBreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
   displayNumberOfMessages = false;
 
   private subscriptions: Subscription[] = [];
-
-  constructor(
-    private dataStoreService: DataStoreService,
-    private messageService: MessageService,
-    private cdr: ChangeDetectorRef,
-    private tawkToScriptService: TawkToScriptService,
-    private sidenavService: SidenavMenuService,
-    private router: Router,
-    private location: Location
-  ) {}
 
   get lastBreadcrumbText(): string | undefined {
     return this.breadcrumbsList.find((b) => b.last)?.text;

@@ -1,4 +1,4 @@
-@use "src/theme/utils" as util;
+@use "theme/utils" as utils;
 
 .main-container {
   width: 100%;
@@ -20,7 +20,7 @@
   font-weight: 400;
   line-height: normal;
 
-  @include util.media("lt-sm-2") {
+  @include utils.media("lt-sm-2") {
     font-size: 24px;
     margin-bottom: 1rem;
   }

@@ -4,10 +4,10 @@
 /* stylelint-disable selector-max-compound-selectors */
 /* stylelint-disable selector-not-notation */
 
-@use "sass:map";
-@use "sass:color";
+@use "sass:map" as map;
+@use "sass:color" as color;
 @use "src/theme/theme-variables" as vars;
-@use "src/theme/utils" as util;
+@use "theme/utils" as utils;
 
 //*****************************************************************************
 //#region Form Input
@@ -20,16 +20,16 @@
 .register-gender {
   .mat-mdc-radio-button.mat-accent {
     --radio-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-    --mdc-radio-disabled-selected-icon-color: var(--radio-color);
-    --mdc-radio-disabled-unselected-icon-color: var(--radio-color);
-    --mdc-radio-unselected-focus-icon-color: var(--radio-color);
-    --mdc-radio-unselected-hover-icon-color: var(--radio-color);
-    --mdc-radio-unselected-icon-color: var(--radio-color);
-    --mdc-radio-unselected-pressed-icon-color: var(--radio-color);
-    --mdc-radio-selected-focus-icon-color: var(--radio-color);
-    --mdc-radio-selected-hover-icon-color: var(--radio-color);
-    --mdc-radio-selected-icon-color: var(--radio-color);
-    --mdc-radio-selected-pressed-icon-color: var(--radio-color);
+    --mat-radio-disabled-selected-icon-color: var(--radio-color);
+    --mat-radio-disabled-unselected-icon-color: var(--radio-color);
+    --mat-radio-unselected-focus-icon-color: var(--radio-color);
+    --mat-radio-unselected-hover-icon-color: var(--radio-color);
+    --mat-radio-unselected-icon-color: var(--radio-color);
+    --mat-radio-unselected-pressed-icon-color: var(--radio-color);
+    --mat-radio-selected-focus-icon-color: var(--radio-color);
+    --mat-radio-selected-hover-icon-color: var(--radio-color);
+    --mat-radio-selected-icon-color: var(--radio-color);
+    --mat-radio-selected-pressed-icon-color: var(--radio-color);
     --mat-mdc-radio-ripple-color: var(--radio-color);
     --mat-mdc-radio-checked-ripple-color: var(--radio-color);
   }
@@ -381,7 +381,7 @@
   }
 }
 
-@include util.media("lt-sm-2") {
+@include utils.media("lt-sm-2") {
   .form-input-search-games {
     font-size: 0.875rem;
     border-radius: 0.625rem;
@@ -398,7 +398,7 @@
   border-radius: 1rem;
   //border: 1px solid map.get(vars.$app-custom-colors, "betaki-grey100");
 
-  --mdc-shape-small: 1rem;
+  --mat-shape-small: 1rem;
 
   &.view-mode {
     .mdc-notched-outline__leading {
@@ -518,7 +518,7 @@
   }
 
   &.error-border {
-    --mdc-theme-error: #e72369;
+    --mat-theme-error: #e72369;
 
     .mat-mdc-text-field-wrapper:not(.mdc-text-field--invalid) {
       .mdc-notched-outline__leading {
@@ -600,7 +600,7 @@
   }
 
   &.large-desktop {
-    @include util.media("gt-sm-1") {
+    @include utils.media("gt-sm-1") {
       .mat-mdc-text-field-wrapper {
         height: 3.75rem;
 
@@ -621,7 +621,7 @@
   }
 }
 
-@include util.media("lt-sm-2") {
+@include utils.media("lt-sm-2") {
   .form-input-primary:not(.keep-desktop-size) {
     .mat-mdc-text-field-wrapper {
       height: 2rem;
@@ -670,7 +670,7 @@
   width: 100%;
   border-radius: 1rem;
 
-  --mdc-shape-small: 1rem;
+  --mat-shape-small: 1rem;
 
   &.view-mode {
     .mdc-notched-outline__leading {
@@ -688,7 +688,7 @@
       border-radius: 0.4688rem;
     }
 
-    @include util.media("lt-sm-2") {
+    @include utils.media("lt-sm-2") {
       .mat-mdc-text-field-wrapper {
         height: 2.875rem;
 
@@ -720,7 +720,7 @@
     }
 
     &.error-border {
-      --mdc-theme-error: #fd3f3f;
+      --mat-theme-error: #fd3f3f;
 
       .mdc-text-field--outlined .mdc-notched-outline .mdc-notched-outline__leading {
         border-radius: 0.4688rem 0 0 0.4688rem;
@@ -860,7 +860,7 @@
   }
 
   &.error-border {
-    --mdc-theme-error: #fd3f3f;
+    --mat-theme-error: #fd3f3f;
 
     .mat-mdc-text-field-wrapper:not(.mdc-text-field--invalid) {
       .mdc-notched-outline__leading {
@@ -997,7 +997,7 @@
   width: 100%;
   border-radius: 0.375rem;
 
-  --mdc-shape-small: 0.375rem;
+  --mat-shape-small: 0.375rem;
 
   &.relative {
     position: relative;
@@ -1200,7 +1200,7 @@
     background-color: white;
     border-radius: 0.75rem;
 
-    --mdc-shape-small: 0.75rem;
+    --mat-shape-small: 0.75rem;
 
     .mat-mdc-input-element {
       height: 2rem;
@@ -1224,14 +1224,14 @@
       background-color: white;
       border-radius: 0.75rem;
 
-      --mdc-shape-small: 0.75rem;
+      --mat-shape-small: 0.75rem;
 
       .mat-mdc-input-element {
         // stylelint-disable-next-line declaration-no-important
         height: 2.5rem !important;
         font-size: 1.25rem;
 
-        @include util.media("lt-sm-2") {
+        @include utils.media("lt-sm-2") {
           // stylelint-disable-next-line declaration-no-important
           height: 1.5rem !important;
           font-size: 0.875rem;
@@ -1242,17 +1242,17 @@
         height: 3rem;
         min-height: 3rem;
         padding: 0.3rem 0 0.1rem;
-        // @include util.media("lt-sm-2") {}
+        // @include utils.media("lt-sm-2") {}
       }
 
       .mat-mdc-form-field-flex {
         height: 3rem;
-        @include util.media("lt-sm-2") {
+        @include utils.media("lt-sm-2") {
           height: 2rem;
         }
       }
 
-      @include util.media("lt-sm-2") {
+      @include utils.media("lt-sm-2") {
         height: 2rem;
       }
     }
@@ -1318,7 +1318,7 @@
     background-color: white;
     border-radius: 0.75rem;
 
-    --mdc-shape-small: 0.75rem;
+    --mat-shape-small: 0.75rem;
 
     .mat-mdc-input-element {
       height: 1.3125rem;
@@ -1372,7 +1372,7 @@
     background-color: white;
     border-radius: 0.75rem;
 
-    --mdc-shape-small: 0.75rem;
+    --mat-shape-small: 0.75rem;
 
     .mat-mdc-input-element {
       height: 2rem;
@@ -1413,7 +1413,7 @@
     background-color: white;
     border-radius: 0.75rem;
 
-    --mdc-shape-small: 0.75rem;
+    --mat-shape-small: 0.75rem;
 
     .mat-mdc-input-element {
       height: 1rem;
@@ -1461,7 +1461,7 @@
     }
   }
   // &.error-border {
-  //   --mdc-theme-error: #e72369;
+  //   --mat-theme-error: #e72369;
 
   //   .mat-mdc-text-field-wrapper:not(.mdc-text-field--invalid) {
   //     .mdc-notched-outline__leading {
@@ -1502,7 +1502,7 @@
     background-color: map.get(vars.$app-custom-colors, "Betaki_grey30");
     border-radius: 1rem;
 
-    --mdc-shape-small: 1rem;
+    --mat-shape-small: 1rem;
 
     .mat-mdc-input-element {
       height: 2.5rem;
@@ -1543,7 +1543,7 @@
     background-color: white;
     border-radius: 1rem;
 
-    --mdc-shape-small: 1rem;
+    --mat-shape-small: 1rem;
 
     .mat-mdc-input-element {
       height: 1rem;
@@ -1591,7 +1591,7 @@
     }
   }
   // &.error-border {
-  //   --mdc-theme-error: #e72369;
+  //   --mat-theme-error: #e72369;
 
   //   .mat-mdc-text-field-wrapper:not(.mdc-text-field--invalid) {
   //     .mdc-notched-outline__leading {
@@ -1639,16 +1639,16 @@
 
 .mat-mdc-checkbox {
   &.mat-mdc-checkbox.mat-primary {
-    --mdc-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "betaki-white100")};
-    --mdc-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "betaki-white100")};
-    --mdc-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-    --mdc-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-    --mdc-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-    --mdc-checkbox-unselected-focus-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
-    --mdc-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
-    --mdc-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
-    --mdc-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
-    --mdc-checkbox-state-layer-size: 1.25rem;
+    --mat-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "betaki-white100")};
+    --mat-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "betaki-white100")};
+    --mat-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
+    --mat-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
+    --mat-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
+    --mat-checkbox-unselected-focus-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
+    --mat-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
+    --mat-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
+    --mat-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
+    --mat-checkbox-state-layer-size: 1.25rem;
   }
 }
 
@@ -1734,17 +1734,17 @@
 
 // /* custom checkbox */
 // .custom-checkbox.mat-mdc-checkbox.mat-primary {
-//   --mdc-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "neutral-white")};
-//   --mdc-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
-//   --mdc-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
-//   --mdc-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
-//   --mdc-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
-//   --mdc-checkbox-unselected-focus-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
-//   --mdc-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
-//   --mdc-checkbox-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
-//   --mdc-checkbox-disabled-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
-//   --mdc-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
-//   --mdc-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
+//   --mat-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "neutral-white")};
+//   --mat-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
+//   --mat-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
+//   --mat-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
+//   --mat-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
+//   --mat-checkbox-unselected-focus-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
+//   --mat-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
+//   --mat-checkbox-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
+//   --mat-checkbox-disabled-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
+//   --mat-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-35")};
+//   --mat-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "primary-35")};
 // }
 
 // .mdc-form-field {
@@ -1853,16 +1853,16 @@
 
     .mdc-list-item__start,
     .mdc-list-item__end {
-      --mdc-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "Betaki_error")};
-      --mdc-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mdc-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mdc-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mdc-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mdc-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mdc-checkbox-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mdc-checkbox-disabled-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mdc-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mdc-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "Betaki_error")};
+      --mat-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-disabled-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
     }
 
     &:active .mdc-list-item__primary-text,

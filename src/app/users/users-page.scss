@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "sass:color";
+@use "sass:map" as map;
+@use "sass:color" as color;
 
-@import "src/theme/theme-variables";
+@use "src/theme/theme-variables";
 
 .link-container {
   width: 100%;
@@ -9,14 +9,14 @@
 }
 
 .link {
-  color: map.get($app-custom-colors, "neutral-10");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-10");
   text-decoration: none;
   font-size: 0.875rem;
   cursor: pointer;
   width: fit-content;
 
   &:hover {
-    color: map.get($app-custom-colors, "neutral-10");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-10");
   }
 
   &.support {
@@ -37,7 +37,7 @@
   .description {
     display: inline;
     padding: 0.9375rem 1.25rem;
-    border: 1px solid color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.8);
+    border: 1px solid color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.8);
     border-radius: 0.25rem;
     font-size: 0.8125rem;
     line-height: 1.25rem;

@@ -1,11 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../auth/authentication.service';
 import { delay } from 'rxjs';
 import { Logger } from '@app/@shared/logger.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MatError, MatFormField } from '@angular/material/form-field';
+import { LoaderComponent } from '@app/@shared/loader/loader.component';
+import { UpperCasePipe } from '@angular/common';
 
 const log = new Logger('ResendUnlockInstructionsComponent');
 
@@ -18,20 +22,27 @@ interface ResendUnlockInstructionsForm {
   templateUrl: './resend-unlock-instructions.component.html',
   styleUrls: [/*'./resend-unlock-instructions.component.scss',*/ '../users-page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatButtonModule,
+    MatError,
+    MatFormField,
+    LoaderComponent,
+    TranslateModule,
+    ReactiveFormsModule,
+    UpperCasePipe,
+  ],
 })
 export class ResendUnlockInstructionsComponent implements OnInit {
+  private router = inject(Router);
+  private authenticationService = inject(AuthenticationService);
+  private snackbarService = inject(SnackbarService);
+  private translate = inject(TranslateService);
+
   resendUnlockInstructionsForm: FormGroup<ResendUnlockInstructionsForm> = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
   });
 
   isDataLoading: boolean = false;
-
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService,
-    private snackbarService: SnackbarService,
-    private translate: TranslateService
-  ) {}
 
   ngOnInit(): void {}
 

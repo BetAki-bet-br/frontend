@@ -13,8 +13,7 @@ describe('AgeConfirmationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AgeConfirmationDialogComponent],
-      imports: [TranslateModule.forRoot(), PipesModule],
+      imports: [TranslateModule.forRoot(), PipesModule, AgeConfirmationDialogComponent],
       providers: [{ provide: DialogRef, useValue: {} }, RenderTemplatePipe, EllipsisPipe],
     }).compileComponents();
 

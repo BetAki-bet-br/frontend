@@ -1,7 +1,7 @@
-<app-base-dialog width="29rem" [displayCloseButton]="true" [displayLogo]="false">
+<app-base-dialog width="29rem" [displayCloseButton]="true" [displayLogo]="false" [customClass]="'md:h-1/3 lg:h-2/5!'">
   <div dialogContent>
     <div class="header-icon">
-      <mat-icon class="status-img" alt="fail" svgIcon="fail"></mat-icon>
+      <mat-icon class="status-img" alt="fail" svgIcon="fail" />
     </div>
 
     <div class="header-text">
@@ -9,7 +9,7 @@
     </div>
 
     <ng-container>
-      <div class="description mb-32">
+      <div class="description mb-8">
         {{
           'Access to this section has been restricted by your operator. For more information, please contact customer support.'
             | translate
@@ -19,7 +19,7 @@
   </div>
 
   <ng-container dialogButtons>
-    <div class="button-container flex-col gap-16">
+    <div class="button-container flex flex-col gap-4">
       <button mat-button class="button-text-small label-dark" (click)="closeDialog()">
         {{ 'Close' | translate }}
       </button>

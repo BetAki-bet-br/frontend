@@ -1,19 +1,24 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { DestroyRef, Injectable, OnDestroy, inject } from '@angular/core';
 import { Logger } from '../logger.service';
 import { Message, MessageService } from '@icore/ngx-portalgateway-api-client-atl';
 import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthEvent, AuthEventsService, CredentialsService } from '@app/auth';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Dialog } from '@angular/cdk/dialog';
 import { PopupMessageDialogComponent } from '../components/popup-message-dialog/popup-message-dialog.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const log = new Logger('PopupMessagesService');
-@UntilDestroy()
 @Injectable({
   providedIn: 'root',
 })
 export class PopupMessagesService implements OnDestroy {
+  private messageService = inject(MessageService);
+  private router = inject(Router);
+  private credentialsService = inject(CredentialsService);
+  private authEventsService = inject(AuthEventsService);
+  private dialog = inject(Dialog);
+  private destroyRef = inject(DestroyRef);
   private messagesStack: Message[] = [];
 
   isMessageDisplayed = false;
@@ -21,18 +26,12 @@ export class PopupMessagesService implements OnDestroy {
 
   private popupMessagesTimer?: any;
 
-  constructor(
-    private messageService: MessageService,
-    private router: Router,
-    private credentialsService: CredentialsService,
-    private authEventsService: AuthEventsService,
-    private dialog: Dialog
-  ) {
+  constructor() {
     // start timer for popup messages - this will remain in place for the lifetime of the service
     // it will go for new popup messages to server only if the user is logged in
     this.startPopupMessagesTimer();
     // Subscribe to authentication events
-    this.authEventsService.authEvents$.pipe(untilDestroyed(this)).subscribe((event) => {
+    this.authEventsService.authEvents$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
       if (event === AuthEvent.Login) {
         log.info('User logged in');
         // check for popup messages immediately

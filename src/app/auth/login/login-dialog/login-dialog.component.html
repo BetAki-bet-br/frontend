@@ -1,11 +1,11 @@
 <app-base-dialog [displayCloseButton]="true" [title]="'Login to your account' | translate">
   <!-- Content -->
-  <div dialogContent class="flex-col items-center mb-8">
-    <form class="form flex-col pt-8 mb-8" [formGroup]="loginForm">
+  <div dialogContent class="mb-0.5">
+    <form class="form flex flex-col pt-0.5 mb-0.5" [formGroup]="loginForm">
       <!-- Username /Email -->
       <div class="field-wrapper">
         <div class="form-field-label" translate>Username</div>
-        <mat-form-field appearance="outline" class="form-input-edit flex-col" subscriptSizing="dynamic">
+        <mat-form-field appearance="outline" class="form-input-edit flex flex-col" subscriptSizing="dynamic">
           <input
             #usernameInput
             matInput
@@ -15,20 +15,18 @@
             [placeholder]="'Email or CPF' | translate"
             formControlName="username"
           />
-          <mat-error
-            *ngIf="loginForm.controls.username?.hasError('required') && loginForm.controls.username.dirty"
-            class="error-msg"
-            translate
-          >
-            can't be blank
-          </mat-error>
+          @if (loginForm.controls.username.hasError('required') && loginForm.controls.username.touched) {
+          <ng-container>
+            <mat-error class="error-msg" translate> can't be blank </mat-error>
+          </ng-container>
+          }
         </mat-form-field>
       </div>
 
       <!-- Password -->
       <div class="field-wrapper">
         <div class="form-field-label" translate>Password</div>
-        <mat-form-field appearance="outline" class="form-input-edit flex-col" subscriptSizing="dynamic">
+        <mat-form-field appearance="outline" class="form-input-edit flex flex-col" subscriptSizing="dynamic">
           <input
             matInput
             name="current-password"
@@ -48,26 +46,27 @@
           >
             <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
           </button>
-          <mat-error
-            *ngIf="loginForm.controls.password?.hasError('required') && loginForm.controls.password.dirty"
-            class="error-msg"
-            translate
-          >
-            can't be blank
-          </mat-error>
+          @if (loginForm.controls.password.hasError('required') && loginForm.controls.password.touched) {
+          <ng-container>
+            <mat-error class="error-msg" translate> can't be blank </mat-error>
+          </ng-container>
+          }
         </mat-form-field>
       </div>
 
       <!-- Error -->
-      <div *ngIf="error && error !== 'PlayerLockedOut'" class="error-msg" [innerHTML]="error | translate">
+      @if (error && error !== 'PlayerLockedOut') {
+      <div class="error-msg" [innerHTML]="error | translate">
         {{ error | translate }}
       </div>
-      <div *ngIf="error === 'PlayerLockedOut'" class="error-msg">
+      } @if (error === 'PlayerLockedOut') {
+      <div class="error-msg">
         {{ error | translate }}
         <a class="reset-password-link" (click)="onClose({ closeEvent: 'forgotPassword' })">{{
           'Please reset your password.' | translate
         }}</a>
       </div>
+      }
 
       <!-- Forgot password -->
       <a class="link forgot-password" (click)="onClose({ closeEvent: 'forgotPassword' })" translate
@@ -82,12 +81,14 @@
         type="submit"
         (click)="onLogin()"
       >
-        <span *ngIf="!isDataLoading" class="login-button-text mr-8" translate>Login</span>
-        <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5"></app-loader>
+        @if (!isDataLoading) {
+        <span class="login-button-text mr-0.5" translate>Login</span>
+        }
+        <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
       </button>
     </form>
     <!-- Sign up -->
-    <div class="flex-row flex-wrap justify-center items-baseline gap-4">
+    <div class="flex flex-wrap justify-center items-baseline gap-1">
       <div class="info-text" translate>Don't have an account?</div>
       <a class="link" (click)="onClose({ closeEvent: 'signUp' })" translate>Create one now</a>
     </div>

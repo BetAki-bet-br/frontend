@@ -1,7 +1,7 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as util;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .profile-info-name {
   overflow: hidden;
@@ -33,7 +33,7 @@
 }
 
 .divider {
-  border-bottom: 1px solid map.get($app-custom-colors, "ATL_white10");
+  border-bottom: 1px solid map.get(theme-variables.$app-custom-colors, "ATL_white10");
 }
 
 .vip-level-container {
@@ -42,7 +42,7 @@
 }
 
 .hidden-desktop {
-  @include util.media("gt-sm-1") {
+  @include utils.media("gt-sm-1") {
     display: none;
   }
 }

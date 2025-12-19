@@ -13,7 +13,7 @@ import {
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProfileSettingsInfoComponent } from './profile-settings-info.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DateAdapter, NativeDateAdapter } from '@angular/material/core';
 import { Dialog } from '@angular/cdk/dialog';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
@@ -27,8 +27,7 @@ describe('ProfileSettingsInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientModule, MatTooltipModule],
-      declarations: [ProfileSettingsInfoComponent, RenderTemplatePipe],
+      imports: [TranslateModule.forRoot(), MatTooltipModule, ProfileSettingsInfoComponent, RenderTemplatePipe],
       providers: [
         MatSnackBar,
         {
@@ -46,6 +45,7 @@ describe('ProfileSettingsInfoComponent', () => {
         { provide: DateAdapter, useClass: NativeDateAdapter },
         { provide: Dialog, useValue: {} },
         { provide: PlayerProfileService, useClass: PlayerProfileServiceMock },
+        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

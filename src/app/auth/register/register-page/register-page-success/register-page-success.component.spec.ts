@@ -5,8 +5,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { PipesModule } from '@app/@pipes/pipes.module';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegisterPageSuccessComponent', () => {
   let component: RegisterPageSuccessComponent;
@@ -14,15 +15,15 @@ describe('RegisterPageSuccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegisterPageSuccessComponent],
       imports: [
         TranslateModule.forRoot(),
         MatInputModule,
         BrowserAnimationsModule,
         MatFormFieldModule,
-        HttpClientTestingModule,
         PipesModule,
+        RegisterPageSuccessComponent,
       ],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterPageSuccessComponent);

@@ -8,7 +8,7 @@ describe('CafOnboardingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CafOnboardingComponent],
+      imports: [CafOnboardingComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CafOnboardingComponent);

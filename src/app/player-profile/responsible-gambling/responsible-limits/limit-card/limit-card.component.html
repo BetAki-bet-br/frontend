@@ -1,13 +1,13 @@
 <div class="limit-card-container">
-  <div class="flex-row limit-card-header">
-    <div class="flex-col left-align">
-      <div class="flex-row">
+  <div class="flex limit-card-header">
+    <div class="flex flex-col left-align">
+      <div class="flex">
         <span
           >{{ 'Limit type' | translate }}
           <span class="limit-value">{{ limit?.limitType ?? '' | translate }}</span></span
         >
       </div>
-      <div class="flex-row">
+      <div class="flex">
         <span
           >{{ 'Currency' | translate }}
           <span class="limit-value">{{ limit?.currencyResolved ?? '' | translate }}</span></span
@@ -15,21 +15,23 @@
       </div>
     </div>
 
-    <div class="flex-col right-align">
-      <div class="flex-row">
+    <div class="flex flex-col right-align">
+      <div class="flex">
         <span [class.active]="limit?.limitStatus === 'Active'">{{
           limit?.limitStatus ?? '' | translate | uppercase
         }}</span>
       </div>
-      <div class="flex-row" *ngIf="limit?.limitStatus === 'Pending'">
+      @if (limit?.limitStatus === 'Pending') {
+      <div class="flex">
         <div class="close-icon" matRipple mat-icon-button (click)="onLimitEdit()">
           <mat-icon>edit_note</mat-icon>
         </div>
       </div>
+      }
     </div>
   </div>
-  <div class="flex-row limit-card-content">
-    <div class="flex-col left-align">
+  <div class="flex limit-card-content">
+    <div class="flex flex-col left-align">
       <div>
         {{ 'Limit' | translate }}
       </div>
@@ -38,7 +40,7 @@
       </div>
     </div>
 
-    <div class="flex-col left-align">
+    <div class="flex flex-col left-align">
       <div>
         {{ 'Time left' | translate }}
       </div>

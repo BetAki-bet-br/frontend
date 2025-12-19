@@ -1,8 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { Logger, UntilDestroy } from '@app/@shared';
+import { Logger } from '@app/@shared';
 import { AccountResolved } from '@app/@shared/models';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
@@ -11,6 +11,9 @@ import { Loyalty, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl'
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SideNavMenuMockCasino, SideNavMenuMockSportsbook } from './sidenav-menu.mock';
 import { SidenavMenuService } from './sidenav-menu.service';
+import { ProfileMenuComponent } from '../shell-player-profile/profile-menu/profile-menu.component';
+import { MatIcon } from '@angular/material/icon';
+import { NgStyle } from '../../../../node_modules/@angular/common/types/_common_module-chunk';
 
 const log = new Logger('SidenavMenuComponent');
 
@@ -27,13 +30,23 @@ export interface SidenavState {
   collapsed: boolean;
 }
 
-@UntilDestroy()
 @Component({
   selector: 'app-sidenav-menu',
   templateUrl: './sidenav-menu.component.html',
   styleUrls: ['./sidenav-menu.component.scss'],
+  imports: [MatSidenavContainer, MatSidenav, ProfileMenuComponent, MatSidenavContent, MatIcon],
 })
 export class SidenavMenuComponent implements OnInit {
+  private breakpointObserver = inject(BreakpointObserver);
+  private authenticationService = inject(AuthenticationService);
+  private credentialsService = inject(CredentialsService);
+  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
+  private observer = inject(BreakpointObserver);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private tawkToScriptService = inject(TawkToScriptService);
+  private sidenavMenuService = inject(SidenavMenuService);
+
   @Input() hideSidenav = false;
   @Input() isSignedIn = false;
   @Input() playerInfo: PlayerDetails | null = null;
@@ -57,18 +70,6 @@ export class SidenavMenuComponent implements OnInit {
   telegramLink = '';
 
   isAuth$ = this.credentialsService.isAuthenticated$;
-
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    private authenticationService: AuthenticationService,
-    private credentialsService: CredentialsService,
-    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService,
-    private observer: BreakpointObserver,
-    private router: Router,
-    private cdr: ChangeDetectorRef,
-    private tawkToScriptService: TawkToScriptService,
-    private sidenavMenuService: SidenavMenuService
-  ) {}
 
   ngOnInit(): void {
     // this.isSmallScreen = this.breakpointObserver.observe(AppBreakpoints.GtSmall1).pipe(map((result) => result.matches));

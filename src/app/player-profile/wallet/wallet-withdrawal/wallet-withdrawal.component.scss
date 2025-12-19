@@ -1,14 +1,14 @@
 @use "sass:map";
 @use "sass:color";
 @use "src/theme/utils" as util;
-@import "src/theme/theme-variables";
+@use "src/theme/theme-variables" as theme-variables;
 
 :host {
   width: 100%;
 }
 
 .main-container {
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
   padding: 2.5rem 0 4rem;
   gap: 1rem;
 
@@ -19,7 +19,7 @@
 }
 
 .balance-header {
-  background-color: map.get($app-custom-colors, "neutral-white");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   width: 100%;
 
   .balance-span {
@@ -29,7 +29,7 @@
   }
 
   .visibility-icon {
-    color: map.get($app-custom-colors, "Betaki_success");
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
     cursor: pointer;
   }
 
@@ -68,7 +68,7 @@
 .info-bar {
   height: 3.25rem;
   width: 100%;
-  background-color: map.get($app-custom-colors, "Betaki_grey30");
+  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_grey30");
   border-radius: 1rem;
   padding: 1rem;
   align-items: center;
@@ -126,11 +126,11 @@
   font-size: 0.75rem;
   letter-spacing: 0.025rem;
   line-height: 0.9375rem;
-  color: map.get($app-custom-colors, "Betaki_error300");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error300");
 }
 
 .error-label {
-  color: map.get($app-custom-colors, "Betaki_error300");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error300");
 }
 
 .form-label {
@@ -143,30 +143,6 @@
 
 .full-width {
   width: 100%;
-}
-
-.page-section {
-  color: map.get($app-custom-colors, "Betaki_olivia");
-
-  button {
-    height: 2rem;
-    max-width: 19.5rem;
-    width: 100%;
-
-    @include util.media("lt-sm-2") {
-      max-width: unset;
-    }
-
-    span {
-      color: map.get($app-custom-colors, "Betaki_olivia");
-      font-weight: 700;
-      font-size: 0.875rem;
-      line-height: 1.125rem;
-      letter-spacing: 0.0481rem;
-      text-align: center;
-      vertical-align: middle;
-    }
-  }
 }
 
 .confirmation-title {
@@ -207,7 +183,7 @@
 }
 
 .divider {
-  border: 1px solid map.get($app-custom-colors, "Betaki_grey80");
+  border: 1px solid map.get(theme-variables.$app-custom-colors, "Betaki_grey80");
 }
 
 .selection-title {
@@ -246,7 +222,7 @@
   line-height: 0.5rem;
   letter-spacing: 0.0044rem;
   vertical-align: middle;
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
 }
 
 .player-profile-page-container {
@@ -255,7 +231,7 @@
 }
 
 .pix-input {
-  background-color: map.get($app-custom-colors, "neutral-white");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   padding: 1.5rem;
   border-radius: 1rem;
 

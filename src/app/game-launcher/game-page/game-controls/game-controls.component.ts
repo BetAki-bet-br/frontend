@@ -1,16 +1,17 @@
-import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   HostListener,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
+  DOCUMENT,
+  inject,
 } from '@angular/core';
 import { GameLauncherService } from '@app/game-launcher/game-launcher.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,19 +21,17 @@ import { Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameControlsComponent implements OnInit, OnDestroy {
+  gameLauncherService = inject(GameLauncherService);
+  private document = inject(DOCUMENT);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() isLive = false;
 
   elem: any;
   isFullScreen: boolean | undefined;
   private currentlyActive: Subscription = new Subscription();
   public activeControl: number = 1;
-
-  constructor(
-    public gameLauncherService: GameLauncherService,
-    @Inject(DOCUMENT) private document: any,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.checkScreenMode();
@@ -64,10 +63,10 @@ export class GameControlsComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('document:fullscreenchange', ['$event'])
-  @HostListener('document:webkitfullscreenchange', ['$event'])
-  @HostListener('document:mozfullscreenchange', ['$event'])
-  @HostListener('document:MSFullscreenChange', ['$event'])
+  @HostListener('document:fullscreenchange')
+  @HostListener('document:webkitfullscreenchange')
+  @HostListener('document:mozfullscreenchange')
+  @HostListener('document:MSFullscreenChange')
   fullscreenmodes() {
     this.checkScreenMode();
   }
@@ -92,16 +91,17 @@ export class GameControlsComponent implements OnInit, OnDestroy {
   closeFullscreen() {
     if (this.document.exitFullscreen) {
       this.document.exitFullscreen();
-    } else if (this.document.mozCancelFullScreen) {
-      /* Firefox */
-      this.document.mozCancelFullScreen();
-    } else if (this.document.webkitExitFullscreen) {
-      /* Chrome, Safari and Opera */
-      this.document.webkitExitFullscreen();
-    } else if (this.document.msExitFullscreen) {
-      /* IE/Edge */
-      this.document.msExitFullscreen();
     }
+    // else if (this.document.mozCancelFullScreen) {
+    //   /* Firefox */
+    //   this.document.mozCancelFullScreen();
+    // } else if (this.document.webkitExitFullscreen) {
+    //   /* Chrome, Safari and Opera */
+    //   this.document.webkitExitFullscreen();
+    // } else if (this.document.msExitFullscreen) {
+    //   /* IE/Edge */
+    //   this.document.msExitFullscreen();
+    // }
   }
 
   exitGameLauncher() {

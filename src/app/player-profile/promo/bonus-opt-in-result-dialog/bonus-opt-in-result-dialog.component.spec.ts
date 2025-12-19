@@ -8,7 +8,7 @@ describe('BonusOptInResultDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BonusOptInResultDialogComponent],
+      imports: [BonusOptInResultDialogComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BonusOptInResultDialogComponent);

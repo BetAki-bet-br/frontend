@@ -18,15 +18,15 @@ import { EllipsisPipe } from '@app/@pipes/ellipsis.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
-import { HttpBackend } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpBackend, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('PlayerActivationService', () => {
   let service: PlayerActivationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [TranslateModule.forRoot()],
       providers: [
         { provide: ActivatedRoute, useValue: {} },
         { provide: PlayerService, useClass: MockCtgApiService },
@@ -42,6 +42,8 @@ describe('PlayerActivationService', () => {
         { provide: HttpBackend },
         EllipsisPipe,
         RenderTemplatePipe,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     service = TestBed.inject(PlayerActivationService);

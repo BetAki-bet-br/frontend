@@ -1,11 +1,13 @@
+import { RouterModule } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileSettingsEditPasswordComponent } from './profile-settings-edit-password.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
+
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ProfileSettingsEditPasswordComponent', () => {
   let component: ProfileSettingsEditPasswordComponent;
@@ -13,14 +15,14 @@ describe('ProfileSettingsEditPasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProfileSettingsEditPasswordComponent],
       imports: [
         TranslateModule.forRoot(),
-        HttpClientTestingModule,
-        RouterTestingModule,
         MatDialogModule,
         MatSnackBarModule,
+        ProfileSettingsEditPasswordComponent,
+        RouterModule,
       ],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileSettingsEditPasswordComponent);

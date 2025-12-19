@@ -1,6 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { DataStoreService } from '@app/@core/data-store.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
@@ -14,18 +14,42 @@ import {
   PlayerDetails,
   PlayerService,
 } from '@icore/ngx-portalgateway-api-client-atl';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap } from 'rxjs';
+import { MatFormField } from '@angular/material/form-field';
+import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
+import { MatSelect, MatOption } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-@UntilDestroy()
 @Component({
   selector: 'app-annual-verification-dialog',
   templateUrl: './annual-verification-dialog.component.html',
   styleUrls: ['./annual-verification-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    MatFormField,
+    BaseDialogComponent,
+    MatSelect,
+    MatOption,
+    ReactiveFormsModule,
+    TranslateModule,
+    MatInputModule,
+    MatButtonModule,
+  ],
 })
 export class AnnualVerificationDialogComponent implements OnInit {
+  private dialogRef = inject<DialogRef<boolean>>(DialogRef);
+  private fb = inject(FormBuilder);
+  private configurationService = inject(ConfigurationService);
+  private playerProfileService = inject(PlayerProfileService);
+  private authDialogService = inject(AuthDialogService);
+  private translateService = inject(TranslateService);
+  private snackbarService = inject(SnackbarService);
+  private playerService = inject(PlayerService);
+  private dataStoreService = inject(DataStoreService);
+  private destroyRef = inject(DestroyRef);
   countryList: Country[] = [];
   mobilePrefix: string = '+55';
   isDataLoading = false;
@@ -60,18 +84,6 @@ export class AnnualVerificationDialogComponent implements OnInit {
     }),
     state: this.fb.control<string>('', [Validators.required, Validators.maxLength(50)]),
   });
-
-  constructor(
-    private dialogRef: DialogRef<boolean>,
-    private fb: FormBuilder,
-    private configurationService: ConfigurationService,
-    private playerProfileService: PlayerProfileService,
-    private authDialogService: AuthDialogService,
-    private translateService: TranslateService,
-    private snackbarService: SnackbarService,
-    private playerService: PlayerService,
-    private dataStoreService: DataStoreService
-  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -120,7 +132,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
       countryList: this.configurationService.getCountriesList(),
       countryCodeList: this.playerProfileService.getCountryCodes(),
     }).pipe(
-      untilDestroyed(this),
+      takeUntilDestroyed(this.destroyRef),
       map((data) => {
         return {
           playerInfo: data.playerInfo,
@@ -157,7 +169,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
     this.playerProfileService
       .updatePlayerAnnualReverification(request)
       .pipe(
-        untilDestroyed(this),
+        takeUntilDestroyed(this.destroyRef),
         switchMap((response) => {
           if (response?.referenceId) {
             const faceAuthParams: FaceAuthParams = {

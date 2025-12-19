@@ -10,8 +10,8 @@ describe('GameControlsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [GameControlsComponent],
       providers: [{ provide: GameLauncherService, useClass: MockGameLauncherService }],
-      declarations: [GameControlsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameControlsComponent);

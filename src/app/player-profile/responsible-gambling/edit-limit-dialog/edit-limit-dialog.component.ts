@@ -1,17 +1,24 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Logger } from '@app/@shared/logger.service';
 import { PlayerLimit } from '@app/@shared/models';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { PortalGatewayErrorResponse, TimeTypeEnum } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription, finalize } from 'rxjs';
 import { RESPONSIBLE_MAXIMUM_LIMIT } from '../responsible-limits/responsible-limits.component';
 import { validateNumber } from '@app/@shared/utils/validate-number';
+import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
+import { MatLabel, MatFormField } from '@angular/material/form-field';
+import { LoaderComponent } from '@app/@shared/loader/loader.component';
+import { UpperCasePipe } from '@angular/common';
+
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 const log = new Logger('EditLimitDialogComponent');
 
@@ -28,8 +35,27 @@ export interface EditLimitDialogData {
   templateUrl: './edit-limit-dialog.component.html',
   styleUrls: ['./edit-limit-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    BaseDialogComponent,
+    MatLabel,
+    MatFormField,
+    LoaderComponent,
+    TranslateModule,
+    ReactiveFormsModule,
+    UpperCasePipe,
+    MatButtonModule,
+    MatInputModule,
+  ],
 })
 export class EditLimitDialogComponent implements OnInit {
+  private dialogRef = inject<DialogRef<EditLimitDialogResult>>(DialogRef);
+  data = inject<EditLimitDialogData>(DIALOG_DATA);
+  private fb = inject(FormBuilder);
+  private cdr = inject(ChangeDetectorRef);
+  private playerProfileService = inject(PlayerProfileService);
+  private snackbarService = inject(SnackbarService);
+  private translateService = inject(TranslateService);
+
   limit: PlayerLimit;
 
   isDataLoading: boolean = false;
@@ -47,15 +73,9 @@ export class EditLimitDialogComponent implements OnInit {
 
   private subscriptions: Subscription[] = [];
 
-  constructor(
-    private dialogRef: DialogRef<EditLimitDialogResult>,
-    @Inject(DIALOG_DATA) public data: EditLimitDialogData,
-    private fb: FormBuilder,
-    private cdr: ChangeDetectorRef,
-    private playerProfileService: PlayerProfileService,
-    private snackbarService: SnackbarService,
-    private translateService: TranslateService
-  ) {
+  constructor() {
+    const data = this.data;
+
     this.limit = data?.limit;
 
     let timeString: string = marker('Day');
@@ -88,7 +108,7 @@ export class EditLimitDialogComponent implements OnInit {
 
   ngOnInit(): void {
     Object.keys(this.form.controls).forEach((key) => {
-      this.form.controls[key].statusChanges.subscribe((status: any) => {});
+      (this.form.controls as any)[key].statusChanges.subscribe((status: any) => {});
     });
   }
 

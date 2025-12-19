@@ -6,19 +6,34 @@ import {
   ViewChild,
   TemplateRef,
   OnDestroy,
+  inject,
+  DestroyRef,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShortDateFormat } from '@app/@core/date-formats';
 import { Logger } from '@app/@shared/logger.service';
 import { PlayerBonusResolved } from '@app/@shared/models';
 import { PlayerBonusHistoryStatusEnum } from '@icore/ngx-portalgateway-api-client-atl';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BonusesService } from '@app/@shared/services/bonuses.service';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { DataStoreService } from '@app/@core';
+import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface BonusHistoryFormGroup {
   period: FormControl<IdLabel | null>;
@@ -41,14 +56,38 @@ interface IdLabel {
 
 const log = new Logger('BonusHistoryComponent');
 
-@UntilDestroy()
 @Component({
   selector: 'app-bonus-history',
   templateUrl: './bonus-history.component.html',
   styleUrls: ['../../wallet/wallet-history/wallet-history.component.scss', './bonus-history.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    MatDividerModule,
+    MatCardModule,
+    MatTooltipModule,
+  ],
 })
 export class BonusHistoryComponent implements OnInit, OnDestroy {
+  private bonusesService = inject(BonusesService);
+  private cdr = inject(ChangeDetectorRef);
+  private translateService = inject(TranslateService);
+  private deviceService = inject(DeviceDetectorService);
+  private destroyRef = inject(DestroyRef);
+  dataStoreService = inject(DataStoreService);
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   bonusHistoryData: PlayerBonusResolved[] = [];
@@ -104,14 +143,6 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
 
-  constructor(
-    private bonusesService: BonusesService,
-    private cdr: ChangeDetectorRef,
-    private translateService: TranslateService,
-    private deviceService: DeviceDetectorService,
-    public dataStoreService: DataStoreService
-  ) {}
-
   ngOnInit(): void {
     const today = new Date();
     let dateFrom = new Date(today.getTime() - 24 * 60 * 60 * 1000);
@@ -127,7 +158,7 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
 
     this.filterForm
       .get('period')
-      ?.valueChanges.pipe(untilDestroyed(this))
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
         if (value) {
           const today = new Date();
@@ -167,7 +198,7 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
 
     this.filterForm
       .get('dateFrom')
-      ?.valueChanges.pipe(untilDestroyed(this))
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value: Date | null) => {
         if (value) {
           const dateTo = this.filterForm.get('dateTo')?.value;
@@ -181,7 +212,7 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
 
     this.filterForm
       .get('dateTo')
-      ?.valueChanges.pipe(untilDestroyed(this))
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value: Date | null) => {
         if (value) {
           if (this.currentDateTo === value) {

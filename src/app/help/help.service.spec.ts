@@ -1,17 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 
 import { HelpService } from './help.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TemplateService } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule } from '@ngx-translate/core';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('HelpService', () => {
   let service: HelpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()],
-      providers: [{ provide: TemplateService, useValue: {} }],
+      imports: [TranslateModule.forRoot()],
+      providers: [
+        { provide: TemplateService, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
     });
     service = TestBed.inject(HelpService);
   });

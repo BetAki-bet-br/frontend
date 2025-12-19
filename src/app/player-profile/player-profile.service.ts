@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { Country } from '@app/@shared/form-utils';
@@ -21,7 +21,7 @@ import {
   SportsbookBetHistoryModelResolved,
   TransactionDetailsResolved,
 } from '@app/@shared/models/sportsbook.model';
-import { PlayerStatusService } from '@app/@shared/services/player.service';
+import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { CredentialsService } from '@app/auth/credentials.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import {
@@ -87,23 +87,23 @@ export enum ContactInfoSubTypeIdEnum {
   providedIn: 'root',
 })
 export class PlayerProfileService {
+  private playerServiceApi = inject(PlayerService);
+  private dataStoreService = inject(DataStoreService);
+  private configurationService = inject(ConfigurationService);
+  private translateService = inject(TranslateService);
+  private balanceApi = inject(BalanceService);
+  private bonusApi = inject(BonusService);
+  private gamesApi = inject(ProdGameService);
+  private sportsBookApi = inject(SportsbookService);
+  private playerStatusService = inject(PlayerStatusService);
+  private credentialsService = inject(CredentialsService);
+  private messagesService = inject(MessageService);
+
   numberChanged: Subject<boolean> = new Subject();
 
   private playerLocale: string | undefined;
 
-  constructor(
-    private playerServiceApi: PlayerService,
-    private dataStoreService: DataStoreService,
-    private configurationService: ConfigurationService,
-    private translateService: TranslateService,
-    private balanceApi: BalanceService,
-    private bonusApi: BonusService,
-    private gamesApi: ProdGameService,
-    private sportsBookApi: SportsbookService,
-    private playerStatusService: PlayerStatusService,
-    private credentialsService: CredentialsService,
-    private messagesService: MessageService
-  ) {
+  constructor() {
     this.credentialsService.isAuthenticated$
       ?.pipe(
         switchMap((isAuth) => {

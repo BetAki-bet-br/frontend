@@ -10,8 +10,7 @@ describe('MaintenancePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MaintenancePageComponent],
-      imports: [TranslateModule.forRoot(), PipesModule],
+      imports: [TranslateModule.forRoot(), PipesModule, MaintenancePageComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MaintenancePageComponent);

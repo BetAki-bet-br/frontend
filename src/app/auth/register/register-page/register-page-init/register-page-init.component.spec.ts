@@ -5,8 +5,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { PipesModule } from '@app/@pipes/pipes.module';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegisterPageInitComponent', () => {
   let component: RegisterPageInitComponent;
@@ -14,15 +15,15 @@ describe('RegisterPageInitComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegisterPageInitComponent],
       imports: [
         TranslateModule.forRoot(),
         MatInputModule,
         BrowserAnimationsModule,
         MatFormFieldModule,
-        HttpClientTestingModule,
         PipesModule,
+        RegisterPageInitComponent,
       ],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterPageInitComponent);

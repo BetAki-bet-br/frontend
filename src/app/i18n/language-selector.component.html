@@ -8,28 +8,33 @@
     class="header-dropdown-select"
     [disableRipple]="true"
   >
-    <div class="flex flex-row" [ngClass]="icon ? 'justify-center items-center' : 'full-width justify-between'">
-      <div [ngClass]="icon ? '' : 'flex flex-row gap-10'" class="flag-container">
+    <div class="flex" [ngClass]="icon ? 'justify-center items-center' : 'full-width justify-between'">
+      <div [ngClass]="icon ? '' : 'flex gap-2.5'" class="flag-container">
         <img
           alt="{{ currentLanguage?.nativeName }}"
           class="flag"
           [src]="'assets/general/flags/' + currentLanguage?.flagIconName | cdnize"
         />
-        <div class="hidden" [ngClass]="{ 'lang-text': !isLogin }" *ngIf="!icon">
+        @if (!icon) {
+        <div class="hidden" [class.lang-text]="!isLogin">
           {{ currentLanguage?.englishName }}
         </div>
+        }
       </div>
-      <div class="expand-icon-container" *ngIf="languages && languages.length > 1">
+      @if (languages && languages.length > 1) {
+      <div class="expand-icon-container">
         <mat-icon [ngClass]="isMenuClosed ? 'expanded' : ''">arrow_drop_up</mat-icon>
       </div>
+      }
     </div>
   </button>
 </div>
 
 <mat-menu class="language-panel" #languageMenu="matMenu" xPosition="before" yPosition="above">
   <!-- Language container -->
-  <div class="header-dropdown-container" [ngClass]="{ 'header-dropdown-container-large': sidenav }">
-    <div class="header-dropdown-item-box" (click)="setLanguage(language.key)" *ngFor="let language of languages">
+  <div class="header-dropdown-container" [class.header-dropdown-container-large]="sidenav">
+    @for (language of languages; track language) {
+    <div class="header-dropdown-item-box" (click)="setLanguage(language.key)">
       <img
         alt="{{ language.key }}"
         class="header-dropdown-item-icon"
@@ -37,5 +42,6 @@
       />
       <div class="header-dropdown-item-text" translate>{{ language.value?.englishName }}</div>
     </div>
+    }
   </div>
 </mat-menu>

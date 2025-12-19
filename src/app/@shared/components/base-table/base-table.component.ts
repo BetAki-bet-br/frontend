@@ -1,4 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -39,6 +44,7 @@ export type GenericDataModel<T> = {
   selector: 'app-base-table',
   templateUrl: './base-table.component.html',
   styleUrls: ['./base-table.component.scss'],
+  imports: [CommonModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -120,7 +126,7 @@ export class BaseTableComponent<T> implements OnChanges, AfterViewInit {
   }
 
   private customSortingDataAccessor = (data: GenericDataModel<T>, sortHeaderId: string) => {
-    let value = data[sortHeaderId];
+    let value = (data as any)[sortHeaderId];
 
     if (typeof value === 'string') {
       return value.toLowerCase().trim();

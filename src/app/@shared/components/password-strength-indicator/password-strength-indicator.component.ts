@@ -1,17 +1,28 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  Input,
+  OnInit,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateModule } from '@ngx-translate/core';
 
-@UntilDestroy()
 @Component({
   selector: 'app-password-strength-indicator',
   templateUrl: './password-strength-indicator.component.html',
   styleUrls: ['./password-strength-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslateModule],
 })
 export class PasswordStrengthIndicatorComponent implements OnInit {
+  private cdr = inject(ChangeDetectorRef);
+  private destroyRef = inject(DestroyRef);
   @Input() matInput?: MatInput;
   @Input() customAdditionalWidth?: number;
 
@@ -19,11 +30,9 @@ export class PasswordStrengthIndicatorComponent implements OnInit {
   passwordStrengthIndex?: number;
   strengthLabel?: string;
 
-  constructor(private cdr: ChangeDetectorRef) {}
-
   ngOnInit(): void {
     this.control = this.matInput?.ngControl.control as FormControl;
-    this.control?.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
+    this.control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.updateValues();
     });
   }

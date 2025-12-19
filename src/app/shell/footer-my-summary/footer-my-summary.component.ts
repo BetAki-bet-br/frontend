@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { TwentyFourDateFormat } from '@app/@core/date-formats';
 
 export interface FooterMySummaryData {
@@ -14,14 +15,15 @@ export interface FooterMySummaryData {
   templateUrl: './footer-my-summary.component.html',
   styleUrls: ['./footer-my-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [DatePipe],
 })
 export class FooterMySummaryComponent implements OnInit, OnDestroy {
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() mySummaryData: FooterMySummaryData | undefined;
   dateFormat = TwentyFourDateFormat;
   sessionTime: string = '';
   private sessionInterval: any;
-
-  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.updateSessionTime();

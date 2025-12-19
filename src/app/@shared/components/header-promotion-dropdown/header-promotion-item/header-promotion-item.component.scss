@@ -1,16 +1,16 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .promotion-item-container {
   padding: 0.3125rem 1rem;
   width: 100%;
-  border-bottom: 1px solid map.get($app-custom-colors, "neutral-10");
+  border-bottom: 1px solid map.get(theme-variables.$app-custom-colors, "neutral-10");
 
   @media not all and (hover: none) {
     ::ng-deep &:hover {
-      background-color: color.adjust(map.get($app-custom-colors, "neutral-10"), $alpha: -0.3);
+      background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.3);
 
       .show-more-wrapper {
         display: flex;
@@ -21,8 +21,8 @@
 
         /* stylelint-disable-next-line max-nesting-depth */
         .show-more-button {
-          background-color: map.get($app-custom-colors, "Betaki_error");
-          color: map.get($app-custom-colors, "neutral-10");
+          background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+          color: map.get(theme-variables.$app-custom-colors, "neutral-10");
         }
       }
     }

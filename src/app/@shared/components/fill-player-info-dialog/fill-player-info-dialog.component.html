@@ -6,41 +6,31 @@
         <!-- City -->
         <div class="field-wrapper-edit">
           <div class="form-field-label" translate>City<span class="asterisk">*</span></div>
-          <mat-form-field appearance="outline" class="form-input-edit flex-col" subscriptSizing="dynamic">
+          <mat-form-field appearance="outline" class="form-input-edit flex flex-col" subscriptSizing="dynamic">
             <input matInput type="text" formControlName="city" maxlength="130" />
-            <mat-error
-              *ngIf="fillPlayerInfoForm.controls.city?.hasError('required') && fillPlayerInfoForm.controls.city.touched"
-              class="error-msg"
-              translate
-            >
-              Required</mat-error
-            >
-            <mat-error
-              *ngIf="
-                fillPlayerInfoForm.controls.city.touched && fillPlayerInfoForm.controls.city?.hasError('maxlength')
-              "
-              class="error-msg"
-              translate
-            >
-              Maximum length is 130 characters</mat-error
-            >
+            @if (fillPlayerInfoForm.controls.city.hasError('required') && fillPlayerInfoForm.controls.city.touched) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Required</mat-error>
+            </ng-container>
+            } @if (fillPlayerInfoForm.controls.city.touched && fillPlayerInfoForm.controls.city.hasError('maxlength')) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Maximum length is 130 characters</mat-error>
+            </ng-container>
+            }
           </mat-form-field>
         </div>
 
         <!-- Address -->
         <div class="field-wrapper-edit">
           <div class="form-field-label" translate>Address<span class="asterisk">*</span></div>
-          <mat-form-field appearance="outline" class="form-input-edit flex-col" subscriptSizing="dynamic">
+          <mat-form-field appearance="outline" class="form-input-edit flex flex-col" subscriptSizing="dynamic">
             <input matInput type="text" formControlName="address" />
-            <mat-error
-              *ngIf="
-                fillPlayerInfoForm.controls.address?.hasError('required') && fillPlayerInfoForm.controls.address.touched
-              "
-              class="error-msg"
-              translate
-            >
-              can't be blank</mat-error
-            >
+            @if ( fillPlayerInfoForm.controls.address.hasError('required') &&
+            fillPlayerInfoForm.controls.address.touched ) {
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank</mat-error>
+            </ng-container>
+            }
           </mat-form-field>
         </div>
       </div>
@@ -51,21 +41,17 @@
           <div class="form-field-label" translate>Postal Code<span class="asterisk">*</span></div>
           <mat-form-field
             appearance="outline"
-            [ngClass]="{ 'postal-form-field': !fillPlayerInfoForm.controls.mobileNumber.disabled }"
-            class="form-input-edit flex-col"
+            [class.postal-form-field]="!fillPlayerInfoForm.controls.mobileNumber.disabled"
+            class="form-input-edit flex flex-col"
             subscriptSizing="dynamic"
           >
             <input matInput type="text" formControlName="postalCode" />
-            <mat-error
-              *ngIf="
-                fillPlayerInfoForm.controls.postalCode?.hasError('required') &&
-                fillPlayerInfoForm.controls.postalCode.touched
-              "
-              class="error-msg"
-              translate
-            >
-              Required</mat-error
-            >
+            @if ( fillPlayerInfoForm.controls.postalCode.hasError('required') &&
+            fillPlayerInfoForm.controls.postalCode.touched ) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Required</mat-error>
+            </ng-container>
+            }
           </mat-form-field>
         </div>
 
@@ -74,15 +60,17 @@
           <div class="form-field-label" translate>Mobile Phone *</div>
           <div class="mobile-number-fields-wrapper">
             <!-- Mobile number -->
-            <div *ngIf="!fillPlayerInfoForm.controls.mobileNumber.disabled">
+            @if (!fillPlayerInfoForm.controls.mobileNumber.disabled) {
+            <div>
               <mat-form-field
                 appearance="outline"
-                class="form-input-edit flag-option-form-field relative flex-col error-border"
+                class="form-input-edit flag-option-form-field relative flex flex-col error-border"
                 subscriptSizing="dynamic"
               >
                 <mat-select formControlName="mobilePrefix" placeholder="Select">
-                  <mat-option *ngFor="let item of countryCodeList" [value]="item">
-                    <div class="flex-row items-center gap-12">
+                  @for (item of countryCodeList; track item) {
+                  <mat-option [value]="item">
+                    <div class="flex items-center gap-3">
                       <img
                         class="flag-option"
                         alt="{{ item.code }}"
@@ -91,23 +79,26 @@
                       <div>{{ item.dial_code }}</div>
                     </div>
                   </mat-option>
+                  }
                 </mat-select>
                 <mat-error class="error-msg" translate>Required</mat-error>
+                @if (mobilePrefixControl.value?.code) {
                 <img
-                  *ngIf="mobilePrefixControl.value?.code"
                   class="flag"
                   alt="flag"
                   src="{{
                     'assets/general/countries/' + (mobilePrefixControl.value?.code | lowercase) + '.svg' | cdnize
                   }}"
                 />
+                }
               </mat-form-field>
             </div>
+            }
 
             <div class="mobile-number-field-wrapper">
               <mat-form-field
                 appearance="outline"
-                class="form-input-edit flex-col error-border"
+                class="form-input-edit flex flex-col error-border"
                 subscriptSizing="dynamic"
               >
                 <input
@@ -118,18 +109,14 @@
                   formControlName="mobileNumber"
                   (keydown)="validateNumber($event)"
                 />
-                <mat-error
-                  *ngIf="
-                    fillPlayerInfoForm.controls.mobileNumber?.hasError('pattern') ||
-                    fillPlayerInfoForm.controls.mobileNumber?.hasError('minlength') ||
-                    (fillPlayerInfoForm.controls.mobileNumber?.hasError('maxlength') &&
-                      fillPlayerInfoForm.controls.mobileNumber.touched)
-                  "
-                  class="error-msg"
-                  translate
-                >
-                  Invalid phone number
-                </mat-error>
+                @if ( fillPlayerInfoForm.controls.mobileNumber.hasError('pattern') ||
+                fillPlayerInfoForm.controls.mobileNumber.hasError('minlength') ||
+                (fillPlayerInfoForm.controls.mobileNumber.hasError('maxlength') &&
+                fillPlayerInfoForm.controls.mobileNumber.touched) ) {
+                <ng-container>
+                  <mat-error class="error-msg" translate> Invalid phone number </mat-error>
+                </ng-container>
+                }
               </mat-form-field>
             </div>
           </div>
@@ -137,19 +124,21 @@
       </div>
 
       <!-- Error -->
-      <div *ngIf="error" class="error-msg" translate>{{ error }}</div>
+      @if (error) {
+      <div class="error-msg" translate>{{ error }}</div>
+      }
 
       <!-- Submit button -->
       <div class="form-buttons-wrapper">
         <button mat-button type="submit" class="submit-form-button button-text-small label-dark flex-grow" translate>
           SUBMIT
-          <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5"></app-loader>
+          <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
         </button>
       </div>
       <!-- <button mat-button  class="button-larger-text login-button area-container mt-16">
-        <span *ngIf="!isDataLoading" class="login-button-text mr-8" translate>SUBMIT</span>
-        <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5"></app-loader>
-      </button> -->
+              <span *ngIf="!isDataLoading" class="login-button-text mr-8" translate>SUBMIT</span>
+              <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5"></app-loader>
+            </button> -->
     </form>
   </div>
 </app-base-dialog>

@@ -1,12 +1,12 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
 
 .main-container {
   width: 100%;
   min-height: 100vh;
-  background-color: map.get($app-custom-colors, "Betaki_grey30");
+  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_grey30");
   display: flex;
   align-items: flex-start;
   padding: 4rem;
@@ -36,7 +36,7 @@
 
 .title {
   font-size: 1.75rem;
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
   width: 100%;
   text-align: center;
   font-weight: 700;
@@ -52,7 +52,7 @@
 .login-form-container {
   max-width: 40rem;
   width: 100%;
-  background-color: map.get($app-custom-colors, "neutral-white");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   padding: 3rem;
   border-radius: 1rem;
 
@@ -65,7 +65,7 @@
     align-self: flex-end;
     text-decoration: underline;
     padding-bottom: 0.5rem;
-    color: map.get($app-custom-colors, "Betaki_olivia");
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
 
     @include utils.media("lt-sm-2") {
       font-size: 0.8rem;
@@ -140,10 +140,10 @@
 }
 
 .custom-icon-button {
-  color: map.get($app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
 
   &:hover {
-    color: color.adjust(map.get($app-custom-colors, "Betaki_olivia"), $alpha: -0.4);
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_olivia"), $alpha: -0.4);
   }
 }
 
@@ -234,7 +234,7 @@
 }
 
 .error-icon {
-  color: map.get($app-custom-colors, "Betaki_error");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
 }
 
 .close-button {

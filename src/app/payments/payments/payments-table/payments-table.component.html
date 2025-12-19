@@ -10,7 +10,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let method of paymentMethods">
+    @for (method of paymentMethods; track method) {
+    <tr>
       <td data-title="{{ method.type }}">
         <div>
           <img [src]="method.imgAssetPath | cdnize" />
@@ -39,12 +40,16 @@
       </td>
       <td>
         <div class="button-container">
-          <button mat-button class="mat-unthemed" (click)="onTableAction(method)" *ngIf="username">
+          @if (username) {
+          <button mat-button class="mat-unthemed" (click)="onTableAction(method)">
             {{ tableActionTitle }}
           </button>
-          <button mat-button class="mat-unthemed" (click)="onSignUp()" *ngIf="!username">SIGN UP</button>
+          } @if (!username) {
+          <button mat-button class="mat-unthemed" (click)="onSignUp()">SIGN UP</button>
+          }
         </div>
       </td>
     </tr>
+    }
   </tbody>
 </table>

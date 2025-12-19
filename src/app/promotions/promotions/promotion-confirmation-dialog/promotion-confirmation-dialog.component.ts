@@ -1,7 +1,11 @@
+import { MatButtonModule } from '@angular/material/button';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { PromotionTypeDtoEnum } from '@icore/ngx-portalgateway-api-client-atl';
 import { ActionType } from '../promotions.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { UpperCasePipe } from '@angular/common';
+import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
 
 export interface PromotionConfirmationDialogData {
   type: ActionType;
@@ -17,13 +21,12 @@ export interface PromotionConfirmationDialogResult {
   selector: 'app-promotion-confirmation-dialog',
   templateUrl: './promotion-confirmation-dialog.component.html',
   styleUrls: ['./promotion-confirmation-dialog.component.scss'],
+  imports: [MatButtonModule, TranslateModule, UpperCasePipe, BaseDialogComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromotionConfirmationDialogComponent implements OnInit {
-  constructor(
-    private dialogRef: DialogRef<PromotionConfirmationDialogResult>,
-    @Inject(DIALOG_DATA) public data: PromotionConfirmationDialogData
-  ) {}
+  private dialogRef = inject<DialogRef<PromotionConfirmationDialogResult>>(DialogRef);
+  data = inject<PromotionConfirmationDialogData>(DIALOG_DATA);
 
   ngOnInit(): void {}
 

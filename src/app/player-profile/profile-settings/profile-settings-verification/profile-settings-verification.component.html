@@ -1,38 +1,40 @@
-<div class="flex-col gap-16 mt-32">
-  <div class="section-wrapper" *ngIf="uploadedDocuments && uploadedDocuments.length > 0">
-    <div class="flex-row items-center section-header">
+<div class="flex flex-col gap-4 mt-8">
+  @if (uploadedDocuments && uploadedDocuments.length > 0) {
+  <div class="section-wrapper">
+    <div class="flex items-center section-header">
       <h2 translate>Documents</h2>
     </div>
-    <div class="flex-row flex-wrap items-center gapx-24 gapy-12">
-      <div
-        *ngFor="let document of uploadedDocuments"
-        class="flex-row items-center justify-between gap-12 documents-container"
-      >
+    <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+      @for (document of uploadedDocuments; track document) {
+      <div class="flex items-center justify-between gap-3 documents-container">
         <mat-icon class="file-icon">description</mat-icon>
         <span class="document-name">{{ document.name }}</span>
         <div class="icon-container">
+          @if (document.approvalStatus === 'Approved') {
           <div
-            *ngIf="document.approvalStatus === 'Approved'"
             matTooltip="{{ (document.approvalStatus ? document.approvalStatus : 'Approved') | translate }}"
             #tooltip="matTooltip"
             (click)="tooltip.toggle()"
             class="info-tooltip font-icons font-icons--check"
           ></div>
+          } @if (document.approvalStatus === 'Unapproved' || document.approvalStatus === 'Partial') {
           <mat-icon
             matTooltip="{{ (document.approvalStatus ? document.approvalStatus : 'Unapproved') | translate }}"
             #tooltip="matTooltip"
             (click)="tooltip.toggle()"
-            *ngIf="document.approvalStatus === 'Unapproved' || document.approvalStatus === 'Partial'"
             class="info-tooltip history-icon"
             >schedule</mat-icon
           >
+          }
         </div>
       </div>
+      }
     </div>
   </div>
+  }
 
   <div class="section-wrapper">
-    <div class="flex-row items-center gap-12 section-header">
+    <div class="flex items-center gap-3 section-header">
       <img class="section-icon" src="{{ 'assets/general/icons/person.png' | cdnize }}" alt="identity" />
       <h2 translate>Identity</h2>
     </div>
@@ -59,11 +61,11 @@
         (emitItems)="uploadFile($event)"
         [configuration]="uploadFileConfig"
         [isFileLoading]="fileUploading === 'file1'"
-      ></app-file-upload>
+      />
     </div>
   </div>
   <div class="section-wrapper">
-    <div class="flex-row items-center gap-12 section-header">
+    <div class="flex items-center gap-3 section-header">
       <img class="section-icon" src="{{ 'assets/general/icons/location_on.png' | cdnize }}" alt="address" />
       <h2 translate>Address</h2>
     </div>
@@ -81,11 +83,11 @@
         (emitItems)="uploadFile($event)"
         [configuration]="uploadFileConfig"
         [isFileLoading]="fileUploading === 'file2'"
-      ></app-file-upload>
+      />
     </div>
   </div>
   <div class="section-wrapper">
-    <div class="flex-row items-center gap-12 section-header">
+    <div class="flex items-center gap-3 section-header">
       <img class="section-icon" src="{{ 'assets/general/icons/account_balance_wallet.png' | cdnize }}" alt="payment" />
       <h2>Payment</h2>
     </div>
@@ -104,57 +106,57 @@
         (emitItems)="uploadFile($event)"
         [configuration]="uploadFileConfig"
         [isFileLoading]="fileUploading === 'file3'"
-      ></app-file-upload>
+      />
     </div>
   </div>
   <div class="section-wrapper">
-    <div class="flex-row items-center gap-12 section-header">
+    <div class="flex items-center gap-3 section-header">
       <img class="section-icon" src="{{ 'assets/general/icons/phone.png' | cdnize }}" alt="phone verification" />
       <h2 translate>Phone verification</h2>
     </div>
 
-    <div *ngIf="playerInfo?.mobilePhone" class="flex-col gap-24 mt-24">
-      <div class="flex-row gap-24 phone-number-container mx-16">
+    @if (playerInfo?.mobilePhone) {
+    <div class="flex flex-col gap-6 mt-6">
+      <div class="flex gap-6 phone-number-container mx-4">
         <span>{{ playerInfo?.mobilePhone }}</span>
-        <div class="flex-row gap-10 icon-container">
+        <div class="flex gap-2.5 icon-container">
+          @if (phoneVerificationStatus === 'Verified') {
           <div
-            *ngIf="phoneVerificationStatus === 'Verified'"
             matTooltip="{{ (phoneVerificationStatus ? phoneVerificationStatus : 'Verified') | translate }}"
             #tooltip="matTooltip"
             (click)="tooltip.toggle()"
             class="info-tooltip font-icons font-icons--check"
           ></div>
+          } @if (phoneVerificationStatus === 'Not Verified') {
           <mat-icon
             matTooltip="{{ (phoneVerificationStatus ? phoneVerificationStatus : 'Not Verified') | translate }}"
             #tooltip="matTooltip"
             (click)="tooltip.toggle()"
-            *ngIf="phoneVerificationStatus === 'Not Verified'"
             class="info-tooltip history-icon"
             >schedule</mat-icon
           >
-          <div
-            *ngIf="phoneVerificationStatus === 'Not Verified'"
-            (click)="onDeleteNumber()"
-            class="delete-icon font-icons font-icons--close"
-          ></div>
+          } @if (phoneVerificationStatus === 'Not Verified') {
+          <div (click)="onDeleteNumber()" class="delete-icon font-icons font-icons--close"></div>
+          }
         </div>
       </div>
       <div>
         <span translate class="contact-span">Please, contact support to verify your phone number</span>
       </div>
     </div>
-
-    <form
-      class="flex-row phone-verification-wrapper"
-      [formGroup]="phoneVerificationForm"
-      *ngIf="!playerInfo?.mobilePhone"
-    >
-      <div class="flex-col country-code">
-        <mat-form-field appearance="outline" class="form-input-secondary relative flex-col" subscriptSizing="dynamic">
+    } @if (!playerInfo?.mobilePhone) {
+    <form class="flex phone-verification-wrapper" [formGroup]="phoneVerificationForm">
+      <div class="flex flex-col country-code">
+        <mat-form-field
+          appearance="outline"
+          class="form-input-secondary relative flex flex-col"
+          subscriptSizing="dynamic"
+        >
           <mat-select placeholder="Select" formControlName="countryCode">
             <!-- formControlName="countryCode" -->
-            <mat-option *ngFor="let country of countriesCode" [value]="country">
-              <div class="flex-row items-center gap-12">
+            @for (country of countriesCode; track country) {
+            <mat-option [value]="country">
+              <div class="flex items-center gap-3">
                 <img
                   height="20"
                   width="28"
@@ -164,24 +166,22 @@
                 <div>{{ country.dial_code }}</div>
               </div>
             </mat-option>
+            }
           </mat-select>
-          <div class="flag" *ngIf="countryCodeControl.value?.code">
+          @if (countryCodeControl.value?.code) {
+          <div class="flag">
             <img
               alt="flag"
               src="{{ 'assets/general/countries/' + (countryCodeControl.value?.code | lowercase) + '.svg' | cdnize }}"
             />
           </div>
-
-          <mat-error
-            *ngIf="countryCodeControl?.hasError('required') && countryCodeControl.touched"
-            class="error-msg"
-            translate
-          >
-            can't be blank
-          </mat-error>
+          } @if (countryCodeControl.hasError('required') && countryCodeControl.touched) {
+          <ng-container>
+            <mat-error class="error-msg" translate> can't be blank </mat-error>
+          </ng-container>
+          }
         </mat-form-field>
       </div>
-
       <div class="flex-col phone-number">
         <mat-form-field
           appearance="outline"
@@ -197,32 +197,23 @@
             placeholder="Add"
             (keydown)="validateNumber($event)"
           />
-          <mat-error
-            *ngIf="
-              phoneVerificationForm.controls.phoneNumber?.hasError('required') &&
-              phoneVerificationForm.controls.phoneNumber.touched
-            "
-            class="error-msg"
-            translate
-          >
-            can't be blank
-          </mat-error>
-          <mat-error
-            *ngIf="
-              phoneVerificationForm.controls.phoneNumber?.hasError('pattern') ||
-              phoneVerificationForm.controls.phoneNumber?.hasError('minlength') ||
-              (phoneVerificationForm.controls.phoneNumber?.hasError('maxlength') &&
-                phoneVerificationForm.controls.phoneNumber.touched)
-            "
-            class="error-msg"
-            translate
-          >
-            Invalid phone number
-          </mat-error>
+          @if ( phoneVerificationForm.controls.phoneNumber.hasError('required') &&
+          phoneVerificationForm.controls.phoneNumber.touched ) {
+          <ng-container>
+            <mat-error class="error-msg" translate> can't be blank </mat-error>
+          </ng-container>
+          } @if ( phoneVerificationForm.controls.phoneNumber.hasError('pattern') ||
+          phoneVerificationForm.controls.phoneNumber.hasError('minlength') ||
+          (phoneVerificationForm.controls.phoneNumber.hasError('maxlength') &&
+          phoneVerificationForm.controls.phoneNumber.touched) ) {
+          <ng-container>
+            <mat-error class="error-msg" translate> Invalid phone number </mat-error>
+          </ng-container>
+          }
         </mat-form-field>
       </div>
-
       <button mat-button class="verify-button" (click)="onAddNumber()" translate>verify</button>
     </form>
+    }
   </div>
 </div>

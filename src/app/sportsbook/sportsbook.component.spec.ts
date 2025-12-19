@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SportsbookComponent } from './sportsbook.component';
-import { HttpBackend } from '@angular/common/http';
+import { HttpBackend, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Dialog } from '@angular/cdk/dialog';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { PlayerStatusService } from '@app/@shared/services/player.service';
 import { AuthDialogService } from '@app/auth/auth-dialog.service';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
@@ -16,8 +16,7 @@ describe('SportsbookComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
-      declarations: [SportsbookComponent],
+      imports: [TranslateModule.forRoot(), SportsbookComponent],
       providers: [
         HttpBackend,
         { provide: Dialog, useValue: {} },
@@ -28,6 +27,8 @@ describe('SportsbookComponent', () => {
           useValue: jasmine.createSpyObj('NgcCookieConsentService', ['hasConsented', 'hasAnswered']),
         },
         { provide: ActivatedRoute, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

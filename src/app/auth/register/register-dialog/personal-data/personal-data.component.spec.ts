@@ -9,7 +9,7 @@ import { ConfigurationService } from '@app/@core/configuration.service';
 import { ActivatedRoute } from '@angular/router';
 import { MockAuthenticationService } from '@app/auth/authentication.service.mock';
 import { MockConfigurationService } from '@app/@core/configuration.service.mock';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PipesModule } from '@app/@pipes/pipes.module';
 import { MatAutocomplete } from '@angular/material/autocomplete';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('PersonalDataComponent', () => {
   let component: PersonalDataComponent;
@@ -25,7 +26,6 @@ describe('PersonalDataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PersonalDataComponent, MatAutocomplete],
       imports: [
         TranslateModule.forRoot(),
         MatInputModule,
@@ -33,8 +33,9 @@ describe('PersonalDataComponent', () => {
         MatFormFieldModule,
         MatSelectModule,
         MatSnackBarModule,
-        HttpClientTestingModule,
         PipesModule,
+        PersonalDataComponent,
+        MatAutocomplete,
       ],
       providers: [
         { provide: DialogRef, useValue: {} },
@@ -43,6 +44,8 @@ describe('PersonalDataComponent', () => {
         { provide: ConfigurationService, useClass: MockConfigurationService },
         { provide: PlayerService, useClass: MockCtgApiService },
         { provide: ActivatedRoute, useValue: {} },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

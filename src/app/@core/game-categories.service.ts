@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
+import { Injectable, inject } from '@angular/core';
+import { AssetsService } from '@app/@shared/assets.service';
 import { Logger } from '@app/@shared/logger.service';
 import { environment } from '@env/environment';
 import { CategoryTranslation, GameCategory, ProdGameService } from '@icore/ngx-portalgateway-api-client-atl';
@@ -150,6 +150,11 @@ export interface GameCategoryIdsPortal {
   providedIn: 'root',
 })
 export class GameCategoriesService {
+  private dataStoreService = inject(DataStoreService);
+  private prodGameService = inject(ProdGameService);
+  private http = inject(HttpClient);
+  private assetsService = inject(AssetsService);
+
   private cacheIsPending$ = new BehaviorSubject<boolean>(false);
 
   private portalGameCategories?: GameCategoryIdsPortal;
@@ -181,13 +186,6 @@ export class GameCategoriesService {
   set categoryOrder(categoryOrder) {
     this._categoryOrder = categoryOrder;
   }
-
-  constructor(
-    private dataStoreService: DataStoreService,
-    private prodGameService: ProdGameService,
-    private http: HttpClient,
-    private cdnizePipe: CdnizePipe
-  ) {}
 
   getCategoryParentName(id: number): string {
     const isDesktopPortal = this.dataStoreService.defaultPortalId === environment.deployConfig.desktopPortalId;
@@ -248,7 +246,7 @@ export class GameCategoriesService {
       ),
       categoryOrder: this.http
         .get<{ [key: string]: { [key: string]: string[] } }>(
-          this.cdnizePipe.transform('categories/category-order.json')
+          this.assetsService.cdnizeUrl('categories/category-order.json')
         )
         .pipe(
           catchError((err) => {

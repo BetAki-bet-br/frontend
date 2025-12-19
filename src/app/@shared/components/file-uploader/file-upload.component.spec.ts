@@ -29,8 +29,14 @@ describe('FileUploadComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FileUploadComponent, FileUploadDirective],
-      imports: [MatSnackBarModule, TranslateModule.forRoot(), MatIconModule, MatProgressBarModule],
+      imports: [
+        MatSnackBarModule,
+        TranslateModule.forRoot(),
+        MatIconModule,
+        MatProgressBarModule,
+        FileUploadComponent,
+        FileUploadDirective,
+      ],
     }).compileComponents();
   });
 

@@ -3,20 +3,22 @@
   [title]="data.isSelfExclusion ? ('Self exclusion' | translate) : ('Pause period' | translate)"
 >
   <!-- Content -->
-  <div dialogContent class="flex-col dialog-content">
+  <div dialogContent class="flex flex-col dialog-content">
     <p>
       <span translate>Set</span> <b>{{ data.limit }}</b>
       <span>{{ data.isSelfExclusion ? ('self exclusion' | translate) : ('pause period' | translate) }}?</span>
     </p>
 
-    <p translate *ngIf="!data?.isSelfExclusion">
+    @if (!data.isSelfExclusion) {
+    <p translate>
       {{
         "You won't be able to make deposits and play during the specified period, also you will be excluded from all advertising offers. After the set period expires, you'll receive a notification email saying your account is active again."
           | translate
       }}
     </p>
-
-    <p translate *ngIf="data?.isSelfExclusion">You won't be able to log into your account during specified period.</p>
+    } @if (data.isSelfExclusion) {
+    <p translate>You won't be able to log into your account during specified period.</p>
+    }
   </div>
 
   <ng-container dialogButtons>
@@ -24,8 +26,11 @@
       {{ 'Cancel' | translate }}
     </button>
     <button type="submit" mat-button class="button-text-small label-dark flex-grow" (click)="onClose(true)">
-      <span *ngIf="data.isSelfExclusion; else confirmText">{{ 'Authenticate' | translate }}</span>
-      <ng-template #confirmText>{{ 'Confirm' | translate }}</ng-template>
+      @if (data.isSelfExclusion) {
+      <span>{{ 'Authenticate' | translate }}</span>
+      } @else {
+      {{ 'Confirm' | translate }}
+      }
     </button>
   </ng-container>
 </app-base-dialog>

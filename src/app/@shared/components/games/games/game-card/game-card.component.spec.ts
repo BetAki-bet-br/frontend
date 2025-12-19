@@ -10,8 +10,7 @@ describe('GameCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GameCardComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), GameCardComponent],
       providers: [{ provide: AuthDialogService, useValue: {} }, HttpBackend],
     }).compileComponents();
   });

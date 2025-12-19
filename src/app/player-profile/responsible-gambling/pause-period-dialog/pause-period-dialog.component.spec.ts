@@ -34,8 +34,13 @@ describe('PausePeriodDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, MatDialogModule, TranslateModule.forRoot()],
-      declarations: [PausePeriodDialogComponent],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        TranslateModule.forRoot(),
+        PausePeriodDialogComponent,
+      ],
       providers: [
         { provide: ControlContainer, useValue: fgd },
         { provide: DialogRef, useValue: {} },

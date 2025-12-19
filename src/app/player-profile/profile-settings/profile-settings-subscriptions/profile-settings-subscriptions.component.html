@@ -1,6 +1,6 @@
 <div class="player-profile-page-container" [formGroup]="subscriptionsForm">
-  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs"></app-page-breadcrumbs>
-  <mat-accordion [multi]="true" class="flex-col gap-16">
+  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+  <mat-accordion [multi]="true" class="flex flex-col gap-4">
     <mat-expansion-panel class="profile-panel" [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title class="section-item-container nowrap">
@@ -11,7 +11,7 @@
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="section-item-container mt-24">
+      <div class="section-item-container mt-6">
         <div class="section-item-collapsable">
           <div class="item-description" translate>
             {{
@@ -27,20 +27,28 @@
               class="silde-toggle"
               formControlName="receiveExclusiveOffersAndBonuses"
               [checked]="receiveExclusiveOffersAndBonuses"
-            >
-            </mat-slide-toggle>
+              color="primary"
+            />
           </div>
-          <mat-divider></mat-divider>
+          <mat-divider />
           <div class="item-description" translate>You can contact me through the following channels:</div>
           <div style="display: flex; justify-content: space-between; flex-direction: row">
             <mat-label class="form-outline-label subscriptions-item-label" translate>SMS</mat-label>
-            <mat-slide-toggle class="silde-toggle" formControlName="receivePromosBySMS" [checked]="receivePromosBySMS">
-            </mat-slide-toggle>
+            <mat-slide-toggle
+              class="silde-toggle"
+              formControlName="receivePromosBySMS"
+              [checked]="receivePromosBySMS"
+              color="primary"
+            />
           </div>
           <div style="display: flex; justify-content: space-between; flex-direction: row">
-            <mat-label class="form-outline-label subscriptions-item-label" translate>Whatsup</mat-label>
-            <mat-slide-toggle class="slide-toggle" formControlName="receivePromosByIm" [checked]="receivePromosByIm">
-            </mat-slide-toggle>
+            <mat-label class="form-outline-label subscriptions-item-label" translate>Whatsapp</mat-label>
+            <mat-slide-toggle
+              class="slide-toggle"
+              formControlName="receivePromosByIm"
+              [checked]="receivePromosByIm"
+              color="primary"
+            />
           </div>
           <div style="display: flex; justify-content: space-between; flex-direction: row">
             <mat-label class="form-outline-label subscriptions-item-label" translate>E-mail</mat-label>
@@ -48,8 +56,8 @@
               class="slide-toggle"
               formControlName="receivePromosByEmail"
               [checked]="receivePromosByEmail"
-            >
-            </mat-slide-toggle>
+              color="primary"
+            />
           </div>
           <div style="display: flex; justify-content: space-between; flex-direction: row">
             <mat-label class="form-outline-label subscriptions-item-label" translate>Phone</mat-label>
@@ -57,8 +65,8 @@
               class="slide-toggle"
               formControlName="receivePromosByTelephone"
               [checked]="receivePromosByTelephone"
-            >
-            </mat-slide-toggle>
+              color="primary"
+            />
           </div>
           <div style="display: flex; justify-content: space-between; flex-direction: row">
             <mat-label class="form-outline-label subscriptions-item-label" translate>Post</mat-label>
@@ -66,8 +74,8 @@
               class="slide-toggle"
               formControlName="receivePromosByPost"
               [checked]="receivePromosByPost"
-            >
-            </mat-slide-toggle>
+              color="primary"
+            />
           </div>
           <div style="display: flex; justify-content: space-between; flex-direction: row">
             <mat-label class="form-outline-label subscriptions-item-label" translate>Pop-up / Inbox</mat-label>
@@ -75,8 +83,8 @@
               class="slide-toggle"
               formControlName="receivePromosByPopupInbox"
               [checked]="receivePromosByPopupInbox"
-            >
-            </mat-slide-toggle>
+              color="primary"
+            />
           </div>
           <div class="section-actions align-left">
             <button
@@ -101,7 +109,7 @@
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="section-item-container mt-24">
+      <div class="section-item-container mt-6">
         <div class="section-item-collapsable">
           <div class="subscriptions-item-label" translate>
             To ensure the accuracy of your data, please visit the Profile section where you can change your personal settings and update the required fields. Please note that specific fields deemed necessary to verify your eligibility, such as date of birth or age, can only be changed by contacting our customer service directly. For a more detailed analysis of our processing activities and how your data is involved in each of them, please visit the dedicated section in our Privacy Policy.
@@ -124,7 +132,7 @@
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="section-item-container mt-24">
+      <div class="section-item-container mt-6">
         <div class="section-item-collapsable">
           <div class="subscriptions-item-label" translate>
             You maintain the right to receive the personal data you have submitted to us and to reuse/transmit it to a different service provider. For any additional clarifications regarding your Right to Data Portability, please visit the dedicated section of our Privacy Policy.
