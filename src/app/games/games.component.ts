@@ -2,7 +2,6 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, i
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, map } from 'rxjs/operators';
 import {
   GameProviderDataWithUrl,
