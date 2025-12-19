@@ -1,0 +1,133 @@
+<app-modal
+  [isOpen]="isOpen()"
+  (closeModal)="onClose()"
+  size="sm"
+  customClass="md:h-auto sm:max-w-lg"
+>
+  <div class="flex flex-col items-center justify-center pt-0">
+    <div class="top-bar flex w-full items-center justify-between">
+      <div class="spacer"></div>
+      <img alt="logo" class="logo w-24 h-auto m-auto" src="assets/brand/logo-green.svg" />
+    </div>
+
+    <div class="base-dialog-content text-center text-shark-950 p-6">
+      <h2 class="title text-black text-xl font-bold mt-4">Complete o processo de verificação</h2>
+      <div dialogcontent="" class="mt-2">
+        <p class="description text-sm w-4/5 m-auto text-center text-gray-600">
+          Para jogar, apostar ou depositar, você precisa fazer a verificação da sua conta
+        </p>
+
+        <div
+          class="verification-steps-wrapper mt-6 space-y-4 border-1 border-black/10 p-2 rounded-lg"
+        >
+          <div class="verification-step flex items-center space-x-4 p-2">
+            <img
+              class="more w-8 h-8"
+              [alt]="isKycVerified() ? 'Ícone verificado' : 'Ícone não verificado'"
+              [src]="
+                isKycVerified() ? 'assets/icons/verified.svg' : 'assets/brand/not-verified.svg'
+              "
+            />
+            <div class="flex flex-col text-left">
+              <span class="title-section font-semibold text-sm">Verificação de documentos KYC</span>
+              <span class="subtitle text-sm text-gray-500"
+                >Confirme sua identidade por meio de documentos oficiais</span
+              >
+              <button
+                (click)="openKycVerificationModal()"
+                class="button-section mt-2 text-betaki-500 cursor-pointer rounded-lg flex items-center justify-center space-x-2"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                  ></path>
+                </svg>
+                <span class="button-text text-xs mr-auto">CARREGAR NOVOS DOCUMENTOS</span>
+              </button>
+            </div>
+          </div>
+          <div class="verification-step flex items-center space-x-4 p-2">
+            <img
+              class="more w-8 h-8"
+              [alt]="isAddressVerified() ? 'Ícone verificado' : 'Ícone não verificado'"
+              [src]="
+                isAddressVerified() ? 'assets/icons/verified.svg' : 'assets/brand/not-verified.svg'
+              "
+            />
+            <div class="flex flex-col text-left">
+              <span class="title-section font-semibold text-sm">Endereço</span>
+              <span class="subtitle text-sm text-gray-500"
+                >Para concluir a verificação da sua conta, é necessário informar os seus dados de
+                endereço.</span
+              >
+              <button
+                class="button-section mt-2 text-betaki-500 cursor-pointer rounded-lg flex items-center justify-center space-x-2"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                  ></path>
+                </svg>
+                <span class="button-text text-xs mr-auto">VERIFICAR ENDEREÇO</span>
+              </button>
+            </div>
+          </div>
+          <div class="verification-step flex items-center space-x-4 p-2">
+            <img
+              class="more w-8 h-8"
+              [alt]="isEmailVerified() ? 'Ícone verificado' : 'Ícone não verificado'"
+              [src]="
+                isEmailVerified() ? 'assets/icons/verified.svg' : 'assets/brand/not-verified.svg'
+              "
+            />
+            <div class="flex flex-col text-left">
+              <span class="title-section font-semibold text-sm">Verificação de e-mail</span>
+              <span class="subtitle text-sm text-gray-500"
+                >Verifique seu e-mail inserindo o código de segurança enviado para sua caixa de
+                entrada.</span
+              >
+              <button
+                class="button-section mt-2 text-betaki-500 cursor-pointer rounded-lg flex items-center justify-center space-x-2"
+                (click)="goToEmailVerification()"
+              >
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span class="button-text text-xs mr-auto">REENVIAR E-MAIL DE VERIFICAÇÃO</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal>

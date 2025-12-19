@@ -1,0 +1,18 @@
+docker build -t spanol/betaki-staging:latest .
+Explanation: This command builds a Docker image.
+- `docker build`: The command to build a Docker image.
+- `-t spanol/betaki-staging:latest`: Tags the image with the name `spanol/betaki-staging` and the tag `latest`. This is the name used to identify the image.
+- `.`: Specifies the build context, which is the current directory where the Dockerfile is located.
+
+docker push spanol/betaki-staging:latest
+Explanation: This command pushes the previously built Docker image to a registry.
+- `docker push`: The command to push a Docker image.
+- `spanol/betaki-staging:latest`: Specifies the name and tag of the image to be pushed to the Docker registry (in this case, Docker Hub, as `spanol` is likely a username).
+
+
+docker run -p 8080:80  spanol/betaki-staging:latest
+Explanation: This command runs the Docker image locally for testing.
+- `docker run`: The command to run a Docker container.
+- `-p 4200:4200`: Maps port 4200 on the host to port 4200 inside the container.
+- `--name betaki-website-angular-test`: Assigns a name to the running container for easy reference.
+- `spanol/betaki-staging:latest`: Specifies the Docker image to use.

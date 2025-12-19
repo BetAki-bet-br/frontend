@@ -1,0 +1,24 @@
+import { Component, input, output } from '@angular/core';
+import { DragScrollDirective } from '../directives/drag-scroll.directive';
+import { GameCategory } from '@/app/core/models/game.models';
+
+@Component({
+  selector: 'app-game-filter-list',
+  imports: [DragScrollDirective],
+  templateUrl: './game-filter-list.html',
+  styleUrl: './game-filter-list.scss',
+})
+export class GameFilterList {
+  filters = input<GameCategory[]>([]);
+  openFilter = output<void>();
+  filterSelect = output<GameCategory | null>();
+  currentSelectedCategory = input<GameCategory | null>(null);
+
+  logFilters(): void {
+    console.log('GameFilterList component initialized', this.filters());
+  }
+
+  selectFilter(filter: GameCategory | null): void {
+    this.filterSelect.emit(filter);
+  }
+}

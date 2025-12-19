@@ -1,0 +1,69 @@
+<div class="bg-white w-full h-full rounded-lg md:min-h-[500px] flex flex-col items-center justify-center p-6 sm:p-8">
+  <h1 class="mt-4 sm:mt-0 text-md sm:text-3xl font-bold text-shark-950">Verificação de E-mail</h1>
+
+  <form [formGroup]="form" (ngSubmit)="verifyCode()"
+    class="flex flex-col items-center py-8 w-full max-w-sm gap-8 text-xs sm:text-lg">
+    <div class="flex flex-col gap-4 text-center">
+      <div class="subtitle">
+        Enviamos um código de segurança para sua opção desejada (e-mail ou SMS). Caso você não receba, verifique sua
+        caixa de spam ou lixo eletrônico. Este envio pode levar alguns minutos.
+      </div>
+    </div>
+
+    <div class="code-container flex-col gap-5 justify-center items-center code-inputs flex">
+      <span class="m-auto">Código:</span>
+      <form formArrayName="otp" class="code-inputs flex gap-2 justify-center">
+        @for (control of otpControls; track $index) {
+        <input [id]="'input' + $index" type="text" (keydown)="focusNextInput($index, $event)" [formControlName]="$index"
+          maxlength="1" class="bg-[#EFF1F2] p-3 sm:p-5 rounded-lg w-10 h-10 text-center border border-transparent
+          placeholder:text-gray-400">
+        }
+      </form>
+    </div>
+
+    @if (error()) {
+    <div class="text-red-500 text-center -my-4"><span class="text-xs sm:text-sm">{{ error() }}</span></div>
+    }
+
+    <button
+      class="flex p-2 justify-center gap-x-2 cursor-pointer rounded-xl bg-betaki-500 p-2 sm:p-4 text-lg font-bold w-3/5 m-auto sm:w-full"
+      type="submit" [disabled]="form.invalid || submitLoading()" [class.opacity-50]="form.invalid || submitLoading()">
+      @if (submitLoading()) {
+      <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+        </path>
+      </svg>
+      } @else {
+      <span>Prosseguir</span>
+      }
+    </button>
+
+  </form>
+
+  <div class="flex-col w-full justify-center items-center flex ">
+    @if (resendDisabled()) {
+    <div class="flex-row flex-wrap gap-2 items-center justify-center resend-timer-text">
+      <span>Ainda não recebeu o código?&nbsp;Você pode solicitar um novo em: {{ resendTimer() }}
+        segundos</span>
+    </div>
+    }
+
+    <button
+      class="text-xs sm:text-sm font-bold border-2 border-betaki-500 py-2 px-3 rounded-lg transition-colors hover:bg-betaki-500 hover:text-white cursor-pointer w-1/2 m-auto sm:w-3/5 mt-4"
+      (click)="sendVerificationCode()" [disabled]="resendDisabled() || resendLoading()"
+      [class.opacity-50]="resendDisabled() || resendLoading()">
+      @if (resendLoading()) {
+      <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+        </path>
+      </svg>
+      } @else {
+      <span>Envie um novo código</span>
+      }
+    </button>
+  </div>
+</div>

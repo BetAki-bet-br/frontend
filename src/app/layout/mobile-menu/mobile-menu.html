@@ -1,0 +1,58 @@
+@if (!isFullscreen()) {
+<div
+  animate.enter="animate-slide-up"
+  animate.leave="animate-fade-out"
+  class="md:hidden w-full h-[55.5px] fixed bottom-0 left-0 right-0 z-39 bg-black text-white! text-[10px]!"
+>
+  <div class="flex items-end w-full h-full text-white!">
+    @for (item of menuItems; track $index) { 
+      @if (item.routerLink === '/') {
+    <div class="flex-1 flex items-center h-full">
+      <a
+        [routerLink]="item.routerLink"
+        [class.is-active]="isLinkActive(item)"
+        class="flex flex-col items-center justify-center h-full w-17 xs:w-full pb-1 pt-1"
+        [class.bg-betaki-500]="item.routerLink === '/'"
+        [class.border]="item.routerLink === '/'"
+        [class.rounded-e-3xl]="item.routerLink === '/'"
+        [class.border-betaki-500]="item.routerLink === '/'"
+      >
+        <img [src]="item.icon" [alt]="item.label" class="w-7 h-7" />
+        @if (item.label) {
+        <span class="">{{ item.label }}</span>
+        }
+      </a>
+    </div>
+    } @else if (item.isSpecial) {
+    <div class="relative flex-1 flex justify-center h-full pb-1">
+      <a
+        [routerLink]="item.routerLink!"
+        class="absolute bottom-0 flex flex-col items-center justify-center pt-3 w-[70px] h-[calc(100%+10px)] bg-black rounded-t-[50px] mb-1"
+      >
+        <img [src]="item.icon" [alt]="item.label" class="w-9 h-9 white-icon" />
+        <span class="">{{ item.label }}</span>
+      </a>
+    </div>
+    } @else if (item.routerLink) {
+    <a
+      [routerLink]="item.routerLink"
+      [class.is-active]="isLinkActive(item)"
+      class="flex flex-1 flex-col items-center justify-center h-full pb-1 pt-1"
+    >
+      <img [src]="isLinkActive(item) ? item.iconActive : item.icon" [alt]="item.label" class="w-6 h-6 mb-1" />
+      @if (item.label) {
+      <span class="">{{ item.label }}</span>
+      }
+    </a>
+    } @else {
+    <button
+      (click)="item.action && item.action()"
+      class="flex flex-1 flex-col items-center justify-center h-full pb-1 pt-1 cursor-pointer"
+    >
+      <img [src]="item.icon" [alt]="item.label" class="w-6 h-6 white-icon mb-1" style="fill: #fff" />
+      <span class="">{{ item.label }}</span>
+    </button>
+    } }
+  </div>
+</div>
+}

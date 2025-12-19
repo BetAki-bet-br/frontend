@@ -1,0 +1,9 @@
+<section id="games-page" class="flex">
+  <app-sidebar-desktop></app-sidebar-desktop>
+  <div class="flex-1 overflow-y-auto">
+    <div class="px-0 lg:px-5 xl:px-10 pb-4 lg:ps-4">
+      <app-carousel [slides]="banners"></app-carousel>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</section>

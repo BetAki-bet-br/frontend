@@ -1,143 +1,96 @@
-# Comtrade Gaming PP - Bet Aki
+# Betaki Website (Angular)
 
-This project was generated with [ngX-Rocket](https://github.com/ngx-rocket/generator-ngx-rocket/)
-version 11.0.0
+This project is the frontend for the Betaki website, built with [Angular CLI](https://github.com/angular/angular-cli).
 
-# Getting started
+## Prerequisites
 
-1. Go to project folder and install dependencies:
+Before you begin, ensure you have the following installed:
 
-```sh
-npm install
+- [Node.js](https://nodejs.org/) (which includes npm)
+- [Angular CLI](https://angular.dev/tools/cli)
+- [Docker](https://www.docker.com/products/docker-desktop) (for Docker-based setup)
+
+## Running the Project
+
+You can run this project either locally on your machine or within a Docker container.
+
+### Local Development
+
+1. **Install Dependencies:**
+   Clone the repository and install the necessary npm packages.
+
+   ```bash
+   git clone <repository-url>
+   cd website-angular
+   npm install
+   ```
+
+2. **Start the Development Server:**
+   Run the following command to start the Angular development server.
+
+   ```bash
+   ng serve
+   ```
+
+   The application will be available at `http://localhost:4200/` and will automatically reload if you change any of the source files.
+
+### Docker-Based Development
+
+The following commands allow you to build and run the application using Docker.
+
+1. **Build the Docker Image:**
+   This command builds the Docker image based on the `Dockerfile` in the project root.
+
+   ```bash
+   docker build -t spanol/betaki-staging:latest .
+   ```
+
+2. **Run the Docker Container:**
+   This command runs the application inside a Docker container and maps the port to your local machine.
+
+   ```bash
+   docker run -p 8080:80  spanol/betaki-staging:latest
+   ```
+
+   The application will be available at `http://localhost:4200/`.
+
+3. **(Optional) Push the Image to a Registry:**
+   If you need to share the image or deploy it, you can push it to a Docker registry (like Docker Hub).
+
+   ```bash
+   docker push spanol/betaki-staging:latest
+   ```
+
+## Development Tools
+
+### Code Scaffolding
+
+To generate a new component, run:
+
+```bash
+ng generate component <component-name>
 ```
 
-2. Launch development server, and open `localhost:4200` in your browser:
+You can also generate directives, pipes, services, classes, guards, interfaces, enums, and modules.
 
-```sh
-npm start
+### Building for Production
+
+To build the project for production, run:
+
+```bash
+ng build
 ```
 
-# Project structure
+The build artifacts will be stored in the `dist/` directory.
 
-```
-dist/                        web app production build
-docs/                        project docs and coding guides
-cypress/                     end-to-end tests (Cypress)
-src/                         project source code
-|- app/                      app components
-|  |- core/                  core module (singleton services and single-use components)
-|  |- shared/                shared module  (common components, directives and pipes)
-|  |- app.component.*        app root component (shell)
-|  |- app.module.ts          app root module definition
-|  |- app-routing.module.ts  app routes
-|  +- ...                    additional modules and components
-|- assets/                   app assets (images, fonts, sounds...)
-|- environments/             values for various build environments
-|- theme/                    app global scss variables and theme
-|- translations/             translations files
-|- index.html                html entry point
-|- main.scss                 global style entry point
-|- main.ts                   app entry point
-|- polyfills.ts              polyfills needed by Angular
-+- test.ts                   unit tests entry point
-reports/                     test and coverage reports
-proxy.conf.js                backend proxy configuration
+### Running Unit Tests
+
+To execute the unit tests via [Karma](https://karma-runner.github.io), run:
+
+```bash
+ng test
 ```
 
-# Main tasks
+## Further Help
 
-Task automation is based on [NPM scripts](https://docs.npmjs.com/misc/scripts).
-
-| Task                                            | Description                                                                                                      |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `npm start`                                     | Run development server on `http://localhost:4200/`                                                               |
-| `npm run build [-- --configuration=production]` | Lint code and build web app for production (with [AOT](https://angular.io/guide/aot-compiler)) in `dist/` folder |
-| `npm test`                                      | Run unit tests via [Karma](https://karma-runner.github.io) in watch mode                                         |
-| `npm run test:ci`                               | Lint code and run unit tests once for continuous integration                                                     |
-| `npm run e2e`                                   | Run e2e tests using [Cypress](https://www.cypress.io/)                                                           |
-| `npm run lint`                                  | Lint code                                                                                                        |
-| `npm run translations:extract`                  | Extract strings from code and templates to `src/app/translations/template.json`                                  |
-| `npm run docs`                                  | Display project documentation and coding guides                                                                  |
-| `npm run prettier`                              | Automatically format all `.ts`, `.js` & `.scss` files                                                            |
-
-When building the application, you can specify the target configuration using the additional flag
-`--configuration <name>` (do not forget to prepend `--` to pass arguments to npm scripts).
-
-The default build configuration is `prod`.
-
-## Development server
-
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
-any of the source files.
-You should not use `ng serve` directly, as it does not use the backend proxy configuration by default.
-
-## Code scaffolding
-
-Run `npm run generate -- component <name>` to generate a new component. You can also use
-`npm run generate -- directive|pipe|service|class|module`.
-
-If you have installed [angular-cli](https://github.com/angular/angular-cli) globally with `npm install -g @angular/cli`,
-you can also use the command `ng generate` directly.
-
-## Additional tools
-
-Tasks are mostly based on the `angular-cli` tool. Use `ng help` to get more help or go check out the
-[Angular-CLI README](https://github.com/angular/angular-cli).
-
-## Code formatting
-
-All `.ts`, `.js` & `.scss` files in this project are formatted automatically using [Prettier](https://prettier.io),
-and enforced via the `test:ci` script.
-
-A pre-commit git hook has been configured on this project to automatically format staged files, using
-(pretty-quick)[https://github.com/azz/pretty-quick], so you don't have to care for it.
-
-You can also force code formatting by running the command `npm run prettier`.
-
-# What's in the box
-
-The app template is based on [HTML5](http://whatwg.org/html), [TypeScript](http://www.typescriptlang.org) and
-[Sass](http://sass-lang.com). The translation files use the common [JSON](http://www.json.org) format.
-
-#### Tools
-
-Development, build and quality processes are based on [angular-cli](https://github.com/angular/angular-cli) and
-[NPM scripts](https://docs.npmjs.com/misc/scripts), which includes:
-
-- Optimized build and bundling process with [Webpack](https://webpack.github.io)
-- [Development server](https://webpack.github.io/docs/webpack-dev-server.html) with backend proxy and live reload
-- Cross-browser CSS with [autoprefixer](https://github.com/postcss/autoprefixer) and
-  [browserslist](https://github.com/ai/browserslist)
-- Asset revisioning for [better cache management](https://webpack.github.io/docs/long-term-caching.html)
-- Unit tests using [Jasmine](http://jasmine.github.io) and [Karma](https://karma-runner.github.io)
-- End-to-end tests using [Cypress](https://www.cypress.io/)
-- Static code analysis: [TSLint](https://github.com/palantir/tslint), [Codelyzer](https://github.com/mgechev/codelyzer),
-  [Stylelint](http://stylelint.io) and [HTMLHint](http://htmlhint.com/)
-- Local knowledgebase server using [Hads](https://github.com/sinedied/hads)
-- Automatic code formatting with [Prettier](https://prettier.io)
-
-#### Libraries
-
-- [Angular](https://angular.io)
-- [Angular Material](https://material.angular.io)
-- [Angular Flex Layout](https://github.com/angular/flex-layout)
-- [Material Icons](https://material.io/icons/)
-- [RxJS](http://reactivex.io/rxjs)
-- [ngx-translate](https://github.com/ngx-translate/core)
-
-#### Coding guides
-
-- [Angular](docs/coding-guides/angular.md)
-- [TypeScript](docs/coding-guides/typescript.md)
-- [Sass](docs/coding-guides/sass.md)
-- [HTML](docs/coding-guides/html.md)
-- [Unit tests](docs/coding-guides/unit-tests.md)
-- [End-to-end tests](docs/coding-guides/e2e-tests.md)
-
-#### Other documentation
-
-- [I18n guide](docs/i18n.md)
-- [Working behind a corporate proxy](docs/corporate-proxy.md)
-- [Updating dependencies and tools](docs/updating.md)
-- [Using a backend proxy for development](docs/backend-proxy.md)
-- [Browser routing](docs/routing.md)
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

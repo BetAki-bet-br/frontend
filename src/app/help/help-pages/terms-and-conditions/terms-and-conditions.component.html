@@ -1,8 +1,0 @@
-<app-basic-page-container help="help">
-  <app-help-pages-container>
-    <ng-container *ngIf="termsAndConditions">
-      <h1 translate>{{ termsAndConditions.termsAndConditionsTitle }}</h1>
-      <div class="tc-container" [innerHtml]="safeContent"></div>
-    </ng-container>
-  </app-help-pages-container>
-</app-basic-page-container>

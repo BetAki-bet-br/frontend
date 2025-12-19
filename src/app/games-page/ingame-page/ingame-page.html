@@ -1,9 +1,0 @@
-<div
-  class="game-container flex flex-col w-full bg-[#212529] h-[calc(100dvh-var(--header-height-mobile))] md:h-[calc(100dvh-var(--header-height-desktop))]"
->
-  <div class="iframe-container flex-grow">
-    @if(gameUrl(); as url) {
-    <iframe [src]="url" referrerpolicy="origin" frameborder="0" class="game-iframe w-full h-full"></iframe>
-    }
-  </div>
-</div>

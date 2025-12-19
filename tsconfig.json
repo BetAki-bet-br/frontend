@@ -1,42 +1,45 @@
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
+    "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
-    "declaration": false,
-    "module": "es2020",
-    "moduleResolution": "node",
-    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "strict": true,
-    "suppressImplicitAnyIndexErrors": true,
     "target": "ES2022",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2020", "dom"],
-    "baseUrl": "./",
+    "module": "preserve",
+    "baseUrl": ".",
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@shared": ["src/app/@shared"],
-      "@shared/*": ["src/app/@shared/*"],
-      "@env/*": ["src/environments/*"],
-      "ngx-atl-pp-templates-shared": ["node_modules/@icore/ngx-atl-pp-templates-shared"]
-    },
-    "useDefineForClassFields": false,
-    "esModuleInterop": true
+      "@/*": ["src/*"],
+      "@api/*": ["src/app/api/*"],
+      "@assets/*": ["src/assets/*"],
+      "@environments/*": ["src/environments/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@components/*": ["src/app/components/*"],
+      "@layout/*": ["src/app/layout/*"],
+      "@utils/*": ["src/app/utils/*"]
+    }
   },
-  "exclude": ["./cypress.config.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
-    "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
-    "preserveWhitespaces": true
-  }
+    "typeCheckHostBindings": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }

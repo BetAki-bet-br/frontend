@@ -1,0 +1,40 @@
+<div [class]="'w-full ' + class()" [style.max-width]="maxWidth()">
+  <div
+    class="relative cursor-grab active:cursor-grabbing lg:rounded-lg select-none overflow-hidden aspect-[450/130]"
+  >
+    @for (slide of slides(); let i = $index; track slide.imageUrl) {
+    <div class="absolute inset-0 w-full h-full" [ngStyle]="getSlideStyle(i)">
+      <a
+        [href]="slide.href"
+        [target]="slide.target || '_self'"
+        class="block w-full h-full"
+        [class.pointer-events-none]="isDragging()"
+      >
+        <img
+          [ngSrc]="slide.imageUrl"
+          [alt]="slide.alt"
+          class="w-full h-full object-center object-cover sm:rounded-lg"
+          draggable="false"
+          width="450"
+          height="117"
+          [priority]="true"
+        />
+      </a>
+    </div>
+    } @if (slides().length > 1) {
+    <div
+      class="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex space-x-2 rounded-full z-10 px-3 py-1"
+    >
+      @for (slide of slides(); let i = $index; track slide.imageUrl) {
+      <button
+        class="w-3 h-3 rounded-full cursor-pointer"
+        [class.bg-white]="i === currentIndex()"
+        [class.bg-gray-400]="i !== currentIndex()"
+        (click)="currentIndex.set(i)"
+        [attr.aria-label]="'Ir para slide ' + (i + 1)"
+      ></button>
+      }
+    </div>
+    }
+  </div>
+</div>

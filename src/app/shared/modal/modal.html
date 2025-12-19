@@ -1,0 +1,41 @@
+@if (isOpen()) {
+    <div
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+
+      animate.leave="animate-leave-fadeOut"
+      (click)="onClose()"
+      tabindex="0"
+      role="button"
+      (keydown.enter)="onClose()"
+      (keydown.space)="onClose()"
+    >
+      <div
+            animate.enter="animate-enter-slide-down"
+        class="relative w-full h-full bg-white overflow-y-auto md:rounded-lg"
+        (click)="$event.stopPropagation()"
+        (keydown)="$event.stopPropagation()"
+        [class]="customClass()"
+        [class.md:w-1/2]="size() === 'sm'"
+        [class.xl:w-1/3]="size() === 'sm'"
+        [class.md:w-2/3]="size() === 'md'"
+        [class.xl:w-1/2]="size() === 'md'"
+        [class.md:w-4/5]="size() === 'lg'"
+        [class.xl:w-2/3]="size() === 'lg'"
+        [class.md:w-11/12]="size() === 'xl'"
+        [class.xl:w-5/6]="size() === 'xl'"
+        tabindex="-1"
+        role="dialog"
+      >
+        @if(showCloseButton()){
+          <button class="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700" (click)="onClose()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        }
+        <div class="p-4 sm:p-3 2xl:p-6 h-full" [class]="innerCustomClass()">
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
+}

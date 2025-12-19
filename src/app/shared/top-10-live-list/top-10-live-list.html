@@ -1,0 +1,22 @@
+<app-game-list [categoryId]="categoryId()" [gameCount]="games().length" title="TOP 10 CASSINO">
+  <div
+    appDragScroll
+    class="flex select-none gap-x-16 overflow-x-auto overflow-y-hidden scroll-smooth no-scrollbar"
+  >
+    @for (game of games(); track game.id; let i = $index) {
+    <div class="relative flex shrink-0 items-center text-center group" [class.ms-14]="i === 0">
+      <app-game-card
+        [class.mr-3]="games().length - 1 === i"
+        [game]="game"
+        (click)="gameClick.emit(game)"
+      />
+
+      <p
+        class="absolute inset-y-0 z-10 flex items-center text-5xl text-betaki-500! big-number text-white left-[-60px]"
+      >
+        {{ i + 1 }}
+      </p>
+    </div>
+    }
+  </div>
+</app-game-list>

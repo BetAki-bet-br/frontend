@@ -1,0 +1,105 @@
+<div
+  class="hidden lg:flex sticky top-[64px] flex-col 2xl:ms-0 text-white h-[calc(100vh-64px)] space-y-2 transition-all duration-300"
+  [class.w-64]="!isCollapsed()"
+  [class.w-20]="isCollapsed()"
+>
+  <nav class="flex flex-col h-full p-3 space-y-2 overflow-y-auto bg-shark-950/30">
+    <div
+      class="flex pb-2"
+      [class.justify-end]="!isCollapsed()"
+      [class.justify-center]="isCollapsed()"
+    >
+      <button (click)="toggleCollapse()" class="p-2 rounded-lg hover:bg-shark-900">
+        <img
+          src="/assets/icons/arrow-left-white.svg"
+          alt="Toggle sidebar"
+          class="w-6 h-6 transition-transform duration-300"
+          [class.rotate-180]="isCollapsed()"
+        />
+      </button>
+    </div>
+    @if(isAuthenticated()){
+    <div
+      class="flex bg-betaki-darker items-center gap-3 px-1 py-2 rounded-lg transition-colors group"
+      [class.justify-center]="isCollapsed()"
+    >
+      <img
+        src="/assets/icons/user-icon.svg"
+        alt="User Photo"
+        class="object-cover w-10 h-10 rounded-full shrink-0"
+      />
+      @if (playerDetails(); as details) {
+      <div class="flex flex-col" [class.hidden]="isCollapsed()">
+        <span class="text-base font-medium">{{ details.firstName }} {{ details.lastName }}</span>
+        <span class="text-sm font-light">ID: {{ details.id }}</span>
+      </div>
+      }
+    </div>
+    }
+
+    <button
+      class="bg-betaki-darker flex items-center p-2 gap-x-2 cursor-pointer bg-tournaments rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80 mb-1"
+      [class.justify-start]="!isCollapsed()"
+      [class.justify-center]="isCollapsed()"
+    >
+      <img src="/assets/icons/betaki-icon.svg" alt="Casino" class="w-6 h-6 shrink-0" />
+      <span [class.hidden]="isCollapsed()">Club Bet Aki</span>
+    </button>
+    <div class="flex flex-col mt-1 gap-y-2">
+      <button
+        class="bg-betaki-darker flex items-center p-2 gap-x-2 cursor-pointer bg-tournaments rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80"
+        [class.justify-start]="!isCollapsed()"
+        [class.justify-center]="isCollapsed()"
+      >
+        <img src="/assets/icons/trophy-icon-color.svg" alt="Casino" class="w-6 h-6 shrink-0" />
+        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Torneios</span>
+      </button>
+      <button
+        class="bg-betaki-darker flex items-center p-2 gap-x-2 cursor-pointer rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80"
+        [class.justify-start]="!isCollapsed()"
+        [class.justify-center]="isCollapsed()"
+      >
+        <img src="/assets/icons/joystick-icon-color.svg" alt="Casino" class="w-6 h-6 shrink-0" />
+        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Os mais jogados</span>
+      </button>
+      <button
+        class="bg-betaki-darker flex items-center p-2 gap-x-2 cursor-pointer rounded-xl bg-fresh transition-opacity duration-200 ease-in-out hover:opacity-80"
+        [class.justify-start]="!isCollapsed()"
+        [class.justify-center]="isCollapsed()"
+      >
+        <img src="/assets/icons/star-icon-color.svg" alt="Casino" class="w-6 h-6 shrink-0" />
+        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Lançamentos</span>
+      </button>
+      <button
+        class="bg-betaki-darker flex items-center p-2 gap-x-2 cursor-pointer rounded-xl bg-providers transition-opacity duration-200 ease-in-out hover:opacity-80"
+        [class.justify-start]="!isCollapsed()"
+        [class.justify-center]="isCollapsed()"
+      >
+        <img src="/assets/icons/provider-icon-color.svg" alt="Casino" class="w-6 h-6 shrink-0" />
+        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Provedores</span>
+      </button>
+    </div>
+
+    @if (isAuthenticated()) {
+    <button
+      (click)="logout()"
+      class="bg-betaki-darker flex items-center p-2 gap-x-2 cursor-pointer rounded-xl mt-auto w-full transition-opacity duration-200 ease-in-out hover:opacity-80"
+      [class.justify-start]="!isCollapsed()"
+      [class.justify-center]="isCollapsed()"
+    >
+      <img src="/assets/icons/logout-icon-color.svg" alt="Casino" class="w-6 h-6 shrink-0" />
+      <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Sair</span>
+    </button>
+    }
+
+    <button
+      class="bg-betaki-darker flex items-center justify-center p-2 gap-x-2 cursor-pointer rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80"
+      (click)="openSupportChat()"
+      [class.justify-start]="!isCollapsed()"
+      [class.justify-center]="isCollapsed()"
+    >
+      <img src="/assets/icons/support-icon-color.svg" alt="Casino" class="w-6 h-6 shrink-0" />
+      <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Precisa de ajuda?</span>
+    </button>
+  </nav>
+</div>

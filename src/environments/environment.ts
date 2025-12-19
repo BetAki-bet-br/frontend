@@ -1,4 +1,45 @@
-import { baseEnvironment } from './base-environment';
-
-// only base environment - do not change !
-export const environment = Object.assign({}, baseEnvironment);
+export const environment = {
+  apiBaseUrl: '/betaki-api',
+  apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
+  footerBaseUrl: 'https://backend-afiliados.onrender.com/static/footer',
+  v1ProfileUrl: 'https://betaki-profile-staging.onrender.com/profile',
+  v1PromotionsUrl: 'https://betaki-profile-staging.onrender.com/promotions',
+  assetsBaseUrl: 'https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails',
+  production: false,
+  gtmId: 'GTM-KSQFD799',
+  tawkToSDK: 'https://embed.tawk.to/665338ba981b6c564774d393/1huqhb6hp',
+  legitimuzHost: 'https://api.legitimuz.com',
+  legitimuzSDKToken: '4112d1ec-8796-4b68-85da-2c4080973c50',
+};
+//  {
+//   "apiKey": "e3d8ca29-c8a4-40c1-9246-94887777ed6a",
+//   "gaTrackingCode": "G-E01ZEH84HW",
+//   "assetsBaseUrl": "https://pp-assets.icbkiassets.com/cmslibrary",
+//   "assetsPath": "betaki",
+//   "assetsQueryString": "",
+//   "gamesThumbsBaseUrl": "https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails",
+//   "gamesThumbsUrlSuffix": "",
+//   "antillephoneLicensingSealId": "",
+//   "antillephoneLicensingScriptMethodId": "",
+//   "antillephoneLicensingApgSealJsUrl": "",
+//   "longVersion": "3.19.0.1052.9c69e84d",
+//   "gtmId": "GTM-KSQFD799",
+//   "cmsSlugPostfix": "betaki",
+//   "brandId":4,
+//   "desktopPortalId":5,
+//   "mobilePortalId":6,
+//   "fingerprintApiKey": "f3cW3iUlT4Fa02Wuh0Jo",
+//   "fingerprintEndpoint": "https://fngint.betaki.bet.br",
+//   "seoHostname": "https://betaki.bet.br",
+//   "sportsbookIntegration": "betaki",
+//   "sportsbookSDK": "https://sb2wsdk-altenar2.biahosted.com/altenarWSDK.js",
+//   "affiliateDataExpiryOffset":1,
+//   "brandName": "Betaki",
+//   "socialInstagramUrl": "https://www.instagram.com/betakioficial/",
+//   "socialTikTokUrl": "https://www.tiktok.com/@betakioficial?_t=ZM-8tTSPMU6MMg&_r=1",
+//   "socialTwitterUrl": "https://x.com/oficialbetaki?s=11",
+//   "defaultLanguage": "pt-BR",
+//   "tawkToSDK": "https://embed.tawk.to/665338ba981b6c564774d393/1huqhb6hp",
+//   "legitimuzSDKToken": "4112d1ec-8796-4b68-85da-2c4080973c50",
+//   "paymentTestModeEnabled":false
+// }

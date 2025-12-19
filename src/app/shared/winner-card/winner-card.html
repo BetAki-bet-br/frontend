@@ -1,0 +1,28 @@
+<div class="winner-card bg-black border-2 border-betaki-500 rounded-lg w-20">
+  <div class="text-white winner-card-content sm:items-center">
+    <div class="w-[100px] h-[100px] sm:w-[60px] sm:h-[60px] overflow-hidden flex-shrink-0">
+      <img
+        [src]="winner().gameImageUrl"
+        draggable="false"
+        [alt]="winner().gameAlt"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="flex flex-col justify-start w-full h-full sm:justify-center pl-2">
+      <p class="text-xl font-semibold md:text-sm leading-tight mb-6 sm:mb-0">
+        R$
+        <span>{{ (winner().prize | currency : 'BRL')?.slice(2) }}</span>
+      </p>
+      <h3 class="text-light font-light text-sm md:text-xs leading-tight line-clamp-1 pb-1 sm:mb-0">
+        em
+        <span class="text-accent">
+          {{ winner().gameName }}
+        </span>
+      </h3>
+      <div class="flex flex-row items-center gap-2">
+        <img [src]="winner().userIcon" draggable="false" alt="User icon" />
+        <p class="text-md md:text-xs leading-tight">{{ winner().winnerName }}</p>
+      </div>
+    </div>
+  </div>
+</div>

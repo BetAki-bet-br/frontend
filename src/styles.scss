@@ -1,0 +1,255 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+// heveltica neue font fallback
+@import url('https://fonts.cdnfonts.com/css/helvetica-neue-55');
+
+@theme {
+  --breakpoint-xs: 30rem;
+  --font-sans: 'Heveltica Neue', sans-serif;
+  --font-alt: 'Inter', sans-serif;
+  --color-accent-highlight: #e8fb20;
+  --color-accent: #c6d42d;
+  --color-white: #e4eaf2;
+  --color-betaki-200: #fcff92;
+  --color-betaki-400: #e8fb20;
+  --color-black: #1e1e1e;
+  --color-alt-light: #e0e0e0;
+  --color-betaki-500: #869502;
+  // --color-betaki-darker: #596308;
+  // --color-betaki-darker: #394006;
+  --color-betaki-darker: #454d0a;
+  --color-betaki-600: #9db500;
+  --color-betaki-800: #5d6c08;
+  --color-shark-50: #fff;
+  --color-shark-100: #f1f1f1;
+  --color-shark-200: #e2e2e2;
+  --color-shark-300: #c4c4c4;
+  --color-shark-400: #8e8e8e;
+  --color-auth-placeholder: #090b014d;
+  --color-shark-500: #727272;
+  --color-shark-600: #595959;
+  --color-shark-700: #424242;
+  --color-shark-800: #2a2a2a;
+  --color-shark-900: #151515;
+  --color-shark-950: #070707;
+  --header-height-desktop: 64px;
+  --header-height-mobile: 55px;
+  --winer-card-background: linear-gradient(
+    135deg,
+    var(--color-shark-950) 0%,
+    var(--color-shark-900) 100%
+  );
+}
+
+body,
+html {
+  height: 100%;
+  width: 100%;
+  color: white !important;
+}
+
+body.sidebar-open {
+  overflow: hidden;
+}
+
+input[type='checkbox'] {
+  accent-color: var(--color-betaki-500);
+  color: white;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+}
+
+.white-icon {
+  filter: invert(100%) sepia(0%) saturate(2%) hue-rotate(309deg) brightness(115%) contrast(101%);
+}
+
+.green-icon {
+  filter: invert(59%) sepia(85%) saturate(2880%) hue-rotate(35deg) brightness(90%) contrast(98%);
+}
+
+.red-icon {
+  filter: invert(16%) sepia(85%) saturate(6293%) hue-rotate(357deg) brightness(98%) contrast(115%);
+}
+
+.border-animation {
+  &::before {
+    content: '';
+    position: absolute;
+    background: var(--color-betaki-500);
+    min-width: 200%;
+    min-height: 200%;
+    /*inset: -200% -3px -3px -50%;*/
+
+    border-radius: 0;
+    /*animation: borderRotation 3s linear infinite;*/
+    z-index: -1;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: linear-gradient(135deg, var(--color-shark-950) 0%, var(--color-shark-900) 100%);
+    border-radius: 24px;
+    z-index: 0;
+  }
+
+  @keyframes borderRotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+img.loading {
+  background-color: #272a31;
+  animation: pulse 1.5s infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+.animate-enter-slide-down {
+  animation: slide-down-enter 0.5s ease-out forwards;
+}
+
+.animate-leave-fadeOut {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+.animate-leave-slide-up {
+  animation: slide-down-leave 0.5s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-fade-out {
+  animation: fade-out 0.3s ease-out forwards;
+}
+
+.animate-enter-fadeIn {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes slide-down-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-down-leave {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

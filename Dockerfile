@@ -4,19 +4,21 @@ FROM node:20 AS build
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y default-jre
-
 COPY package*.json ./
-COPY . .
 
-RUN npm install --legacy-peer-deps
+RUN npm install
+RUN npm rebuild
+RUN npm uninstall @tailwindcss/postcss lightningcss && npm install @tailwindcss/postcss lightningcss
+RUN apt-get update && apt-get install -y build-essential
+
+COPY . .
 
 RUN npm run build
 
 # Stage 2: Serve the application with Nginx
 FROM nginx:alpine
 
-COPY --from=build /app/dist/browser /usr/share/nginx/html
+COPY --from=build /app/dist/website-angular/browser /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/nginx.conf
 

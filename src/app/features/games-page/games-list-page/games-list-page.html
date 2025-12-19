@@ -1,0 +1,72 @@
+<div class="flex flex-col gap-y-4 lg:gap-y-6 mb-5">
+	<app-game-filter-list [filters]="gameFilters()!" [currentSelectedCategory]="selectedCategory()"
+		(openFilter)="openFilterModal()" (filterSelect)="onFilterSelect($event)"></app-game-filter-list>
+
+	@if (!isFilterActive()) { @if (recentGames() && recentGames().length > 0) {
+	<app-game-list categoryId="recent" title="Jogados Recentemente" [gameCount]="recentGames().length">
+		<div appDragScroll
+			class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3">
+			@for (game of recentGames().slice(0, gamesCount()); track game.id; let i = $index) {
+			<app-game-card [class.mr-3]="recentGames().slice(0, gamesCount()).length - 1 === i" [game]="game"
+				(click)="handleGameClick(game)"></app-game-card>
+			}
+		</div>
+	</app-game-list>
+	} @if (maisPremiados(); as awardedGames) {
+	<app-game-list categoryId="502" [gameCount]="awardedGames.gameMains.length" title="🔥 Mais premiados">
+		<div appDragScroll
+			class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3">
+			@for (game of awardedGames.gameMains.slice(0, 10); track game.id; let i = $index) {
+			<app-awarded-game-card [game]="game" [class.mr-3]="awardedGames.gameMains.slice(0, 10).length - 1 === i"
+				(click)="handleGameClick(game)"></app-awarded-game-card>
+			}
+		</div>
+	</app-game-list>
+	} } @for (subLevel of filteredSubLevels()?.slice(0, 4); track subLevel.id; let i = $index) {
+	@if(subLevel.gameMains.length > 0) {
+	<app-game-list [categoryId]="subLevel.id" [gameCount]="subLevel.gameMains.length" [title]="subLevel.name">
+		<div appDragScroll
+			class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3">
+			@for (game of subLevel.gameMains.slice(0, gamesCount()); track game.id; let i = $index) {
+			<app-game-card [game]="game" [class.mr-3]="subLevel.gameMains.slice(0, gamesCount()).length - 1 === i"
+				(click)="handleGameClick(game)"></app-game-card>
+			}
+		</div>
+	</app-game-list>
+	} } @if (!isFilterActive()) {
+	<app-winners-list [winnersToList]="winnersCount()" (gameClick)="handleGameClick($event)"
+		[games]="subLevels()!"></app-winners-list>
+	} @for (subLevel of filteredSubLevels()?.slice(4, 8); track subLevel.id; let i = $index) {
+	@if(subLevel.gameMains.length > 0) {
+	<app-game-list [categoryId]="subLevel.id" [gameCount]="subLevel.gameMains.length" [title]="subLevel.name">
+		<div appDragScroll
+			class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3">
+			@for (game of subLevel.gameMains.slice(0, gamesCount()); track game.id; let i = $index) {
+			<app-game-card [game]="game" [class.mr-3]="subLevel.gameMains.slice(0, gamesCount()).length - 1 === i"
+				(click)="handleGameClick(game)"></app-game-card>
+			}
+		</div>
+	</app-game-list>
+	} } @if (!isFilterActive()) {
+	<app-top-10-list [categoryId]="1000094" [games]="top10games()"
+		(gameClick)="handleGameClick($event)"></app-top-10-list>
+	} @for (subLevel of filteredSubLevels()?.slice(8); track subLevel.id; let i = $index) {
+	@if(subLevel.gameMains.length > 0) {
+	<app-game-list [categoryId]="subLevel.id" [gameCount]="subLevel.gameMains.length" [title]="subLevel.name">
+		<div appDragScroll
+			class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3">
+			@for (game of subLevel.gameMains.slice(0, gamesCount()); track game.id; let i = $index) {
+			<app-game-card [game]="game" [class.mr-3]="subLevel.gameMains.slice(0, gamesCount()).length - 1 === i"
+				(click)="handleGameClick(game)"></app-game-card>
+			}
+		</div>
+	</app-game-list>
+	} } @if (!isFilterActive()) {
+	<app-providers-carousel [providers]="providers()!" categoryId="providers"></app-providers-carousel>
+	}
+</div>
+
+<app-game-detail-modal [game]="selectedGame()!" [isOpen]="isGameDetailModalOpen()"
+	(closeModal)="closeGameDetails()"></app-game-detail-modal>
+<app-game-filter-modal [isOpen]="isFilterModalOpen()" (closeModal)="closeFilterModal()" [providers]="providers()!"
+	[initialSelectedProviders]="selectedProviders()" (filtersApplied)="onFiltersApplied($event)"></app-game-filter-modal>

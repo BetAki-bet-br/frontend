@@ -1,8 +1,0 @@
-@use "sass:map";
-@use "sass:color";
-@use "src/theme/utils" as utils;
-@import "src/theme/theme-variables";
-
-.username {
-  color: color.adjust(map.get($app-custom-colors, "neutral-white"), $alpha: -0.55);
-}
