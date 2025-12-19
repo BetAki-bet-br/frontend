@@ -4,20 +4,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef,
   ElementRef,
+  Inject,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { DataStoreService } from '@app/@core';
 import { Logger } from '@app/@shared/logger.service';
 import { UsernameOrEmailTakenValidator } from '@app/@shared/validators/username-or-email-taken.validator';
@@ -25,15 +17,8 @@ import { AuthenticationService } from '@app/auth/authentication.service';
 import { Credentials } from '@app/auth/credentials.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { PlayerService, PortalGatewayErrorResponse } from '@icore/ngx-portalgateway-api-client-atl';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Observable, delay, finalize, map, of, switchMap } from 'rxjs';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
-import { LoaderComponent } from '@app/@shared/loader/loader.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface SetUsernameDialogData {
   credentials: Credentials;
@@ -42,29 +27,14 @@ export interface SetUsernameDialogData {
 
 const log = new Logger('SetUsernameDialog');
 
+@UntilDestroy()
 @Component({
   selector: 'app-set-username-dialog',
   templateUrl: './set-username-dialog.component.html',
   styleUrls: ['./set-username-dialog.component.scss'],
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    BaseDialogComponent,
-    LoaderComponent,
-    TranslateModule,
-  ],
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SetUsernameDialogComponent implements OnInit {
-  private dialogRef = inject(DialogRef);
-  data = inject<SetUsernameDialogData>(DIALOG_DATA);
-  private playerService = inject(PlayerService);
-  private authService = inject(AuthenticationService);
-  private cdr = inject(ChangeDetectorRef);
-  private dataStoreService = inject(DataStoreService);
-  private destroyRef = inject(DestroyRef);
   @ViewChild('usernameInput', { static: true }) usernameInput!: ElementRef<HTMLElement>;
 
   error: string = '';
@@ -84,12 +54,21 @@ export class SetUsernameDialogComponent implements OnInit {
     }),
   });
 
+  constructor(
+    private dialogRef: DialogRef,
+    @Inject(DIALOG_DATA) public data: SetUsernameDialogData,
+    private playerService: PlayerService,
+    private authService: AuthenticationService,
+    private cdr: ChangeDetectorRef,
+    private dataStoreService: DataStoreService
+  ) {}
+
   ngOnInit(): void {
     this.usernameForm.controls.username?.addAsyncValidators(this.validateUsernameTaken);
-    this.usernameForm.controls.username?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((val) => {
+    this.usernameForm.controls.username?.valueChanges.pipe(untilDestroyed(this)).subscribe((val) => {
       if (!this.usernameForm.controls.username.touched) this.usernameForm.controls.username.markAllAsTouched();
     });
-    this.usernameForm.controls.username?.statusChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((val) => {
+    this.usernameForm.controls.username?.statusChanges.pipe(untilDestroyed(this)).subscribe((val) => {
       if (val === 'INVALID') {
         this.cdr.markForCheck();
       }
@@ -134,7 +113,7 @@ export class SetUsernameDialogComponent implements OnInit {
         password: this.data.password,
       })
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
+        untilDestroyed(this),
         finalize(() => {
           this.isDataLoading = false;
         })

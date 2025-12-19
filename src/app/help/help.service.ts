@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { I18nService } from '@app/i18n';
 import { TemplateService } from '@icore/ngx-portalgateway-api-client-atl';
@@ -7,9 +7,11 @@ import { TemplateService } from '@icore/ngx-portalgateway-api-client-atl';
   providedIn: 'root',
 })
 export class HelpService {
-  private templateService = inject(TemplateService);
-  private dataStoreService = inject(DataStoreService);
-  private i18nService = inject(I18nService);
+  constructor(
+    private templateService: TemplateService,
+    private dataStoreService: DataStoreService,
+    private i18nService: I18nService
+  ) {}
 
   public getTermsAndConditions() {
     return this.templateService.apiPortalV1TemplateTermsAndConditionsGet(

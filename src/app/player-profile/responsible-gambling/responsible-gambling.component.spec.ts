@@ -24,7 +24,8 @@ describe('ResponsibleGamblingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), ResponsibleGamblingComponent, RenderTemplatePipe],
+      imports: [TranslateModule.forRoot()],
+      declarations: [ResponsibleGamblingComponent, RenderTemplatePipe],
       providers: [
         {
           provide: PlayerService,

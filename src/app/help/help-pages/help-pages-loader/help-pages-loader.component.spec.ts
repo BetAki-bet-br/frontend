@@ -1,10 +1,10 @@
-import { RouterModule } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { PipesModule } from '@app/@pipes/pipes.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { HelpPagesLoaderComponent } from './help-pages-loader.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('HelpPagesLoaderComponent', () => {
   let component: HelpPagesLoaderComponent;
@@ -12,8 +12,8 @@ describe('HelpPagesLoaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PipesModule, TranslateModule.forRoot(), HelpPagesLoaderComponent, RouterModule],
-      providers: [provideHttpClient(withInterceptorsFromDi())],
+      declarations: [HelpPagesLoaderComponent],
+      imports: [RouterTestingModule, HttpClientModule, PipesModule, TranslateModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HelpPagesLoaderComponent);

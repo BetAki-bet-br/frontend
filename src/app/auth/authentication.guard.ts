@@ -1,22 +1,27 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 
 import { Logger } from '@app/@shared/logger.service';
 import { CredentialsService } from './credentials.service';
 import { AuthDialogService } from './auth-dialog.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { finalize } from 'rxjs';
 
 const log = new Logger('AuthenticationGuard');
 
+@UntilDestroy()
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationGuard {
-  private credentialsService = inject(CredentialsService);
-  private authDialog = inject(AuthDialogService);
-  private router = inject(Router);
-
   /** List of routes that must have authentication. */
   authRoutes: string[] = ['/profile'];
+
+  constructor(
+    private credentialsService: CredentialsService,
+    private authDialog: AuthDialogService,
+    private router: Router
+  ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.credentialsService.isAuthenticated()) {

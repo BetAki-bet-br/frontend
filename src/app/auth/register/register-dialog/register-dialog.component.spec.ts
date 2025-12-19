@@ -12,13 +12,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MockCtgApiService } from '@app/@shared/http/ctg-api.service.mock';
 import { PlayerService } from '@icore/ngx-portalgateway-api-client-atl';
 import { ActivatedRoute } from '@angular/router';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { PipesModule } from '@app/@pipes/pipes.module';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegisterDialogComponent', () => {
   let component: RegisterDialogComponent;
@@ -33,10 +32,10 @@ describe('RegisterDialogComponent', () => {
         MatFormFieldModule,
         MatSelectModule,
         MatSnackBarModule,
+        HttpClientTestingModule,
         PipesModule,
-        RegisterDialogComponent,
-        MatAutocomplete,
       ],
+      declarations: [RegisterDialogComponent, MatAutocomplete],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: DIALOG_DATA, useValue: {} },
@@ -45,8 +44,6 @@ describe('RegisterDialogComponent', () => {
         { provide: PlayerService, useClass: MockCtgApiService },
         { provide: ActivatedRoute, useValue: {} },
         { provide: Dialog, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

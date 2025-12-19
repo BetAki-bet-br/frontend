@@ -32,6 +32,68 @@
     <!-- for font assets -->
     <!-- Image is hardcoded to production as we do not have access to "cndize" service here -->
     <link rel="preload" href="/font-icons.ttf" as="font" crossorigin="anonymous" />
+
+    <script>
+      /**
+       * Script is in the "head" so it is loaded as soon as possible.
+       */
+
+      // Variable to hold the JSON data
+      let configData;
+
+      function getAssetsUrl() {
+        const assetsUrl = `${configData.assetsBaseUrl}/${configData.assetsPath}`;
+        return assetsUrl.replace(/([^:])(\/\/+)/g, '$1/');
+      }
+
+      // Function to download and parse JSON file
+      function loadConfig() {
+        fetch('deploy-config.json', {
+          // Disable cache for deploy-config
+          headers: {
+            'Cache-Control': 'no-store,no-cache',
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            configData = data;
+            insertPreloadingDivImageUrl();
+            updateHtml();
+          })
+          .catch((error) => {
+            console.error('There was a problem with the fetch operation:', error);
+          });
+      }
+
+      // Update the links with the assets base url
+      function updateHtml() {
+        const assetsUrl = getAssetsUrl();
+
+        const logoPlaceholderLink = document.getElementById('logo-placeholder-preload');
+        if (logoPlaceholderLink) logoPlaceholderLink.href = `${assetsUrl}/assets/general/logo/betaki-logo.png`;
+
+        const gamePlaceholderLink = document.getElementById('game-placeholder-preload');
+        if (gamePlaceholderLink) gamePlaceholderLink.href = `${assetsUrl}/assets/general/logo/game-placeholder.jpg`;
+      }
+
+      function insertPreloadingDivImageUrl() {
+        const assetsUrl = getAssetsUrl();
+        var style = document.createElement('style');
+        style.innerHTML = `
+          #preloading-div-image {
+          background-image: url(${assetsUrl}/assets/general/logo/betaki-logo.png);
+          }
+        `;
+        document.head.appendChild(style);
+      }
+
+      loadConfig();
+    </script>
   </head>
   <body>
     <!--[if lte IE 11]>
@@ -43,6 +105,22 @@
     <noscript>
       <p>This page requires JavaScript to work properly. Please enable JavaScript in your browser.</p>
     </noscript>
+    <div id="preloading-div">
+      <div
+        id="preloading-div-image"
+        style="
+          width: 318px;
+          height: 144px;
+          background-size: contain;
+          background-position: center;
+          background-repeat: no-repeat;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        "
+      ></div>
+    </div>
     <app-root></app-root>
   </body>
 </html>

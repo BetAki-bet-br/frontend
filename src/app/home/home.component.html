@@ -1,25 +1,25 @@
 <div class="page-container">
   <!-- Main banner -->
-  <app-main-banner class="main-banner" [bannerData]="banners$ | async" [showArrowsMobile]="false" />
+  <app-main-banner class="main-banner" [bannerData]="banners$ | async" [showArrowsMobile]="false"></app-main-banner>
 
   <!-- Category cards (Casino and Sports) -->
-  <div class="category-cards category-cards-padding flex gap-7">
-    <div class="category-item flex flex-col">
+  <div class="category-cards category-cards-padding flex-row gap-28">
+    <div class="category-item flex-col">
       <div class="subtitle-s">{{ 'Casino' | translate }}</div>
       <div>
-        <app-category-card [cardData]="casinoCategoryCard" />
+        <app-category-card [cardData]="casinoCategoryCard"></app-category-card>
       </div>
     </div>
 
-    <div class="category-item flex flex-col">
+    <div class="category-item flex-col">
       <div class="subtitle-s">{{ 'Sports' | translate }}</div>
       <div>
-        <app-category-card [cardData]="sportsCategoryCard" />
+        <app-category-card [cardData]="sportsCategoryCard"></app-category-card>
       </div>
     </div>
   </div>
 
-  <div class="games-page-content casino-wins-padding flex flex-col justify-center items-center content-center">
-    <app-winners-section class="winners-section" [withBackground]="true" [hidePoolJackpot]="true" />
+  <div class="games-page-content casino-wins-padding flex-col justify-center items-center content-center">
+    <app-winners-section class="winners-section" [withBackground]="true" [hidePoolJackpot]="true"></app-winners-section>
   </div>
 </div>

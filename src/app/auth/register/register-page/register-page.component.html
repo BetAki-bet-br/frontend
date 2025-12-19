@@ -1,39 +1,39 @@
-<div class="main-container flex flex-col">
-  <!-- <div class="register-content flex flex-col items-center jusitfy-center gap-32" *ngIf="!registerForm">
-  <span class="title" translate>Welcome to Betaki</span>
-  <span class="subtitle" translate
-    >Sign up using one of the accounts below and enjoy the best betting experience with Betaki.</span
-    >
-    <button mat-button class="register-button" routerLink="form">
-      <mat-icon fontSet="material-icons-outlined"> account_circle </mat-icon>
-      <span translate>Register with e-mail</span>
-    </button>
-  </div>
+<div class="main-container flex-col">
+  <!-- <div class="register-content flex-col items-center jusitfy-center gap-32" *ngIf="!registerForm">
+      <span class="title" translate>Welcome to Betaki</span>
+      <span class="subtitle" translate
+        >Sign up using one of the accounts below and enjoy the best betting experience with Betaki.</span
+      >
+      <button mat-button class="register-button" routerLink="form">
+        <mat-icon fontSet="material-icons-outlined"> account_circle </mat-icon>
+        <span translate>Register with e-mail</span>
+      </button>
+    </div>
 
-  <div class="flex-row width-full items-center justify-center gap-16" *ngIf="!registerForm">
-    <span class="login-span" translate>Already have an account?</span>
-    <button mat-stroked-button class="login-button" routerLink="/sign-in">{{ 'Enter' | translate }}</button>
-  </div> -->
+    <div class="flex-row width-full items-center justify-center gap-16" *ngIf="!registerForm">
+      <span class="login-span" translate>Already have an account?</span>
+      <button mat-stroked-button class="login-button" routerLink="/sign-in">{{ 'Enter' | translate }}</button>
+    </div> -->
   <!-- <app-register-page-init
-  *ngIf="currentPage === 'init'"
-  (registerClick)="currentPage = 'form'"
-></app-register-page-init> -->
-  @if (currentPage === 'form') {
-  <app-register-page-form (registerSuccessful)="onSuccessRegister($event)" />
-  } @if (currentPage === 'success') {
-  <app-register-page-success (verify)="onVerify()" />
-  }
+    *ngIf="currentPage === 'init'"
+    (registerClick)="currentPage = 'form'"
+  ></app-register-page-init> -->
+  <app-register-page-form
+    (registerSuccessful)="onSuccessRegister($event)"
+    *ngIf="currentPage === 'form'"
+  ></app-register-page-form>
+  <app-register-page-success *ngIf="currentPage === 'success'" (verify)="onVerify()"></app-register-page-success>
 
-  <div class="register-bottom-container flex flex-col items-center justify-center">
+  <div class="register-bottom-container flex-col items-center justify-center">
     <button class="live-chat-button" (click)="onChatClick()" mat-button>
-      <div class="flex items-center">
+      <div class="flex-row items-center">
         <div translate class="text">Do you need help?</div>
         <mat-icon>chat</mat-icon>
       </div>
     </button>
-    <div class="flex flex-col items-center">
+    <div class="flex-col items-center">
       <img class="age-icon" [src]="'assets/general/icons/18-plus.svg' | cdnize" />
-      <span translate class="policy-span mt-2">
+      <span translate class="policy-span mt-8">
         <b>Jogue com Responsabilidade</b> <br />
         O jogo deve ser uma forma de entretenimento saudável.<br />
         Pratique sempre o jogo consciente e fique atento aos sinais de comportamento compulsivo.

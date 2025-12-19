@@ -1,20 +1,20 @@
-@use "sass:map" as map;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "src/theme/utils" as util;
+@import "src/theme/theme-variables";
 
 :host {
   width: 100%;
 
-  @include utils.media("sm-2") {
+  @include util.media("sm-2") {
     width: 60%;
   }
 }
 
 .header {
   font-size: 1.5rem;
-  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get($app-custom-colors, "neutral-white");
 
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     font-size: 0.875rem;
 
     margin: 1.5rem 0 1rem;
@@ -25,25 +25,25 @@
   gap: 1rem;
   padding: 3.625rem 0 4rem;
 
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     padding: 1rem 0 2.5rem;
   }
 }
 
 .mobile-padding {
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     padding: 0 1rem;
   }
 }
 
 .mobile-hidden {
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     display: none;
   }
 }
 
 .mobile {
-  @include utils.media("gt-sm-1") {
+  @include util.media("gt-sm-1") {
     display: none;
 
     &.profile-link-container {
@@ -57,7 +57,7 @@
 }
 
 .underline {
-  border-bottom: 2px solid map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  border-bottom: 2px solid map.get($app-custom-colors, "Betaki_error");
   width: 1.5rem;
 }
 
@@ -68,12 +68,12 @@
 }
 
 .title-gray {
-  color: map.get(theme-variables.$app-custom-colors, "ATL_white50");
+  color: map.get($app-custom-colors, "ATL_white50");
   cursor: pointer;
 }
 
 .divider {
-  border-bottom: 1px solid map.get(theme-variables.$app-custom-colors, "ATL_white20");
+  border-bottom: 1px solid map.get($app-custom-colors, "ATL_white20");
   margin-top: 0.5rem;
   margin-left: -1.5rem;
   margin-right: -1.5rem;

@@ -5,9 +5,9 @@ import {
   ChangeDetectorRef,
   Component,
   HostListener,
+  Inject,
   OnDestroy,
   OnInit,
-  inject,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { DataStoreService } from '@app/@core';
@@ -19,8 +19,6 @@ import {
   FaceAuthenticationProcessStatusEnum,
   WithdrawalFaceAuthProcessResponse,
 } from '@icore/ngx-portalgateway-api-client-atl';
-import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 const log = new Logger('FaceAuthenticatorDialogComponent');
 
@@ -41,17 +39,8 @@ export type FaceAuthenticatorDialogResultType = FaceAuthenticatorDialogResult | 
   templateUrl: './face-authenticator-dialog.component.html',
   styleUrls: ['./face-authenticator-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, MatProgressSpinner],
 })
 export class FaceAuthenticatorDialogComponent implements OnInit, OnDestroy {
-  private dialogRef = inject<DialogRef<FaceAuthenticatorDialogResultType>>(DialogRef);
-  private data = inject<FaceAuthenticatorDialogData>(DIALOG_DATA);
-  private authenticationService = inject(AuthenticationService);
-  private paymentsService = inject(PaymentsService);
-  private dataStoreService = inject(DataStoreService);
-  private sanitizer = inject(DomSanitizer);
-  private cdr = inject(ChangeDetectorRef);
-
   safeUrl: SafeResourceUrl | undefined;
   isLoading = false;
 
@@ -85,6 +74,16 @@ export class FaceAuthenticatorDialogComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  constructor(
+    private dialogRef: DialogRef<FaceAuthenticatorDialogResultType>,
+    @Inject(DIALOG_DATA) private data: FaceAuthenticatorDialogData,
+    private authenticationService: AuthenticationService,
+    private paymentsService: PaymentsService,
+    private dataStoreService: DataStoreService,
+    private sanitizer: DomSanitizer,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     const faceAuthUrl = this.dataStoreService.isDeviceMobile()

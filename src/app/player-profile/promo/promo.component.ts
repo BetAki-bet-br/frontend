@@ -1,27 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  ViewChild,
-  inject,
-  DestroyRef,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatTabChangeEvent, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import { Logger } from '@app/@shared';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Logger, UntilDestroy, untilDestroyed } from '@app/@shared';
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { PlayerBonusDataResolved, PlayerBonusResolved } from '@app/@shared/models';
 import { BonusesService } from '@app/@shared/services/bonuses.service';
 import { BonusProductTypeSummary } from '@icore/ngx-portalgateway-api-client-atl';
 import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { TemplateService } from '@app/@shared/services/template.service';
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
+import { Dialog } from '@angular/cdk/dialog';
 import { ActionIdEnum } from '@app/@shared/models/template.model';
 import { Banner } from '@app/@shared/models';
 import {
@@ -29,58 +17,19 @@ import {
   BonusOptInResultEnum,
 } from './bonus-opt-in-result-dialog/bonus-opt-in-result-dialog.component';
 import { CmsService } from '@app/@shared/services/cms.service';
-import { PlayerStatusService } from '@app/@shared/services/player.status.service';
+import { PlayerStatusService } from '@app/@shared/services/player.service';
 import { DataStoreService } from '@app/@core';
-import { CommonModule, DecimalPipe } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { TranslateModule } from '@ngx-translate/core';
-import { BonusOfferingComponent } from './bonus-offering/bonus-offering.component';
-import { BonusOngoingComponent } from './bonus-ongoing/bonus-ongoing.component';
-import { BonusActiveComponent } from './bonus-active/bonus-active.component';
-import { BonusHistoryComponent } from './bonus-history/bonus-history.component';
-import { MatTabScrollToCenterDirective } from '@app/@shared/directives/mat-tab-scroll-to-center.directive';
 
 const log = new Logger('PromoComponent');
 
+@UntilDestroy()
 @Component({
   selector: 'app-promo',
   templateUrl: './promo.component.html',
   styleUrls: ['./promo.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTabsModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
-    PageBreadcrumbsComponent,
-    BonusOfferingComponent,
-    BonusOngoingComponent,
-    BonusActiveComponent,
-    BonusHistoryComponent,
-    DecimalPipe,
-    DialogModule,
-    MatTabScrollToCenterDirective,
-  ],
 })
 export class PromoComponent implements OnInit {
-  toastService = inject(SnackbarService);
-  private bonusesService = inject(BonusesService);
-  private cdr = inject(ChangeDetectorRef);
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private templateService = inject(TemplateService);
-  private dialog = inject(Dialog);
-  private cmsService = inject(CmsService);
-  private playerService = inject(PlayerStatusService);
-  private destroyRef = inject(DestroyRef);
-  dataStoreService = inject(DataStoreService);
-
   @ViewChild(MatTabGroup) tabGroup?: MatTabGroup;
 
   selectedIndex = 0;
@@ -116,8 +65,21 @@ export class PromoComponent implements OnInit {
     },
   ];
 
+  constructor(
+    public toastService: SnackbarService,
+    private bonusesService: BonusesService,
+    private cdr: ChangeDetectorRef,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private templateService: TemplateService,
+    private dialog: Dialog,
+    private cmsService: CmsService,
+    private playerService: PlayerStatusService,
+    public dataStoreService: DataStoreService
+  ) {}
+
   ngOnInit(): void {
-    this.playerService.balanceSub$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((balance) => {
+    this.playerService.balanceSub$.pipe(untilDestroyed(this)).subscribe((balance) => {
       this.casinoBonusBalanceAmount = balance?.bonusCasinoBalance ?? 0;
       this.sportsbookBonusBalanceAmount = balance?.bonusSportsbookBalance ?? 0;
 
@@ -127,7 +89,7 @@ export class PromoComponent implements OnInit {
       );
     });
 
-    this.activatedRoute.data.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+    this.activatedRoute.data.pipe(untilDestroyed(this)).subscribe((params) => {
       const index = +params['tabIndex'];
       if (!isNaN(index)) {
         this.selectedIndex = index;
@@ -146,7 +108,7 @@ export class PromoComponent implements OnInit {
         switchMap(() => {
           return this.templateService.templateActionSub$;
         }),
-        takeUntilDestroyed(this.destroyRef)
+        untilDestroyed(this)
       )
       .subscribe((templateAction) => {
         if (templateAction) {
@@ -156,7 +118,7 @@ export class PromoComponent implements OnInit {
         }
       });
 
-    this.bannerPromotions$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
+    this.bannerPromotions$.pipe(untilDestroyed(this)).subscribe((res) => {
       this.bannerOfferList = res.currentBannersLarge;
 
       this.cdr.markForCheck();
@@ -170,7 +132,7 @@ export class PromoComponent implements OnInit {
         playerBonusId: playerBonusId,
       });
 
-      bonusAction$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+      bonusAction$?.pipe(untilDestroyed(this)).subscribe({
         next: (response) => {
           log.debug('bonusAction reponse:', response);
 
@@ -184,7 +146,7 @@ export class PromoComponent implements OnInit {
           );
 
           // on dialog closed
-          dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
+          dialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {
             this.refreshBonuses$.next();
             // navigate to Offering tab
             this.router.navigate(['/profile/promo/ongoing']);
@@ -203,7 +165,7 @@ export class PromoComponent implements OnInit {
           );
 
           // on dialog closed
-          dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
+          dialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {
             this.refreshBonuses$.next();
           });
         },

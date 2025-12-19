@@ -1,6 +1,6 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/theme-variables" as vars;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/theme-variables" as vars;
 /* stylelint-disable declaration-no-important */
 
 .mdc-radio__outer-circle {

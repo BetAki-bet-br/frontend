@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -6,11 +6,9 @@ import { filter } from 'rxjs';
   providedIn: 'root',
 })
 export class NavigationService {
-  private router = inject(Router);
-
   private history: { url: string; scrollY: number }[] = [];
 
-  constructor() {
+  constructor(private router: Router) {
     this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => {
       this.history.push({
         url: this.router.url,

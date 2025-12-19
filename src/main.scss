@@ -1,40 +1,37 @@
-@use "theme/theme";
-@use "tailwindcss";
+/*
+ * Entry point of global application style.
+ * Component-specific style should not go here and be included directly as part of the components.
+ */
 
-@theme {
-  --breakpoint-xs: 30rem;
-  --font-sans: "Heveltica Neue", sans-serif;
-  --font-alt: "Inter", sans-serif;
-  --color-accent-highlight: #e8fb20;
-  --color-accent: #c6d42d;
-  // --color-white: #e4eaf2;
-  --color-betaki-200: #fcff92;
-  --color-betaki-400: #e8fb20;
-  --color-black: #1e1e1e;
-  --color-alt-light: #e0e0e0;
-  --color-betaki-500: #869502;
-  // --color-betaki-darker: #596308;
-  // --color-betaki-darker: #394006;
-  --color-betaki-darker: #454d0a;
-  --color-betaki-600: #9db500;
-  --color-betaki-800: #5d6c08;
-  --color-shark-50: #fff;
-  --color-shark-100: #f1f1f1;
-  --color-shark-200: #e2e2e2;
-  --color-shark-300: #c4c4c4;
-  --color-shark-400: #8e8e8e;
-  --color-auth-placeholder: #090b014d;
-  --color-shark-500: #727272;
-  --color-shark-600: #595959;
-  --color-shark-700: #424242;
-  --color-shark-800: #2a2a2a;
-  --color-shark-900: #151515;
-  --color-shark-950: #070707;
-  --header-height-desktop: 64px;
-  --header-height-mobile: 55px;
-  --winer-card-background: linear-gradient(135deg, var(--color-shark-950) 0%, var(--color-shark-900) 100%);
-}
+@use "@angular/material" as mat;
 
-body.sidebar-open {
-  overflow: hidden;
-}
+// Theme variables, must be included before the libraries to allow overriding defaults
+@import "theme/theme-variables";
+
+// 3rd party libraries
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+// Typography is defined in the app-theme
+// @include mat.all-component-typographies($custom-typography);
+@include mat.core();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($app-theme);
+
+// Theme fonts
+@import "theme/theme-fonts";
+
+// Theme customization
+@import "theme/theme";
+
+// Template styles
+@import "@icore/ngx-atl-pp-templates-shared/index";
+
+// Swiper
+@import "swiper/scss";
+@import "swiper/scss/navigation";
+@import "swiper/scss/pagination";

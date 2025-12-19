@@ -1,11 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { Logger } from '@app/@shared/logger.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import {
@@ -13,42 +9,19 @@ import {
   GetPlayerContactPreferencesResponse,
   UpdatePlayerContactPrefRequest,
 } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field'; // For mat-label
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('ProfileSettingsSubscriptionsComponent');
 
+@UntilDestroy()
 @Component({
   selector: 'app-profile-settings-subscriptions',
   templateUrl: './profile-settings-subscriptions.component.html',
   styleUrls: ['./profile-settings-subscriptions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatExpansionModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    PageBreadcrumbsComponent,
-  ],
 })
 export class ProfileSettingsSubscriptionsComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private playerProfileService = inject(PlayerProfileService);
-  private snackbarService = inject(SnackbarService);
-  private translateService = inject(TranslateService);
-  private destroyRef = inject(DestroyRef);
-
   breadcrumbs: Breadcrumbs[] = [
     {
       svgIcon: 'essentials-home',
@@ -74,6 +47,13 @@ export class ProfileSettingsSubscriptionsComponent implements OnInit {
   });
 
   private contactPreferences!: GetPlayerContactPreferencesResponse | UpdatePlayerContactPrefRequest | null;
+
+  constructor(
+    private fb: FormBuilder,
+    private playerProfileService: PlayerProfileService,
+    private snackbarService: SnackbarService,
+    private translateService: TranslateService
+  ) {}
 
   get receiveExclusiveOffersAndBonuses() {
     return this.subscriptionsForm.get('receiveExclusiveOffersAndBonuses')?.value;
@@ -108,7 +88,7 @@ export class ProfileSettingsSubscriptionsComponent implements OnInit {
 
     // on receive promos by email change
     this.subscriptionsForm.controls.receiveExclusiveOffersAndBonuses.valueChanges
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(untilDestroyed(this))
       .subscribe((value) => {
         this.subscriptionsForm.patchValue({
           receivePromosBySMS: value,
@@ -140,7 +120,7 @@ export class ProfileSettingsSubscriptionsComponent implements OnInit {
   private loadData() {
     this.playerProfileService
       .getContactPreferences()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(untilDestroyed(this))
       .subscribe({
         next: (getContactPreferences) => {
           this.contactPreferences = getContactPreferences ?? null;
@@ -171,7 +151,7 @@ export class ProfileSettingsSubscriptionsComponent implements OnInit {
 
     this.playerProfileService
       .updateContactPreferences(request)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(untilDestroyed(this))
       .subscribe({
         next: (response) => {
           this.snackbarService.openCustomSuccess(

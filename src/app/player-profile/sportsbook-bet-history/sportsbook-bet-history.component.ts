@@ -1,39 +1,19 @@
-import { MatButtonModule } from '@angular/material/button';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  inject,
-  DestroyRef,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
-import { DateAdapter, MatOption } from '@angular/material/core';
-import { MatPaginatorIntl, PageEvent, MatPaginator } from '@angular/material/paginator';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
+import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { TwentyFourDateFormat } from '@app/@core/date-formats';
 import { GenericDataModel, TableColumn } from '@app/@shared/components/base-table/base-table.component';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { SportsbookBetHistoryModelResolved, TransactionStatusEnum } from '@app/@shared/models';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { switchMap } from 'rxjs';
 import { PlayerProfileService } from '../player-profile.service';
 import { BetStatusEnum } from '@icore/ngx-portalgateway-api-client-atl';
-import { MatFormField, MatError } from '@angular/material/form-field';
-import { MatSelect } from '@angular/material/select';
-import { MatIcon } from '@angular/material/icon';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatExpansionPanelHeader, MatExpansionModule } from '@angular/material/expansion';
-import { MatDivider } from '@angular/material/divider';
-import { DatePipe, UpperCasePipe } from '@angular/common';
-import { MatNativeDateModule } from '@angular/material/core';
 
 export interface SportsbookBetHistoryFormGroup {
   period: FormControl<IdLabel | null>;
@@ -48,44 +28,14 @@ export interface IdLabel {
   label: string;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-sportsbook-bet-history',
   templateUrl: './sportsbook-bet-history.component.html',
   styleUrls: ['./sportsbook-bet-history.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    PageBreadcrumbsComponent,
-    MatFormField,
-    MatError,
-    MatSelect,
-    MatOption,
-    MatIcon,
-    MatDatepickerModule,
-    MatInputModule,
-    MatExpansionPanelHeader,
-    MatExpansionModule,
-    MatPaginator,
-    MatButtonModule,
-    TranslateModule,
-    MatDivider,
-    UpperCasePipe,
-    DatePipe,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    ReactiveFormsModule,
-  ],
 })
 export class SportsbookHistoryComponent implements OnInit {
-  dataStoreService = inject(DataStoreService);
-  private configurationService = inject(ConfigurationService);
-  private playerProfileService = inject(PlayerProfileService);
-  private cdr = inject(ChangeDetectorRef);
-  private deviceService = inject(DeviceDetectorService);
-  private dateAdapter = inject<DateAdapter<any>>(DateAdapter);
-  private translateService = inject(TranslateService);
-  private paginatorIntl = inject(MatPaginatorIntl);
-  private destroyRef = inject(DestroyRef);
-
   breadcrumbs: Breadcrumbs[] = [
     {
       svgIcon: 'essentials-home',
@@ -159,7 +109,16 @@ export class SportsbookHistoryComponent implements OnInit {
 
   playerCurrency: string = '';
 
-  constructor() {
+  constructor(
+    public dataStoreService: DataStoreService,
+    private configurationService: ConfigurationService,
+    private playerProfileService: PlayerProfileService,
+    private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService,
+    private dateAdapter: DateAdapter<any>,
+    private translateService: TranslateService,
+    private paginatorIntl: MatPaginatorIntl
+  ) {
     this.dateAdapter.setLocale(this.playerProfileService.getPlayerLocale());
   }
 
@@ -182,7 +141,7 @@ export class SportsbookHistoryComponent implements OnInit {
 
     this.filterForm
       .get('period')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      ?.valueChanges.pipe(untilDestroyed(this))
       .subscribe((value) => {
         if (value) {
           const today = new Date();
@@ -222,7 +181,7 @@ export class SportsbookHistoryComponent implements OnInit {
 
     this.filterForm
       .get('dateFrom')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      ?.valueChanges.pipe(untilDestroyed(this))
       .subscribe((value: Date | null) => {
         if (value) {
           value.setHours(0, 0, 0, 0);
@@ -241,7 +200,7 @@ export class SportsbookHistoryComponent implements OnInit {
 
     this.filterForm
       .get('dateTo')
-      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      ?.valueChanges.pipe(untilDestroyed(this))
       .subscribe((value: Date | null) => {
         if (value) {
           value.setHours(23, 59, 59, 999);
@@ -283,7 +242,7 @@ export class SportsbookHistoryComponent implements OnInit {
     if (element.wasExpanded !== true && element.settleId) {
       this.playerProfileService
         .getTransactionDetails(element.settleId.toString())
-        .pipe(takeUntilDestroyed(this.destroyRef))
+        .pipe(untilDestroyed(this))
         .subscribe((result) => {
           element.transactionDetails = result;
           if (result?.length > 0) {
@@ -328,7 +287,7 @@ export class SportsbookHistoryComponent implements OnInit {
           return this.playerProfileService.getSportsbookBetHistory(this.filterForm.value);
         })
       )
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(untilDestroyed(this))
       .subscribe({
         next: (data) => {
           this.tableData = data.historyListResolved ? [...data.historyListResolved] : [];

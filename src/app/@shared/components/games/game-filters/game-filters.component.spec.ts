@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { GameFiltersComponent } from './game-filters.component';
 import { GlobalizationService, PlayerService, ProdGameService } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule } from '@ngx-translate/core';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { MockCtgApiService } from '@app/@shared/http/ctg-api.service.mock';
 import {
   MAT_BOTTOM_SHEET_DATA,
@@ -25,7 +25,8 @@ describe('GameFiltersComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), MatBottomSheetModule, GameFiltersComponent],
+      declarations: [GameFiltersComponent],
+      imports: [TranslateModule.forRoot(), HttpClientModule, MatBottomSheetModule],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: MatBottomSheet, useValue: {} },
@@ -36,7 +37,6 @@ describe('GameFiltersComponent', () => {
         { provide: GlobalizationService, useValue: {} },
         { provide: PlayerService, useClass: MockCtgApiService },
         { provide: ProdGameService, useClass: MockCtgApiService },
-        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

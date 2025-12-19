@@ -1,7 +1,7 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 :host {
   width: 100%;
@@ -18,7 +18,7 @@ textarea {
   flex-direction: column;
 
   .form-field-label {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get($app-custom-colors, "betaki-black100");
     font-size: 1rem;
     margin-bottom: 0;
     font-weight: 600;
@@ -33,7 +33,7 @@ textarea {
   flex-direction: column;
 
   .form-field-label {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get($app-custom-colors, "betaki-black100");
     font-size: 0.75rem;
     margin-bottom: 0;
     margin-left: 1rem;
@@ -72,7 +72,7 @@ textarea {
 }
 
 .email-verified-container {
-  color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+  color: map.get($app-custom-colors, "betaki-grey100");
 
   mat-icon {
     font-size: 1rem;
@@ -93,5 +93,5 @@ textarea {
 }
 
 .spinner-on-button {
-  --mat-progress-spinner-active-indicator-color: black;
+  --mdc-circular-progress-active-indicator-color: black;
 }

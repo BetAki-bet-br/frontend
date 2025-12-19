@@ -1,5 +1,5 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
@@ -72,18 +72,20 @@ export enum AccountVerificationActionEnum {
   providedIn: 'root',
 })
 export class AuthDialogService {
-  private playerServiceApi = inject(PlayerService);
-  private messageServiceApi = inject(MessageService);
-  private credentialsService = inject(CredentialsService);
-  private authenticationService = inject(AuthenticationService);
-  private configurationService = inject(ConfigurationService);
-  private playerProfileService = inject(PlayerProfileService);
-  private dataStoreService = inject(DataStoreService);
-  private snackbarService = inject(SnackbarService);
-  private dialog = inject(Dialog);
-  private router = inject(Router);
-  private popupMessageService = inject(PopupMessagesService);
-  private translate = inject(TranslateService);
+  constructor(
+    private playerServiceApi: PlayerService,
+    private messageServiceApi: MessageService,
+    private credentialsService: CredentialsService,
+    private authenticationService: AuthenticationService,
+    private configurationService: ConfigurationService,
+    private playerProfileService: PlayerProfileService,
+    private dataStoreService: DataStoreService,
+    private snackbarService: SnackbarService,
+    private dialog: Dialog,
+    private router: Router,
+    private popupMessageService: PopupMessagesService,
+    private translate: TranslateService
+  ) {}
 
   initAccountVerificationWithParams(
     accountVerificationAction: AccountVerificationActionEnum,

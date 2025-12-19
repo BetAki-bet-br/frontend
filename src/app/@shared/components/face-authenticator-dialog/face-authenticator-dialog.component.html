@@ -1,19 +1,11 @@
-<app-base-dialog
-  width="40.375rem"
-  height="100%"
-  [displayTopBar]="false"
-  [displayCloseButton]="false"
-  customClass="bg-[#3C3B3B]!"
->
-  <div dialogContent class="iframe-container">
-    @if (safeUrl && !isLoading) {
+<app-base-dialog width="40.375rem" height="100%" [displayCloseButton]="true">
+  <div dialogContent class="iframe-container flex items-center justify-center">
     <iframe
+      *ngIf="safeUrl && !isLoading"
       [src]="safeUrl"
       frameborder="0"
       allow="geolocation;camera;fullscreen;accelerometer;gyroscope;magnetometer;"
     ></iframe>
-    } @if (isLoading) {
-    <mat-spinner />
-    }
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
   </div>
 </app-base-dialog>

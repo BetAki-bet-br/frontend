@@ -2,37 +2,28 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef,
   Input,
   OnInit,
   TemplateRef,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { WinnersItemResolved } from '@app/@shared/models';
 import { CredentialsService } from '@app/auth/credentials.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, Observable, switchMap } from 'rxjs';
-import { TableColumn, BaseTableComponent } from '../../base-table/base-table.component';
+import { TableColumn } from '../../base-table/base-table.component';
 import { getDesktopTableColumns, getMobileTableColumns } from './table.config';
-import { TranslateModule } from '@ngx-translate/core';
-import { DecimalPipe } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+@UntilDestroy()
 @Component({
   selector: 'app-casino-wins',
   templateUrl: './casino-wins.component.html',
   styleUrls: ['./casino-wins.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseTableComponent, TranslateModule, DecimalPipe],
 })
 export class CasinoWinsComponent implements OnInit {
-  dataStoreService = inject(DataStoreService);
-  private credentialService = inject(CredentialsService);
-  private configurationService = inject(ConfigurationService);
-  private cdr = inject(ChangeDetectorRef);
-  private destroyRef = inject(DestroyRef);
   @ViewChild('currencyTemplate', { static: true }) currencyTemplate?: TemplateRef<any>;
   @ViewChild('usernameTemplate', { static: true }) usernameTemplate?: TemplateRef<any>;
   @ViewChild('gameUsernameTemplate', { static: true }) gameUsernameTemplate?: TemplateRef<any>;
@@ -48,6 +39,13 @@ export class CasinoWinsComponent implements OnInit {
   isDataLoading = false;
   playerCurrency: string | undefined = this.dataStoreService.defaultCurrency;
 
+  constructor(
+    public dataStoreService: DataStoreService,
+    private credentialService: CredentialsService,
+    private configurationService: ConfigurationService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
   ngOnInit(): void {
     this.tableColumnsDesktop = getDesktopTableColumns(this.usernameTemplate, this.currencyTemplate);
     this.tableColumnsMobile = getMobileTableColumns(
@@ -58,7 +56,7 @@ export class CasinoWinsComponent implements OnInit {
 
     this.credentialService.isAuthenticated$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
+        untilDestroyed(this),
         filter((isAuth) => isAuth === true),
         switchMap(() => {
           return this.configurationService.getPlayerInfo();
@@ -72,7 +70,7 @@ export class CasinoWinsComponent implements OnInit {
   }
 
   private loadData() {
-    this.latestWinners$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
+    this.latestWinners$?.pipe(untilDestroyed(this)).subscribe({
       next: (data) => {
         if (data && data !== null && data.length > 0) {
           this.tableData = [...data];

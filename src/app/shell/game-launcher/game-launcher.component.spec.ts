@@ -9,13 +9,12 @@ import {
   PlayerService,
   ProdGameService,
 } from '@icore/ngx-portalgateway-api-client-atl';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Dialog } from '@angular/cdk/dialog';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { EllipsisPipe } from '@app/@pipes/ellipsis.pipe';
 import { PlayerStatusService } from '@app/@shared/services/player.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('GameLauncherComponent', () => {
   let component: GameLauncherComponent;
@@ -23,7 +22,8 @@ describe('GameLauncherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), MatSnackBarModule, GameLauncherComponent],
+      declarations: [GameLauncherComponent],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule, MatSnackBarModule],
       providers: [
         { provide: LoyaltyService, useValue: {} },
         { provide: BalanceService, useValue: {} },
@@ -34,8 +34,6 @@ describe('GameLauncherComponent', () => {
         RenderTemplatePipe,
         EllipsisPipe,
         { provide: PlayerStatusService, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

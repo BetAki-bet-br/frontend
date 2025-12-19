@@ -1,4 +1,3 @@
-import { RouterModule } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MatInputModule } from '@angular/material/input';
@@ -23,11 +22,10 @@ import { PlayerProfileService } from '@app/player-profile/player-profile.service
 import { PlayerProfileServiceMock } from '@app/player-profile/player-profile.service.mock';
 import { AuthenticationService } from '@app/auth';
 import { MockAuthenticationService } from '@app/auth/authentication.service.mock';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ProfileSettingsSecurityComponent', () => {
   let component: ProfileSettingsSecurityComponent;
@@ -35,16 +33,16 @@ describe('ProfileSettingsSecurityComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [ProfileSettingsSecurityComponent, RenderTemplatePipe],
       imports: [
         TranslateModule.forRoot(),
         MatInputModule,
         BrowserAnimationsModule,
         MatSnackBarModule,
+        RouterTestingModule,
         MatFormFieldModule,
         MatSelectModule,
-        ProfileSettingsSecurityComponent,
-        RenderTemplatePipe,
-        RouterModule,
+        HttpClientTestingModule,
       ],
       providers: [
         {
@@ -62,8 +60,6 @@ describe('ProfileSettingsSecurityComponent', () => {
         { provide: PlayerProfileService, useClass: PlayerProfileServiceMock },
         { provide: DialogRef, useValue: {} },
         { provide: AuthenticationService, useClass: MockAuthenticationService },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

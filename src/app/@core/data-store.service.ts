@@ -14,7 +14,7 @@
  * you may have.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Logger } from '@app/@shared/logger.service';
 import { Banner, LatestWinnersCache } from '@app/@shared/models';
 import { GameMenuCategoryModel, GameProviderData, GameTile } from '@app/@shared/models/game.model';
@@ -98,10 +98,6 @@ export interface CurrentBannersData {
   providedIn: 'root',
 })
 export class DataStoreService {
-  private deviceService = inject(DeviceDetectorService);
-  private i18nService = inject(I18nService);
-  private externalConfigsLoader = inject(ExternalConfigsLoader);
-
   public credentials: Credentials | null = null;
 
   readonly DECIMAL_SEPARATOR = '.';
@@ -250,9 +246,11 @@ export class DataStoreService {
     this.balanceVisibilityChange.next(this.balanceVisible);
   }
 
-  constructor() {
-    const externalConfigsLoader = this.externalConfigsLoader;
-
+  constructor(
+    private deviceService: DeviceDetectorService,
+    private i18nService: I18nService,
+    private externalConfigsLoader: ExternalConfigsLoader
+  ) {
     this.setDevicePortalID();
     externalConfigsLoader.configsLoaded$.subscribe((loaded) => {
       if (loaded) {

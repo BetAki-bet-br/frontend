@@ -1,13 +1,13 @@
-import { Directive, HostListener, ElementRef, inject } from '@angular/core';
+import { Directive, HostListener, ElementRef } from '@angular/core';
 
 @Directive({
   selector: '[appTrimInput]',
 })
 export class TrimInputDirective {
-  private el = inject(ElementRef);
+  constructor(private el: ElementRef) {}
 
   @HostListener('input', ['$event'])
-  onInput(event: Event) {
+  onInput() {
     const input = this.el.nativeElement;
     input.value = input.value.replace(/\s/g, '');
   }

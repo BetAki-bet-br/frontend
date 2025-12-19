@@ -1,7 +1,7 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as util;
+@import "src/theme/theme-variables";
 
 :host {
   width: 100%;
@@ -15,7 +15,7 @@ mat-checkbox {
   padding: 2.5rem 0 4rem;
   gap: 1rem;
 
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     padding: 1rem 0 2.5rem;
   }
 }
@@ -28,7 +28,7 @@ mat-checkbox {
     margin-right: 0;
     margin-left: auto;
     border: none;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+    color: map.get($app-custom-colors, "betaki-green100");
     cursor: pointer;
 
     .button-icon {
@@ -43,7 +43,7 @@ mat-checkbox {
 
     &:disabled {
       cursor: default;
-      color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+      color: map.get($app-custom-colors, "betaki-grey100");
     }
   }
 }
@@ -53,7 +53,7 @@ mat-checkbox {
   padding-bottom: 0;
   padding-left: 0;
   border-radius: 0.375rem;
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  background-color: map.get($app-custom-colors, "neutral-white");
 }
 
 .container-right {
@@ -62,14 +62,14 @@ mat-checkbox {
   align-self: center;
 
   .right-text {
-    color: map.get(theme-variables.$app-custom-colors, "neutral-45");
+    color: map.get($app-custom-colors, "neutral-45");
   }
 
   .arrow-button {
     border: none;
-    background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    background-color: map.get($app-custom-colors, "neutral-white");
     margin-right: 1rem;
-    color: map.get(theme-variables.$app-custom-colors, "neutral-45");
+    color: map.get($app-custom-colors, "neutral-45");
 
     mat-icon {
       vertical-align: middle;
@@ -87,13 +87,13 @@ mat-checkbox {
 
 .divider {
   height: 0.25rem;
-  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  background-color: map.get($app-custom-colors, "betaki-grey30");
 }
 
 .expandable-content {
   padding: 0 0 0 0.125rem;
-  color: map.get(theme-variables.$app-custom-colors, "neutral-45");
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get($app-custom-colors, "neutral-45");
+  background-color: map.get($app-custom-colors, "neutral-white");
 }
 
 .pager-container {
@@ -110,7 +110,7 @@ mat-checkbox {
     flex-direction: row;
     gap: 0.25rem;
     font-size: 0.75rem;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get($app-custom-colors, "betaki-black100");
   }
 
   .pager-navigation {
@@ -123,14 +123,14 @@ mat-checkbox {
       height: 1rem;
       font-size: 1rem;
       cursor: pointer;
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      color: map.get($app-custom-colors, "betaki-black100");
     }
 
     .navigation-icon-disabled {
       width: 1rem;
       height: 1rem;
       font-size: 1rem;
-      color: map.get(theme-variables.$app-custom-colors, "betaki-grey80");
+      color: map.get($app-custom-colors, "betaki-grey80");
     }
   }
 }

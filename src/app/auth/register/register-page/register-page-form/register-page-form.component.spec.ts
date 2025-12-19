@@ -5,11 +5,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PipesModule } from '@app/@pipes/pipes.module';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegisterPageFormComponent', () => {
   let component: RegisterPageFormComponent;
@@ -17,20 +16,17 @@ describe('RegisterPageFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [RegisterPageFormComponent],
       imports: [
         TranslateModule.forRoot(),
         MatInputModule,
         BrowserAnimationsModule,
         MatFormFieldModule,
+        HttpClientTestingModule,
         PipesModule,
         MatSnackBarModule,
-        RegisterPageFormComponent,
       ],
-      providers: [
-        { provide: Dialog, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-      ],
+      providers: [{ provide: Dialog, useValue: {} }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterPageFormComponent);

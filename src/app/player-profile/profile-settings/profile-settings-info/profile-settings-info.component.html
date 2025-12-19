@@ -1,5 +1,5 @@
 <div class="player-profile-page-container" [formGroup]="profileGeneralForm">
-  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs"></app-page-breadcrumbs>
 
   <div class="section-data">
     <div class="section-title" translate>Identification data</div>
@@ -7,7 +7,7 @@
     <div class="page-section-multiple">
       <div class="section-item-container">
         <div class="section-item">
-          <mat-icon class="item-icon-2" svgIcon="profile-full-name" />
+          <mat-icon class="item-icon-2" svgIcon="profile-full-name"></mat-icon>
           <div class="field-wrapper">
             <div class="form-field-label" translate>Full name</div>
             <mat-form-field appearance="outline" class="form-input-readonly" subscriptSizing="dynamic">
@@ -17,11 +17,11 @@
         </div>
       </div>
 
-      <mat-divider class="mat-divider" />
+      <mat-divider class="mat-divider"></mat-divider>
 
       <div class="section-item-container">
         <div class="section-item">
-          <mat-icon class="item-icon-2" svgIcon="profile-cpf" />
+          <mat-icon class="item-icon-2" svgIcon="profile-cpf"></mat-icon>
           <div class="field-wrapper">
             <div class="form-field-label" translate>CPF</div>
             <mat-form-field appearance="outline" class="form-input-readonly" subscriptSizing="dynamic">
@@ -31,11 +31,11 @@
         </div>
       </div>
 
-      <mat-divider class="mat-divider" />
+      <mat-divider class="mat-divider"></mat-divider>
 
       <div class="section-item-container">
         <div class="section-item">
-          <mat-icon class="item-icon-2" svgIcon="profile-dob" />
+          <mat-icon class="item-icon-2" svgIcon="profile-dob"></mat-icon>
           <div class="field-wrapper">
             <div class="form-field-label" translate>Date of birth</div>
             <mat-form-field appearance="outline" class="form-input-readonly" subscriptSizing="dynamic">
@@ -54,7 +54,7 @@
       <div class="section-item-container nowrap">
         <div class="section-item wrap">
           <div class="section-item">
-            <mat-icon class="item-icon-2" svgIcon="profile-location" />
+            <mat-icon class="item-icon-2" svgIcon="profile-location"></mat-icon>
             <div class="field-wrapper address">
               <div class="form-field-label" translate>Address</div>
               <mat-form-field appearance="outline" class="form-input-readonly" subscriptSizing="dynamic">
@@ -72,31 +72,25 @@
           </div>
 
           <div class="section-actions no-fullwidth">
-            @if (!editAddressActive) {
-            <div class="section-action-edit" (click)="onEditAddress()">
+            <div class="section-action-edit" (click)="onEditAddress()" *ngIf="!editAddressActive">
               <span translate>Edit</span>
             </div>
-            } @if (editAddressActive) {
-            <div class="section-action-edit-disabled">
+            <div class="section-action-edit-disabled" *ngIf="editAddressActive">
               <span translate>Edit</span>
             </div>
-            }
           </div>
         </div>
       </div>
-      @if (editAddressActive) {
-      <div class="section-item-container mt-6">
+      <div class="section-item-container mt-24" *ngIf="editAddressActive">
         <div class="section-item-collapsable">
           <div class="field-wrapper-edit">
             <div class="form-field-label" translate>Country</div>
             <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
               <!-- <input matInput type="text" formControlName="country" /> -->
               <mat-select formControlName="country" placeholder="Select" class="no-arrow">
-                @for (item of countryList; track item) {
-                <mat-option [value]="item">
+                <mat-option *ngFor="let item of countryList" [value]="item">
                   {{ item.name }}
                 </mat-option>
-                }
               </mat-select>
             </mat-form-field>
           </div>
@@ -124,7 +118,7 @@
               <input matInput type="text" formControlName="houseNumber" />
             </mat-form-field>
           </div>
-          <div class="section-actions flex gap-4 full-width mt-2">
+          <div class="section-actions flex-row gap-16 full-width mt-8">
             <button mat-button class="section-action-2 flex-grow" (click)="onCancelAddress()">
               <span translate>Cancel</span>
             </button>
@@ -149,7 +143,6 @@
           </div>
         </div>
       </div>
-      }
     </div>
   </div>
 
@@ -160,7 +153,7 @@
       <div class="section-item-container nowrap">
         <div class="section-item wrap">
           <div class="section-item">
-            <mat-icon class="item-icon-2" svgIcon="profile-phonenumber" />
+            <mat-icon class="item-icon-2" svgIcon="profile-phonenumber"></mat-icon>
             <div class="field-wrapper">
               <div class="form-field-label" translate>Phone number</div>
               <mat-form-field appearance="outline" class="form-input-readonly" subscriptSizing="dynamic">
@@ -170,20 +163,16 @@
             </div>
           </div>
           <div class="section-actions no-fullwidth">
-            @if (!editPhoneNumberActive) {
-            <div class="section-action-edit" (click)="onEditPhoneNumber()">
+            <div class="section-action-edit" (click)="onEditPhoneNumber()" *ngIf="!editPhoneNumberActive">
               <span translate>Edit</span>
             </div>
-            } @if (editPhoneNumberActive) {
-            <div class="section-action-edit-disabled">
+            <div class="section-action-edit-disabled" *ngIf="editPhoneNumberActive">
               <span translate>Edit</span>
             </div>
-            }
           </div>
         </div>
       </div>
-      @if (editPhoneNumberActive) {
-      <div class="section-item-container">
+      <div class="section-item-container" *ngIf="editPhoneNumberActive">
         <div class="section-item-collapsable">
           <div class="field-wrapper-edit">
             <div class="form-field-label" translate>Phone number</div>
@@ -196,21 +185,30 @@
                 (keydown)="validateNumber($event)"
                 (paste)="onPasteMobileNumber($event)"
               />
-              @if ( profileGeneralForm.controls.mobileNumber.hasError('required') &&
-              profileGeneralForm.controls.mobileNumber.touched && profileGeneralForm.controls.mobileNumber.dirty ) {
-              <ng-container>
-                <mat-error class="error-msg" translate> can't be blank</mat-error>
-              </ng-container>
-              } @if ( profileGeneralForm.controls.mobileNumber.hasError('invalidBrazilianMobile') &&
-              profileGeneralForm.controls.mobileNumber.touched && profileGeneralForm.controls.mobileNumber.dirty ) {
-              <ng-container>
-                <mat-error class="error-msg" translate>
-                  {{ 'Invalid phone number' | translate | lowercase }}
-                </mat-error>
-              </ng-container>
-              }
+              <mat-error
+                *ngIf="
+                  profileGeneralForm.controls.mobileNumber?.hasError('required') &&
+                  profileGeneralForm.controls.mobileNumber.touched &&
+                  profileGeneralForm.controls.mobileNumber?.dirty
+                "
+                class="error-msg"
+                translate
+              >
+                can't be blank</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  profileGeneralForm.controls.mobileNumber?.hasError('invalidBrazilianMobile') &&
+                  profileGeneralForm.controls.mobileNumber.touched &&
+                  profileGeneralForm.controls.mobileNumber?.dirty
+                "
+                class="error-msg"
+                translate
+              >
+                {{ 'Invalid phone number' | translate | lowercase }}
+              </mat-error>
             </mat-form-field>
-            <div class="section-actions flex gap-4 full-width mt-2 mb-2">
+            <div class="section-actions flex-row gap-16 full-width mt-8 mb-8">
               <button
                 mat-button
                 [disabled]="isDataLoading"
@@ -229,24 +227,20 @@
                 class="section-action flex-grow"
                 (click)="onSavePhoneNumber()"
               >
-                @if (!isDataLoading) {
-                <span translate>Save</span>
-                } @if (isDataLoading) {
-                <mat-spinner class="spinner-on-button" diameter="20" />
-                }
+                <span *ngIf="!isDataLoading" translate>Save</span>
+                <mat-spinner class="spinner-on-button" *ngIf="isDataLoading" diameter="20"></mat-spinner>
               </button>
             </div>
           </div>
         </div>
       </div>
-      }
 
-      <mat-divider class="mat-divider" />
+      <mat-divider class="mat-divider"></mat-divider>
 
       <div class="section-item-container nowrap">
         <div class="section-item wrap">
           <div class="section-item">
-            <mat-icon class="item-icon-2" svgIcon="profile-email" />
+            <mat-icon class="item-icon-2" svgIcon="profile-email"></mat-icon>
             <div class="field-wrapper">
               <div class="form-field-label" translate>E-mail</div>
               <mat-form-field appearance="outline" class="form-input-readonly" subscriptSizing="dynamic">
@@ -254,20 +248,17 @@
               </mat-form-field>
             </div>
           </div>
-          @if (!emailVerified) {
-          <div class="section-actions no-fullwidth">
+          <div class="section-actions no-fullwidth" *ngIf="!emailVerified">
             <div class="section-action-edit" (click)="onResendEmailVerificationCode()">
               <span translate>Resend verification code</span>
             </div>
           </div>
-          } @if (emailVerified) {
-          <div class="section-actions no-fullwidth">
-            <div class="flex items-center justify-center email-verified-container gap-2">
-              <mat-icon svgIcon="check" />
+          <div class="section-actions no-fullwidth" *ngIf="emailVerified">
+            <div class="flex-row items-center justify-center email-verified-container gap-8">
+              <mat-icon svgIcon="check"></mat-icon>
               <span class="email-verified-span" translate> Verified</span>
             </div>
           </div>
-          }
         </div>
       </div>
     </div>

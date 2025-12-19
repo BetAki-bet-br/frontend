@@ -1,8 +1,7 @@
-import { RouterModule } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GamePageComponent } from './game-page.component';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { GameLauncherService } from '../game-launcher.service';
 import { MockGameLauncherService } from '../game-launcher.service.mock';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,7 +16,8 @@ describe('GamePageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), GamePageComponent, RouterModule],
+      declarations: [GamePageComponent],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         { provide: GameLauncherService, useClass: MockGameLauncherService },
         { provide: AuthDialogService, useValue: { loginDialog: () => of({ closeEvent: 'loggedIn' }) } },

@@ -14,9 +14,9 @@
 * you may have.
 */
 
-@use "sass:map" as map;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 :host {
   max-height: 100%;
@@ -37,7 +37,7 @@
   .browse-upload {
     font-family: Roboto, sans-serif;
     cursor: pointer;
-    color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+    color: map.get($app-custom-colors, "neutral-10");
     line-height: 1.25rem;
   }
 }
@@ -48,6 +48,6 @@
   }
 
   .check-mark {
-    color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+    color: map.get($app-custom-colors, "neutral-10");
   }
 }

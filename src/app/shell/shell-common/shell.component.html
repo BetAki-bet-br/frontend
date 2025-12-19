@@ -1,21 +1,22 @@
-<!-- Loadings -->
-@if(loadingService.loading()){
-<app-loading />
-} @if(loadingService.inlineLoading()){
-<app-inline-loading />
-}
-
 <!-- Header -->
-<app-header />
+<app-header
+  class="header"
+  [isSignedIn]="!!(isSignedIn$ | async)"
+  [balance]="balance$ | async"
+  [loyaltyPoints]="loyaltyPoints$ | async"
+  [playerInfo]="playerInfo"
+></app-header>
 
 <!-- Main container -->
-<div class="main-container pt-(--header-height-mobile)! md:pt-(--header-height-desktop)!">
-  <router-outlet />
+<div class="main-container">
+  <router-outlet></router-outlet>
 </div>
-
-@if ( !routingService.isSportsbook() && !routingService.isIngame() ) {
-<app-sidebar-mobile></app-sidebar-mobile>
-<app-mobile-menu></app-mobile-menu>
-@if (!routingService.isProfile() && !routingService.isPromotions() ) {
-<app-footer></app-footer>
-} }
+<!-- Footer -->
+<app-footer *ngIf="!isSportsbook" [balance]="balance$ | async" class="footer"></app-footer>
+<app-footer-nav-bar
+  [isSportsbook]="isSportsbook"
+  (sidenavToggle)="sidenavMenu.toggleSidenavMenu()"
+  (sidenavCloseIfOpened)="sidenavMenu.closeSidenavIfOpened()"
+  class="footer-nav-bar-mobile"
+></app-footer-nav-bar>
+<app-global-search *ngIf="globalSearchService.isEnabled()"> </app-global-search>

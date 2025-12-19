@@ -1,30 +1,21 @@
-<app-base-dialog
-  width="29rem"
-  [customClass]="'md:h-1/2 xl:h-1/2 2xl:w-1/4!'"
-  [displayCloseButton]="true"
-  [displayLogo]="false"
->
+<app-base-dialog width="29rem" [displayCloseButton]="true" [displayLogo]="false">
   <div dialogContent>
     <div class="header-icon">
-      @if (data.success) {
-      <mat-icon class="status-img" alt="check" svgIcon="success-check" />
-      } @if (!data.success) {
-      <mat-icon class="status-img" alt="fail" svgIcon="fail" />
-      }
+      <mat-icon *ngIf="data.success" class="status-img" alt="check" svgIcon="success-check"></mat-icon>
+      <mat-icon *ngIf="!data.success" class="status-img" alt="fail" svgIcon="fail"></mat-icon>
     </div>
 
     <div class="header-text">
       {{ data.title }}
     </div>
 
-    @if (data) {
-    <div class="description mb-8">{{ data.description }}</div>
-    }
+    <ng-container *ngIf="data">
+      <div class="description mb-32">{{ data.description }}</div>
+    </ng-container>
   </div>
 
   <ng-container dialogButtons>
-    @if (data.success || data.withdrawalDisabled) {
-    <div class="flex items-center w-full justify-center gap-4">
+    <div *ngIf="data.success || data.withdrawalDisabled" class="button-container flex-col gap-16">
       <button mat-button class="button-text-small label-dark" (click)="toSportsbook()">
         {{ 'To Esports' | translate }}
       </button>
@@ -32,8 +23,8 @@
         {{ 'To Casino' | translate }}
       </button>
     </div>
-    } @if (!data.success && !data.withdrawalDisabled) {
-    <div class="button-container flex flex-col gap-4">
+
+    <div *ngIf="!data.success && !data.withdrawalDisabled" class="button-container flex-col gap-16">
       <button mat-button class="button-text-small label-dark" (click)="confirm()">
         {{ 'Make a new withdrawal' | translate }}
       </button>
@@ -41,6 +32,5 @@
         {{ 'Cancel' | translate }}
       </button>
     </div>
-    }
   </ng-container>
 </app-base-dialog>

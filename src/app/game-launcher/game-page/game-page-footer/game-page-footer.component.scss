@@ -1,7 +1,7 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/theme-variables" as theme-variables;
-@use "theme/utils" as utils;
+@use "sass:map";
+@use "sass:color";
+@import "src/theme/theme-variables";
+@import "src/theme/utils";
 
 .game-footer-search-wrapper {
   display: flex;
@@ -15,18 +15,18 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.6);
+  background-color: color.adjust(map.get($app-custom-colors, "neutral-10"), $alpha: -0.6);
   padding: 0 0.5rem;
 
-  @include utils.media(sm-2) {
+  @include media(sm-2) {
     padding: 0 1.5rem;
   }
 
-  @include utils.media(md) {
+  @include media(md) {
     padding: 0 6.5rem;
   }
 
-  @include utils.media(gt-md) {
+  @include media(gt-md) {
     padding: 0 11.375rem;
   }
 }
@@ -49,10 +49,10 @@
 
   &.selected,
   &:hover {
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+    color: map.get($app-custom-colors, "Betaki_error");
   }
 
-  @include utils.media(lt-sm-2) {
+  @include media(lt-sm-2) {
     display: none;
   }
 }
@@ -65,7 +65,7 @@
   display: flex;
   flex-direction: row;
   gap: 0.25rem;
-  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.5);
+  background-color: color.adjust(map.get($app-custom-colors, "neutral-10"), $alpha: -0.5);
   border-width: 0.5rem;
   border-color: transparent;
   border-style: solid;
@@ -89,17 +89,17 @@
   flex-basis: 100%;
   z-index: 101;
 
-  @include utils.media(sm-2) {
+  @include media(sm-2) {
     flex-basis: 23rem;
     margin-left: 3.625rem;
   }
 
-  @include utils.media(md) {
+  @include media(md) {
     flex-basis: 24.125rem;
     margin-left: 4.625rem;
   }
 
-  @include utils.media(gt-md) {
+  @include media(gt-md) {
     flex-basis: 24.125rem;
     margin-left: 2.5rem;
   }
@@ -114,7 +114,7 @@
   height: 2.5rem;
   width: 2.5rem;
   background-color: rgba(55, 37, 162, 65%);
-  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.35);
+  background-color: color.adjust(map.get($app-custom-colors, "neutral-10"), $alpha: -0.35);
   background-image: none;
   transition: opacity 0.3s ease, background-color 0.3s ease;
   border-radius: 50%;
@@ -125,7 +125,7 @@
   transform: translateY(-50%);
 
   .swiper-nav-icon {
-    color: map.get(theme-variables.$app-custom-colors, "neutral-100");
+    color: map.get($app-custom-colors, "neutral-100");
     height: 2.5rem;
     width: 2.5rem;
     font-size: 1.875rem;
@@ -146,6 +146,6 @@
   }
 
   &:hover {
-    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+    background-color: map.get($app-custom-colors, "neutral-10");
   }
 }

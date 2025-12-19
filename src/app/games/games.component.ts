@@ -1,60 +1,28 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { filter, map } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataStoreService } from '@app/@core';
 import {
-  GameProviderDataWithUrl,
-  GameProviderData,
-  GameTile,
-  GameMenuCategoryModel,
-} from '@app/@shared/models/game.model';
-import {
-  ProvidersLobbyEnum,
-  GameCategoryLobbyEnum,
   GameCategoriesService,
+  GameCategoryLobbyEnum,
   getCleanUrlName,
+  ProvidersLobbyEnum,
 } from '@app/@core/game-categories.service';
-import { GamesService } from '@app/@shared/services/games/games.service';
-import { CmsService } from '@app/@shared/services/cms.service';
-import { DataStoreService } from '@app/@core/data-store.service';
-import { CredentialsService } from '@app/auth/credentials.service';
 import { AssetsService } from '@app/@shared/assets.service';
-import { GameSearchComponent } from '@app/@shared/components/game-search/game-search.component';
-import { MainBannerComponent } from '@app/@shared/components/main-banner/main-banner.component';
-import { GameFiltersComponent } from '@app/@shared/components/games/game-filters/game-filters.component';
-import { ProvidersComponent } from '@app/@shared/components/games/providers/providers.component';
-import { WinnersSectionComponent } from '@app/@shared/components/winners-section/winners-section.component';
-import { GameTilesComponent } from '@app/@shared/components/games/games/games.component';
+import { GameMenuCategoryModel, GameProviderData, GameProviderDataWithUrl, GameTile } from '@app/@shared/models';
+import { CmsService } from '@app/@shared/services/cms.service';
+import { GamesService } from '@app/@shared/services/games/games.service';
+import { CredentialsService } from '@app/auth';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { filter, map } from 'rxjs';
 
+@UntilDestroy()
 @Component({
   selector: 'app-games',
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    GameSearchComponent,
-    MainBannerComponent,
-    GameFiltersComponent,
-    ProvidersComponent,
-    WinnersSectionComponent,
-    GameTilesComponent,
-  ],
 })
 export class GamesComponent implements OnInit {
-  private gamesService = inject(GamesService);
-  private cmsService = inject(CmsService);
-  private dataStoreService = inject(DataStoreService);
-  private credentialService = inject(CredentialsService);
-  private cdr = inject(ChangeDetectorRef);
-  private gameCategoriesService = inject(GameCategoriesService);
-  private route = inject(ActivatedRoute);
-  private assetsService = inject(AssetsService);
-  private router = inject(Router);
-
   @Input()
   get categoryId(): string | undefined | null {
     return this._categoryId;
@@ -64,7 +32,7 @@ export class GamesComponent implements OnInit {
 
     this.gameCategoriesService.gameCategories$
       .pipe(
-        map((categories: { [key: string]: string | number }) => {
+        map((categories) => {
           // START: For game loading placeholder
           this.gameCategories = [
             {
@@ -88,7 +56,7 @@ export class GamesComponent implements OnInit {
             this.loadGamesData(newCategoryId);
 
             // Update internal category id
-            this._categoryId = newCategoryId ?? undefined;
+            this._categoryId = newCategoryId;
           }
         })
       )
@@ -99,7 +67,7 @@ export class GamesComponent implements OnInit {
     if (provider) {
       this.selectedProviderList = [provider];
 
-      this.gameCategoriesService.gameCategories$.subscribe((categories: { [key: string]: string | number }) => {
+      this.gameCategoriesService.gameCategories$.subscribe((categories) => {
         const lobbyCategoryId = this.router.url.includes('/games-live')
           ? categories[ProvidersLobbyEnum['Lobby live']]?.toString()
           : categories[ProvidersLobbyEnum.Lobby]?.toString();
@@ -111,8 +79,8 @@ export class GamesComponent implements OnInit {
     }
   }
 
-  isGamesLobby$ = this.route.data.pipe(map((data: { [key: string]: any }) => data['providers'] !== true));
-  hideFilters$ = this.route.data.pipe(map((data: { [key: string]: any }) => data['hideFilters'] === true));
+  isGamesLobby$ = this.route.data.pipe(map((data) => data['providers'] !== true));
+  hideFilters$ = this.route.data.pipe(map((data) => data['hideFilters'] === true));
 
   @Input() initialRows: number = 0;
 
@@ -127,14 +95,26 @@ export class GamesComponent implements OnInit {
 
   private _categoryId?: string;
 
+  constructor(
+    private gamesService: GamesService,
+    private cmsService: CmsService,
+    private dataStoreService: DataStoreService,
+    private credentialService: CredentialsService,
+    private cdr: ChangeDetectorRef,
+    private gameCategoriesService: GameCategoriesService,
+    private route: ActivatedRoute,
+    private assetsService: AssetsService,
+    private router: Router
+  ) {}
+
   ngOnInit(): void {
     // Reload lobby data when user logs in
     this.credentialService.isAuthenticated$
       .pipe(
         untilDestroyed(this),
-        filter((isAuth: boolean) => isAuth === true)
+        filter((isAuth) => isAuth === true)
       )
-      .subscribe((_: any) => {
+      .subscribe((_) => {
         if (this.categoryId) this.loadGamesData(this.categoryId);
       });
   }
@@ -183,7 +163,7 @@ export class GamesComponent implements OnInit {
           this.gameCategories = [allGamesCategory];
         } else {
           // Sort categories based on the order defined in gameCategoriesService
-          const categoryType: GameCategoryLobbyEnum = this.route.snapshot.data?.['isLive']
+          const categoryType = this.route.snapshot.data?.['isLive']
             ? GameCategoryLobbyEnum['Lobby live']
             : GameCategoryLobbyEnum.Lobby;
 

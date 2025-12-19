@@ -1,28 +1,31 @@
 <div class="game-footer">
-  @if (gamesDrawer.length > 0 && expandedDrawer && (showGamesDrawer$ | async)) {
-  <swiper-container #swiperContainer init="false" [@games-drawer] class="game-footer-drawer">
+  <swiper
+    #swiper
+    [config]="swiperConfig"
+    [@games-drawer]
+    *ngIf="gamesDrawer.length > 0 && expandedDrawer && (showGamesDrawer$ | async)"
+    class="game-footer-drawer"
+  >
     <!-- Left navigation -->
     <div slot="container-start" class="swiper-nav-icon-wrapper swiper-nav-left">
       <mat-icon class="swiper-nav-icon">chevron_left</mat-icon>
     </div>
+
     <!-- Right navigation -->
     <div slot="container-start" class="swiper-nav-icon-wrapper swiper-nav-right">
       <mat-icon class="swiper-nav-icon">chevron_right</mat-icon>
     </div>
     <!-- SLIDES -->
-    @for (game of gamesDrawer; track game; let indexOfElement = $index) {
-    <swiper-slide class="drawer-game-wrapper">
+    <ng-template swiperSlide class="drawer-game-wrapper" *ngFor="let game of gamesDrawer; let indexOfElement = index">
       <app-game-card
         (gameSelected)="onGameSelected($event)"
         [game]="game"
         [indexOfElement]="indexOfElement"
         [emitEvent]="true"
         [hideDemoPlay]="true"
-      />
-    </swiper-slide>
-    }
-  </swiper-container>
-  }
+      ></app-game-card>
+    </ng-template>
+  </swiper>
   <span
     (click)="expandDrawer('lastPlayed', 0)"
     class="game-footer-link"
@@ -30,26 +33,25 @@
     translate
     >LAST PLAYED</span
   >
-  @for (category of menuCategories; track category) {
   <span
+    *ngFor="let category of menuCategories"
     (click)="expandDrawer(category.name, category.categoryId)"
     class="game-footer-link"
     [class.selected]="expandedDrawer === category.name"
     translate
     >{{ category.name }}</span
   >
-  }
   <!-- <span
-      (click)="expandDrawer('newGames')"
-      class="game-footer-link"
-      [class.selected]="expandedDrawer === 'newGames'"
-      translate
-      >NEW GAMES</span
-      > -->
+    (click)="expandDrawer('newGames')"
+    class="game-footer-link"
+    [class.selected]="expandedDrawer === 'newGames'"
+    translate
+    >NEW GAMES</span
+  > -->
 
   <app-game-search
     id="game-footer-search-wrapper"
     class="game-footer-search-wrapper"
     (listChanged)="onSearchListChanged()"
-  />
+  ></app-game-search>
 </div>

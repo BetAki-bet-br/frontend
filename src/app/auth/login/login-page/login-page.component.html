@@ -3,19 +3,19 @@
   <app-page-breadcrumbs
     [showTopBar]="false"
     [breadcrumbs]="breadcrumbs"
-    class="form-tab-title items-center justify-center gap-4 hide-desktop"
-  />
+    class="form-tab-title items-center justify-center gap-16 hide-desktop"
+  ></app-page-breadcrumbs>
 
-  <form [formGroup]="loginForm" class="flex flex-col gap-16 items-center justify-start login-container">
-    <div class="login-form-container flex flex-col items-center">
+  <form [formGroup]="loginForm" class="flex-col gap-64 items-center justify-start login-container">
+    <div class="login-form-container flex-col items-center">
       <span class="title hide-mobile" translate>Enter to play</span>
 
-      <div class="form flex flex-col">
+      <div class="form flex-col">
         <!-- Username / Email -->
         <div class="field-wrapper">
           <mat-form-field
             appearance="outline"
-            class="form-input-primary error-border flex flex-col no-border large-desktop"
+            class="form-input-primary error-border flex-col no-border large-desktop"
             subscriptSizing="dynamic"
           >
             <input
@@ -34,14 +34,15 @@
                 [class.error-icon]="loginForm.controls.username.touched && loginForm.controls.username.invalid"
                 matIconSuffic
                 >person</mat-icon
-                >
-              </button> -->
-            <!-- eslint-disable-next-line @angular-eslint/template/prefer-control-flow -->
-            @if (loginForm.controls.username.hasError('required') && loginForm.controls.username.touched) {
-            <ng-container>
-              <mat-error class="error-msg" translate> Required </mat-error>
-            </ng-container>
-            }
+              >
+            </button> -->
+            <mat-error
+              *ngIf="loginForm.controls.username?.hasError('required') && loginForm.controls.username.dirty"
+              class="error-msg"
+              translate
+            >
+              Required
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -49,7 +50,7 @@
         <div class="field-wrapper">
           <mat-form-field
             appearance="outline"
-            class="form-input-primary error-border flex flex-col no-border large-desktop"
+            class="form-input-primary error-border flex-col no-border large-desktop"
             subscriptSizing="dynamic"
           >
             <input
@@ -77,26 +78,24 @@
                 {{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon
               >
             </button>
-            <!-- eslint-disable-next-line @angular-eslint/template/prefer-control-flow -->
-            @if (loginForm.controls.password.hasError('required') && loginForm.controls.password.touched) {
-            <ng-container>
-              <mat-error class="error-msg" translate> Required </mat-error>
-            </ng-container>
-            }
+            <mat-error
+              *ngIf="loginForm.controls.password?.hasError('required') && loginForm.controls.password.dirty"
+              class="error-msg"
+              translate
+            >
+              Required
+            </mat-error>
           </mat-form-field>
         </div>
 
         <!-- Error -->
-        @if (error && error !== 'PlayerLockedOut') {
-        <div class="error-msg" [innerHTML]="error | translate">
+        <div *ngIf="error && error !== 'PlayerLockedOut'" class="error-msg" [innerHTML]="error | translate">
           {{ error | translate }}
         </div>
-        } @if (error === 'PlayerLockedOut') {
-        <div class="error-msg">
+        <div *ngIf="error === 'PlayerLockedOut'" class="error-msg">
           {{ error | translate }}
           <a class="reset-password-link">{{ 'Please reset your password.' | translate }}</a>
         </div>
-        }
 
         <!-- Forgot password -->
         <a class="link forgot-password" routerLink="/forgot-password" translate>Forgot Your Password?</a>
@@ -111,10 +110,8 @@
           class="label-dark full-width login-button button-text-x-large"
           (click)="onLogin()"
         >
-          @if (!isDataLoading) {
-          <span class="login-button-text mr-2" translate>ENTER</span>
-          }
-          <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
+          <span *ngIf="!isDataLoading" class="login-button-text mr-8" translate>ENTER</span>
+          <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5"></app-loader>
         </button>
       </div>
 
@@ -134,7 +131,7 @@
     </div>
 
     <div class="policy-and-chat-container">
-      <div class="flex flex-col gap-2 items-center policy-container">
+      <div class="flex-col gap-8 items-center policy-container">
         <span translate class="responsible-gaming-text">
           <b>Jogue com Responsabilidade</b><br />
           O jogo deve ser uma forma de entretenimento saudável. Pratique sempre o jogo consciente e fique atento aos
@@ -144,8 +141,8 @@
       </div>
 
       <button class="live-chat-button" (click)="onChatClick()" mat-button>
-        <div class="flex items-center gap-2.5">
-          <mat-icon svgIcon="help-chat-icon" />
+        <div class="flex-row items-center gap-10">
+          <mat-icon svgIcon="help-chat-icon"></mat-icon>
           <span translate> Do you need help? </span>
         </div>
       </button>

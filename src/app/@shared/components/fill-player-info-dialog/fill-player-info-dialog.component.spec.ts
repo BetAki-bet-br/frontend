@@ -24,7 +24,8 @@ describe('FillPlayerInfoDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), FillPlayerInfoDialogComponent],
+      imports: [TranslateModule.forRoot()],
+      declarations: [FillPlayerInfoDialogComponent],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: PlayerService, useClass: MockCtgApiService },

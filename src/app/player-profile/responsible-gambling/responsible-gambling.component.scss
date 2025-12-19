@@ -1,8 +1,8 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
 
-@use "theme/theme-variables" as theme-variables;
+@import "src/theme/theme-variables";
 
 :host {
   width: 100%;
@@ -13,7 +13,7 @@
   display: flex;
   flex-flow: column;
   gap: 1rem;
-  padding: 1.5rem 0 4rem;
+  padding: 2.5rem 0 4rem;
 
   @include utils.media("lt-sm-2") {
     padding: 1rem 0 2.5rem;
@@ -22,7 +22,7 @@
 
 .header {
   font-size: 1.5rem;
-  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get($app-custom-colors, "neutral-white");
 
   @include utils.media("lt-sm-2") {
     font-size: 0.875rem;
@@ -37,7 +37,7 @@
 }
 
 .divider {
-  border-bottom: 1px solid map.get(theme-variables.$app-custom-colors, "ATL_white20");
+  border-bottom: 1px solid map.get($app-custom-colors, "ATL_white20");
   margin-top: 0.5rem;
   margin-left: -1.5rem;
   margin-right: -1.5rem;

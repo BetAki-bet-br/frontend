@@ -1,19 +1,19 @@
-<div #dialogContainer class="dialog-container flex flex-col">
+<div #dialogContainer class="dialog-container flex-col">
   <!-- Close icon container -->
-  <div class="close-icon-container flex justify-end items-center">
+  <div class="close-icon-container flex-row justify-end items-center">
     <mat-icon class="close-icon" (click)="closeDialog()">close</mat-icon>
   </div>
   <!-- Dialog content -->
-  <div class="content flex flex-col">
+  <div class="content flex-col">
     <!-- Profile account info -->
-    <div class="profile-account-info mb-2">
+    <div class="profile-account-info mb-8">
       <div class="profile-info-name">
         {{ playerName }}
       </div>
 
       <div class="profile-account-balance-container">
         <div class="profile-account-balance-main">
-          {{ account?.totalBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+          {{ account?.totalBalance | number: '1.2':dataStoreService.defaultLanguage }}
         </div>
         <div class="profile-account-balance-currency">{{ account?.currency }}</div>
       </div>
@@ -22,16 +22,16 @@
         <div class="profile-account-balance-details-balances">
           <!-- ICATL-89 As a Player I want to access the General section of the Profile Page -->
           <!-- <div class="profile-account-balance-details-balance">
-          {{ account?.lockedBalance | number: '1.2':dataStoreService.defaultLanguage }}
-        </div> -->
+            {{ account?.lockedBalance | number: '1.2':dataStoreService.defaultLanguage }}
+          </div> -->
           <div class="profile-account-balance-details-balance">
-            {{ account?.realMoneyBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+            {{ account?.realMoneyBalance | number: '1.2':dataStoreService.defaultLanguage }}
           </div>
           <div class="profile-account-balance-details-balance">
-            {{ account?.bonusCasinoBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+            {{ account?.bonusCasinoBalance | number: '1.2':dataStoreService.defaultLanguage }}
           </div>
           <div class="profile-account-balance-details-balance">
-            {{ account?.bonusSportsbookBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+            {{ account?.bonusSportsbookBalance | number: '1.2':dataStoreService.defaultLanguage }}
           </div>
         </div>
         <div class="profile-account-balance-details-infos">
@@ -48,17 +48,17 @@
     </div>
     <div class="profile-info-divider"></div>
     <!-- Profile link container -->
-    <div class="profile-link-container mb-6">
-      @if (false) {
-      <!-- removed for GLI version -->
-      <a
-        class="profile-link"
-        routerLink="/profile/promo"
-        [routerLinkActive]="['profile-link-active']"
-        (click)="onLinkClick()"
-        >PROMO</a
-      >
-      }
+    <div class="profile-link-container mb-24">
+      <ng-container *ngIf="false">
+        <!-- removed for GLI version -->
+        <a
+          class="profile-link"
+          routerLink="/profile/promo"
+          [routerLinkActive]="['profile-link-active']"
+          (click)="onLinkClick()"
+          >PROMO</a
+        >
+      </ng-container>
 
       <a
         class="profile-link"
@@ -103,15 +103,15 @@
       >
     </div>
     <!-- Bottom link section -->
-    <div class="bottom-link-section flex flex-col gap-3">
+    <div class="bottom-link-section flex-col gap-12">
       <!-- <div class="button-link locale-selector">
-                <app-language-selector
-                  [icon]="false"
-                  [isLogin]="true"
-                  class="language-selector profile full-width full-height"
-                  (menuClosedEvent)="onLanguageSelectorMenuClosed()"
-                ></app-language-selector>
-              </div> -->
+        <app-language-selector
+          [icon]="false"
+          [isLogin]="true"
+          class="language-selector profile full-width full-height"
+          (menuClosedEvent)="onLanguageSelectorMenuClosed()"
+        ></app-language-selector>
+      </div> -->
       <div id="chat-intercom-messenger" class="button-link">
         <mat-icon>headphones</mat-icon>
         <div class="button-link-text" translate>Support</div>

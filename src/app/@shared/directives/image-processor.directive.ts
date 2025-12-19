@@ -1,21 +1,17 @@
-import { Directive, ElementRef, Input, OnInit, Renderer2, inject } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 import { AssetsService } from '../assets.service';
 
 @Directive({
   selector: '[appImageProcessor]',
 })
 export class ImageProcessorDirective implements OnInit {
-  private elementRef = inject(ElementRef);
-  private renderer = inject(Renderer2);
-  assetsService = inject(AssetsService);
-
   @Input('appImageProcessor') imageSrc = '';
-  @Input() public styles: { [key: string]: string } = {};
+  @Input() public styles = {};
 
   public src = '';
   public imageLoading = true;
 
-  constructor() {
+  constructor(private elementRef: ElementRef, private renderer: Renderer2, public assetsService: AssetsService) {
     this.src = '/assets/general/logo/betaki-logo.png';
   }
 

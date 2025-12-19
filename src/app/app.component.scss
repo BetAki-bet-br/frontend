@@ -1,6 +1,6 @@
-@use "sass:map" as map;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "src/theme/utils" as util;
+@import "src/theme/theme-variables";
 
 :host {
   width: 100%;

@@ -1,53 +1,58 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { CredentialsService } from '@app/auth';
 import { BehaviorSubject, Observable, of, switchMap } from 'rxjs';
+
+declare const Tawk_API: any;
 
 @Injectable({
   providedIn: 'root',
 })
 export class TawkToScriptService {
-  private credentialsService = inject(CredentialsService);
-  private configurationService = inject(ConfigurationService);
-
   private readySubject = new BehaviorSubject<boolean>(false);
   public readonly isReady$: Observable<boolean> = this.readySubject.asObservable();
 
-  constructor() {
+  constructor(private credentialsService: CredentialsService, private configurationService: ConfigurationService) {
     this.checkIfTawkReady();
   }
 
-  private get tawkApi(): TawkAPI | undefined {
-    return (window as any).Tawk_API;
-  }
-
   maximize() {
-    this.tawkApi?.maximize();
+    if (Tawk_API) {
+      Tawk_API.maximize();
+    }
   }
 
   minimize() {
-    this.tawkApi?.minimize();
+    if (Tawk_API) {
+      Tawk_API.minimize();
+    }
   }
 
   showWidget() {
-    this.tawkApi?.showWidget();
+    if (Tawk_API) {
+      Tawk_API.showWidget();
+    }
   }
 
   hideWidget() {
-    this.tawkApi?.hideWidget();
+    if (Tawk_API) {
+      Tawk_API.hideWidget();
+    }
   }
 
   endChat() {
-    this.tawkApi?.endChat();
+    if (Tawk_API) {
+      Tawk_API.endChat();
+    }
   }
 
   setCredentials(email: string, name: string) {
-    this.tawkApi?.setAttributes(
+    Tawk_API.setAttributes(
       {
         name: name?.length > 0 ? name : 'Convidado',
         email: email?.length > 0 ? email : 'Convidado@tawk.to',
       },
-      (error: string | undefined) => {
+      (error: any) => {
         if (error) {
           console.error('Tawk setAttributes error:', error);
           if (error === 'INVALID_EMAIL') {
@@ -62,8 +67,9 @@ export class TawkToScriptService {
 
   private checkIfTawkReady() {
     const interval = setInterval(() => {
-      if (this.tawkApi) {
-        this.tawkApi.hideWidget();
+      if (window['Tawk_API']) {
+        Tawk_API.hideWidget();
+
         this.readySubject.next(true);
         clearInterval(interval);
         this.checkCredentials();

@@ -1,24 +1,12 @@
-import { DIALOG_DATA, DialogRef, DialogModule } from '@angular/cdk/dialog'; // Added DialogModule
-// Added CommonModule
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  OnDestroy,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Logger } from '@app/@shared/logger.service';
 import { PromotionDetailsResolved } from '@app/@shared/models';
 import { ActionIdEnum, PromotionActivateTemplateSourceEnum } from '@app/@shared/models/template.model';
-import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe'; // Added RenderTemplatePipe
 import { TemplateService } from '@app/@shared/services/template.service';
-import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component'; // Added BaseDialogComponent
 import { ActionType } from '@app/promotions/promotions/promotions.component';
-import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subscription } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const log = new Logger('HeaderPromotionDialogComponent');
 
@@ -32,22 +20,24 @@ export interface HeaderPromotionDialogResult {
   promotion?: PromotionDetailsResolved;
 }
 
+@UntilDestroy()
 @Component({
   selector: 'app-header-promotion-dialog',
   templateUrl: './header-promotion-dialog.component.html',
   styleUrls: ['./header-promotion-dialog.component.scss'],
-  imports: [TranslateModule, BaseDialogComponent, RenderTemplatePipe, DialogModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderPromotionDialogComponent implements OnInit, OnDestroy {
-  private dialogRef = inject<DialogRef<HeaderPromotionDialogResult>>(DialogRef);
-  data = inject<HeaderPromotionDialogData>(DIALOG_DATA);
-  private cdr = inject(ChangeDetectorRef);
-  private templateService = inject(TemplateService);
-  private destroyRef = inject(DestroyRef);
   private currentTime: number = new Date().getTime();
   private interval: any;
   private sub: Subscription | undefined;
+
+  constructor(
+    private dialogRef: DialogRef<HeaderPromotionDialogResult>,
+    @Inject(DIALOG_DATA) public data: HeaderPromotionDialogData,
+    private cdr: ChangeDetectorRef,
+    private templateService: TemplateService
+  ) {}
 
   ngOnInit(): void {
     this.interval = setInterval(() => {
@@ -64,7 +54,7 @@ export class HeaderPromotionDialogComponent implements OnInit, OnDestroy {
       this.cdr.markForCheck();
     }, 500);
 
-    this.templateService.templateActionSub$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((response) => {
+    this.templateService.templateActionSub$?.pipe(untilDestroyed(this)).subscribe((response) => {
       if (response?.actionId === ActionIdEnum.SkipActivatePromotion) {
         this.bonusAction('Skip');
       } else if (

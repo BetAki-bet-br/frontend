@@ -1,7 +1,7 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 :host {
   width: 100%;
@@ -27,7 +27,7 @@
   max-width: 50rem;
   width: 100%;
   border-radius: 2rem;
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  background-color: map.get($app-custom-colors, "neutral-white");
   padding: 3rem;
 
   .title {
@@ -37,7 +37,7 @@
     letter-spacing: 0%;
     text-align: center;
     vertical-align: middle;
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+    color: map.get($app-custom-colors, "Betaki_success");
   }
 
   .subtitle {
@@ -95,7 +95,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
+  color: map.get($app-custom-colors, "Betaki_black");
   border-radius: 1rem;
 
   span {
@@ -105,7 +105,7 @@
     letter-spacing: 0.0481rem;
     text-align: center;
     vertical-align: middle;
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
+    color: map.get($app-custom-colors, "Betaki_black");
   }
 
   @include utils.media("lt-sm-2") {

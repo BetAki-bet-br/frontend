@@ -14,8 +14,8 @@
 * you may have.
 -->
 
-<div class="flex flex-col justify-start items-center file-uploader-wrapper">
-  <div class="flex flex-col justify-center items-center drop-container" appFileUpload (emitItems)="fileUpload($event)">
+<div class="flex-col justify-start items-center file-uploader-wrapper">
+  <div class="flex-col justify-center items-center drop-container" appFileUpload (emitItems)="fileUpload($event)">
     <span translate data-qat="text" data-qac="drag-drop-file" translate>
       Drop file here or
       <label [for]="inputId" class="browse-upload" data-qat="link" data-qac="browse"> browse </label>
@@ -35,21 +35,19 @@
     />
   </div>
   <!-- Progress bar and status text -->
-  <div class="flex flex-col justify-center items-center progress-bar">
-    @if (filePresent && isFileLoading) {
-    <span data-qat="text" data-qac="file-uploading"> {{ fileName }} {{ 'uploading...' | translate }}</span>
-    }
+  <div class="flex-col justify-center items-center progress-bar">
+    <span *ngIf="filePresent && isFileLoading" data-qat="text" data-qac="file-uploading">
+      {{ fileName }} {{ 'uploading...' | translate }}</span
+    >
     <!-- <span
       *ngIf="filePresent && !isFileLoading"
       class="flex-row items-center gap-4"
       data-qat="text"
       data-qac="file-uploaded"
-      >
+    >
       {{ fileName }} {{ 'uploaded' | translate }}
       <mat-icon class="check-mark">check_circle</mat-icon>
     </span> -->
-    @if (isFileLoading) {
-    <mat-progress-bar mode="determinate" [value]="progress" />
-    }
+    <mat-progress-bar *ngIf="isFileLoading" mode="determinate" [value]="progress"></mat-progress-bar>
   </div>
 </div>

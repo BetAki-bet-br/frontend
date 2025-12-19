@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { Logger } from '@app/@shared/logger.service';
@@ -49,16 +49,18 @@ export interface ChangePasswordContext {
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private playerServiceApi = inject(PlayerService);
-  private credentialsService = inject(CredentialsService);
-  private dataStoreService = inject(DataStoreService);
-  private router = inject(Router);
-  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
-  private i18nService = inject(I18nService);
-  private fingerprintService = inject(FingerprintjsProAngularService);
-  private translateService = inject(TranslateService);
-  private authEventsService = inject(AuthEventsService);
-  private playerPromoService = inject(PlayerPromoService);
+  constructor(
+    private playerServiceApi: PlayerService,
+    private credentialsService: CredentialsService,
+    private dataStoreService: DataStoreService,
+    private router: Router,
+    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService,
+    private i18nService: I18nService,
+    private fingerprintService: FingerprintjsProAngularService,
+    private translateService: TranslateService,
+    private authEventsService: AuthEventsService, // Injected AuthEventsService
+    private playerPromoService: PlayerPromoService
+  ) {}
 
   /**
    * Authenticates the user.

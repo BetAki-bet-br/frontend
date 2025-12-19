@@ -1,4 +1,4 @@
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
+import { Dialog } from '@angular/cdk/dialog';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,28 +7,14 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
-  inject,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatCardModule } from '@angular/material/card';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 import { TwentyFourDateFormat } from '@app/@core/date-formats';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import { TableColumn, TableConfig, BaseTableComponent } from '@app/@shared/components/base-table/base-table.component';
-import {
-  PageBreadcrumbsComponent,
-  Breadcrumbs,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { TableColumn, TableConfig } from '@app/@shared/components/base-table/base-table.component';
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { Logger } from '@app/@shared/logger.service';
 import { SessionHistory } from '@app/@shared/models';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
@@ -37,17 +23,14 @@ import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from
 import { LoginHistoryRequestParameters, PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { IdLabel } from '@app/player-profile/wallet/wallet-history/wallet-history.component';
 import { LogonSessionStatusEnum } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Observable, Subject, Subscription, interval, map, of, switchMap, take, takeUntil, tap } from 'rxjs';
 import {
   AccountClosureDialogComponent,
   AccountClosureDialogResult,
 } from './account-closure-dialog/account-closure-dialog.component';
-import { CommonModule } from '@angular/common';
-import { BaseTableMsgsComponent } from '@app/@shared/components/base-table-msgs/base-table-msgs.component';
-import { FaceAuthenticatorDialogComponent } from '@app/@shared/components/face-authenticator-dialog/face-authenticator-dialog.component';
-import { MatTooltip } from '@angular/material/tooltip';
 
 export interface SessionHistoryFormGroup {
   dateFrom: FormControl<Date | null>;
@@ -57,46 +40,14 @@ export interface SessionHistoryFormGroup {
 
 const log = new Logger('ProfileSettingsSecurityComponent');
 
+@UntilDestroy()
 @Component({
   selector: 'app-profile-settings-security',
   templateUrl: './profile-settings-security.component.html',
   styleUrls: ['./profile-settings-security.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterLink,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatExpansionModule,
-    MatPaginatorModule,
-    MatDividerModule,
-    MatCardModule,
-    PageBreadcrumbsComponent,
-    DialogModule,
-    MatTooltip,
-  ],
 })
 export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
-  private cdr = inject(ChangeDetectorRef);
-  private deviceService = inject(DeviceDetectorService);
-  private dialog = inject(Dialog);
-  private playerProfileService = inject(PlayerProfileService);
-  private snackbarService = inject(SnackbarService);
-  private translateService = inject(TranslateService);
-  private tawkToScriptService = inject(TawkToScriptService);
-  private authDialogService = inject(AuthDialogService);
-  private authenticationService = inject(AuthenticationService);
-  private router = inject(Router);
-  private paginatorIntl = inject(MatPaginatorIntl);
-
   @ViewChild('userAgentTemplate', { static: true }) userAgentTemplate?: TemplateRef<any>;
   @ViewChild('statusTemplate', { static: true }) statusTemplate?: TemplateRef<any>;
   @ViewChild('dateTemplate', { static: true }) dateTemplate?: TemplateRef<any>;
@@ -167,6 +118,20 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
   currentySelectedStatus: IdLabel[] = [];
 
   private subscription: Subscription = new Subscription();
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService,
+    private dialog: Dialog,
+    private playerProfileService: PlayerProfileService,
+    private snackbarService: SnackbarService,
+    private translateService: TranslateService,
+    private tawkToScriptService: TawkToScriptService,
+    private authDialogService: AuthDialogService,
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private paginatorIntl: MatPaginatorIntl
+  ) {}
 
   searchItems() {
     this.getSessionHistory();

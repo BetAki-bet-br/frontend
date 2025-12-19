@@ -1,14 +1,9 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
-@use "theme/material-theming" as material-theming;
-@use "@angular/material" as mat;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 :host {
-  @include mat.button-theme(material-theming.$app-theme);
-  @include mat.icon-theme(material-theming.$app-theme);
-  @include mat.divider-theme(material-theming.$app-theme);
   width: 100%;
 }
 
@@ -34,7 +29,7 @@
     height: 1.2rem;
     width: 1.2rem;
     vertical-align: middle;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+    color: map.get($app-custom-colors, "betaki-green100");
   }
 }
 
@@ -44,7 +39,7 @@
 
 .section-navigation-text {
   font-size: 0.75rem;
-  color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+  color: map.get($app-custom-colors, "betaki-green100");
   display: flex;
   justify-content: center;
   align-self: center;
@@ -56,7 +51,7 @@
   font-size: 1.375rem;
   line-height: 150%;
   font-weight: 300;
-  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  color: map.get($app-custom-colors, "betaki-black100");
   margin-bottom: -0.75rem;
 
   span {
@@ -73,7 +68,7 @@
 .withdrawal-action {
   height: 2.5rem;
   width: 10rem;
-  color: white !important;
+
   @include utils.media("lt-sm-2") {
     height: 3rem;
   }
@@ -85,7 +80,7 @@
 }
 
 .balance-label {
-  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  color: map.get($app-custom-colors, "betaki-black100");
   font-weight: 700;
   font-size: 0.75rem;
 }
@@ -93,7 +88,7 @@
 .amount-secondary {
   font-weight: 600;
   font-size: 1rem;
-  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  color: map.get($app-custom-colors, "betaki-black100");
 }
 
 .hide-mobile {

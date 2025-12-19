@@ -8,13 +8,11 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Logger } from '@app/@shared';
 import { AccessRestrictedDialogComponent } from '@app/@shared/components/access-restricted-dialog/access-restricted-dialog.component';
-import { LoadingService } from '@app/@shared/components/loading/loading.service';
 import { SportsbookService } from '@app/@shared/services/sportsbook.service';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { CredentialsService } from '@app/auth';
@@ -32,23 +30,10 @@ const log = new Logger('SportsbookComponent');
   providers: [SportsbookService],
 })
 export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
-  private sportsbookService = inject(SportsbookService);
-  private router = inject(Router);
-  private ccService = inject(NgcCookieConsentService);
-  private cdr = inject(ChangeDetectorRef);
-  private route = inject(ActivatedRoute);
-  private sanitizer = inject(DomSanitizer);
-  private credentialsService = inject(CredentialsService);
-  private authDialogService = inject(AuthDialogService);
-  private tawkToScriptService = inject(TawkToScriptService);
-  private el = inject(ElementRef);
-  private dialog = inject(Dialog);
-  private loadingService = inject(LoadingService);
-
   @ViewChild('sportsbookIframe') iframeRef!: ElementRef;
 
   footerURL = `${window.location.origin}/static/footer.html`;
-  casinoLobby = '/games';
+  casinoLobby = '/games/lobby';
 
   public cookiesConsent = true;
   private routeSub: Subscription = new Subscription();
@@ -58,56 +43,74 @@ export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
   isLive = false;
   isAuth = false;
 
-  private messageListener = (event: MessageEvent) => {
-    // Optional: Restrict to trusted origin
-    //if (event.origin !== 'https://your-static-content.com') return;
-    //log.warn('Received event:', event);
-    const message = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
-    //log.warn('Received event message:', message);
-
-    const type = message?.type || message?.eventType;
-
-    switch (type) {
-      case 'NAVIGATE':
-        log.debug('Received NAVIGATE message:', message.path);
-        if (typeof message.path === 'string') {
-          this.router.navigateByUrl(message.path);
-        }
-        break;
-      case 'CHAT':
-        log.debug('Received CHAT message:', message);
-        if (message.path === 'open') {
-          this.tawkToScriptService.maximize();
-        } else if (message.path === 'close') {
-          this.tawkToScriptService.minimize();
-        }
-        break;
-      // Event from sportsbook to notify that it is ready
-      case 'APP_READY':
-        this.loadingService.hide();
-        log.debug('Received APP_READY event, message:', event);
-        this.sendFooterDomain();
-        break;
-      // Event from sportsbook notifying that we should do a redirect
-      case 'BUTTON_REDIRECT':
-        log.debug('Received BUTTON_REDIRECT event:', message);
-        // Handle the redirect based on the link provided in the message
-        switch (message.link) {
-          default:
-            // by default, redirect to the casino lobby
-            this.router.navigateByUrl(this.casinoLobby);
-            break;
-        }
-        break;
-    }
-  };
-
-  constructor() {
-    this.loadingService.show();
-  }
+  constructor(
+    private sportsbookService: SportsbookService,
+    private router: Router,
+    private ccService: NgcCookieConsentService,
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer,
+    private credentialsService: CredentialsService,
+    private authDialogService: AuthDialogService,
+    private tawkToScriptService: TawkToScriptService,
+    private el: ElementRef,
+    private dialog: Dialog
+  ) {}
 
   ngOnInit(): void {
-    window.addEventListener('message', this.messageListener);
+    window.addEventListener('message', (event) => {
+      // Optional: Restrict to trusted origin
+      //if (event.origin !== 'https://your-static-content.com') return;
+      //log.warn('Received event:', event);
+      const message = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+      //log.warn('Received event message:', message);
+
+      const type = message?.type || message?.eventType;
+
+      switch (type) {
+        case 'NAVIGATE':
+          log.debug('Received NAVIGATE message:', message.path);
+          if (typeof message.path === 'string') {
+            this.router.navigateByUrl(message.path);
+          }
+          break;
+        case 'CHAT':
+          log.debug('Received CHAT message:', message);
+          if (message.path === 'open') {
+            this.tawkToScriptService.maximize();
+          } else if (message.path === 'close') {
+            this.tawkToScriptService.minimize();
+          }
+          break;
+        // Event from sportsbook to notify that it is ready
+        case 'APP_READY':
+          log.debug('Received APP_READY event, message:', event);
+          // Send footer url to the iframe
+          this.iframeRef.nativeElement.contentWindow?.postMessage(
+            JSON.stringify({ eventType: 'footerDomain', eventData: { value: this.footerURL } }),
+            '*'
+          );
+          /*
+          this.iframeRef.nativeElement.contentWindow?.postMessage(
+            JSON.stringify({ type: 'iframeHeight', height: 1550 }),
+            '*'
+          );
+          log.debug('Sent footer url to the iframe.');
+          */
+          break;
+        // Event from sportsbook notifying that we should do a redirect
+        case 'BUTTON_REDIRECT':
+          log.debug('Received BUTTON_REDIRECT event:', message);
+          // Handle the redirect based on the link provided in the message
+          switch (message.link) {
+            default:
+              // by default, redirect to the casino lobby
+              this.router.navigateByUrl(this.casinoLobby);
+              break;
+          }
+          break;
+      }
+    });
 
     this.routeSub.add(
       this.route.data.subscribe((res) => {
@@ -145,7 +148,6 @@ export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
     this.mainContainer = this.el.nativeElement.closest('.main-container');
     if (this.mainContainer) {
       this.mainContainer.style.height = '100%';
-      this.mainContainer.style.minHeight = '100dvh';
     }
   }
 
@@ -155,7 +157,22 @@ export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.routeSub.unsubscribe();
-    window.removeEventListener('message', this.messageListener);
+  }
+
+  private processCookiesConsent() {
+    // if (this.ccService?.hasConsented()) {
+    //   this.cookiesConsent = true;
+    //   this.cdr.detectChanges();
+    //   setTimeout(() => {
+    //     this.sportsbookService.loadSportsbook();
+    //   });
+    // } else {
+    //   this.cookiesConsent = false;
+    //   if (this.ccService?.hasAnswered()) {
+    //     this.ccService.open();
+    //   }
+    //   this.cdr.markForCheck();
+    // }
   }
 
   private loadSportsbookUrl() {
@@ -192,19 +209,6 @@ export class SportsbookComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isAuth = false;
         }
       });
-    }
-  }
-
-  private sendFooterDomain(): void {
-    console.log('Sending footer domain to sportsbook iframe:', this.footerURL);
-    const message = {
-      eventType: 'footerDomain',
-      eventData: {
-        value: this.footerURL,
-      },
-    };
-    if (this.iframeRef?.nativeElement?.contentWindow) {
-      this.iframeRef.nativeElement.contentWindow.postMessage(JSON.stringify(message), '*');
     }
   }
 

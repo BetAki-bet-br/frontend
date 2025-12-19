@@ -1,9 +1,5 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
-import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 
 export enum BonusOptInResultEnum {
   Success = 1,
@@ -15,20 +11,19 @@ export enum BonusOptInResultEnum {
   templateUrl: './bonus-opt-in-result-dialog.component.html',
   styleUrls: ['./bonus-opt-in-result-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, MatProgressSpinner, MatButtonModule, TranslateModule],
 })
 export class BonusOptInResultDialogComponent {
-  private dialogRef = inject<DialogRef<BonusOptInResultEnum>>(DialogRef);
-  result = inject<BonusOptInResultEnum>(DIALOG_DATA);
-  private cdr = inject(ChangeDetectorRef);
-
   resultEnum = BonusOptInResultEnum;
 
   //loading timeout in seconds
   loadingTimeout = 3;
   isLoading = true;
 
-  constructor() {
+  constructor(
+    private dialogRef: DialogRef<BonusOptInResultEnum>,
+    @Inject(DIALOG_DATA) public result: BonusOptInResultEnum,
+    private cdr: ChangeDetectorRef
+  ) {
     this.startTimer();
   }
 

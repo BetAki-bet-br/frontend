@@ -1,5 +1,5 @@
-import { Injectable, DOCUMENT, inject } from '@angular/core';
-
+import { Injectable, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Logger } from '@shared';
 
 const log = new Logger('App');
@@ -8,7 +8,7 @@ const log = new Logger('App');
   providedIn: 'root',
 })
 export class SeoService {
-  private dom = inject<Document>(DOCUMENT);
+  constructor(@Inject(DOCUMENT) private dom: Document) {}
 
   updateCanonicalUrl(url: string) {
     const head = this.dom.getElementsByTagName('head')[0];

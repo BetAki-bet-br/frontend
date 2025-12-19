@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CredentialsService } from '@app/auth';
 import { MessageService as MessageServiceApi, MessageTypeEnum } from '@icore/ngx-portalgateway-api-client-atl';
@@ -12,10 +12,6 @@ const log = new Logger('MessageService');
   providedIn: 'root',
 })
 export class MessageService {
-  private messageServiceApi = inject(MessageServiceApi);
-  private credentialsService = inject(CredentialsService);
-  private router = inject(Router);
-
   private pageSize = 10000;
   private pageNumber = 1;
 
@@ -49,7 +45,11 @@ export class MessageService {
     },
   };
 
-  constructor() {
+  constructor(
+    private messageServiceApi: MessageServiceApi,
+    private credentialsService: CredentialsService,
+    private router: Router
+  ) {
     // subscribe to player balance which repeats on 1 second and retries if error
     this.startUnreadCountUpdate().subscribe();
     this.startMessagesUpdate().subscribe();

@@ -8,7 +8,7 @@ describe('BonusActiveComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BonusActiveComponent],
+      declarations: [BonusActiveComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BonusActiveComponent);

@@ -5,8 +5,8 @@
     (click)="onLinkClick()"
     [routerLinkActive]="['profile-link-active']"
   >
-    <div class="flex profile-link-content">
-      <mat-icon class="link-icon" svgIcon="essentials-arrows-horizontal" />
+    <div class="flex-row profile-link-content">
+      <mat-icon class="link-icon" svgIcon="essentials-arrows-horizontal"></mat-icon>
       <div class="link-title">
         {{ 'Transactions' | translate }}
       </div>
@@ -19,8 +19,8 @@
     (click)="onLinkClick()"
     [routerLinkActive]="['profile-link-active']"
   >
-    <div class="flex profile-link-content">
-      <mat-icon class="link-icon" svgIcon="profile-casino" />
+    <div class="flex-row profile-link-content">
+      <mat-icon class="link-icon" svgIcon="profile-casino"></mat-icon>
       <div class="link-title">
         {{ 'Casino' | translate }}
       </div>
@@ -33,8 +33,8 @@
     (click)="onLinkClick()"
     [routerLinkActive]="['profile-link-active']"
   >
-    <div class="flex profile-link-content">
-      <mat-icon class="link-icon" svgIcon="profile-sportsbook" />
+    <div class="flex-row profile-link-content">
+      <mat-icon class="link-icon" svgIcon="profile-sportsbook"></mat-icon>
       <div class="link-title">
         {{ 'Sports betting' | translate }}
       </div>
@@ -47,8 +47,8 @@
     (click)="onLinkClick()"
     [routerLinkActive]="['profile-link-active']"
   >
-    <div class="flex profile-link-content">
-      <mat-icon class="link-icon" svgIcon="essentials-star" />
+    <div class="flex-row profile-link-content">
+      <mat-icon class="link-icon" svgIcon="essentials-star"></mat-icon>
       <div class="link-title">
         {{ 'Promotions and bonuses' | translate }}
       </div>
@@ -58,66 +58,72 @@
   <div class="profile-link-expandable">
     <div class="expandable-items-wrapper">
       <a class="profile-link" (click)="toggleMenu()">
-        <div class="flex profile-link-content">
-          <mat-icon class="link-icon" svgIcon="essentials-user" />
+        <div class="flex-row profile-link-content">
+          <mat-icon class="link-icon" svgIcon="essentials-user"></mat-icon>
           <div class="link-title">
             {{ 'Profile' | translate }}
           </div>
         </div>
       </a>
 
-      @if (expanded) {
       <a
         class="profile-link"
+        *ngIf="expanded"
         (click)="onLinkClick()"
         routerLink="/profile/general/security"
         [routerLinkActive]="['profile-link-active']"
       >
-        <div class="flex profile-link-content">
+        <div class="flex-row profile-link-content">
           <div class="link-subtitle">
             {{ 'Login and security' | translate }}
           </div>
         </div>
       </a>
-      } @if (expanded) {
+
       <a
         class="profile-link"
+        *ngIf="expanded"
         (click)="onLinkClick()"
         routerLink="/profile/responsible-gambling"
         [routerLinkActive]="['profile-link-active']"
       >
-        <div class="flex profile-link-content">
+        <div class="flex-row profile-link-content">
           <div class="link-subtitle">
             {{ 'Player protection' | translate }}
           </div>
         </div>
       </a>
-      } @if (expanded) {
+
       <a
         class="profile-link"
+        *ngIf="expanded"
         (click)="onLinkClick()"
         routerLink="/profile/general/subscriptions"
         [routerLinkActive]="['profile-link-active']"
       >
-        <div class="flex profile-link-content">
+        <div class="flex-row profile-link-content">
           <div class="link-subtitle">
             {{ 'Privacy settings' | translate }}
           </div>
         </div>
       </a>
-      }
     </div>
 
     <div class="expandable-icon-wrapper">
-      @if (!expanded) {
-      <mat-icon fontSet="material-icons-outlined" class="link-navigation-icon expandable-icon" (click)="toggleMenu()"
+      <mat-icon
+        fontSet="material-icons-outlined"
+        class="link-navigation-icon expandable-icon"
+        *ngIf="!expanded"
+        (click)="toggleMenu()"
         >expand_more</mat-icon
       >
-      } @if (expanded) {
-      <mat-icon fontSet="material-icons-outlined" class="link-navigation-icon expandable-icon" (click)="toggleMenu()"
+      <mat-icon
+        fontSet="material-icons-outlined"
+        class="link-navigation-icon expandable-icon"
+        *ngIf="expanded"
+        (click)="toggleMenu()"
         >expand_less</mat-icon
       >
-      }
     </div>
   </div>
 
@@ -127,13 +133,11 @@
     (click)="onLinkClick()"
     [routerLinkActive]="['profile-link-active']"
   >
-    <div class="flex profile-link-content">
-      <mat-icon class="link-icon" svgIcon="essentials-mail" />
+    <div class="flex-row profile-link-content">
+      <mat-icon class="link-icon" svgIcon="essentials-mail"></mat-icon>
       <div class="link-title">
         {{ 'Messages' | translate }}
-        @if (displayNumberOfMessages) {
-        <div class="link-title-notifications">{{ messageCount$ | async }}</div>
-        }
+        <div class="link-title-notifications" *ngIf="displayNumberOfMessages">{{ messageCount$ | async }}</div>
       </div>
     </div>
   </a>

@@ -1,0 +1,40 @@
+<app-header
+  class="header not-mobile"
+  [isSignedIn]="isSignedIn"
+  [balance]="balance$ | async"
+  [loyaltyPoints]="loyaltyPoints$ | async"
+  [playerInfo]="playerInfo"
+></app-header>
+
+<!-- Main container -->
+<div class="main-container hide-mobile">
+  <div class="profile-info-container" *ngIf="!isActive('deposit') && !isActive('email-verification')">
+    <app-profile-menu class="profile-menu-host" [class.hide-mobile]="!isActive('/profile')"></app-profile-menu>
+  </div>
+
+  <router-outlet *ngIf="!isSmallScreen"></router-outlet>
+</div>
+
+<app-footer-nav-bar
+  (sidenavToggle)="sidenavMenu.toggleSidenavMenu()"
+  (sidenavCloseIfOpened)="sidenavMenu.closeSidenavIfOpened()"
+  class="footer-nav-bar-mobile"
+></app-footer-nav-bar>
+
+<app-sidenav-menu #sidenavMenu class="hide-desktop">
+  <app-header
+    class="header mobile"
+    [isSignedIn]="isSignedIn"
+    [balance]="balance$ | async"
+    [loyaltyPoints]="loyaltyPoints$ | async"
+    [playerInfo]="playerInfo"
+  ></app-header>
+
+  <!-- Main container -->
+  <div class="main-container">
+    <div class="profile-info-container">
+      <app-profile-menu class="profile-menu-host" [class.hide-mobile]="!isActive('/profile')"></app-profile-menu>
+    </div>
+    <router-outlet *ngIf="isSmallScreen"></router-outlet>
+  </div>
+</app-sidenav-menu>

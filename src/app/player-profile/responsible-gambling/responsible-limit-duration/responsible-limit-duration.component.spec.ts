@@ -25,7 +25,8 @@ describe('ResponsibleLimitDurationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), ResponsibleLimitDurationComponent],
+      imports: [TranslateModule.forRoot()],
+      declarations: [ResponsibleLimitDurationComponent],
       providers: [
         SnackbarService,
         MatSnackBar,

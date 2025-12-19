@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Logger } from '@app/@shared/logger.service';
 import { FaceAuthParams } from '@app/auth/auth-dialog.service';
 import {
@@ -16,7 +16,7 @@ const log = new Logger('PlayerStatusService');
   providedIn: 'root',
 })
 export class PaymentsService {
-  private paymentService = inject(PaymentService);
+  constructor(private paymentService: PaymentService) {}
 
   createDeposit(request: PaymentRequest) {
     return this.paymentService.apiPortalV1PaymentDepositPost(request).pipe(

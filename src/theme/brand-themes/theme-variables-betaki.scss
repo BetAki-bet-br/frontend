@@ -2,7 +2,7 @@
  * Application global variables.
  */
 
-@use "sass:map" as map;
+@use "sass:map";
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
@@ -109,8 +109,8 @@ $app-custom-colors: (
 
 // $action-gradient: linear-gradient(
 //   to right,
-//   map.get(theme-variables.$app-custom-colors, "blue-50"),
-//   map.get(theme-variables.$app-custom-colors, "purple")
+//   map.get($app-custom-colors, "blue-50"),
+//   map.get($app-custom-colors, "purple")
 // );
 
 // max width of the main content (on the home page only?)

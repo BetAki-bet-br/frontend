@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { Observable, of } from 'rxjs';
@@ -8,7 +8,7 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class GameplayGuard implements CanActivate {
-  private authDialogService = inject(AuthDialogService);
+  constructor(private authDialogService: AuthDialogService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.authDialogService.initAccountVerification(AccountVerificationActionEnum.GameLaunch).pipe(

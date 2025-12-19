@@ -14,20 +14,9 @@
  * you may have.
  */
 
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  Renderer2,
-  ViewChild,
-  inject,
-} from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import { MatProgressBar } from '@angular/material/progress-bar';
 
 /**
  * Configuration for file upload component.
@@ -45,16 +34,11 @@ export interface FileUploadConfiguration {
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],
-  imports: [MatProgressBar, TranslateModule],
 })
 export class FileUploadComponent implements OnInit {
-  private snackbarService = inject(SnackbarService);
-  private renderer = inject(Renderer2);
-  private translateService = inject(TranslateService);
-
   @ViewChild('uploadInput', { static: true }) uploadInput?: ElementRef;
   // Emits an array of strings when csv is either dropper or uploaded via browsing
-  @Output() emitItems = new EventEmitter<FileList>();
+  @Output() emitItems = new EventEmitter<any>();
   @Output() emitFileName = new EventEmitter<string>();
   @Input() configuration: FileUploadConfiguration = {
     fileType: ['*'],
@@ -72,6 +56,12 @@ export class FileUploadComponent implements OnInit {
     return this.configuration.fileType.join(', ');
   }
 
+  constructor(
+    private snackbarService: SnackbarService,
+    private renderer: Renderer2,
+    private translateService: TranslateService
+  ) {}
+
   ngOnInit(): void {
     if (this.configuration.maxFileSizeKB == null) {
       this.configuration.maxFileSizeKB = 2000;
@@ -84,10 +74,9 @@ export class FileUploadComponent implements OnInit {
    *
    * @param file File input from from input
    */
-  fileUpload(event: any) {
-    const files: FileList = event;
-    this.fileLoad(files);
-    this.emitFileName.emit(files?.item(0)?.name);
+  fileUpload(file: FileList) {
+    this.fileLoad(file);
+    this.emitFileName.emit(file?.item(0)?.name);
   }
 
   onUploadInputChange(event: Event): void {

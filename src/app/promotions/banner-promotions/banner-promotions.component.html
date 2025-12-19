@@ -1,13 +1,13 @@
-<div class="page-container h-full">
+<div class="page-container">
   <div class="banner-promotions-container">
     <div class="breadcrumbs-wrapper">
-      <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+      <app-page-breadcrumbs [breadcrumbs]="breadcrumbs"></app-page-breadcrumbs>
     </div>
 
     <div class="banners-wrapper">
-      @for (bannerPromotion of bannerPromotions; track bannerPromotion) {
-      <div class="promo-banner" [innerHTML]="bannerPromotion?.templateHtml"></div>
-      }
+      <ng-container *ngFor="let bannerPromotion of bannerPromotions">
+        <div class="promo-banner" [innerHTML]="bannerPromotion?.templateHtml"></div>
+      </ng-container>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { DatePipe, CommonModule, Location } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -8,21 +8,15 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  inject,
-  DestroyRef,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
-import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule } from '@angular/material/tooltip';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import { Logger } from '@app/@shared';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Logger, UntilDestroy, untilDestroyed } from '@app/@shared';
+import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import {
   Day,
   Gender,
@@ -39,22 +33,10 @@ import { validateNumber } from '@app/@shared/utils/validate-number';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { Country, FaceAuthUpdatePlayerRequest, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap } from 'rxjs';
 import { GENDER_LIST } from './profile-settings-info.mock';
 import { brazilianMobileValidator } from '@app/@shared/validators/brazilian-mobile-validator';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-
-import { MatDividerModule } from '@angular/material/divider';
-import { TextFieldModule } from '@angular/cdk/text-field';
-import { LoaderComponent } from '@app/@shared/loader/loader.component';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 const log = new Logger('ProfileSettingsInfoComponent');
 
@@ -65,45 +47,15 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   position: 'above',
 };
 
+@UntilDestroy()
 @Component({
   selector: 'app-profile-settings-info',
   templateUrl: './profile-settings-info.component.html',
   styleUrls: ['./profile-settings-info.component.scss'],
-  providers: [{ provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults }, DatePipe],
+  providers: [{ provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults }],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatTooltipModule,
-    PageBreadcrumbsComponent,
-    MatDividerModule,
-    TextFieldModule,
-    MatProgressSpinner,
-  ],
 })
 export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
-  private fb = inject(FormBuilder);
-  private playerProfileService = inject(PlayerProfileService);
-  private configurationService = inject(ConfigurationService);
-  private snackbarService = inject(SnackbarService);
-  private geoLocationService = inject(GeoLocationService);
-  private authDialogService = inject(AuthDialogService);
-  private cdr = inject(ChangeDetectorRef);
-  private router = inject(Router);
-  private location = inject(Location);
-  private translate = inject(TranslateService);
-  private datePipe = inject(DatePipe);
-  private destroyRef = inject(DestroyRef);
-
   @Input() matTabGroup?: MatTabGroup;
   @Output() profileChanged = new EventEmitter<{ playerInfoData: PlayerDetails | null; phoneVerification: string }>();
 
@@ -181,8 +133,20 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
   editChavePixActive = false;
   emailVerificationInProgress = false;
 
-  constructor() {
-    const state = this.router.currentNavigation()?.extras.state as any;
+  constructor(
+    private fb: FormBuilder,
+    private playerProfileService: PlayerProfileService,
+    private configurationService: ConfigurationService,
+    private snackbarService: SnackbarService,
+    private geoLocationService: GeoLocationService,
+    private authDialogService: AuthDialogService,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private location: Location,
+    private translate: TranslateService,
+    private datePipe: DatePipe
+  ) {
+    const state = location.getState() as any;
     if (state?.['openAddress']) {
       this.editAddressActive = true;
     }
@@ -191,19 +155,19 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.profileGeneralForm.disable();
     // on date of birth month change
-    this.profileGeneralForm.controls.month.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+    this.profileGeneralForm.controls.month.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
       const year = this.profileGeneralForm.controls.year.value;
       const month = value ? value.id : this.defaultMonth;
       this.days = getDays(year ? year.id : this.defaultYear, month);
     });
     // on date of birth year change
-    this.profileGeneralForm.controls.year.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+    this.profileGeneralForm.controls.year.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
       const year = value ? value.id : this.defaultYear;
       const month = this.profileGeneralForm.controls.month.value;
       this.days = getDays(year, month ? month.id : this.defaultMonth);
     });
     // on email status changes
-    this.profileGeneralForm.controls.email.statusChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((status: any) => {
+    this.profileGeneralForm.controls.email.statusChanges.pipe(untilDestroyed(this)).subscribe((status: any) => {
       if (status === 'INVALID') {
         if (this.profileGeneralForm.controls.email.hasError('email')) {
           this.snackbarService.openCustomError(
@@ -598,7 +562,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
           return of();
         })
       )
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(untilDestroyed(this))
       .subscribe({
         next: (response: { playerInfo: PlayerDetails | null; numberVerification: string }) => {
           this.playerDetails = response?.playerInfo;
@@ -639,7 +603,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
       numberVerification: this.playerProfileService.checkNumberVerification(),
       verificationStatus: this.playerProfileService.getPlayerVerificationStatus(),
     }).pipe(
-      takeUntilDestroyed(this.destroyRef),
+      untilDestroyed(this),
       switchMap((data) => {
         return this.geoLocationService.getLocationByIP().pipe(
           map((d) => {

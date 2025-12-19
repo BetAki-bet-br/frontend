@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { GameCategoriesService, getCleanUrlName } from '@app/@core/game-categories.service';
 import { AssetsService } from '@app/@shared/assets.service';
@@ -23,13 +23,6 @@ interface AllGameDataModel {
   providedIn: 'root',
 })
 export class GamesService {
-  private prodGameService = inject(ProdGameService);
-  private dataStoreService = inject(DataStoreService);
-  private credentialsService = inject(CredentialsService);
-  private assetsService = inject(AssetsService);
-  private gameCategoryService = inject(GameCategoriesService);
-  private i18nService = inject(I18nService);
-
   /**
    * Subject that stores, if the lobby api call is pending. This is used,
    * so other api calls wait for before checking the cache.
@@ -39,6 +32,15 @@ export class GamesService {
    * TODO: this should go in the data store service and be made, so every cache item can have a pending state.
    */
   private cacheIsPending$ = new BehaviorSubject<{ [key: string]: boolean }>({});
+
+  constructor(
+    private prodGameService: ProdGameService,
+    private dataStoreService: DataStoreService,
+    private credentialsService: CredentialsService,
+    private assetsService: AssetsService,
+    private gameCategoryService: GameCategoriesService,
+    private i18nService: I18nService
+  ) {}
 
   getGames(levelId: string): Observable<GameTile[] | null> {
     return this.getAllLobbyAndMenuGamesWaitForCache(levelId).pipe(map((result) => result.lobbyGames));

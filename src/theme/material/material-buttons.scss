@@ -2,10 +2,10 @@
 /* stylelint-disable no-descending-specificity */
 /* stylelint-disable selector-max-specificity */
 
-@use "sass:map" as map;
+@use "sass:map";
 @use "src/theme/theme-variables" as vars;
 @use "src/theme/utils.scss" as utils;
-@use "sass:color" as color;
+@use "sass:color";
 
 //*****************************************************************************
 //#region Base material design overrides
@@ -248,7 +248,7 @@
 .nav-link-button {
   &.mat-mdc-button {
     &.mat-unthemed {
-      --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
+      --mdc-text-button-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
 
       background-color: color.adjust(map.get(vars.$app-custom-colors, "neutral-10"), $alpha: -0.7);
       color: white;
@@ -271,7 +271,7 @@
     }
 
     &:not(:disabled) {
-      --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
+      --mdc-text-button-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
     }
   }
 }
@@ -281,7 +281,7 @@
 
   &.mat-unthemed {
     /* stylelint-disable-next-line declaration-no-important */
-    --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white") !important;
+    --mdc-text-button-label-text-color: map.get(vars.$app-custom-colors, "neutral-white") !important;
     color: map.get(vars.$app-custom-colors, "neutral-white");
   }
 }
@@ -292,11 +292,11 @@
 }
 
 .mat-mdc-button:not(:disabled) {
-  --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
+  --mdc-text-button-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
 }
 
 .mat-mdc-outlined-button[disabled][disabled] {
-  --mat-button-outlined-outline-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_error"), $alpha: -0.75);
+  --mdc-outlined-button-outline-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_error"), $alpha: -0.75);
 }
 
 app-payments-table {

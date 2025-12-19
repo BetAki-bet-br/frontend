@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpEvent,
   HttpInterceptor,
@@ -24,11 +24,10 @@ const log = new Logger('ErrorHandlerInterceptor');
   providedIn: 'root',
 })
 export class ErrorHandlerInterceptor implements HttpInterceptor {
-  private authenticationService = inject(AuthenticationService);
-  private credentialsService = inject(CredentialsService);
-
   isRefreshingToken = false;
   tokenRefreshed$ = new BehaviorSubject<boolean | 'error'>(false);
+
+  constructor(private authenticationService: AuthenticationService, private credentialsService: CredentialsService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Before calling the api, check if the token is being refreshed and the called endpoint

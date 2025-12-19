@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  DestroyRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -10,50 +9,29 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  inject,
 } from '@angular/core';
-import { AbstractControl, FormGroup, ReactiveFormsModule } from '@angular/forms'; // Added ReactiveFormsModule
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Logger } from '@app/@shared';
 import { Subscription } from 'rxjs';
 import { RegistrationForm } from '../register-dialog.component';
 import { AuthenticationService } from '@app/auth/authentication.service';
 import { AffiliatesService } from '@app/@shared/services/affiliates.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { CountryCode, RegisterData } from '@app/@shared/models';
 import { validateNumber } from '@app/@shared/utils/validate-number';
-import { TranslateModule, TranslateService } from '@ngx-translate/core'; // Added TranslateModule
-// Added CommonModule
-import { MatFormFieldModule } from '@angular/material/form-field'; // Added MatFormFieldModule
-import { MatInputModule } from '@angular/material/input'; // Added MatInputModule
-import { MatIconModule } from '@angular/material/icon'; // Added MatIconModule
-import { MatCheckboxModule } from '@angular/material/checkbox'; // Added MatCheckboxModule
-import { LoaderComponent } from '@app/@shared/loader/loader.component'; // Added LoaderComponent
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('PersonalDataComponent');
 
+@UntilDestroy()
 @Component({
   selector: 'app-personal-data',
   templateUrl: './personal-data.component.html',
   styleUrls: ['./personal-data.component.scss'],
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatCheckboxModule,
-    LoaderComponent,
-  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalDataComponent implements OnInit, OnChanges {
-  private authenticationService = inject(AuthenticationService);
-  private affiliatesService = inject(AffiliatesService);
-  private cdr = inject(ChangeDetectorRef);
-  private translate = inject(TranslateService);
-  private destroyRef = inject(DestroyRef);
-
   @Input() registerForm: FormGroup<RegistrationForm> | undefined;
   @Input() registerError = '';
   @Input() countriesCode: CountryCode[] = [];
@@ -75,13 +53,20 @@ export class PersonalDataComponent implements OnInit, OnChanges {
 
   private subscription: Subscription = new Subscription();
 
+  constructor(
+    private authenticationService: AuthenticationService,
+    private affiliatesService: AffiliatesService,
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService
+  ) {}
+
   ngOnInit(): void {
     // Retrieve and set device fingerprint requestId
     // this.authenticationService.getFingerprintData().then((requestId) => {
     //   this.fingerprintRequestId = requestId;
     // });
 
-    this.registerForm?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+    this.registerForm?.valueChanges.pipe(untilDestroyed(this)).subscribe(() => {
       if (this.registerError) {
         this.registerError = '';
       }
@@ -108,7 +93,7 @@ export class PersonalDataComponent implements OnInit, OnChanges {
     // Mark all controls as touched so errors are displayed
     for (const key in this.registerForm?.controls) {
       if (Object.prototype.hasOwnProperty.call(this.registerForm?.controls, key)) {
-        const control = (this.registerForm?.controls as any)[key] as AbstractControl;
+        const control = this.registerForm?.controls[key] as AbstractControl;
         control.markAsTouched();
         control.markAsDirty();
       }

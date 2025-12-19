@@ -6,8 +6,8 @@ import { PipesModule } from '@app/@pipes/pipes.module';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { AuthenticationService } from '@app/auth/authentication.service';
 import { MockAuthenticationService } from '@app/auth/authentication.service.mock';
-import { HttpBackend, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpBackend } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 
@@ -17,7 +17,8 @@ describe('LoginPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PipesModule, LoginPageComponent],
+      declarations: [LoginPageComponent],
+      imports: [TranslateModule.forRoot(), PipesModule, HttpClientTestingModule],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: Dialog, useValue: {} },
@@ -25,8 +26,6 @@ describe('LoginPageComponent', () => {
         { provide: MatSnackBar, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
         HttpBackend,
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

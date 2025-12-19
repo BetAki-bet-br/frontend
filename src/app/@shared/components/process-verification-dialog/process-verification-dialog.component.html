@@ -1,95 +1,99 @@
-<app-base-dialog
-  size="sm"
-  customClass="md:h-auto sm:max-w-lg"
-  [title]="'Complete the verification process' | translate"
-  [displayCloseButton]="true"
->
+<app-base-dialog [title]="'Complete the verification process' | translate" [displayCloseButton]="true">
   <div dialogContent>
-    <p class="description mb-3">
+    <p class="description">
       {{ 'To play, bet or deposit, you need to verify your account' | translate }}
     </p>
 
-    @if (playerVerificationStatus) {
     <div class="verification-steps-wrapper">
       <div class="verification-step">
-        @if (playerVerificationStatus.kycStatus) {
-        <mat-icon class="checked" fontSet="material-icons">verified</mat-icon>
-        } @if (!playerVerificationStatus.kycStatus) {
-        <img class="more" [src]="'assets/general/icons/verified.svg' | cdnize" />
-        }
-        <div class="flex flex-col">
+        <mat-icon *ngIf="playerVerificationStatus?.kycStatus" class="checked" fontSet="material-icons"
+          >verified</mat-icon
+        >
+        <img
+          *ngIf="!playerVerificationStatus?.kycStatus"
+          class="more"
+          [src]="'assets/general/icons/verified.svg' | cdnize"
+        />
+        <div class="flex-col">
           <span class="title-section" translate>KYC document verification</span>
           <span class="subtitle" translate>Confirm your identity through official documents</span>
-          @if (!playerVerificationStatus.kycStatus) {
-          <button class="button-section" (click)="onConfirm(ProcessVerificationResultEnum.KYC)">
+          <button
+            *ngIf="!playerVerificationStatus?.kycStatus"
+            class="button-section"
+            (click)="onConfirm(ProcessVerificationResultEnum.KYC)"
+          >
             <mat-icon fontSet="material-icons-outlined">upload_file</mat-icon>
             <span class="button-text">{{ 'Upload new documents' | translate | uppercase }}</span>
           </button>
-          }
         </div>
       </div>
       <div class="verification-step">
-        @if (playerVerificationStatus.address) {
-        <mat-icon class="checked" fontSet="material-icons">verified</mat-icon>
-        } @if (!playerVerificationStatus.address) {
-        <img class="more" [src]="'assets/general/icons/verified.svg' | cdnize" />
-        }
-        <div class="flex flex-col">
+        <mat-icon *ngIf="playerVerificationStatus?.address" class="checked" fontSet="material-icons">verified</mat-icon>
+        <img
+          *ngIf="!playerVerificationStatus?.address"
+          class="more"
+          [src]="'assets/general/icons/verified.svg' | cdnize"
+        />
+        <div class="flex-col">
           <span class="title-section" translate>Address</span>
           <span class="subtitle" translate
             >To complete the verification of your account, it is necessary to provide your address details.</span
           >
-          @if (!playerVerificationStatus.address) {
-          <button class="button-section" (click)="onConfirm(ProcessVerificationResultEnum.Address)">
+          <button
+            *ngIf="!playerVerificationStatus?.address"
+            class="button-section"
+            (click)="onConfirm(ProcessVerificationResultEnum.Address)"
+          >
             <mat-icon fontSet="material-icons-outlined">upload_file</mat-icon>
             <span class="button-text">{{ 'Verify address' | translate | uppercase }}</span>
           </button>
-          }
         </div>
       </div>
       <div class="verification-step">
-        @if (playerVerificationStatus.email) {
-        <mat-icon class="checked" fontSet="material-icons">verified</mat-icon>
-        } @if (!playerVerificationStatus.email) {
-        <img class="more" [src]="'assets/general/icons/verified.svg' | cdnize" />
-        }
-        <div class="flex flex-col">
+        <mat-icon *ngIf="playerVerificationStatus?.email" class="checked" fontSet="material-icons">verified</mat-icon>
+        <img
+          *ngIf="!playerVerificationStatus?.email"
+          class="more"
+          [src]="'assets/general/icons/verified.svg' | cdnize"
+        />
+        <div class="flex-col">
           <span class="title-section" translate>Email verification</span>
           <span class="subtitle" translate
             >Verify the accuracy of your email by clicking on a link received in your email.</span
           >
-          @if (!playerVerificationStatus.email) {
-          <button class="button-section" (click)="onConfirm(ProcessVerificationResultEnum.Email)">
+          <button
+            *ngIf="!playerVerificationStatus?.email"
+            class="button-section"
+            (click)="onConfirm(ProcessVerificationResultEnum.Email)"
+          >
             <mat-icon fontSet="material-icons-outlined">forward_to_inbox</mat-icon>
             <span class="button-text">{{ 'Resend verification email' | translate | uppercase }}</span>
           </button>
-          }
         </div>
       </div>
       <!-- This is not relevant for now -->
       <!-- <div class="flex-row gap-12">
-            <mat-icon *ngIf="playerVerificationStatus?.phoneNumber" class="checked" fontSet="material-icons"
-              >verified</mat-icon
-              >
-              <img
-                *ngIf="!playerVerificationStatus?.phoneNumber"
-                class="more"
-                [src]="'assets/general/icons/verified.svg' | cdnize"
-                />
-              <div class="flex flex-col">
-                <span class="title-section" translate>Phone number</span>
-                <span class="subtitle" translate>Use face recognition to ensure this is really you.</span>
-                <button
-                  *ngIf="!playerVerificationStatus?.phoneNumber"
-                  class="button-section gap-8"
-                  (click)="onConfirm(ProcessVerificationResultEnum.PhoneNumber)"
-                  >
-                  <mat-icon fontSet="material-icons-outlined">sms</mat-icon>
-                  <span class="button-text">{{ 'Verify phone number' | translate | uppercase }}</span>
-                </button>
-              </div>
-            </div> -->
+          <mat-icon *ngIf="playerVerificationStatus?.phoneNumber" class="checked" fontSet="material-icons"
+            >verified</mat-icon
+          >
+          <img
+            *ngIf="!playerVerificationStatus?.phoneNumber"
+            class="more"
+            [src]="'assets/general/icons/verified.svg' | cdnize"
+          />
+          <div class="flex-col">
+            <span class="title-section" translate>Phone number</span>
+            <span class="subtitle" translate>Use face recognition to ensure this is really you.</span>
+            <button
+              *ngIf="!playerVerificationStatus?.phoneNumber"
+              class="button-section gap-8"
+              (click)="onConfirm(ProcessVerificationResultEnum.PhoneNumber)"
+            >
+              <mat-icon fontSet="material-icons-outlined">sms</mat-icon>
+              <span class="button-text">{{ 'Verify phone number' | translate | uppercase }}</span>
+            </button>
+          </div>
+        </div> -->
     </div>
-    }
   </div>
 </app-base-dialog>

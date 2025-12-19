@@ -1,15 +1,15 @@
-import { DestroyRef, Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Logger } from '@app/@shared/logger.service';
 import { CredentialsService } from '@app/auth';
 import { AuthDialogService } from '@app/auth/auth-dialog.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { environment } from '@env/environment';
 import { I18nService } from '@app/i18n';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { catchError, map, Observable, Subscription } from 'rxjs';
 import { GetGeneralLobbyForProductResponseATL, ProdGameService } from '@icore/ngx-portalgateway-api-client-atl';
 import { DataStoreService } from '@app/@core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const log = new Logger('SportsbookService');
 
@@ -18,16 +18,9 @@ const log = new Logger('SportsbookService');
  *
  * Should be provided on component level with `poviders: [SportsbookService]`
  */
+@UntilDestroy()
 @Injectable()
 export class SportsbookService {
-  private credentialsService = inject(CredentialsService);
-  private authDialog = inject(AuthDialogService);
-  private router = inject(Router);
-  private i18nService = inject(I18nService);
-  private translateService = inject(TranslateService);
-  private prodGameService = inject(ProdGameService);
-  private dataStoreService = inject(DataStoreService);
-  private destroyRef = inject(DestroyRef);
   private _isSDKActive = false;
   private langChangeSubscription!: Subscription;
 
@@ -39,8 +32,16 @@ export class SportsbookService {
     this._isSDKActive = value;
   }
 
-  constructor() {
-    this.credentialsService.credentials$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
+  constructor(
+    private credentialsService: CredentialsService,
+    private authDialog: AuthDialogService,
+    private router: Router,
+    private i18nService: I18nService,
+    private translateService: TranslateService,
+    private prodGameService: ProdGameService,
+    private dataStoreService: DataStoreService
+  ) {
+    this.credentialsService.credentials$.pipe(untilDestroyed(this)).subscribe((result) => {
       switch (this.isSdkActive) {
         case true:
           this.setUserToken();
@@ -223,7 +224,7 @@ export class SportsbookService {
    * Setup the credentials observable and set the session token for the sportsbook
    */
   private setUserToken(): void {
-    this.credentialsService.credentials$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
+    this.credentialsService.credentials$.pipe(untilDestroyed(this)).subscribe((result) => {
       const altenarWSDK = (window as any).altenarWSDK;
       const userSessionKey = result?.sessionKey ?? '';
       altenarWSDK.set({

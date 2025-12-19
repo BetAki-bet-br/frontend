@@ -8,7 +8,7 @@ describe('AccessRestrictedDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AccessRestrictedDialogComponent],
+      declarations: [AccessRestrictedDialogComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AccessRestrictedDialogComponent);

@@ -1,17 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Logger } from '@app/@shared';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-profile/player-profile.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('EmailConfirmationComponent');
 
@@ -20,24 +14,8 @@ const log = new Logger('EmailConfirmationComponent');
   templateUrl: './email-confirmation.component.html',
   styleUrls: ['./email-confirmation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    CdnizePipe,
-  ],
 })
 export class EmailConfirmationComponent implements OnInit, OnDestroy {
-  private playerProfileService = inject(PlayerProfileService);
-  private snackbarService = inject(SnackbarService);
-  private cdr = inject(ChangeDetectorRef);
-  private router = inject(Router);
-  private tawkToService = inject(TawkToScriptService);
-  private translate = inject(TranslateService);
-
   otpForm = new FormGroup({
     otp: new FormArray([]),
   });
@@ -50,6 +28,15 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
   timerDisplay = 0;
   intervalId: any = null;
   resendDisabled = false;
+
+  constructor(
+    private playerProfileService: PlayerProfileService,
+    private snackbarService: SnackbarService,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private tawkToService: TawkToScriptService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.initOtpFields();

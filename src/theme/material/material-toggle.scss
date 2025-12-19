@@ -6,23 +6,23 @@
 /* stylelint-disable declaration-no-important */
 /* stylelint-disable no-duplicate-selectors */
 
-@use "sass:map" as map;
-@use "sass:color" as color;
+@use "sass:map";
+@use "sass:color";
 @use "src/theme/theme-variables" as vars;
 
 //*****************************************************************************
 //#region Toggle button
 //*****************************************************************************
 .mat-mdc-slide-toggle {
-  --mat-slide-toggle-selected-handle-color: map.get(vars.$app-custom-colors, "Betaki_branco_neve");
-  --mat-slide-toggle-track-width: 2.3rem;
+  --mdc-switch-selected-handle-color: map.get(vars.$app-custom-colors, "Betaki_branco_neve");
+  --mdc-switch-track-width: 2.3rem;
 
   .mdc-switch {
-    width: var(--mat-slide-toggle-track-width, 1.75rem);
+    width: var(--mdc-switch-track-width, 1.75rem);
 
     .mdc-switch__track {
-      height: var(--mat-slide-toggle-track-height, 1.5rem) !important;
-      border-radius: var(--mat-slide-toggle-track-shape, 0.75rem) !important;
+      height: var(--mdc-switch-track-height, 1.5rem) !important;
+      border-radius: var(--mdc-switch-track-shape, 0.75rem) !important;
       // border: 0.125rem solid color.adjust(map.get(vars.$app-custom-colors, "neutral-100")) !important;
     }
 
@@ -40,13 +40,13 @@
 
 .mat-mdc-slide-toggle .mdc-switch .mdc-switch__focus-ring-wrapper,
 .mat-mdc-slide-toggle .mdc-switch .mdc-switch__handle {
-  height: var(--mat-slide-toggle-handle-height, 1.13rem) !important;
+  height: var(--mdc-switch-handle-height, 1.13rem) !important;
 }
 
 .mat-mdc-slide-toggle .mdc-switch .mdc-switch__handle {
-  width: var(--mat-slide-toggle-handle-width, 1.13rem) !important;
-  height: var(--mat-slide-toggle-handle-height, 1.13rem) !important;
-  border-radius: var(--mat-slide-toggle-handle-shape, 1.13rem) !important;
+  width: var(--mdc-switch-handle-width, 1.13rem) !important;
+  height: var(--mdc-switch-handle-height, 1.13rem) !important;
+  border-radius: var(--mdc-switch-handle-shape, 1.13rem) !important;
   left: 2px;
 }
 
@@ -63,73 +63,73 @@
 .mat-mdc-slide-toggle {
   height: 1.5rem !important;
 
-  --mat-slide-toggle-disabled-selected-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-disabled-unselected-handle-color: #{color.adjust(
+  --mdc-switch-disabled-selected-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-disabled-unselected-handle-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
-  --mat-slide-toggle-disabled-selected-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-  --mat-slide-toggle-disabled-unselected-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
-  --mat-slide-toggle-unselected-focus-state-layer-color: #{color.adjust(
+  --mdc-switch-disabled-selected-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
+  --mdc-switch-disabled-unselected-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
+  --mdc-switch-unselected-focus-state-layer-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
-  --mat-slide-toggle-unselected-pressed-state-layer-color: #{color.adjust(
+  --mdc-switch-unselected-pressed-state-layer-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
-  --mat-slide-toggle-unselected-hover-state-layer-color: #{color.adjust(
+  --mdc-switch-unselected-hover-state-layer-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
-  --mat-slide-toggle-unselected-focus-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
-  --mat-slide-toggle-unselected-hover-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
-  --mat-slide-toggle-unselected-pressed-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
-  --mat-slide-toggle-unselected-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
-  --mat-slide-toggle-unselected-focus-handle-color: #{color.adjust(
+  --mdc-switch-unselected-focus-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
+  --mdc-switch-unselected-hover-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
+  --mdc-switch-unselected-pressed-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
+  --mdc-switch-unselected-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
+  --mdc-switch-unselected-focus-handle-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
-  --mat-slide-toggle-unselected-hover-handle-color: #{color.adjust(
+  --mdc-switch-unselected-hover-handle-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
-  --mat-slide-toggle-unselected-pressed-handle-color: #{color.adjust(
+  --mdc-switch-unselected-pressed-handle-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
-  --mat-slide-toggle-handle-surface-color: var(
-    --mat-theme-surface,
+  --mdc-switch-handle-surface-color: var(
+    --mdc-theme-surface,
     #{color.adjust(map.get(vars.$app-custom-colors, "neutral-white"))}
   );
-  --mat-slide-toggle-unselected-handle-color: #{color.adjust(
+  --mdc-switch-unselected-handle-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
-  --mat-slide-toggle-selected-icon-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-disabled-unselected-icon-color: #{color.adjust(
+  --mdc-switch-selected-icon-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-disabled-unselected-icon-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
-  --mat-slide-toggle-unselected-icon-color: #{color.adjust(
+  --mdc-switch-unselected-icon-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
     )};
 }
 
-.mat-mdc-slide-toggle.mat-primary {
-  --mat-slide-toggle-selected-focus-state-layer-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-selected-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-selected-hover-state-layer-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-selected-pressed-state-layer-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-selected-focus-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-selected-hover-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-selected-pressed-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-selected-focus-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-  --mat-slide-toggle-selected-hover-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-  --mat-slide-toggle-selected-pressed-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-  --mat-slide-toggle-selected-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
+.mat-mdc-slide-toggle.mat-accent {
+  --mdc-switch-selected-focus-state-layer-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-selected-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-selected-hover-state-layer-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-selected-pressed-state-layer-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-selected-focus-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-selected-hover-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-selected-pressed-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  --mdc-switch-selected-focus-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
+  --mdc-switch-selected-hover-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
+  --mdc-switch-selected-pressed-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
+  --mdc-switch-selected-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
 }
 //*****************************************************************************
 //#endregion Toggle button

@@ -1,6 +1,6 @@
-@use "sass:map" as map;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "src/theme/utils" as util;
+@import "src/theme/theme-variables";
 
 .text-container {
   padding-left: 6.5rem;
@@ -8,17 +8,17 @@
   max-width: 54.5625rem;
   padding-bottom: 2rem;
 
-  @include utils.media("lt-lg") {
+  @include util.media("lt-lg") {
     padding-left: 5rem;
     max-width: 49rem;
   }
 
-  @include utils.media("lt-md") {
+  @include util.media("lt-md") {
     padding-left: 1.5625rem;
     max-width: 46.9375rem;
   }
 
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     padding: 1.75rem 0.5rem 1.5rem;
   }
 }
@@ -28,7 +28,7 @@ p {
   margin-block-end: 0;
 }
 
-@include utils.media("lt-sm-2") {
+@include util.media("lt-sm-2") {
   .payments-table-selection-container {
     padding: 1.25rem 0.5rem;
   }
@@ -38,36 +38,36 @@ p {
   padding-left: 6.5rem;
   padding-right: 5.6875rem;
 
-  @include utils.media("lt-lg") {
+  @include util.media("lt-lg") {
     padding-left: 5rem;
     padding-right: 4rem;
   }
 
-  @include utils.media("lt-md") {
+  @include util.media("lt-md") {
     padding-left: 1.5625rem;
     padding-right: 1.5625rem;
   }
 
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     padding: 0 0.5rem;
     margin-bottom: 2.5rem;
   }
 }
 
 .hidden {
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     display: none;
   }
   display: block;
 }
 
 .payments-table-selection-container {
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  background-color: map.get($app-custom-colors, "neutral-10");
   height: 4.5rem;
-  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  color: map.get($app-custom-colors, "neutral-white");
   margin-top: 1.5rem;
 
-  @include utils.media("gt-sm-1") {
+  @include util.media("gt-sm-1") {
     display: none;
   }
 
@@ -84,24 +84,24 @@ p {
   }
 
   div.active {
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
-    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+    color: map.get($app-custom-colors, "Betaki_error");
+    background-color: map.get($app-custom-colors, "neutral-10");
   }
 
   div:hover {
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
-    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+    color: map.get($app-custom-colors, "Betaki_error");
+    background-color: map.get($app-custom-colors, "neutral-10");
   }
 }
 
 .table-divider {
   height: 0.5rem;
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-100");
+  background-color: map.get($app-custom-colors, "neutral-100");
   display: block;
   margin-top: 3.5rem;
   margin-bottom: 3.5rem;
 
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     display: none;
   }
 }
@@ -111,23 +111,23 @@ p {
   padding-left: 6.5rem;
   padding-bottom: 4.8125rem;
 
-  @include utils.media("lt-lg") {
+  @include util.media("lt-lg") {
     padding-left: 5rem;
     padding-right: 4rem;
   }
 
-  @include utils.media("lt-md") {
+  @include util.media("lt-md") {
     padding-left: 1.5625rem;
     padding-right: 1.5625rem;
   }
 
-  @include utils.media("lt-sm-2") {
+  @include util.media("lt-sm-2") {
     margin-top: 0;
     padding-left: 1.5rem;
   }
 
   .footer-char {
-    color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+    color: map.get($app-custom-colors, "neutral-10");
     font-family: Open-Sans-Bold, sans-serif;
     font-size: 0.8125rem;
   }

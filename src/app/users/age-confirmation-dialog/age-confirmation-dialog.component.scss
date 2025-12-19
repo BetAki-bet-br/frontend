@@ -1,7 +1,7 @@
-@use "sass:map" as map;
-@use "sass:color" as color;
-@use "theme/utils" as utils;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@use "sass:color";
+@use "src/theme/utils" as utils;
+@import "src/theme/theme-variables";
 
 button {
   mat-icon {
@@ -10,7 +10,7 @@ button {
     aspect-ratio: 1/1;
     font-size: 0.875rem;
 
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
+    color: map.get($app-custom-colors, "Betaki_black");
     @include utils.media("lt-sm-2") {
       font-size: 0.875rem;
       height: 0.875rem;

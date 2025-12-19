@@ -34,7 +34,8 @@ describe('EditLimitDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, MatDialogModule, TranslateModule.forRoot(), EditLimitDialogComponent],
+      imports: [FormsModule, ReactiveFormsModule, MatDialogModule, TranslateModule.forRoot()],
+      declarations: [EditLimitDialogComponent],
       providers: [
         { provide: ControlContainer, useValue: fgd },
         { provide: DialogRef, useValue: {} },

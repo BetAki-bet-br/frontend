@@ -5,8 +5,6 @@
     "outDir": "./out-tsc/app",
     "types": []
   },
-  "exclude": [
-    "src/**/*.spec.ts",
-    "cypress.config.ts"
-  ]
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "include": ["src/**/*.d.ts"]
 }

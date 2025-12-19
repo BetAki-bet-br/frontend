@@ -10,9 +10,8 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  inject,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { PlayerLimit, TimePeriod } from '@app/@shared/models';
 import { AuthDialogService } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
@@ -25,47 +24,14 @@ import {
   PausePeriodDialogData,
   PausePeriodDialogResult,
 } from '../pause-period-dialog/pause-period-dialog.component';
-import {
-  MatExpansionPanelHeader,
-  MatExpansionPanel,
-  MatAccordion,
-  MatExpansionPanelTitle,
-} from '@angular/material/expansion';
-import { MatLabel, MatFormField, MatError } from '@angular/material/form-field';
-import { MatSelect, MatOption } from '@angular/material/select';
-import { MatIcon } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-responsible-limit-duration',
   templateUrl: './responsible-limit-duration.component.html',
   styleUrls: ['./responsible-limit-duration.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatExpansionPanelHeader,
-    MatExpansionPanel,
-    MatAccordion,
-    MatExpansionPanelTitle,
-    MatLabel,
-    MatFormField,
-    MatSelect,
-    MatOption,
-    MatIcon,
-    TranslateModule,
-    ReactiveFormsModule,
-    MatError,
-    MatButtonModule,
-  ],
 })
 export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnChanges {
-  private fb = inject(FormBuilder);
-  private cdr = inject(ChangeDetectorRef);
-  private dialog = inject(Dialog);
-  private deviceService = inject(DeviceDetectorService);
-  private playerProfileService = inject(PlayerProfileService);
-  private authDialogService = inject(AuthDialogService);
-
   @Input() isSelfExclusion = false;
   @Input() limitTypeName = marker('No title');
   @Input() limitTypeDuration = '';
@@ -88,6 +54,15 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
   hidePassword = true;
 
   private dialogSubscriptions: Subscription[] = [];
+
+  constructor(
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private dialog: Dialog,
+    private deviceService: DeviceDetectorService,
+    private playerProfileService: PlayerProfileService,
+    private authDialogService: AuthDialogService
+  ) {}
 
   ngOnInit(): void {
     if (this.limit?.amountValue) {

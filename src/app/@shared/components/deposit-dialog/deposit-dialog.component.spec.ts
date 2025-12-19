@@ -21,7 +21,8 @@ describe('DepositDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), DepositDialogComponent],
+      declarations: [DepositDialogComponent],
+      imports: [TranslateModule.forRoot()],
       providers: [
         { provide: PaymentsService, useClass: MockPaymentsService }, // Use the mock service
         { provide: GlobalizationService, MockCtgApiService },

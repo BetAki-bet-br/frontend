@@ -9,14 +9,11 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ElementRef,
-  inject,
-  DestroyRef,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatMenuTrigger, MatMenuModule } from '@angular/material/menu';
+import { MatMenuTrigger } from '@angular/material/menu';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
-import { Logger } from '@app/@shared';
+import { Logger, UntilDestroy, untilDestroyed } from '@app/@shared';
 import { AccountResolved, PromotionDetailsResolved } from '@app/@shared/models';
 import { AuthenticationGuard, AuthenticationService } from '@app/auth';
 import { PromotionsService } from '@app/promotions/promotions.service';
@@ -34,46 +31,18 @@ import { Subscription, map } from 'rxjs';
 import { FirstDepositCheckService } from '@app/@shared/services/first-deposit-check.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
-import { PlayerStatusService } from '@app/@shared/services/player.status.service';
-import { MatIcon } from '@angular/material/icon';
-import { HeaderPromotionItemComponent } from '@app/@shared/components/header-promotion-dropdown/header-promotion-item/header-promotion-item.component';
-import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
-import { DecimalPipe } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { PlayerStatusService } from '@app/@shared/services/player.service';
 
 const log = new Logger('ProfileInfoHeaderComponent');
 
+@UntilDestroy()
 @Component({
   selector: 'app-profile-info-header',
   templateUrl: './profile-info-header.component.html',
   styleUrls: ['./profile-info-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    MatIcon,
-    MatMenuModule,
-    HeaderPromotionItemComponent,
-    CdnizePipe,
-    TranslateModule,
-    DecimalPipe,
-    MatProgressSpinner,
-  ],
 })
 export class ProfileInfoHeaderComponent implements OnInit, OnDestroy, AfterViewInit {
-  private authService = inject(AuthenticationService);
-  private dialog = inject(Dialog);
-  private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-  dataStoreService = inject(DataStoreService);
-  private activatedRoute = inject(ActivatedRoute);
-  private authGuard = inject(AuthenticationGuard);
-  private promotionService = inject(PromotionsService);
-  private cdr = inject(ChangeDetectorRef);
-  private firstDepostiCheckService = inject(FirstDepositCheckService);
-  private deviceService = inject(DeviceDetectorService);
-  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
-  private playerService = inject(PlayerStatusService);
-
   @ViewChild('dropdownRefProfileTrigger') dropdownRefProfileTrigger?: MatMenuTrigger;
   @ViewChild('dropdownRefNotificationsTrigger') dropdownRefNotificationsTrigger?: MatMenuTrigger;
 
@@ -102,6 +71,21 @@ export class ProfileInfoHeaderComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   balanceVisibilitySub = new Subscription();
+
+  constructor(
+    private authService: AuthenticationService,
+    private dialog: Dialog,
+    private router: Router,
+    public dataStoreService: DataStoreService,
+    private activatedRoute: ActivatedRoute,
+    private authGuard: AuthenticationGuard,
+    private promotionService: PromotionsService,
+    private cdr: ChangeDetectorRef,
+    private firstDepostiCheckService: FirstDepositCheckService,
+    private deviceService: DeviceDetectorService,
+    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService,
+    private playerService: PlayerStatusService
+  ) {}
 
   get notificationCount() {
     return this.notificationsData?.length ?? 0;
@@ -141,22 +125,22 @@ export class ProfileInfoHeaderComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   ngAfterViewInit(): void {
-    this.dropdownRefProfileTrigger?.menuClosed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+    this.dropdownRefProfileTrigger?.menuClosed.pipe(untilDestroyed(this)).subscribe(() => {
       document.removeEventListener('click', this.profileMenuClickListener);
       this.profileIcon?.nativeElement?.classList?.remove('active-link');
     });
 
-    this.dropdownRefProfileTrigger?.menuOpened.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+    this.dropdownRefProfileTrigger?.menuOpened.pipe(untilDestroyed(this)).subscribe(() => {
       document.addEventListener('click', this.profileMenuClickListener);
       this.profileIcon?.nativeElement?.classList?.add('active-link');
     });
 
-    this.dropdownRefNotificationsTrigger?.menuClosed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+    this.dropdownRefNotificationsTrigger?.menuClosed.pipe(untilDestroyed(this)).subscribe(() => {
       document.removeEventListener('click', this.notificationsMenuClickListener);
       this.notificationsIcon.nativeElement.classList.remove('active-link');
     });
 
-    this.dropdownRefNotificationsTrigger?.menuOpened.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+    this.dropdownRefNotificationsTrigger?.menuOpened.pipe(untilDestroyed(this)).subscribe(() => {
       document.addEventListener('click', this.notificationsMenuClickListener);
       this.notificationsIcon.nativeElement.classList.add('active-link');
     });
@@ -167,7 +151,7 @@ export class ProfileInfoHeaderComponent implements OnInit, OnDestroy, AfterViewI
     this.googleTagManagerServiceImpl.pushGtmTag({ event: 'click_deposit_button' });
     //if (this.deviceService.isMobile())
     this.router.navigateByUrl('/profile/wallet/deposit');
-    //else this.firstDepostiCheckService.preDepositCheck().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    //else this.firstDepostiCheckService.preDepositCheck().pipe(untilDestroyed(this)).subscribe();
   }
 
   onSignOut(): void {
@@ -198,7 +182,7 @@ export class ProfileInfoHeaderComponent implements OnInit, OnDestroy, AfterViewI
     });
 
     // on dialog closed
-    dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {});
+    dialogRef.closed.pipe(untilDestroyed(this)).subscribe((result) => {});
   }
 
   // Checks whether the promotion is expired and its aggregated status is Available, Active, Success, Failed

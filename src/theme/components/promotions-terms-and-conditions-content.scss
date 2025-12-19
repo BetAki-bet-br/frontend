@@ -1,7 +1,7 @@
-@use "sass:map" as map;
-@use "theme/utils" as utils;
+@use "sass:map";
+@use "src/theme/utils" as util;
 
-@use "theme/theme-variables" as theme-variables;
+@import "src/theme/theme-variables";
 
 app-promotions-terms-and-conditions {
   .basic-page-container.help {
@@ -10,7 +10,7 @@ app-promotions-terms-and-conditions {
 
   .promotions-terms {
     border-radius: 1rem;
-    background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    background-color: map.get($app-custom-colors, "neutral-white");
     padding-bottom: 1rem;
 
     h1,
@@ -49,13 +49,13 @@ app-promotions-terms-and-conditions {
     }
 
     .expires {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+      color: map.get($app-custom-colors, "betaki-grey100");
       font-size: 0.875rem;
       line-height: 150%;
     }
 
     li::marker {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      color: map.get($app-custom-colors, "betaki-green100");
       font-size: 1.5rem;
       vertical-align: bottom;
     }

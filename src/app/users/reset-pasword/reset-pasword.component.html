@@ -1,19 +1,18 @@
-<div class="main-container flex flex-col items-center">
+<div class="main-container flex-col items-center">
   <app-page-breadcrumbs
     [showTopBar]="false"
     [breadcrumbs]="breadcrumbs"
-    class="form-tab-title items-center justify-center gap-4 mobile-only"
-  />
+    class="form-tab-title items-center justify-center gap-16 mobile-only"
+  ></app-page-breadcrumbs>
 
-  @if (resetStep === 1) {
-  <span class="title hide-mobile"> {{ 'Password reset' | translate }}</span>
-  } @if (resetStep === 1) {
-  <div class="description">
+  <span class="title hide-mobile" *ngIf="resetStep === 1"> {{ 'Password reset' | translate }}</span>
+
+  <div *ngIf="resetStep === 1" class="description">
     {{ 'Now just enter your new password so you can get back to having fun on Betaki' | translate }}
   </div>
-  } @if (resetStep === 1) {
-  <form [formGroup]="registerForm" class="flex flex-col form-container">
-    <div class="form flex flex-col flex flex-col--lt-sm-2 gap-x-6 gap-y-6">
+
+  <form [formGroup]="registerForm" class="flex-col form-container" *ngIf="resetStep === 1">
+    <div class="form flex-col flex-col--lt-sm-2 gapx-24 gapy-24">
       <div class="field-wrapper-edit">
         <mat-label translate>Enter your new password</mat-label>
         <mat-form-field
@@ -35,26 +34,38 @@
             <mat-icon fontSet="material-icons-outlined">{{ hideNew ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <!-- <app-password-strength-indicator [matInput]="passwordInput"></app-password-strength-indicator> -->
-          @if (registerForm.controls.password.hasError('required') && registerForm.controls.password.touched) {
-          <ng-container>
-            <mat-error class="error-msg" translate> Required</mat-error>
-          </ng-container>
-          } @if (registerForm.controls.password.hasError('minlength') && registerForm.controls.password.touched) {
-          <ng-container>
-            <mat-error class="error-msg" translate> Too short (min 8 characters)</mat-error>
-          </ng-container>
-          } @if (registerForm.controls.password.hasError('maxlength') && registerForm.controls.password.touched) {
-          <ng-container>
-            <mat-error class="error-msg" translate> Too long (max 100 characters)</mat-error>
-          </ng-container>
-          } @if ( registerForm.controls.password.hasError('pattern') &&
-          !registerForm.controls.password.hasError('minlength') && registerForm.controls.password.touched ) {
-          <ng-container>
-            <mat-error class="error-msg" translate>
-              Password must include uppercase and lowercase letters, a number, and a special character</mat-error
-            >
-          </ng-container>
-          }
+          <mat-error
+            *ngIf="registerForm.controls.password?.hasError('required') && registerForm.controls.password.touched"
+            class="error-msg"
+            translate
+          >
+            Required</mat-error
+          >
+          <mat-error
+            *ngIf="registerForm.controls.password?.hasError('minlength') && registerForm.controls.password.touched"
+            class="error-msg"
+            translate
+          >
+            Too short (min 8 characters)</mat-error
+          >
+          <mat-error
+            *ngIf="registerForm.controls.password?.hasError('maxlength') && registerForm.controls.password.touched"
+            class="error-msg"
+            translate
+          >
+            Too long (max 100 characters)</mat-error
+          >
+          <mat-error
+            *ngIf="
+              registerForm.controls.password?.hasError('pattern') &&
+              !registerForm.controls.password?.hasError('minlength') &&
+              registerForm.controls.password.touched
+            "
+            class="error-msg"
+            translate
+          >
+            Password must include uppercase and lowercase letters, a number, and a special character</mat-error
+          >
         </mat-form-field>
       </div>
       <div class="field-wrapper-edit">
@@ -77,51 +88,46 @@
           >
             <mat-icon fontSet="material-icons-outlined">{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
-          @if (passwordMatchError) {
-          <ng-container>
-            <mat-error class="mat-error" translate>Passwords must match</mat-error>
-          </ng-container>
-          } @if (registerForm.controls.confirmPassword.hasError('required')) {
-          <ng-container>
-            <mat-error class="mat-error" translate> Required </mat-error>
-          </ng-container>
-          }
+          <mat-error *ngIf="passwordMatchError" class="mat-error" translate>Passwords must match</mat-error>
+          <mat-error *ngIf="registerForm.controls.confirmPassword.hasError('required')" class="mat-error" translate>
+            Required
+          </mat-error>
         </mat-form-field>
       </div>
     </div>
   </form>
-  } @if (resetStep === 1) {
+
   <button
+    *ngIf="resetStep === 1"
     [disabled]="registerForm.invalid"
     mat-button
     type="submit"
-    class="button-text-xx-large label-dark flex flex-grow confirm-button"
+    class="button-text-xx-large label-dark flex-row flex-grow confirm-button"
     (click)="changePassword()"
   >
     {{ 'Create new password' | translate }}
-    <app-loader class="loader" [isLoading]="isLoading" [size]="0.5" />
+    <app-loader class="loader" [isLoading]="isLoading" [size]="0.5"></app-loader>
   </button>
-  } @if (resetStep === 2) {
-  <div class="flex flex-col form-container items-center gap-8">
+
+  <div class="flex-col form-container items-center gap-32" *ngIf="resetStep === 2">
     <img class="success-img" [src]="'assets/general/icons/success-check.svg'" />
     <span class="success-title" translate> Password changed </span>
   </div>
-  } @if (resetStep === 2) {
-  <div class="flex flex-col success-text-container">
+
+  <div *ngIf="resetStep === 2" class="flex-col success-text-container">
     <span class="success-subtitle">
       {{
         'Your password has been successfully reset. Now you just need to log in using your new password.' | translate
       }}</span
     >
     <span class="success-message">{{ 'Are you ready to have some fun?' | translate }}</span>
-    <button mat-button class="button-text-xx-large confirm-button label-dark flex flex-grow" routerLink="/sign-in">
+    <button mat-button class="button-text-xx-large confirm-button label-dark flex-row flex-grow" routerLink="/sign-in">
       <span translate>To login</span>
     </button>
   </div>
-  }
 
   <div class="policy-footer">
-    <div class="flex flex-col gap-2 items-center policy-container">
+    <div class="flex-col gap-8 items-center policy-container">
       <img class="age-icon" src="assets/general/icons/18-plus.svg" />
 
       <span translate class="responsible-gaming-text">
@@ -132,8 +138,8 @@
     </div>
 
     <button class="live-chat-button" (click)="onChatClick()" mat-button>
-      <div class="flex items-center gap-2.5">
-        <mat-icon svgIcon="help-chat-icon" />
+      <div class="flex-row items-center gap-10">
+        <mat-icon svgIcon="help-chat-icon"></mat-icon>
         <span translate> Do you need help? </span>
       </div>
     </button>

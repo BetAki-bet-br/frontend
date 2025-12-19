@@ -7,11 +7,8 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  inject,
-  DestroyRef,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router } from '@angular/router';
 import { AssetsService } from '@app/@shared/assets.service';
 import { GlobalSearchService } from '@app/@shared/global-search.service';
 import { Logger } from '@app/@shared/logger.service';
@@ -22,35 +19,20 @@ import { AuthenticationService } from '@app/auth';
 import { AuthDialogService } from '@app/auth/auth-dialog.service';
 import { CredentialsService } from '@app/auth/credentials.service';
 import { Loyalty, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Subscription, finalize } from 'rxjs';
 import { ActionIdEnum } from '@app/@shared/models/template.model';
-import { MatIcon } from '@angular/material/icon';
-import { ProfileInfoHeaderComponent } from './profile-info-header/profile-info-header.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
-import { MatButton } from '@angular/material/button';
 
 const log = new Logger('HeaderComponent');
 
+@UntilDestroy()
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIcon, MatButton, ProfileInfoHeaderComponent, TranslateModule, CdnizePipe, RouterLink, RouterLinkActive],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private credentialsService = inject(CredentialsService);
-  private authenticationService = inject(AuthenticationService);
-  private globalSearchService = inject(GlobalSearchService);
-  private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
-  private authDialog = inject(AuthDialogService);
-  private destroyRef = inject(DestroyRef);
-  assetsService = inject(AssetsService);
-  private templateService = inject(TemplateService);
-  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
-
   @Output() sidenavToggle = new EventEmitter<boolean>();
   @Input() isSignedIn = true;
   @Input() playerInfo: PlayerDetails | null = null;
@@ -61,6 +43,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isProfile: boolean = false;
 
   private subscriptions: Subscription[] = [];
+
+  constructor(
+    private credentialsService: CredentialsService,
+    private authenticationService: AuthenticationService,
+    private globalSearchService: GlobalSearchService,
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private authDialog: AuthDialogService,
+    public assetsService: AssetsService,
+    private templateService: TemplateService,
+    private googleTagManagerServiceImpl: GoogleTagManagerImplementationService
+  ) {}
 
   get username(): string | null {
     const credentials = this.credentialsService.credentials;
@@ -74,7 +68,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.isProfile = false;
     }
 
-    this.templateService.templateActionSub$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((response) => {
+    this.templateService.templateActionSub$?.pipe(untilDestroyed(this)).subscribe((response) => {
       if (response?.actionId === ActionIdEnum.OpenRegisterDialog) {
         this.onRegister();
       }

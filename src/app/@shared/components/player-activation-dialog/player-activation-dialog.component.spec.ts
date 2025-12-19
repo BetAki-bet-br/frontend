@@ -9,7 +9,7 @@ describe('PlayerActivationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlayerActivationDialogComponent],
+      declarations: [PlayerActivationDialogComponent],
       providers: [{ provide: DialogRef, useValue: {} }],
     }).compileComponents();
 

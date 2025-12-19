@@ -1,5 +1,5 @@
-@use "sass:map" as map;
-@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+@import "src/theme/theme-variables";
 
 .loading-container {
   margin-bottom: 3.75rem;
@@ -8,10 +8,10 @@
     height: 1.125rem;
     width: 1.125rem;
     border-radius: 50%;
-    background-color: map.get(theme-variables.$app-custom-colors, "grey-250");
+    background-color: map.get($app-custom-colors, "grey-250");
 
     &.active {
-      background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+      background-color: map.get($app-custom-colors, "Betaki_error");
     }
   }
 }
@@ -19,12 +19,12 @@
 .subtitle {
   font-size: 1.25rem;
   font-weight: bold;
-  color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+  color: map.get($app-custom-colors, "neutral-black");
 }
 
 .description {
   font-size: 0.75rem;
-  color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+  color: map.get($app-custom-colors, "neutral-black");
 }
 
 .ok-button {
@@ -35,12 +35,12 @@
   width: 4rem;
   height: 4rem;
   font-size: 4rem;
-  color: map.get(theme-variables.$app-custom-colors, "green-300");
+  color: map.get($app-custom-colors, "green-300");
 }
 
 .error-icon {
   width: 4rem;
   height: 4rem;
   font-size: 4rem;
-  color: map.get(theme-variables.$app-custom-colors, "red-150");
+  color: map.get($app-custom-colors, "red-150");
 }

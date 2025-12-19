@@ -1,18 +1,19 @@
 <mat-sidenav-container autosize>
   <mat-sidenav
-    [class]="{ expanded: !sidenavState.collapsed, mobile: isMobile }"
+    [ngClass]="{ expanded: !sidenavState.collapsed, mobile: isMobile }"
     [mode]="'over'"
     [opened]="false"
     (openedChange)="onOpenedChange($event)"
     [fixedInViewport]="true"
     [autoFocus]="false"
-    class="pb-0 pt-(--header-height-mobile)!"
+    [ngStyle]="{ 'padding-top': '0', 'padding-bottom': '0' }"
+    *ngIf="!hideSidenav"
   >
     <div class="close-button"><mat-icon (click)="toggleSidenavMenu()">close</mat-icon></div>
-    <app-profile-menu />
+    <app-profile-menu></app-profile-menu>
   </mat-sidenav>
 
   <mat-sidenav-content #sidenavContent>
-    <ng-content />
+    <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -27,7 +27,8 @@ describe('ProfileSettingsSubscriptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), ProfileSettingsSubscriptionsComponent, RenderTemplatePipe],
+      imports: [TranslateModule.forRoot()],
+      declarations: [ProfileSettingsSubscriptionsComponent, RenderTemplatePipe],
       providers: [
         MatSnackBar,
         {

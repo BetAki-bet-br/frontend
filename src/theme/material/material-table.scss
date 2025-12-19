@@ -1,6 +1,6 @@
-@use "sass:map" as map;
+@use "sass:map";
 @use "src/theme/theme-variables" as vars;
-@use "sass:color" as color;
+@use "sass:color";
 
 //*****************************************************************************
 //#region Mat Table
@@ -66,8 +66,8 @@
   color: map.get(vars.$app-custom-colors, "betaki-black100");
 
   .mat-mdc-icon-button[disabled][disabled] {
-    --mat-icon-button-icon-color: #{color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.75)};
-    --mat-icon-button-disabled-icon-color: #{color.adjust(
+    --mdc-icon-button-icon-color: #{color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.75)};
+    --mdc-icon-button-disabled-icon-color: #{color.adjust(
         map.get(vars.$app-custom-colors, "betaki-black100"),
         $alpha: -0.75
       )};

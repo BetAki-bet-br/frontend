@@ -11,7 +11,8 @@ describe('BaseDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PipesModule, BaseDialogComponent],
+      declarations: [BaseDialogComponent],
+      imports: [TranslateModule.forRoot(), PipesModule],
       providers: [{ provide: DialogRef, useValue: {} }],
     }).compileComponents();
 

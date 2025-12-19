@@ -4,11 +4,12 @@ import { AuthenticationGuard, AuthenticationService } from '@app/auth';
 import { MockAuthenticationService } from '@app/auth/authentication.service.mock';
 import { Shell } from './shell.service';
 import { ShellComponent } from './shell-common/shell.component';
+import { ShellPlayerProfileComponent } from './shell-player-profile/shell-player-profile.component';
 
 describe('Shell', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ShellComponent],
+      declarations: [ShellComponent, ShellPlayerProfileComponent],
       providers: [AuthenticationGuard, { provide: AuthenticationService, useClass: MockAuthenticationService }],
     });
   });

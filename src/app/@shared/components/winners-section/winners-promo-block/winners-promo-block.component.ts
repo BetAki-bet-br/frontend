@@ -1,7 +1,4 @@
-import { CurrencyPipe, SlicePipe } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AssetsService } from '@app/@shared/assets.service';
 import { Logger } from '@app/@shared/logger.service';
 import { WinnersItem } from '@app/@shared/models';
@@ -16,12 +13,8 @@ const log = new Logger('WinnersPromoBlockComponent');
   templateUrl: './winners-promo-block.component.html',
   styleUrls: ['./winners-promo-block.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SlicePipe, CurrencyPipe, RouterLink, CdnizePipe],
 })
 export class WinnersPromoBlockComponent implements OnInit, OnDestroy {
-  private cdr = inject(ChangeDetectorRef);
-  private assetsService = inject(AssetsService);
-
   @Input() titleImageSrc?: string;
   @Input() headerLabel?: string;
   @Input() headerAmount?: string;
@@ -35,6 +28,8 @@ export class WinnersPromoBlockComponent implements OnInit, OnDestroy {
 
   private subscriptions = new Subscription();
   private bufferedItems: WinnersItem[] = [];
+
+  constructor(private cdr: ChangeDetectorRef, private assetsService: AssetsService) {}
 
   ngOnInit(): void {
     if (this.dataSource) {

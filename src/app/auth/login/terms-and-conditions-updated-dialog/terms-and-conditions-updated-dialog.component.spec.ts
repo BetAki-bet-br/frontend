@@ -14,7 +14,8 @@ describe('TermsAndConditionsUpdatedDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PipesModule, TermsAndConditionsUpdatedDialogComponent],
+      imports: [TranslateModule.forRoot(), PipesModule],
+      declarations: [TermsAndConditionsUpdatedDialogComponent],
       providers: [
         { provide: DialogRef, useValue: {} },
         { provide: TemplateService, useClass: MockCtgApiService },

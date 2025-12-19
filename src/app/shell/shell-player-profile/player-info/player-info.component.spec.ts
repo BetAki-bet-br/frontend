@@ -19,9 +19,8 @@ import { EllipsisPipe } from '@app/@pipes/ellipsis.pipe';
 import { ActivatedRoute } from '@angular/router';
 import { MockTemplateService } from '@app/@shared/services/template.service.mock';
 import { TemplateService } from '@app/@shared/services/template.service';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('PlayerInfoComponent', () => {
   let component: PlayerInfoComponent;
@@ -29,7 +28,8 @@ describe('PlayerInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PlayerInfoComponent],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      declarations: [PlayerInfoComponent],
       providers: [
         { provide: BalanceService, useClass: MockCtgApiService },
         { provide: LoyaltyService, useValue: {} },
@@ -45,8 +45,6 @@ describe('PlayerInfoComponent', () => {
         EllipsisPipe,
         { provide: ActivatedRoute, useValue: {} },
         { provide: MatSnackBar, useValue: {} },
-        provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
       ],
     }).compileComponents();
 

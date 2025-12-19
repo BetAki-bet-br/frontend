@@ -1,5 +1,3 @@
-@if (safeUrl) {
-<div class="onboarding-wrapper">
+<div *ngIf="safeUrl" class="onboarding-wrapper">
   <iframe [src]="safeUrl" allow="geolocation;camera;fullscreen;accelerometer;gyroscope;magnetometer;"></iframe>
 </div>
-}

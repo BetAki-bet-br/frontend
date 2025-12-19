@@ -1,22 +1,20 @@
 <app-base-dialog
   width="29rem"
   customClass="bonus-opt-in-result-dialog"
-  [customClass]="'md:h-1/2 xl:h-1/2 2xl:w-1/4!'"
   [displayCloseButton]="!isLoading"
   [displayLogo]="false"
   [displayTopBar]="false"
 >
   <div dialogContent>
-    @if (result === resultEnum.Success) {
-    <div>
+    <div *ngIf="result === resultEnum.Success">
       <div class="opt-in-result-dialog-content">
         <img src="{{ 'assets/general/images/success-badge.svg' }}" alt="support" />
         <div class="result-title" translate>Participation confirmed</div>
         <div class="result-description" translate>You have successfully entered the promotion. Good luck.</div>
       </div>
     </div>
-    } @if (result === resultEnum.Error) {
-    <div>
+
+    <div *ngIf="result === resultEnum.Error">
       <div class="opt-in-result-dialog-content">
         <img src="{{ 'assets/general/images/error-badge.svg' }}" alt="support" />
         <div class="result-title" translate>Unable to participate</div>
@@ -25,15 +23,11 @@
         </div>
       </div>
     </div>
-    }
   </div>
   <div dialogButtons class="button-container">
     <button mat-button class="button-text-small label-dark flex-grow" [disabled]="isLoading" (click)="onOkClick()">
-      @if (isLoading) {
-      <mat-spinner diameter="24" />
-      } @if (!isLoading) {
-      <span translate>OK</span>
-      }
+      <mat-spinner diameter="24" *ngIf="isLoading"></mat-spinner>
+      <span translate *ngIf="!isLoading">OK</span>
     </button>
   </div>
 </app-base-dialog>

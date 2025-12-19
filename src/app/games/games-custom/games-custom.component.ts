@@ -1,25 +1,16 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { GameCategoriesService, getCleanUrlName, ProvidersLobbyEnum } from '@app/@core/game-categories.service';
 import { GamesService } from '@app/@shared/services/games/games.service';
 import { combineLatest, map, merge, mergeAll, mergeMap, switchMap } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
-import { GamesComponent } from '../games.component';
 
 @Component({
   selector: 'app-games-custom',
   templateUrl: './games-custom.component.html',
   styleUrls: ['./games-custom.component.scss'],
-  imports: [CommonModule, TranslateModule, GamesComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamesCustomComponent {
-  private route = inject(ActivatedRoute);
-  private gameCategoriesService = inject(GameCategoriesService);
-  private router = inject(Router);
-  private gamesService = inject(GamesService);
-
   provider$ = this.gameCategoriesService.gameCategories$.pipe(
     switchMap((categories) => {
       const categoryId = this.router.url.includes('/games-live')
@@ -47,6 +38,13 @@ export class GamesCustomComponent {
   );
 
   readMoreHidden = true;
+
+  constructor(
+    private route: ActivatedRoute,
+    private gameCategoriesService: GameCategoriesService,
+    private router: Router,
+    private gamesService: GamesService
+  ) {}
 
   scrollToTop() {
     const element = document.querySelector('mat-sidenav-content');

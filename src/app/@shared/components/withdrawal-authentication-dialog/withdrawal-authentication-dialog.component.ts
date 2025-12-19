@@ -1,8 +1,5 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 
 export interface WithdrawalAuthenticationDialogResult {
   auth: boolean;
@@ -13,16 +10,18 @@ export interface WithdrawalAuthenticationDialogResult {
   templateUrl: './withdrawal-authentication-dialog.component.html',
   styleUrls: ['./withdrawal-authentication-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, TranslateModule, MatButtonModule],
 })
 export class WithdrawalAuthenticationDialogComponent implements OnInit {
-  private dialogRef = inject<DialogRef<WithdrawalAuthenticationDialogResult>>(DialogRef);
-  data = inject<{
-    title: string;
-    description?: string;
-  }>(DIALOG_DATA);
-
   success: boolean = false;
+
+  constructor(
+    private dialogRef: DialogRef<WithdrawalAuthenticationDialogResult>,
+    @Inject(DIALOG_DATA)
+    public data: {
+      title: string;
+      description?: string;
+    }
+  ) {}
 
   ngOnInit(): void {}
 

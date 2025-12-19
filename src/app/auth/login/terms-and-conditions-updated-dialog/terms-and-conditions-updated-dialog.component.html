@@ -1,21 +1,20 @@
 <app-base-dialog width="29rem" [title]="'Terms & conditions change' | translate" [displayCloseButton]="true">
   <div class="terms-and-conditions-dialog align-left" dialogContent>
-    <div class="mb-6" translate>Before you can proceed you must read and accept the new Terms & Conditions</div>
-    @if (!termsAndConditions) {
-    <div class="spinner"><mat-spinner style="height: 24px; width: 24px" /></div>
-    } @else {
-    <div class="terms-and-conditions-content" [innerHtml]="termsAndConditions.termsAndConditionsContent"></div>
-    }
+    <div class="mb-24" translate>Before you can proceed you must read and accept the new Terms & Conditions</div>
+    <div class="spinner" *ngIf="!termsAndConditions"><mat-spinner style="height: 24px; width: 24px"></mat-spinner></div>
+    <div
+      class="terms-and-conditions-content"
+      *ngIf="termsAndConditions"
+      [innerHtml]="termsAndConditions.termsAndConditionsContent"
+    ></div>
   </div>
 
-  <ng-container dialogButtons>
-    @if (termsAndConditions) {
+  <ng-container dialogButtons *ngIf="termsAndConditions">
     <button mat-stroked-button class="button-text-medium label-dark flex-grow full-width" (click)="cancel()">
       <span translate>Decline</span>
     </button>
     <button mat-button class="button-text-medium label-dark flex-grow full-width" (click)="confirm()">
       <span translate>Accept</span>
     </button>
-    }
   </ng-container>
 </app-base-dialog>
