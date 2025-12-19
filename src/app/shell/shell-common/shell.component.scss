@@ -1,0 +1,54 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+
+@use "theme/theme-variables" as theme-variables;
+
+:host {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 62.5rem 32.6875rem;
+}
+
+.main-container {
+  padding-top: 4.5rem;
+
+  @include utils.media("lt-sm-2") {
+    padding-top: 3.375rem;
+  }
+}
+
+.header {
+  position: fixed;
+  z-index: 999;
+
+  &.not-mobile {
+    @include utils.media("lt-md") {
+      display: none;
+    }
+  }
+
+  &.mobile {
+    @include utils.media("gt-sm-2") {
+      display: none;
+    }
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+  }
+}
+
+.footer-nav-bar-mobile {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  z-index: 2000;
+
+  @include utils.media("gt-sm-1") {
+    display: none;
+  }
+}

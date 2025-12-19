@@ -1,0 +1,125 @@
+<div #dialogContainer class="dialog-container flex flex-col">
+  <!-- Close icon container -->
+  <div class="close-icon-container flex justify-end items-center">
+    <mat-icon class="close-icon" (click)="closeDialog()">close</mat-icon>
+  </div>
+  <!-- Dialog content -->
+  <div class="content flex flex-col">
+    <!-- Profile account info -->
+    <div class="profile-account-info mb-2">
+      <div class="profile-info-name">
+        {{ playerName }}
+      </div>
+
+      <div class="profile-account-balance-container">
+        <div class="profile-account-balance-main">
+          {{ account?.totalBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+        </div>
+        <div class="profile-account-balance-currency">{{ account?.currency }}</div>
+      </div>
+
+      <div class="profile-account-balance-details-container">
+        <div class="profile-account-balance-details-balances">
+          <!-- ICATL-89 As a Player I want to access the General section of the Profile Page -->
+          <!-- <div class="profile-account-balance-details-balance">
+          {{ account?.lockedBalance | number: '1.2':dataStoreService.defaultLanguage }}
+        </div> -->
+          <div class="profile-account-balance-details-balance">
+            {{ account?.realMoneyBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+          </div>
+          <div class="profile-account-balance-details-balance">
+            {{ account?.bonusCasinoBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+          </div>
+          <div class="profile-account-balance-details-balance">
+            {{ account?.bonusSportsbookBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+          </div>
+        </div>
+        <div class="profile-account-balance-details-infos">
+          <!-- <div class="profile-account-balance-details-info" translate>Locked Balance</div> -->
+          <div class="profile-account-balance-details-info" translate>Real Money Balance</div>
+          <div class="profile-account-balance-details-info" translate>Bonus Casino Balance</div>
+          <div class="profile-account-balance-details-info" translate>Bonus Sportsbook balance</div>
+        </div>
+      </div>
+
+      <div class="profile-account-deposit-button-container">
+        <button mat-button class="deposit-button" (click)="onDeposit()"><span translate>WALLET</span></button>
+      </div>
+    </div>
+    <div class="profile-info-divider"></div>
+    <!-- Profile link container -->
+    <div class="profile-link-container mb-6">
+      @if (false) {
+      <!-- removed for GLI version -->
+      <a
+        class="profile-link"
+        routerLink="/profile/promo"
+        [routerLinkActive]="['profile-link-active']"
+        (click)="onLinkClick()"
+        >PROMO</a
+      >
+      }
+
+      <a
+        class="profile-link"
+        routerLink="/profile/general"
+        [routerLinkActive]="['profile-link-active']"
+        (click)="onLinkClick()"
+        translate
+        >Profile</a
+      >
+      <a
+        class="profile-link"
+        routerLink="/profile/transaction-history"
+        [routerLinkActive]="['profile-link-active']"
+        (click)="onLinkClick()"
+        translate
+        >Transaction History</a
+      >
+      <a
+        class="profile-link"
+        routerLink="/profile/game-history"
+        [routerLinkActive]="['profile-link-active']"
+        (click)="onLinkClick()"
+        translate
+        >Game History</a
+      >
+      <a
+        class="profile-link"
+        routerLink="/profile/sportsbook-bet-history"
+        [routerLinkActive]="['profile-link-active']"
+        (click)="onLinkClick()"
+        translate
+        >Sportsbook Bet History</a
+      >
+
+      <a
+        class="profile-link"
+        routerLink="/profile/responsible-gambling"
+        [routerLinkActive]="['profile-link-active']"
+        (click)="onLinkClick()"
+        translate
+        >RESPONSIBLE GAMBLING</a
+      >
+    </div>
+    <!-- Bottom link section -->
+    <div class="bottom-link-section flex flex-col gap-3">
+      <!-- <div class="button-link locale-selector">
+                <app-language-selector
+                  [icon]="false"
+                  [isLogin]="true"
+                  class="language-selector profile full-width full-height"
+                  (menuClosedEvent)="onLanguageSelectorMenuClosed()"
+                ></app-language-selector>
+              </div> -->
+      <div id="chat-intercom-messenger" class="button-link">
+        <mat-icon>headphones</mat-icon>
+        <div class="button-link-text" translate>Support</div>
+      </div>
+      <div class="button-link" (click)="onLogout()">
+        <mat-icon>logout</mat-icon>
+        <div class="button-link-text" translate>Sign Out</div>
+      </div>
+    </div>
+  </div>
+</div>

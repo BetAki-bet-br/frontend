@@ -1,11 +1,11 @@
 {
-  "/betaki-api": {
+  "/api": {
     "target": "https://betaki.bet.br/api",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
     "pathRewrite": {
-      "^/betaki-api": ""
+      "^/api": ""
     }
   }
 }

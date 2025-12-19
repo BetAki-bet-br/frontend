@@ -1,0 +1,60 @@
+<div class="flex flex-row gap-2 ps-1 relative z-3 mt-2 xs:mt-4 items-center filters-wrapper">
+  <div
+    class="flex flex-col items-center cursor-pointer shrink-0 select-none"
+    (click)="openFilter.emit()"
+    (keyup.enter)="openFilter.emit()"
+    (keyup.space)="openFilter.emit()"
+    tabindex="0"
+    role="button"
+  >
+    <div
+      class="flex flex-col items-center text-center rounded-full p-2 sm:p-3 bg-betaki-500 hover:bg-betaki-600 transition-colors 300ms ease-in-out"
+    >
+      <img src="/assets/icons/filter-icon.svg" alt="Casino" class="w-8 h-8 icon-black" />
+    </div>
+  </div>
+
+  @if (currentSelectedCategory() !== null) {
+  <div
+    class="flex flex-col items-center gap-3 cursor-pointer shrink-0 select-none"
+    animate.leave="animate-leave-fadeOut"
+    animate.enter="animate-enter-fadeIn"
+  >
+    <div
+      class="flex flex-col items-center text-center border-2 border-betaki-500 bg-black rounded-full p-2 sm:p-2 text-white hover:text-betaki-500 transition-colors 300ms ease-in-out"
+      (click)="selectFilter(null)"
+      (keyup.enter)="selectFilter(null)"
+      (keyup.space)="selectFilter(null)"
+      tabindex="0"
+    >
+      <span class="text-bold break-words text-xs xs:text-sm"> Limpar filtro </span>
+    </div>
+  </div>
+  }
+
+  <div class="scroll-container-with-shadow overflow-hidden">
+    <div
+      class="flex flex-row gap-x-2 overflow-x-auto no-scrollbar scroll-smooth transition-all duration-300 ease-in-out md:cursor-default!"
+      appDragScroll
+    >
+      @for (filter of filters(); track $index) {
+      <div
+        class="flex flex-col items-center gap-3 cursor-pointer shrink-0 select-none"
+        (click)="selectFilter(filter)"
+        (keyup.enter)="selectFilter(filter)"
+        (keyup.space)="selectFilter(filter)"
+        tabindex="0"
+      >
+        <div
+          class="flex flex-col items-center text-center border-2 border-betaki-500 bg-black rounded-full p-2 sm:p-2 text-white hover:text-betaki-500"
+          [class.bg-betaki-500!]="currentSelectedCategory()?.id === filter.id"
+          [class.hover:text-white!]="currentSelectedCategory()?.id === filter.id"
+          [class.border-betaki-500!]="currentSelectedCategory()?.id === filter.id"
+        >
+          <span class="text-bold break-words text-xs xs:text-sm"> {{ filter.name }}</span>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

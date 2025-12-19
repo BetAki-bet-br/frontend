@@ -1,0 +1,175 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+:host {
+  width: 100%;
+}
+
+.outer-wrapper {
+  width: 41.25rem;
+  place-self: center;
+  padding-top: 3rem;
+
+  @include utils.media("lt-sm-2") {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+  }
+}
+
+.register-container {
+  width: 100%;
+}
+
+.register-content {
+  max-width: 50rem;
+  width: 100%;
+  border-radius: 2rem;
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  padding: 3rem;
+
+  .title {
+    font-weight: 700;
+    font-size: 3.5rem;
+    line-height: 3.4125rem;
+    letter-spacing: 0%;
+    text-align: center;
+    vertical-align: middle;
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+    line-height: 1.8119rem;
+    letter-spacing: 0%;
+    text-align: center;
+    vertical-align: middle;
+    width: 22.8125rem;
+    padding-top: 1rem;
+
+    &.home-screen {
+      @include utils.media("lt-sm-2") {
+        padding-top: 0.5rem;
+      }
+    }
+  }
+
+  @include utils.media("lt-sm-2") {
+    padding: 2rem;
+    gap: 1rem;
+
+    .title {
+      font-size: 1.125rem;
+      line-height: 0.9381rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      line-height: 0.4981rem;
+    }
+
+    .register-button {
+      height: 1.625rem;
+
+      mat-icon {
+        font-size: 1rem;
+        height: 1rem;
+        width: 1rem;
+      }
+
+      span {
+        font-size: 0.625rem;
+        line-height: 1.125rem;
+        letter-spacing: 0.0481rem;
+      }
+    }
+  }
+}
+
+.register-button {
+  height: 4rem;
+  width: 30rem;
+  max-width: 50rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
+  border-radius: 1rem;
+
+  span {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.125rem;
+    letter-spacing: 0.0481rem;
+    text-align: center;
+    vertical-align: middle;
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
+  }
+
+  @include utils.media("lt-sm-2") {
+    height: 1.5rem;
+    width: 16.5rem;
+
+    span {
+      font-size: 0.75rem;
+      line-height: 1.125rem;
+      letter-spacing: 0.0481rem;
+    }
+  }
+
+  &.home-screen {
+    @include utils.media("gt-sm-1") {
+      height: 3rem;
+    }
+  }
+}
+
+.welcome-bold-text {
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.8119rem;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 4rem;
+  padding-bottom: 3rem;
+
+  @include utils.media("lt-sm-2") {
+    font-size: 1rem;
+    padding: 1rem 0;
+  }
+}
+
+.welcome-normal-text {
+  font-weight: 400;
+  font-size: 1.3856rem;
+  line-height: 1.8119rem;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  padding-bottom: 1.5rem;
+
+  @include utils.media("lt-sm-2") {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+.success-img {
+  @include utils.media("lt-sm-2") {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0;
+  }
+}
+
+.divider {
+  padding: 1.5rem 0;
+
+  @include utils.media("lt-sm-2") {
+    padding: 0.75rem 0;
+  }
+}

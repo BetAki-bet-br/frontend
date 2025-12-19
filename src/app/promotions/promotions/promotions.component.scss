@@ -1,0 +1,58 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/theme-variables" as theme-variables;
+@use "theme/utils" as utils;
+
+.bonus-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: calc(3.1875rem + 1.5rem);
+  margin: calc(3.1875rem + 1.5rem) auto 2rem;
+
+  @include utils.media(lt-sm-2) {
+    width: 18rem;
+  }
+
+  @include utils.media(sm-2) {
+    max-width: 47rem;
+    width: auto;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(2.25rem + 1rem) 1rem;
+    margin-top: calc(2.25rem + 1rem);
+    margin-bottom: 2rem;
+  }
+
+  @include utils.media(md) {
+    max-width: 51rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(3.1875rem + 1.5rem) 1.5rem;
+    margin: calc(3.1875rem + 1.5rem) auto 3.5rem auto;
+  }
+
+  @include utils.media(gt-md) {
+    max-width: 63rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(3.1875rem + 1.875rem) 1.875rem;
+    margin-top: calc(3.1875rem + 2rem);
+    margin-bottom: calc(4.5rem + 2.5rem);
+  }
+}
+
+// override template
+/* stylelint-disable-next-line selector-max-compound-selectors */
+:host ::ng-deep .promotion-tile-template {
+  .bonus-item {
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+
+    /* stylelint-disable-next-line selector-max-compound-selectors */
+    .bonus-button {
+      background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+
+      /* stylelint-disable-next-line selector-max-compound-selectors, selector-max-specificity */
+      &:hover {
+        background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_error"), $lightness: 10%);
+      }
+    }
+  }
+}

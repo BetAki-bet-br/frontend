@@ -1,0 +1,257 @@
+/* stylelint-disable max-nesting-depth */
+/* stylelint-disable no-descending-specificity */
+/* stylelint-disable selector-max-specificity */
+
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "src/theme/theme-variables" as vars;
+@use "theme/utils" as utils;
+
+//*****************************************************************************
+//#region Material tabs
+//*****************************************************************************
+// primary tabs
+.tab-group-container-primary {
+  .mdc-tab {
+    min-width: unset;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .mat-mdc-tab-body-content {
+    overflow: hidden;
+  }
+
+  .mat-mdc-tab-labels {
+    border-bottom: 0.0625rem solid map.get(vars.$app-custom-colors, "neutral-150");
+  }
+
+  .mat-mdc-tab .mdc-tab__text-label,
+  .mat-mdc-tab-link .mdc-tab__text-label {
+    color: map.get(vars.$app-custom-colors, "Betaki_black");
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: Roboto, Verdana, sans-serif;
+    margin-bottom: 0.375rem;
+  }
+
+  .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+  .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+    color: map.get(vars.$app-custom-colors, "Betaki_success");
+  }
+
+  .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
+  .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+    border-color: transparent;
+  }
+
+  .mat-mdc-tab.mdc-tab {
+    height: 2.1875rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    justify-content: flex-start;
+
+    @include utils.media("lt-lg") {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+
+    @include utils.media("lt-md") {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    @include utils.media("lt-sm-2") {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+
+  .mdc-tab-indicator {
+    top: 0.0938rem;
+  }
+
+  .mdc-tab-indicator__content {
+    /* stylelint-disable-next-line declaration-no-important */
+    opacity: 1 !important;
+  }
+
+  .mdc-tab-indicator--active .mdc-tab-indicator__content {
+    /* stylelint-disable-next-line declaration-no-important */
+    border-color: map.get(vars.$app-custom-colors, "Betaki_success") !important;
+    border-top-width: 0.1875rem;
+  }
+
+  .mat-mdc-tab-header-pagination-chevron {
+    border-color: map.get(vars.$app-custom-colors, "Betaki_success");
+  }
+
+  .mat-mdc-tab-header {
+    @include utils.media("lt-sm-2") {
+      // margin-left: -1.5rem;
+      // margin-right: -1.5rem;
+      overflow-x: scroll;
+    }
+  }
+
+  .mat-mdc-tab-header-pagination {
+    @include utils.media("lt-sm-2") {
+      //hides chevron button on mat tab header in mobile view
+      /* stylelint-disable-next-line declaration-no-important */
+      display: none !important;
+    }
+  }
+
+  .mat-mdc-tab-label-container {
+    @include utils.media("lt-sm-2") {
+      overflow: visible;
+    }
+  }
+
+  .mat-mdc-tab-header::-webkit-scrollbar {
+    @include utils.media("lt-sm-2") {
+      display: none;
+    }
+  }
+}
+
+// secondary tabs
+.tab-group-container-secondary {
+  .mdc-tab {
+    min-width: unset;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 1.25rem;
+  }
+
+  .mat-mdc-tab.mdc-tab {
+    height: 1.5rem;
+    flex-grow: 0;
+    padding-left: 0;
+    justify-content: flex-start;
+  }
+
+  .mat-mdc-tab-header .mdc-tab {
+    height: 1.5rem;
+    border-bottom: 0.125rem solid transparent;
+  }
+
+  .mat-mdc-tab {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mat-mdc-tab .mdc-tab__text-label,
+  .mat-mdc-tab-link .mdc-tab__text-label {
+    color: map.get(vars.$app-custom-colors, "Betaki_black");
+  }
+
+  .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+  .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+    color: map.get(vars.$app-custom-colors, "Betaki_black");
+  }
+
+  .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
+  .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+    border-color: map.get(vars.$app-custom-colors, "Betaki_success");
+  }
+
+  .mat-mdc-tab-body-wrapper {
+    display: none;
+  }
+}
+
+app-responsible-limits {
+  @include utils.media("lt-md") {
+    .mat-mdc-tab-labels {
+      div:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.mobile-tabs {
+  &.tab-group-container-primary {
+    .mdc-tab {
+      margin-right: 1.25rem;
+    }
+  }
+
+  &.mat-mdc-tab-group {
+    .mat-mdc-tab-header::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mat-mdc-tab-header {
+      .mat-mdc-tab-header-pagination {
+        display: none;
+      }
+
+      .mat-mdc-tab-label-container {
+        left: 0;
+        width: 100%;
+        overflow: visible;
+
+        .mat-mdc-tab-list::-webkit-scrollbar {
+          display: none;
+        }
+
+        .mat-mdc-tab-list {
+          overflow-x: auto;
+          // below rule prevents sliding of buttons' container
+          // because it not sliding properly - to left it not slide as well
+          /* stylelint-disable-next-line declaration-no-important */
+          transform: none !important;
+
+          @include utils.media("lt-sm-2") {
+            margin-left: 1rem;
+            margin-right: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  .mat-mdc-tab-header {
+    .mat-mdc-tab-header-pagination {
+      z-index: unset;
+    }
+  }
+}
+
+@include utils.media("lt-sm-2") {
+  // hide tab header arrows on small devices
+  .mat-mdc-tab-header {
+    &.mat-tab-header-pagination-controls-enabled {
+      .mat-tab-header-pagination {
+        display: none;
+      }
+    }
+  }
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+  border-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_success"), $alpha: -1);
+}
+
+.mat-mdc-tab-header-pagination {
+  &.mat-mdc-tab-header-pagination-before {
+    min-width: 1.5rem;
+    justify-content: start;
+  }
+
+  &.mat-mdc-tab-header-pagination-after {
+    min-width: 1.5rem;
+    justify-content: end;
+  }
+}
+
+//*****************************************************************************
+//#endregion Material tabs
+//*****************************************************************************

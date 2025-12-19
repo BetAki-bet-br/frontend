@@ -1,0 +1,180 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+:host ::ng-deep app-base-dialog {
+  .dialog-container {
+    height: 100%;
+
+    /* stylelint-disable-next-line selector-max-compound-selectors */
+    .not-mobile {
+      background-color: transparent;
+    }
+
+    /* stylelint-disable-next-line selector-max-compound-selectors */
+    .content {
+      height: 100%;
+    }
+
+    @include utils.media("lt-sm-2") {
+      /* stylelint-disable-next-line declaration-no-important */
+      background-color: map.get(theme-variables.$app-custom-colors, "neutral-10") !important;
+    }
+  }
+}
+
+:host ::ng-deep .mat-horizontal-content-container {
+  padding: unset;
+  height: 100%;
+}
+
+:host ::ng-deep .mat-horizontal-stepper-header {
+  padding: unset;
+  height: 100%;
+}
+
+:host ::ng-deep .mat-horizontal-stepper-header-container {
+  padding: 0 2.5rem;
+}
+
+:host ::ng-deep .mat-stepper-horizontal {
+  height: 100%;
+}
+
+:host ::ng-deep .mat-stepper-horizontal-line {
+  border-top-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  border-top-width: 0.125rem;
+}
+
+:host ::ng-deep .mat-step-icon {
+  height: 2.5rem;
+  width: 2.5rem;
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  font-size: 0.875rem;
+  color: map.get(theme-variables.$app-custom-colors, "neutral-20");
+}
+
+:host ::ng-deep .mat-step-icon-selected {
+  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+}
+
+:host ::ng-deep .mat-step-icon-state-done {
+  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+}
+
+:host ::ng-deep .mat-step-label {
+  min-width: unset;
+}
+
+:host ::ng-deep .onboarding-wrapper {
+  padding-top: 1.5rem;
+}
+
+:host ::ng-deep .onboarding-completed-wrapper {
+  padding-top: 1.5rem;
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.mat-stepper-horizontal {
+  background-color: unset;
+}
+
+.info-text {
+  color: map.get(theme-variables.$app-custom-colors, "neutral-40");
+  font-size: 0.75rem;
+}
+
+.link {
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  font-family: Roboto, sans-serif, Verdana;
+  text-decoration: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+
+  &.forgot-password {
+    color: map.get(theme-variables.$app-custom-colors, "neutral-40");
+    margin: 1rem 0;
+    font-size: 0.75rem;
+  }
+}
+
+.dialog-close-button {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+
+.register-button {
+  width: 100%;
+  height: 2.5rem;
+  font-size: 0.875rem;
+
+  .register-button-text {
+    text-transform: uppercase;
+    color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+    font-weight: 400;
+  }
+}
+
+.error-msg {
+  font-family: Roboto, sans-serif;
+  line-height: unset;
+  padding: unset;
+  text-align: left;
+  margin-top: 0.5rem;
+}
+
+.header-image-logo-container {
+  .back-arrow {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.25rem;
+    background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.7);
+    cursor: pointer;
+  }
+
+  .header-image-logo {
+    width: 6rem;
+  }
+}
+
+.header-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.login-header-text {
+  font-size: 1.25rem;
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  text-align: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -moz-appearance: textfield;
+}
+
+.form-container {
+  height: calc(100% - 6.25rem);
+
+  &.full-height {
+    height: 100%;
+  }
+}

@@ -1,0 +1,115 @@
+<div class="player-profile-page-container">
+  <mat-accordion [multi]="true" class="flex flex-col gap-4">
+    @for (limitType of limitList; track limitType) {
+    <mat-expansion-panel class="profile-panel" [formGroup]="getForm(limitType.type)">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="section-item-container nowrap">
+          <div class="section-item">
+            <div class="item-title">
+              {{ limitType.title | translate }}
+            </div>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="section-item-container mt-6">
+        <div class="section-item-collapsable">
+          <div class="subscriptions-item-label" [innerHTML]="limitType.description | translate"></div>
+          <div class="section-actions align-baseline flex-wrap flex-col--lt-sm-2 flex-wrap">
+            <div class="field-wrapper-edit">
+              <mat-label class="form-field-label">{{ 'Limit period' | translate }}</mat-label>
+              <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+                <mat-select
+                  formControlName="limitPeriod"
+                  placeholder="{{ 'Select' | translate }}"
+                  hideSingleSelectionIndicator
+                  #selectPeriod
+                >
+                  @for ( item of limitType.type === LimitTypeEnum.SiteSessionDuration ? limitPeriodOptionsSession :
+                  limitPeriodOptions ; track item) {
+                  <mat-option [value]="item.value" translate>
+                    {{ item.label | translate }}
+                  </mat-option>
+                  }
+                </mat-select>
+                <mat-icon [class]="selectPeriod.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
+                  selectPeriod.panelOpen ? 'expand_less' : 'expand_more'
+                }}</mat-icon>
+                @if ( getForm(limitType.type).controls.limitPeriod.hasError('required') &&
+                getForm(limitType.type).controls.limitPeriod.touched ) {
+                <ng-container>
+                  <mat-error class="error-msg" translate> Required</mat-error>
+                </ng-container>
+                }
+              </mat-form-field>
+            </div>
+            <div class="field-wrapper-edit">
+              <div class="form-field-label" translate>
+                {{
+                  limitType.type !== LimitTypeEnum.SiteSessionDuration
+                    ? ('Amount' | translate)
+                    : ('Duration' | translate)
+                }}
+              </div>
+              <mat-form-field appearance="outline" class="form-input-edit mini" subscriptSizing="dynamic">
+                <input matInput type="number" [max]="limitMax" formControlName="limitValue" class="no-spinner" />
+                @if ( getForm(limitType.type).controls.limitValue?.hasError('required') &&
+                getForm(limitType.type).controls.limitValue?.touched ) {
+                <ng-container>
+                  <mat-error class="error-msg" translate> Required</mat-error>
+                </ng-container>
+                }
+              </mat-form-field>
+            </div>
+            <button
+              [disabled]="!getForm(limitType.type).dirty || getForm(limitType.type).invalid"
+              mat-button
+              class="section-action button"
+              (click)="onAddLimit(limitType.type)"
+            >
+              <span translate>Save changes</span>
+            </button>
+          </div>
+          @if (getLimits(limitType.type).length > 0) {
+          <mat-divider />
+          @for (record of getLimits(limitType.type); track record) {
+          <mat-card>
+            <div class="table-row flex-col--lt-sm-2 gap-x-2 gap-y-4">
+              <div class="col">
+                <div class="label" translate>Limit</div>
+                <div class="value">{{ getLimitPeriod(record.time) }}</div>
+              </div>
+              <div class="col wide">
+                <div class="label">
+                  {{
+                    record.limitType === LimitTypeEnum.SiteSessionDuration
+                      ? ('Duration' | translate)
+                      : ('Amount' | translate)
+                  }}
+                </div>
+                <div class="value">
+                  {{ record.amountResolved }}
+                </div>
+              </div>
+              <div class="col wide">
+                <div class="label" translate>Time left</div>
+                <div class="value">
+                  {{ record.timeLeftDate ? getTimeLeft(record.timeLeftDate | timeLeft | async) : '/' }}
+                </div>
+              </div>
+              <div class="col">
+                <div class="label" translate>Currency</div>
+                <div class="value">{{ record.currencyResolved }}</div>
+              </div>
+              <div class="col">
+                <div class="label" translate>Status</div>
+                <div class="value">{{ record?.limitStatus ?? '/' | translate }}</div>
+              </div>
+            </div>
+          </mat-card>
+          } }
+        </div>
+      </div>
+    </mat-expansion-panel>
+    }
+  </mat-accordion>
+</div>

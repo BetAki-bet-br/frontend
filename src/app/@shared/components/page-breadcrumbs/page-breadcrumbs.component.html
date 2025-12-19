@@ -1,0 +1,70 @@
+<div class="player-profile-header-wrapper">
+  @if (showTopBar) {
+  <div class="player-profile-header" [class.logged-out]="!isLoggedIn">
+    <div class="breadcrumbs-container">
+      @for (item of breadcrumbsList; track item) { @if (item.url) {
+      <a class="breadcrumbs-link" [routerLink]="item.url" translate>
+        <div class="breadcrumbs-item">
+          @if (item.icon) {
+          <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon">{{ item.icon }}</mat-icon>
+          } @if (item.svgIcon) {
+          <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon" svgIcon="{{ item.svgIcon }}" />
+          } @if (item.text) {
+          <div [class]="{ 'breadcrumbs-divider': item.divider, 'breadcrumbs-text': !item.divider, last: item.last }">
+            {{ item.text | translate }}
+          </div>
+          }
+        </div>
+      </a>
+      } @if (!item.url) {
+      <div class="breadcrumbs-item" [routerLink]="item.url" translate>
+        @if (item.icon) {
+        <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon">{{ item.icon }}</mat-icon>
+        } @if (item.svgIcon) {
+        <mat-icon fontSet="material-icons-outlined" class="breadcrumbs-icon" svgIcon="{{ item.svgIcon }}" />
+        } @if (item.text) {
+        <div [class]="{ 'breadcrumbs-divider': item.divider, 'breadcrumbs-text': !item.divider, last: item.last }">
+          {{ item.text | translate }}
+        </div>
+        }
+      </div>
+      } }
+    </div>
+    <div class="player-profile-contact-container xl:pe-3">
+      <mat-icon class="link-icon" svgIcon="essentials-headset-2" (click)="onSupportClick()" />
+      @if (isLoggedIn) {
+      <div class="mail" routerLink="/profile/messages">
+        <mat-icon class="link-icon" svgIcon="essentials-mail-2" />
+        @if (displayNumberOfMessages) {
+        <div class="mail-notifications">{{ messageCount$ | async }}</div>
+        }
+      </div>
+      }
+    </div>
+    <div class="player-profile-mobile-container">
+      <mat-icon class="link-icon" svgIcon="essentials-headset-2" (click)="onSupportClick()" />
+      @if (isLoggedIn) {
+      <div class="mail" routerLink="/profile/messages">
+        <mat-icon class="link-icon" svgIcon="essentials-mail-2" />
+        @if (displayNumberOfMessages) {
+        <div class="mail-notifications">{{ messageCount$ | async }}</div>
+        }
+      </div>
+      }
+    </div>
+    @if (isOnProfilePage() && isLoggedIn) {
+    <div class="player-profile-navigation-container">
+      <mat-icon class="link-icon" (click)="onOpenPlayerMenu()" fontSet="material-icons-outlined">settings</mat-icon>
+      <mat-icon class="link-icon" routerLink="/" svgIcon="essentials-close" />
+    </div>
+    }
+  </div>
+  } @if (!isOnGeneralProfilePage()) {
+  <div class="player-profile-mobile-page-title-strip">
+    <mat-icon (click)="onBack()" fontSet="material-icons-outlined" class="breadcrumbs-icon">chevron_left </mat-icon>
+    <div class="mobile-page-title" translate>
+      {{ lastBreadcrumbText }}
+    </div>
+  </div>
+  }
+</div>

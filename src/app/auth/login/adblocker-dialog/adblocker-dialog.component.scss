@@ -1,0 +1,33 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "sass:color" as color;
+@use "theme/theme-variables" as theme-variables;
+
+.dialog-title {
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+  font-size: 1.125rem;
+  text-align: center;
+  padding-top: 32px;
+  padding-bottom: 20px;
+}
+
+.main-content {
+  color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+  line-height: 1.75rem;
+  font-size: 0.75rem;
+  text-align: justify;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+
+  button {
+    height: 3rem;
+    width: 100%;
+    color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+  }
+}

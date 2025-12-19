@@ -1,0 +1,46 @@
+<app-base-dialog
+  width="29rem"
+  [customClass]="'md:h-1/2 xl:h-1/2 2xl:w-1/4!'"
+  [displayCloseButton]="true"
+  [displayLogo]="false"
+>
+  <div dialogContent>
+    <div class="header-icon">
+      @if (data.success) {
+      <mat-icon class="status-img" alt="check" svgIcon="success-check" />
+      } @if (!data.success) {
+      <mat-icon class="status-img" alt="fail" svgIcon="fail" />
+      }
+    </div>
+
+    <div class="header-text">
+      {{ data.title }}
+    </div>
+
+    @if (data) {
+    <div class="description mb-8">{{ data.description }}</div>
+    }
+  </div>
+
+  <ng-container dialogButtons>
+    @if (data.success || data.withdrawalDisabled) {
+    <div class="flex items-center w-full justify-center gap-4">
+      <button mat-button class="button-text-small label-dark" (click)="toSportsbook()">
+        {{ 'To Esports' | translate }}
+      </button>
+      <button mat-stroked-button class="button-text-small label-dark" (click)="toGames()">
+        {{ 'To Casino' | translate }}
+      </button>
+    </div>
+    } @if (!data.success && !data.withdrawalDisabled) {
+    <div class="button-container flex flex-col gap-4">
+      <button mat-button class="button-text-small label-dark" (click)="confirm()">
+        {{ 'Make a new withdrawal' | translate }}
+      </button>
+      <button mat-stroked-button class="button-text-small label-dark" (click)="toProfile()">
+        {{ 'Cancel' | translate }}
+      </button>
+    </div>
+    }
+  </ng-container>
+</app-base-dialog>

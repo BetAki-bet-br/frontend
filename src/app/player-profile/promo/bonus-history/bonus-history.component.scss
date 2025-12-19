@@ -1,0 +1,108 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+
+@use "theme/theme-variables" as theme-variables;
+
+:host {
+  width: 100%;
+}
+
+.player-profile-page-container {
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+  margin-top: 1.5rem;
+  border-radius: 1.5rem;
+  padding: 2rem 1.5rem;
+}
+
+/* Bonus history form */
+
+.form-wrapper {
+  padding-bottom: 1rem;
+
+  .field-wrapper-edit {
+    width: 100%;
+    max-width: 10.625rem;
+    min-width: 10.625rem;
+    display: flex;
+    flex-direction: column;
+    height: unset;
+
+    .form-field-label {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      font-size: 0.75rem;
+      margin-bottom: 0.25rem;
+      margin-left: 1rem;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    .toggle-icon {
+      padding: 0 12px 0 0;
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .toggle-icon-focused {
+      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      padding: 0 0.75rem 0 0;
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    @include utils.media("lt-sm-2") {
+      max-width: 100%;
+      padding-bottom: 0;
+    }
+  }
+}
+
+/* Bonus history - END */
+
+/* Bonus history table */
+.table-container {
+  padding-top: 2.5rem;
+}
+
+.table-row {
+  display: flex;
+  // justify-content: space-between;
+  padding: 1rem 1.5rem;
+  font-size: 14px;
+  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  border-radius: 1rem;
+  box-shadow: none;
+  gap: 1rem;
+
+  .label {
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  .value {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1.5rem;
+    letter-spacing: 0.016rem;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  }
+
+  .wide {
+    flex: 3;
+  }
+}
+
+mat-card {
+  margin-bottom: 0.75rem;
+  border-radius: 12px;
+  border-radius: 1rem;
+  box-shadow: none;
+}
+
+/* Bonus history table - END */

@@ -1,0 +1,169 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+:host {
+  width: 100%;
+}
+
+.player-profile-header-wrapper {
+  display: flex;
+  flex-flow: column;
+  gap: 1.5rem;
+}
+
+.player-profile-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.player-profile-mobile-page-title-strip {
+  display: flex;
+  flex-flow: row;
+  line-height: 1.5rem;
+
+  .mobile-page-title {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  @include utils.media("gt-sm-1") {
+    display: none;
+  }
+}
+
+.player-profile-contact-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+
+  @include utils.media("lt-sm-2") {
+    display: none;
+  }
+}
+
+.link-icon {
+  cursor: pointer;
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+}
+
+.player-profile-mobile-container {
+  display: none;
+  flex-direction: row;
+  gap: 1rem;
+  min-width: 2.5rem;
+
+  .link-icon {
+    cursor: pointer;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  @include utils.media("lt-sm-2") {
+    display: flex;
+  }
+}
+
+.player-profile-navigation-container {
+  display: none;
+  flex-direction: row;
+  gap: 1rem;
+
+  .link-icon {
+    cursor: pointer;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  @include utils.media("lt-sm-2") {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+.breadcrumbs-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+
+  @include utils.media("lt-sm-2") {
+    display: none;
+  }
+}
+
+.breadcrumbs-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.breadcrumbs-link {
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  text-decoration: none;
+  display: flex;
+}
+
+.breadcrumbs-icon {
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  width: 1rem;
+  height: 1rem;
+  font-size: 1rem;
+}
+
+.player-profile-mobile-page-title-strip .breadcrumbs-icon {
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+.breadcrumbs-text {
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.last {
+  font-weight: 700;
+}
+
+.breadcrumbs-divider {
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  font-size: 0.875rem;
+  font-weight: 400;
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mail {
+  position: relative;
+
+  .mail-notifications {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.625rem;
+    width: 0.875rem;
+    height: 0.875rem;
+    font-size: 0.5rem;
+    border-radius: 0.4375rem;
+    background-color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

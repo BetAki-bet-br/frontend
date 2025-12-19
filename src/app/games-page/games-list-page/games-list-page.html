@@ -1,0 +1,91 @@
+<div class="flex flex-col gap-y-4 lg:gap-y-6 mb-5">
+  <app-game-filter-list
+    [filters]="gameFilters()!"
+    [currentSelectedCategory]="selectedCategory()"
+    (openFilter)="openFilterModal()"
+    (filterSelect)="onFilterSelect($event)"
+  ></app-game-filter-list>
+
+  @for (section of pageLayout(); track section.id) { @switch (section.type) { @case ('recent-games') {
+  <app-game-list [categoryId]="section.id" [title]="section.data.title" [gameCount]="section.data.games.length">
+    <div
+      appDragScroll
+      class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3"
+    >
+      @for (game of section.data.games.slice(0, gamesCount()); track game.id; let i = $index) {
+      <app-game-card
+        [class.mr-3]="section.data.games.slice(0, gamesCount()).length - 1 === i"
+        [game]="game"
+        (click)="handleGameClick(game)"
+        [isPriority]="$index < 5"
+      ></app-game-card>
+      }
+    </div>
+  </app-game-list>
+  } @case ('mais-premiados') {
+  <app-game-list
+    [categoryId]="section.data.id"
+    [gameCount]="section.data.gameMains.length"
+    [title]="section.data.title"
+  >
+    <div
+      appDragScroll
+      class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3"
+    >
+      @for (game of section.data.gameMains.slice(0, 10); track game.id; let i = $index) {
+      <app-awarded-game-card
+        [game]="game"
+        [class.mr-3]="section.data.gameMains.slice(0, 10).length - 1 === i"
+        (click)="handleGameClick(game)"
+        [isPriority]="$index < 5"
+      ></app-awarded-game-card>
+      }
+    </div>
+  </app-game-list>
+  } @case ('game-list') {
+  <app-game-list [categoryId]="section.data.id" [gameCount]="section.data.gameMains.length" [title]="section.data.name">
+    <div
+      appDragScroll
+      class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto scroll-smooth select-none no-scrollbar py-1 ps-3"
+    >
+      @for (game of section.data.gameMains.slice(0, gamesCount()); track game.id; let i = $index) {
+      <app-game-card
+        [game]="game"
+        [class.mr-3]="section.data.gameMains.slice(0, gamesCount()).length - 1 === i"
+        (click)="handleGameClick(game)"
+      ></app-game-card>
+      }
+    </div>
+  </app-game-list>
+  } @case ('winners-list') {
+  <app-winners-list
+    [winnersToList]="section.data.winnersToList"
+    (gameClick)="handleGameClick($event)"
+    [games]="section.data.games"
+  ></app-winners-list>
+  } @case ('top-10-list') {
+  <app-top-10-list
+    [categoryId]="section.data.categoryId"
+    [games]="section.data.games"
+    (gameClick)="handleGameClick($event)"
+  ></app-top-10-list>
+  } @case ('providers-carousel') {
+  <app-providers-carousel
+    [providers]="section.data.providers"
+    [categoryId]="section.data.categoryId"
+  ></app-providers-carousel>
+  } } }
+</div>
+
+<app-game-detail-modal
+  [game]="selectedGame()!"
+  [isOpen]="isGameDetailModalOpen()"
+  (closeModal)="closeGameDetails()"
+></app-game-detail-modal>
+<app-game-filter-modal
+  [isOpen]="isFilterModalOpen()"
+  (closeModal)="closeFilterModal()"
+  [providers]="providers()!"
+  [initialSelectedProviders]="selectedProviders()"
+  (filtersApplied)="onFiltersApplied($event)"
+></app-game-filter-modal>

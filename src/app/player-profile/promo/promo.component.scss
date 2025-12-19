@@ -1,0 +1,57 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "sass:color" as color;
+@use "theme/theme-variables" as theme-variables;
+
+:host {
+  flex: 1;
+  width: 0;
+
+  @include utils.media("lt-sm-2") {
+    width: unset;
+  }
+}
+
+.promotion-container {
+  padding: 2.5rem 0 4rem;
+  gap: 1.5rem;
+
+  @include utils.media("lt-sm-2") {
+    padding: 1rem 0 2.5rem;
+  }
+
+  .mat-mdc-tab-group {
+    width: 100%;
+  }
+}
+
+.money-split-section {
+  display: flex;
+  flex-flow: column;
+  gap: 1rem;
+  width: 100%;
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+
+  @include utils.media("lt-sm-2") {
+    gap: 0.5rem;
+  }
+
+  .bonus-type-strip {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+    border-radius: 1.5rem;
+    height: 2.5rem;
+    align-items: center;
+    padding: 0 2rem;
+
+    @include utils.media("lt-sm-2") {
+      height: 3.5rem;
+    }
+  }
+
+  .bonus-amount {
+    font-weight: 700;
+  }
+}

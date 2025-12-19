@@ -1,0 +1,13 @@
+<div class="page-container min-h-screen">
+  <div class="banner-promotions-container">
+    <div class="breadcrumbs-wrapper">
+      <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+    </div>
+
+    <div class="banners-wrapper">
+      @for (bannerPromotion of bannerPromotions; track bannerPromotion) {
+      <div class="promo-banner" [innerHTML]="bannerPromotion?.templateHtml"></div>
+      }
+    </div>
+  </div>
+</div>

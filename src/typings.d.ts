@@ -1,3 +1,22 @@
+/*
+ * Extra typings definitions
+ */
+
+// Allow .json files imports
+declare module '*.json';
+
+// SystemJS module definition
+declare var module: NodeModule;
+interface NodeModule {
+  [key: string]: any;
+
+  id: string;
+}
+
+interface Window {
+  [key: string]: any;
+}
+
 export interface LegitimuzFaceIndexData {
   id?: string;
   status?: string;
@@ -31,20 +50,7 @@ declare global {
     }) => {
       mount: () => void;
     };
-    /**
-     * SDK Face Index (KYC)
-     * (faceindex.js)
-     */
-    LegitimuzFaceIndex: (options: {
-      host: string;
-      apiURL: string;
-      appURL: string;
-      token: string;
-      onSuccess?: (data: LegitimuzFaceIndexData) => void;
-      onError?: (error: LegitimuzError) => void;
-    }) => {
-      mount: () => void;
-    };
+
     /**
      * SDK Face Index (KYC)
      * (faceindex.js)
@@ -66,7 +72,16 @@ declare global {
     };
     Tawk_LoadStart: Date;
   }
-}
 
-// Necessário para o TypeScript tratar este arquivo como um módulo
-export {};
+  /**
+   * SDK Tawk.to API
+   */
+  interface TawkAPI {
+    maximize(): void;
+    minimize(): void;
+    showWidget(): void;
+    hideWidget(): void;
+    endChat(): void;
+    setAttributes(attributes: { name: string; email: string }, callback: (error: string | undefined) => void): void;
+  }
+}

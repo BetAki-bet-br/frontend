@@ -1,0 +1,53 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+.promotion-item-container {
+  padding: 0.3125rem 1rem;
+  width: 100%;
+  border-bottom: 1px solid map.get(theme-variables.$app-custom-colors, "neutral-10");
+
+  @media not all and (hover: none) {
+    ::ng-deep &:hover {
+      background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.3);
+
+      .show-more-wrapper {
+        display: flex;
+      }
+
+      .show-more-button-container {
+        display: block;
+
+        /* stylelint-disable-next-line max-nesting-depth */
+        .show-more-button {
+          background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+          color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+        }
+      }
+    }
+  }
+}
+
+.show-more-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+:host {
+  max-height: 22.875rem;
+  width: 100%;
+
+  .promotion-item-container:first-child {
+    padding-top: 0.5125rem;
+  }
+
+  .promotion-item-container:last-child {
+    padding-bottom: 0.5125rem;
+    border-bottom: none;
+  }
+}

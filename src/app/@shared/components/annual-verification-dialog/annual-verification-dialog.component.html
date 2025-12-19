@@ -1,0 +1,99 @@
+<app-base-dialog [title]="'Annual Account Reverification' | translate" [displayCloseButton]="true">
+  <div dialogContent class="dialog-content">
+    <p>
+      {{
+        'To keep your account active and in compliance with Brazilian regulations, please confirm or update your registration information.'
+          | translate
+      }}
+    </p>
+
+    <div class="verification-form flex flex-col gap-4" [formGroup]="profileGeneralForm">
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>First name</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <input matInput type="text" formControlName="firstName" />
+        </mat-form-field>
+      </div>
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>Middle name</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <input matInput type="text" formControlName="middleName" />
+        </mat-form-field>
+      </div>
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>Last name</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <input matInput type="text" formControlName="lastName" />
+        </mat-form-field>
+      </div>
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>E-mail</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <input matInput type="email" formControlName="email" />
+        </mat-form-field>
+      </div>
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>Phone number</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <span matPrefix class="telephone-prefix read-only">{{ mobilePrefix }}</span>
+          <input matInput type="tel" formControlName="mobileNumber" />
+        </mat-form-field>
+      </div>
+
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>City</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <input matInput type="text" formControlName="city" />
+        </mat-form-field>
+      </div>
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>Postal code</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <input matInput type="text" formControlName="postalCode" />
+        </mat-form-field>
+      </div>
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>Street</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <input matInput type="text" formControlName="street" />
+        </mat-form-field>
+      </div>
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>House number</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <input matInput type="text" formControlName="houseNumber" />
+        </mat-form-field>
+      </div>
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>State</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <input matInput type="text" formControlName="state" />
+        </mat-form-field>
+      </div>
+      <div class="field-wrapper-edit">
+        <div class="form-field-label" translate>Country</div>
+        <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+          <!-- <input matInput type="text" formControlName="country" /> -->
+          <mat-select formControlName="country" placeholder="Select" class="no-arrow">
+            @for (item of countryList; track item) {
+            <mat-option [value]="item">
+              {{ item.name }}
+            </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <ng-container dialogButtons>
+    <button
+      [disabled]="profileGeneralForm.invalid || isDataLoading"
+      mat-button
+      class="button-text-small label-dark flex-grow full-width"
+      (click)="onConfirm()"
+    >
+      <span translate>Confirm details</span>
+    </button>
+  </ng-container>
+</app-base-dialog>

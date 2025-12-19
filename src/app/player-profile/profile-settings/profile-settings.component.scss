@@ -1,0 +1,150 @@
+@use "sass:map" as map;
+@use "sass:color" as color;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+@use "theme/material-theming" as material-theming;
+@use "@angular/material" as mat;
+
+:host {
+  @include mat.button-theme(material-theming.$app-theme);
+  @include mat.icon-theme(material-theming.$app-theme);
+  @include mat.divider-theme(material-theming.$app-theme);
+  width: 100%;
+}
+
+.section-item-container {
+  &.support {
+    cursor: pointer;
+  }
+
+  &.verification {
+    cursor: pointer;
+  }
+
+  &.phone-verification {
+    cursor: pointer;
+  }
+}
+
+.show-icon {
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 1.2rem;
+    height: 1.2rem;
+    width: 1.2rem;
+    vertical-align: middle;
+    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+  }
+}
+
+.page-section-multiple {
+  padding: 0 1.5rem;
+}
+
+.section-navigation-text {
+  font-size: 0.75rem;
+  color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  text-align: end;
+  margin-left: auto;
+}
+
+.welcome-strip {
+  font-size: 1.375rem;
+  line-height: 150%;
+  font-weight: 300;
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  margin-bottom: -0.75rem;
+
+  span {
+    font-weight: 700;
+  }
+
+  @include utils.media("gt-sm-1") {
+    padding-left: 1.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.deposit-action,
+.withdrawal-action {
+  height: 2.5rem;
+  width: 10rem;
+  color: white !important;
+  @include utils.media("lt-sm-2") {
+    height: 3rem;
+  }
+}
+
+.divider {
+  border-bottom: 1px solid #dddfe4;
+  width: 100%;
+}
+
+.balance-label {
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.amount-secondary {
+  font-weight: 600;
+  font-size: 1rem;
+  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+}
+
+.hide-mobile {
+  @include utils.media("lt-sm-2") {
+    display: none;
+  }
+}
+
+.hide-desktop {
+  @include utils.media("gt-sm-1") {
+    display: none;
+  }
+}
+
+.verification-section {
+  background-color: #dee3e5;
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+
+  .verification-items-container {
+    @include utils.media("lt-sm-2") {
+      flex-direction: column !important;
+      gap: 0.75rem;
+    }
+  }
+
+  .verified-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 1.25rem;
+    color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+  }
+
+  .not-verified-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 1.25rem;
+  }
+
+  .verification-header {
+    color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+    margin-bottom: 0.6rem;
+    font-size: 0.875rem;
+  }
+
+  .verification-label {
+    color: map.get(theme-variables.$app-custom-colors, "neutral-black");
+    font-size: 0.875rem;
+
+    &.not-verified {
+      font-weight: 700;
+    }
+  }
+}

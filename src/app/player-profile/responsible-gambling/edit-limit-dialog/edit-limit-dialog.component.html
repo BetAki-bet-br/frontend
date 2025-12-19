@@ -1,0 +1,48 @@
+<app-base-dialog [title]="'Edit limit' | translate" [displayCloseButton]="true">
+  <!-- class="limits-dialog" -->
+  <!-- Content -->
+  <div dialogContent class="flex flex-col items-center">
+    <form class="form flex flex-col pt-0.5" [formGroup]="form">
+      <div class="flex limit-info-wrapper mb-[3px] gap-0.5">
+        <div class="limit-info-container flex flex-col">
+          <mat-label class="form-outline-label pl-[1px]">{{ 'Limit type' | translate }}</mat-label>
+          <mat-form-field appearance="outline" class="form-input-edit edit-limit-form-field" subscriptSizing="dynamic">
+            <input matInput type="text" formControlName="limitType" />
+          </mat-form-field>
+        </div>
+        <div class="limit-info-container flex flex-col">
+          <mat-label class="form-outline-label pl-[1px]">{{ 'Limit period' | translate }}</mat-label>
+          <mat-form-field appearance="outline" class="form-input-edit edit-limit-form-field" subscriptSizing="dynamic">
+            <input matInput type="text" formControlName="limitPeriod" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="field-wrapper mb-[3px]">
+        <mat-label class="form-outline-label pl-[1px]">{{ 'Amount' | translate }}</mat-label>
+        <mat-form-field appearance="outline" class="form-input-edit full-width" subscriptSizing="dynamic">
+          <input
+            matInput
+            type="number"
+            min="0"
+            class="limit-input"
+            formControlName="amount"
+            (keydown)="validateNumber($event)"
+          />
+          <span class="limit-input-suffix" matTextSuffix>{{ form.get('time')?.value || '' | translate }}</span>
+        </mat-form-field>
+      </div>
+      <div class="button-row flex gap-1">
+        <!-- Delete button -->
+        <button type="submit" mat-stroked-button class="button-text-small label-dark flex-grow" (click)="onDelete()">
+          {{ 'Delete limit' | translate | uppercase }}
+          <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
+        </button>
+        <!-- Update button -->
+        <button type="submit" mat-button class="button-text-small label-dark flex-grow" (click)="onUpdate()">
+          {{ 'Update' | translate | uppercase }}
+          <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
+        </button>
+      </div>
+    </form>
+  </div>
+</app-base-dialog>

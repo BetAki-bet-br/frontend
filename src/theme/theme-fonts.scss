@@ -1,0 +1,12 @@
+/*
+ *Application font definitions
+ */
+
+@font-face {
+  font-family: font-icons;
+  src: url("../assetslocal/font/font-icons.ttf") format("truetype"),
+    url("../assetslocal/font/font-icons.woff") format("woff"), url("../assetslocal/font/font-icons.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

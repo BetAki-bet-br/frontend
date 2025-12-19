@@ -1,0 +1,34 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+
+@use "sass:color" as color;
+@use "theme/theme-variables" as theme-variables;
+
+:host ::ng-deep app-base-dialog {
+  .dialog-container {
+    height: 100%;
+
+    /* stylelint-disable-next-line selector-max-compound-selectors */
+    .base-dialog-content {
+      height: 100%;
+
+      /* stylelint-disable-next-line selector-max-compound-selectors */
+      p {
+        height: 100%;
+      }
+    }
+  }
+}
+
+.iframe-container {
+  height: 100%;
+  width: 100%;
+}
+
+.iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

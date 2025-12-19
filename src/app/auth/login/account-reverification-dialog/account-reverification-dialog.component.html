@@ -1,0 +1,11 @@
+<app-base-dialog [displayCloseButton]="true" [title]="'Login to your account' | translate">
+  <div dialogContent>
+    {{ 'Account is closed. To access your account, you have to activate it first.' | translate }}
+  </div>
+
+  <ng-container dialogButtons>
+    <button mat-button class="button-text-small label-dark flex-grow" (click)="activateAccount()">
+      {{ 'ACTIVATE MY ACCOUNT' | translate }}
+    </button>
+  </ng-container>
+</app-base-dialog>

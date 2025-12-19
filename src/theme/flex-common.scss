@@ -1,0 +1,200 @@
+// stylelint-disable
+
+@use "sass:map" as map;
+@use "./utils" as *; // Certifique-se que este arquivo existe e contém o mixin 'media' e a variavel $breakpoints
+
+// =============================================================================
+// FLEX COMMON - MIGRATION MODE
+// Classes conflitantes com Tailwind Base foram removidas.
+// Mantidas apenas variações com sufixos (--md, --lg) e utilitários sem par no Tailwind.
+// =============================================================================
+
+// fxHide (Tailwind usa .hidden, então .flex-hide é seguro manter para legado)
+.flex-hide {
+  display: none;
+}
+
+// Nota: Os loops de Padding, Margin e Gap bases (ex: .p-10, .gap-10) foram removidos
+// para evitar conflito com a escala REM do Tailwind.
+// Use classes do Tailwind (ex: p-2.5) ou valores arbitrários (ex: p-[10px]).
+
+// =============================================================================
+// BREAKPOINTS (LEGACY SUPPORT)
+// Mantidos pois usam sufixo '--' (BEM-like), não conflitando com prefixos ':' do Tailwind
+// =============================================================================
+
+@each $bpKey in map.keys($breakpoints) {
+  @include media($bpKey) {
+    // Flex Display
+    .flex--#{$bpKey}:not(.hidden) {
+      display: flex;
+    }
+    .flex-inline--#{$bpKey}:not(.hidden) {
+      display: inline-flex;
+    }
+
+    // Flex Properties
+    .flex-enable--#{$bpKey} {
+      flex: 1;
+    }
+    .flex-disable--#{$bpKey} {
+      flex: 0;
+    }
+    .flex-grow--#{$bpKey} {
+      flex: 1 1 100%;
+    }
+    .flex-nogrow--#{$bpKey} {
+      flex: 0 1 auto;
+    }
+    .flex-noshrink--#{$bpKey} {
+      flex: 1 0 auto;
+    }
+    .flex-full-height--#{$bpKey} {
+      height: 100%;
+    }
+    .flex-full-width--#{$bpKey} {
+      width: 100%;
+    }
+
+    .flex-col--#{$bpKey}:not(.hidden) {
+      display: flex;
+      flex-direction: column;
+    }
+    .flex-col-reverse--#{$bpKey}:not(.hidden) {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+
+    // Flex Wrap
+    .flex-wrap--#{$bpKey} {
+      flex-wrap: wrap;
+    }
+    .flex-wrap-reverse--#{$bpKey} {
+      flex-wrap: wrap-reverse;
+    }
+    .flex-nowrap--#{$bpKey} {
+      flex-wrap: nowrap;
+    }
+
+    // Justify content
+    .justify-start--#{$bpKey} {
+      justify-content: flex-start;
+    }
+    .justify-end--#{$bpKey} {
+      justify-content: flex-end;
+    }
+    .justify-center--#{$bpKey} {
+      justify-content: center;
+    }
+    .justify-between--#{$bpKey} {
+      justify-content: space-between;
+    }
+    .justify-around--#{$bpKey} {
+      justify-content: space-around;
+    }
+    .justify-evenly--#{$bpKey} {
+      justify-content: space-evenly;
+    }
+
+    // Justify Items
+    .justify-items-start--#{$bpKey} {
+      justify-items: start;
+    }
+    .justify-items-end--#{$bpKey} {
+      justify-items: end;
+    }
+    .justify-items-center--#{$bpKey} {
+      justify-items: center;
+    }
+    .justify-items-stretch--#{$bpKey} {
+      justify-items: stretch;
+    }
+
+    // Align Content
+    .content-center--#{$bpKey} {
+      align-content: center;
+    }
+    .content-start--#{$bpKey} {
+      align-content: flex-start;
+    }
+    .content-end--#{$bpKey} {
+      align-content: flex-end;
+    }
+    .content-between--#{$bpKey} {
+      align-content: space-between;
+    }
+    .content-around--#{$bpKey} {
+      align-content: space-around;
+    }
+    .content-evenly--#{$bpKey} {
+      align-content: space-evenly;
+    }
+    .content-baseline--#{$bpKey} {
+      align-content: baseline;
+    }
+    .content-stretch--#{$bpKey} {
+      align-content: stretch;
+    }
+
+    // Align items
+    .items-start--#{$bpKey} {
+      align-items: flex-start;
+    }
+    .items-end--#{$bpKey} {
+      align-items: flex-end;
+    }
+    .items-center--#{$bpKey} {
+      align-items: center;
+    }
+    .items-baseline--#{$bpKey} {
+      align-items: baseline;
+    }
+    .items-stretch--#{$bpKey} {
+      align-items: stretch;
+    }
+    .items-around--#{$bpKey} {
+      align-items: space-around;
+    }
+    .items-between--#{$bpKey} {
+      align-items: space-between;
+    }
+
+    .flex-max-width--#{$bpKey} {
+      max-width: 100%;
+    }
+    .flex-max-height--#{$bpKey} {
+      max-height: 100%;
+    }
+
+    // Align self
+    .self-start--#{$bpKey} {
+      align-self: flex-start;
+    }
+    .self-center--#{$bpKey} {
+      align-self: center;
+    }
+    .self-end--#{$bpKey} {
+      align-self: flex-end;
+    }
+    .self-baseline--#{$bpKey} {
+      align-self: baseline;
+    }
+    .self-stretch--#{$bpKey} {
+      align-self: stretch;
+    }
+
+    // fxFill
+    .flex-fill--#{$bpKey} {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
+    }
+
+    // fxHide legacy
+    .flex-hide--#{$bpKey} {
+      display: none;
+    }
+  }
+}

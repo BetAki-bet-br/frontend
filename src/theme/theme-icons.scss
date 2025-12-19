@@ -1,0 +1,106 @@
+@use "sass:map" as map;
+@use "theme/theme-variables" as theme-variables;
+
+.font-icons {
+  font-family: font-icons, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  color: map.get(theme-variables.$app-custom-colors, "neutral-100");
+  font-size: 20px;
+
+  &.push-notifications__icon::before {
+    content: "";
+  }
+
+  &.font-icons--bar::before {
+    content: "";
+  }
+
+  &.font-icons--caret::before {
+    content: "";
+  }
+
+  &.font-icons--check::before {
+    content: "";
+  }
+
+  &.font-icons--close::before {
+    content: "";
+  }
+
+  &.font-icons--favorite::before {
+    content: "î¤„";
+  }
+
+  &.font-icons--favorite-add::before {
+    content: "î¤…";
+  }
+
+  &.font-icons--home::before {
+    content: "î¤†";
+  }
+
+  &.font-icons--notification::before {
+    content: "î¤‡";
+  }
+
+  &.font-icons--play::before {
+    content: "î¤ˆ";
+  }
+
+  &.font-icons--search::before {
+    content: "";
+  }
+
+  &.font-icons--user::before {
+    content: "";
+  }
+
+  &.font-icons--arr-left::before {
+    content: "";
+  }
+
+  &.font-icons--arr-right::before {
+    content: "î¤Œ";
+  }
+
+  &.font-icons--faq-arr::before {
+    content: "î¤";
+  }
+
+  &.font-icons--full::before {
+    content: "";
+  }
+
+  &.font-icons--full-close::before {
+    content: "";
+  }
+
+  &.font-icons--screen::before {
+    content: "";
+  }
+
+  &.font-icons--screen-2::before {
+    content: "";
+  }
+
+  &.font-icons--screen-4::before {
+    content: "";
+  }
+
+  &.font-icons--arrow-full-left::before {
+    content: "";
+  }
+
+  &.font-icons--arrow-full-right::before {
+    content: "î¤”";
+  }
+
+  &.font-icons--history::before {
+    content: "";
+  }
+}

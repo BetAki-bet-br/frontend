@@ -1,0 +1,17 @@
+<app-game-list [categoryId]="categoryId()" [gameCount]="games().length" title="TOP 10 AO VIVO">
+  <div
+    appDragScroll
+    #scrollableContainer
+    class="flex overflow-x-auto overflow-y-hidden scroll-smooth select-none no-scrollbar gap-x-16!"
+  >
+    @for (game of games();track $index) {
+    <div class="shrink-0 flex items-center relative" [class.ms-14]="$index === 0">
+      <app-game-card [class.pr-2]="$index === games().length - 1" [game]="game" (click)="gameClick.emit(game)" />
+
+      <p class="absolute inset-y-0 flex items-center text-5xl text-betaki-500! big-number text-white z-10 left-[-60px]">
+        {{ $index + 1 }}
+      </p>
+    </div>
+    }
+  </div>
+</app-game-list>

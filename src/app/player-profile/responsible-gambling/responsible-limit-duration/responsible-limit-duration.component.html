@@ -1,0 +1,91 @@
+<div class="player-profile-page-container" [formGroup]="form">
+  <mat-accordion [multi]="true" class="flex flex-col gap-4">
+    <mat-expansion-panel class="profile-panel" [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="section-item-container nowrap">
+          <div class="section-item">
+            <div class="item-title">
+              {{ limitTypeName }}
+            </div>
+          </div>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="section-item-container mt-6">
+        <div class="section-item-collapsable">
+          <div class="subscriptions-item-label" [innerHTML]="description"></div>
+
+          <div class="section-actions align-baseline flex-wrap flex-col--lt-sm-2">
+            <!-- TIME -->
+            <div class="field-wrapper-edit">
+              <mat-label class="form-field-label">{{ 'Limit period' | translate }}</mat-label>
+              <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+                <mat-select
+                  formControlName="time"
+                  placeholder="{{ 'Select' | translate }}"
+                  hideSingleSelectionIndicator
+                  #selectPeriod
+                >
+                  @for (item of timePeriods; track item) {
+                  <mat-option [value]="item.value" translate>
+                    {{ item.label | translate }}
+                  </mat-option>
+                  }
+                </mat-select>
+                <mat-icon [class]="selectPeriod.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
+                  selectPeriod.panelOpen ? 'expand_less' : 'expand_more'
+                }}</mat-icon>
+                @if ( form.controls.time && form.controls.time.hasError('required') && form.controls.time.touched ) {
+                <ng-container>
+                  <mat-error class="error-msg" translate> Required</mat-error>
+                </ng-container>
+                }
+              </mat-form-field>
+            </div>
+
+            <!-- PASSWORD -->
+            <!-- <div class="field-wrapper-edit">
+              <mat-label class="form-field-label">{{ 'Password' | translate }}</mat-label>
+              <mat-form-field
+                appearance="outline"
+                class="form-input-edit"
+                [class.error-border]="form.controls.password.touched && form.controls.password.invalid"
+                subscriptSizing="dynamic"
+                >
+                <input
+                  matInput
+                  [type]="hidePassword ? 'password' : 'text'"
+                  placeholder="{{ 'Password' | translate }}"
+                  formControlName="password"
+                  />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hidePassword = !hidePassword"
+                  [attr.aria-label]="'Toggle password visibility'"
+                  [attr.aria-pressed]="!hidePassword"
+                  class="custom-icon-button"
+                  >
+                  <mat-icon fontSet="material-icons-outlined" class="password-icon">
+                    {{ hidePassword ? 'visibility' : 'visibility_off' }}
+                  </mat-icon>
+                </button>
+                @if (form.controls.password?.hasError('required') && form.controls.password?.touched) {
+                <mat-error
+                  class="error-msg"
+                  translate
+                  >
+                  Required</mat-error
+                  >
+                }
+                </mat-form-field>
+              </div> -->
+
+            <button [disabled]="!form.dirty" mat-button class="section-action button" (click)="setLimitDuration()">
+              <span translate>Save changes</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

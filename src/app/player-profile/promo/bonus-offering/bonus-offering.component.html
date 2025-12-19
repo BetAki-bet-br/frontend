@@ -1,0 +1,9 @@
+<div class="bonuses-container">
+  <div class="bonuses-wrapper">
+    @for (bonus of bonusList; track bonus) {
+    <div class="bonus-item" [innerHTML]="bonus.templateOffersHtml"></div>
+    } @for (banner of bannerList; track banner) {
+    <div class="bonus-item" [innerHTML]="banner.templateHtml"></div>
+    }
+  </div>
+</div>

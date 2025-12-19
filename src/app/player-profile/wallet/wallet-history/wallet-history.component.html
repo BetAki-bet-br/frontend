@@ -1,0 +1,172 @@
+<div class="player-profile-page-container">
+  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <div class="page-section" [formGroup]="filterForm">
+    <div class="section-item-container">
+      <div class="section-item flex flex-wrap flex-col--lt-sm-2 gap-6">
+        <div class="flex flex-wrap flex-col--lt-sm-2 gap-x-6 gap-y-4 full-width">
+          <div class="field-wrapper-edit">
+            <div class="form-field-label" translate>Type</div>
+            <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+              <mat-select formControlName="type" placeholder="Select" multiple #selectType>
+                @for (item of typeList; track item) {
+                <mat-option [value]="item">
+                  {{ item.label | translate }}
+                </mat-option>
+                }
+              </mat-select>
+              <mat-icon [class]="selectType.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
+                selectType.panelOpen ? 'expand_less' : 'expand_more'
+              }}</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="field-wrapper-edit">
+            <div class="form-field-label" translate>Period</div>
+            <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+              <mat-select formControlName="period" placeholder="Select" #selectPeriod>
+                @for (item of periodList; track item) {
+                <mat-option [value]="item">
+                  {{ item.label | translate }}
+                </mat-option>
+                }
+              </mat-select>
+              <mat-icon [class]="selectPeriod.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
+                selectPeriod.panelOpen ? 'expand_less' : 'expand_more'
+              }}</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="flex flex-col--lt-sm-2 gap-x-6 gap-y-4">
+            <div class="field-wrapper-edit">
+              <div class="form-field-label" translate>From</div>
+              <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+                <input
+                  matInput
+                  [matDatepicker]="pickerFrom"
+                  (click)="pickerFrom.open()"
+                  placeholder="{{ 'From' | translate }}"
+                  formControlName="dateFrom"
+                  [max]="currentDate"
+                  [readonly]="true || isMobile()"
+                />
+                <mat-datepicker-toggle matSuffix [for]="pickerFrom">
+                  <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #pickerFrom />
+                @if (filterForm.controls.dateFrom.hasError('dateRangeError')) {
+                <ng-container>
+                  <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
+                </ng-container>
+                }
+              </mat-form-field>
+            </div>
+            <div class="field-wrapper-edit">
+              <div class="form-field-label" translate>To</div>
+              <mat-form-field appearance="outline" class="form-input-select" subscriptSizing="dynamic">
+                <input
+                  matInput
+                  [matDatepicker]="pickerTo"
+                  (click)="pickerTo.open()"
+                  placeholder="{{ 'To' | translate }}"
+                  formControlName="dateTo"
+                  [max]="currentDate"
+                  [min]="minimumDate"
+                  [readonly]="true || isMobile()"
+                />
+                <mat-datepicker-toggle matSuffix [for]="pickerTo">
+                  <mat-icon matDatepickerToggleIcon>calendar_month</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #pickerTo />
+                @if (filterForm.controls.dateFrom.hasError('dateRangeError')) {
+                <ng-container>
+                  <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
+                </ng-container>
+                }
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap flex-col--lt-sm-2 gap-x-6 gap-y-4 full-width">
+          <div class="section-actions mt-4">
+            <button mat-button class="section-action" (click)="searchItems()">
+              <span translate>Apply</span>
+            </button>
+            <button mat-button class="section-action-2" (click)="resetfilter()">
+              <span translate>Clear</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (filteredTableData.length) {
+  <div>
+    <mat-accordion [multi]="false" class="flex flex-col gap-4">
+      @for (item of filteredTableData; track item) {
+      <mat-expansion-panel class="profile-panel">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="section-item-container nowrap">
+            <div class="section-item">
+              <mat-icon class="item-icon" svgIcon="{{ findIcon(item?.paymentInstrumentName ?? 'unknown') }}" />
+              <div class="flex flex-col">
+                <div class="flex flex-col item-title">
+                  {{ item.typeResolved | translate }}
+                </div>
+                <div class="flex flex-col item-description">
+                  {{ item.paymentInstrumentName }}
+                </div>
+              </div>
+            </div>
+            <div class="item-additional-text">
+              {{ item.amountResolved }}
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="section-item-container mt-6">
+          <div class="section-item-collapsable">
+            <div class="transaction-details-table">
+              <div class="transaction-details-row">
+                <div class="transaction-details-field uppercase">{{ 'Id' | translate }}</div>
+                <div class="transaction-details-value">
+                  {{ item.id }}
+                </div>
+              </div>
+              <div class="transaction-details-row">
+                <div class="transaction-details-field">{{ 'Transaction status' | translate }}</div>
+                <div class="transaction-details-value">
+                  {{ item.statusResolved }}
+                </div>
+              </div>
+              <div class="transaction-details-row">
+                <div class="transaction-details-field">{{ 'Date' | translate }}</div>
+                <div class="transaction-details-value">
+                  {{ item.createTime | date : dateFormat }}
+                </div>
+              </div>
+              <div class="transaction-details-row">
+                <div class="transaction-details-field">{{ 'Balance before' | translate }}</div>
+                <div class="transaction-details-value">
+                  {{ item.balanceBeforeResolved }}
+                </div>
+              </div>
+              <div class="transaction-details-row">
+                <div class="transaction-details-field">{{ 'Balance after' | translate }}</div>
+                <div class="transaction-details-value">
+                  {{ item.balanceAfterResolved }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      }
+    </mat-accordion>
+    <mat-paginator
+      [length]="tableData.length"
+      class="bg-[#f1f1f1]!"
+      [pageSize]="this.defaultPageSize"
+      (page)="onPageChange($event)"
+    />
+  </div>
+  }
+</div>

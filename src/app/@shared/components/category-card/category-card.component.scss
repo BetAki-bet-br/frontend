@@ -1,0 +1,24 @@
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "theme/theme-variables" as theme-variables;
+
+.category-card {
+  height: 12.5rem;
+  padding: var(--category-card-padding, 2.438rem);
+  background-repeat: round;
+  border-radius: 0.188rem;
+
+  .description {
+    flex: 1;
+  }
+
+  &.overlay {
+    background-color: rgba(0, 0, 0, 70%);
+    background-blend-mode: overlay;
+  }
+
+  @include utils.media("lt-sm-2") {
+    min-width: unset;
+    padding: var(--category-card-padding-mobile, 2.438rem);
+  }
+}

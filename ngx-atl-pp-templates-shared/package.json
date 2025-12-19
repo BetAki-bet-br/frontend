@@ -1,0 +1,19 @@
+{
+  "name": "@icore/ngx-atl-pp-templates-shared",
+  "version": "0.0.32",
+  "description": "Shared CSS library for atl templates",
+  "main": "index.scss",
+  "scripts": {
+    "test": "npx stylelint **/*.scss",
+    "build-lib-templates-shared": "sass index.scss dist/index.css --style=compressed",
+    "build-watch-lib-templates-shared": "sass index.scss dist/index.css --style=compressed --watch",
+    "link-lib-templates-shared": "cd dist && npm link"
+  },
+  "dependencies": {
+    "sass": "^1.69.4"
+  },
+  "devDependencies": {
+    "stylelint": "^16.5.0",
+    "stylelint-config-standard-scss": "^13.1.0"
+  }
+}

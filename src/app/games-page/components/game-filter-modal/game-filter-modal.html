@@ -1,0 +1,58 @@
+@if (isOpen()) {
+<div
+  class="fixed inset-0 bg-black/50 z-40"
+  animate.enter="animate-fade-in"
+  animate.leave="animate-fade-out"
+  (click)="onClose()"
+  tabindex="0"
+  role="button"
+></div>
+<div
+  class="fixed bottom-0 left-0 right-0 h-120 w-full sm:m-auto sm:w-1/2 h-5/6 bg-shark-900 rounded-t-3xl rounded-tr-none shadow-2xl z-50 overflow-auto flex flex-col justify-end mb-[55.5px]"
+  animate.enter="animate-slide-up"
+  animate.leave="animate-slide-down"
+>
+  <button (click)="onClose()" class="absolute top-4 right-4 text-white text-3xl leading-none p-2 z-10 cursor-pointer">
+    &times;
+  </button>
+
+  <div class="p-5 text-white">
+    <h2 class="text-3xl font-bold mb-4">Filtros</h2>
+
+    <div class="mt-8">
+      <h3 class="text-xl font-bold mb-2">Provedores</h3>
+      <div class="grid grid-cols-2 gap-4 h-60 overflow-y-auto">
+        @for(provider of providers(); track provider.id) {
+        <label class="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            class="w-4 h-4 text-betaki-500 bg-gray-100 border-gray-300 rounded focus:ring-betaki-500"
+            [checked]="selectedProviders().includes(provider)"
+            (change)="toggleProvider(provider)"
+          />
+          <span>{{ provider.name }}</span>
+        </label>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="p-5">
+    <div class="flex gap-3">
+      <button
+        class="flex-1 block bg-gray-700 text-white font-medium py-3 px-4 rounded-lg text-center text-lg"
+        (click)="clearAndApply()"
+        type="button"
+      >
+        Limpar e Aplicar
+      </button>
+      <button
+        class="flex-1 block bg-betaki-500 font-bold py-3 px-4 rounded-lg text-center text-lg"
+        (click)="applyFilters()"
+      >
+        Aplicar Filtros
+      </button>
+    </div>
+  </div>
+</div>
+}

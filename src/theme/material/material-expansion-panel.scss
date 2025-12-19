@@ -1,0 +1,165 @@
+/* stylelint-disable max-nesting-depth */
+/* stylelint-disable no-descending-specificity */
+/* stylelint-disable selector-max-specificity */
+
+@use "sass:map" as map;
+@use "theme/utils" as utils;
+@use "../theme-variables" as theme-variables;
+
+.mat-expansion-panel {
+  .mat-expansion-panel-content {
+    .mat-expansion-panel-body {
+      padding: 0;
+    }
+  }
+
+  // Overrides for Expansion panel on FAQ page
+  &.faq-expansion-panel {
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-200");
+    border-radius: 4px;
+    box-shadow: none;
+
+    &:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+      background-color: inherit;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    &.mat-expansion-panel-spacing {
+      margin: 8px 0;
+    }
+
+    .mat-expansion-panel-header {
+      background: map.get(theme-variables.$app-custom-colors, "neutral-200");
+
+      @include utils.media("gt-lg") {
+        padding: 0 2rem;
+      }
+    }
+
+    .mat-expansion-panel-header:hover {
+      .mat-expansion-panel-header-title > h4 {
+        color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+      }
+    }
+
+    .mat-expansion-panel-header,
+    .mat-expanded {
+      height: 72px;
+    }
+
+    .mat-expansion-panel-content {
+      .mat-expansion-panel-body {
+        padding: 8px;
+
+        .content-wrapper {
+          background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+          padding: 8px 16px;
+          font-size: 14px;
+          line-height: 20px;
+          font-family: Roboto, Verdana, sans-serif;
+          margin: 0;
+        }
+      }
+    }
+
+    p + p {
+      margin-top: 5px;
+    }
+
+    p {
+      @include utils.media("lt-sm-2") {
+        font-size: 12px;
+      }
+    }
+  }
+
+  &.footer-expansion-panel {
+    .mat-expansion-panel-content {
+      .mat-expansion-panel-body {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.mat-accordion {
+  .mat-expansion-panel {
+    &.profile-panel {
+      background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+      border-radius: 1rem;
+      padding: 1.5rem;
+      min-width: 15rem;
+      box-shadow: none;
+      border: none;
+      margin: 0;
+
+      &:not(.mat-expanded),
+      &:not(.mat-expansion-panel-spacing),
+      &:first-of-type,
+      &:last-of-type {
+        border-radius: 1rem;
+      }
+
+      .mat-expansion-panel-header {
+        background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+        border-radius: 0;
+        padding: 0;
+        margin-bottom: 0;
+        height: 2.5rem;
+
+        &:hover:not([aria-disabled="true"]) {
+          background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+        }
+      }
+
+      .mat-expansion-panel-content {
+        .mat-expansion-panel-body {
+          padding: 0;
+        }
+      }
+    }
+
+    &.messages-panel {
+      background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+      border-radius: 1rem;
+      padding: 1.5rem;
+      min-width: 15rem;
+      box-shadow: none;
+      border: none;
+      margin: 0;
+
+      &:not(.mat-expanded),
+      &:not(.mat-expansion-panel-spacing),
+      &:first-of-type,
+      &:last-of-type {
+        border-radius: 1rem;
+      }
+
+      .mat-expansion-panel-header {
+        background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+        border-radius: 0;
+        padding: 0;
+        margin-bottom: 0;
+        height: 1.5rem;
+        align-items: center;
+
+        &:hover:not([aria-disabled="true"]) {
+          background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+        }
+
+        .mat-expansion-indicator {
+          height: 100%;
+        }
+      }
+
+      .mat-expansion-panel-content {
+        .mat-expansion-panel-body {
+          padding: 0;
+        }
+      }
+    }
+  }
+}

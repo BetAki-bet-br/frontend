@@ -1,0 +1,65 @@
+<div class="player-profile-page-container">
+  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <div class="select-all-row flex">
+    <mat-checkbox
+      [indeterminate]="partiallySelected"
+      [checked]="allMessagesSelected"
+      (change)="updateSelection(0)"
+      subscriptSizing="dynamic"
+      class="msg-checkbox54 mdc-form-field-alignment-normal"
+    >
+      <span class="info-text title" translate>Select all</span>
+    </mat-checkbox>
+    <button
+      class="button-delete gap-2"
+      (click)="deleteSelected()"
+      [disabled]="!this.allMessagesSelected && !this.partiallySelected"
+    >
+      <mat-icon class="button-icon" fontSet="material-icons-outlined">delete</mat-icon>
+      <span class="button-text">{{ 'Delete' | translate }}</span>
+    </button>
+  </div>
+
+  @if (filteredTableData.length) {
+  <div>
+    <mat-accordion [multi]="false" class="flex flex-col gap-4">
+      @for (row of filteredTableData; track row) {
+      <mat-expansion-panel class="messages-panel" (opened)="displayRow(row)">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="section-item-container nowrap">
+            <div class="section-item">
+              <div class="flex row-container full-width">
+                <mat-checkbox
+                  [checked]="checked(row.id)"
+                  (change)="updateSelection(row.id)"
+                  subscriptSizing="dynamic"
+                  class="msg-checkbox mdc-form-field-alignment-normal"
+                  (click)="$event.stopPropagation()"
+                >
+                  <span [class]="row.state !== PopupStateEnum.Read ? 'title' : ''">{{ row.titleResolved }}</span>
+                </mat-checkbox>
+              </div>
+            </div>
+            <div class="item-date">
+              <span class="right-text">{{ row.createdDate | date : 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="section-item-container mt-4">
+          <div class="section-item-collapsable">
+            <div [innerHTML]="row.contentsResolved" class="expandable-content"></div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      }
+    </mat-accordion>
+    <mat-paginator
+      class="bg-[#f1f1f1]!"
+      [length]="tableData.length"
+      [pageSize]="this.defaultPageSize"
+      (page)="onPageChange($event)"
+    />
+  </div>
+  }
+</div>

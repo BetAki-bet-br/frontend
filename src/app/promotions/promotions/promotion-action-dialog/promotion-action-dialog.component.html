@@ -1,0 +1,27 @@
+<app-base-dialog [title]="'Promotion status' | translate" [customClass]="'md:h-2/3 lg:h-100'">
+  <!-- Content -->
+  <div dialogContent class="flex flex-col items-center overflow-hidden">
+    @if (data.isLoading) {
+    <div class="loading-container flex gap-x-3 mt-6">
+      <div class="loading-circle" [class.active]="loadingIndex === 0"></div>
+      <div class="loading-circle" [class.active]="loadingIndex === 1"></div>
+      <div class="loading-circle" [class.active]="loadingIndex === 2"></div>
+    </div>
+    } @if (!data.isLoading && !data.error) {
+    <mat-icon class="success-icon mb-7 mt-4">check_circle_outline</mat-icon>
+    } @if (!data.isLoading && data.error) {
+    <mat-icon class="error-icon mb-7 mt-4">warning_amber</mat-icon>
+    }
+    <div class="subtitle mb-3">{{ data.subtitle ?? '' | translate }}</div>
+    <div class="description mb-[30px]">{{ data.description | translate }}</div>
+  </div>
+  <ng-container dialogButtons>
+    @if (!data.isLoading) {
+    <div class="flex w-full h-full">
+      <button mat-button class="ok-button" (click)="onOkClick()">
+        <span mat-button class="button-text-small label-dark flex flex-grow">{{ 'Ok' | translate | uppercase }}</span>
+      </button>
+    </div>
+    }
+  </ng-container>
+</app-base-dialog>
