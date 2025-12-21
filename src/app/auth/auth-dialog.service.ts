@@ -15,6 +15,7 @@ import {
 import { AnnualVerificationDialogComponent } from '@app/@shared/components/annual-verification-dialog/annual-verification-dialog.component';
 import {
   ProcessVerificationDialogComponent,
+  ProcessVerificationDialogData,
   ProcessVerificationResultEnum,
 } from '@app/@shared/components/process-verification-dialog/process-verification-dialog.component';
 import { PopupMessagesService } from '@app/@shared/services/popup-messages.service';
@@ -84,7 +85,6 @@ export class AuthDialogService {
   private router = inject(Router);
   private popupMessageService = inject(PopupMessagesService);
   private translate = inject(TranslateService);
-
   initAccountVerificationWithParams(
     accountVerificationAction: AccountVerificationActionEnum,
     faceAuthParams: FaceAuthParams,
@@ -136,7 +136,9 @@ export class AuthDialogService {
                   })
                 );
               } else {
-                return this.initProcessVerificationDialog().pipe(
+                return this.initProcessVerificationDialog(
+                  accountVerificationAction === AccountVerificationActionEnum.Withdrawal
+                ).pipe(
                   switchMap((success) => {
                     return of({ success });
                   })
@@ -173,7 +175,7 @@ export class AuthDialogService {
                       })
                     );
                   } else {
-                    return this.initProcessVerificationDialog().pipe(
+                    return this.initProcessVerificationDialog(false).pipe(
                       switchMap((success) => {
                         return of({ success });
                       })
@@ -201,7 +203,7 @@ export class AuthDialogService {
                   );
                 }
                 // If kycAnnualVerificationRequired is false, open process verification dialog
-                return this.initProcessVerificationDialog().pipe(
+                return this.initProcessVerificationDialog(false).pipe(
                   switchMap((success) => {
                     return of({ success });
                   })
@@ -231,7 +233,22 @@ export class AuthDialogService {
               })
             );
           }
-          return this.initProcessVerificationDialog().pipe(
+
+          return this.initProcessVerificationDialog(
+            accountVerificationAction === AccountVerificationActionEnum.Withdrawal
+          ).pipe(
+            switchMap((success) => {
+              return of({ success });
+            })
+          );
+        }
+
+        if (
+          playerVerificationStatus?.calculatedStatus === true &&
+          !playerVerificationStatus?.email &&
+          accountVerificationAction === AccountVerificationActionEnum.Withdrawal
+        ) {
+          return this.initProcessVerificationDialog(true).pipe(
             switchMap((success) => {
               return of({ success });
             })
@@ -257,9 +274,9 @@ export class AuthDialogService {
     );
   }
 
-  initProcessVerificationDialog(): Observable<boolean> {
+  initProcessVerificationDialog(isWithdrawalProcess: boolean): Observable<boolean> {
     log.debug('initProcessVerificationDialog invoked');
-    return this.openProcessVerificationDialog().pipe(
+    return this.openProcessVerificationDialog(isWithdrawalProcess).pipe(
       switchMap((result) => {
         let api$: Observable<FaceAuthResponse | null> = of(null);
 
@@ -290,7 +307,12 @@ export class AuthDialogService {
         } else if (result === ProcessVerificationResultEnum.PhoneNumber) {
           // This is not relevant for now
           // api$ = this.playerServiceApi.apiPortalV1PlayerContactInfoVerificationPost(2);
+        } else if (isWithdrawalProcess) {
+          api$ = of();
         }
+        // else {
+        //   api$ = of();
+        // }
 
         return api$;
       }),
@@ -299,6 +321,7 @@ export class AuthDialogService {
          * if referenceId exists open face authentication dialog
          * else do nothing
          */
+
         if (result && result?.referenceId) {
           const faceAuthParams: FaceAuthParams = {
             providerId: result.referenceId,
@@ -340,15 +363,18 @@ export class AuthDialogService {
     );
   }
 
-  openProcessVerificationDialog(): Observable<ProcessVerificationResultEnum | null> {
+  openProcessVerificationDialog(isWithdrawalProcess: boolean): Observable<ProcessVerificationResultEnum | null> {
     // open dialog
     const dialogRef = this.dialog.open<
       ProcessVerificationResultEnum,
-      ProcessVerificationDialogComponent,
+      ProcessVerificationDialogData,
       ProcessVerificationDialogComponent
     >(ProcessVerificationDialogComponent, {
       disableClose: true,
       autoFocus: false,
+      data: {
+        isWithdrawalProcess,
+      },
     });
 
     // on dialog closed

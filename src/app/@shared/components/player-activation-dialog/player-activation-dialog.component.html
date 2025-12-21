@@ -1,13 +1,17 @@
 <app-base-dialog [title]="'Player activation' | translate" [displayCloseButton]="true">
-  <p dialogContent>
+  <div class="text-center" dialogContent>
     {{ 'Activation successful you can now' | translate }}
     <a class="link sign-in-link" (click)="onClose({ closeEvent: 'signIn' })">
       <span translate>sign in.</span>
     </a>
-  </p>
+  </div>
 
   <ng-container dialogButtons>
-    <button mat-button class="button-text-small label-dark flex-grow" (click)="onClose({ closeEvent: 'signIn' })">
+    <button
+      mat-button
+      class="button-text-small label-dark flex-grow w-full"
+      (click)="onClose({ closeEvent: 'signIn' })"
+    >
       {{ 'SIGN IN' | translate }}
     </button>
   </ng-container>

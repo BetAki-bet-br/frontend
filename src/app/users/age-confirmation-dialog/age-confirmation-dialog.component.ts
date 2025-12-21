@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { environment } from '@env/environment';
@@ -11,7 +11,7 @@ import { MatIcon } from '@angular/material/icon';
   templateUrl: './age-confirmation-dialog.component.html',
   styleUrls: ['./age-confirmation-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, MatIcon, MatButtonModule, TranslateModule],
+  imports: [BaseDialogComponent, MatIcon, TranslateModule, MatButtonModule],
 })
 export class AgeConfirmationDialogComponent {
   private dialogRef = inject<DialogRef<boolean>>(DialogRef);

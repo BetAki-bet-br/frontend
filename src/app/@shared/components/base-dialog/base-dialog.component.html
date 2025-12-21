@@ -32,11 +32,11 @@
 
   <div class="p-4 sm:p-3 2xl:p-6 flex-grow min-h-0">
     <div class="h-full flex flex-col">
-      <div [class.flex-grow]="hasDialogContent()" class="overflow-y-auto">
+      <div [class.flex-grow]="hasDialogContent()">
         <ng-content select="[dialogContent]" />
       </div>
 
-      <div class="base-dialog-button-wrapper mt-4 flex-shrink-0">
+      <div class="base-dialog-button-wrapper mt-auto flex-shrink-0">
         <ng-content select="[dialogButtons]" />
       </div>
     </div>

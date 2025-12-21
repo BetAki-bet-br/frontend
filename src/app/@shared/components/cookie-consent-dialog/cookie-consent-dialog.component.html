@@ -1,8 +1,15 @@
 <app-base-dialog
-  customClass="confirmation-dialog"
-  [customClass]="'md:h-1/3 lg:h-1/4!'"
-  [title]="'Are you over 18 years old?' | translate"
+  [position]="'bottom-right'"
+  [width]="'400px'"
+  [customClass]="'md:h-1/3 '"
+  [title]="'This site uses cookies' | translate"
 >
+  <ng-container dialogContent>
+    <p class="text-center mb-4" translate>
+      This website uses cookies to ensure you get the best experience on our website.
+    </p>
+  </ng-container>
+
   <ng-container dialogButtons>
     <div class="flex w-full justify-end gap-4">
       <button mat-stroked-button class="button-text-small label-dark flex-grow" (click)="onCancel()">

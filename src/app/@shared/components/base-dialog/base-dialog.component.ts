@@ -37,7 +37,7 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
   private breakpointObserver = inject(BreakpointObserver);
   private cdr = inject(ChangeDetectorRef);
   size = input<'sm' | 'md' | 'lg' | 'xl'>('sm');
-  @Input() position: 'top' | 'center' | 'bottom' = 'center';
+  @Input() position: 'top' | 'center' | 'bottom' | 'bottom-right' = 'center';
   @Input() title!: string;
   @Input() width!: string;
   @Input() height!: string;
@@ -47,6 +47,7 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
   @Input() displayTopBar: boolean = true;
   @Input() fullscreenMobile: boolean = true;
   @Input() widthMobile!: string;
+  @Input() customButtonClass: string = '';
   isMobile: boolean = false;
 
   readonly defaultWidth: string = '486px';
@@ -115,6 +116,12 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
         break;
       case 'bottom':
         strategy.bottom('0');
+        break;
+      case 'bottom-right':
+        strategy.bottom('0');
+        strategy.right('0');
+        strategy.left('');
+        strategy.top('');
         break;
       case 'center':
         strategy.centerVertically();
