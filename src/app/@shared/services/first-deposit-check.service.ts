@@ -12,7 +12,7 @@ import {
   HeaderPromotionDialogData,
 } from '@app/@shared/components/header-promotion-dropdown/header-promotion-dialog/header-promotion-dialog.component';
 import { Router } from '@angular/router';
-import { ActionType } from '@app/promotions/promotions/promotions.component';
+import { ActionType } from '@app/promotions/promotions.models';
 import {
   PromotionActionDialogComponent,
   PromotionActionDialogData,

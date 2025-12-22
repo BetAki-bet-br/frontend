@@ -38,9 +38,9 @@ import { WinnersSectionComponent } from '@app/@shared/components/winners-section
 import { WelcomeMessageComponent } from '@app/@shared/components/welcome-message/welcome-message.component';
 import { AsyncPipe } from '@angular/common';
 
-const log = new Logger('PromotionsComponent');
+import { ActionType } from '../promotions.models';
 
-export type ActionType = 'OptIn' | 'OptOut' | 'Decline' | 'OptOutAndDecline' | 'Skip';
+const log = new Logger('PromotionsComponent');
 
 @Component({
   selector: 'app-promotions',

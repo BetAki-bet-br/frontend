@@ -7,7 +7,6 @@ import {
   PromotionActionDialogComponent,
   PromotionActionDialogData,
 } from '@app/promotions/promotions/promotion-action-dialog/promotion-action-dialog.component';
-import { ActionType } from '@app/promotions/promotions/promotions.component';
 import { MessageDialogComponent } from '@app/@shared/components/message-dialog/message-dialog.component';
 import { PopupMessageDialogComponent } from '@app/@shared/components/popup-message-dialog/popup-message-dialog.component';
 import { MessageResolved } from '@app/@shared/models/message.model';

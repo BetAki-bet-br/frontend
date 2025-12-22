@@ -7,7 +7,7 @@ import {
 } from '../header-promotion-dialog/header-promotion-dialog.component';
 import { DeclinePlayerBonusContextRequest, PlayerBonusHistory } from '@icore/ngx-portalgateway-api-client-atl';
 import { Router } from '@angular/router';
-import { ActionType } from '@app/promotions/promotions/promotions.component';
+import { ActionType } from '@app/promotions/promotions.models';
 import {
   PromotionActionDialogComponent,
   PromotionActionDialogData,

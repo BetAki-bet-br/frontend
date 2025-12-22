@@ -15,7 +15,7 @@ import { ActionIdEnum, PromotionActivateTemplateSourceEnum } from '@app/@shared/
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe'; // Added RenderTemplatePipe
 import { TemplateService } from '@app/@shared/services/template.service';
 import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component'; // Added BaseDialogComponent
-import { ActionType } from '@app/promotions/promotions/promotions.component';
+import { ActionType } from '@app/promotions/promotions.models';
 import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

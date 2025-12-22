@@ -2,7 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { PromotionTypeDtoEnum } from '@icore/ngx-portalgateway-api-client-atl';
-import { ActionType } from '../promotions.component';
+import { ActionType } from '../../promotions.models';
 import { TranslateModule } from '@ngx-translate/core';
 import { UpperCasePipe } from '@angular/common';
 import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';

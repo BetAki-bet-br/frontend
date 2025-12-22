@@ -1,7 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
-import { ActionType } from '../promotions.component';
+import { ActionType } from '../../promotions.models';
 import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
 import { MatIcon } from '@angular/material/icon';
 import { UpperCasePipe } from '@angular/common';
