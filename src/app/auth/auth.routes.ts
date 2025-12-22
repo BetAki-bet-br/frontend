@@ -1,22 +1,14 @@
 import { Routes } from '@angular/router';
-import { ForgotPasswordComponent } from '../users/forgot-password/forgot-password.component';
-import { ResendUnlockInstructionsComponent } from '../users/resend-unlock-instructions/resend-unlock-instructions.component';
-import { ResendConfirmationInstructionsComponent } from '../users/resend-confirmation-instructions/resend-confirmation-instructions.component';
-import { ResetPaswordComponent } from '@app/users/reset-pasword/reset-pasword.component';
-import { EmailVerifiedSuccessComponent } from '@app/users/email-verified-success/email-verified-success.component';
-import { LoginPage } from '@app/auth-v2/login-page/login-page';
-import { RegisterPage } from '@app/auth-v2/register-page/register-page';
 import { publicAuthGuard } from '@app/auth.guard';
-import { AuthLayoutPage } from '@app/auth-v2/auth-layout-page';
 
 export const routes: Routes = [
   {
     path: '',
-    component: AuthLayoutPage,
+    loadComponent: () => import('@app/auth-v2/auth-layout-page').then((m) => m.AuthLayoutPage),
     children: [
       {
         path: 'login',
-        component: LoginPage,
+        loadComponent: () => import('@app/auth-v2/login-page/login-page').then((m) => m.LoginPage),
         canActivate: [publicAuthGuard],
         data: {
           title: '',
@@ -25,7 +17,7 @@ export const routes: Routes = [
       },
       {
         path: 'register',
-        component: RegisterPage,
+        loadComponent: () => import('@app/auth-v2/register-page/register-page').then((m) => m.RegisterPage),
         canActivate: [publicAuthGuard],
         data: {
           title: '',
@@ -36,7 +28,8 @@ export const routes: Routes = [
   },
   {
     path: 'forgot-password',
-    component: ForgotPasswordComponent,
+    loadComponent: () =>
+      import('../users/forgot-password/forgot-password.component').then((m) => m.ForgotPasswordComponent),
     canActivate: [publicAuthGuard],
     data: {
       title: '',
@@ -45,7 +38,8 @@ export const routes: Routes = [
   },
   {
     path: 'unlock-account',
-    component: ForgotPasswordComponent,
+    loadComponent: () =>
+      import('../users/forgot-password/forgot-password.component').then((m) => m.ForgotPasswordComponent),
     canActivate: [publicAuthGuard],
 
     data: {
@@ -55,7 +49,8 @@ export const routes: Routes = [
   },
   {
     path: 'users/password/new',
-    component: ForgotPasswordComponent,
+    loadComponent: () =>
+      import('../users/forgot-password/forgot-password.component').then((m) => m.ForgotPasswordComponent),
     canActivate: [publicAuthGuard],
 
     data: {
@@ -65,7 +60,8 @@ export const routes: Routes = [
   },
   {
     path: 'users/password/reset/:token',
-    component: ResetPaswordComponent,
+    loadComponent: () =>
+      import('@app/users/reset-pasword/reset-pasword.component').then((m) => m.ResetPaswordComponent),
     canActivate: [publicAuthGuard],
 
     data: {
@@ -74,7 +70,10 @@ export const routes: Routes = [
   },
   {
     path: 'users/confirmation/new',
-    component: ResendConfirmationInstructionsComponent,
+    loadComponent: () =>
+      import('../users/resend-confirmation-instructions/resend-confirmation-instructions.component').then(
+        (m) => m.ResendConfirmationInstructionsComponent
+      ),
     canActivate: [publicAuthGuard],
 
     data: {
@@ -83,7 +82,10 @@ export const routes: Routes = [
   },
   {
     path: 'users/unlock/new',
-    component: ResendUnlockInstructionsComponent,
+    loadComponent: () =>
+      import('../users/resend-unlock-instructions/resend-unlock-instructions.component').then(
+        (m) => m.ResendUnlockInstructionsComponent
+      ),
     canActivate: [publicAuthGuard],
 
     data: {
@@ -92,7 +94,10 @@ export const routes: Routes = [
   },
   {
     path: 'users/email-verified',
-    component: EmailVerifiedSuccessComponent,
+    loadComponent: () =>
+      import('@app/users/email-verified-success/email-verified-success.component').then(
+        (m) => m.EmailVerifiedSuccessComponent
+      ),
     canActivate: [publicAuthGuard],
 
     data: {

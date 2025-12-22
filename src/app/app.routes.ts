@@ -23,7 +23,7 @@ export const appRoutes: Routes = [
         path: 'promotions',
         loadChildren: () => import('./promotions/promotions.routes').then((m) => m.routes),
       },
-      { path: 'users', component: GamesPage, loadChildren: () => import('./users/users.routes').then((m) => m.routes) },
+      { path: 'users', loadChildren: () => import('./users/users.routes').then((m) => m.routes) },
       {
         path: 'games',
         component: GamesPage,
@@ -43,11 +43,11 @@ export const appRoutes: Routes = [
         canActivate: [privateAuthGuard],
         loadChildren: () => import('./player-profile/player-profile.routes').then((m) => m.routes),
       },
-      // {
-      //   path: 'dev/dialogs',
-      //   loadChildren: () => import('./dev/dialog-test/dialog-test.routes').then((m) => m.routes),
-      //   title: 'Dialog Test Page',
-      // },
+      {
+        path: 'dev/dialogs',
+        loadChildren: () => import('./dev/dialog-test/dialog-test.routes').then((m) => m.routes),
+        title: 'Dialog Test Page',
+      },
       { path: 'auth', loadChildren: () => import('./auth/auth.routes').then((m) => m.routes) },
       { path: '', loadChildren: () => import('./help/help.routes').then((m) => m.routes) },
       { path: '', loadChildren: () => import('./sportsbook/sportsbook.routes').then((m) => m.routes) },

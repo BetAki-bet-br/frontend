@@ -1,3 +1,6 @@
+import { CookieConsentDialogComponent } from '@app/@shared/components/cookie-consent-dialog/cookie-consent-dialog.component';
+import { AgeConfirmationDialogComponent } from '@app/users/age-confirmation-dialog/age-confirmation-dialog.component';
+import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Meta, Title } from '@angular/platform-browser';
@@ -6,17 +9,13 @@ import { Subscription, merge, of, tap } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { AssetsService } from './@shared/assets.service';
 
-import { Dialog } from '@angular/cdk/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { TooltipComponent } from '@angular/material/tooltip';
 import { I18nService } from '@app/i18n';
 import { environment } from '@env/environment';
 import { AppBreakpoints, Logger } from '@shared';
-import { NgcCookieConsentService } from 'ngx-cookieconsent';
-import { GameCategoriesService } from './@core/game-categories.service';
 import { AffiliatesService } from './@shared/services/affiliates.service';
 import { CmsService } from './@shared/services/cms.service';
-import { GoogleTagManagerImplementationService } from './@shared/services/google-tag-manager-implementation.service';
 import {
   LegitimuzGeolocationAction,
   LegitimuzGeolocationService,
@@ -57,18 +56,15 @@ export class AppComponent implements OnInit, OnDestroy {
   private playerStatusService = inject(PlayerStatusService);
   private messageService = inject(MessageService);
   private credentialsService = inject(CredentialsService);
-  private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
   private seoService = inject(SeoService);
   private breakpointObserver = inject(BreakpointObserver);
-  private gameCategoryService = inject(GameCategoriesService);
-  private ccService = inject(NgcCookieConsentService);
-  private dialog = inject(Dialog);
   private legitimuzScriptLoaderService = inject(LegitimuzScriptLoaderService);
   private authService = inject(AuthDialogService);
   private tawktoScriptLoaderService = inject(TawktoScriptLoader);
   private legitimuzGeolocationService = inject(LegitimuzGeolocationService);
   private playerPromoService = inject(PlayerPromoService);
   private metaService = inject(Meta);
+  private dialog = inject(Dialog);
 
   private routerSubscription: Subscription | undefined;
 
@@ -188,26 +184,43 @@ export class AppComponent implements OnInit, OnDestroy {
     //     this.globalSearchService.disableGlobalSearch();
     //   }
     // });
-    // this.openAgeVerificationDialog();
+    this.openAgeVerificationDialog();
+    this.openCookieConsentDialog();
 
     this.checkTCVerification();
 
     this.setSeoMetadata();
   }
 
-  // private openAgeVerificationDialog() {
-  //   if (localStorage.getItem('age-verified') !== 'true') {
-  //     const dialogRef = this.dialog.open(AgeConfirmationDialogComponent, { autoFocus: false });
+  private openAgeVerificationDialog() {
+    if (localStorage.getItem('age-verified') !== 'true') {
+      const dialogRef = this.dialog.open<boolean>(AgeConfirmationDialogComponent, { autoFocus: false });
 
-  //     dialogRef.closed.pipe(take(1)).subscribe((res) => {
-  //       if (!res) {
-  //         this.openAgeVerificationDialog();
-  //       } else {
-  //         localStorage.setItem('age-verified', 'true');
-  //       }
-  //     });
-  //   }
-  // }
+      dialogRef.closed.pipe(take(1)).subscribe((res) => {
+        if (!res) {
+          this.openAgeVerificationDialog();
+        } else {
+          localStorage.setItem('age-verified', 'true');
+        }
+      });
+    }
+  }
+
+  private openCookieConsentDialog() {
+    if (localStorage.getItem('cookie-consent') !== 'true') {
+      const dialogRef = this.dialog.open<boolean>(CookieConsentDialogComponent, {
+        autoFocus: false,
+        hasBackdrop: false,
+        disableClose: true,
+      });
+
+      dialogRef.closed.pipe(take(1)).subscribe((res) => {
+        if (res) {
+          localStorage.setItem('cookie-consent', 'true');
+        }
+      });
+    }
+  }
 
   private checkTCVerification() {
     this.credentialsService.isAuthenticated$
