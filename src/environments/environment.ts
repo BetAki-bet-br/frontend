@@ -14,7 +14,7 @@ export const environment = {
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',
   useLocalHtmlTemplates: true, // Set this to true to use the local template definitions in `cms-templates-data`
   demoPlayEnabled: false,
-  indexPageTitle: '[DEV] BetAki | Apostas Regulamentadas, Super Odds e Diversão Garantida',
+  indexPageTitle: '[DEV] Bet Aki | Apostas Regulamentadas, Super Odds e Diversão Garantida',
 
   deployConfig: {
     apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',

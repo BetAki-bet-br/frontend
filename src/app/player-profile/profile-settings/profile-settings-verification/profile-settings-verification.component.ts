@@ -19,7 +19,6 @@ import {
 } from '@app/@shared/components/file-uploader/file-upload.component';
 import { MessageDialogComponent } from '@app/@shared/components/message-dialog/message-dialog.component';
 import { CountryCode } from '@app/@shared/models';
-import { GeoLocationMapped, GeoLocationService } from '@app/@shared/services/geolocation.service';
 import { validateNumber } from '@app/@shared/utils/validate-number';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import {
@@ -29,7 +28,7 @@ import {
   UpdatePlayerRequest,
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subscription, catchError, of, switchMap, throwError } from 'rxjs';
+import { Subscription, catchError, of, throwError } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { PageBreadcrumbsComponent } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
@@ -68,7 +67,6 @@ interface phoneVerificationForm {
 export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
   dialog = inject(MatDialog);
   private playerProfileService = inject(PlayerProfileService);
-  private geoLocationService = inject(GeoLocationService);
   private snackbarService = inject(SnackbarService);
   private configurationService = inject(ConfigurationService);
   private cdr = inject(ChangeDetectorRef);
@@ -125,39 +123,12 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
           }),
         ),
       )
-      .pipe(
-        switchMap((data: CountryCode[]) => {
-          // check country codes for errors -> null
-          if (data === null) {
-            return of(null);
-          }
-          // otherwise assign data to countriesCode variable
-          this.countriesCode = [...data];
-          // fetch and return geolocation data
-          return this.geoLocationService.getLocationByIP();
-        }),
-        catchError((error) =>
-          throwError(() => {
-            // if geolocation data retrieval had errors, throw message
-            this.snackbarService.openCustomError(
-              this.translate.instant('Error retrieving geolocation data'),
-              'center',
-              'top',
-              4000,
-            );
-            return of(null);
-          }),
-        ),
-      )
       .subscribe({
-        next: (geoData: GeoLocationMapped | null) => {
-          // check geoData for errors -> null
-          if (geoData !== null) {
-            const cc: CountryCode | undefined | null =
-              this.countriesCode && this.countriesCode !== null && this.countriesCode.length > 0
-                ? this.countriesCode.find((c) => c.code === geoData?.country_code)
-                : null;
-            this.countryCodeControl.patchValue(cc ?? null);
+        next: (data: CountryCode[] | null) => {
+          // check country codes for errors -> null
+          if (data !== null) {
+            // otherwise assign data to countriesCode variable
+            this.countriesCode = [...data];
           }
         },
         complete: () => {},

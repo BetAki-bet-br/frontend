@@ -34,7 +34,6 @@ import {
   sanitizeBrazilianMobilePhoneNumber,
 } from '@app/@shared/form-utils';
 import { CountryCode } from '@app/@shared/models';
-import { GeoLocationService } from '@app/@shared/services/geolocation.service';
 import { validateNumber } from '@app/@shared/utils/validate-number';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-profile/player-profile.service';
@@ -95,7 +94,6 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
   private playerProfileService = inject(PlayerProfileService);
   private configurationService = inject(ConfigurationService);
   private snackbarService = inject(SnackbarService);
-  private geoLocationService = inject(GeoLocationService);
   private authDialogService = inject(AuthDialogService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
@@ -223,7 +221,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
 
   getData(getPlayerInfoFromCache: boolean = false) {
     this.getJoinedPlayerObservable(getPlayerInfoFromCache).subscribe({
-      next: ({ playerInfo, countryList, countryCodes, numberVerification, geoData, verificationStatus }) => {
+      next: ({ playerInfo, countryList, countryCodes, numberVerification, verificationStatus }) => {
         this.playerDetails = playerInfo;
 
         this.numberVerified = !this.playerDetails?.mobilePhone || numberVerification === 'Verified';
@@ -642,19 +640,14 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
       verificationStatus: this.playerProfileService.getPlayerVerificationStatus(),
     }).pipe(
       takeUntilDestroyed(this.destroyRef),
-      switchMap((data) => {
-        return this.geoLocationService.getLocationByIP().pipe(
-          map((d) => {
-            return {
-              playerInfo: data.playerInfo,
-              countryList: data.countryList,
-              countryCodes: data.countryCodeList,
-              numberVerification: data.numberVerification,
-              geoData: d,
-              verificationStatus: data.verificationStatus,
-            };
-          }),
-        );
+      map((data) => {
+        return {
+          playerInfo: data.playerInfo,
+          countryList: data.countryList,
+          countryCodes: data.countryCodeList,
+          numberVerification: data.numberVerification,
+          verificationStatus: data.verificationStatus,
+        };
       }),
     );
   }

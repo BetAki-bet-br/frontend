@@ -10,11 +10,11 @@ export const environment = {
   desktopPortalId: 5,
   mobilePortalId: 6,
   defaultBrandId: 2,
-  API_BASE_PATH: '/api', // from environment.prod.ts
+  API_BASE_PATH: '', // from environment.prod.ts
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',
   useLocalHtmlTemplates: false, // Should be false for production
   demoPlayEnabled: false,
-  indexPageTitle: 'BetAki | Apostas Regulamentadas, Super Odds e Diversão Garantida', // from environment-betaki.prod.ts
+  indexPageTitle: 'Bet Aki | Apostas Regulamentadas, Super Odds e Diversão Garantida', // from environment-betaki.prod.ts
 
   deployConfig: {
     apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',

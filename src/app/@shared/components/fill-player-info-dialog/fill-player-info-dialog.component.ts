@@ -11,7 +11,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { Logger } from '@app/@shared/logger.service';
 import { CountryCode } from '@app/@shared/models';
-import { GeoLocationService } from '@app/@shared/services/geolocation.service';
 import { validateNumber } from '@app/@shared/utils/validate-number';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { FaceAuthUpdatePlayerRequest, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
@@ -59,7 +58,6 @@ export class FillPlayerInfoDialogComponent implements OnInit {
   private fb = inject(FormBuilder);
   private playerProfileService = inject(PlayerProfileService);
   private configurationService = inject(ConfigurationService);
-  private geoLocationService = inject(GeoLocationService);
   private snackbarService = inject(SnackbarService);
   private translate = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
@@ -104,31 +102,12 @@ export class FillPlayerInfoDialogComponent implements OnInit {
     })
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        switchMap((data) => {
-          return this.geoLocationService.getLocationByIP().pipe(
-            map((d) => {
-              return {
-                playerInfo: data.playerInfo,
-                countryCodes: data.countryCodeList,
-                geoData: d,
-              };
-            }),
-          );
-        }),
       )
       .subscribe({
-        next: ({ playerInfo, countryCodes, geoData }) => {
+        next: ({ playerInfo, countryCodeList }) => {
           this.playerDetails = playerInfo;
           this.mobilePhoneAdded = this.playerDetails?.mobilePhone ? true : false;
-          this.countryCodeList = countryCodes;
-
-          if (geoData !== null) {
-            const cc: CountryCode | undefined | null =
-              this.countryCodeList && this.countryCodeList !== null && this.countryCodeList.length > 0
-                ? this.countryCodeList.find((c) => c.code === geoData?.country_code)
-                : null;
-            this.mobilePrefixControl.patchValue(cc ?? null);
-          }
+          this.countryCodeList = countryCodeList;
 
           // Close dialog with 'Fulfilled' result if all required data present
           if (playerInfo?.mobilePhone && playerInfo?.postalCode && playerInfo?.city && playerInfo?.street) {
