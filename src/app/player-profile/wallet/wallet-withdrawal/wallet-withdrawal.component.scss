@@ -233,7 +233,6 @@
 .pix-input {
   background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   padding: 1.5rem;
-  border-radius: 1rem;
 
   @include util.media("lt-sm-2") {
     padding: 1rem;

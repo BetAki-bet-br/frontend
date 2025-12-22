@@ -13,26 +13,26 @@
 //*****************************************************************************
 //#region Toggle button
 //*****************************************************************************
-.mat-mdc-slide-toggle {
-  --mat-slide-toggle-selected-handle-color: map.get(vars.$app-custom-colors, "Betaki_branco_neve");
-  --mat-slide-toggle-track-width: 2.3rem;
+// .mat-mdc-slide-toggle {
+//   --mat-slide-toggle-selected-handle-color: map.get(vars.$app-custom-colors, "Betaki_branco_neve");
+//   --mat-slide-toggle-track-width: 2.3rem;
 
-  .mdc-switch {
-    width: var(--mat-slide-toggle-track-width, 1.75rem);
+//   .mdc-switch {
+//     width: var(--mat-slide-toggle-track-width, 1.75rem);
 
-    .mdc-switch__track {
-      height: var(--mat-slide-toggle-track-height, 1.5rem) !important;
-      border-radius: var(--mat-slide-toggle-track-shape, 0.75rem) !important;
-      // border: 0.125rem solid color.adjust(map.get(vars.$app-custom-colors, "neutral-100")) !important;
-    }
+//     .mdc-switch__track {
+//       height: var(--mat-slide-toggle-track-height, 1.5rem) !important;
+//       border-radius: var(--mat-slide-toggle-track-shape, 0.75rem) !important;
+//       // border: 0.125rem solid color.adjust(map.get(vars.$app-custom-colors, "neutral-100")) !important;
+//     }
 
-    &.mdc-switch--selected {
-      .mdc-switch__track {
-        //  border: 0.125rem solid map.get(vars.$app-custom-colors, "betaki-green100") !important;
-      }
-    }
-  }
-}
+//     &.mdc-switch--selected {
+//       .mdc-switch__track {
+//         //  border: 0.125rem solid map.get(vars.$app-custom-colors, "betaki-green100") !important;
+//       }
+//     }
+//   }
+// }
 
 .mat-mdc-slide-toggle .mdc-switch.mdc-switch--selected:enabled .mdc-switch__handle::after {
   background-color: map.get(vars.$app-custom-colors, "Betaki_branco_neve");
@@ -47,7 +47,6 @@
   width: var(--mat-slide-toggle-handle-width, 1.13rem) !important;
   height: var(--mat-slide-toggle-handle-height, 1.13rem) !important;
   border-radius: var(--mat-slide-toggle-handle-shape, 1.13rem) !important;
-  left: 2px;
 }
 
 .mat-mdc-slide-toggle-checked {

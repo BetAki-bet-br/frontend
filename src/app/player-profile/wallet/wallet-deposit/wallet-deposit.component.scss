@@ -302,8 +302,6 @@
   }
 
   span {
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
-
     &.step-2 {
       color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
     }

@@ -44,9 +44,10 @@ import { PaymentRequest, PlayerDetails } from '@icore/ngx-portalgateway-api-clie
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { catchError, map, of, Subscription, switchMap, throwError } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
-import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
-import { MatError, MatSelect } from '@angular/material/select';
+import { MatFormFieldModule, MatError } from '@angular/material/form-field';
+import { MatSelect } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const log = new Logger('WalletWithdrawalComponent');
 
@@ -80,6 +81,7 @@ enum WithdrawalTypeEnum {
     MatInputModule,
     MatError,
     MatButtonModule,
+    MatTooltipModule,
     TranslateModule,
     MatFormFieldModule,
     ReactiveFormsModule,
@@ -113,6 +115,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
 
   withdrawStep = 1;
   withdrawSuccess = false;
+  withdrawCanceled = true;
   faceAuthParams!: FaceAuthParams;
 
   withdrawalForm: FormGroup<WithdrawalForm> = new FormGroup({
@@ -249,6 +252,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
       .initAccountVerification(AccountVerificationActionEnum.Withdrawal)
       .pipe(
         switchMap((result) => {
+          this.withdrawCanceled = false;
           if (result?.success) {
             return this.paymentService.createWithdrawal(requestEligibility);
           } else {
@@ -314,18 +318,24 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result) => {
           log.debug('Withdraw completed with result:', result);
+          if (result !== null) {
+            if (!this.withdrawCanceled) {
+              if (this.withdrawSuccess) {
+                this.withdrawalSuccessDialog();
+              } else {
+                this.withdrawalErrorDialog();
+              }
+              this.withdrawCanceled = true;
+            }
+          }
         },
         complete: () => {
           log.debug('Withdraw complete invoked');
           this.isLoading = false;
-          if (this.withdrawSuccess) {
-            this.withdrawalSuccessDialog();
-          } else {
-            this.withdrawalErrorDialog();
-          }
         },
         error: (err) => {
           this.withdrawSuccess = false;
+          this.withdrawCanceled = true;
           this.withdrawalForm.reset();
           this.isLoading = false;
 
