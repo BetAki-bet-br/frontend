@@ -77,7 +77,7 @@ export class MessageService {
         this.unreadCountSub.next(numMessages);
 
         return of(null);
-      })
+      }),
     );
   }
 
@@ -104,7 +104,7 @@ export class MessageService {
 
         this.messagesSub.next(newMsgs);
         return of(null);
-      })
+      }),
     );
   }
 
@@ -128,7 +128,7 @@ export class MessageService {
           // maxing out at 1 minute.
           return timer(Math.min(60000, 2 ^ (count * this.unreadCountUpdateInterval)));
         },
-      })
+      }),
     );
   }
 
@@ -163,7 +163,7 @@ export class MessageService {
           // maxing out at 1 minute.
           return timer(Math.min(60000, 2 ^ (count * this.unreadCountUpdateInterval)));
         },
-      })
+      }),
     );
   }
 }

@@ -124,11 +124,11 @@ export class HeaderPromotionItemComponent implements OnInit {
     let description = '';
     if (type === 'OptOut') {
       description = marker(
-        'Are you sure your want to opt out? By opting out you shall not be eligible to claim this promotion in the future.'
+        'Are you sure your want to opt out? By opting out you shall not be eligible to claim this promotion in the future.',
       );
     } else if (type === 'Decline') {
       description = marker(
-        'Are you sure your want to decline? By declining you shall not be eligible to claim this promotion in the future.'
+        'Are you sure your want to decline? By declining you shall not be eligible to claim this promotion in the future.',
       );
     }
 
@@ -170,7 +170,7 @@ export class HeaderPromotionItemComponent implements OnInit {
   private openDialog(
     type: ActionType,
     bonus: PromotionDetailsResolved,
-    loadingDialogRef: DialogRef<PromotionActionDialogComponent, unknown> | null
+    loadingDialogRef: DialogRef<PromotionActionDialogComponent, unknown> | null,
   ) {
     let bonusAction$ = null;
     let description = '';
@@ -181,10 +181,10 @@ export class HeaderPromotionItemComponent implements OnInit {
         promotionId: bonus.promotionId,
       });
       description = marker(
-        'You have successfully opt in to this promotion. See bonus history to check your active promotions.'
+        'You have successfully opt in to this promotion. See bonus history to check your active promotions.',
       );
       descriptionError = marker(
-        'Something went wrong while processing your opt in. Please try again or contact our support.'
+        'Something went wrong while processing your opt in. Please try again or contact our support.',
       );
     } else if (type === 'OptOut') {
       bonusAction$ = this.bonusesService.bonusOptOut({
@@ -193,10 +193,10 @@ export class HeaderPromotionItemComponent implements OnInit {
         promotionId: bonus.promotionId ?? 0,
       });
       description = marker(
-        'You have successfully opt out to this promotion. See bonus history to check your active promotions.'
+        'You have successfully opt out to this promotion. See bonus history to check your active promotions.',
       );
       descriptionError = marker(
-        'Something went wrong while processing your opt out. Please try again or contact our support.'
+        'Something went wrong while processing your opt out. Please try again or contact our support.',
       );
     } else if (type === 'Decline') {
       const playerBonusId =
@@ -208,10 +208,10 @@ export class HeaderPromotionItemComponent implements OnInit {
 
       bonusAction$ = this.bonusesService.declineBonus(request);
       description = marker(
-        'You have successfully declined this promotion. See bonus history to check your active promotions.'
+        'You have successfully declined this promotion. See bonus history to check your active promotions.',
       );
       descriptionError = marker(
-        'Something went wrong while processing your decline. Please try again or contact our support.'
+        'Something went wrong while processing your decline. Please try again or contact our support.',
       );
     }
 
@@ -232,7 +232,7 @@ export class HeaderPromotionItemComponent implements OnInit {
               description,
               isLoading: false,
             },
-          }
+          },
         );
 
         // on dialog closed
@@ -263,7 +263,7 @@ export class HeaderPromotionItemComponent implements OnInit {
               isLoading: false,
               error: true,
             },
-          }
+          },
         );
 
         // on dialog closed

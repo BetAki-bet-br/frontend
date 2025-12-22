@@ -76,7 +76,7 @@ export class PlayerInfoDialogComponent implements OnInit {
         finalize(() => {
           log.debug('onLogout');
           this.router.navigate(['/']);
-        })
+        }),
       )
       .subscribe(() => {});
   }

@@ -16,7 +16,7 @@ export interface IngamePageData {
 }
 
 export const ingamePageResolver: ResolveFn<IngamePageData> = (
-  route: ActivatedRouteSnapshot
+  route: ActivatedRouteSnapshot,
 ): Observable<IngamePageData> => {
   const gameService = inject(GameService);
   const sessionService = inject(CredentialsService);
@@ -42,7 +42,7 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
         .pipe(
           catchError(() => {
             return of(null);
-          })
+          }),
         );
 
       return launchGame$.pipe(
@@ -62,8 +62,8 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
           const sanitizedUrl = sanitizer.bypassSecurityTrustResourceUrl(url.toString());
           loadingService.hideInline();
           return { game, gameUrl: sanitizedUrl };
-        })
+        }),
       );
-    })
+    }),
   );
 };

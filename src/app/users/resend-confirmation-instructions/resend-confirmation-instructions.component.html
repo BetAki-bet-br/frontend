@@ -4,11 +4,11 @@
     <mat-form-field class="form-input" subscriptSizing="dynamic">
       <input matInput placeholder="Enter your email" formControlName="email" autocomplete="off" />
       @if (resendConfirmationInstructionsForm.get('email')?.errors) {
-      <ng-container>
-        <mat-error class="error-msg">
-          {{ "can't be blank" | translate }}
-        </mat-error>
-      </ng-container>
+        <ng-container>
+          <mat-error class="error-msg">
+            {{ "can't be blank" | translate }}
+          </mat-error>
+        </ng-container>
       }
     </mat-form-field>
   </div>

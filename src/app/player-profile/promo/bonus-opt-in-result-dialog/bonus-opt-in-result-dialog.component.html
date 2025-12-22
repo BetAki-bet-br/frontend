@@ -8,31 +8,33 @@
 >
   <div dialogContent>
     @if (result === resultEnum.Success) {
-    <div>
-      <div class="opt-in-result-dialog-content">
-        <img src="{{ 'assets/general/images/success-badge.svg' }}" alt="support" />
-        <div class="result-title" translate>Participation confirmed</div>
-        <div class="result-description" translate>You have successfully entered the promotion. Good luck.</div>
-      </div>
-    </div>
-    } @if (result === resultEnum.Error) {
-    <div>
-      <div class="opt-in-result-dialog-content">
-        <img src="{{ 'assets/general/images/error-badge.svg' }}" alt="support" />
-        <div class="result-title" translate>Unable to participate</div>
-        <div class="result-description" translate>
-          An error occurred while trying to enter the promotion. Please try again later or contact support.
+      <div>
+        <div class="opt-in-result-dialog-content">
+          <img src="{{ 'assets/general/images/success-badge.svg' }}" alt="support" />
+          <div class="result-title" translate>Participation confirmed</div>
+          <div class="result-description" translate>You have successfully entered the promotion. Good luck.</div>
         </div>
       </div>
-    </div>
+    }
+    @if (result === resultEnum.Error) {
+      <div>
+        <div class="opt-in-result-dialog-content">
+          <img src="{{ 'assets/general/images/error-badge.svg' }}" alt="support" />
+          <div class="result-title" translate>Unable to participate</div>
+          <div class="result-description" translate>
+            An error occurred while trying to enter the promotion. Please try again later or contact support.
+          </div>
+        </div>
+      </div>
     }
   </div>
   <div dialogButtons class="button-container">
     <button mat-button class="button-text-small label-dark flex-grow" [disabled]="isLoading" (click)="onOkClick()">
       @if (isLoading) {
-      <mat-spinner diameter="24" />
-      } @if (!isLoading) {
-      <span translate>OK</span>
+        <mat-spinner diameter="24" />
+      }
+      @if (!isLoading) {
+        <span translate>OK</span>
       }
     </button>
   </div>

@@ -185,7 +185,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
       this.balance = balance?.withdrawableBalance ?? 0;
       const currencySymbol = this.dataStoreService.getCurrencySymbol(
         this.dataStoreService.defaultLanguage,
-        balance?.currency ?? ''
+        balance?.currency ?? '',
       );
       this.balanceCurrency = currencySymbol;
       this.balanceString = this.dataStoreService.getNumberInLocalFormat(balance?.withdrawableBalance ?? 0, 2);
@@ -211,14 +211,14 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.typeControl.valueChanges.subscribe((res) => {
         this.setKeyValue(res);
-      })
+      }),
     );
 
     this.sub.add(
       this.dataStoreService.balanceVisibilityChange.subscribe((res) => {
         this.balanceVisible = this.dataStoreService.balanceVisible;
         this.cdr.detectChanges();
-      })
+      }),
     );
   }
 
@@ -296,10 +296,10 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
                 data: {
                   title: this.translateService.instant('Authentication'),
                   description: this.translateService.instant(
-                    'Click the button below to verify your account and identity, it’s quick and easy.'
+                    'Click the button below to verify your account and identity, it’s quick and easy.',
                   ),
                 },
-              }
+              },
             );
 
             return dialogRef.closed.pipe(
@@ -308,12 +308,12 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
                   return this.onVerify();
                 }
                 return of(null);
-              })
+              }),
             );
           }
 
           return of(null);
-        })
+        }),
       )
       .subscribe({
         next: (result) => {
@@ -367,7 +367,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
       data: {
         title: this.translateService.instant('Withdrawal could not be completed'),
         description: this.translateService.instant(
-          "To complete the withdrawal, use a Pix key linked to the account holder's CPF."
+          "To complete the withdrawal, use a Pix key linked to the account holder's CPF.",
         ),
         success: false,
       },
@@ -413,7 +413,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
             this.snackbarService.openCustomSuccess(
               this.translateService.instant('Withdrawal successful'),
               'center',
-              'top'
+              'top',
             );
             this.googleTagManagerServiceImpl.pushGtmTag({ event: 'withdrawal' });
             this.withdrawSuccess = true;
@@ -437,7 +437,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
           // for the rest of the errors, show a snackbar message
           this.snackbarService.openCustomError(this.translateService.instant('Withdrawal failed.'), 'center', 'top');
           return of(false);
-        })
+        }),
       );
   }
 

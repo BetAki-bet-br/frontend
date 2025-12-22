@@ -38,7 +38,7 @@ export class PopupMessageDialogComponent implements OnInit, OnDestroy {
       this.breakpointObserver.observe([AppBreakpoints.LtSmall2]).subscribe((result) => {
         this.isMobile = result.matches;
         this.cdr.markForCheck();
-      })
+      }),
     );
   }
 

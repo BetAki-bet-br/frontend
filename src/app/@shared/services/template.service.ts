@@ -96,7 +96,7 @@ export class TemplateService {
         map((response) => {
           this.dataStoreService.templatesList = response;
           return this.dataStoreService.templatesList;
-        })
+        }),
       );
     }
   }

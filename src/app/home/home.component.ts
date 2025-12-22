@@ -125,7 +125,7 @@ export class HomeComponent implements OnInit {
             this.gamesService.getAllMenuGames(categories[GameCategoryLobbyEnum.Lobby]?.toString()),
             this.gamesService.getAllProviders(categories['All Games']?.toString()),
           ]);
-        })
+        }),
       )
       .subscribe({
         next: (result) => {

@@ -40,7 +40,7 @@ export class TermsAndConditionsComponent implements OnInit {
             : undefined;
 
           return this.route.fragment;
-        })
+        }),
       )
       .subscribe((fragment) => {
         if (fragment) {

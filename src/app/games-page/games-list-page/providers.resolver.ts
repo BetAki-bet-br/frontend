@@ -12,6 +12,6 @@ export const providersResolver: ResolveFn<Provider[]> = (): Observable<Provider[
 
   return providerService.getProviders(GameEnum.CASINO, portalService.portalId).pipe(
     take(1),
-    map((providers) => providers || [])
+    map((providers) => providers || []),
   );
 };

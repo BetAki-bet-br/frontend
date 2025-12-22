@@ -65,7 +65,7 @@ export class GeoLocationService {
   private httpClient = inject(HttpClient);
 
   private _geoLocationData: BehaviorSubject<GeoLocationMapped | null> = new BehaviorSubject<GeoLocationMapped | null>(
-    null
+    null,
   );
   readonly geoLocationData$: Observable<GeoLocationMapped | null> = this._geoLocationData.asObservable();
 
@@ -98,7 +98,7 @@ export class GeoLocationService {
         log.debug('GeoLocationService -> getLocationByIP API call failed with error: ', error);
         this._geoLocationData.next(null);
         return of(null);
-      })
+      }),
     );
   }
 

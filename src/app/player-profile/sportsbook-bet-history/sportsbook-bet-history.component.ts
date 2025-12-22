@@ -319,7 +319,7 @@ export class SportsbookHistoryComponent implements OnInit {
         switchMap((playerInfo) => {
           this.playerCurrency = playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency;
           return this.playerProfileService.getSportsbookBetHistory(this.filterForm.value);
-        })
+        }),
       )
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

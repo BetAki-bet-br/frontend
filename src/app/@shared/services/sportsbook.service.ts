@@ -180,7 +180,7 @@ export class SportsbookService {
           }),
           catchError((error) => {
             throw error;
-          })
+          }),
         );
     }
 
@@ -194,7 +194,7 @@ export class SportsbookService {
       .pipe(
         map((res) => {
           return res;
-        })
+        }),
       );
   }
 

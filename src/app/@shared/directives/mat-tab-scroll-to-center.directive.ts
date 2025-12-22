@@ -27,14 +27,14 @@ export class MatTabScrollToCenterDirective implements OnDestroy {
         const currentScrolledContainerPosition: number = scrollContainer.scrollLeft;
         const newPositionScrollTo = this.calcScrollToCenterValue(
           clickedContainer as MouseEvent,
-          currentScrolledContainerPosition
+          currentScrolledContainerPosition,
         );
 
         scrollContainer.scroll({
           left: newPositionScrollTo,
           behavior: 'smooth',
         });
-      })
+      }),
     );
   }
 

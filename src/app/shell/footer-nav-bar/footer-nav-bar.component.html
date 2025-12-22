@@ -1,33 +1,34 @@
 @if (!isSportsbook) {
-<div class="footer-nav-bar-container flex" [class.sportsbook]="isSportsbook">
-  @for (item of itemList; track item) {
-  <div
-    [class.active-link]="isActive(item.link) && item.label !== 'Home'"
-    [class.casino-link]="!isSportsbook"
-    (click)="onItemClick()"
-    [routerLink]="item.link"
-    class="footer-nav-item flex flex-col"
-  >
-    <mat-icon [svgIcon]="item.icon" />
-    <span translate>{{ item.label }}</span>
-  </div>
-  }
-  <div (click)="onSearch()" class="footer-nav-item flex flex-col">
-    <mat-icon svgIcon="search" />
-    <span translate>Search</span>
-  </div>
-  @if (!isSportsbook) {
-  <div class="flex flex-col category-nav-link" routerLink="/sportsbook">
-    <div class="category-icon flex justify-center">
-      <mat-icon svgIcon="sportsbook" />
+  <div class="footer-nav-bar-container flex" [class.sportsbook]="isSportsbook">
+    @for (item of itemList; track item) {
+      <div
+        [class.active-link]="isActive(item.link) && item.label !== 'Home'"
+        [class.casino-link]="!isSportsbook"
+        (click)="onItemClick()"
+        [routerLink]="item.link"
+        class="footer-nav-item flex flex-col"
+      >
+        <mat-icon [svgIcon]="item.icon" />
+        <span translate>{{ item.label }}</span>
+      </div>
+    }
+    <div (click)="onSearch()" class="footer-nav-item flex flex-col">
+      <mat-icon svgIcon="search" />
+      <span translate>Search</span>
     </div>
-    <span translate>Sportsbook</span>
+    @if (!isSportsbook) {
+      <div class="flex flex-col category-nav-link" routerLink="/sportsbook">
+        <div class="category-icon flex justify-center">
+          <mat-icon svgIcon="sportsbook" />
+        </div>
+        <span translate>Sportsbook</span>
+      </div>
+    }
+    @if (isSportsbook) {
+      <div class="flex flex-col category-nav-link sportsbook-category-link" routerLink="/games">
+        <mat-icon svgIcon="casino" />
+        <span translate>Casino</span>
+      </div>
+    }
   </div>
-  } @if (isSportsbook) {
-  <div class="flex flex-col category-nav-link sportsbook-category-link" routerLink="/games">
-    <mat-icon svgIcon="casino" />
-    <span translate>Casino</span>
-  </div>
-  }
-</div>
 }

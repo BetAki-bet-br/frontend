@@ -72,13 +72,13 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
         const heightTmp = this.height ?? undefined;
 
         this.dialogRef.updateSize(
-          this.isMobile ? this.widthMobile ?? '100%' : this.width,
-          this.isMobile && this.fullscreenMobile ? '100%' : heightTmp
+          this.isMobile ? (this.widthMobile ?? '100%') : this.width,
+          this.isMobile && this.fullscreenMobile ? '100%' : heightTmp,
         );
         this.setPosition(strategy);
         this.dialogRef.updatePosition();
         this.cdr.markForCheck();
-      })
+      }),
     );
   }
 

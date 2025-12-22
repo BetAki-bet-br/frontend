@@ -152,7 +152,7 @@ export class LoginDialogComponent implements OnInit {
           finalize(() => {
             this.isDataLoading = false;
             this.cdr.markForCheck();
-          })
+          }),
         )
         .subscribe({
           next: ({ credentials, loginFaceAuth, lastLoginTime }) => {
@@ -233,7 +233,7 @@ export class LoginDialogComponent implements OnInit {
             }
             this.clearPasswordField();
           },
-        })
+        }),
     );
   }
 

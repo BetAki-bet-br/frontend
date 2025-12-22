@@ -16,7 +16,7 @@ export const routes: Routes = [
     path: ':name',
     loadComponent: () =>
       import('./promotions-terms-and-conditions/promotions-terms-and-conditions.component').then(
-        (m) => m.PromotionsTermsAndConditionsComponent
+        (m) => m.PromotionsTermsAndConditionsComponent,
       ),
     data: {
       title: '',

@@ -11,6 +11,6 @@ export const liveGamesResolver: ResolveFn<SubLevel[]> = (): Observable<SubLevel[
 
   return gameService.getLiveCasinoGames(portalService.portalId).pipe(
     filter((games) => games.length > 0),
-    take(1)
+    take(1),
   );
 };

@@ -51,7 +51,7 @@ export class ProvidersService {
           console.error('Erro ao processar a lista de provedores.');
           return of([]);
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
     }
     return this.providersCache[cacheKey];
@@ -67,7 +67,7 @@ export class ProvidersService {
           }
 
           const filteredGames = subLevels.flatMap((subLevel) =>
-            subLevel.gameMains.filter((game: GameMain) => game.productId === providerId)
+            subLevel.gameMains.filter((game: GameMain) => game.productId === providerId),
           );
 
           // Busca o nome do provedor do primeiro jogo encontrado
@@ -93,7 +93,7 @@ export class ProvidersService {
             levelType: '',
           });
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
     }
     return this.gamesByProviderCache[cacheKey];

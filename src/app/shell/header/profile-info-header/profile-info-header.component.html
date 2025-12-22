@@ -46,13 +46,16 @@
     <div class="flex wallet-container">
       <div class="balance-info-container">
         @if (!balanceVisible) {
-        <span>{{ balance?.currencySymbol }} *****</span>
-        } @if (!isDemoPlay && balanceVisible) {
-        <span
-          >{{ balance?.currencySymbol }} {{ balance?.totalBalance | number : '1.2' : dataStoreService.defaultLanguage }}
-        </span>
-        } @if (isDemoPlay) {
-        <span translate>FUN</span>
+          <span>{{ balance?.currencySymbol }} *****</span>
+        }
+        @if (!isDemoPlay && balanceVisible) {
+          <span
+            >{{ balance?.currencySymbol }}
+            {{ balance?.totalBalance | number: '1.2' : dataStoreService.defaultLanguage }}
+          </span>
+        }
+        @if (isDemoPlay) {
+          <span translate>FUN</span>
         }
       </div>
       <button mat-button class="deposit-button" (click)="onDeposit()">
@@ -93,9 +96,10 @@ class="notifications-number-container"
   <div class="header-dropdown-container wider">
     <div class="notification-container">
       @if (!(notificationCount > 0)) {
-      <span class="notification-span" translate>No current notifications</span>
-      } @if (notificationCount > 0) {
-      <app-header-promotion-item [promotions]="this.notificationsData" />
+        <span class="notification-span" translate>No current notifications</span>
+      }
+      @if (notificationCount > 0) {
+        <app-header-promotion-item [promotions]="this.notificationsData" />
       }
     </div>
   </div>
@@ -118,56 +122,61 @@ class="notifications-number-container"
         <div class="flex gap-2">
           <span class="balance-text" translate>Balance</span>
           @if (!balanceVisible) {
-          <mat-icon class="material-icons-outlined hide-balance-icon" (click)="changeBalanceVisiblity()"
-            >visibility</mat-icon
-          >
-          } @if (balanceVisible) {
-          <mat-icon class="material-icons-outlined hide-balance-icon" (click)="changeBalanceVisiblity()"
-            >visibility_off</mat-icon
-          >
+            <mat-icon class="material-icons-outlined hide-balance-icon" (click)="changeBalanceVisiblity()"
+              >visibility</mat-icon
+            >
+          }
+          @if (balanceVisible) {
+            <mat-icon class="material-icons-outlined hide-balance-icon" (click)="changeBalanceVisiblity()"
+              >visibility_off</mat-icon
+            >
           }
         </div>
 
         @if (balanceVisible) {
-        <span class="balance-amount">
-          {{ balance?.currencySymbol }} {{ balance?.totalBalance | number : '1.2' : dataStoreService.defaultLanguage }}
-        </span>
-        } @if (!balanceVisible) {
-        <span class="balance-amount">****</span>
+          <span class="balance-amount">
+            {{ balance?.currencySymbol }} {{ balance?.totalBalance | number: '1.2' : dataStoreService.defaultLanguage }}
+          </span>
+        }
+        @if (!balanceVisible) {
+          <span class="balance-amount">****</span>
         }
       </div>
       <div class="divider"></div>
       <div class="flex justify-between full-width">
         <span class="balance-text-secondary" translate>Withdrawable balance</span>
         @if (balanceVisible) {
-        <span class="balance-amount-secondary">
-          {{ balance?.currencySymbol }}
-          {{ balance?.withdrawableBalance | number : '1.2' : dataStoreService.defaultLanguage }}
-        </span>
-        } @if (!balanceVisible) {
-        <span class="balance-amount-secondary">****</span>
+          <span class="balance-amount-secondary">
+            {{ balance?.currencySymbol }}
+            {{ balance?.withdrawableBalance | number: '1.2' : dataStoreService.defaultLanguage }}
+          </span>
+        }
+        @if (!balanceVisible) {
+          <span class="balance-amount-secondary">****</span>
         }
       </div>
       <div class="flex justify-between full-width">
         <span class="balance-text-secondary" translate>Sportsbook bonus balance</span>
         @if (balanceVisible) {
-        <span class="balance-amount-secondary">
-          {{ balance?.currencySymbol }}
-          {{ balance?.bonusSportsbookBalance | number : '1.2' : dataStoreService.defaultLanguage }}
-        </span>
-        } @if (!balanceVisible) {
-        <span class="balance-amount-secondary">****</span>
+          <span class="balance-amount-secondary">
+            {{ balance?.currencySymbol }}
+            {{ balance?.bonusSportsbookBalance | number: '1.2' : dataStoreService.defaultLanguage }}
+          </span>
+        }
+        @if (!balanceVisible) {
+          <span class="balance-amount-secondary">****</span>
         }
       </div>
       <div class="flex justify-between full-width">
         <span class="balance-text-secondary" translate>Casino bonus balance</span>
         @if (balanceVisible) {
-        <span class="balance-amount-secondary">
-          {{ balance?.currencySymbol }}
-          {{ balance?.bonusCasinoBalance | number : '1.2' : dataStoreService.defaultLanguage }}
-        </span>
-        } @if (!balanceVisible) {
-        <span class="balance-amount-secondary">****</span>
+          <span class="balance-amount-secondary">
+            {{ balance?.currencySymbol }}
+            {{ balance?.bonusCasinoBalance | number: '1.2' : dataStoreService.defaultLanguage }}
+          </span>
+        }
+        @if (!balanceVisible) {
+          <span class="balance-amount-secondary">****</span>
         }
       </div>
     </div>
@@ -175,7 +184,7 @@ class="notifications-number-container"
     <div class="flex justify-center mt-4">
       <div class="flex gap-4 items-center">
         @if (balanceUpdate) {
-        <mat-spinner class="update-loader" diameter="18" strokeWidth="1" />
+          <mat-spinner class="update-loader" diameter="18" strokeWidth="1" />
         }
         <span class="update-balance-button" (click)="updateBalance()" translate>Update</span>
       </div>

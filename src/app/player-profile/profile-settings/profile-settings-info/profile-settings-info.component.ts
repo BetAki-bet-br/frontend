@@ -212,7 +212,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
               this.translate.instant('Please insert a valid email address'),
               'center',
               'top',
-              4000
+              4000,
             );
           }
         }
@@ -279,11 +279,11 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
 
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,
-              faceAuthParams
+              faceAuthParams,
             );
           }
           return of(null);
-        })
+        }),
       )
       .subscribe({
         next: (response) => {
@@ -295,7 +295,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
               this.translate.instant('Address updated successfully'),
               'center',
               'top',
-              4000
+              4000,
             );
 
             this.profileGeneralForm.controls.city.markAsPristine();
@@ -307,7 +307,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
               this.translate.instant('Failed to update address'),
               'center',
               'top',
-              4000
+              4000,
             );
           }
         },
@@ -316,7 +316,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
             this.translate.instant('Failed to update address'),
             'center',
             'top',
-            4000
+            4000,
           );
         },
       });
@@ -390,11 +390,11 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
             };
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,
-              faceAuthParams
+              faceAuthParams,
             );
           }
           return of(null);
-        })
+        }),
       )
       .subscribe({
         next: (response) => {
@@ -406,14 +406,14 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
               this.translate.instant('Phone number updated successfully'),
               'center',
               'top',
-              4000
+              4000,
             );
           } else {
             this.snackbarService.openCustomError(
               this.translate.instant('Failed to update phone number'),
               'center',
               'top',
-              4000
+              4000,
             );
           }
         },
@@ -422,7 +422,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
             this.translate.instant('Failed to update phone number'),
             'center',
             'top',
-            4000
+            4000,
           );
         },
         complete: () => {
@@ -468,7 +468,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
           this.translate.instant('Email verification code resent successfully'),
           'center',
           'top',
-          4000
+          4000,
         );
         localStorage.setItem('emailVerificationTimestamp', Date.now().toString());
         this.router.navigate(['/profile/email-verification'], {
@@ -510,7 +510,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
       this.playerProfileService
         .completeContactInfoVerification(
           ContactInfoSubTypeIdEnum.Email,
-          this.profileGeneralForm.value.emailVerificationCode
+          this.profileGeneralForm.value.emailVerificationCode,
         )
         .pipe(
           switchMap((response) => {
@@ -518,12 +518,12 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
               this.translate.instant('Email verified successfully'),
               'center',
               'top',
-              4000
+              4000,
             );
             this.emailVerificationInProgress = false;
             this.cdr.markForCheck();
             return this.authDialogService.initAccountVerification(AccountVerificationActionEnum.Account);
-          })
+          }),
         )
         .subscribe();
     }
@@ -653,9 +653,9 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
               geoData: d,
               verificationStatus: data.verificationStatus,
             };
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -705,7 +705,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
         mobileNumber: mobilePhone,
         chavePix: '123.456.789-10',
       },
-      { emitEvent: false }
+      { emitEvent: false },
     );
 
     if (!this.playerDetails?.mobilePhone) {

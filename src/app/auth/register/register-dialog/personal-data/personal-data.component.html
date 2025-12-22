@@ -1,131 +1,143 @@
 <!-- Form -->
 @if (registerForm) {
-<form class="form flex flex-col pt-1.5" [formGroup]="registerForm">
-  <!-- Email input -->
-  <div class="field-wrapper mb-1.6">
-    <mat-form-field appearance="outline" class="form-input-secondary flex flex-col" subscriptSizing="dynamic">
-      <input #emailInput matInput type="email" placeholder="Email" formControlName="email" />
-      @if (registerForm.controls.email.hasError('required') && registerForm.controls.email.dirty) {
-      <ng-container>
-        <mat-error class="error-msg" translate> can't be blank</mat-error>
-      </ng-container>
-
-      } @if ( registerForm.controls.email.hasError('email') && !registerForm.controls.email.hasError('maxlength') &&
-      registerForm.controls.email.dirty ) {
-      <ng-container>
-        <mat-error class="error-msg" translate> invalid email</mat-error>
-      </ng-container>
-
-      } @if (this.registerForm.controls.email.hasError('emailTaken') && registerForm.controls.email.dirty) {
-      <ng-container>
-        <mat-error class="error-msg" translate> has already been taken </mat-error>
-      </ng-container>
-
-      } @if (registerForm.controls.email.hasError('maxlength') && registerForm.controls.email.dirty) {
-      <ng-container>
-        <mat-error class="error-msg" translate> Too long (max 100 characters)</mat-error>
-      </ng-container>
-
-      }
-    </mat-form-field>
-  </div>
-  <!-- Password input -->
-  <div class="field-wrapper mb-1.6">
-    <mat-form-field appearance="outline" class="form-input-secondary flex flex-col" subscriptSizing="dynamic">
-      <input
-        #passwordInput="matInput"
-        matInput
-        [type]="hidePassword ? 'password' : 'text'"
-        placeholder="Password"
-        formControlName="password"
-      />
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="togglePassword()"
-        [attr.aria-label]="showHidePasswordLabel"
-        [attr.title]="showHidePasswordLabel"
-        type="button"
-        class="showHidePasswordButton"
-      >
-        <mat-icon class="showHidePasswordIcon">{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
-      </button>
-      <!-- <app-password-strength-indicator [matInput]="passwordInput"></app-password-strength-indicator> -->
-      @if (registerForm.controls.password.hasError('required') && registerForm.controls.password.dirty) {
-      <ng-container>
-        <mat-error class="error-msg" translate> can't be blank</mat-error>
-      </ng-container>
-      } @if (registerForm.controls.password.hasError('minlength') && registerForm.controls.password.dirty) {
-      <ng-container>
-        <mat-error class="error-msg" translate> Too short (min 8 characters)</mat-error>
-      </ng-container>
-      } @if (registerForm.controls.password.hasError('maxlength') && registerForm.controls.password.dirty) {
-      <ng-container>
-        <mat-error class="error-msg" translate> Too long (max 100 characters)</mat-error>
-      </ng-container>
-      } @if ( registerForm.controls.password.hasError('pattern') &&
-      !registerForm.controls.password.hasError('minlength') && registerForm.controls.password.dirty ) {
-      <ng-container>
-        <mat-error class="error-msg" translate>
-          Password must include uppercase and lowercase letters, a number, and a special character</mat-error
+  <form class="form flex flex-col pt-1.5" [formGroup]="registerForm">
+    <!-- Email input -->
+    <div class="field-wrapper mb-1.6">
+      <mat-form-field appearance="outline" class="form-input-secondary flex flex-col" subscriptSizing="dynamic">
+        <input #emailInput matInput type="email" placeholder="Email" formControlName="email" />
+        @if (registerForm.controls.email.hasError('required') && registerForm.controls.email.dirty) {
+          <ng-container>
+            <mat-error class="error-msg" translate> can't be blank</mat-error>
+          </ng-container>
+        }
+        @if (
+          registerForm.controls.email.hasError('email') &&
+          !registerForm.controls.email.hasError('maxlength') &&
+          registerForm.controls.email.dirty
+        ) {
+          <ng-container>
+            <mat-error class="error-msg" translate> invalid email</mat-error>
+          </ng-container>
+        }
+        @if (this.registerForm.controls.email.hasError('emailTaken') && registerForm.controls.email.dirty) {
+          <ng-container>
+            <mat-error class="error-msg" translate> has already been taken </mat-error>
+          </ng-container>
+        }
+        @if (registerForm.controls.email.hasError('maxlength') && registerForm.controls.email.dirty) {
+          <ng-container>
+            <mat-error class="error-msg" translate> Too long (max 100 characters)</mat-error>
+          </ng-container>
+        }
+      </mat-form-field>
+    </div>
+    <!-- Password input -->
+    <div class="field-wrapper mb-1.6">
+      <mat-form-field appearance="outline" class="form-input-secondary flex flex-col" subscriptSizing="dynamic">
+        <input
+          #passwordInput="matInput"
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="togglePassword()"
+          [attr.aria-label]="showHidePasswordLabel"
+          [attr.title]="showHidePasswordLabel"
+          type="button"
+          class="showHidePasswordButton"
         >
-      </ng-container>
-      }
-    </mat-form-field>
-  </div>
-  <!-- CPF -->
-  <div class="field-wrapper mb-1.6">
-    <mat-form-field appearance="outline" class="form-input-secondary flex flex-col" subscriptSizing="dynamic">
-      <input matInput type="text" [placeholder]="'CPF' | translate" formControlName="cpf" />
-      @if (registerForm.controls.cpf.hasError('required') && registerForm.controls.cpf.dirty) {
-      <ng-container>
-        <mat-error class="error-msg" translate> can't be blank</mat-error>
-      </ng-container>
-      } @if ( registerForm.controls.cpf.hasError('cpfInvalid') && registerForm.controls.cpf.dirty &&
-      !registerForm.controls.cpf.hasError('required') ) {
-      <ng-container>
-        <mat-error class="error-msg" translate> CPF is invalid. Only numbers are allowed.</mat-error>
-      </ng-container>
-      }
-    </mat-form-field>
-  </div>
-  <!-- Terms and conditions checkbox -->
-  <div class="field-wrapper">
-    <mat-checkbox
-      formControlName="acceptTerms"
-      subscriptSizing="dynamic"
-      color="primary"
-      class="custom-checkbox mdc-form-field-alignment-normal"
-    >
-      <span class="info-text" translate>
-        I am 18 years old and I accept the
-        <a class="link" target="_blank" href="/terms-and-conditions" translate>Terms and Conditions</a>
-        and <a class="link" target="_blank" href="/terms-and-conditions#privacy-policy" translate>Privacy Policy</a>.
-      </span>
-      @if (registerForm.controls.acceptTerms.hasError('accepted')) {
-      <mat-error class="error-msg">
-        <span translate>must be accepted</span>
+          <mat-icon class="showHidePasswordIcon">{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+        <!-- <app-password-strength-indicator [matInput]="passwordInput"></app-password-strength-indicator> -->
+        @if (registerForm.controls.password.hasError('required') && registerForm.controls.password.dirty) {
+          <ng-container>
+            <mat-error class="error-msg" translate> can't be blank</mat-error>
+          </ng-container>
+        }
+        @if (registerForm.controls.password.hasError('minlength') && registerForm.controls.password.dirty) {
+          <ng-container>
+            <mat-error class="error-msg" translate> Too short (min 8 characters)</mat-error>
+          </ng-container>
+        }
+        @if (registerForm.controls.password.hasError('maxlength') && registerForm.controls.password.dirty) {
+          <ng-container>
+            <mat-error class="error-msg" translate> Too long (max 100 characters)</mat-error>
+          </ng-container>
+        }
+        @if (
+          registerForm.controls.password.hasError('pattern') &&
+          !registerForm.controls.password.hasError('minlength') &&
+          registerForm.controls.password.dirty
+        ) {
+          <ng-container>
+            <mat-error class="error-msg" translate>
+              Password must include uppercase and lowercase letters, a number, and a special character</mat-error
+            >
+          </ng-container>
+        }
+      </mat-form-field>
+    </div>
+    <!-- CPF -->
+    <div class="field-wrapper mb-1.6">
+      <mat-form-field appearance="outline" class="form-input-secondary flex flex-col" subscriptSizing="dynamic">
+        <input matInput type="text" [placeholder]="'CPF' | translate" formControlName="cpf" />
+        @if (registerForm.controls.cpf.hasError('required') && registerForm.controls.cpf.dirty) {
+          <ng-container>
+            <mat-error class="error-msg" translate> can't be blank</mat-error>
+          </ng-container>
+        }
+        @if (
+          registerForm.controls.cpf.hasError('cpfInvalid') &&
+          registerForm.controls.cpf.dirty &&
+          !registerForm.controls.cpf.hasError('required')
+        ) {
+          <ng-container>
+            <mat-error class="error-msg" translate> CPF is invalid. Only numbers are allowed.</mat-error>
+          </ng-container>
+        }
+      </mat-form-field>
+    </div>
+    <!-- Terms and conditions checkbox -->
+    <div class="field-wrapper">
+      <mat-checkbox
+        formControlName="acceptTerms"
+        subscriptSizing="dynamic"
+        color="primary"
+        class="custom-checkbox mdc-form-field-alignment-normal"
+      >
+        <span class="info-text" translate>
+          I am 18 years old and I accept the
+          <a class="link" target="_blank" href="/terms-and-conditions" translate>Terms and Conditions</a>
+          and <a class="link" target="_blank" href="/terms-and-conditions#privacy-policy" translate>Privacy Policy</a>.
+        </span>
+        @if (registerForm.controls.acceptTerms.hasError('accepted')) {
+          <mat-error class="error-msg">
+            <span translate>must be accepted</span>
+          </mat-error>
+        }
+      </mat-checkbox>
+    </div>
+    @if (registerError) {
+      <mat-error class="error-msg pt-[1.6px]">
+        <span translate>{{ registerError }}</span>
       </mat-error>
-      }
-    </mat-checkbox>
-  </div>
-  @if (registerError) {
-  <mat-error class="error-msg pt-[1.6px]">
-    <span translate>{{ registerError }}</span>
-  </mat-error>
-  }
-  <!-- Register button -->
-  <button
-    mat-button
-    type="submit"
-    class="button-larger-text register-button flex mb-2 mt-6"
-    [disabled]="submitDisabled"
-    (click)="onRegister()"
-  >
-    @if (!isDataLoading) {
-    <span class="register-button-text mr-2" translate>Next</span>
     }
-    <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
-  </button>
-</form>
+    <!-- Register button -->
+    <button
+      mat-button
+      type="submit"
+      class="button-larger-text register-button flex mb-2 mt-6"
+      [disabled]="submitDisabled"
+      (click)="onRegister()"
+    >
+      @if (!isDataLoading) {
+        <span class="register-button-text mr-2" translate>Next</span>
+      }
+      <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
+    </button>
+  </form>
 }

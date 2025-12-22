@@ -42,7 +42,7 @@ export class WinnersService {
 
   /** Emits `true` if the last api call to latest and top winners returned an empty array */
   emptyWinners$ = combineLatest([this.emptyLatestWinnersSubject.asObservable(), this.emptyTopWinnersSubject]).pipe(
-    map(([emptyLatestWinners, emptyTopWinners]) => emptyLatestWinners && emptyTopWinners)
+    map(([emptyLatestWinners, emptyTopWinners]) => emptyLatestWinners && emptyTopWinners),
   );
 
   /**
@@ -70,7 +70,7 @@ export class WinnersService {
         const selectedItems = this.getItems(latestWinners, nrOfWinners, fromIndex);
         this.dataStoreService.latestWinnersIndex = (fromIndex + nrOfWinners) % latestWinners.length;
         return selectedItems;
-      })
+      }),
     );
   }
 
@@ -92,7 +92,7 @@ export class WinnersService {
           return resolved;
         });
       }),
-      repeat({ delay: () => timer(Math.random() * 2000 + 2000) })
+      repeat({ delay: () => timer(Math.random() * 2000 + 2000) }),
     );
   }
   getPoolJackpot(): Observable<WinnersItem[]> {
@@ -132,7 +132,7 @@ export class WinnersService {
       tap((val) => {
         // Update empty winners subject
         this.emptyLatestWinnersSubject.next(!val || val.length === 0);
-      })
+      }),
     );
   }
 

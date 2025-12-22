@@ -30,121 +30,125 @@
     </div> -->
 
     @if (currentStep === 1) {
-    <div class="deposit-container first-step flex">
-      <div class="flex flex-col items-center justify-center logo-container">
-        <img class="pix-logo" [src]="'assets/general/icons/pix.svg'" />
-        <span translate>*Deposits are only accepted from bank accounts with the same CPF as the account holder.</span>
-      </div>
-      <div class="deposit-form flex flex-col">
-        <div class="deposit-amount-buttons">
-          <button
-            mat-button
-            class="main-button smaller width-full"
-            (click)="depositForm.controls.amount.setValue('20,00')"
-          >
-            <span class="text-white!">R$20,00</span>
-          </button>
-          <button
-            mat-button
-            class="main-button smaller width-full"
-            (click)="depositForm.controls.amount.setValue('50,00')"
-          >
-            <span class="text-white!">R$50,00</span>
-          </button>
-          <button
-            mat-button
-            class="main-button smaller width-full"
-            (click)="depositForm.controls.amount.setValue('100,00')"
-          >
-            <span class="text-white!">R$100,00</span>
-          </button>
+      <div class="deposit-container first-step flex">
+        <div class="flex flex-col items-center justify-center logo-container">
+          <img class="pix-logo" [src]="'assets/general/icons/pix.svg'" />
+          <span translate>*Deposits are only accepted from bank accounts with the same CPF as the account holder.</span>
         </div>
-        <div [formGroup]="depositForm">
-          <mat-form-field
-            appearance="outline"
-            subscriptSizing="dynamic"
-            class="form-input-secondary deposit-form-field error-border"
-          >
-            <div class="flex flex-col deposit-input-field width-full">
-              <span translate class="deposit-input-span">Deposit amount:</span>
-              <div class="input-wrapper">
-                <span class="prefix center" matTextPrefix>R$</span>
-                <input
-                  matInput
-                  type="text"
-                  placeholder="5,00"
-                  formControlName="amount"
-                  (ngModelChange)="onInput($event)"
-                  (blur)="onBlur()"
-                  [style.width]="inputWidth"
-                />
+        <div class="deposit-form flex flex-col">
+          <div class="deposit-amount-buttons">
+            <button
+              mat-button
+              class="main-button smaller width-full"
+              (click)="depositForm.controls.amount.setValue('20,00')"
+            >
+              <span class="text-white!">R$20,00</span>
+            </button>
+            <button
+              mat-button
+              class="main-button smaller width-full"
+              (click)="depositForm.controls.amount.setValue('50,00')"
+            >
+              <span class="text-white!">R$50,00</span>
+            </button>
+            <button
+              mat-button
+              class="main-button smaller width-full"
+              (click)="depositForm.controls.amount.setValue('100,00')"
+            >
+              <span class="text-white!">R$100,00</span>
+            </button>
+          </div>
+          <div [formGroup]="depositForm">
+            <mat-form-field
+              appearance="outline"
+              subscriptSizing="dynamic"
+              class="form-input-secondary deposit-form-field error-border"
+            >
+              <div class="flex flex-col deposit-input-field width-full">
+                <span translate class="deposit-input-span">Deposit amount:</span>
+                <div class="input-wrapper">
+                  <span class="prefix center" matTextPrefix>R$</span>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="5,00"
+                    formControlName="amount"
+                    (ngModelChange)="onInput($event)"
+                    (blur)="onBlur()"
+                    [style.width]="inputWidth"
+                  />
+                </div>
               </div>
-            </div>
-            <mat-hint class="hint" translate>*Minimum deposit amount: <b>R$5,00</b></mat-hint>
-            @if (amountControl.hasError('required') && (amountControl.touched || amountControl.dirty)) { +
-            <ng-container>
-              <mat-error class="error-message" translate>
-                <ng-container> {{ 'FORMS.ERRORS.REQUIRED' | translate }}</ng-container>
-                <ng-container> {{ 'FORMS.ERRORS.REQUIRED' | translate }}</ng-container>
-              </mat-error>
-            </ng-container>
-            } @if (amountControl.hasError('min') && (amountControl.touched || amountControl.dirty)) {
-            <ng-container>
-              <mat-error class="error-message" translate>
+              <mat-hint class="hint" translate>*Minimum deposit amount: <b>R$5,00</b></mat-hint>
+              @if (amountControl.hasError('required') && (amountControl.touched || amountControl.dirty)) {
+                +
                 <ng-container>
-                  {{ 'The minimum deposit amount is' | translate }} {{ minAmount }} {{ currency }}.
-                  {{ 'Please enter a valid amount.' | translate }}
+                  <mat-error class="error-message" translate>
+                    <ng-container> {{ 'FORMS.ERRORS.REQUIRED' | translate }}</ng-container>
+                    <ng-container> {{ 'FORMS.ERRORS.REQUIRED' | translate }}</ng-container>
+                  </mat-error>
                 </ng-container>
-              </mat-error>
-            </ng-container>
-            }
-          </mat-form-field>
-        </div>
-        <button mat-button class="main-button width-full mt-[22px]" (click)="goToSecondStep()">
-          <span class="text-white!" translate>Depositar</span>
-        </button>
-      </div>
-      <span class="message-span">
-        <b>{{ '*Important:' | translate }} </b
-        >{{
-          'The money will be sent to the bank account linked to your CPF, which will be used as the PIX ' +
-            'key and registered to your Betaki account. Please confirm that your CPF is registered as a PIX key with your ' +
-            'bank. If the PIX key is incorrect, please contact Support.' | translate
-        }}</span
-      >
-    </div>
-    } @if (currentStep === 2) {
-    <div class="deposit-container flex flex-col items-center">
-      <div class="flex flex-col gap-4 width-full top-bar">
-        <div class="flex items-center justify-between">
-          <span class="deposit-amount-span" translate>Deposit amount</span>
-          <button mat-button class="main-button smaller">
-            <span class="step-2">R$ {{ depositForm.value.amount }}</span>
+              }
+              @if (amountControl.hasError('min') && (amountControl.touched || amountControl.dirty)) {
+                <ng-container>
+                  <mat-error class="error-message" translate>
+                    <ng-container>
+                      {{ 'The minimum deposit amount is' | translate }} {{ minAmount }} {{ currency }}.
+                      {{ 'Please enter a valid amount.' | translate }}
+                    </ng-container>
+                  </mat-error>
+                </ng-container>
+              }
+            </mat-form-field>
+          </div>
+          <button mat-button class="main-button width-full mt-[22px]" (click)="goToSecondStep()">
+            <span class="text-white!" translate>Depositar</span>
           </button>
         </div>
-        <div class="flex items-center justify-between">
-          <span class="deposit-amount-span" translate>Deposit ID</span>
-          <button mat-button class="main-button smaller transaction-id-button">
-            <span class="step-2">{{ depositId }}</span>
+        <span class="message-span">
+          <b>{{ '*Important:' | translate }} </b
+          >{{
+            'The money will be sent to the bank account linked to your CPF, which will be used as the PIX ' +
+              'key and registered to your Betaki account. Please confirm that your CPF is registered as a PIX key with your ' +
+              'bank. If the PIX key is incorrect, please contact Support.' | translate
+          }}</span
+        >
+      </div>
+    }
+    @if (currentStep === 2) {
+      <div class="deposit-container flex flex-col items-center">
+        <div class="flex flex-col gap-4 width-full top-bar">
+          <div class="flex items-center justify-between">
+            <span class="deposit-amount-span" translate>Deposit amount</span>
+            <button mat-button class="main-button smaller">
+              <span class="step-2">R$ {{ depositForm.value.amount }}</span>
+            </button>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="deposit-amount-span" translate>Deposit ID</span>
+            <button mat-button class="main-button smaller transaction-id-button">
+              <span class="step-2">{{ depositId }}</span>
+            </button>
+          </div>
+        </div>
+        <div class="qr-code-container flex flex-col gap-4 justify-center items-center">
+          <span class="qr-code-title" translate>Scan the code</span>
+          <div class="qr-code-image-container">
+            <img class="qr-code-image" [src]="qrCodeImage" />
+          </div>
+          <span class="qr-code-title">Ou</span>
+          <button class="main-button smaller label-dark" mat-button (click)="copyCode()">
+            {{ 'Copy and paste' | translate }}
           </button>
+          <div class="code-text">{{ qrCodeText }}</div>
         </div>
       </div>
-      <div class="qr-code-container flex flex-col gap-4 justify-center items-center">
-        <span class="qr-code-title" translate>Scan the code</span>
-        <div class="qr-code-image-container">
-          <img class="qr-code-image" [src]="qrCodeImage" />
-        </div>
-        <span class="qr-code-title">Ou</span>
-        <button class="main-button smaller label-dark" mat-button (click)="copyCode()">
-          {{ 'Copy and paste' | translate }}
-        </button>
-        <div class="code-text">{{ qrCodeText }}</div>
-      </div>
-    </div>
-    } @if (currentStep === 2) {
-    <button class="main-button inbetween" mat-button routerLink="/">
-      <span class="text-white" translate>Return to play</span>
-    </button>
+    }
+    @if (currentStep === 2) {
+      <button class="main-button inbetween" mat-button routerLink="/">
+        <span class="text-white" translate>Return to play</span>
+      </button>
     }
 
     <!-- <div *ngIf="currentStep === 2" class="flex items-center justify-between">
@@ -155,11 +159,11 @@
             </div> -->
 
     @if (currentStep === 2) {
-    <div class="disclaimer-container">
-      <span class="disclaimer-span" translate>
-        *Deposits are only accepted from bank accounts with the same CPF as the account holder.
-      </span>
-    </div>
+      <div class="disclaimer-container">
+        <span class="disclaimer-span" translate>
+          *Deposits are only accepted from bank accounts with the same CPF as the account holder.
+        </span>
+      </div>
     }
 
     <div class="flex lg:w-1/3 m-auto flex-col mt-4 w-full text-xs sm:text-md text-center gap-y-4">

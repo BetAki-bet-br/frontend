@@ -178,7 +178,7 @@ export class ProfileSettingsSubscriptionsComponent implements OnInit {
             this.translateService.instant('Privacy settings updated successfully'),
             'center',
             'top',
-            4000
+            4000,
           );
           this.contactPreferences = request;
           this.setGeneralForm();
@@ -206,7 +206,7 @@ export class ProfileSettingsSubscriptionsComponent implements OnInit {
         receivePromosByPost: receiveOffers && this.contactPreferences?.contactPrefChannels?.post,
         receivePromosByPopupInbox: receiveOffers && this.contactPreferences?.contactPrefChannels?.popupInbox,
       },
-      { emitEvent: false }
+      { emitEvent: false },
     );
 
     if (this.receiveExclusiveOffersAndBonuses) {

@@ -14,7 +14,7 @@ export class HelpService {
   public getTermsAndConditions() {
     return this.templateService.apiPortalV1TemplateTermsAndConditionsGet(
       this.dataStoreService.defaultPortalId,
-      this.i18nService.language
+      this.i18nService.language,
       //this.dataStoreService.defaultLanguage,
     );
   }

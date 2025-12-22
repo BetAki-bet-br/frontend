@@ -94,7 +94,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
       this.balance = balance;
       const currencySymbol = this.dataStoreService.getCurrencySymbol(
         this.dataStoreService.defaultLanguage,
-        balance?.currency ?? ''
+        balance?.currency ?? '',
       );
       this.balanceCurrency = currencySymbol;
       this.balanceString = this.dataStoreService.getNumberInLocalFormat(balance?.totalBalance ?? 0, 2);
@@ -117,7 +117,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
       this.dataStoreService.balanceVisibilityChange.subscribe((res) => {
         this.balanceVisible = this.dataStoreService.balanceVisible;
         this.cdr.detectChanges();
-      })
+      }),
     );
 
     this.playerProfileService

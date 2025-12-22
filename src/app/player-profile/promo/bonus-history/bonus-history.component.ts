@@ -263,7 +263,7 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
             const allowedStatuses = Object.values(BonusHistoryStatusEnum);
             const allowedBonuses = bonusHistory.filter(
               (bonus): bonus is PlayerBonusResolved & { status: PlayerBonusHistoryStatusEnum } =>
-                !!bonus.status && allowedStatuses.includes(bonus.status as unknown as BonusHistoryStatusEnum)
+                !!bonus.status && allowedStatuses.includes(bonus.status as unknown as BonusHistoryStatusEnum),
             );
 
             // filter by period
@@ -282,12 +282,12 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
             else {
               const selectedStatusLabels = (this.filterForm.controls.status.value ?? []).map((s) => s.label);
               this.bonusHistoryData = filteredBonuses.filter((item) =>
-                selectedStatusLabels.includes(item.status || '')
+                selectedStatusLabels.includes(item.status || ''),
               );
             }
 
             this.bonusHistoryData.sort(
-              (a, b) => new Date(b.acceptedDate ?? '').getTime() - new Date(a.acceptedDate ?? '').getTime()
+              (a, b) => new Date(b.acceptedDate ?? '').getTime() - new Date(a.acceptedDate ?? '').getTime(),
             );
 
             this.cdr.detectChanges();
@@ -297,7 +297,7 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
           this.updatePagedData();
         },
         error: (err) => {},
-      })
+      }),
     );
   }
 
@@ -326,7 +326,7 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
 
         // Update the currentySelectedStatus array
         this.currentySelectedStatus = this.filterForm.get('status')?.value ?? [];
-      })
+      }),
     );
   }
 

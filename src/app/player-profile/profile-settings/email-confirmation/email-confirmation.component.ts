@@ -139,7 +139,7 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
           this.translate.instant('Email verification code resent successfully'),
           'center',
           'top',
-          4000
+          4000,
         );
         this.verificationStep = 1;
         this.otpForm.reset();
@@ -152,7 +152,7 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
         this.snackbarService.openCustomError(
           this.translate.instant('Failed to send new verification code'),
           'center',
-          'top'
+          'top',
         );
       },
     });

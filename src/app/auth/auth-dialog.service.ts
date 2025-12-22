@@ -88,7 +88,7 @@ export class AuthDialogService {
   initAccountVerificationWithParams(
     accountVerificationAction: AccountVerificationActionEnum,
     faceAuthParams: FaceAuthParams,
-    data?: AccountVerificationData
+    data?: AccountVerificationData,
   ): Observable<InitAccountVerificationResponse> {
     log.debug(
       'initAccountVerificationWithParams invoked with action:',
@@ -96,7 +96,7 @@ export class AuthDialogService {
       'and params:',
       faceAuthParams,
       'and data:',
-      data
+      data,
     );
 
     const api$: Observable<PlayerStatusesResponse | null> =
@@ -109,7 +109,7 @@ export class AuthDialogService {
         // If face authentication params exist
         return this.openFaceAuthDialog(
           faceAuthParams,
-          accountVerificationAction === AccountVerificationActionEnum.Withdrawal
+          accountVerificationAction === AccountVerificationActionEnum.Withdrawal,
         ).pipe(
           switchMap((success) => {
             if (accountVerificationAction === AccountVerificationActionEnum.Login) {
@@ -133,29 +133,29 @@ export class AuthDialogService {
                 return this.initAnnualVerificationDialog().pipe(
                   switchMap((success) => {
                     return of({ success });
-                  })
+                  }),
                 );
               } else {
                 return this.initProcessVerificationDialog(
-                  accountVerificationAction === AccountVerificationActionEnum.Withdrawal
+                  accountVerificationAction === AccountVerificationActionEnum.Withdrawal,
                 ).pipe(
                   switchMap((success) => {
                     return of({ success });
-                  })
+                  }),
                 );
               }
             }
 
             return of({ success: !!success });
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
   initAccountVerification(
     accountVerificationAction: AccountVerificationActionEnum,
-    data?: AccountVerificationData
+    data?: AccountVerificationData,
   ): Observable<InitAccountVerificationResponse> {
     return this.playerProfileService.getPlayerVerificationStatus().pipe(
       switchMap((playerVerificationStatus) => {
@@ -172,19 +172,19 @@ export class AuthDialogService {
                     return this.initAnnualVerificationDialog().pipe(
                       switchMap((success) => {
                         return of({ success });
-                      })
+                      }),
                     );
                   } else {
                     return this.initProcessVerificationDialog(false).pipe(
                       switchMap((success) => {
                         return of({ success });
-                      })
+                      }),
                     );
                   }
                 } else {
                   return of({ success: true });
                 }
-              })
+              }),
             );
           }
           return forkJoin({
@@ -199,19 +199,19 @@ export class AuthDialogService {
                   return this.initAnnualVerificationDialog().pipe(
                     switchMap((success) => {
                       return of({ success });
-                    })
+                    }),
                   );
                 }
                 // If kycAnnualVerificationRequired is false, open process verification dialog
                 return this.initProcessVerificationDialog(false).pipe(
                   switchMap((success) => {
                     return of({ success });
-                  })
+                  }),
                 );
               } else {
                 return of({ success: true });
               }
-            })
+            }),
           );
         }
 
@@ -230,16 +230,16 @@ export class AuthDialogService {
             return this.initAnnualVerificationDialog().pipe(
               switchMap((success) => {
                 return of({ success });
-              })
+              }),
             );
           }
 
           return this.initProcessVerificationDialog(
-            accountVerificationAction === AccountVerificationActionEnum.Withdrawal
+            accountVerificationAction === AccountVerificationActionEnum.Withdrawal,
           ).pipe(
             switchMap((success) => {
               return of({ success });
-            })
+            }),
           );
         }
 
@@ -251,7 +251,7 @@ export class AuthDialogService {
           return this.initProcessVerificationDialog(true).pipe(
             switchMap((success) => {
               return of({ success });
-            })
+            }),
           );
         }
 
@@ -270,7 +270,7 @@ export class AuthDialogService {
         }
 
         return of({ success: false });
-      })
+      }),
     );
   }
 
@@ -292,7 +292,7 @@ export class AuthDialogService {
                 this.translate.instant('Email verification code resent successfully'),
                 'center',
                 'top',
-                4000
+                4000,
               );
               localStorage.setItem('emailVerificationTimestamp', Date.now().toString());
 
@@ -302,7 +302,7 @@ export class AuthDialogService {
                 },
               });
               return of(null);
-            })
+            }),
           );
         } else if (result === ProcessVerificationResultEnum.PhoneNumber) {
           // This is not relevant for now
@@ -333,7 +333,7 @@ export class AuthDialogService {
         }
 
         return of(false);
-      })
+      }),
     );
   }
 
@@ -351,7 +351,7 @@ export class AuthDialogService {
         }
 
         return of(false);
-      })
+      }),
     );
   }
 
@@ -359,7 +359,7 @@ export class AuthDialogService {
     return this.openAnnualVerificationDialog().pipe(
       switchMap((result) => {
         return of(result);
-      })
+      }),
     );
   }
 
@@ -405,7 +405,7 @@ export class AuthDialogService {
           log.debug('Get face authentication status failed with error:', err);
           throw err;
           return of(false);
-        })
+        }),
       );
     }
 
@@ -445,9 +445,9 @@ export class AuthDialogService {
               return this.credentialsService.resetFaceAuthRequired().pipe(
                 map(() => {
                   throw new WithdrawalError(
-                    ((result as WithdrawalFaceAuthProcessResponse)?.paymentStatus as TransactionStatusStringEnum) ?? ''
+                    ((result as WithdrawalFaceAuthProcessResponse)?.paymentStatus as TransactionStatusStringEnum) ?? '',
                   );
-                })
+                }),
               );
             }
           }
@@ -458,7 +458,7 @@ export class AuthDialogService {
           }
           return of(false);
         }
-      })
+      }),
     );
   }
 
@@ -488,7 +488,7 @@ export class AuthDialogService {
               log.debug('handleMessage() returned error:', err);
 
               return of(false);
-            })
+            }),
           );
         }
 
@@ -511,9 +511,9 @@ export class AuthDialogService {
             // 'reload' does not trigger reloading of components, but it triggers the NavigationEnd
             // event on routing, so components can handle that if needed
             this.router.navigateByUrl('/', { onSameUrlNavigation: 'reload' });
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -525,7 +525,7 @@ export class AuthDialogService {
       .closed.pipe(
         switchMap(() => {
           return of(true);
-        })
+        }),
       );
   }
 
@@ -536,13 +536,13 @@ export class AuthDialogService {
           this.dataStoreService.profileLanguage = playerInfo.locale;
         }
         return of(true);
-      })
+      }),
     );
   }
 
   private handleUpdatedTCAction(updatedTCActionId: number): Observable<boolean> {
     return this.openTermsAndConditionsDialog(updatedTCActionId).pipe(
-      switchMap(() => this.updatePlayerLocaleAndReturnResult())
+      switchMap(() => this.updatePlayerLocaleAndReturnResult()),
     );
   }
 }

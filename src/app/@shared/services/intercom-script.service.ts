@@ -56,10 +56,10 @@ export class IntercomScriptService {
               user_hash: this.credentialsService.credentials?.playerHash || null,
             };
             return authUserData;
-          })
+          }),
         );
       }
-    })
+    }),
   );
   intercom = window.Intercom;
   init(): void {

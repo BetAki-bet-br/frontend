@@ -47,7 +47,7 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
       this.messageCount$.subscribe((count) => {
         this.displayNumberOfMessages = (count ?? 0) > 0;
         this.cdr.detectChanges();
-      })
+      }),
     );
   }
 

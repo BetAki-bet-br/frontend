@@ -37,7 +37,7 @@ export class CategoryService {
           return data.gameCategoryList.map(toLocalGameCategory);
         }),
         catchError(() => of([])),
-        shareReplay(1)
+        shareReplay(1),
       );
     }
     return this.categoriesCache[cacheKey];

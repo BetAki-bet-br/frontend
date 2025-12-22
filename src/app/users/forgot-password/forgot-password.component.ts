@@ -67,7 +67,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   isLoading: boolean = false;
   title = this.translate.instant('Did you forget your password?');
   descriptionMessage = this.translate.instant(
-    'Please fill in your personal information so we can locate your account in our system.'
+    'Please fill in your personal information so we can locate your account in our system.',
   );
 
   breadcrumbs: Breadcrumbs[] = [
@@ -85,7 +85,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   constructor() {
     if (this.router?.url.endsWith('unlock-account')) {
       this.descriptionMessage = this.translate.instant(
-        'Your account has been locked after 3 incorrect password attempts. To reset your password, please enter your CPF.'
+        'Your account has been locked after 3 incorrect password attempts. To reset your password, please enter your CPF.',
       );
     }
   }
@@ -120,7 +120,7 @@ export class ForgotPasswordComponent implements OnDestroy {
             return this.authDialogService.openFaceAuthDialog(faceAuthParams, false);
           }
           return of(null);
-        })
+        }),
       )
       .subscribe({
         next: (response) => {
@@ -194,11 +194,11 @@ export class ForgotPasswordComponent implements OnDestroy {
     this.router.navigate(['/'], { replaceUrl: true });
     this.snackbarService.openCustomSuccess(
       this.translate.instant(
-        'You will receive an email with instructions on how to confirm your email address in a few minutes.'
+        'You will receive an email with instructions on how to confirm your email address in a few minutes.',
       ),
       'center',
       'top',
-      0
+      0,
     );
   }
 

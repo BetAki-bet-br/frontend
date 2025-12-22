@@ -121,7 +121,7 @@ export class WalletDepositComponent implements OnInit {
       this.balance = balance?.totalBalance ?? 0;
       const currencySymbol = this.dataStoreService.getCurrencySymbol(
         this.dataStoreService.defaultLanguage,
-        balance?.currency ?? ''
+        balance?.currency ?? '',
       );
       this.balanceCurrency = currencySymbol;
       this.balanceString = this.dataStoreService.getNumberInLocalFormat(balance?.totalBalance ?? 0, 2);
@@ -163,7 +163,7 @@ export class WalletDepositComponent implements OnInit {
           } else {
             return of('DepositCanceled');
           }
-        })
+        }),
       )
       .subscribe({
         next: (response) => {

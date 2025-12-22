@@ -16,15 +16,15 @@
           [src]="'assets/general/flags/' + currentLanguage?.flagIconName | cdnize"
         />
         @if (!icon) {
-        <div class="hidden" [class.lang-text]="!isLogin">
-          {{ currentLanguage?.englishName }}
-        </div>
+          <div class="hidden" [class.lang-text]="!isLogin">
+            {{ currentLanguage?.englishName }}
+          </div>
         }
       </div>
       @if (languages && languages.length > 1) {
-      <div class="expand-icon-container">
-        <mat-icon [ngClass]="isMenuClosed ? 'expanded' : ''">arrow_drop_up</mat-icon>
-      </div>
+        <div class="expand-icon-container">
+          <mat-icon [ngClass]="isMenuClosed ? 'expanded' : ''">arrow_drop_up</mat-icon>
+        </div>
       }
     </div>
   </button>
@@ -34,14 +34,14 @@
   <!-- Language container -->
   <div class="header-dropdown-container" [class.header-dropdown-container-large]="sidenav">
     @for (language of languages; track language) {
-    <div class="header-dropdown-item-box" (click)="setLanguage(language.key)">
-      <img
-        alt="{{ language.key }}"
-        class="header-dropdown-item-icon"
-        [src]="'assets/general/flags/' + language.value?.flagIconName | cdnize"
-      />
-      <div class="header-dropdown-item-text" translate>{{ language.value?.englishName }}</div>
-    </div>
+      <div class="header-dropdown-item-box" (click)="setLanguage(language.key)">
+        <img
+          alt="{{ language.key }}"
+          class="header-dropdown-item-icon"
+          [src]="'assets/general/flags/' + language.value?.flagIconName | cdnize"
+        />
+        <div class="header-dropdown-item-text" translate>{{ language.value?.englishName }}</div>
+      </div>
     }
   </div>
 </mat-menu>

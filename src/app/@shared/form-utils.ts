@@ -80,7 +80,7 @@ export function MatchValidator(source: string, target: string): ValidatorFn {
  */
 export function getSameValueValidator(
   controlToCompare: FormControl,
-  errorName: string = 'differentValue'
+  errorName: string = 'differentValue',
 ): ValidatorFn {
   return (control: AbstractControl) => {
     // If the control has no value, then return no errors

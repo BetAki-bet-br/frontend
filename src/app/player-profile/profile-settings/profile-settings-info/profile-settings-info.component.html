@@ -73,82 +73,83 @@
 
           <div class="section-actions no-fullwidth">
             @if (!editAddressActive) {
-            <div class="section-action-edit" (click)="onEditAddress()">
-              <span translate>Edit</span>
-            </div>
-            } @if (editAddressActive) {
-            <div class="section-action-edit-disabled">
-              <span translate>Edit</span>
-            </div>
+              <div class="section-action-edit" (click)="onEditAddress()">
+                <span translate>Edit</span>
+              </div>
+            }
+            @if (editAddressActive) {
+              <div class="section-action-edit-disabled">
+                <span translate>Edit</span>
+              </div>
             }
           </div>
         </div>
       </div>
       @if (editAddressActive) {
-      <div class="section-item-container mt-6">
-        <div class="section-item-collapsable">
-          <div class="field-wrapper-edit">
-            <div class="form-field-label" translate>Country</div>
-            <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
-              <!-- <input matInput type="text" formControlName="country" /> -->
-              <mat-select formControlName="country" placeholder="Select" class="no-arrow">
-                @for (item of countryList; track item) {
-                <mat-option [value]="item">
-                  {{ item.name }}
-                </mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="field-wrapper-edit">
-            <div class="form-field-label" translate>City</div>
-            <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
-              <input matInput type="text" formControlName="city" />
-            </mat-form-field>
-          </div>
-          <div class="field-wrapper-edit">
-            <div class="form-field-label" translate>Postal code</div>
-            <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
-              <input matInput type="text" formControlName="postalCode" />
-            </mat-form-field>
-          </div>
-          <div class="field-wrapper-edit">
-            <div class="form-field-label" translate>Street</div>
-            <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
-              <input matInput type="text" formControlName="street" />
-            </mat-form-field>
-          </div>
-          <div class="field-wrapper-edit">
-            <div class="form-field-label" translate>House number</div>
-            <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
-              <input matInput type="text" formControlName="houseNumber" />
-            </mat-form-field>
-          </div>
-          <div class="section-actions flex gap-4 full-width mt-2">
-            <button mat-button class="section-action-2 flex-grow" (click)="onCancelAddress()">
-              <span translate>Cancel</span>
-            </button>
-            <button
-              [disabled]="
-                (!profileGeneralForm.controls.city.dirty &&
-                  !profileGeneralForm.controls.postalCode.dirty &&
-                  !profileGeneralForm.controls.houseNumber.dirty &&
-                  !profileGeneralForm.controls.country.dirty &&
-                  !profileGeneralForm.controls.street.dirty) ||
-                !profileGeneralForm.controls.city.valid ||
-                !profileGeneralForm.controls.postalCode.valid ||
-                !profileGeneralForm.controls.houseNumber.valid ||
-                !profileGeneralForm.controls.street.valid
-              "
-              mat-button
-              class="section-action flex-grow"
-              (click)="onSaveAddress()"
-            >
-              <span translate>Save</span>
-            </button>
+        <div class="section-item-container mt-6">
+          <div class="section-item-collapsable">
+            <div class="field-wrapper-edit">
+              <div class="form-field-label" translate>Country</div>
+              <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+                <!-- <input matInput type="text" formControlName="country" /> -->
+                <mat-select formControlName="country" placeholder="Select" class="no-arrow">
+                  @for (item of countryList; track item) {
+                    <mat-option [value]="item">
+                      {{ item.name }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="field-wrapper-edit">
+              <div class="form-field-label" translate>City</div>
+              <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+                <input matInput type="text" formControlName="city" />
+              </mat-form-field>
+            </div>
+            <div class="field-wrapper-edit">
+              <div class="form-field-label" translate>Postal code</div>
+              <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+                <input matInput type="text" formControlName="postalCode" />
+              </mat-form-field>
+            </div>
+            <div class="field-wrapper-edit">
+              <div class="form-field-label" translate>Street</div>
+              <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+                <input matInput type="text" formControlName="street" />
+              </mat-form-field>
+            </div>
+            <div class="field-wrapper-edit">
+              <div class="form-field-label" translate>House number</div>
+              <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+                <input matInput type="text" formControlName="houseNumber" />
+              </mat-form-field>
+            </div>
+            <div class="section-actions flex gap-4 full-width mt-2">
+              <button mat-button class="section-action-2 flex-grow" (click)="onCancelAddress()">
+                <span translate>Cancel</span>
+              </button>
+              <button
+                [disabled]="
+                  (!profileGeneralForm.controls.city.dirty &&
+                    !profileGeneralForm.controls.postalCode.dirty &&
+                    !profileGeneralForm.controls.houseNumber.dirty &&
+                    !profileGeneralForm.controls.country.dirty &&
+                    !profileGeneralForm.controls.street.dirty) ||
+                  !profileGeneralForm.controls.city.valid ||
+                  !profileGeneralForm.controls.postalCode.valid ||
+                  !profileGeneralForm.controls.houseNumber.valid ||
+                  !profileGeneralForm.controls.street.valid
+                "
+                mat-button
+                class="section-action flex-grow"
+                (click)="onSaveAddress()"
+              >
+                <span translate>Save</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       }
     </div>
   </div>
@@ -171,74 +172,83 @@
           </div>
           <div class="section-actions no-fullwidth">
             @if (!editPhoneNumberActive) {
-            <div class="section-action-edit" (click)="onEditPhoneNumber()">
-              <span translate>Edit</span>
-            </div>
-            } @if (editPhoneNumberActive) {
-            <div class="section-action-edit-disabled">
-              <span translate>Edit</span>
-            </div>
+              <div class="section-action-edit" (click)="onEditPhoneNumber()">
+                <span translate>Edit</span>
+              </div>
+            }
+            @if (editPhoneNumberActive) {
+              <div class="section-action-edit-disabled">
+                <span translate>Edit</span>
+              </div>
             }
           </div>
         </div>
       </div>
       @if (editPhoneNumberActive) {
-      <div class="section-item-container">
-        <div class="section-item-collapsable">
-          <div class="field-wrapper-edit">
-            <div class="form-field-label" translate>Phone number</div>
-            <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
-              <span matPrefix class="telephone-prefix">{{ mobilePrefix }}</span>
-              <input
-                matInput
-                type="tel"
-                formControlName="mobileNumber"
-                (keydown)="validateNumber($event)"
-                (paste)="onPasteMobileNumber($event)"
-              />
-              @if ( profileGeneralForm.controls.mobileNumber.hasError('required') &&
-              profileGeneralForm.controls.mobileNumber.touched && profileGeneralForm.controls.mobileNumber.dirty ) {
-              <ng-container>
-                <mat-error class="error-msg" translate> can't be blank</mat-error>
-              </ng-container>
-              } @if ( profileGeneralForm.controls.mobileNumber.hasError('invalidBrazilianMobile') &&
-              profileGeneralForm.controls.mobileNumber.touched && profileGeneralForm.controls.mobileNumber.dirty ) {
-              <ng-container>
-                <mat-error class="error-msg" translate>
-                  {{ 'Invalid phone number' | translate | lowercase }}
-                </mat-error>
-              </ng-container>
-              }
-            </mat-form-field>
-            <div class="section-actions flex gap-4 full-width mt-2 mb-2">
-              <button
-                mat-button
-                [disabled]="isDataLoading"
-                class="section-action-2 flex-grow"
-                (click)="onCancelPhoneNumber()"
-              >
-                <span translate>Cancel</span>
-              </button>
-              <button
-                [disabled]="
-                  !profileGeneralForm.controls.mobileNumber.valid ||
-                  !profileGeneralForm.controls.mobileNumber.dirty ||
-                  isDataLoading
-                "
-                mat-button
-                class="section-action flex-grow"
-                (click)="onSavePhoneNumber()"
-              >
-                @if (!isDataLoading) {
-                <span translate>Save</span>
-                } @if (isDataLoading) {
-                <mat-spinner class="spinner-on-button" diameter="20" />
+        <div class="section-item-container">
+          <div class="section-item-collapsable">
+            <div class="field-wrapper-edit">
+              <div class="form-field-label" translate>Phone number</div>
+              <mat-form-field appearance="outline" class="form-input-edit" subscriptSizing="dynamic">
+                <span matPrefix class="telephone-prefix">{{ mobilePrefix }}</span>
+                <input
+                  matInput
+                  type="tel"
+                  formControlName="mobileNumber"
+                  (keydown)="validateNumber($event)"
+                  (paste)="onPasteMobileNumber($event)"
+                />
+                @if (
+                  profileGeneralForm.controls.mobileNumber.hasError('required') &&
+                  profileGeneralForm.controls.mobileNumber.touched &&
+                  profileGeneralForm.controls.mobileNumber.dirty
+                ) {
+                  <ng-container>
+                    <mat-error class="error-msg" translate> can't be blank</mat-error>
+                  </ng-container>
                 }
-              </button>
+                @if (
+                  profileGeneralForm.controls.mobileNumber.hasError('invalidBrazilianMobile') &&
+                  profileGeneralForm.controls.mobileNumber.touched &&
+                  profileGeneralForm.controls.mobileNumber.dirty
+                ) {
+                  <ng-container>
+                    <mat-error class="error-msg" translate>
+                      {{ 'Invalid phone number' | translate | lowercase }}
+                    </mat-error>
+                  </ng-container>
+                }
+              </mat-form-field>
+              <div class="section-actions flex gap-4 full-width mt-2 mb-2">
+                <button
+                  mat-button
+                  [disabled]="isDataLoading"
+                  class="section-action-2 flex-grow"
+                  (click)="onCancelPhoneNumber()"
+                >
+                  <span translate>Cancel</span>
+                </button>
+                <button
+                  [disabled]="
+                    !profileGeneralForm.controls.mobileNumber.valid ||
+                    !profileGeneralForm.controls.mobileNumber.dirty ||
+                    isDataLoading
+                  "
+                  mat-button
+                  class="section-action flex-grow"
+                  (click)="onSavePhoneNumber()"
+                >
+                  @if (!isDataLoading) {
+                    <span translate>Save</span>
+                  }
+                  @if (isDataLoading) {
+                    <mat-spinner class="spinner-on-button" diameter="20" />
+                  }
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       }
 
       <mat-divider class="mat-divider" />
@@ -255,18 +265,19 @@
             </div>
           </div>
           @if (!emailVerified) {
-          <div class="section-actions no-fullwidth">
-            <div class="section-action-edit" (click)="onResendEmailVerificationCode()">
-              <span translate>Resend verification code</span>
+            <div class="section-actions no-fullwidth">
+              <div class="section-action-edit" (click)="onResendEmailVerificationCode()">
+                <span translate>Resend verification code</span>
+              </div>
             </div>
-          </div>
-          } @if (emailVerified) {
-          <div class="section-actions no-fullwidth">
-            <div class="flex items-center justify-center email-verified-container gap-2">
-              <mat-icon svgIcon="check" />
-              <span class="email-verified-span" translate> Verified</span>
+          }
+          @if (emailVerified) {
+            <div class="section-actions no-fullwidth">
+              <div class="flex items-center justify-center email-verified-container gap-2">
+                <mat-icon svgIcon="check" />
+                <span class="email-verified-span" translate> Verified</span>
+              </div>
             </div>
-          </div>
           }
         </div>
       </div>

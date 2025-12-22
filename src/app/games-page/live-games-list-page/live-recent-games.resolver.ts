@@ -38,6 +38,6 @@ export const liveRecentGamesResolver: ResolveFn<SubLevel | undefined> = (): Obse
         levelType: 'Category',
         parentId: undefined,
       } satisfies SubLevel;
-    })
+    }),
   );
 };

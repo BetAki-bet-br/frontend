@@ -118,11 +118,11 @@ export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
       this.route.url
         .pipe(
           map((segments) => segments.join('/')),
-          distinctUntilChanged()
+          distinctUntilChanged(),
         )
         .subscribe(() => {
           this.loadSportsbookUrl();
-        })
+        }),
     );
 
     this.routeSub.add(
@@ -130,7 +130,7 @@ export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
         if (!res && this.isAuth) {
           this.loadSportsbookUrl();
         }
-      })
+      }),
     );
   }
 
@@ -157,7 +157,7 @@ export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
             }
 
             return this.sportsbookService.getSportsbookUrl(false);
-          })
+          }),
         )
         .subscribe({
           next: (res) => {

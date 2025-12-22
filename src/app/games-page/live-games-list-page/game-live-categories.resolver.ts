@@ -10,6 +10,6 @@ export const gamesResolver: ResolveFn<SubLevel[]> = (): Observable<SubLevel[]> =
 
   return gameService.getGames(GameEnum.CASINO, 5).pipe(
     filter((games) => games.length > 0), // Wait until games are loaded
-    take(1) // Take the first emission with data and complete
+    take(1), // Take the first emission with data and complete
   );
 };

@@ -26,18 +26,18 @@
                   #selectPeriod
                 >
                   @for (item of timePeriods; track item) {
-                  <mat-option [value]="item.value" translate>
-                    {{ item.label | translate }}
-                  </mat-option>
+                    <mat-option [value]="item.value" translate>
+                      {{ item.label | translate }}
+                    </mat-option>
                   }
                 </mat-select>
                 <mat-icon [class]="selectPeriod.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
                   selectPeriod.panelOpen ? 'expand_less' : 'expand_more'
                 }}</mat-icon>
-                @if ( form.controls.time && form.controls.time.hasError('required') && form.controls.time.touched ) {
-                <ng-container>
-                  <mat-error class="error-msg" translate> Required</mat-error>
-                </ng-container>
+                @if (form.controls.time && form.controls.time.hasError('required') && form.controls.time.touched) {
+                  <ng-container>
+                    <mat-error class="error-msg" translate> Required</mat-error>
+                  </ng-container>
                 }
               </mat-form-field>
             </div>

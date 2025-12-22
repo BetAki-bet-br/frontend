@@ -80,14 +80,14 @@ export class GameService {
             .map(toLocalGameMain)
             .filter(
               (game) =>
-                !game.maintenanceModeEnabled && game.externalId && !this.BANNED_EXTERNAL_IDS.includes(game.externalId)
+                !game.maintenanceModeEnabled && game.externalId && !this.BANNED_EXTERNAL_IDS.includes(game.externalId),
             );
         }),
         catchError(() => {
           console.error('Erro ao buscar a lista de jogos do portal.');
           return of([]);
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
     }
     return this.gamesByPortalCache[cacheKey];
@@ -99,7 +99,7 @@ export class GameService {
     }
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return this.getGamesByPortal(portalId).pipe(
-      map((games) => games.filter((game) => game.name?.toLowerCase().includes(lowerCaseSearchTerm)))
+      map((games) => games.filter((game) => game.name?.toLowerCase().includes(lowerCaseSearchTerm))),
     );
   }
 
@@ -123,7 +123,7 @@ export class GameService {
           console.error('Erro ao buscar a lista de jogos do lobby.');
           return of([]);
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
     }
     return this.lobbyGamesCache[cacheKey];
@@ -148,14 +148,14 @@ export class GameService {
                   (game) =>
                     !game.maintenanceModeEnabled &&
                     game.externalId &&
-                    !this.BANNED_EXTERNAL_IDS.includes(game.externalId)
+                    !this.BANNED_EXTERNAL_IDS.includes(game.externalId),
                 ),
               }));
           }),
           catchError(() => {
             return of([]);
           }),
-          shareReplay(1)
+          shareReplay(1),
         );
     }
     return this.gamesCache[cacheKey];
@@ -172,11 +172,11 @@ export class GameService {
   public getGamesByCategory(
     categoryId: string | number,
     levelId: number,
-    portalId: number
+    portalId: number,
   ): Observable<SubLevel | undefined> {
     const categoryIdStr = categoryId.toString();
     return this.getGames(levelId, portalId).pipe(
-      map((games) => games.find((cat) => cat.id.toString() === categoryIdStr))
+      map((games) => games.find((cat) => cat.id.toString() === categoryIdStr)),
     );
   }
 
@@ -192,7 +192,7 @@ export class GameService {
           }
         }
         return undefined;
-      })
+      }),
     );
   }
 

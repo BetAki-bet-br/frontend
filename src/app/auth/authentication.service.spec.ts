@@ -39,7 +39,7 @@ class MockPlayerService {
   apiPortalV1PlayerLoginPost(
     body?: LoginRequest,
     observe?: 'body',
-    reportProgress?: boolean
+    reportProgress?: boolean,
   ): Observable<LoginResponse> {
     const response: LoginResponse = {
       messages: [],

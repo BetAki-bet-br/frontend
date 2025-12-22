@@ -82,7 +82,7 @@ export class PromotionsTermsAndConditionsComponent implements OnInit {
           this.htmlContent = this._sanitizer.bypassSecurityTrustHtml(
             mustache.render(result, {
               cdnBaseUrl: environment.deployConfig.assetsBaseUrl,
-            })
+            }),
           );
           this.cdr.markForCheck();
         },

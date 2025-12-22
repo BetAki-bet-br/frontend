@@ -116,7 +116,7 @@ export class ProfileInfoHeaderComponent implements OnInit, OnDestroy, AfterViewI
         map((result) => {
           // Filter out expired and non-valid status promotions
           return result.filter((t) => !this.notEligibleForDisplay(t));
-        })
+        }),
       )
       .subscribe((res) => {
         this.notificationsData = res;
@@ -128,7 +128,7 @@ export class ProfileInfoHeaderComponent implements OnInit, OnDestroy, AfterViewI
       this.dataStoreService.balanceVisibilityChange.subscribe((res) => {
         this.balanceVisible = this.dataStoreService.balanceVisible;
         this.cdr.detectChanges();
-      })
+      }),
     );
   }
 

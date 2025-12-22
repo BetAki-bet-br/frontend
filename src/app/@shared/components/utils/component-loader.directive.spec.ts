@@ -21,7 +21,7 @@ export class TestComponent implements OnInit {
   template: `
     <div>Test template component</div>
     @if (displaySecondDiv) {
-    <div></div>
+      <div></div>
     }
   `,
   imports: [],

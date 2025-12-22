@@ -1,40 +1,40 @@
 @if (program) {
-<div class="vip-program-card">
-  <div class="flex vip-program-image justify-center">
-    <img src="{{ 'assets/vip-programs/vip-level-' + program.id + '.png' | cdnize }}" />
-  </div>
-  <div class="flex flex-col items-center vip-program-description">
-    <span class="description-title-the">THE</span>
-    <span class="description-title mb-2">{{ program.name }}</span>
-    <div class="description-points">
-      <span
-        >{{ program.min | number : '1.0-0' : dataStoreService.defaultLanguage
-        }}{{ program.max ? ' - ' + (program.max | number : '1.0-0' : dataStoreService.defaultLanguage) : ' + ' }}</span
-      >
-      <span class="points-title">pts.</span>
+  <div class="vip-program-card">
+    <div class="flex vip-program-image justify-center">
+      <img src="{{ 'assets/vip-programs/vip-level-' + program.id + '.png' | cdnize }}" />
     </div>
-  </div>
-  <div class="flex flex-col vip-program-info">
-    <div class="vip-program-cashback flex flex-wrap justify-between">
-      <span class="flex items-center cashback-type" translate>{{
-        program.prizeAmount ? 'Achievement Prize' : 'Weekly Cashback'
-      }}</span>
-      <div class="flex items-center cashback-container">
-        <span class="cashback-amount">{{
-          program.prizeAmount
-            ? (program.prizeAmount | currency : 'EUR' : '€' : '1.0-2')
-            : (program.percentageAmount | percent : '1.0-2')
-        }}</span>
-        <span class="cashback-wager cashback-multiplication">x</span>
-        <span class="cashback-wager">
-          {{ program.wager }}
-        </span>
+    <div class="flex flex-col items-center vip-program-description">
+      <span class="description-title-the">THE</span>
+      <span class="description-title mb-2">{{ program.name }}</span>
+      <div class="description-points">
+        <span
+          >{{ program.min | number: '1.0-0' : dataStoreService.defaultLanguage
+          }}{{ program.max ? ' - ' + (program.max | number: '1.0-0' : dataStoreService.defaultLanguage) : ' + ' }}</span
+        >
+        <span class="points-title">pts.</span>
       </div>
     </div>
-    <div class="flex items-center">
-      <div class="free-spin-description" translate>Free Spins Achievement Prize</div>
-      <span class="free-spin-prize">+{{ program.freeSpinsPrize }}</span>
+    <div class="flex flex-col vip-program-info">
+      <div class="vip-program-cashback flex flex-wrap justify-between">
+        <span class="flex items-center cashback-type" translate>{{
+          program.prizeAmount ? 'Achievement Prize' : 'Weekly Cashback'
+        }}</span>
+        <div class="flex items-center cashback-container">
+          <span class="cashback-amount">{{
+            program.prizeAmount
+              ? (program.prizeAmount | currency: 'EUR' : '€' : '1.0-2')
+              : (program.percentageAmount | percent: '1.0-2')
+          }}</span>
+          <span class="cashback-wager cashback-multiplication">x</span>
+          <span class="cashback-wager">
+            {{ program.wager }}
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <div class="free-spin-description" translate>Free Spins Achievement Prize</div>
+        <span class="free-spin-prize">+{{ program.freeSpinsPrize }}</span>
+      </div>
     </div>
   </div>
-</div>
 }

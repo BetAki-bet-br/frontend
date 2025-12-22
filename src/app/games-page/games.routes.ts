@@ -116,7 +116,7 @@ export const GAMES_ROUTES: Routes = [
     path: 'live/category/recent',
     loadComponent: () =>
       import('./live-games-list-by-category-page/live-games-list-by-category-page').then(
-        (m) => m.LiveGamesListByCategoryPage
+        (m) => m.LiveGamesListByCategoryPage,
       ),
     title: 'Jogos Recentes - Bet Aki',
     resolve: { category: liveRecentGamesResolver },
@@ -152,7 +152,7 @@ export const GAMES_ROUTES: Routes = [
     path: 'live/category/:id',
     loadComponent: () =>
       import('./live-games-list-by-category-page/live-games-list-by-category-page').then(
-        (m) => m.LiveGamesListByCategoryPage
+        (m) => m.LiveGamesListByCategoryPage,
       ),
     title: 'Cassino ao Vivo por Categoria - Bet Aki',
     resolve: { category: liveCategoryResolver },

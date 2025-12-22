@@ -31,7 +31,7 @@
           <!-- CAF onboarding wizard -->
           <ng-template matStepContent>
             @if (onboardingUrl) {
-            <app-caf-onboarding [onboardingUrl]="onboardingUrl" (onboardingFinished)="onOnboardingFinished($event)" />
+              <app-caf-onboarding [onboardingUrl]="onboardingUrl" (onboardingFinished)="onOnboardingFinished($event)" />
             }
           </ng-template>
         </mat-step>

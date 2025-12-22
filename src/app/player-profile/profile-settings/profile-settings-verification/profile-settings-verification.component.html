@@ -1,36 +1,37 @@
 <div class="flex flex-col gap-4 mt-8">
   @if (uploadedDocuments && uploadedDocuments.length > 0) {
-  <div class="section-wrapper">
-    <div class="flex items-center section-header">
-      <h2 translate>Documents</h2>
-    </div>
-    <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
-      @for (document of uploadedDocuments; track document) {
-      <div class="flex items-center justify-between gap-3 documents-container">
-        <mat-icon class="file-icon">description</mat-icon>
-        <span class="document-name">{{ document.name }}</span>
-        <div class="icon-container">
-          @if (document.approvalStatus === 'Approved') {
-          <div
-            matTooltip="{{ (document.approvalStatus ? document.approvalStatus : 'Approved') | translate }}"
-            #tooltip="matTooltip"
-            (click)="tooltip.toggle()"
-            class="info-tooltip font-icons font-icons--check"
-          ></div>
-          } @if (document.approvalStatus === 'Unapproved' || document.approvalStatus === 'Partial') {
-          <mat-icon
-            matTooltip="{{ (document.approvalStatus ? document.approvalStatus : 'Unapproved') | translate }}"
-            #tooltip="matTooltip"
-            (click)="tooltip.toggle()"
-            class="info-tooltip history-icon"
-            >schedule</mat-icon
-          >
-          }
-        </div>
+    <div class="section-wrapper">
+      <div class="flex items-center section-header">
+        <h2 translate>Documents</h2>
       </div>
-      }
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+        @for (document of uploadedDocuments; track document) {
+          <div class="flex items-center justify-between gap-3 documents-container">
+            <mat-icon class="file-icon">description</mat-icon>
+            <span class="document-name">{{ document.name }}</span>
+            <div class="icon-container">
+              @if (document.approvalStatus === 'Approved') {
+                <div
+                  matTooltip="{{ (document.approvalStatus ? document.approvalStatus : 'Approved') | translate }}"
+                  #tooltip="matTooltip"
+                  (click)="tooltip.toggle()"
+                  class="info-tooltip font-icons font-icons--check"
+                ></div>
+              }
+              @if (document.approvalStatus === 'Unapproved' || document.approvalStatus === 'Partial') {
+                <mat-icon
+                  matTooltip="{{ (document.approvalStatus ? document.approvalStatus : 'Unapproved') | translate }}"
+                  #tooltip="matTooltip"
+                  (click)="tooltip.toggle()"
+                  class="info-tooltip history-icon"
+                  >schedule</mat-icon
+                >
+              }
+            </div>
+          </div>
+        }
+      </div>
     </div>
-  </div>
   }
 
   <div class="section-wrapper">
@@ -116,104 +117,115 @@
     </div>
 
     @if (playerInfo?.mobilePhone) {
-    <div class="flex flex-col gap-6 mt-6">
-      <div class="flex gap-6 phone-number-container mx-4">
-        <span>{{ playerInfo?.mobilePhone }}</span>
-        <div class="flex gap-2.5 icon-container">
-          @if (phoneVerificationStatus === 'Verified') {
-          <div
-            matTooltip="{{ (phoneVerificationStatus ? phoneVerificationStatus : 'Verified') | translate }}"
-            #tooltip="matTooltip"
-            (click)="tooltip.toggle()"
-            class="info-tooltip font-icons font-icons--check"
-          ></div>
-          } @if (phoneVerificationStatus === 'Not Verified') {
-          <mat-icon
-            matTooltip="{{ (phoneVerificationStatus ? phoneVerificationStatus : 'Not Verified') | translate }}"
-            #tooltip="matTooltip"
-            (click)="tooltip.toggle()"
-            class="info-tooltip history-icon"
-            >schedule</mat-icon
-          >
-          } @if (phoneVerificationStatus === 'Not Verified') {
-          <div (click)="onDeleteNumber()" class="delete-icon font-icons font-icons--close"></div>
-          }
+      <div class="flex flex-col gap-6 mt-6">
+        <div class="flex gap-6 phone-number-container mx-4">
+          <span>{{ playerInfo?.mobilePhone }}</span>
+          <div class="flex gap-2.5 icon-container">
+            @if (phoneVerificationStatus === 'Verified') {
+              <div
+                matTooltip="{{ (phoneVerificationStatus ? phoneVerificationStatus : 'Verified') | translate }}"
+                #tooltip="matTooltip"
+                (click)="tooltip.toggle()"
+                class="info-tooltip font-icons font-icons--check"
+              ></div>
+            }
+            @if (phoneVerificationStatus === 'Not Verified') {
+              <mat-icon
+                matTooltip="{{ (phoneVerificationStatus ? phoneVerificationStatus : 'Not Verified') | translate }}"
+                #tooltip="matTooltip"
+                (click)="tooltip.toggle()"
+                class="info-tooltip history-icon"
+                >schedule</mat-icon
+              >
+            }
+            @if (phoneVerificationStatus === 'Not Verified') {
+              <div (click)="onDeleteNumber()" class="delete-icon font-icons font-icons--close"></div>
+            }
+          </div>
+        </div>
+        <div>
+          <span translate class="contact-span">Please, contact support to verify your phone number</span>
         </div>
       </div>
-      <div>
-        <span translate class="contact-span">Please, contact support to verify your phone number</span>
-      </div>
-    </div>
-    } @if (!playerInfo?.mobilePhone) {
-    <form class="flex phone-verification-wrapper" [formGroup]="phoneVerificationForm">
-      <div class="flex flex-col country-code">
-        <mat-form-field
-          appearance="outline"
-          class="form-input-secondary relative flex flex-col"
-          subscriptSizing="dynamic"
-        >
-          <mat-select placeholder="Select" formControlName="countryCode">
-            <!-- formControlName="countryCode" -->
-            @for (country of countriesCode; track country) {
-            <mat-option [value]="country">
-              <div class="flex items-center gap-3">
+    }
+    @if (!playerInfo?.mobilePhone) {
+      <form class="flex phone-verification-wrapper" [formGroup]="phoneVerificationForm">
+        <div class="flex flex-col country-code">
+          <mat-form-field
+            appearance="outline"
+            class="form-input-secondary relative flex flex-col"
+            subscriptSizing="dynamic"
+          >
+            <mat-select placeholder="Select" formControlName="countryCode">
+              <!-- formControlName="countryCode" -->
+              @for (country of countriesCode; track country) {
+                <mat-option [value]="country">
+                  <div class="flex items-center gap-3">
+                    <img
+                      height="20"
+                      width="28"
+                      alt="{{ country.code }}"
+                      src="{{ 'assets/general/countries/' + (country.code | lowercase) + '.svg' | cdnize }}"
+                    />
+                    <div>{{ country.dial_code }}</div>
+                  </div>
+                </mat-option>
+              }
+            </mat-select>
+            @if (countryCodeControl.value?.code) {
+              <div class="flag">
                 <img
-                  height="20"
-                  width="28"
-                  alt="{{ country.code }}"
-                  src="{{ 'assets/general/countries/' + (country.code | lowercase) + '.svg' | cdnize }}"
+                  alt="flag"
+                  src="{{
+                    'assets/general/countries/' + (countryCodeControl.value?.code | lowercase) + '.svg' | cdnize
+                  }}"
                 />
-                <div>{{ country.dial_code }}</div>
               </div>
-            </mat-option>
             }
-          </mat-select>
-          @if (countryCodeControl.value?.code) {
-          <div class="flag">
-            <img
-              alt="flag"
-              src="{{ 'assets/general/countries/' + (countryCodeControl.value?.code | lowercase) + '.svg' | cdnize }}"
+            @if (countryCodeControl.hasError('required') && countryCodeControl.touched) {
+              <ng-container>
+                <mat-error class="error-msg" translate> can't be blank </mat-error>
+              </ng-container>
+            }
+          </mat-form-field>
+        </div>
+        <div class="flex-col phone-number">
+          <mat-form-field
+            appearance="outline"
+            class="form-input-secondary flex-col error-border"
+            subscriptSizing="dynamic"
+          >
+            <input
+              matInput
+              type="tel"
+              formControlName="phoneNumber"
+              class="phone-number-input"
+              name="phone"
+              placeholder="Add"
+              (keydown)="validateNumber($event)"
             />
-          </div>
-          } @if (countryCodeControl.hasError('required') && countryCodeControl.touched) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank </mat-error>
-          </ng-container>
-          }
-        </mat-form-field>
-      </div>
-      <div class="flex-col phone-number">
-        <mat-form-field
-          appearance="outline"
-          class="form-input-secondary flex-col error-border"
-          subscriptSizing="dynamic"
-        >
-          <input
-            matInput
-            type="tel"
-            formControlName="phoneNumber"
-            class="phone-number-input"
-            name="phone"
-            placeholder="Add"
-            (keydown)="validateNumber($event)"
-          />
-          @if ( phoneVerificationForm.controls.phoneNumber.hasError('required') &&
-          phoneVerificationForm.controls.phoneNumber.touched ) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank </mat-error>
-          </ng-container>
-          } @if ( phoneVerificationForm.controls.phoneNumber.hasError('pattern') ||
-          phoneVerificationForm.controls.phoneNumber.hasError('minlength') ||
-          (phoneVerificationForm.controls.phoneNumber.hasError('maxlength') &&
-          phoneVerificationForm.controls.phoneNumber.touched) ) {
-          <ng-container>
-            <mat-error class="error-msg" translate> Invalid phone number </mat-error>
-          </ng-container>
-          }
-        </mat-form-field>
-      </div>
-      <button mat-button class="verify-button" (click)="onAddNumber()" translate>verify</button>
-    </form>
+            @if (
+              phoneVerificationForm.controls.phoneNumber.hasError('required') &&
+              phoneVerificationForm.controls.phoneNumber.touched
+            ) {
+              <ng-container>
+                <mat-error class="error-msg" translate> can't be blank </mat-error>
+              </ng-container>
+            }
+            @if (
+              phoneVerificationForm.controls.phoneNumber.hasError('pattern') ||
+              phoneVerificationForm.controls.phoneNumber.hasError('minlength') ||
+              (phoneVerificationForm.controls.phoneNumber.hasError('maxlength') &&
+                phoneVerificationForm.controls.phoneNumber.touched)
+            ) {
+              <ng-container>
+                <mat-error class="error-msg" translate> Invalid phone number </mat-error>
+              </ng-container>
+            }
+          </mat-form-field>
+        </div>
+        <button mat-button class="verify-button" (click)="onAddNumber()" translate>verify</button>
+      </form>
     }
   </div>
 </div>

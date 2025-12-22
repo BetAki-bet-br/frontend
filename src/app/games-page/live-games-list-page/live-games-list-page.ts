@@ -87,7 +87,7 @@ export class LiveGamesListPage {
         this.gameService
           .getRecentGames(20, this.portalService.portalId)
           .pipe(map((games) => games.map((g) => g.gameExternalId))),
-        { initialValue: [] }
+        { initialValue: [] },
       )
     : signal([]);
 
@@ -165,7 +165,7 @@ export class LiveGamesListPage {
               id: subLevel.id,
               type: 'game-list',
               data: subLevel,
-            } as PageSection)
+            }) as PageSection,
         );
     }
 

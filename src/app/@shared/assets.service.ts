@@ -55,7 +55,7 @@ export class AssetsService {
 
   getGameBackgroundImageUrl(externalGameId: string): string {
     return this.cdnizeUrl(
-      `assets/gamebackgrounds/${this.langCode}/${externalGameId}.${this.gameBackgroundImageFormat}`
+      `assets/gamebackgrounds/${this.langCode}/${externalGameId}.${this.gameBackgroundImageFormat}`,
     );
   }
 

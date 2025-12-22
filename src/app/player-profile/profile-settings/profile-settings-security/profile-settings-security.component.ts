@@ -250,7 +250,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
 
         // Update the currentySelectedStatus array
         this.currentySelectedStatus = this.filterForm.get('status')?.value ?? [];
-      })
+      }),
     );
   }
 
@@ -264,7 +264,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
         takeUntil(subject.asObservable()),
         tap((val) => {
           return val;
-        })
+        }),
       )
       .pipe(
         switchMap((intervalIndex: number) => {
@@ -275,16 +275,16 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
             map((sessionHistoryData: SessionHistory[]) => {
               if (sessionHistoryData && sessionHistoryData !== null && sessionHistoryData.length > 0) {
                 const newActiveCount: number = sessionHistoryData.filter(
-                  (sh) => sh.status === LogonSessionStatusEnum.Active
+                  (sh) => sh.status === LogonSessionStatusEnum.Active,
                 )?.length;
                 if (activeCount !== newActiveCount) {
                   subject.next('success');
                 }
               }
               return sessionHistoryData;
-            })
+            }),
           );
-        })
+        }),
       );
 
     this.subscription.add(
@@ -296,10 +296,10 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
             this.snackbarService.openCustomSuccess(
               this.translateService.instant('Session terminated successfully'),
               'center',
-              'top'
+              'top',
             );
           }),
-          switchMap((y) => intervalInstance)
+          switchMap((y) => intervalInstance),
         )
         .subscribe({
           next: (data: SessionHistory[]) => {
@@ -313,10 +313,10 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
             this.snackbarService.openCustomError(
               this.translateService.instant('Failed to terminate session'),
               'center',
-              'top'
+              'top',
             );
           },
-        })
+        }),
     );
   }
 
@@ -340,7 +340,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
             };
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,
-              faceAuthParams
+              faceAuthParams,
             );
           }
 
@@ -352,17 +352,17 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
               this.translateService.instant('Your account has been closed.'),
               'center',
               'top',
-              4000
+              4000,
             );
             return this.authenticationService.logout(false).pipe(
               tap(() => {
                 this.router.navigate(['/'], { replaceUrl: true });
-              })
+              }),
             );
           }
 
           return of(null);
-        })
+        }),
       )
       .subscribe();
   }
@@ -373,14 +373,14 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
         this.snackbarService.openCustomSuccess(
           this.translateService.instant('Annual income report successfully requested'),
           'center',
-          'top'
+          'top',
         );
       },
       error: () => {
         this.snackbarService.openCustomError(
           this.translateService.instant('Failed to request annual income report'),
           'center',
-          'top'
+          'top',
         );
       },
     });
@@ -408,7 +408,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
             else {
               const selectedStatusLabels = (this.filterForm.controls.status.value ?? []).map((s) => s.label);
               this.sessionHistoryData = sessionHistory.filter((item) =>
-                selectedStatusLabels.includes(item.status || '')
+                selectedStatusLabels.includes(item.status || ''),
               );
             }
             this.cdr.detectChanges();
@@ -418,7 +418,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
           this.updatePagedData();
         },
         error: (err) => {},
-      })
+      }),
     );
   }
 

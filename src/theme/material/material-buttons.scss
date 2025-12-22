@@ -196,7 +196,10 @@
         vars.$app-custom-colors,
         Betaki_success
       ); // map.get(vars.$app-custom-colors, "Betaki_error");
-      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+      transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease;
     }
 
     &.secondary {
@@ -206,7 +209,10 @@
           vars.$app-custom-colors,
           neutral-white
         ); // map.get(vars.$app-custom-colors, "Betaki_error");
-        transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        transition:
+          background-color 0.3s ease,
+          border-color 0.3s ease,
+          color 0.3s ease;
       }
     }
 

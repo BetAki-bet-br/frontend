@@ -7,16 +7,16 @@
 >
   <div dialogContent>
     @if (data) {
-    <div class="mb-8 flex text-center" [innerHTML]="sanitizedContent"></div>
+      <div class="mb-8 flex text-center" [innerHTML]="sanitizedContent"></div>
     }
   </div>
 
   <ng-container dialogButtons>
     <div class="flex gap-4">
       @for (action of data.actions; track action) {
-      <button mat-button class="button-text-small label-dark flex-grow" (click)="confirm(action.id ?? null)">
-        <span translate>{{ action.name }}</span>
-      </button>
+        <button mat-button class="button-text-small label-dark flex-grow" (click)="confirm(action.id ?? null)">
+          <span translate>{{ action.name }}</span>
+        </button>
       }
     </div>
   </ng-container>

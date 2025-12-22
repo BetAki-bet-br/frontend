@@ -28,7 +28,7 @@ export class LegitimuzScriptLoaderService {
    */
   public ocrSdkLoaded$: Observable<boolean> = this.state.asObservable().pipe(
     map((s) => s.ocrLoaded),
-    filter((loaded) => loaded === true)
+    filter((loaded) => loaded === true),
   );
 
   /**
@@ -36,7 +36,7 @@ export class LegitimuzScriptLoaderService {
    */
   public geolocSdkLoaded$: Observable<boolean> = this.state.asObservable().pipe(
     map((s) => s.geolocLoaded),
-    filter((loaded) => loaded === true)
+    filter((loaded) => loaded === true),
   );
 
   /**
@@ -44,7 +44,7 @@ export class LegitimuzScriptLoaderService {
    */
   public faceindexSdkLoaded$: Observable<boolean> = this.state.asObservable().pipe(
     map((s) => s.faceindexLoaded),
-    filter((loaded) => loaded === true)
+    filter((loaded) => loaded === true),
   );
 
   constructor() {

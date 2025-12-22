@@ -53,7 +53,7 @@ export class CasinoWinsComponent implements OnInit {
     this.tableColumnsMobile = getMobileTableColumns(
       this.gameUsernameTemplate,
       this.betAmountMultiplierTemplate,
-      this.currencyTemplate
+      this.currencyTemplate,
     );
 
     this.credentialService.isAuthenticated$
@@ -62,7 +62,7 @@ export class CasinoWinsComponent implements OnInit {
         filter((isAuth) => isAuth === true),
         switchMap(() => {
           return this.configurationService.getPlayerInfo();
-        })
+        }),
       )
       .subscribe((playerInfo) => {
         this.playerCurrency = playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency;

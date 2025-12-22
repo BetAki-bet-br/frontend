@@ -1,31 +1,34 @@
 <div class="main-banner-container">
   @if ((bannersSmall?.length ?? 0) > 1 || (bannersLarge?.length ?? 0) > 1) {
-  <div class="multiple-banners-container" appDragScroll>
-    @if (bannersSmall!.length > 1) {
-    <ng-container>
-      @for (bannerItem of bannersSmall; track bannerItem) {
-      <div class="banner-slide flex-hide--gt-sm-1">
-        <div [innerHTML]="bannerItem?.templateHtml"></div>
-      </div>
+    <div class="multiple-banners-container" appDragScroll>
+      @if (bannersSmall!.length > 1) {
+        <ng-container>
+          @for (bannerItem of bannersSmall; track bannerItem) {
+            <div class="banner-slide flex-hide--gt-sm-1">
+              <div [innerHTML]="bannerItem?.templateHtml"></div>
+            </div>
+          }
+        </ng-container>
       }
-    </ng-container>
-    } @if (bannersLarge!.length > 1) {
-    <ng-container>
-      @for (bannerItem of bannersLarge; track bannerItem) {
-      <div class="banner-slide flex-hide--lt-sm-2">
-        <div [innerHTML]="bannerItem?.templateHtml"></div>
-      </div>
+      @if (bannersLarge!.length > 1) {
+        <ng-container>
+          @for (bannerItem of bannersLarge; track bannerItem) {
+            <div class="banner-slide flex-hide--lt-sm-2">
+              <div [innerHTML]="bannerItem?.templateHtml"></div>
+            </div>
+          }
+        </ng-container>
       }
-    </ng-container>
-    }
-  </div>
-  } @if (bannersSmall?.length === 1) {
-  <div class="single-main-banner flex-hide--gt-sm-1">
-    <div [innerHTML]="bannersSmall?.[0]?.templateHtml"></div>
-  </div>
-  } @if (bannersLarge?.length === 1) {
-  <div class="single-main-banner flex-hide--lt-sm-2">
-    <div [innerHTML]="bannersLarge?.[0]?.templateHtml"></div>
-  </div>
+    </div>
+  }
+  @if (bannersSmall?.length === 1) {
+    <div class="single-main-banner flex-hide--gt-sm-1">
+      <div [innerHTML]="bannersSmall?.[0]?.templateHtml"></div>
+    </div>
+  }
+  @if (bannersLarge?.length === 1) {
+    <div class="single-main-banner flex-hide--lt-sm-2">
+      <div [innerHTML]="bannersLarge?.[0]?.templateHtml"></div>
+    </div>
   }
 </div>

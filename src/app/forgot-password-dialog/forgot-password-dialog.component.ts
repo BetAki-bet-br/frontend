@@ -74,7 +74,7 @@ export class ForgotPasswordDialogComponent {
         finalize(() => {
           this.isDataLoading = false;
           this.cdr.markForCheck();
-        })
+        }),
       )
       .subscribe({
         next: (response) => {

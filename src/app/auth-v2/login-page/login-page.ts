@@ -167,7 +167,7 @@ export class LoginPage implements OnInit, OnDestroy {
                     faceAuthUrl: credentialsReverificationURL,
                     faceAuthUrlQR: credentialsReverificationURLQR,
                   },
-                  { updatedTCActionId, redirectToSportsbook: true }
+                  { updatedTCActionId, redirectToSportsbook: true },
                 );
               }
 
@@ -187,7 +187,7 @@ export class LoginPage implements OnInit, OnDestroy {
                   return this.authDialogService.initAccountVerificationWithParams(
                     AccountVerificationActionEnum.Login,
                     faceAuthParams,
-                    { updatedTCActionId, redirectToSportsbook: true }
+                    { updatedTCActionId, redirectToSportsbook: true },
                   );
                 }
                 // No facial auth required
@@ -210,7 +210,7 @@ export class LoginPage implements OnInit, OnDestroy {
           finalize(() => {
             this.submitLoading.set(false);
             this.cdr.markForCheck();
-          })
+          }),
         )
         .subscribe({
           next: (res) => {
@@ -279,7 +279,7 @@ export class LoginPage implements OnInit, OnDestroy {
             //   return;
             // }
           },
-        })
+        }),
     );
   }
 

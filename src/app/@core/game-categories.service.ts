@@ -210,7 +210,7 @@ export class GameCategoriesService {
     const isDesktopPortal = this.dataStoreService.defaultPortalId === environment.deployConfig.desktopPortalId;
     return (
       (isDesktopPortal ? this.desktopGameCategoriesTranslations[id] : this.mobileGameCategoriesTranslations[id])?.find(
-        (value) => value.language === languageCode
+        (value) => value.language === languageCode,
       )?.translation ?? null
     );
   }
@@ -230,7 +230,7 @@ export class GameCategoriesService {
         }
 
         return this.getGameCategoriesFromApi();
-      })
+      }),
     );
   }
 
@@ -239,19 +239,19 @@ export class GameCategoriesService {
 
     return forkJoin({
       desktopCategories: this.prodGameService.apiPortalV1ProdGameGameCategoriesPortalIdGet(
-        this.dataStoreService.desktopPortalId
+        this.dataStoreService.desktopPortalId,
       ),
       mobileCategories: this.prodGameService.apiPortalV1ProdGameGameCategoriesPortalIdGet(
-        this.dataStoreService.mobilePortalId
+        this.dataStoreService.mobilePortalId,
       ),
       categoryOrder: this.http
-        .get<{ [key: string]: { [key: string]: string[] } }>(
-          this.assetsService.cdnizeUrl('categories/category-order.json')
-        )
+        .get<{
+          [key: string]: { [key: string]: string[] };
+        }>(this.assetsService.cdnizeUrl('categories/category-order.json'))
         .pipe(
           catchError((err) => {
             return of(null);
-          })
+          }),
         ),
     }).pipe(
       map((result) => {
@@ -268,66 +268,66 @@ export class GameCategoriesService {
           this.sortCategoriesByOrder(
             result.desktopCategories.gameCategoryList,
             GameCategoryLobbyEnum.Lobby,
-            result.categoryOrder?.[this.dataStoreService.defaultPortalId]
+            result.categoryOrder?.[this.dataStoreService.defaultPortalId],
           );
 
           this.sortCategoriesByOrder(
             result.desktopCategories.gameCategoryList,
             GameCategoryLobbyEnum['Lobby live'],
-            result.categoryOrder?.[this.dataStoreService.defaultPortalId]
+            result.categoryOrder?.[this.dataStoreService.defaultPortalId],
           );
 
           // Mobile categories
           this.sortCategoriesByOrder(
             result.mobileCategories.gameCategoryList,
             GameCategoryLobbyEnum.Lobby,
-            result.categoryOrder?.[this.dataStoreService.defaultPortalId]
+            result.categoryOrder?.[this.dataStoreService.defaultPortalId],
           );
 
           this.sortCategoriesByOrder(
             result.mobileCategories.gameCategoryList,
             GameCategoryLobbyEnum['Lobby live'],
-            result.categoryOrder?.[this.dataStoreService.defaultPortalId]
+            result.categoryOrder?.[this.dataStoreService.defaultPortalId],
           );
         }
 
         // GET MOBILE AND DESKTOP LOBBY CATEGORY
         const desktopLobby = result.desktopCategories.gameCategoryList?.find(
-          (category) => category.name === GameCategoryLobbyEnum.Lobby
+          (category) => category.name === GameCategoryLobbyEnum.Lobby,
         );
         const mobileLobby = result.mobileCategories.gameCategoryList?.find(
-          (category) => category.name === GameCategoryLobbyEnum.Lobby
+          (category) => category.name === GameCategoryLobbyEnum.Lobby,
         );
 
         // GET MOBILE AND DESKTOP LIVE LOBBY CATEGORY
         const desktopLobbyLive = result.desktopCategories.gameCategoryList?.find(
-          (category) => category.name === GameCategoryLobbyEnum['Lobby live']
+          (category) => category.name === GameCategoryLobbyEnum['Lobby live'],
         );
         const mobileLobbyLive = result.mobileCategories.gameCategoryList?.find(
-          (category) => category.name === GameCategoryLobbyEnum['Lobby live']
+          (category) => category.name === GameCategoryLobbyEnum['Lobby live'],
         );
 
         // GET MOBILE AND DESKTOP ALL GAMES CATEGORY
         const desktopAllGames = result.desktopCategories.gameCategoryList?.find(
-          (category) => category.name === 'All Games'
+          (category) => category.name === 'All Games',
         );
         const mobileAllGames = result.mobileCategories.gameCategoryList?.find(
-          (category) => category.name === 'All Games'
+          (category) => category.name === 'All Games',
         );
 
         // GET MOBILE AND DESKTOP PROVIDER GAMES CATEGORY
         const desktopProviderGames = result.desktopCategories.gameCategoryList?.find(
-          (category) => category.name === ProvidersLobbyEnum.Lobby
+          (category) => category.name === ProvidersLobbyEnum.Lobby,
         );
         const mobileProviderGames = result.mobileCategories.gameCategoryList?.find(
-          (category) => category.name === ProvidersLobbyEnum.Lobby
+          (category) => category.name === ProvidersLobbyEnum.Lobby,
         );
 
         const desktopLiveProviderGames = result.desktopCategories.gameCategoryList?.find(
-          (category) => category.name === ProvidersLobbyEnum['Lobby live']
+          (category) => category.name === ProvidersLobbyEnum['Lobby live'],
         );
         const mobileLiveProviderGames = result.mobileCategories.gameCategoryList?.find(
-          (category) => category.name === ProvidersLobbyEnum['Lobby live']
+          (category) => category.name === ProvidersLobbyEnum['Lobby live'],
         );
 
         this.lobbySubcategories = {
@@ -460,14 +460,14 @@ export class GameCategoriesService {
       }),
       finalize(() => {
         this.cacheIsPending$.next(false);
-      })
+      }),
     );
   }
 
   private sortCategoriesByOrder(
     categories: GameCategory[] | null | undefined,
     categoryType: string,
-    categoryOrder: { [key: string]: string[] }
+    categoryOrder: { [key: string]: string[] },
   ): GameCategory[] {
     const orderArray = categoryOrder?.[categoryType];
     if (!orderArray) return categories ?? [];

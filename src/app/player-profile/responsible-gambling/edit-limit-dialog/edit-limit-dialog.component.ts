@@ -126,7 +126,7 @@ export class EditLimitDialogComponent implements OnInit {
           finalize(() => {
             this.isDataLoading = false;
             this.cdr.markForCheck();
-          })
+          }),
         )
         .subscribe({
           next: (response) => {
@@ -135,7 +135,7 @@ export class EditLimitDialogComponent implements OnInit {
             this.snackbarService.openCustomSuccess(
               this.translateService.instant('Limit deleted successfully'),
               'center',
-              'top'
+              'top',
             );
 
             const result: EditLimitDialogResult = {
@@ -149,7 +149,7 @@ export class EditLimitDialogComponent implements OnInit {
             this.snackbarService.openCustomError(
               this.translateService.instant('Error deleting limit'),
               'center',
-              'top'
+              'top',
             );
 
             const responseError = (error as HttpErrorResponse).error as PortalGatewayErrorResponse;
@@ -159,7 +159,7 @@ export class EditLimitDialogComponent implements OnInit {
               this.error = marker('Error deleting limit');
             }
           },
-        })
+        }),
     );
   }
 
@@ -178,7 +178,7 @@ export class EditLimitDialogComponent implements OnInit {
           finalize(() => {
             this.isDataLoading = false;
             this.cdr.markForCheck();
-          })
+          }),
         )
         .subscribe({
           next: (response) => {
@@ -187,7 +187,7 @@ export class EditLimitDialogComponent implements OnInit {
             this.snackbarService.openCustomSuccess(
               this.translateService.instant('Limit set successfully'),
               'center',
-              'top'
+              'top',
             );
 
             const result: EditLimitDialogResult = {
@@ -208,7 +208,7 @@ export class EditLimitDialogComponent implements OnInit {
               this.error = marker('Error setting limit');
             }
           },
-        })
+        }),
     );
   }
 }

@@ -54,11 +54,11 @@ export class ResendConfirmationInstructionsComponent implements OnInit {
             this.router.navigate(['/'], { replaceUrl: true });
             this.snackbarService.openCustomSuccess(
               this.translate.instant(
-                'You will receive an email with instructions on how to confirm your email address in a few minutes.'
+                'You will receive an email with instructions on how to confirm your email address in a few minutes.',
               ),
               'center',
               'top',
-              0
+              0,
             );
           },
           error: (error) => {

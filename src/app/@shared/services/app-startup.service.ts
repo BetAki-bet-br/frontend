@@ -92,7 +92,7 @@ export class AppStartupService {
           return route;
         }),
         filter((route) => route.outlet === 'primary'),
-        switchMap((route) => route.data)
+        switchMap((route) => route.data),
       )
       .subscribe((event) => {
         const title = event['title'];
@@ -162,12 +162,12 @@ export class AppStartupService {
     this.legitimuzScriptLoaderService.geolocSdkLoaded$
       .pipe(
         filter((loaded) => loaded),
-        take(1)
+        take(1),
       )
       .subscribe(() => {
         this.legitimuzGeolocationService.initialize(
           LegitimuzGeolocationAction.Check,
-          environment.deployConfig.legitimuzSDKToken
+          environment.deployConfig.legitimuzSDKToken,
         );
         log.debug('Legitimuz Geolocation initialized after SDK loaded');
         this.startGeolocationCheck();
@@ -234,7 +234,7 @@ export class AppStartupService {
             return this.authService.openTermsAndConditionsDialog(Number(localStorage.getItem('T&C_ActionId')));
           }
           return of(null);
-        })
+        }),
       )
       .subscribe();
   }

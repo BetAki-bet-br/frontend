@@ -136,7 +136,7 @@ export class RegisterPageFormComponent implements OnInit {
           UsernameOrEmailTakenValidator.usernameOrEmailTakenValidator(
             this.playerService,
             this.dataStoreService,
-            'Email'
+            'Email',
           ),
         ],
       }),
@@ -147,7 +147,7 @@ export class RegisterPageFormComponent implements OnInit {
       dateOfBirth: new FormControl('', Validators.required),
       passwordConfirmation: new FormControl('', Validators.required),
     },
-    [MatchValidator('password', 'passwordConfirmation')]
+    [MatchValidator('password', 'passwordConfirmation')],
   );
 
   // export to template

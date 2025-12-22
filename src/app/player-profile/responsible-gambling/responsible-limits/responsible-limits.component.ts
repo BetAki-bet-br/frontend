@@ -103,28 +103,28 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
       type: LimitTypeEnum.Deposit,
       title: marker('Deposit limits'),
       description: marker(
-        'Set a maximum amount you can deposit in a chosen time period. Period limitations can be set to 24 hours, 7 days, or 30 consecutive days. Once you reach the specified limit, you will not be able to add any more funds until the set time period has ended. If you reduce the limit, the change will take effect immediately. If you choose to increase the limit, the change will take effect 24 hours after the change.'
+        'Set a maximum amount you can deposit in a chosen time period. Period limitations can be set to 24 hours, 7 days, or 30 consecutive days. Once you reach the specified limit, you will not be able to add any more funds until the set time period has ended. If you reduce the limit, the change will take effect immediately. If you choose to increase the limit, the change will take effect 24 hours after the change.',
       ),
     },
     {
       type: LimitTypeEnum.TotalWager,
       title: marker('Betting limits'),
       description: marker(
-        'Set a maximum amount you can bet in a chosen time period. Period limitations can be set to 24 hours, 7 days or 30 consecutive days. Once you reach the specified limit, you will not be able to place any new bets until the set time has elapsed. If you reduce the limit, the change will be applied immediately. If you choose to increase the limit, the change will take effect 24 hours after the change.'
+        'Set a maximum amount you can bet in a chosen time period. Period limitations can be set to 24 hours, 7 days or 30 consecutive days. Once you reach the specified limit, you will not be able to place any new bets until the set time has elapsed. If you reduce the limit, the change will be applied immediately. If you choose to increase the limit, the change will take effect 24 hours after the change.',
       ),
     },
     {
       type: LimitTypeEnum.TotalLost,
       title: marker('Loss limits'),
       description: marker(
-        'Set a maximum amount you are willing to lose in a chosen period of time. Period limitations can be set to 24 hours, 7 days or 30 consecutive days. Once you reach the loss limit, you will not be able to continue playing until the set time has elapsed. If you reduce the limit, the change will take effect immediately. If you choose to increase the limit, the change will take effect 24 hours after the change.'
+        'Set a maximum amount you are willing to lose in a chosen period of time. Period limitations can be set to 24 hours, 7 days or 30 consecutive days. Once you reach the loss limit, you will not be able to continue playing until the set time has elapsed. If you reduce the limit, the change will take effect immediately. If you choose to increase the limit, the change will take effect 24 hours after the change.',
       ),
     },
     {
       type: LimitTypeEnum.SiteSessionDuration,
       title: marker('Time limits'),
       description: marker(
-        'Set a time limit for how long you can play per session. Once you reach the set time, you will be automatically logged out and will only be able to play again after the time limit has ended or when you start a new session. If you reduce the limit, the change will take effect immediately. If you decide to increase the time, the change will take effect 24 hours later.'
+        'Set a time limit for how long you can play per session. Once you reach the set time, you will be automatically logged out and will only be able to play again after the time limit has ended or when you start a new session. If you reduce the limit, the change will take effect immediately. If you decide to increase the time, the change will take effect 24 hours later.',
       ),
     },
   ];
@@ -279,7 +279,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
           finalize(() => {
             this.isDataLoading = false;
             this.cdr.markForCheck();
-          })
+          }),
         )
         .subscribe({
           next: (response) => {
@@ -299,7 +299,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
 
             this.snackbarService.openCustomError(this.translate.instant('Error setting limit'), 'center', 'top');
           },
-        })
+        }),
     );
 
     setTimeout(() => {
@@ -339,7 +339,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
 
   private resolveCurrency(item: PlayerLimit): string {
     const isDurationType = [LimitTypeEnum.SiteSessionDuration, LimitTypeEnum.GameSessionDuration].includes(
-      item.limitType as any
+      item.limitType as any,
     );
 
     return isDurationType ? this.translate.instant('hours') : this.currencyCode;
@@ -366,7 +366,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
     if (amountValue === 'No limit') return '';
 
     const isDurationType = [LimitTypeEnum.SiteSessionDuration, LimitTypeEnum.GameSessionDuration].includes(
-      item.limitType as any
+      item.limitType as any,
     );
 
     return isDurationType ? this.formatDurationLimit(item) : this.formatCurrencyLimit(item);
@@ -388,7 +388,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
     if (item.limitStatus === LimitStatusEnum.Pending) return `${duration} ${this.translate.instant('hours')}`;
 
     return `${duration} ${this.translate.instant('of')} ${item.amountValue} ${this.translate.instant(
-      'hours left'
+      'hours left',
     )}`.trim();
   }
 

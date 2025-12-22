@@ -50,9 +50,9 @@ export class CategoryCardComponent implements OnInit, OnDestroy {
           map((change) => {
             this.isMobile = change.matches;
             this.cdr.markForCheck();
-          })
+          }),
         )
-        .subscribe()
+        .subscribe(),
     );
   }
 }

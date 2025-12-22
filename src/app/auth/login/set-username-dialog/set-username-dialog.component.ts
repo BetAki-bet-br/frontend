@@ -78,7 +78,7 @@ export class SetUsernameDialogComponent implements OnInit {
         UsernameOrEmailTakenValidator.usernameOrEmailTakenValidator(
           this.playerService,
           this.dataStoreService,
-          'Username'
+          'Username',
         ),
       ],
     }),
@@ -137,7 +137,7 @@ export class SetUsernameDialogComponent implements OnInit {
         takeUntilDestroyed(this.destroyRef),
         finalize(() => {
           this.isDataLoading = false;
-        })
+        }),
       )
       .subscribe({
         next: ({ credentials, loginFaceAuth }) => {
@@ -184,9 +184,9 @@ export class SetUsernameDialogComponent implements OnInit {
               } else {
                 return null;
               }
-            })
-          )
-      )
+            }),
+          ),
+      ),
     );
   };
 }

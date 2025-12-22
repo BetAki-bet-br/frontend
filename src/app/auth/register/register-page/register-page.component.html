@@ -19,9 +19,10 @@
   (registerClick)="currentPage = 'form'"
 ></app-register-page-init> -->
   @if (currentPage === 'form') {
-  <app-register-page-form (registerSuccessful)="onSuccessRegister($event)" />
-  } @if (currentPage === 'success') {
-  <app-register-page-success (verify)="onVerify()" />
+    <app-register-page-form (registerSuccessful)="onSuccessRegister($event)" />
+  }
+  @if (currentPage === 'success') {
+    <app-register-page-success (verify)="onVerify()" />
   }
 
   <div class="register-bottom-container flex flex-col items-center justify-center">

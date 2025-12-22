@@ -17,7 +17,7 @@
 </div>
 
 <ng-template #currencyTemplate let-data="data">
-  <span>{{ data | number : '1.2' : dataStoreService.defaultLanguage }} {{ ' ' + playerCurrency }}</span>
+  <span>{{ data | number: '1.2' : dataStoreService.defaultLanguage }} {{ ' ' + playerCurrency }}</span>
 </ng-template>
 
 <ng-template #usernameTemplate let-data="data">
@@ -38,7 +38,7 @@
 <ng-template #betAmountMultiplierTemplate let-row="rowData">
   <div class="flex flex-col gap-4 pt-2.5 pb-2.5">
     <div>
-      <span>{{ row.betAmount | number : '1.2' : dataStoreService.defaultLanguage }} {{ ' ' + playerCurrency }}</span>
+      <span>{{ row.betAmount | number: '1.2' : dataStoreService.defaultLanguage }} {{ ' ' + playerCurrency }}</span>
     </div>
     <div>
       <span class="username">{{ row.multiplierResolved }}</span>

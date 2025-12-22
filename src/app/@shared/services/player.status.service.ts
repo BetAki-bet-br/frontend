@@ -98,7 +98,7 @@ export class PlayerStatusService {
       catchError((err) => {
         log.debug('Get loyalty failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -115,7 +115,7 @@ export class PlayerStatusService {
       }),
       tap((resolved) => {
         this.balanceSub.next(resolved);
-      })
+      }),
     );
   }
 
@@ -146,7 +146,7 @@ export class PlayerStatusService {
               return this.authenticationService.logout(true).pipe(switchMap((_) => throwError(() => err)));
             }
             throw err;
-          })
+          }),
         );
       }),
       catchError((err) => {
@@ -159,7 +159,7 @@ export class PlayerStatusService {
           // maxing out at 5 minute.
           return timer(Math.min(60000 * 5, 2 ^ (count * this.responsibleGamingLimitUpdateInterval)));
         },
-      })
+      }),
     );
   }
 
@@ -194,7 +194,7 @@ export class PlayerStatusService {
           // maxing out at 1 minute.
           return timer(Math.min(60000, 2 ^ (count * this.balanceUpdateInterval)));
         },
-      })
+      }),
     );
   }
 
@@ -229,7 +229,7 @@ export class PlayerStatusService {
         };
 
         return resolved;
-      })
+      }),
     );
   }
 }

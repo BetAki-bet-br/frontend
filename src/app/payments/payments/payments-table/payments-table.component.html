@@ -11,45 +11,46 @@
   </thead>
   <tbody>
     @for (method of paymentMethods; track method) {
-    <tr>
-      <td data-title="{{ method.type }}">
-        <div>
-          <img [src]="method.imgAssetPath | cdnize" />
-        </div>
-      </td>
-      <td data-title="Type" class="type-row">
-        <div>
-          {{ method.type }}
-        </div>
-      </td>
-      <td data-title="Fee">
-        <div>
-          {{ method.fee }}
-        </div>
-      </td>
-      <td data-title="Processing time">
-        <div>
-          {{ method.processingTime }}
-        </div>
-      </td>
-      <td data-title="Min limit per transaction">
-        <div>Min. {{ method.min }} {{ method.currencyCode }}</div>
-      </td>
-      <td data-title="Max limit per transaction">
-        <div>Max. {{ method.max }} {{ method.currencyCode }}</div>
-      </td>
-      <td>
-        <div class="button-container">
-          @if (username) {
-          <button mat-button class="mat-unthemed" (click)="onTableAction(method)">
-            {{ tableActionTitle }}
-          </button>
-          } @if (!username) {
-          <button mat-button class="mat-unthemed" (click)="onSignUp()">SIGN UP</button>
-          }
-        </div>
-      </td>
-    </tr>
+      <tr>
+        <td data-title="{{ method.type }}">
+          <div>
+            <img [src]="method.imgAssetPath | cdnize" />
+          </div>
+        </td>
+        <td data-title="Type" class="type-row">
+          <div>
+            {{ method.type }}
+          </div>
+        </td>
+        <td data-title="Fee">
+          <div>
+            {{ method.fee }}
+          </div>
+        </td>
+        <td data-title="Processing time">
+          <div>
+            {{ method.processingTime }}
+          </div>
+        </td>
+        <td data-title="Min limit per transaction">
+          <div>Min. {{ method.min }} {{ method.currencyCode }}</div>
+        </td>
+        <td data-title="Max limit per transaction">
+          <div>Max. {{ method.max }} {{ method.currencyCode }}</div>
+        </td>
+        <td>
+          <div class="button-container">
+            @if (username) {
+              <button mat-button class="mat-unthemed" (click)="onTableAction(method)">
+                {{ tableActionTitle }}
+              </button>
+            }
+            @if (!username) {
+              <button mat-button class="mat-unthemed" (click)="onSignUp()">SIGN UP</button>
+            }
+          </div>
+        </td>
+      </tr>
     }
   </tbody>
 </table>

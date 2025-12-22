@@ -68,7 +68,7 @@ export class PlayerProfileServiceMock {
       dateTo: Date | null;
       type: IdLabel | null;
       status: IdLabel | null;
-    }>
+    }>,
   ): Observable<TransactionHistoryModel[]> {
     return of();
   }
@@ -162,7 +162,7 @@ export class PlayerProfileServiceMock {
   }
 
   getSportsbookBetHistory(
-    filters: Partial<{ dateFrom: Date | null; dateTo: Date | null }>
+    filters: Partial<{ dateFrom: Date | null; dateTo: Date | null }>,
   ): Observable<SportsbookBetHistoryModelResolved[]> {
     return of();
   }

@@ -50,7 +50,7 @@ export class MockCtgApiService {
   apiPortalV1BalanceGet(
     includeBonusProductType?: string,
     includeExternalBalances?: string,
-    includeBonusType?: string
+    includeBonusType?: string,
   ): Observable<GetBalanceResponse> {
     return of();
   }
@@ -82,7 +82,7 @@ export class MockCtgApiService {
   apiPortalV1BonusPromotionsGet(
     brandId: number,
     languageCode?: string,
-    includeCustomContent?: boolean
+    includeCustomContent?: boolean,
   ): Observable<Array<PromotionDetails>> {
     return of([]);
   }
@@ -91,7 +91,7 @@ export class MockCtgApiService {
     languageCode?: string,
     brandId?: number,
     includeCustomContent?: boolean,
-    optedIn?: OptedInEnum
+    optedIn?: OptedInEnum,
   ): Observable<Array<PromotionDetails>> {
     return of([]);
   }
@@ -113,7 +113,7 @@ export class MockCtgApiService {
     includeAwardConditionFulfilment?: boolean,
     playerBonusStatuses?: string,
     includeCustomContent?: boolean,
-    languageCode?: string
+    languageCode?: string,
   ): Observable<GetBonusResponse> {
     return of({});
   }
@@ -131,7 +131,7 @@ export class MockCtgApiService {
   }
 
   apiPortalV1PlayerContactInfoVerificationGet(
-    contactInfoSubTypeId?: number
+    contactInfoSubTypeId?: number,
   ): Observable<ContactInfoVerificationStatusResponse> {
     return of({});
   }
@@ -141,7 +141,7 @@ export class MockCtgApiService {
     portalId: number,
     languageId: number,
     observe?: 'body',
-    reportProgress?: boolean
+    reportProgress?: boolean,
   ): Observable<Array<ContentData>> {
     return of([]);
   }
@@ -151,7 +151,7 @@ export class MockCtgApiService {
     portalId: number,
     languageId: number,
     observe?: 'body',
-    reportProgress?: boolean
+    reportProgress?: boolean,
   ): Observable<Array<ContentData>> {
     return of([]);
   }
@@ -164,7 +164,7 @@ export class MockCtgApiService {
     optedIn?: OptedInEnum,
     multiChoiceBonus?: string,
     observe?: 'body',
-    reportProgress?: boolean
+    reportProgress?: boolean,
   ): Observable<Array<PromotionData>> {
     return of([]);
   }
@@ -175,14 +175,14 @@ export class MockCtgApiService {
     languageCode?: string,
     includeCustomContent?: boolean,
     observe?: 'body',
-    reportProgress?: boolean
+    reportProgress?: boolean,
   ): Observable<Array<PromotionData>> {
     return of([]);
   }
 
   apiPortalV1TemplateTermsAndConditionsGet(
     portalId: number,
-    locale: string
+    locale: string,
   ): Observable<CurrentTermsAndConditionsResponse> {
     return of();
   }

@@ -23,7 +23,7 @@ export class PaymentsService {
       catchError((err) => {
         log.debug('createDeposit failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -39,7 +39,7 @@ export class PaymentsService {
       catchError((err) => {
         log.debug('createWithdrawal failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -54,7 +54,7 @@ export class PaymentsService {
         }
         return EMPTY;
       }),
-      takeLast(1)
+      takeLast(1),
     );
   }
 
@@ -72,7 +72,7 @@ export class PaymentsService {
         } else {
           return null;
         }
-      })
+      }),
     );
   }
 }

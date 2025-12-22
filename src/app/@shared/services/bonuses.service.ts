@@ -54,7 +54,7 @@ export class BonusesService {
       catchError((err) => {
         log.debug('Get bonuses failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -74,11 +74,11 @@ export class BonusesService {
               bonus.status === PlayerBonusHistoryStatusEnum.AwardedExternal ||
               bonus.status === PlayerBonusHistoryStatusEnum.AwardWaiting ||
               bonus.status === PlayerBonusHistoryStatusEnum.WaitingExternal ||
-              bonus.status === PlayerBonusHistoryStatusEnum.Frozen
+              bonus.status === PlayerBonusHistoryStatusEnum.Frozen,
           ) ?? [];
 
         filteredBonuses.sort((a, b) =>
-          a.status !== 'Active' && b.status === 'Active' ? 1 : a.status === 'Active' && b.status !== 'Active' ? -1 : 0
+          a.status !== 'Active' && b.status === 'Active' ? 1 : a.status === 'Active' && b.status !== 'Active' ? -1 : 0,
         );
 
         log.debug('Filtered bonuses:', filteredBonuses);
@@ -91,7 +91,7 @@ export class BonusesService {
           playerBonusHistoryResolved: result[1],
         };
         return of(ret);
-      })
+      }),
     );
   }
 
@@ -126,7 +126,7 @@ export class BonusesService {
             const cmsBonusTemplate: string =
               templatesList.find((t) => t.id === cmsBonusContent?.templateId)?.htmlDefinition ?? '';
             const transformedCmsBonusContentFieldValues = this.templateService.transformContent(
-              cmsBonusContent?.contentFieldValues ?? []
+              cmsBonusContent?.contentFieldValues ?? [],
             );
 
             switch (bonus.categoryEnum) {
@@ -134,21 +134,21 @@ export class BonusesService {
                 bonus.templateOffersHtml = this.renderBonusOffer(
                   cmsBonusTemplate,
                   transformedCmsBonusContentFieldValues,
-                  bonus
+                  bonus,
                 );
                 break;
               case CategoryKeyEnum.PromotionPageBonusesOngoing:
                 bonus.templateOngoingHtml = this.renderBonusOngoingActive(
                   cmsBonusTemplate,
                   transformedCmsBonusContentFieldValues,
-                  bonus
+                  bonus,
                 );
                 break;
               case CategoryKeyEnum.PromotionPageBonusesActive:
                 bonus.templateActiveHtml = this.renderBonusOngoingActive(
                   cmsBonusTemplate,
                   transformedCmsBonusContentFieldValues,
-                  bonus
+                  bonus,
                 );
                 break;
             }
@@ -160,7 +160,7 @@ export class BonusesService {
       catchError((err) => {
         log.debug('Get bonuses failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -168,7 +168,7 @@ export class BonusesService {
     return this.bonusServiceApi.apiPortalV1BonusGet(undefined, true, undefined, true).pipe(
       switchMap((result) => {
         return this.resolvePlayerBonuses(result.playerBonusHistory ?? []);
-      })
+      }),
     );
   }
 
@@ -178,7 +178,7 @@ export class BonusesService {
       catchError((err) => {
         log.debug('Bonus opt in failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -188,7 +188,7 @@ export class BonusesService {
       catchError((err) => {
         log.debug('Bonus opt in failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -198,7 +198,7 @@ export class BonusesService {
       catchError((err) => {
         log.debug('Bonus opt out failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -208,7 +208,7 @@ export class BonusesService {
       catchError((err) => {
         log.debug('Decline bonus failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -233,7 +233,7 @@ export class BonusesService {
             ...bonus,
             resolvedAmount: this.dataStoreService.formatWithCurrency(
               bonus.bonusAwarded ?? 0,
-              playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency
+              playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency,
             ),
             resolvedWagerMultiplier: `${this.translateService.instant('Wager')} ${wageringMultiplier}x`,
             currentWagered: currentWagered,
@@ -251,7 +251,7 @@ export class BonusesService {
           resolved.push(resolvedBonus);
         });
         return resolved;
-      })
+      }),
     );
   }
 
@@ -260,12 +260,12 @@ export class BonusesService {
     content: {
       [key: string]: any;
     },
-    bonusData?: PlayerBonusResolved
+    bonusData?: PlayerBonusResolved,
   ): SafeHtml {
     // Determine the earliest date between the two provided and compute the days remaining for that date
     const _date = this.getEarlierDate(
       bonusData?.bonusScheduling?.bonusCurrentExpiryConditionDate,
-      bonusData?.bonusScheduling?.toDate
+      bonusData?.bonusScheduling?.toDate,
     );
     const timeRemaining = this.cmsService.getTimeRemainingText(_date);
 
@@ -283,7 +283,7 @@ export class BonusesService {
     content: {
       [key: string]: any;
     },
-    bonusData?: PlayerBonusResolved
+    bonusData?: PlayerBonusResolved,
   ): SafeHtml {
     // Calculate and set the percentage value for progress bar display
     const progressValue = this.calculateProgressPercentage(bonusData);
@@ -313,7 +313,7 @@ export class BonusesService {
       // Determine the earliest date between the two provided and compute the days remaining for that date
       const _date = this.getEarlierDate(
         bonusData?.bonusScheduling?.bonusCurrentExpiryConditionDate,
-        bonusData?.bonusScheduling?.toDate
+        bonusData?.bonusScheduling?.toDate,
       );
       const timeRemaining = this.cmsService.getTimeRemainingText(_date);
 
@@ -380,7 +380,7 @@ export class BonusesService {
         }));
 
         return [...extendedOffering, ...extendedOngoing, ...extendedActive];
-      })
+      }),
     );
   }
 

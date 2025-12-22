@@ -51,7 +51,7 @@ export class ConfigurationService {
           map((response) => {
             this.dataStoreService.countriesList = response?.filter((value) => value.name !== 'Unknown') ?? [];
             return this.dataStoreService.countriesList;
-          })
+          }),
         );
     }
   }
@@ -68,7 +68,7 @@ export class ConfigurationService {
           map((response) => {
             this.dataStoreService.currenciesList = response;
             return response;
-          })
+          }),
         );
     }
   }
@@ -83,7 +83,7 @@ export class ConfigurationService {
     return this.dataStoreService.playerInfoInMemoryPending$.pipe(
       filter((cacheIsPending) => (cacheIsPending ?? false) === false),
       take(1),
-      switchMap((_) => this.getPlayerInfoData(useCache))
+      switchMap((_) => this.getPlayerInfoData(useCache)),
     );
   }
 
@@ -94,7 +94,7 @@ export class ConfigurationService {
           return true;
         }
         return false;
-      })
+      }),
     );
   }
 
@@ -112,7 +112,7 @@ export class ConfigurationService {
             } else {
               return undefined;
             }
-          })
+          }),
         );
     }
   }
@@ -168,7 +168,7 @@ export class ConfigurationService {
             translate: true,
           },
         ] as MenuGameCategory[];
-      })
+      }),
     );
   }
 
@@ -207,7 +207,7 @@ export class ConfigurationService {
           }
         });
         return [...lobbySubcategories] as MenuGameCategory[];
-      })
+      }),
     );
   }
 
@@ -225,7 +225,7 @@ export class ConfigurationService {
         }),
         finalize(() => {
           this.dataStoreService.setPlayerInfoInMemoryPending(false);
-        })
+        }),
       );
     }
   }

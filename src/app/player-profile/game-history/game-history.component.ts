@@ -321,7 +321,7 @@ export class GameHistoryComponent implements OnInit {
         switchMap((playerInfo) => {
           this.playerCurrency = playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency;
           return this.playerProfileService.getGameHistory(this.filterForm.value);
-        })
+        }),
       )
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({

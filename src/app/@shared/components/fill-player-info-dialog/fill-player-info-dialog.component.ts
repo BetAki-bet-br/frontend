@@ -112,9 +112,9 @@ export class FillPlayerInfoDialogComponent implements OnInit {
                 countryCodes: data.countryCodeList,
                 geoData: d,
               };
-            })
+            }),
           );
-        })
+        }),
       )
       .subscribe({
         next: ({ playerInfo, countryCodes, geoData }) => {
@@ -159,7 +159,7 @@ export class FillPlayerInfoDialogComponent implements OnInit {
         postalCode: this.playerDetails?.postalCode,
         mobileNumber: this.playerDetails?.mobilePhone,
       },
-      { emitEvent: false }
+      { emitEvent: false },
     );
 
     if (!this.playerDetails?.mobilePhone) {
@@ -195,8 +195,8 @@ export class FillPlayerInfoDialogComponent implements OnInit {
       this.mobilePhoneAdded && mobileNumber
         ? mobileNumber
         : mobilePrefix && mobileNumber
-        ? mobilePrefix + mobileNumber
-        : undefined;
+          ? mobilePrefix + mobileNumber
+          : undefined;
 
     if (this.fillPlayerInfoForm.controls.mobileNumber.enabled && mobileNumber && !mobilePrefix) {
       // set error to mobilePrefix field, if mobileNumber is filled and mobilePrefix not selected
@@ -227,7 +227,7 @@ export class FillPlayerInfoDialogComponent implements OnInit {
             this.translate.instant('Data saved successfully'),
             'center',
             'top',
-            4000
+            4000,
           );
         },
         error: (err) => {

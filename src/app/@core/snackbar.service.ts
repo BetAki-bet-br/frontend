@@ -116,7 +116,7 @@ export class SnackbarService {
     message: string = '',
     horizontalPosition: MatSnackBarHorizontalPosition = 'end',
     verticalPosition: MatSnackBarVerticalPosition = 'bottom',
-    duration: number = 3000
+    duration: number = 3000,
   ): MatSnackBarRef<CustomSnackbarComponent> {
     const result: MatSnackBarRef<CustomSnackbarComponent> = this.snackBar.openFromComponent(CustomSnackbarComponent, {
       data: { message: this.translateService.instant(message), type: 'success' } as CustomSnackbarComponentData,
@@ -165,7 +165,7 @@ export class SnackbarService {
     message: string = '',
     horizontalPosition: MatSnackBarHorizontalPosition = 'end',
     verticalPosition: MatSnackBarVerticalPosition = 'bottom',
-    duration: number = 300000
+    duration: number = 300000,
   ): MatSnackBarRef<CustomSnackbarComponent> {
     const result: MatSnackBarRef<CustomSnackbarComponent> = this.snackBar.openFromComponent(CustomSnackbarComponent, {
       data: { message: this.translateService.instant(message), type: 'error' } as CustomSnackbarComponentData,

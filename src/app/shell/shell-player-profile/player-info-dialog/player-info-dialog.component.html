@@ -13,7 +13,7 @@
 
       <div class="profile-account-balance-container">
         <div class="profile-account-balance-main">
-          {{ account?.totalBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+          {{ account?.totalBalance | number: '1.2' : dataStoreService.defaultLanguage }}
         </div>
         <div class="profile-account-balance-currency">{{ account?.currency }}</div>
       </div>
@@ -25,13 +25,13 @@
           {{ account?.lockedBalance | number: '1.2':dataStoreService.defaultLanguage }}
         </div> -->
           <div class="profile-account-balance-details-balance">
-            {{ account?.realMoneyBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+            {{ account?.realMoneyBalance | number: '1.2' : dataStoreService.defaultLanguage }}
           </div>
           <div class="profile-account-balance-details-balance">
-            {{ account?.bonusCasinoBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+            {{ account?.bonusCasinoBalance | number: '1.2' : dataStoreService.defaultLanguage }}
           </div>
           <div class="profile-account-balance-details-balance">
-            {{ account?.bonusSportsbookBalance | number : '1.2' : dataStoreService.defaultLanguage }}
+            {{ account?.bonusSportsbookBalance | number: '1.2' : dataStoreService.defaultLanguage }}
           </div>
         </div>
         <div class="profile-account-balance-details-infos">
@@ -50,14 +50,14 @@
     <!-- Profile link container -->
     <div class="profile-link-container mb-6">
       @if (false) {
-      <!-- removed for GLI version -->
-      <a
-        class="profile-link"
-        routerLink="/profile/promo"
-        [routerLinkActive]="['profile-link-active']"
-        (click)="onLinkClick()"
-        >PROMO</a
-      >
+        <!-- removed for GLI version -->
+        <a
+          class="profile-link"
+          routerLink="/profile/promo"
+          [routerLinkActive]="['profile-link-active']"
+          (click)="onLinkClick()"
+          >PROMO</a
+        >
       }
 
       <a

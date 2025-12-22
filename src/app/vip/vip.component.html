@@ -9,7 +9,7 @@
 
   <div class="vip-programs-container flex justify-center flex-wrap">
     @for (program of vipPrograms; track program) {
-    <app-vip-program-card class="vip-program-card" [program]="program" />
+      <app-vip-program-card class="vip-program-card" [program]="program" />
     }
   </div>
 </div>
@@ -23,7 +23,7 @@
   </p>
 
   @if (readMoreHidden) {
-  <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read more...</p>
+    <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read more...</p>
   }
 
   <div [class.hidden]="readMoreHidden">
@@ -42,6 +42,6 @@
   </div>
 
   @if (!readMoreHidden) {
-  <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read less...</p>
+    <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read less...</p>
   }
 </app-welcome-message>

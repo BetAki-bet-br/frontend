@@ -53,7 +53,7 @@ export class GamesService {
         return (
           games?.filter((game) => game.gameName?.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())) ?? []
         );
-      })
+      }),
     );
   }
 
@@ -64,7 +64,7 @@ export class GamesService {
       }),
       map((games) => {
         return games?.find((game) => game.externalGameId === extGameId)?.gameName;
-      })
+      }),
     );
   }
 
@@ -80,9 +80,9 @@ export class GamesService {
             ({
               ...provider,
               gameProviderUrl: this.assetsService.getProviderAsset(provider.name),
-            } as GameProviderDataWithUrl)
+            }) as GameProviderDataWithUrl,
         );
-      })
+      }),
     );
   }
 
@@ -111,7 +111,7 @@ export class GamesService {
     return this.cacheIsPending$.pipe(
       filter((cacheIsPending) => (cacheIsPending[levelId] ?? false) === false),
       take(1),
-      switchMap((_) => this.getAllLobbyAndMenuGames(levelId))
+      switchMap((_) => this.getAllLobbyAndMenuGames(levelId)),
     );
   }
 
@@ -135,13 +135,13 @@ export class GamesService {
         api$ = this.prodGameService.apiPortalV1ProdGamePlayerLobbyGet(
           this.dataStoreService.defaultPortalId,
           this.dataStoreService.gameLobbyLanguage,
-          levelId
+          levelId,
         );
       } else {
         api$ = this.prodGameService.apiPortalV1ProdGameLobbyGet(
           this.dataStoreService.defaultPortalId,
           this.dataStoreService.gameLobbyLanguage,
-          levelId
+          levelId,
         );
       }
 
@@ -172,7 +172,7 @@ export class GamesService {
         }),
         finalize(() => {
           this.setPending(levelId, false);
-        })
+        }),
       );
     }
   }
@@ -291,7 +291,7 @@ export class GamesService {
   private updateProviderData(
     game: GameMain,
     providers: GameProviderData[],
-    gameCounts: Map<number | null | undefined, number>
+    gameCounts: Map<number | null | undefined, number>,
   ): void {
     let gameCount: number = Number(gameCounts.get(game.productId));
     if (isNaN(gameCount)) {

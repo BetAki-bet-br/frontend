@@ -26,7 +26,7 @@ export class PlayerService {
       sigapReady: apiStatuses.sigapReady ?? false,
       calculatedStatus: apiStatuses.calculatedStatus ?? false,
     })),
-    tap((statuses) => this._playerStatuses.set(statuses))
+    tap((statuses) => this._playerStatuses.set(statuses)),
   );
 
   /**

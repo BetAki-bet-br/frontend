@@ -97,7 +97,7 @@ export class PromoComponent implements OnInit {
 
   private refreshBonuses$ = new BehaviorSubject<void>(undefined);
   bonuses$: Observable<PlayerBonusDataResolved> = this.refreshBonuses$.pipe(
-    switchMap(() => this.bonusesService.getBonusesData())
+    switchMap(() => this.bonusesService.getBonusesData()),
   );
 
   bannerPromotions$ = this.cmsService.getBannersForPromotions();
@@ -123,7 +123,7 @@ export class PromoComponent implements OnInit {
 
       this.currencySymbol = this.dataStoreService.getCurrencySymbol(
         this.dataStoreService.defaultLanguage,
-        balance?.currency ?? ''
+        balance?.currency ?? '',
       );
     });
 
@@ -146,7 +146,7 @@ export class PromoComponent implements OnInit {
         switchMap(() => {
           return this.templateService.templateActionSub$;
         }),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((templateAction) => {
         if (templateAction) {
@@ -180,7 +180,7 @@ export class PromoComponent implements OnInit {
             {
               data: BonusOptInResultEnum.Success,
               disableClose: true,
-            }
+            },
           );
 
           // on dialog closed
@@ -199,7 +199,7 @@ export class PromoComponent implements OnInit {
             {
               data: BonusOptInResultEnum.Error,
               disableClose: true,
-            }
+            },
           );
 
           // on dialog closed

@@ -305,12 +305,12 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
             };
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,
-              faceAuthParams
+              faceAuthParams,
             );
           }
 
           return of(null);
-        })
+        }),
       )
       .subscribe({
         next: (result) => {
@@ -319,7 +319,7 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
               this.translateService.instant('Self-exclusion completed successfully.'),
               'center',
               'top',
-              4000
+              4000,
             );
             this.loadData();
           }
@@ -332,7 +332,7 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
             this.translateService.instant('Error setting limit'),
             'center',
             'top',
-            4000
+            4000,
           );
           this.isDataLoading = false;
         },
@@ -355,7 +355,7 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
             this.translateService.instant('Pause successfully activated.'),
             'center',
             'top',
-            4000
+            4000,
           );
           this.loadData();
         },
@@ -364,7 +364,7 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
             this.translateService.instant('Error setting limit'),
             'center',
             'top',
-            4000
+            4000,
           );
           this.isDataLoading = false;
         },

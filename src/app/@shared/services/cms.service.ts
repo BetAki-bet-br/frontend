@@ -67,7 +67,7 @@ export class CmsService {
                   : this.slugService.getCmsSlug(CategoryKeyEnum.MainPageBannersLarge),
               ],
               this.dataStoreService.defaultPortalId,
-              this.i18nService.language ?? this.dataStoreService.defaultLanguage
+              this.i18nService.language ?? this.dataStoreService.defaultLanguage,
             ),
             templatesList: this.templateService.getTemplatesList(),
           })
@@ -79,7 +79,7 @@ export class CmsService {
                   : this.slugService.getCmsSlug(CategoryKeyEnum.MainPageBannersLarge),
               ],
               this.dataStoreService.defaultPortalId,
-              this.i18nService.language ?? this.dataStoreService.defaultLanguage
+              this.i18nService.language ?? this.dataStoreService.defaultLanguage,
             ),
             templatesList: this.templateService.getTemplatesList(),
           });
@@ -120,7 +120,7 @@ export class CmsService {
           this.activeMainBannersSub.next(renderedCurrentBanner);
           log.debug('getActiveBanners(): active banners loaded: ', renderedCurrentBanner);
           return renderedCurrentBanner;
-        })
+        }),
       );
     }
   }
@@ -146,12 +146,12 @@ export class CmsService {
         ? this.bannerService.apiPortalV1CmsPlayerBannersGet(
             [CategoryKeyEnum.PromotionPagePromotionBanner],
             this.dataStoreService.defaultPortalId,
-            this.dataStoreService.defaultLanguage
+            this.dataStoreService.defaultLanguage,
           )
         : this.bannerService.apiPortalV1CmsBannersGet(
             [CategoryKeyEnum.PromotionPagePromotionBanner],
             this.dataStoreService.defaultPortalId,
-            this.dataStoreService.defaultLanguage
+            this.dataStoreService.defaultLanguage,
           );
 
       const getTemplatesList$ = this.templateService.getTemplatesList();
@@ -185,7 +185,7 @@ export class CmsService {
         tap((promoBanners) => {
           // Store the banners
           this.dataStoreService.currentPromotionBanners = promoBanners;
-        })
+        }),
       );
     }
 
@@ -200,7 +200,7 @@ export class CmsService {
       catchError((err) => {
         log.debug('Get bonuses failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -225,12 +225,12 @@ export class CmsService {
         ? this.bannerService.apiPortalV1CmsPlayerBannersGet(
             [CategoryKeyEnum.BannerPromotionsPageBanners],
             this.dataStoreService.defaultPortalId,
-            this.i18nService.language ?? this.dataStoreService.defaultLanguage
+            this.i18nService.language ?? this.dataStoreService.defaultLanguage,
           )
         : this.bannerService.apiPortalV1CmsBannersGet(
             [CategoryKeyEnum.BannerPromotionsPageBanners],
             this.dataStoreService.defaultPortalId,
-            this.i18nService.language ?? this.dataStoreService.defaultLanguage
+            this.i18nService.language ?? this.dataStoreService.defaultLanguage,
           );
 
       const getTemplatesList$ = this.templateService.getTemplatesList();
@@ -270,7 +270,7 @@ export class CmsService {
           // Store the banners
           this.dataStoreService.currentPromotionBanners = promoBanners;
           console.log('Processed promoBanners:', promoBanners);
-        })
+        }),
       );
     }
 
@@ -285,7 +285,7 @@ export class CmsService {
       catchError((err) => {
         log.debug('getBannersForPromotions failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -297,7 +297,7 @@ export class CmsService {
       banners: this.bannerService.apiPortalV1CmsBannersGet(
         [this.slugService.getCmsSlug(slug)],
         this.dataStoreService.defaultPortalId,
-        this.i18nService.language ?? this.dataStoreService.defaultLanguage
+        this.i18nService.language ?? this.dataStoreService.defaultLanguage,
       ),
       templatesList: this.templateService.getTemplatesList(),
     });
@@ -318,7 +318,7 @@ export class CmsService {
         };
 
         return ret;
-      })
+      }),
     );
   }
 
@@ -367,7 +367,7 @@ export class CmsService {
           } else {
             return of();
           }
-        })
+        }),
       )
       .subscribe();
 
@@ -376,7 +376,7 @@ export class CmsService {
       .pipe(
         switchMap((isAuth) => {
           return this.getActiveMainBanners(this.breakpointObserver.isMatched(AppBreakpoints.LtSmall2));
-        })
+        }),
       )
       .subscribe();
   }

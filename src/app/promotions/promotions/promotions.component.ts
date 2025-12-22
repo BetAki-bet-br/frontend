@@ -71,7 +71,7 @@ export class PromotionsComponent implements OnInit {
   /** Combined manual and isAuthenticated observable. Used to trigger reloads */
   private reloadTrigger$: Observable<any> = merge(
     this.manualReloadTriggerSubject,
-    this.credentialsService.isAuthenticated$
+    this.credentialsService.isAuthenticated$,
   );
 
   promotionBannerBonus$ = this.reloadTrigger$.pipe(switchMap((_) => this.cmsService.getPromotionsBanners()));
@@ -84,9 +84,9 @@ export class PromotionsComponent implements OnInit {
         map((promotions) => {
           // Filter out expired and non-valid status promotions
           return (promotions ?? []).filter((t) => !this.notEligibleForDisplay(t));
-        })
+        }),
       );
-    })
+    }),
   );
 
   bonusHistory: PlayerBonusHistory[] = [];
@@ -107,7 +107,7 @@ export class PromotionsComponent implements OnInit {
         switchMap(() => {
           return this.templateService.templateActionSub$;
         }),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((templateAction) => {
         if (templateAction) {
@@ -124,12 +124,12 @@ export class PromotionsComponent implements OnInit {
           ) {
             this.bonusClick(
               'OptIn',
-              this.bonusList.find((value) => value.promotionId === promotionId)
+              this.bonusList.find((value) => value.promotionId === promotionId),
             );
           } else if (templateAction?.actionId === ActionIdEnum.OptOutAndDeclinePromotion && promotionId) {
             this.bonusClick(
               'OptOutAndDecline',
-              this.bonusList.find((value) => value.promotionId === promotionId)
+              this.bonusList.find((value) => value.promotionId === promotionId),
             );
           }
         }
@@ -140,7 +140,7 @@ export class PromotionsComponent implements OnInit {
         switchMap((_) => {
           return this.bonusesService.getBonuses();
         }),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: (response) => {
@@ -254,15 +254,15 @@ export class PromotionsComponent implements OnInit {
     let description = '';
     if (type === 'OptOut') {
       description = marker(
-        'Are you sure your want to opt out? By opting out you shall not be eligible to claim this promotion in the future.'
+        'Are you sure your want to opt out? By opting out you shall not be eligible to claim this promotion in the future.',
       );
     } else if (type === 'Decline') {
       description = marker(
-        'Are you sure your want to decline? By declining you shall not be eligible to claim this promotion in the future.'
+        'Are you sure your want to decline? By declining you shall not be eligible to claim this promotion in the future.',
       );
     } else if (type === 'OptOutAndDecline') {
       description = marker(
-        'Are you sure your want to opt out? By opting out you shall not be eligible to claim this promotion in the future and the related active bonus shall be declined.'
+        'Are you sure your want to opt out? By opting out you shall not be eligible to claim this promotion in the future and the related active bonus shall be declined.',
       );
     }
 
@@ -304,7 +304,7 @@ export class PromotionsComponent implements OnInit {
   private openDialog(
     type: ActionType,
     promotion: PromotionDetailsResolved,
-    loadingDialogRef: DialogRef<PromotionActionDialogComponent, unknown> | null
+    loadingDialogRef: DialogRef<PromotionActionDialogComponent, unknown> | null,
   ) {
     let bonusAction$ = null;
     let description = '';
@@ -316,10 +316,10 @@ export class PromotionsComponent implements OnInit {
         promotionId: promotion.promotionId,
       });
       description = marker(
-        'You have successfully opt in to this promotion. See bonus history to check your active promotions.'
+        'You have successfully opt in to this promotion. See bonus history to check your active promotions.',
       );
       descriptionError = marker(
-        'Something went wrong while processing your opt in. Please try again or contact our support.'
+        'Something went wrong while processing your opt in. Please try again or contact our support.',
       );
     } else if (type === 'OptOut' || type === 'OptOutAndDecline') {
       bonusAction$ = this.bonusesService.bonusOptOut({
@@ -331,13 +331,13 @@ export class PromotionsComponent implements OnInit {
       description =
         type === 'OptOut'
           ? marker(
-              'You have successfully opted out to this promotion. See bonus history to check your active promotions.'
+              'You have successfully opted out to this promotion. See bonus history to check your active promotions.',
             )
           : marker(
-              'You have successfully opted out to this promotion and bonuses. See bonus history to check your active promotions.'
+              'You have successfully opted out to this promotion and bonuses. See bonus history to check your active promotions.',
             );
       descriptionError = marker(
-        'Something went wrong while processing your opt out. Please try again or contact our support.'
+        'Something went wrong while processing your opt out. Please try again or contact our support.',
       );
     } else if (type === 'Decline') {
       const playerBonusId =
@@ -349,10 +349,10 @@ export class PromotionsComponent implements OnInit {
 
       bonusAction$ = this.bonusesService.declineBonus(request);
       description = marker(
-        'You have successfully declined this promotion. See bonus history to check your active promotions.'
+        'You have successfully declined this promotion. See bonus history to check your active promotions.',
       );
       descriptionError = marker(
-        'Something went wrong while processing your decline. Please try again or contact our support.'
+        'Something went wrong while processing your decline. Please try again or contact our support.',
       );
     }
 
@@ -373,7 +373,7 @@ export class PromotionsComponent implements OnInit {
               description,
               isLoading: false,
             },
-          }
+          },
         );
 
         // on dialog closed
@@ -399,7 +399,7 @@ export class PromotionsComponent implements OnInit {
               isLoading: false,
               error: true,
             },
-          }
+          },
         );
 
         // on dialog closed

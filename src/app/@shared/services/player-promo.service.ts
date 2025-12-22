@@ -43,7 +43,7 @@ export class PlayerPromoService {
       }),
       switchMap((res) => {
         return this.handlePromoActivation();
-      })
+      }),
     );
   }
 
@@ -61,7 +61,7 @@ export class PlayerPromoService {
             catchError((err) => {
               localStorage.removeItem('promoShow');
               return of(null);
-            })
+            }),
           );
       } else {
         this.router.navigate(['/sign-in']);

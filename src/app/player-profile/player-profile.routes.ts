@@ -53,35 +53,35 @@ export const routes: Routes = [
     path: 'general/info',
     loadComponent: () =>
       import('./profile-settings/profile-settings-info/profile-settings-info.component').then(
-        (m) => m.ProfileSettingsInfoComponent
+        (m) => m.ProfileSettingsInfoComponent,
       ),
   },
   {
     path: 'general/security',
     loadComponent: () =>
       import('./profile-settings/profile-settings-security/profile-settings-security.component').then(
-        (m) => m.ProfileSettingsSecurityComponent
+        (m) => m.ProfileSettingsSecurityComponent,
       ),
   },
   {
     path: 'general/security/login-credentials',
     loadComponent: () =>
-      import(
-        './profile-settings/profile-settings-security/profile-settings-login-credentials/profile-settings-login-credentials.component'
-      ).then((m) => m.ProfileSettingsLoginCredentialsComponent),
+      import('./profile-settings/profile-settings-security/profile-settings-login-credentials/profile-settings-login-credentials.component').then(
+        (m) => m.ProfileSettingsLoginCredentialsComponent,
+      ),
   },
   {
     path: 'general/security/login-credentials/edit-password',
     loadComponent: () =>
-      import(
-        './profile-settings/profile-settings-security/profile-settings-edit-password/profile-settings-edit-password.component'
-      ).then((m) => m.ProfileSettingsEditPasswordComponent),
+      import('./profile-settings/profile-settings-security/profile-settings-edit-password/profile-settings-edit-password.component').then(
+        (m) => m.ProfileSettingsEditPasswordComponent,
+      ),
   },
   {
     path: 'general/subscriptions',
     loadComponent: () =>
       import('./profile-settings/profile-settings-subscriptions/profile-settings-subscriptions.component').then(
-        (m) => m.ProfileSettingsSubscriptionsComponent
+        (m) => m.ProfileSettingsSubscriptionsComponent,
       ),
   },
   // Wallet
@@ -105,7 +105,7 @@ export const routes: Routes = [
     path: 'email-verification',
     loadComponent: () =>
       import('./profile-settings/email-confirmation/email-confirmation.component').then(
-        (m) => m.EmailConfirmationComponent
+        (m) => m.EmailConfirmationComponent,
       ),
   },
 ];

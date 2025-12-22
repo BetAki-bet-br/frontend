@@ -153,7 +153,7 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
           isSelfExclusion: this.isSelfExclusion,
         },
         autoFocus: false,
-      }
+      },
     );
 
     // subscribe to dialog closed event
@@ -169,7 +169,7 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
         this.dialogSubscriptions = [];
 
         this.cdr.markForCheck();
-      })
+      }),
     );
   }
 

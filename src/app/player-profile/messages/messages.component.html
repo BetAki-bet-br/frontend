@@ -22,44 +22,44 @@
   </div>
 
   @if (filteredTableData.length) {
-  <div>
-    <mat-accordion [multi]="false" class="flex flex-col gap-4">
-      @for (row of filteredTableData; track row) {
-      <mat-expansion-panel class="messages-panel" (opened)="displayRow(row)">
-        <mat-expansion-panel-header>
-          <mat-panel-title class="section-item-container nowrap">
-            <div class="section-item">
-              <div class="flex row-container full-width">
-                <mat-checkbox
-                  [checked]="checked(row.id)"
-                  (change)="updateSelection(row.id)"
-                  subscriptSizing="dynamic"
-                  class="msg-checkbox mdc-form-field-alignment-normal"
-                  (click)="$event.stopPropagation()"
-                >
-                  <span [class]="row.state !== PopupStateEnum.Read ? 'title' : ''">{{ row.titleResolved }}</span>
-                </mat-checkbox>
+    <div>
+      <mat-accordion [multi]="false" class="flex flex-col gap-4">
+        @for (row of filteredTableData; track row) {
+          <mat-expansion-panel class="messages-panel" (opened)="displayRow(row)">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="section-item-container nowrap">
+                <div class="section-item">
+                  <div class="flex row-container full-width">
+                    <mat-checkbox
+                      [checked]="checked(row.id)"
+                      (change)="updateSelection(row.id)"
+                      subscriptSizing="dynamic"
+                      class="msg-checkbox mdc-form-field-alignment-normal"
+                      (click)="$event.stopPropagation()"
+                    >
+                      <span [class]="row.state !== PopupStateEnum.Read ? 'title' : ''">{{ row.titleResolved }}</span>
+                    </mat-checkbox>
+                  </div>
+                </div>
+                <div class="item-date">
+                  <span class="right-text">{{ row.createdDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="section-item-container mt-4">
+              <div class="section-item-collapsable">
+                <div [innerHTML]="row.contentsResolved" class="expandable-content"></div>
               </div>
             </div>
-            <div class="item-date">
-              <span class="right-text">{{ row.createdDate | date : 'dd/MM/yyyy HH:mm' }}</span>
-            </div>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="section-item-container mt-4">
-          <div class="section-item-collapsable">
-            <div [innerHTML]="row.contentsResolved" class="expandable-content"></div>
-          </div>
-        </div>
-      </mat-expansion-panel>
-      }
-    </mat-accordion>
-    <mat-paginator
-      class="bg-[#f1f1f1]!"
-      [length]="tableData.length"
-      [pageSize]="this.defaultPageSize"
-      (page)="onPageChange($event)"
-    />
-  </div>
+          </mat-expansion-panel>
+        }
+      </mat-accordion>
+      <mat-paginator
+        class="bg-[#f1f1f1]!"
+        [length]="tableData.length"
+        [pageSize]="this.defaultPageSize"
+        (page)="onPageChange($event)"
+      />
+    </div>
   }
 </div>

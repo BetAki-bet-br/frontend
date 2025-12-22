@@ -22,7 +22,7 @@ export class CategoryOrderService {
       catchError(() => {
         console.error('Failed to load category-order.json');
         return of(null);
-      })
+      }),
     );
   }
 
@@ -33,7 +33,7 @@ export class CategoryOrderService {
           return null;
         }
         return order[portalId][lobby];
-      })
+      }),
     );
   }
 }

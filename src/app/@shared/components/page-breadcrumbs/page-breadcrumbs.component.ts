@@ -71,7 +71,7 @@ export class PageBreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
       this.messageCount$.subscribe((count) => {
         this.displayNumberOfMessages = (count ?? 0) > 0;
         this.cdr.detectChanges();
-      })
+      }),
     );
   }
 

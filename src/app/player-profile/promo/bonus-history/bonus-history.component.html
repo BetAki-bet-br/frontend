@@ -13,15 +13,15 @@
               [matTooltip]="selectType.triggerValue"
             >
               @for (item of statusList; track item) {
-              <mat-option [value]="item">
-                {{ item.label | translate }}
-              </mat-option>
+                <mat-option [value]="item">
+                  {{ item.label | translate }}
+                </mat-option>
               }
             </mat-select>
             @if (filterForm.controls.status.hasError('required')) {
-            <ng-container>
-              <mat-error class="error-msg" translate> Required</mat-error>
-            </ng-container>
+              <ng-container>
+                <mat-error class="error-msg" translate> Required</mat-error>
+              </ng-container>
             }
             <mat-icon [class]="selectType.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
               selectType.panelOpen ? 'expand_less' : 'expand_more'
@@ -38,9 +38,9 @@
               [matTooltip]="selectPeriod.triggerValue"
             >
               @for (item of periodList; track item) {
-              <mat-option [value]="item">
-                {{ item.label | translate }}
-              </mat-option>
+                <mat-option [value]="item">
+                  {{ item.label | translate }}
+                </mat-option>
               }
             </mat-select>
             <mat-icon [class]="selectPeriod.panelOpen ? 'toggle-icon-focused' : 'toggle-icon'" matSuffix>{{
@@ -66,9 +66,9 @@
               </mat-datepicker-toggle>
               <mat-datepicker #pickerFrom />
               @if (filterForm.controls.dateFrom.hasError('dateRangeError')) {
-              <ng-container>
-                <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
-              </ng-container>
+                <ng-container>
+                  <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
+                </ng-container>
               }
             </mat-form-field>
           </div>
@@ -90,9 +90,9 @@
               </mat-datepicker-toggle>
               <mat-datepicker #pickerTo />
               @if (filterForm.controls.dateFrom.hasError('dateRangeError')) {
-              <ng-container>
-                <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
-              </ng-container>
+                <ng-container>
+                  <mat-error translate class="error-msg">From date cannot be after To date</mat-error>
+                </ng-container>
               }
             </mat-form-field>
           </div>
@@ -106,37 +106,37 @@
         </div>
       </div>
       @if (pagedData.length) {
-      <div class="table-container">
-        <ng-container *ngTemplateOutlet="bonusHistoryTable" />
-      </div>
+        <div class="table-container">
+          <ng-container *ngTemplateOutlet="bonusHistoryTable" />
+        </div>
       }
     </div>
   </div>
 
   <ng-template #bonusHistoryTable>
     @for (record of pagedData; track record) {
-    <mat-card>
-      <div class="table-row flex-col--lt-sm-2">
-        <div class="col wide">
-          <div class="label" translate>Bonus name</div>
-          <div class="value">{{ record.bonusFriendlyName || record.bonusName }}</div>
-        </div>
-        <div class="col wide">
-          <div class="label" translate>Received on</div>
-          <div class="value">{{ record.acceptedDate | date : dateFormat }}</div>
-        </div>
-        <div class="col wide">
-          <div class="label" translate>Bonus amount</div>
-          <div class="value">
-            {{ record.currency }} {{ dataStoreService.getNumberInLocalFormat(record.redeemedAmount ?? 0) }}
+      <mat-card>
+        <div class="table-row flex-col--lt-sm-2">
+          <div class="col wide">
+            <div class="label" translate>Bonus name</div>
+            <div class="value">{{ record.bonusFriendlyName || record.bonusName }}</div>
+          </div>
+          <div class="col wide">
+            <div class="label" translate>Received on</div>
+            <div class="value">{{ record.acceptedDate | date: dateFormat }}</div>
+          </div>
+          <div class="col wide">
+            <div class="label" translate>Bonus amount</div>
+            <div class="value">
+              {{ record.currency }} {{ dataStoreService.getNumberInLocalFormat(record.redeemedAmount ?? 0) }}
+            </div>
+          </div>
+          <div class="col">
+            <div class="label" translate>Status</div>
+            <div class="value" translate>{{ record.status }}</div>
           </div>
         </div>
-        <div class="col">
-          <div class="label" translate>Status</div>
-          <div class="value" translate>{{ record.status }}</div>
-        </div>
-      </div>
-    </mat-card>
+      </mat-card>
     }
     <mat-paginator [length]="bonusHistoryData.length" [pageSize]="tablePageSize" (page)="onPageChange($event)" />
   </ng-template>

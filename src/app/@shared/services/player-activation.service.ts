@@ -52,7 +52,7 @@ export class PlayerActivationService {
               data: {
                 title: this.translateService.instant('Player activation failed'),
                 description: this.translateService.instant(
-                  'There was a problem with the activation process, please contact support.'
+                  'There was a problem with the activation process, please contact support.',
                 ),
               },
             });
@@ -64,7 +64,7 @@ export class PlayerActivationService {
                 });
 
                 throw error;
-              })
+              }),
             );
           }),
           tap(() => {
@@ -75,9 +75,9 @@ export class PlayerActivationService {
             });
 
             return of(null);
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -103,7 +103,7 @@ export class PlayerActivationService {
                 data: {
                   title: this.translateService.instant('Player activation failed'),
                   description: this.translateService.instant(
-                    'There was a problem with the activation process, please contact support.'
+                    'There was a problem with the activation process, please contact support.',
                   ),
                 },
               });
@@ -115,7 +115,7 @@ export class PlayerActivationService {
                   });
 
                   throw error;
-                })
+                }),
               );
             }),
             tap(() => {
@@ -134,11 +134,11 @@ export class PlayerActivationService {
                   // } else {
                   return of(result);
                   //}
-                })
+                }),
               );
-            })
+            }),
           );
-      })
+      }),
     );
   }
 
@@ -188,12 +188,12 @@ export class PlayerActivationService {
                             .pipe(map(() => ({ credentials, loginFaceAuth })));
                         }
                         return of({ credentials, loginFaceAuth });
-                      })
+                      }),
                     );
                   }
 
                   return of({ credentials, loginFaceAuth: null });
-                })
+                }),
               );
             }),
             switchMap(({ credentials, loginFaceAuth }) => {
@@ -210,7 +210,7 @@ export class PlayerActivationService {
                   // Push GTM event tag
                   this.googleTagManagerServiceImpl.pushGtmTag({ event: 'login' });
                   return { credentials, loginFaceAuth };
-                })
+                }),
               );
             }),
             switchMap(({ credentials, loginFaceAuth }) => {
@@ -235,7 +235,7 @@ export class PlayerActivationService {
                 data: {
                   title: this.translateService.instant('Player activation failed'),
                   description: this.translateService.instant(
-                    'There was a problem with the activation process, please contact support.'
+                    'There was a problem with the activation process, please contact support.',
                   ),
                 },
               });
@@ -247,11 +247,11 @@ export class PlayerActivationService {
                   });
 
                   throw error;
-                })
+                }),
               );
-            })
+            }),
           );
-      })
+      }),
     );
   }
 
@@ -274,7 +274,7 @@ export class PlayerActivationService {
             this.snackbarService.openCustomSuccess(
               this.translateService.instant('Annual income report successfully confirmed'),
               'center',
-              'top'
+              'top',
             );
           }),
           catchError((error) => {
@@ -295,11 +295,11 @@ export class PlayerActivationService {
                 });
 
                 throw error;
-              })
+              }),
             );
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -319,7 +319,7 @@ export class PlayerActivationService {
         }
 
         return of();
-      })
+      }),
     );
   }
 }

@@ -55,7 +55,7 @@ export class PromotionsService {
    */
   findFirstDepositPromotion(
     promotions: PromotionDetailsResolved[],
-    includeOptedIn: boolean = false
+    includeOptedIn: boolean = false,
   ): PromotionDetailsResolved | null {
     if (!promotions || promotions.length === 0) return null;
 
@@ -96,12 +96,12 @@ export class PromotionsService {
           this.languageService.language,
           environment.defaultBrandId,
           true,
-          status
+          status,
         )
       : this.bonusService.apiPortalV1BonusPromotionsGet(
           environment.defaultBrandId,
           this.languageService.language,
-          true
+          true,
         );
 
     // get templates for bonus prommotions
@@ -134,7 +134,7 @@ export class PromotionsService {
           const ret: Observable<PromotionDetails & { gameName: string | undefined }> = gameName$.pipe(
             map((p) => {
               return { ...promotionData, gameName: p };
-            })
+            }),
           );
           return ret;
         });
@@ -144,7 +144,7 @@ export class PromotionsService {
         return promotionDataWithGameName$.pipe(
           map((p) => {
             return { promotions: p, promotionIds: ids };
-          })
+          }),
         );
       }),
       switchMap((data) => {
@@ -158,7 +158,7 @@ export class PromotionsService {
               ],
               // not a good solution by api (ids)
               data.promotionIds,
-              environment.defaultLanguage
+              environment.defaultLanguage,
             )
           : this.promotionService.apiPortalV1CmsPromotionsGet(
               [
@@ -168,7 +168,7 @@ export class PromotionsService {
               ],
               // not a good solution by api (ids)
               data.promotionIds,
-              environment.defaultLanguage
+              environment.defaultLanguage,
             );
 
         const getTemplatesList$ = this.templateService.getTemplatesList();
@@ -188,10 +188,10 @@ export class PromotionsService {
               value.templateId ===
               (isNotificationList
                 ? TemplateIdEnum['Header - promotion notification']
-                : TemplateIdEnum['Promotion page'])
+                : TemplateIdEnum['Promotion page']),
           );
           const templateActivateBody = item?.promotionContents?.find(
-            (value) => value.templateId === TemplateIdEnum['Header - promotion notification - activate']
+            (value) => value.templateId === TemplateIdEnum['Header - promotion notification - activate'],
           );
           const template: string = templatesList.find((t) => t.id === templateBody?.templateId)?.htmlDefinition ?? '';
           const templateActivate: string =
@@ -228,7 +228,7 @@ export class PromotionsService {
       catchError((err) => {
         log.debug('Get promotions failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -239,7 +239,7 @@ export class PromotionsService {
     content: {
       [key: string]: any;
     },
-    promotionData?: PromotionDetails
+    promotionData?: PromotionDetails,
   ): SafeHtml {
     const bonusTypeContent = this.getCustomContent(promotionData, CustomContentType.BonusType);
 
@@ -248,11 +248,11 @@ export class PromotionsService {
       promotionId: promotionData?.promotionId,
       [PromotionNotificationTemplateFieldsEnum.Title]: this.ellipsisPipe.transform(
         content[PromotionNotificationTemplateFieldsEnum.Title],
-        50
+        50,
       ),
       [PromotionNotificationTemplateFieldsEnum.Description]: this.ellipsisPipe.transform(
         content[PromotionNotificationTemplateFieldsEnum.Description],
-        107
+        107,
       ),
       promotionIconPlaceholder:
         bonusTypeContent === 'FreeSpins'
@@ -266,7 +266,7 @@ export class PromotionsService {
     content: {
       [key: string]: any;
     },
-    promotionData?: PromotionDetails
+    promotionData?: PromotionDetails,
   ): SafeHtml {
     // OptIn button is also used for non-authenticated actions
     const optInUrl = this.credentialsService.isAuthenticated()

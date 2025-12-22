@@ -8,38 +8,39 @@
         <mat-form-field appearance="outline" class="form-input-edit flex flex-col" subscriptSizing="dynamic">
           <input matInput type="text" [placeholder]="'Username' | translate" formControlName="username" />
           @if (usernameForm.controls.username.hasError('required') && usernameForm.controls.username.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank</mat-error>
-          </ng-container>
-          } @if (usernameForm.controls.username.hasError('pattern') && usernameForm.controls.username.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate>
-              Please use only letters and numbers, without special characters</mat-error
-            >
-          </ng-container>
-
-          } @if ( this.usernameForm.controls.username.hasError('usernameTaken') && usernameForm.controls.username.dirty
-          ) {
-          <ng-container>
-            <mat-error class="error-msg" translate> has already been taken</mat-error>
-          </ng-container>
-          } @if (usernameForm.controls.username.hasError('maxlength') && usernameForm.controls.username.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> Too long (max 50 characters)</mat-error>
-          </ng-container>
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank</mat-error>
+            </ng-container>
+          }
+          @if (usernameForm.controls.username.hasError('pattern') && usernameForm.controls.username.dirty) {
+            <ng-container>
+              <mat-error class="error-msg" translate>
+                Please use only letters and numbers, without special characters</mat-error
+              >
+            </ng-container>
+          }
+          @if (this.usernameForm.controls.username.hasError('usernameTaken') && usernameForm.controls.username.dirty) {
+            <ng-container>
+              <mat-error class="error-msg" translate> has already been taken</mat-error>
+            </ng-container>
+          }
+          @if (usernameForm.controls.username.hasError('maxlength') && usernameForm.controls.username.dirty) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Too long (max 50 characters)</mat-error>
+            </ng-container>
           }
         </mat-form-field>
       </div>
 
       <!-- Error -->
       @if (error) {
-      <div class="error-msg" translate>{{ error }}</div>
+        <div class="error-msg" translate>{{ error }}</div>
       }
 
       <!-- Submit button -->
       <button mat-button type="submit" class="submit-form-button button-text-small label-dark flex-grow">
         @if (!isDataLoading) {
-        <span translate>SUBMIT</span>
+          <span translate>SUBMIT</span>
         }
         <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
       </button>

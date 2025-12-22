@@ -77,7 +77,7 @@ export class RegisterPage {
           UsernameOrEmailTakenValidator.usernameOrEmailTakenValidator(
             this.playerService,
             this.dataStoreService,
-            'Username'
+            'Username',
           ),
         ],
         updateOn: 'blur',
@@ -88,7 +88,7 @@ export class RegisterPage {
           UsernameOrEmailTakenValidator.usernameOrEmailTakenValidator(
             this.playerService,
             this.dataStoreService,
-            'Email'
+            'Email',
           ),
         ],
         updateOn: 'blur',
@@ -99,7 +99,7 @@ export class RegisterPage {
       'confirm-password': new FormControl('', [Validators.required]),
       termsAccepted: new FormControl(false, [Validators.requiredTrue]),
     },
-    { validators: passwordsMatchValidator() }
+    { validators: passwordsMatchValidator() },
   );
   fingerprintRequestId: string = '';
 

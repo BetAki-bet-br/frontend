@@ -29,7 +29,7 @@ export class LiveSearchPage {
   loading = signal(false);
 
   placeholderCategory = toSignal(
-    this.gameService.getGamesByCategory(1000122, GameEnum.LIVE_CASINO, this.portalService.portalId)
+    this.gameService.getGamesByCategory(1000122, GameEnum.LIVE_CASINO, this.portalService.portalId),
   );
 
   placeholderGames = computed(() => {
@@ -48,9 +48,9 @@ export class LiveSearchPage {
         return this.gameService
           .searchGames(term, this.portalService.portalId)
           .pipe(finalize(() => this.loading.set(false)));
-      })
+      }),
     ),
-    { initialValue: [] }
+    { initialValue: [] },
   );
 
   searchResults = computed(() => {

@@ -76,9 +76,9 @@
           <!-- <input matInput type="text" formControlName="country" /> -->
           <mat-select formControlName="country" placeholder="Select" class="no-arrow">
             @for (item of countryList; track item) {
-            <mat-option [value]="item">
-              {{ item.name }}
-            </mat-option>
+              <mat-option [value]="item">
+                {{ item.name }}
+              </mat-option>
             }
           </mat-select>
         </mat-form-field>

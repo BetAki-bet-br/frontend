@@ -112,11 +112,11 @@ export class PlayerProfileService {
             locale$ = this.configurationService.getPlayerInfo().pipe(
               map((playerInfo) => {
                 return playerInfo?.locale ?? 'en-NZ';
-              })
+              }),
             );
           }
           return locale$;
-        })
+        }),
       )
       .subscribe({
         next: (locale) => {
@@ -139,7 +139,7 @@ export class PlayerProfileService {
         catchError((err) => {
           log.debug('apiPortalV1PlayerPlayerStatusesPost() returned error:', err);
           throw err;
-        })
+        }),
       );
     }
   }
@@ -152,7 +152,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('getPlayerReverification() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -164,7 +164,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('playerSelfExclusion() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -176,7 +176,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('playerSetTimeout() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -188,13 +188,13 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('getPlayerContactInfoVerification() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
   completeContactInfoVerification(
     contactInfoSubTypeId: ContactInfoSubTypeIdEnum,
-    verificationCode: string
+    verificationCode: string,
   ): Observable<any> {
     log.debug('completeContactInfoVerification() invoked with:', contactInfoSubTypeId, verificationCode);
     return this.playerServiceApi
@@ -207,7 +207,7 @@ export class PlayerProfileService {
         catchError((err) => {
           log.debug('completeContactInfoVerification() returned error:', err);
           throw err;
-        })
+        }),
       );
   }
 
@@ -238,7 +238,7 @@ export class PlayerProfileService {
       status: IdLabel | null;
       pageNumber: number | null;
       pageSize: number | null;
-    }>
+    }>,
   ): Observable<GetPlayerTransactionsResponseResolved> {
     log.debug('getWalletTransactions() invoked with:', filters, filters.dateFrom?.toISOString());
 
@@ -261,7 +261,7 @@ export class PlayerProfileService {
           if (!filters.type?.some((type) => type.id === TransactionTypeEnum.Other)) {
             transactionList = transactionList?.filter(
               (transaction) =>
-                transaction.type == TransactionTypeEnum.Deposit || transaction.type == TransactionTypeEnum.Withdrawal
+                transaction.type == TransactionTypeEnum.Deposit || transaction.type == TransactionTypeEnum.Withdrawal,
             );
           }
 
@@ -271,7 +271,7 @@ export class PlayerProfileService {
 
           if (!filters.type?.some((type) => type.id === TransactionTypeEnum.Withdrawal)) {
             transactionList = transactionList?.filter(
-              (transaction) => transaction.type != TransactionTypeEnum.Withdrawal
+              (transaction) => transaction.type != TransactionTypeEnum.Withdrawal,
             );
           }
         }
@@ -285,7 +285,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('getWalletTransactions() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -307,7 +307,7 @@ export class PlayerProfileService {
         requestParams.pageNumber,
         requestParams.pageSize,
         requestParams.orderBy,
-        requestParams.descending
+        requestParams.descending,
       )
       .pipe(
         switchMap((result) => {
@@ -317,7 +317,7 @@ export class PlayerProfileService {
         catchError((err) => {
           log.debug('getSessionHistory() returned error:', err);
           throw err;
-        })
+        }),
       );
   }
 
@@ -337,7 +337,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('changePassword() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -353,7 +353,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('getPlayerLimits() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -362,7 +362,7 @@ export class PlayerProfileService {
 
     if (!limit.limitType)
       return throwError(
-        () => new Error(this.translateService.instant(marker('Cannot set player limit without limit type.')))
+        () => new Error(this.translateService.instant(marker('Cannot set player limit without limit type.'))),
       );
 
     const request: SetPlayerLimitRequest = {
@@ -385,7 +385,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('savePlayerLimit() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -401,7 +401,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('deletePlayerLimit() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -459,7 +459,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('setTimeoutLimit() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -485,7 +485,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('Getting player settings failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -495,7 +495,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('Updating player settings failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -505,7 +505,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('Updating player annual reverification failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -515,7 +515,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('Getting contact preferences failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -529,7 +529,7 @@ export class PlayerProfileService {
       }),
       catchError((err) => {
         throw err;
-      })
+      }),
     );
   }
 
@@ -544,7 +544,7 @@ export class PlayerProfileService {
       }),
       catchError((err) => {
         throw err;
-      })
+      }),
     );
   }
 
@@ -554,7 +554,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('Updating contact preferences failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -574,7 +574,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('sendPromotionCoupon() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -594,12 +594,17 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('cancelBonus() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
   getGameHistory(
-    filters: Partial<{ dateFrom: Date | null; dateTo: Date | null; pageNumber: number | null; pageSize: number | null }>
+    filters: Partial<{
+      dateFrom: Date | null;
+      dateTo: Date | null;
+      pageNumber: number | null;
+      pageSize: number | null;
+    }>,
   ): Observable<GetGameHistoryResponseResolved> {
     return this.gamesApi
       .apiPortalV1ProdGameGamesHistoryGet(
@@ -608,7 +613,7 @@ export class PlayerProfileService {
         filters.pageSize ?? 5,
         filters.pageNumber ?? 1,
         undefined,
-        undefined
+        undefined,
       )
       .pipe(
         switchMap((response) => {
@@ -618,7 +623,7 @@ export class PlayerProfileService {
         catchError((err) => {
           log.debug('getGameHistory() returned error:', err);
           throw err;
-        })
+        }),
       );
   }
 
@@ -670,12 +675,17 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('resolveHistoryList() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
   getSportsbookBetHistory(
-    filters: Partial<{ dateFrom: Date | null; dateTo: Date | null; pageNumber: number | null; pageSize: number | null }>
+    filters: Partial<{
+      dateFrom: Date | null;
+      dateTo: Date | null;
+      pageNumber: number | null;
+      pageSize: number | null;
+    }>,
   ): Observable<GetBetHistoryResponseResolved> {
     return this.sportsBookApi
       .apiPortalV1SportsbookBetsGet(
@@ -684,7 +694,7 @@ export class PlayerProfileService {
         filters.pageSize ?? 5,
         filters.pageNumber ?? 1,
         undefined,
-        undefined
+        undefined,
       )
       .pipe(
         switchMap((response) => {
@@ -694,7 +704,7 @@ export class PlayerProfileService {
         catchError((err) => {
           log.debug('getSportsbookBetHistory() returned error:', err);
           throw err;
-        })
+        }),
       );
   }
 
@@ -748,7 +758,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('resolveHistoryList() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -778,7 +788,7 @@ export class PlayerProfileService {
         catchError((err) => {
           log.debug('getTransactionDetails() returned error:', err);
           throw err;
-        })
+        }),
       );
   }
 
@@ -812,7 +822,7 @@ export class PlayerProfileService {
           .format(0)
           .replace(/\d|\.|\,/g, '')
           .trim();
-      })
+      }),
     );
   }
 
@@ -826,7 +836,7 @@ export class PlayerProfileService {
           .format(0)
           .replace(/\d|\.|\,/g, '')
           .trim();
-      })
+      }),
     );
   }
 
@@ -846,7 +856,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('apiPortalV1MessageMessageIdDelete() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -858,7 +868,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('apiPortalV1MessageMessageIdPut() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -870,7 +880,7 @@ export class PlayerProfileService {
       catchError((err) => {
         log.debug('apiPortalV1PlayerPlayerStatisticsPost() returned error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -886,7 +896,7 @@ export class PlayerProfileService {
         sessions.sort(
           (a, b) =>
             order.indexOf(a.status ?? LogonSessionStatusEnum.Closed) -
-            order.indexOf(b.status ?? LogonSessionStatusEnum.Closed)
+            order.indexOf(b.status ?? LogonSessionStatusEnum.Closed),
         );
 
         // Count active if Terminate is displayed
@@ -903,8 +913,8 @@ export class PlayerProfileService {
               session.status === LogonSessionStatusEnum.Active && activeCount <= 1
                 ? LogonSessionStatusEnum.Active
                 : session.status === LogonSessionStatusEnum.Active && activeCount > 1
-                ? LogonSessionStatusEnum.Incomplete
-                : session.status,
+                  ? LogonSessionStatusEnum.Incomplete
+                  : session.status,
             statusResolved:
               session.status === LogonSessionStatusEnum.Active || session.status === LogonSessionStatusEnum.Incomplete
                 ? this.translateService.instant(LogonSessionStatusEnum.Active)
@@ -917,12 +927,12 @@ export class PlayerProfileService {
         });
 
         return resolved;
-      })
+      }),
     );
   }
 
   private resolveWalletTransactions(
-    data: GetPlayerTransactionsResponse
+    data: GetPlayerTransactionsResponse,
   ): Observable<GetPlayerTransactionsResponseResolved> {
     const transactions = data.transactions ?? [];
 
@@ -960,8 +970,8 @@ export class PlayerProfileService {
             transaction.status === 3 //DEPOSIT subtracts amount from balance after
               ? Math.trunc(((transaction.balanceAfter ?? 0) - (transaction.amount ?? 0)) * 100) / 100
               : transaction.type === 2 || transaction.status === 5 //WITHDRAWAL adds amount to balance after
-              ? Math.trunc(((transaction.balanceAfter ?? 0) + (transaction.amount ?? 0)) * 100) / 100
-              : balanceAfterOrigin;
+                ? Math.trunc(((transaction.balanceAfter ?? 0) + (transaction.amount ?? 0)) * 100) / 100
+                : balanceAfterOrigin;
 
           resolved.push({
             ...transaction,
@@ -987,7 +997,7 @@ export class PlayerProfileService {
         };
 
         return response;
-      })
+      }),
     );
   }
 

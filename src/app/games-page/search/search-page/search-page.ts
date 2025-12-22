@@ -29,7 +29,7 @@ export class SearchPage {
   loading = signal(false);
 
   placeholderCategory = toSignal(
-    this.gameService.getGamesByCategory(502, GameEnum.CASINO, this.portalService.portalId)
+    this.gameService.getGamesByCategory(502, GameEnum.CASINO, this.portalService.portalId),
   );
 
   placeholderGames = computed(() => {
@@ -48,9 +48,9 @@ export class SearchPage {
         return this.gameService
           .searchGames(term, this.portalService.portalId)
           .pipe(finalize(() => this.loading.set(false)));
-      })
+      }),
     ),
-    { initialValue: [] }
+    { initialValue: [] },
   );
 
   searchResults = computed(() => {

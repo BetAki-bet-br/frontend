@@ -118,7 +118,7 @@ export class HeaderPromotionDialogComponent implements OnInit, OnDestroy {
   get minutes() {
     return this.promotionActiveTime
       ? Math.floor(
-          (this.promotionActiveTime - (this.days * (1000 * 3600 * 24) + this.hours * (1000 * 3600))) / (1000 * 60)
+          (this.promotionActiveTime - (this.days * (1000 * 3600 * 24) + this.hours * (1000 * 3600))) / (1000 * 60),
         )
       : 0;
   }
@@ -128,7 +128,7 @@ export class HeaderPromotionDialogComponent implements OnInit, OnDestroy {
       ? Math.floor(
           (this.promotionActiveTime -
             (this.days * (1000 * 3600 * 24) + this.hours * (1000 * 3600) + this.minutes * (1000 * 60))) /
-            1000
+            1000,
         )
       : 0;
   }

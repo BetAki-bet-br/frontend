@@ -124,7 +124,7 @@ export class AuthenticationService {
             } else {
               throw new Error('Error saving credentials');
             }
-          })
+          }),
         );
       }),
       switchMap(({ credentials, loginFaceAuth, lastLoginTime }) => {
@@ -134,13 +134,13 @@ export class AuthenticationService {
           }),
           catchError((err) => {
             return of({ credentials, loginFaceAuth, lastLoginTime });
-          })
+          }),
         );
       }),
       catchError((err) => {
         log.debug('Login failed with error:', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -198,7 +198,7 @@ export class AuthenticationService {
           this.googleTagManagerServiceImpl.pushGtmTag({ event: 'user_register' });
 
         return this.login(loginData);
-      })
+      }),
     );
   }
 
@@ -244,7 +244,7 @@ export class AuthenticationService {
       .pipe(
         map((result) => {
           return result;
-        })
+        }),
       );
   }
 
@@ -261,7 +261,7 @@ export class AuthenticationService {
     return this.playerServiceApi.apiPortalV1PlayerPasswordResetPost(request).pipe(
       map((result) => {
         return result;
-      })
+      }),
     );
   }
 
@@ -366,7 +366,7 @@ export class AuthenticationService {
           log.debug('logout() returned error:', err);
 
           return of();
-        })
+        }),
       );
     }
 
@@ -380,7 +380,7 @@ export class AuthenticationService {
         // OLD
         // // Check if the current route is for authentication and reroute to home if needed.
         // if (this.authGuard.isAuthUrl(this.router.url)) this.router.navigate(['/']);
-      })
+      }),
     );
   }
 
@@ -399,7 +399,7 @@ export class AuthenticationService {
         log.error(error);
         throw error;
       }),
-      takeLast(1)
+      takeLast(1),
     );
   }
 

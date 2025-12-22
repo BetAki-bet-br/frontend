@@ -22,6 +22,6 @@ export const liveGameListCategoriesResolver: ResolveFn<GameCategory[]> = (): Obs
       });
     }),
     filter((categories) => categories.length > 0),
-    take(1)
+    take(1),
   );
 };

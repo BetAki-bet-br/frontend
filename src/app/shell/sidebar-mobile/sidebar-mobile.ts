@@ -33,7 +33,7 @@ export class SidebarMobile {
   protected readonly isAuthenticated = this.credentialsService.isAuthenticated;
   protected readonly playerDetails = this.credentialsService.isAuthenticated()
     ? toSignal<PlayerDetails | null>(
-        this.playerService.getPlayerDetails().pipe(map((details) => details.player ?? null))
+        this.playerService.getPlayerDetails().pipe(map((details) => details.player ?? null)),
       )
     : signal<PlayerDetails | null>(null);
 

@@ -7,13 +7,14 @@
 >
   <div dialogContent class="iframe-container">
     @if (safeUrl) {
-    <iframe
-      [src]="safeUrl"
-      frameborder="0"
-      allow="geolocation;camera;fullscreen;accelerometer;gyroscope;magnetometer;"
-    ></iframe>
-    } @if (isLoading) {
-    <mat-spinner />
+      <iframe
+        [src]="safeUrl"
+        frameborder="0"
+        allow="geolocation; camera; fullscreen; accelerometer; gyroscope; magnetometer"
+      ></iframe>
+    }
+    @if (isLoading) {
+      <mat-spinner />
     }
   </div>
 </app-base-dialog>

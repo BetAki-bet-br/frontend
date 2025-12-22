@@ -120,7 +120,7 @@ export class HelpPagesLoaderComponent implements OnInit, OnDestroy {
               cdnBaseUrl: environment.deployConfig.assetsBaseUrl,
               langCode: this.langCode || 'en',
               lang: this.langCode || 'en',
-            })
+            }),
           );
           this.cdr.markForCheck();
         },

@@ -6,11 +6,11 @@
       <mat-form-field class="form-input" subscriptSizing="dynamic">
         <input matInput placeholder="Email" formControlName="email" autocomplete="off" />
         @if (supportForm.get('email')?.errors) {
-        <ng-container>
-          <mat-error class="error-msg">
-            {{ "can't be blank" | translate }}
-          </mat-error>
-        </ng-container>
+          <ng-container>
+            <mat-error class="error-msg">
+              {{ "can't be blank" | translate }}
+            </mat-error>
+          </ng-container>
         }
       </mat-form-field>
     </div>
@@ -28,9 +28,9 @@
         ></textarea>
       </mat-form-field>
       @if (supportForm.get('message')?.errors) {
-      <div class="error-msg">
-        {{ "can't be blank" | translate }}
-      </div>
+        <div class="error-msg">
+          {{ "can't be blank" | translate }}
+        </div>
       }
     </div>
 

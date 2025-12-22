@@ -18,9 +18,10 @@
             </div>
             <div class="amount">
               @if (balanceVisible) {
-              <span>{{ balanceString }}</span>
-              } @if (!balanceVisible) {
-              <span>****</span>
+                <span>{{ balanceString }}</span>
+              }
+              @if (!balanceVisible) {
+                <span>****</span>
               }
             </div>
             <!-- Hide balance functionality is currently scoped out -->
@@ -65,9 +66,10 @@
             </div>
             <div class="amount-secondary">
               @if (balanceVisible) {
-              <span>{{ this.dataStoreService.getNumberInLocalFormat(balance?.withdrawableBalance ?? 0, 2) }}</span>
-              } @if (!balanceVisible) {
-              <span>****</span>
+                <span>{{ this.dataStoreService.getNumberInLocalFormat(balance?.withdrawableBalance ?? 0, 2) }}</span>
+              }
+              @if (!balanceVisible) {
+                <span>****</span>
               }
             </div>
           </div>
@@ -84,9 +86,10 @@
             </div>
             <div class="amount-secondary">
               @if (balanceVisible) {
-              <span>{{ this.dataStoreService.getNumberInLocalFormat(balance?.bonusSportsbookBalance ?? 0, 2) }}</span>
-              } @if (!balanceVisible) {
-              <span>****</span>
+                <span>{{ this.dataStoreService.getNumberInLocalFormat(balance?.bonusSportsbookBalance ?? 0, 2) }}</span>
+              }
+              @if (!balanceVisible) {
+                <span>****</span>
               }
             </div>
           </div>
@@ -103,9 +106,10 @@
             </div>
             <div class="amount-secondary">
               @if (balanceVisible) {
-              <span>{{ this.dataStoreService.getNumberInLocalFormat(balance?.bonusCasinoBalance ?? 0, 2) }}</span>
-              } @if (!balanceVisible) {
-              <span>****</span>
+                <span>{{ this.dataStoreService.getNumberInLocalFormat(balance?.bonusCasinoBalance ?? 0, 2) }}</span>
+              }
+              @if (!balanceVisible) {
+                <span>****</span>
               }
             </div>
           </div>
@@ -241,29 +245,32 @@
         <div class="verification-label" [ngClass]="{ 'not-verified': !verificationStatus.phone }" translate>Phone</div>
       </div> -->
       <div class="flex flex-row items-center gap-2">
-        @if (verificationStatus.address) {<mat-icon class="verified-icon" fontSet="material-icons">verified</mat-icon>}
-        @if (!verificationStatus.address) {<img
-          class="not-verified-icon"
-          [src]="'assets/general/icons/verified.svg' | cdnize"
-        />}
+        @if (verificationStatus.address) {
+          <mat-icon class="verified-icon" fontSet="material-icons">verified</mat-icon>
+        }
+        @if (!verificationStatus.address) {
+          <img class="not-verified-icon" [src]="'assets/general/icons/verified.svg' | cdnize" />
+        }
         <div class="verification-label" [class]="{ 'not-verified': !verificationStatus.address }" translate>
           Address
         </div>
       </div>
       <div class="flex flex-row items-center gap-2">
-        @if (verificationStatus.email) {<mat-icon class="verified-icon" fontSet="material-icons">verified</mat-icon>}
-        @if (!verificationStatus.email) {<img
-          class="not-verified-icon"
-          [src]="'assets/general/icons/verified.svg' | cdnize"
-        />}
+        @if (verificationStatus.email) {
+          <mat-icon class="verified-icon" fontSet="material-icons">verified</mat-icon>
+        }
+        @if (!verificationStatus.email) {
+          <img class="not-verified-icon" [src]="'assets/general/icons/verified.svg' | cdnize" />
+        }
         <div class="verification-label" [class]="{ 'not-verified': !verificationStatus.email }" translate>E-mail</div>
       </div>
       <div class="flex flex-row items-center gap-2">
-        @if (verificationStatus.kyc) {<mat-icon class="verified-icon" fontSet="material-icons">verified</mat-icon>} @if
-        (!verificationStatus.kyc) {<img
-          class="not-verified-icon"
-          [src]="'assets/general/icons/verified.svg' | cdnize"
-        />}
+        @if (verificationStatus.kyc) {
+          <mat-icon class="verified-icon" fontSet="material-icons">verified</mat-icon>
+        }
+        @if (!verificationStatus.kyc) {
+          <img class="not-verified-icon" [src]="'assets/general/icons/verified.svg' | cdnize" />
+        }
         <div class="verification-label" [class]="{ 'not-verified': !verificationStatus.kyc }" translate>KYC</div>
       </div>
     </div>

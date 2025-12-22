@@ -82,7 +82,7 @@ export class BaseTableMsgsComponent<T> implements OnChanges, AfterViewInit {
       this.dataSource.data = [...tableDataMapped];
     }
 
-    this.paginatorVisibility = this.tableData?.length ? this.displayPaginator ?? false : false;
+    this.paginatorVisibility = this.tableData?.length ? (this.displayPaginator ?? false) : false;
   }
 
   ngAfterViewInit() {

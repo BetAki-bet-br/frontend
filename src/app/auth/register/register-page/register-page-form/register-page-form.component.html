@@ -31,14 +31,18 @@
             >person</mat-icon
           >
           @if (registerForm.controls.cpf.hasError('required') && registerForm.controls.cpf.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank</mat-error>
-          </ng-container>
-          } @if ( registerForm.controls.cpf.hasError('cpfInvalid') && registerForm.controls.cpf.dirty &&
-          !registerForm.controls.cpf.hasError('required') ) {
-          <ng-container>
-            <mat-error class="error-msg" translate> CPF is invalid. Only numbers are allowed.</mat-error>
-          </ng-container>
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank</mat-error>
+            </ng-container>
+          }
+          @if (
+            registerForm.controls.cpf.hasError('cpfInvalid') &&
+            registerForm.controls.cpf.dirty &&
+            !registerForm.controls.cpf.hasError('required')
+          ) {
+            <ng-container>
+              <mat-error class="error-msg" translate> CPF is invalid. Only numbers are allowed.</mat-error>
+            </ng-container>
           }
         </mat-form-field>
       </div>
@@ -68,16 +72,23 @@
             class="datepicker-icon"
             >calendar_month</mat-icon
           >
-          @if ( registerForm.controls.dateOfBirth.hasError('required') && (!dateInput.value.length ||
-          dateInput.value.length === 0) && registerForm.controls.dateOfBirth.dirty ) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank</mat-error>
-          </ng-container>
-          } @if ( registerForm.controls.dateOfBirth.hasError('required') && dateInput.value.length > 0 &&
-          registerForm.controls.dateOfBirth.dirty ) {
-          <ng-container>
-            <mat-error class="error-msg" translate> Date is invalid. Accepted format MM/DD/YYYY.</mat-error>
-          </ng-container>
+          @if (
+            registerForm.controls.dateOfBirth.hasError('required') &&
+            (!dateInput.value.length || dateInput.value.length === 0) &&
+            registerForm.controls.dateOfBirth.dirty
+          ) {
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank</mat-error>
+            </ng-container>
+          }
+          @if (
+            registerForm.controls.dateOfBirth.hasError('required') &&
+            dateInput.value.length > 0 &&
+            registerForm.controls.dateOfBirth.dirty
+          ) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Date is invalid. Accepted format MM/DD/YYYY.</mat-error>
+            </ng-container>
           }
         </mat-form-field>
       </div>
@@ -106,13 +117,14 @@
           >
 
           @if (registerForm.controls.phone.hasError('required') && registerForm.controls.phone.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank</mat-error>
-          </ng-container>
-          } @if (registerForm.controls.phone.hasError('invalidBrazilianMobile') && registerForm.controls.phone.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> {{ 'Invalid phone number' | translate | lowercase }}</mat-error>
-          </ng-container>
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank</mat-error>
+            </ng-container>
+          }
+          @if (registerForm.controls.phone.hasError('invalidBrazilianMobile') && registerForm.controls.phone.dirty) {
+            <ng-container>
+              <mat-error class="error-msg" translate> {{ 'Invalid phone number' | translate | lowercase }}</mat-error>
+            </ng-container>
           }
         </mat-form-field>
       </div>
@@ -132,22 +144,28 @@
             >alternate_email</mat-icon
           >
           @if (registerForm.controls.email.hasError('required') && registerForm.controls.email.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank</mat-error>
-          </ng-container>
-          } @if ( registerForm.controls.email.hasError('email') && !registerForm.controls.email.hasError('maxlength') &&
-          registerForm.controls.email.dirty ) {
-          <ng-container>
-            <mat-error class="error-msg" translate> invalid email</mat-error>
-          </ng-container>
-          } @if (this.registerForm.controls.email.hasError('emailTaken') && registerForm.controls.email.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> has already been taken </mat-error>
-          </ng-container>
-          } @if (registerForm.controls.email.hasError('maxlength') && registerForm.controls.email.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> Too long (max 100 characters)</mat-error>
-          </ng-container>
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank</mat-error>
+            </ng-container>
+          }
+          @if (
+            registerForm.controls.email.hasError('email') &&
+            !registerForm.controls.email.hasError('maxlength') &&
+            registerForm.controls.email.dirty
+          ) {
+            <ng-container>
+              <mat-error class="error-msg" translate> invalid email</mat-error>
+            </ng-container>
+          }
+          @if (this.registerForm.controls.email.hasError('emailTaken') && registerForm.controls.email.dirty) {
+            <ng-container>
+              <mat-error class="error-msg" translate> has already been taken </mat-error>
+            </ng-container>
+          }
+          @if (registerForm.controls.email.hasError('maxlength') && registerForm.controls.email.dirty) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Too long (max 100 characters)</mat-error>
+            </ng-container>
           }
         </mat-form-field>
       </div>
@@ -184,24 +202,30 @@
           </button>
           <!-- <app-password-strength-indicator [matInput]="passwordInput"></app-password-strength-indicator> -->
           @if (registerForm.controls.password.hasError('required') && registerForm.controls.password.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank</mat-error>
-          </ng-container>
-          } @if (registerForm.controls.password.hasError('minlength') && registerForm.controls.password.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> Too short (min 8 characters)</mat-error>
-          </ng-container>
-          } @if (registerForm.controls.password.hasError('maxlength') && registerForm.controls.password.dirty) {
-          <ng-container>
-            <mat-error class="error-msg" translate> Too long (max 100 characters)</mat-error>
-          </ng-container>
-          } @if ( registerForm.controls.password.hasError('pattern') &&
-          !registerForm.controls.password.hasError('minlength') && registerForm.controls.password.dirty ) {
-          <ng-container>
-            <mat-error class="error-msg" translate>
-              Password must include uppercase and lowercase letters, a number, and a special character</mat-error
-            >
-          </ng-container>
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank</mat-error>
+            </ng-container>
+          }
+          @if (registerForm.controls.password.hasError('minlength') && registerForm.controls.password.dirty) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Too short (min 8 characters)</mat-error>
+            </ng-container>
+          }
+          @if (registerForm.controls.password.hasError('maxlength') && registerForm.controls.password.dirty) {
+            <ng-container>
+              <mat-error class="error-msg" translate> Too long (max 100 characters)</mat-error>
+            </ng-container>
+          }
+          @if (
+            registerForm.controls.password.hasError('pattern') &&
+            !registerForm.controls.password.hasError('minlength') &&
+            registerForm.controls.password.dirty
+          ) {
+            <ng-container>
+              <mat-error class="error-msg" translate>
+                Password must include uppercase and lowercase letters, a number, and a special character</mat-error
+              >
+            </ng-container>
           }
         </mat-form-field>
       </div>
@@ -233,24 +257,27 @@
             }}</mat-icon>
           </button>
           <!-- <app-password-strength-indicator [matInput]="passwordInput"></app-password-strength-indicator> -->
-          @if ( registerForm.controls.passwordConfirmation.hasError('match') &&
-          registerForm.controls.passwordConfirmation.dirty ) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank</mat-error>
-          </ng-container>
-          } @if (passwordMatchError) {
-          <ng-container>
-            <mat-error class="mat-error" translate> Passwords must match </mat-error>
-          </ng-container>
+          @if (
+            registerForm.controls.passwordConfirmation.hasError('match') &&
+            registerForm.controls.passwordConfirmation.dirty
+          ) {
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank</mat-error>
+            </ng-container>
+          }
+          @if (passwordMatchError) {
+            <ng-container>
+              <mat-error class="mat-error" translate> Passwords must match </mat-error>
+            </ng-container>
           }
         </mat-form-field>
       </div>
     </div>
 
     @if (registerError) {
-    <mat-error class="error-msg">
-      <span translate>{{ registerError }}</span>
-    </mat-error>
+      <mat-error class="error-msg">
+        <span translate>{{ registerError }}</span>
+      </mat-error>
     }
   </div>
 

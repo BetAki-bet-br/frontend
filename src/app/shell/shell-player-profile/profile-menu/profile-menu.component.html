@@ -67,56 +67,59 @@
       </a>
 
       @if (expanded) {
-      <a
-        class="profile-link"
-        (click)="onLinkClick()"
-        routerLink="/profile/general/security"
-        [routerLinkActive]="['profile-link-active']"
-      >
-        <div class="flex profile-link-content">
-          <div class="link-subtitle">
-            {{ 'Login and security' | translate }}
+        <a
+          class="profile-link"
+          (click)="onLinkClick()"
+          routerLink="/profile/general/security"
+          [routerLinkActive]="['profile-link-active']"
+        >
+          <div class="flex profile-link-content">
+            <div class="link-subtitle">
+              {{ 'Login and security' | translate }}
+            </div>
           </div>
-        </div>
-      </a>
-      } @if (expanded) {
-      <a
-        class="profile-link"
-        (click)="onLinkClick()"
-        routerLink="/profile/responsible-gambling"
-        [routerLinkActive]="['profile-link-active']"
-      >
-        <div class="flex profile-link-content">
-          <div class="link-subtitle">
-            {{ 'Player protection' | translate }}
+        </a>
+      }
+      @if (expanded) {
+        <a
+          class="profile-link"
+          (click)="onLinkClick()"
+          routerLink="/profile/responsible-gambling"
+          [routerLinkActive]="['profile-link-active']"
+        >
+          <div class="flex profile-link-content">
+            <div class="link-subtitle">
+              {{ 'Player protection' | translate }}
+            </div>
           </div>
-        </div>
-      </a>
-      } @if (expanded) {
-      <a
-        class="profile-link"
-        (click)="onLinkClick()"
-        routerLink="/profile/general/subscriptions"
-        [routerLinkActive]="['profile-link-active']"
-      >
-        <div class="flex profile-link-content">
-          <div class="link-subtitle">
-            {{ 'Privacy settings' | translate }}
+        </a>
+      }
+      @if (expanded) {
+        <a
+          class="profile-link"
+          (click)="onLinkClick()"
+          routerLink="/profile/general/subscriptions"
+          [routerLinkActive]="['profile-link-active']"
+        >
+          <div class="flex profile-link-content">
+            <div class="link-subtitle">
+              {{ 'Privacy settings' | translate }}
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
       }
     </div>
 
     <div class="expandable-icon-wrapper">
       @if (!expanded) {
-      <mat-icon fontSet="material-icons-outlined" class="link-navigation-icon expandable-icon" (click)="toggleMenu()"
-        >expand_more</mat-icon
-      >
-      } @if (expanded) {
-      <mat-icon fontSet="material-icons-outlined" class="link-navigation-icon expandable-icon" (click)="toggleMenu()"
-        >expand_less</mat-icon
-      >
+        <mat-icon fontSet="material-icons-outlined" class="link-navigation-icon expandable-icon" (click)="toggleMenu()"
+          >expand_more</mat-icon
+        >
+      }
+      @if (expanded) {
+        <mat-icon fontSet="material-icons-outlined" class="link-navigation-icon expandable-icon" (click)="toggleMenu()"
+          >expand_less</mat-icon
+        >
       }
     </div>
   </div>
@@ -132,7 +135,7 @@
       <div class="link-title">
         {{ 'Messages' | translate }}
         @if (displayNumberOfMessages) {
-        <div class="link-title-notifications">{{ messageCount$ | async }}</div>
+          <div class="link-title-notifications">{{ messageCount$ | async }}</div>
         }
       </div>
     </div>

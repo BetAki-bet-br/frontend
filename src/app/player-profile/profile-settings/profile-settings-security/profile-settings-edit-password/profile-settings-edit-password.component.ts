@@ -143,7 +143,7 @@ export class ProfileSettingsEditPasswordComponent implements OnInit, OnDestroy {
             };
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,
-              faceAuthParams
+              faceAuthParams,
             );
           }
 
@@ -162,13 +162,13 @@ export class ProfileSettingsEditPasswordComponent implements OnInit, OnDestroy {
             this.snackbarService.openCustomError(
               this.translateService.instant('Password not updated'),
               'center',
-              'top'
+              'top',
             );
             this.isLoading = false;
           }
 
           return throwError(err); // Re-throw the error to be handled by the final error callback
-        })
+        }),
       )
       .subscribe({
         next: (res) => {
@@ -176,14 +176,14 @@ export class ProfileSettingsEditPasswordComponent implements OnInit, OnDestroy {
             this.snackbarService.openCustomSuccess(
               this.translateService.instant('Password updated successfully'),
               'center',
-              'top'
+              'top',
             );
             this.router.navigate(['/profile/general/security/login-credentials']);
           } else {
             this.snackbarService.openCustomError(
               this.translateService.instant('Password not updated'),
               'center',
-              'top'
+              'top',
             );
             this.isLoading = false;
           }
@@ -218,7 +218,7 @@ export class ProfileSettingsEditPasswordComponent implements OnInit, OnDestroy {
           this.snackbarService.openCustomSuccess(
             this.translateService.instant('Password updated successfully'),
             'center',
-            'top'
+            'top',
           );
           this.passwordResetForm.reset();
           this.isLoading = false;
@@ -231,7 +231,7 @@ export class ProfileSettingsEditPasswordComponent implements OnInit, OnDestroy {
       catchError((err) => {
         // Handle errors from the dialog
         return throwError(err);
-      })
+      }),
     );
   }
 

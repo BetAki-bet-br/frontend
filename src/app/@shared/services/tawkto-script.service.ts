@@ -56,7 +56,7 @@ export class TawkToScriptService {
         } else {
           console.log('Visitor attributes set successfully.');
         }
-      }
+      },
     );
   }
 
@@ -79,7 +79,7 @@ export class TawkToScriptService {
             return this.configurationService.getPlayerInfo(true);
           }
           return of(null);
-        })
+        }),
       )
       .subscribe((res) => {
         this.setCredentials(res?.eMail ?? '', res?.firstName ?? '');

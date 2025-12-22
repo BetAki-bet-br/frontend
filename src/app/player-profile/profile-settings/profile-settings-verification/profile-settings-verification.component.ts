@@ -119,11 +119,11 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
               this.translate.instant('Error retrieving country codes'),
               'center',
               'top',
-              4000
+              4000,
             );
             return of(null);
-          })
-        )
+          }),
+        ),
       )
       .pipe(
         switchMap((data: CountryCode[]) => {
@@ -143,11 +143,11 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
               this.translate.instant('Error retrieving geolocation data'),
               'center',
               'top',
-              4000
+              4000,
             );
             return of(null);
-          })
-        )
+          }),
+        ),
       )
       .subscribe({
         next: (geoData: GeoLocationMapped | null) => {
@@ -229,19 +229,19 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
           this.snackbarService.openCustomError(
             this.translate.instant('Maximum file size overreached. Upload smaller file size'),
             'center',
-            'top'
+            'top',
           );
         } else if (err.error.errorMessage === 'DocumentFormatNotSupported') {
           this.snackbarService.openCustomError(
             this.translate.instant('File format is not supported for "') + file.name + '"',
             'center',
-            'top'
+            'top',
           );
         } else {
           this.snackbarService.openCustomError(
             this.translate.instant('Failed to upload file "') + file.name + '"',
             'center',
-            'top'
+            'top',
           );
         }
         this.fileUploading = '';
@@ -268,7 +268,7 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
             this.translate.instant('Phone number deleted successfully'),
             'center',
             'top',
-            4000
+            4000,
           );
           this.playerProfileService.numberChanged.next(true);
           this.getPlayerInfo(false);
@@ -278,7 +278,7 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
             this.translate.instant('Failed to delete phone number'),
             'center',
             'top',
-            4000
+            4000,
           );
         },
       });
@@ -310,7 +310,7 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
               this.translate.instant('Phone number added successfully'),
               'center',
               'top',
-              4000
+              4000,
             );
             this.playerProfileService.numberChanged.next(true);
             this.getPlayerInfo(false);
@@ -320,7 +320,7 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
               this.translate.instant('Failed to delete phone number'),
               'center',
               'top',
-              4000
+              4000,
             );
           },
         });
@@ -339,7 +339,7 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
           this.translate.instant('Error retrieving uploaded documents'),
           'center',
           'top',
-          4000
+          4000,
         );
       },
     });
@@ -360,7 +360,7 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
           this.translate.instant('Error retrieving player info'),
           'center',
           'bottom',
-          4000
+          4000,
         ),
     });
   }
@@ -391,7 +391,7 @@ export class ProfileSettingsVerificationComponent implements OnInit, OnDestroy {
           this.translate.instant('Error checking phone verification status'),
           'center',
           'top',
-          4000
+          4000,
         );
       },
     });

@@ -2,13 +2,13 @@
 
 <div class="bonus-container">
   @for (bonus of bonusList; track bonus) {
-  <div [innerHTML]="bonus.templateHtml"></div>
+    <div [innerHTML]="bonus.templateHtml"></div>
   }
 </div>
 
 @if (false) {
-<!-- removed for GLI version -->
-<app-winners-section [hidePoolJackpot]="true" [withBackground]="true" />
+  <!-- removed for GLI version -->
+  <app-winners-section [hidePoolJackpot]="true" [withBackground]="true" />
 }
 
 <app-welcome-message class="full-width">
@@ -19,7 +19,7 @@
   </p>
 
   @if (readMoreHidden) {
-  <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read more...</p>
+    <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read more...</p>
   }
 
   <div [class.hidden]="readMoreHidden">
@@ -33,6 +33,6 @@
   </div>
 
   @if (!readMoreHidden) {
-  <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read less...</p>
+    <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read less...</p>
   }
 </app-welcome-message>

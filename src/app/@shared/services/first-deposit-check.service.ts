@@ -58,7 +58,7 @@ export class FirstDepositCheckService {
             }
             // Return that data was not fulfilled
             return of(false);
-          })
+          }),
         );
       }),
       switchMap((isFullfilled) => {
@@ -76,9 +76,9 @@ export class FirstDepositCheckService {
           switchMap(() => {
             if (openDepositPage) return from(this.router.navigate(['profile/wallet/deposit']));
             else return this.openDepositDialog();
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -87,7 +87,7 @@ export class FirstDepositCheckService {
     return this.promotionService.getPromotions(OptedInEnum.PossibleOptinOrOptinNotRequiredPromotions).pipe(
       map((result) => {
         return this.promotionService.findFirstDepositPromotion(result);
-      })
+      }),
     );
   }
 
@@ -115,7 +115,7 @@ export class FirstDepositCheckService {
           // On skip just return null and do nothing
           return of(null);
         }
-      })
+      }),
     );
   }
 
@@ -129,7 +129,7 @@ export class FirstDepositCheckService {
       switchMap((result: any) => {
         log.debug('deposit closed', result);
         return this.playerStatusService.updatePlayerBalance();
-      })
+      }),
     );
   }
 
@@ -149,7 +149,7 @@ export class FirstDepositCheckService {
   private openDialog(
     type: ActionType,
     bonus: PromotionDetailsResolved,
-    loadingDialogRef: DialogRef<PromotionActionDialogComponent, unknown> | null
+    loadingDialogRef: DialogRef<PromotionActionDialogComponent, unknown> | null,
   ) {
     let bonusAction$ = null;
     let description = '';
@@ -160,10 +160,10 @@ export class FirstDepositCheckService {
       promotionId: bonus.promotionId,
     });
     description = marker(
-      'You have successfully opt in to this promotion. See bonus history to check your active promotions.'
+      'You have successfully opt in to this promotion. See bonus history to check your active promotions.',
     );
     descriptionError = marker(
-      'Something went wrong while processing your opt in. Please try again or contact our support.'
+      'Something went wrong while processing your opt in. Please try again or contact our support.',
     );
 
     return bonusAction$?.pipe(
@@ -205,7 +205,7 @@ export class FirstDepositCheckService {
 
         // on dialog closed
         return dialogRef.closed;
-      })
+      }),
     );
   }
 

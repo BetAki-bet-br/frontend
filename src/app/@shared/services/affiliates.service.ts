@@ -48,7 +48,7 @@ export class AffiliatesService {
         }
 
         return token;
-      })
+      }),
     );
   }
 
@@ -67,7 +67,7 @@ export class AffiliatesService {
         }
 
         return null;
-      })
+      }),
     );
   }
 

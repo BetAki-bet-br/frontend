@@ -139,7 +139,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
           countryList: data.countryList,
           countryCodes: data.countryCodeList,
         };
-      })
+      }),
     );
   }
 
@@ -180,11 +180,11 @@ export class AnnualVerificationDialogComponent implements OnInit {
 
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,
-              faceAuthParams
+              faceAuthParams,
             );
           }
           return of(null);
-        })
+        }),
       )
       .subscribe({
         next: (result) => {
@@ -194,7 +194,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
               this.translateService.instant('Data saved successfully'),
               'center',
               'top',
-              4000
+              4000,
             );
             this.dialogRef.close(true);
           }
@@ -206,7 +206,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
             this.translateService.instant('Failed to update data'),
             'center',
             'top',
-            4000
+            4000,
           );
         },
       });

@@ -8,7 +8,7 @@ export class UsernameOrEmailTakenValidator {
   static usernameOrEmailTakenValidator(
     playerService: PlayerService,
     dataStoreService: DataStoreService,
-    type: 'Username' | 'Email'
+    type: 'Username' | 'Email',
   ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
       if (type === 'Email' && dataStoreService.playerInfoInMemory?.eMail === control.value) {
@@ -34,9 +34,9 @@ export class UsernameOrEmailTakenValidator {
                 } else {
                   return null;
                 }
-              })
-            )
-        )
+              }),
+            ),
+        ),
       );
     };
   }

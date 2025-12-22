@@ -58,7 +58,7 @@ export class ResetPaswordComponent implements OnInit {
       password: new FormControl('', [Validators.required, ...defaultPasswordValidators]),
       confirmPassword: new FormControl('', [Validators.required]),
     },
-    [MatchValidator('password', 'confirmPassword')]
+    [MatchValidator('password', 'confirmPassword')],
   );
 
   resetStep = 1;
@@ -105,7 +105,7 @@ export class ResetPaswordComponent implements OnInit {
         finalize(() => {
           this.isLoading = false;
           this.cdr.markForCheck();
-        })
+        }),
       )
       .subscribe({
         next: (response) => {
@@ -135,7 +135,7 @@ export class ResetPaswordComponent implements OnInit {
               this.translateService.instant(this.errorMessage),
               'center',
               'top',
-              4000
+              4000,
             );
           }
         },

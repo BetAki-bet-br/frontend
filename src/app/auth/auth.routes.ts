@@ -72,7 +72,7 @@ export const routes: Routes = [
     path: 'users/confirmation/new',
     loadComponent: () =>
       import('../users/resend-confirmation-instructions/resend-confirmation-instructions.component').then(
-        (m) => m.ResendConfirmationInstructionsComponent
+        (m) => m.ResendConfirmationInstructionsComponent,
       ),
     canActivate: [publicAuthGuard],
 
@@ -84,7 +84,7 @@ export const routes: Routes = [
     path: 'users/unlock/new',
     loadComponent: () =>
       import('../users/resend-unlock-instructions/resend-unlock-instructions.component').then(
-        (m) => m.ResendUnlockInstructionsComponent
+        (m) => m.ResendUnlockInstructionsComponent,
       ),
     canActivate: [publicAuthGuard],
 
@@ -96,7 +96,7 @@ export const routes: Routes = [
     path: 'users/email-verified',
     loadComponent: () =>
       import('@app/users/email-verified-success/email-verified-success.component').then(
-        (m) => m.EmailVerifiedSuccessComponent
+        (m) => m.EmailVerifiedSuccessComponent,
       ),
     canActivate: [publicAuthGuard],
 

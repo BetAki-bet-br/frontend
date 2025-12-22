@@ -14,7 +14,7 @@ export class AwardedGameCard {
   game = input.required<GameMain>();
   class = input<string>('');
   randomPrize = signal(
-    `R$ ${(Math.floor(Math.random() * (5000000 - 100000 + 1)) + 100000).toLocaleString('pt-BR')},00`
+    `R$ ${(Math.floor(Math.random() * (5000000 - 100000 + 1)) + 100000).toLocaleString('pt-BR')},00`,
   );
   isPriority = input<boolean>(false); // Add isPriority input
 

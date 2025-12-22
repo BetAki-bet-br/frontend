@@ -38,6 +38,6 @@ export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (): Observab
         levelType: 'Category',
         parentId: undefined,
       };
-    })
+    }),
   );
 };

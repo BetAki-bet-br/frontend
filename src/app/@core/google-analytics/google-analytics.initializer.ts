@@ -15,7 +15,7 @@ export function GoogleAnalyticsInitializer(settings: IGoogleAnalyticsSettings, g
     if (!settings.trackingCode) {
       if (!isDevMode()) {
         console.error(
-          'Empty tracking code for Google Analytics. Make sure to provide one when initializing NgxGoogleAnalyticsModule.'
+          'Empty tracking code for Google Analytics. Make sure to provide one when initializing NgxGoogleAnalyticsModule.',
         );
       }
 
@@ -25,7 +25,7 @@ export function GoogleAnalyticsInitializer(settings: IGoogleAnalyticsSettings, g
     if (!gtag) {
       if (!isDevMode()) {
         console.error(
-          'Was not possible create or read gtag() fn. Make sure this module is running on a Browser w/ access to Window interface.'
+          'Was not possible create or read gtag() fn. Make sure this module is running on a Browser w/ access to Window interface.',
         );
       }
 
@@ -35,7 +35,7 @@ export function GoogleAnalyticsInitializer(settings: IGoogleAnalyticsSettings, g
     if (!document) {
       if (!isDevMode()) {
         console.error(
-          'Was not possible to access Document interface. Make sure this module is running on a Browser w/ access do Document interface.'
+          'Was not possible to access Document interface. Make sure this module is running on a Browser w/ access do Document interface.',
         );
       }
     }

@@ -10,7 +10,7 @@ export class TimeLeftPipe implements PipeTransform {
       repeat({ delay: 1000 }),
       map(() => {
         return this.getTimeLeft(dateTo);
-      })
+      }),
     );
   }
 

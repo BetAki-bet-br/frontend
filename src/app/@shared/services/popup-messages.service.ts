@@ -61,7 +61,7 @@ export class PopupMessagesService implements OnDestroy {
       catchError((err) => {
         log.debug('fetchPopupMessages returned error: ', err);
         throw err;
-      })
+      }),
     );
   }
 
@@ -80,7 +80,7 @@ export class PopupMessagesService implements OnDestroy {
       }),
       catchError((err) => {
         throw err;
-      })
+      }),
     );
   }
 
@@ -138,7 +138,7 @@ export class PopupMessagesService implements OnDestroy {
             }
 
             return of(null);
-          })
+          }),
         )
         .subscribe(() => {
           this.isMessageDisplayed = false;

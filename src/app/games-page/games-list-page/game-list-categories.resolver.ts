@@ -22,6 +22,6 @@ export const gameListCategoriesResolver: ResolveFn<GameCategory[]> = (): Observa
       });
     }),
     filter((categories) => categories.length > 0),
-    take(1)
+    take(1),
   );
 };

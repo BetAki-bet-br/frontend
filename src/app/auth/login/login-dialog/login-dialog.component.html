@@ -16,9 +16,9 @@
             formControlName="username"
           />
           @if (loginForm.controls.username.hasError('required') && loginForm.controls.username.touched) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank </mat-error>
-          </ng-container>
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank </mat-error>
+            </ng-container>
           }
         </mat-form-field>
       </div>
@@ -47,25 +47,26 @@
             <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
           </button>
           @if (loginForm.controls.password.hasError('required') && loginForm.controls.password.touched) {
-          <ng-container>
-            <mat-error class="error-msg" translate> can't be blank </mat-error>
-          </ng-container>
+            <ng-container>
+              <mat-error class="error-msg" translate> can't be blank </mat-error>
+            </ng-container>
           }
         </mat-form-field>
       </div>
 
       <!-- Error -->
       @if (error && error !== 'PlayerLockedOut') {
-      <div class="error-msg" [innerHTML]="error | translate">
-        {{ error | translate }}
-      </div>
-      } @if (error === 'PlayerLockedOut') {
-      <div class="error-msg">
-        {{ error | translate }}
-        <a class="reset-password-link" (click)="onClose({ closeEvent: 'forgotPassword' })">{{
-          'Please reset your password.' | translate
-        }}</a>
-      </div>
+        <div class="error-msg" [innerHTML]="error | translate">
+          {{ error | translate }}
+        </div>
+      }
+      @if (error === 'PlayerLockedOut') {
+        <div class="error-msg">
+          {{ error | translate }}
+          <a class="reset-password-link" (click)="onClose({ closeEvent: 'forgotPassword' })">{{
+            'Please reset your password.' | translate
+          }}</a>
+        </div>
       }
 
       <!-- Forgot password -->
@@ -82,7 +83,7 @@
         (click)="onLogin()"
       >
         @if (!isDataLoading) {
-        <span class="login-button-text mr-0.5" translate>Login</span>
+          <span class="login-button-text mr-0.5" translate>Login</span>
         }
         <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
       </button>

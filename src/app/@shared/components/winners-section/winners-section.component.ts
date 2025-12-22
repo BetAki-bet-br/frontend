@@ -48,10 +48,10 @@ export class WinnersSectionComponent implements OnInit, OnDestroy {
           this.nrOfDisplayedItems = change.breakpoints[AppBreakpoints.LtSmall2]
             ? 3
             : change.breakpoints[AppBreakpoints.LtMedium]
-            ? 5
-            : 7;
+              ? 5
+              : 7;
           this.cdr.markForCheck();
-        })
+        }),
     );
   }
 

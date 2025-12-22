@@ -10,7 +10,7 @@ describe('AuthenticationInterceptor', () => {
     TestBed.configureTestingModule({
       providers: [AuthenticationInterceptor, HttpBackend],
       imports: [TranslateModule.forRoot(), RouterModule],
-    })
+    }),
   );
 
   it('should be created', () => {

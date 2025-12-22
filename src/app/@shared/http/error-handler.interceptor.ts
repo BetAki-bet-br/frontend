@@ -45,7 +45,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   private errorHandler(
     error: HttpErrorResponse,
     request: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (!environment.production) {
       // Do something with the error
@@ -110,13 +110,13 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
           return throwError(
             () =>
               new Error(
-                `Cancel waiting for refresh; Error calling renew session (org. request: ${request.urlWithParams})`
-              )
+                `Cancel waiting for refresh; Error calling renew session (org. request: ${request.urlWithParams})`,
+              ),
           );
         }
 
         return next.handle(request).pipe(catchError((error) => this.errorHandler(error, request, next)));
-      })
+      }),
     );
   }
 }

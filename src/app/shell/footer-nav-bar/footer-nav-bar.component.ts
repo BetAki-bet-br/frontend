@@ -100,8 +100,8 @@ export class FooterNavBarComponent {
     return this.isSportsbook
       ? this.navItemsSportsbook
       : this.isGamesLive
-      ? this.navItemsGeneralLive
-      : this.navItemsGeneral;
+        ? this.navItemsGeneralLive
+        : this.navItemsGeneral;
   }
 
   get isGamesLive() {

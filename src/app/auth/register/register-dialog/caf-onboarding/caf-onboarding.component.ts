@@ -39,7 +39,7 @@ export class CafOnboardingComponent implements OnInit, OnDestroy {
           this.onboardingFinished.emit(e?.data?.detail?.executionId ?? '');
         }
       },
-      false
+      false,
     );
   }
 

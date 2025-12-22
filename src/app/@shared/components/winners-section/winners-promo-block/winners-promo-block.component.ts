@@ -50,7 +50,7 @@ export class WinnersPromoBlockComponent implements OnInit, OnDestroy {
           } else {
             this.bufferedItems.push(...items);
           }
-        })
+        }),
       );
     }
   }

@@ -24,43 +24,43 @@
     <!-- AUTH AND LANGUAGE SELECTOR -->
 
     @if (!username) {
-    <div class="flex auth-buttons-container gap-2.5">
-      <a class="promo-icon" routerLink="/promotions" (click)="scrollToTop()">
-        <mat-icon>redeem</mat-icon>
-      </a>
-      <button
-        mat-stroked-button
-        class="sign-up-button auth-button secondary"
-        (click)="onRegister()"
-        aria-label="sign up"
-      >
-        <mat-icon svgIcon="register" />
-        <span translate>Register</span>
-      </button>
-      <button
-        class="login-button secondary-button auth-button secondary"
-        mat-button
-        routerLink="/sign-in"
-        aria-label="login"
-        (click)="scrollToTop()"
-      >
-        <mat-icon svgIcon="exit-door" />
-        <span translate>Enter</span>
-      </button>
-    </div>
+      <div class="flex auth-buttons-container gap-2.5">
+        <a class="promo-icon" routerLink="/promotions" (click)="scrollToTop()">
+          <mat-icon>redeem</mat-icon>
+        </a>
+        <button
+          mat-stroked-button
+          class="sign-up-button auth-button secondary"
+          (click)="onRegister()"
+          aria-label="sign up"
+        >
+          <mat-icon svgIcon="register" />
+          <span translate>Register</span>
+        </button>
+        <button
+          class="login-button secondary-button auth-button secondary"
+          mat-button
+          routerLink="/sign-in"
+          aria-label="login"
+          (click)="scrollToTop()"
+        >
+          <mat-icon svgIcon="exit-door" />
+          <span translate>Enter</span>
+        </button>
+      </div>
     }
 
     <!-- PROFILE HEADER -->
     @if (username) {
-    <div class="auth-buttons-container">
-      <app-profile-info-header
-        [isProfile]="isProfile"
-        [balance]="balance"
-        [loyaltyPoints]="loyaltyPoints"
-        [isDemoPlay]="isDemoPlay"
-        [playerInfo]="playerInfo"
-      />
-    </div>
+      <div class="auth-buttons-container">
+        <app-profile-info-header
+          [isProfile]="isProfile"
+          [balance]="balance"
+          [loyaltyPoints]="loyaltyPoints"
+          [isDemoPlay]="isDemoPlay"
+          [playerInfo]="playerInfo"
+        />
+      </div>
     }
   </div>
 </div>

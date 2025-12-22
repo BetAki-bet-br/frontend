@@ -8,49 +8,57 @@
     <div class="flex">
       <span [class.title-gray]="currentRoute" [routerLink]="'/profile/wallet/deposit'" translate>Wallet</span>
       @if (currentRoute) {
-      <span [class.title-gray]="currentRoute">/</span>
-      } @if (currentRoute) {
-      <span translate> {{ currentRoute }} </span>
+        <span [class.title-gray]="currentRoute">/</span>
+      }
+      @if (currentRoute) {
+        <span translate> {{ currentRoute }} </span>
       }
     </div>
   </div>
   <div class="divider mobile"></div>
   @if (!currentRoute) {
-  <div class="profile-link-container mobile">
-    <a class="profile-link" routerLink="/profile/wallet/deposit" [routerLinkActive]="['profile-link-active']" translate>
-      <div class="flex flex-col">
-        <div class="flex flex-col link-title">
-          {{ 'DEPOSIT' | translate }}
+    <div class="profile-link-container mobile">
+      <a
+        class="profile-link"
+        routerLink="/profile/wallet/deposit"
+        [routerLinkActive]="['profile-link-active']"
+        translate
+      >
+        <div class="flex flex-col">
+          <div class="flex flex-col link-title">
+            {{ 'DEPOSIT' | translate }}
+          </div>
+          <div class="flex flex-col link-description">
+            {{ 'Deposit money.' | translate }}
+          </div>
         </div>
-        <div class="flex flex-col link-description">
-          {{ 'Deposit money.' | translate }}
+      </a>
+      <a
+        class="profile-link"
+        routerLink="/profile/wallet/withdrawal"
+        [routerLinkActive]="['profile-link-active']"
+        translate
+      >
+        <div class="flex flex-col">
+          <div class="flex flex-col link-title">
+            {{ 'WITHDRAWAL' | translate }}
+          </div>
+          <div class="flex flex-col link-description">
+            {{ 'Withdraw money.' | translate }}
+          </div>
         </div>
-      </div>
-    </a>
-    <a
-      class="profile-link"
-      routerLink="/profile/wallet/withdrawal"
-      [routerLinkActive]="['profile-link-active']"
-      translate
-    >
-      <div class="flex flex-col">
-        <div class="flex flex-col link-title">
-          {{ 'WITHDRAWAL' | translate }}
-        </div>
-        <div class="flex flex-col link-description">
-          {{ 'Withdraw money.' | translate }}
-        </div>
-      </div>
-    </a>
-  </div>
-  } @if (currentRoute === 'Deposit') {
-  <div class="mt-[22px] mobile">
-    <app-wallet-deposit />
-  </div>
-  } @if (currentRoute === 'Withdrawal') {
-  <div class="mt-[22px] mobile">
-    <app-wallet-withdrawal />
-  </div>
+      </a>
+    </div>
+  }
+  @if (currentRoute === 'Deposit') {
+    <div class="mt-[22px] mobile">
+      <app-wallet-deposit />
+    </div>
+  }
+  @if (currentRoute === 'Withdrawal') {
+    <div class="mt-[22px] mobile">
+      <app-wallet-withdrawal />
+    </div>
   }
 
   <!-- Profile tabs -->

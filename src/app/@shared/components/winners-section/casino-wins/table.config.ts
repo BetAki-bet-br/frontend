@@ -3,7 +3,7 @@ import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 
 export function getDesktopTableColumns(
   usernameTemplate: TemplateRef<any> | undefined,
-  currencyTemplate: TemplateRef<any> | undefined
+  currencyTemplate: TemplateRef<any> | undefined,
 ) {
   return [
     {
@@ -42,7 +42,7 @@ export function getDesktopTableColumns(
 export function getMobileTableColumns(
   gameTemplate: TemplateRef<any> | undefined,
   betAmountTemplate: TemplateRef<any> | undefined,
-  currencyTemplate: TemplateRef<any> | undefined
+  currencyTemplate: TemplateRef<any> | undefined,
 ) {
   return [
     {

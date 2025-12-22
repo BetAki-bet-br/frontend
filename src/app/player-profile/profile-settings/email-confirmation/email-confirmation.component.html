@@ -1,64 +1,65 @@
 <div class="player-profile-page-container flex flex flex flex-col items-center">
   <!-- INPUT STEP -->
   @if (verificationStep === 1) {
-  <div class="page-section flex flex flex-col gap-8">
-    <div class="title" translate>Enter the code sent</div>
-    <div class="subtitle" translate>
-      {{
-        'We’ve sent a security code to your chosen option (email or SMS). If you don’t receive it, please check your spam or junk folder. It may take a few minutes to arrive.'
-          | translate
-      }}
-    </div>
-    <div [formGroup]="otpForm" class="code-container flex flex flex-col gap-4 justify-center items-center">
-      <span translate>Code:</span>
-      <div formArrayName="otp" class="otp-input-container">
-        @for (digit of otpControls.controls; track digit; let i = $index) {
-        <input
-          type="text"
-          maxlength="1"
-          [formControlName]="i"
-          (keyup)="onKeyUp($event, i)"
-          (keydown)="onKeyDown($event, i)"
-          (paste)="onPaste($event)"
-          #otpInput
-        />
+    <div class="page-section flex flex flex-col gap-8">
+      <div class="title" translate>Enter the code sent</div>
+      <div class="subtitle" translate>
+        {{
+          'We’ve sent a security code to your chosen option (email or SMS). If you don’t receive it, please check your spam or junk folder. It may take a few minutes to arrive.'
+            | translate
+        }}
+      </div>
+      <div [formGroup]="otpForm" class="code-container flex flex flex-col gap-4 justify-center items-center">
+        <span translate>Code:</span>
+        <div formArrayName="otp" class="otp-input-container">
+          @for (digit of otpControls.controls; track digit; let i = $index) {
+            <input
+              type="text"
+              maxlength="1"
+              [formControlName]="i"
+              (keyup)="onKeyUp($event, i)"
+              (keydown)="onKeyDown($event, i)"
+              (paste)="onPaste($event)"
+              #otpInput
+            />
+          }
+        </div>
+        @if (isVerifyError) {
+          <mat-error class="error-msg" translate>{{
+            'The verification code you entered is incorrect or has already expired. Please try again or request a new code.'
+              | translate
+          }}</mat-error>
         }
       </div>
-      @if (isVerifyError) {
-      <mat-error class="error-msg" translate>{{
-        'The verification code you entered is incorrect or has already expired. Please try again or request a new code.'
-          | translate
-      }}</mat-error>
-      }
+      <button [disabled]="getOtpCode().length !== otpLength" mat-button (click)="onVerifyCode()">
+        <span translate>Proceed</span>
+      </button>
     </div>
-    <button [disabled]="getOtpCode().length !== otpLength" mat-button (click)="onVerifyCode()">
-      <span translate>Proceed</span>
-    </button>
-  </div>
   }
 
   <!-- SUCCESS STEP -->
   @if (verificationStep === 2 && isSuccess) {
-  <div class="page-section flex flex flex-col gap-8 items-center">
-    <img class="success-img" alt="check" [src]="'assets/general/icons/success-check.svg' | cdnize" />
-    <div class="title" translate>E-mail successfully verified</div>
-    <div class="subtitle" translate>You can now access all the features of your account. Welcome and good luck.</div>
-  </div>
-  } @if (verificationStep === 2 && isSuccess) {
-  <div class="flex flex flex-col gap-4 items-center width-full">
-    <button routerLink="/" class="button-text-xx-large label-dark success-button" mat-button>
-      <span translate>To Sportsbook</span>
-    </button>
-    <span class="divider" translate>Or</span>
-    <button
-      routerLink="/games"
-      routerLinkActive="router-link-active"
-      class="button-text-xx-large label-dark success-button"
-      mat-button
-    >
-      <span translate>To Casino</span>
-    </button>
-  </div>
+    <div class="page-section flex flex flex-col gap-8 items-center">
+      <img class="success-img" alt="check" [src]="'assets/general/icons/success-check.svg' | cdnize" />
+      <div class="title" translate>E-mail successfully verified</div>
+      <div class="subtitle" translate>You can now access all the features of your account. Welcome and good luck.</div>
+    </div>
+  }
+  @if (verificationStep === 2 && isSuccess) {
+    <div class="flex flex flex-col gap-4 items-center width-full">
+      <button routerLink="/" class="button-text-xx-large label-dark success-button" mat-button>
+        <span translate>To Sportsbook</span>
+      </button>
+      <span class="divider" translate>Or</span>
+      <button
+        routerLink="/games"
+        routerLinkActive="router-link-active"
+        class="button-text-xx-large label-dark success-button"
+        mat-button
+      >
+        <span translate>To Casino</span>
+      </button>
+    </div>
   }
 
   <!-- FAILED STEP -->
@@ -78,19 +79,19 @@
 
   <!-- RESEND -->
   @if (verificationStep === 1) {
-  <div class="flex flex flex-col gap-4 width-full items-center">
-    @if (resendDisabled) {
-    <div class="flex flex-wrap gap-0.5 items-center justify-center resend-timer-text">
-      <span
-        >{{ 'Haven’t received the code yet? You can request a new one at:' | translate }} {{ timerDisplay }}
-        {{ 'seconds' | translate }}</span
-      >
+    <div class="flex flex flex-col gap-4 width-full items-center">
+      @if (resendDisabled) {
+        <div class="flex flex-wrap gap-0.5 items-center justify-center resend-timer-text">
+          <span
+            >{{ 'Haven’t received the code yet? You can request a new one at:' | translate }} {{ timerDisplay }}
+            {{ 'seconds' | translate }}</span
+          >
+        </div>
+      }
+      <button [disabled]="resendDisabled" mat-stroked-button class="resend-button" (click)="onResendCode()">
+        <span translate>Send a new code</span>
+      </button>
     </div>
-    }
-    <button [disabled]="resendDisabled" mat-stroked-button class="resend-button" (click)="onResendCode()">
-      <span translate>Send a new code</span>
-    </button>
-  </div>
   }
 
   <!-- SUPPORT AND INFO -->
