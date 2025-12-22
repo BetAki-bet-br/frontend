@@ -47,7 +47,7 @@ interface NavigatorWithDeviceMemory extends Navigator {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterPage implements OnInit {
+export class RegisterPage {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly gtmService = inject(GoogleTagManagerImplementationService);
@@ -102,12 +102,6 @@ export class RegisterPage implements OnInit {
     { validators: passwordsMatchValidator() }
   );
   fingerprintRequestId: string = '';
-
-  ngOnInit(): void {
-    // this.authenticationService.getFingerprintData().then((requestId) => {
-    //   this.fingerprintRequestId = requestId;
-    // });
-  }
 
   register(): void {
     this.form.markAllAsTouched();

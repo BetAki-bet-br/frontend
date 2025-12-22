@@ -55,7 +55,10 @@
     (gameClick)="handleGameClick($event)"
   ></app-top-10-live-list>
   } @case ('providers-carousel') {
-  <app-providers-carousel [providers]="section.data.providers" [categoryId]="section.data.categoryId"></app-providers-carousel>
+  <app-providers-carousel
+    [providers]="section.data.providers"
+    [categoryId]="section.data.categoryId"
+  ></app-providers-carousel>
   } } }
 </div>
 

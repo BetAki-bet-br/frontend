@@ -115,19 +115,19 @@ export class AppStartupService {
 
     // SEO Canonical and Robots
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
-        // Find the current activated route
-        let route = this.activatedRoute;
-        while (route.firstChild) {
-            route = route.firstChild;
-        }
-        
-        const seoHostname = environment.deployConfig.seoHostname;
-        if (seoHostname) {
-            const canonicalPath = route.snapshot.data['canonical'] || this.router.url;
-            const canonicalUrl = seoHostname + canonicalPath;
-            this.seoService.updateCanonicalUrl(canonicalUrl);
-        }
-        this.seoService.updateRobotsMetaTags(route.snapshot.data['robots']);
+      // Find the current activated route
+      let route = this.activatedRoute;
+      while (route.firstChild) {
+        route = route.firstChild;
+      }
+
+      const seoHostname = environment.deployConfig.seoHostname;
+      if (seoHostname) {
+        const canonicalPath = route.snapshot.data['canonical'] || this.router.url;
+        const canonicalUrl = seoHostname + canonicalPath;
+        this.seoService.updateCanonicalUrl(canonicalUrl);
+      }
+      this.seoService.updateRobotsMetaTags(route.snapshot.data['robots']);
     });
 
     // Update player balance and messages on navigation
@@ -199,12 +199,12 @@ export class AppStartupService {
       dialogRef.closed.pipe(take(1)).subscribe((res) => {
         if (!res) {
           // Re-open if cancelled/false (enforce)
-           // Logic from original component: if !res, recursive call.
-           // However, dialogRef.closed emits only once. We can implement a simple loop or just reopen.
-           // Simplified for now: assume AgeConfirmationDialog handles "No" by not closing or returning false.
-           // Original code: if (!res) this.openAgeVerificationDialog(); else localStorage...
-           if (res) localStorage.setItem('age-verified', 'true');
-           else this.openGlobalDialogs(); // Re-trigger
+          // Logic from original component: if !res, recursive call.
+          // However, dialogRef.closed emits only once. We can implement a simple loop or just reopen.
+          // Simplified for now: assume AgeConfirmationDialog handles "No" by not closing or returning false.
+          // Original code: if (!res) this.openAgeVerificationDialog(); else localStorage...
+          if (res) localStorage.setItem('age-verified', 'true');
+          else this.openGlobalDialogs(); // Re-trigger
         } else {
           localStorage.setItem('age-verified', 'true');
         }

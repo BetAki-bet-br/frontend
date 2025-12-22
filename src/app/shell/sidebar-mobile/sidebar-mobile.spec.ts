@@ -18,23 +18,23 @@ describe('SidebarMobile', () => {
   // Mocks
   const mockSidebarService = {
     isOpen: signal(true),
-    close: jasmine.createSpy('close')
+    close: jasmine.createSpy('close'),
   };
   const mockCredentialsService = {
-    isAuthenticated: signal(true)
+    isAuthenticated: signal(true),
   };
   const mockRoutingService = {};
   const mockAuthService = {
-    logout: jasmine.createSpy('logout')
+    logout: jasmine.createSpy('logout'),
   };
   const mockPlayerService = {
-    getPlayerDetails: () => of({ player: {} })
+    getPlayerDetails: () => of({ player: {} }),
   };
   const mockTawkToScriptService = {
-    maximize: jasmine.createSpy('maximize')
+    maximize: jasmine.createSpy('maximize'),
   };
   const mockRouter = {
-    navigateByUrl: jasmine.createSpy('navigateByUrl')
+    navigateByUrl: jasmine.createSpy('navigateByUrl'),
   };
 
   beforeEach(async () => {
@@ -47,8 +47,8 @@ describe('SidebarMobile', () => {
         { provide: AuthenticationService, useValue: mockAuthService },
         { provide: PlayerService, useValue: mockPlayerService },
         { provide: TawkToScriptService, useValue: mockTawkToScriptService },
-        { provide: Router, useValue: mockRouter }
-      ]
+        { provide: Router, useValue: mockRouter },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SidebarMobile);

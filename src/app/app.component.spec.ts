@@ -19,11 +19,7 @@ class MockAppStartupService {
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        TranslateModule.forRoot(),
-        AppComponent,
-        RouterModule,
-      ],
+      imports: [TranslateModule.forRoot(), AppComponent, RouterModule],
       providers: [
         { provide: AppIconsService, useClass: MockAppIconsService },
         { provide: AppStartupService, useClass: MockAppStartupService },

@@ -33,8 +33,6 @@ export const environment = {
     brandId: 4,
     desktopPortalId: 5,
     mobilePortalId: 6,
-    fingerprintApiKey: 'f3cW3iUlT4Fa02Wuh0Jo',
-    fingerprintEndpoint: 'https://fngint.betaki.bet.br',
     seoHostname: 'https://betaki.bet.br/',
     sportsbookIntegration: 'betaki',
     sportsbookSDK: 'https://sb2wsdk-altenar2-stage.biahosted.com/altenarWSDK.js',

@@ -10,7 +10,7 @@ export const environment = {
   desktopPortalId: 5,
   mobilePortalId: 6,
   defaultBrandId: 2,
-  API_BASE_PATH: '', // from environment.prod.ts
+  API_BASE_PATH: '/api', // from environment.prod.ts
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',
   useLocalHtmlTemplates: false, // Should be false for production
   demoPlayEnabled: false,
@@ -33,8 +33,6 @@ export const environment = {
     brandId: 4,
     desktopPortalId: 5,
     mobilePortalId: 6,
-    fingerprintApiKey: 'f3cW3iUlT4Fa02Wuh0Jo',
-    fingerprintEndpoint: 'https://fngint.betaki.bet.br',
     seoHostname: 'https://betaki.bet.br/',
     sportsbookIntegration: 'betaki',
     sportsbookSDK: 'https://sb2wsdk-altenar2-stage.biahosted.com/altenarWSDK.js',

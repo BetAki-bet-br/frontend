@@ -154,11 +154,6 @@ export class RegisterPageFormComponent implements OnInit {
   validateNumber = validateNumber;
 
   ngOnInit(): void {
-    // Retrieve and set device fingerprint requestId
-    // this.authenticationService.getFingerprintData().then((requestId) => {
-    //   this.fingerprintRequestId = requestId;
-    // });
-
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
 
     this.registerForm?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {

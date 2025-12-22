@@ -109,14 +109,6 @@ export class LoginPage implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   ngOnInit(): void {
-    // Retrieve and set device fingerprint requestId
-    // this.authenticationService.getFingerprintData().then((requestId) => {
-    //   this.fingerprintRequestId = requestId;
-
-    //   if (!this.fingerprintRequestId || this.fingerprintRequestId === '') {
-    //     this.openAdBlockerDialog();
-    //   }
-    // });
     this.loadBanner();
   }
 

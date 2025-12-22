@@ -122,15 +122,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Retrieve and set device fingerprint requestId
-    // this.authenticationService.getFingerprintData().then((requestId) => {
-    //   this.fingerprintRequestId = requestId;
-
-    //   if (!this.fingerprintRequestId || this.fingerprintRequestId === '') {
-    //     this.openAdBlockerDialog();
-    //   }
-    // });
-
     this.loadBanner();
   }
 

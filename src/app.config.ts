@@ -1,14 +1,13 @@
-import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from '@app/app.routes';
-import { provideTranslateService, TranslateModule } from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { environment } from '@env/environment';
 import { provideApi } from '@icore/ngx-portalgateway-api-client-atl';
 import { apiKeyInterceptor } from '@app/@shared/http/api-key.interceptor';
 import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angular/material/checkbox';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { authInterceptor } from '@app/@shared/http/auth.interceptor';
 import { provideNgxMask } from 'ngx-mask';
 

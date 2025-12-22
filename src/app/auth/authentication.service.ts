@@ -5,7 +5,6 @@ import { Logger } from '@app/@shared/logger.service';
 import { ConfirmationInstructionsData, RegisterData, UnlockInstructionsData } from '@app/@shared/models';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { I18nService } from '@app/i18n';
-import { FingerprintjsProAngularService } from '@fingerprintjs/fingerprintjs-pro-angular';
 import {
   ChangeForgottenPasswordRequest,
   CreatePlayerRequest,
@@ -55,7 +54,6 @@ export class AuthenticationService {
   private router = inject(Router);
   private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
   private i18nService = inject(I18nService);
-  private fingerprintService = inject(FingerprintjsProAngularService);
   private translateService = inject(TranslateService);
   private authEventsService = inject(AuthEventsService);
   private playerPromoService = inject(PlayerPromoService);
@@ -403,20 +401,6 @@ export class AuthenticationService {
       }),
       takeLast(1)
     );
-  }
-
-  /**
-   * Retrieves and returns device identification (device fingerprint) from Fingerprint Angular SDK
-   */
-  async getFingerprintData(): Promise<string> {
-    try {
-      const data = await this.fingerprintService.getVisitorData({}, true);
-      log.debug('Device Fingerprint retrieved: ', data);
-
-      return data.requestId;
-    } catch {
-      return '';
-    }
   }
 
   private clearUserData() {

@@ -40,12 +40,14 @@ export class LiveSearchPage {
     toObservable(this.searchTerm).pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      tap(term => this.loading.set(term.length >= 3)),
-      switchMap(term => {
+      tap((term) => this.loading.set(term.length >= 3)),
+      switchMap((term) => {
         if (term.length < 3) {
           return of([]);
         }
-        return this.gameService.searchGames(term, this.portalService.portalId).pipe(finalize(() => this.loading.set(false)));
+        return this.gameService
+          .searchGames(term, this.portalService.portalId)
+          .pipe(finalize(() => this.loading.set(false)));
       })
     ),
     { initialValue: [] }

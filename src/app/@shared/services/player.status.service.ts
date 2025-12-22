@@ -198,64 +198,6 @@ export class PlayerStatusService {
     );
   }
 
-  /* startGeolocationCheck(): Observable<GeoLocationCheckResponse | null> {
-    return timer(0, this.geolocationCheck).pipe(
-      exhaustMap(() => {
-        if (!this.credentialsService.isAuthenticated()) {
-          return of(null);
-        }
-
-        return from(this.authenticationService.getFingerprintData()).pipe(
-          mergeMap((fingerPrintData) =>
-            this.playerServiceApi.apiPortalV1PlayerGeolocationcheckPost({ deviceFingerprint: fingerPrintData }).pipe(
-              catchError((err) => {
-                log.debug('Post geolocation check error:', err);
-
-                if (err?.error?.errorMessage === 'Failed') {
-                  this.dialog.open(MessageDialogComponent, {
-                    width: '31.125rem',
-                    data: {
-                      title: this.translate.instant('Geolocation check failed'),
-                      description: this.translate.instant(
-                        'We were unable to verify your location. This could be due to disabled location services or access from a restricted region. Please check your settings or contact support for assistance.'
-                      ),
-                    },
-                  });
-
-                  return this.authenticationService.logout(false).pipe(
-                    switchMap(() => {
-                      this.router.navigate([], {
-                        relativeTo: this.activatedRoute,
-                      });
-                      return of();
-                    })
-                  );
-                }
-
-                return throwError(() => err);
-              })
-            )
-          ),
-          catchError((error) => {
-            log.debug('Error getting fingerprint data:', error);
-            return throwError(() => error);
-          })
-        );
-      }),
-      catchError((err) => {
-        log.debug('start geolocation check with error:', err);
-        return throwError(() => err);
-      }),
-      retry({
-        delay: (error, count) => {
-          // Exponential backoff logic (Note: Use ** for exponentiation)
-          const delayTime = Math.min(60000 * 5, Math.pow(2, count * this.geolocationCheck));
-          return timer(delayTime);
-        },
-      })
-    );
-  } */
-
   private resolveAccount(accounts: Account[]): Observable<AccountResolved> {
     return this.configurationService.getPlayerInfo().pipe(
       map((playerInfo) => {

@@ -76,11 +76,6 @@ export class PersonalDataComponent implements OnInit, OnChanges {
   private subscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    // Retrieve and set device fingerprint requestId
-    // this.authenticationService.getFingerprintData().then((requestId) => {
-    //   this.fingerprintRequestId = requestId;
-    // });
-
     this.registerForm?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       if (this.registerError) {
         this.registerError = '';

@@ -19,12 +19,7 @@ import { SubLevel, GameMain, GameCategory, Provider } from '../models/game.model
 import { CredentialsService } from '@app/auth';
 import { CategoryOrderService } from '@app/@shared/services/category-order.service';
 
-export type SectionType =
-  | 'game-list'
-  | 'recent-games'
-  | 'winners-list'
-  | 'top-10-live-list'
-  | 'providers-carousel';
+export type SectionType = 'game-list' | 'recent-games' | 'winners-list' | 'top-10-live-list' | 'providers-carousel';
 
 export interface PageSection {
   id: string | number;
