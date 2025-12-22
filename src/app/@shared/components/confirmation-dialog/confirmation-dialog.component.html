@@ -1,11 +1,13 @@
-<app-base-dialog [title]="data.title | translate">
-  <p dialogContent>{{ data.message | translate }}</p>
+<app-base-dialog [customClass]="'md:h-1/4'" [title]="data.title | translate">
+  <p class="text-center" dialogContent>{{ data.message | translate }}</p>
   <ng-container dialogButtons>
-    <button mat-stroked-button class="button-text-small label-dark flex-grow" (click)="cancel()">
-      {{ data.cancelButtonText ?? 'No' | translate }}
-    </button>
-    <button mat-button class="button-text-small label-dark flex-grow" (click)="confirm()">
-      {{ data.confirmButtonText ?? 'Yes' | translate }}
-    </button>
+    <div class="flex gap-4">
+      <button mat-stroked-button class="button-text-small label-dark flex-grow" (click)="cancel()">
+        {{ data.cancelButtonText ?? 'No' | translate }}
+      </button>
+      <button mat-button class="button-text-small label-dark flex-grow" (click)="confirm()">
+        {{ data.confirmButtonText ?? 'Yes' | translate }}
+      </button>
+    </div>
   </ng-container>
 </app-base-dialog>
