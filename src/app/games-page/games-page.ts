@@ -28,6 +28,4 @@ export class GamesPage {
       alt: 'Banner 9',
     },
   ];
-
-  winners = Array.from({ length: 6 });
 }
