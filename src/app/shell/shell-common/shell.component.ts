@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { GlobalSearchService } from '@app/@shared/global-search.service';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
@@ -31,9 +31,7 @@ export class ShellComponent {
   private credentialsService = inject(CredentialsService);
   private configurationService = inject(ConfigurationService);
   private playerService = inject(PlayerStatusService);
-  private router = inject(Router);
   routingService = inject(RoutingService);
-  private cdr = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
   readonly loadingService = inject(LoadingService);
   @ViewChild(SidenavMenuComponent, { static: false }) sidenavMenu!: SidenavMenuComponent;
@@ -44,8 +42,6 @@ export class ShellComponent {
   loyaltyPoints$ = this.playerService.loyaltyStatusSub$;
   balance$ = this.playerService.balanceSub$;
 
-  isSportsbook = false;
-
   constructor() {
     this.isSignedIn$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (res) => {
@@ -53,24 +49,6 @@ export class ShellComponent {
           this.getPlayerInfo();
         }
       },
-    });
-
-    this.router.events.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        // Remove footer on sportsbook. '/' is because sportsbook is home
-        const tree = this.router.parseUrl(this.router.url);
-        let path = '/';
-
-        if (tree.root.children?.['primary']?.segments) {
-          path += tree.root.children?.['primary']?.segments.map((it) => it.path).join('/');
-        }
-        if (path.includes('sportsbook') || path === '/') {
-          this.isSportsbook = true;
-        } else {
-          this.isSportsbook = false;
-        }
-        this.cdr.detectChanges();
-      }
     });
   }
 

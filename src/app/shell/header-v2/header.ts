@@ -66,7 +66,7 @@ export class Header {
   isFullscrreen = this.fullscreenService.isFullscreen;
 
   betakiLogo = 'assets/brand/logo-white.svg';
-  betakiMobileLogo = '/assets/icons/logo-white.png';
+  betakiMobileLogo = '/assets/icons/logo-white.webp';
 
   goBack() {
     this.location.back();

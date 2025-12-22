@@ -48,7 +48,7 @@ export class MobileMenu {
     },
     {
       label: 'Cassino',
-      icon: '/assets/icons/logo-white.png',
+      icon: '/assets/icons/logo-white.webp',
       iconActive: '/assets/icons/betaki-icon.svg',
       routerLink: '/games',
       exact: false,

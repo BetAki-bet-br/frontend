@@ -8,23 +8,11 @@
     class="h-full w-full max-w-8xl xl:px-6 flex flex-row items-center justify-between px-1.5 relative transition-opacity duration-300"
   >
     <a class="hidden md:block cursor-pointer" routerLink="/">
-      <img
-        [src]="'/assets/brand/logo-white.svg' | cdnize"
-        alt="BetAki Logo"
-        width="243"
-        height="91"
-        class="h-8 w-auto"
-      />
+      <img [ngSrc]="betakiLogo" alt="BetAki Logo" width="243" height="91" class="h-8 w-auto" />
     </a>
 
     <a class="cursor-pointer md:hidden" routerLink="/">
-      <img
-        [src]="'/assets/icons/logo-white.png' | cdnize"
-        alt="BetAki Logo"
-        width="48"
-        height="48"
-        class="h-10 w-auto"
-      />
+      <img [ngSrc]="betakiMobileLogo" alt="BetAki Logo" width="48" height="48" class="h-10 w-auto" />
     </a>
 
     <ul class="h-full hidden md:flex flex-row items-center justify-center gap-4 text-white text-sm">
