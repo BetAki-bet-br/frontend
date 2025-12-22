@@ -9,7 +9,6 @@ import { ProfileModal } from './profile-modal/profile-modal';
 import { ClickOutsideDirective } from '@app/@shared/directives/click-outside.directive';
 import { RoutingService } from '@app/@shared/services/routing.service';
 import { FullscreenService } from '@app/@shared/services/fullscreen.service';
-import { CdnizePipe } from '../../@pipes/cdnize.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 
 interface RouteWithLabel {
@@ -20,15 +19,7 @@ interface RouteWithLabel {
 
 @Component({
   selector: 'app-header',
-  imports: [
-    RouterLink,
-    NgOptimizedImage,
-    CurrencyPipe,
-    ProfileModal,
-    ClickOutsideDirective,
-    CdnizePipe,
-    TranslateModule,
-  ],
+  imports: [RouterLink, NgOptimizedImage, CurrencyPipe, ProfileModal, ClickOutsideDirective, TranslateModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

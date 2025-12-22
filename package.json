@@ -102,6 +102,11 @@
     "ts-node": "^10.1.0",
     "typescript": "~5.9.3"
   },
+  "overrides": {
+    "multer": "^1.4.5-lts.1",
+    "dompurify": "^3.3.1",
+    "tmp": "^0.2.5"
+  },
   "prettier": {
     "endOfLine": "auto",
     "singleQuote": true,

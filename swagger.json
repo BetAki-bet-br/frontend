@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "PortalGateway.ATL.Web",
-    "version": "3.20.0-320+3527.aab44d9b.aab44d9be9262a8a57ea8d65dae2dd5402b8c41a"
+    "version": "4.110.0-4110+3593.cd607adc.cd607adc79ff8e4ff8f8a11fe4194c737146026e"
   },
   "paths": {
     "/api/portal/v1/balance": {
@@ -81,7 +81,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BalanceController.GetBalance",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -111,8 +111,8 @@
                   "value": {
                     "withManualTransactions": true,
                     "retrieveChildTransactions": true,
-                    "fromDate": "2024-10-15T01:42:04.9858816+00:00",
-                    "toDate": "2025-10-16T01:42:04.9858869+00:00",
+                    "fromDate": "2024-12-21T17:39:46.0337099+00:00",
+                    "toDate": "2025-12-22T17:39:46.0337181+00:00",
                     "pageSize": 10,
                     "pageNumber": 1,
                     "transactionType": "Deposit"
@@ -165,7 +165,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BalanceController.PlayerTransactions",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -241,7 +241,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.BalanceController.TransactionDetails",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -345,7 +345,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BannerController.GetBanners"
       }
     },
@@ -443,7 +443,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BannerController.GetPlayerBanners",
         "x-authorization-required": true
       }
@@ -537,7 +537,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BonusController.GetBonuses"
       }
     },
@@ -633,7 +633,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BonusController.GetPlayerBonuses",
         "x-authorization-required": true
       },
@@ -703,7 +703,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BonusController.PlayerBonuses",
         "x-authorization-required": true
       }
@@ -854,7 +854,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetBonus",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -1036,7 +1036,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetListOfPlayerPromotions",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -1172,7 +1172,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetListOfPromotions",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -1251,7 +1251,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.OptInCode",
         "x-authorization-required": true
       }
@@ -1270,18 +1270,10 @@
               },
               "examples": {
                 "Opt out:": {
-                  "value": {
-                    "couponEventId": 5353,
-                    "promotionId": 312313,
-                    "declineAllRelatedBonuses": false
-                  }
+                  "value": { "couponEventId": 5353, "promotionId": 312313, "declineAllRelatedBonuses": false }
                 },
                 "Opt out and decline all bonuses:": {
-                  "value": {
-                    "couponEventId": 4234,
-                    "promotionId": 5000,
-                    "declineAllRelatedBonuses": true
-                  }
+                  "value": { "couponEventId": 4234, "promotionId": 5000, "declineAllRelatedBonuses": true }
                 }
               }
             }
@@ -1323,7 +1315,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.OptOutPlayer",
         "x-authorization-required": true
       }
@@ -1404,7 +1396,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.OptInCodeWithPlayerPromotions",
         "x-authorization-required": true
       }
@@ -1478,7 +1470,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetPlayerCurrentFreeSpinGames",
         "x-authorization-required": true
       }
@@ -1534,7 +1526,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetListOfBonusesToExpireOnWithdrawal",
         "x-authorization-required": true
       }
@@ -1590,7 +1582,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.PromotionsCouponCode",
         "x-authorization-required": true
       }
@@ -1646,7 +1638,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.DeclinePlayerBonusContext",
         "x-authorization-required": true
       }
@@ -1729,7 +1721,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetMultiChoiceBonuses",
         "x-authorization-required": true
       }
@@ -1805,7 +1797,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetBonusContent",
         "x-authorization-required": true
       }
@@ -1861,7 +1853,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.AcceptMultiChoiceBonus",
         "x-authorization-required": true
       }
@@ -1917,7 +1909,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.DeclineMultiChoiceBonus",
         "x-authorization-required": true
       }
@@ -1984,7 +1976,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetMultiChoiceBonusGroups",
         "x-authorization-required": true
       }
@@ -2050,7 +2042,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetWithdrawalRequestBonuses",
         "x-authorization-required": true
       }
@@ -2106,7 +2098,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.AcceptWithdrawalRequestBonus",
         "x-authorization-required": true
       }
@@ -2162,7 +2154,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.OptInToBonus",
         "x-authorization-required": true
       }
@@ -2215,7 +2207,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetBonusesAvailableForOptIn",
         "x-authorization-required": true
       }
@@ -2281,7 +2273,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetBonusesInfo",
         "x-authorization-required": true
       }
@@ -2346,7 +2338,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.GetCountries",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2418,7 +2410,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.GetCurrencies",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2475,7 +2467,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.GetContactInfoTypes",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2532,7 +2524,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.Title",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2599,7 +2591,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.SecretQuestion",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2665,7 +2657,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.GeolocationConfiguration",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -2728,7 +2720,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.LoyaltyController.RedeemLoyaltyPoints",
         "x-authorization-required": true
       },
@@ -2777,7 +2769,7 @@
             },
             "examples": {
               "Redeem points transactions": {
-                "value": "10/15/2004 01:42:05 +00:00"
+                "value": "12/21/2004 17:39:46 +00:00"
               }
             }
           },
@@ -2791,7 +2783,7 @@
             },
             "examples": {
               "Redeem points transactions": {
-                "value": "10/16/2025 01:42:05 +00:00"
+                "value": "12/22/2025 17:39:46 +00:00"
               }
             }
           }
@@ -2839,7 +2831,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.LoyaltyController.RedeemedPointsTransactions",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -2903,7 +2895,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.LoyaltyController.LoyaltyDetail",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -2967,7 +2959,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.GetUnreadMessagesCount",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -3038,7 +3030,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.DeleteMessage",
         "x-authorization-required": true
       },
@@ -3103,7 +3095,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.ChangeMessageStatus",
         "x-authorization-required": true
       },
@@ -3166,7 +3158,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.GetMessage",
         "x-authorization-required": true
       }
@@ -3259,7 +3251,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.GetMessages",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -3335,7 +3327,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.GetPopups",
         "x-authorization-required": true
       }
@@ -3393,7 +3385,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.HandleMessage",
         "x-authorization-required": true
       }
@@ -3473,7 +3465,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.CreateDeposit",
         "x-authorization-required": true
       }
@@ -3545,7 +3537,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.CancelWithdrawal",
         "x-authorization-required": true
       }
@@ -3599,7 +3591,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.WithdrawalEligibilityParameters",
         "x-authorization-required": true
       }
@@ -3652,7 +3644,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.GetAvailablePaymentInstruments",
         "x-authorization-required": true
       }
@@ -3750,7 +3742,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.ListFilteredPaymentAccounts",
         "x-authorization-required": true
       }
@@ -3829,7 +3821,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.UpdatePaymentAccount",
         "x-authorization-required": true
       }
@@ -3887,7 +3879,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.RemovePaymentAccount",
         "x-authorization-required": true
       }
@@ -3943,7 +3935,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.ListPaymentAccounts",
         "x-authorization-required": true
       }
@@ -4024,7 +4016,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.AddPaymentAccount",
         "x-authorization-required": true
       }
@@ -4095,7 +4087,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.GetQuickPaymentSettings",
         "x-authorization-required": true
       }
@@ -4190,7 +4182,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.WithdrawalEligibilityCheck",
         "x-authorization-required": true
       }
@@ -4285,7 +4277,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.WithdrawalFaceAuth",
         "x-authorization-required": true
       }
@@ -4348,7 +4340,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.WithdrawalFacialAuthentication",
         "x-authorization-required": true
       }
@@ -4408,7 +4400,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.Login"
       }
     },
@@ -4435,7 +4427,7 @@
                       "firstName": "John",
                       "lastName": "Doe",
                       "middleName": null,
-                      "dateOfBirth": "2004-10-15",
+                      "dateOfBirth": "2004-12-21",
                       "gender": null,
                       "street": null,
                       "houseNumber": null,
@@ -4513,7 +4505,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CreatePlayer"
       },
       "get": {
@@ -4563,7 +4555,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerDetails",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -4624,7 +4616,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.Logout",
         "x-authorization-required": true
       }
@@ -4682,7 +4674,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ChangeForgottenPassword"
       }
     },
@@ -4702,11 +4694,7 @@
               },
               "examples": {
                 "ChangeForgottenPassword": {
-                  "value": {
-                    "oldPassword": "pass1234",
-                    "newPassword": "pass4567",
-                    "terminateOtherSiteSessions": false
-                  }
+                  "value": { "oldPassword": "pass1234", "newPassword": "pass4567", "terminateOtherSiteSessions": false }
                 }
               }
             }
@@ -4748,7 +4736,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ChangePlayerPassword",
         "x-authorization-required": true
       }
@@ -4805,7 +4793,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.SetPlayerLimit",
         "x-authorization-required": true
       }
@@ -4861,7 +4849,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerLimits",
         "x-authorization-required": true
       }
@@ -4919,7 +4907,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CancelPlayerLimit",
         "x-authorization-required": true
       }
@@ -4972,7 +4960,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerContactPreferences",
         "x-authorization-required": true
       },
@@ -5026,7 +5014,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.UpdatePlayerContactPreferences",
         "x-authorization-required": true
       }
@@ -5101,7 +5089,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ValidatePlayerData"
       }
     },
@@ -5153,7 +5141,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ReferAFriendStatistic",
         "x-authorization-required": true
       },
@@ -5228,7 +5216,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ReferAFriend",
         "x-authorization-required": true
       }
@@ -5284,7 +5272,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.TimeoutPlayer",
         "x-authorization-required": true
       }
@@ -5345,7 +5333,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.UpdatePlayerCustomParameters",
         "x-authorization-required": true
       }
@@ -5410,7 +5398,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CheckContactInfoVerificationStatus",
         "x-authorization-required": true
       },
@@ -5475,7 +5463,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.VerifyContactInfo",
         "x-authorization-required": true
       },
@@ -5531,7 +5519,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ContactInfoVerification",
         "x-authorization-required": true
       }
@@ -5623,7 +5611,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.UploadDocument",
         "x-authorization-required": true
       }
@@ -5676,7 +5664,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetDocuments",
         "x-authorization-required": true
       }
@@ -5730,7 +5718,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.EmailVerification"
       }
     },
@@ -5792,7 +5780,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ForgotUsername"
       }
     },
@@ -5844,7 +5832,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerData",
         "x-authorization-required": true
       }
@@ -5907,7 +5895,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerSegments",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -5972,7 +5960,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CreatePlayerToken",
         "x-authorization-required": true
       }
@@ -6025,7 +6013,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CreateTransferSessionToken",
         "x-authorization-required": true
       }
@@ -6091,7 +6079,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.VerifyPlayerToken",
         "x-authorization-required": true
       }
@@ -6151,7 +6139,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ActivatePlayer"
       }
     },
@@ -6203,7 +6191,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.SendActivationEmail"
       }
     },
@@ -6327,7 +6315,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetLogonHistory",
         "x-authorization-required": true
       }
@@ -6373,7 +6361,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.PlayerController.PlayerActivity",
         "x-authorization-required": true
       }
@@ -6433,7 +6421,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.Onboarding",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -6511,7 +6499,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.OnboardingCheck"
       }
     },
@@ -6575,7 +6563,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.SelfExcludeFaceAuth",
         "x-authorization-required": true
       }
@@ -6628,7 +6616,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CloseAccountFaceAuth",
         "x-authorization-required": true
       }
@@ -6688,7 +6676,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ForgotPasswordFaceAuth"
       }
     },
@@ -6750,7 +6738,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.UpdatePlayerFaceAuth",
         "x-authorization-required": true
       }
@@ -6813,7 +6801,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.LoginAuth",
         "x-authorization-required": true
       }
@@ -6876,7 +6864,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.AnnualVerificationFaceAuth",
         "x-authorization-required": true
       }
@@ -6937,7 +6925,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.FacialAuthentication"
       }
     },
@@ -6996,7 +6984,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ActivateInactivePlayer"
       }
     },
@@ -7058,7 +7046,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GeoLocationCheck",
         "x-authorization-required": true
       }
@@ -7121,7 +7109,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ReVerification",
         "x-authorization-required": true
       }
@@ -7167,7 +7155,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.AnnualReportDemand",
         "x-authorization-required": true
       }
@@ -7221,7 +7209,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.AnnualReportCheck"
       }
     },
@@ -7283,7 +7271,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ChangePlayerPasswordAuth",
         "x-authorization-required": true
       }
@@ -7336,7 +7324,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.PlayerStatistics",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -7401,7 +7389,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.PlayerStatuses",
         "x-authorization-required": true
       }
@@ -7484,7 +7472,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.PostGameNotSecure"
       }
     },
@@ -7570,7 +7558,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.PostPlayerGame",
         "x-authorization-required": true
       }
@@ -7632,7 +7620,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameMains",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -7701,7 +7689,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameMainsForCategory",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -7772,7 +7760,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetPreGameByExtGameId",
         "x-authorization-required": true
       }
@@ -7877,7 +7865,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.LobbyNotSecureGameMain",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -7992,7 +7980,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.PlayerLobbyGameMain",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -8065,7 +8053,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetPlayerShortcutGameMains",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -8134,7 +8122,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.AddPlayerShortcutGameMain",
         "x-authorization-required": true
       },
@@ -8189,7 +8177,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.RemovePlayerShortcutGameMain",
         "x-authorization-required": true
       }
@@ -8254,7 +8242,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetRestrictionsForPlayer",
         "x-authorization-required": true
       }
@@ -8332,7 +8320,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetPlayerTopRecentGames",
         "x-authorization-required": true
       }
@@ -8425,7 +8413,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetRestrictionsNotSecure"
       }
     },
@@ -8507,7 +8495,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameMainHelp"
       }
     },
@@ -8572,7 +8560,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameMainParameters"
       }
     },
@@ -8632,7 +8620,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameCategories",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -8688,7 +8676,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameCategoriesTypes"
       }
     },
@@ -8794,7 +8782,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameHistory",
         "x-authorization-required": true
       }
@@ -8864,7 +8852,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.ProdGameController.TopWinners",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -8934,7 +8922,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.ProdGameController.GetGeneralLobbyForProduct",
         "x-authorization-required": true
       }
@@ -8994,7 +8982,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.ProdGameController.GetGeneralLobbyForProductNotSecure"
       }
     },
@@ -9087,7 +9075,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.PromotionController.GetPromotions"
       }
     },
@@ -9183,7 +9171,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.PromotionController.GetPlayerPromotions",
         "x-authorization-required": true
       }
@@ -9266,7 +9254,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.GetAllRewards"
       }
     },
@@ -9333,7 +9321,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.GetClaimableRewards",
         "x-authorization-required": true
       }
@@ -9407,7 +9395,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.ClaimRewardItem",
         "x-authorization-required": true
       }
@@ -9468,7 +9456,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.ClaimRewardBonus",
         "x-authorization-required": true
       }
@@ -9536,7 +9524,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.GetClaimedRewards",
         "x-authorization-required": true
       }
@@ -9557,7 +9545,7 @@
             },
             "examples": {
               "Basic register": {
-                "value": "10/15/2004 01:42:05 +00:00"
+                "value": "12/21/2004 17:39:46 +00:00"
               }
             }
           },
@@ -9571,7 +9559,7 @@
             },
             "examples": {
               "Basic register": {
-                "value": "10/16/2025 01:42:05 +00:00"
+                "value": "12/22/2025 17:39:46 +00:00"
               }
             }
           },
@@ -9655,7 +9643,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.SportsbookController.GetBetHistory",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -9727,7 +9715,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.TemplateController.GetTemplates"
       }
     },
@@ -9807,7 +9795,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=3.20.0.3527, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.TemplateController.CurrentTermsAndConditions"
       }
     }
@@ -10387,15 +10375,7 @@
         "additionalProperties": false
       },
       "BonusCategoryIdEnum": {
-        "enum": [
-          "FirstDeposit",
-          "Reload",
-          "Rebate",
-          "Cashback",
-          "FreeSpins",
-          "AwardGames",
-          "Freebet"
-        ],
+        "enum": ["FirstDeposit", "Reload", "Rebate", "Cashback", "FreeSpins", "AwardGames", "Freebet"],
         "type": "string"
       },
       "BonusData": {
@@ -10880,42 +10860,43 @@
         "additionalProperties": false
       },
       "ClaimRewardItemRequestShippingAddress": {
+        "required": ["address", "city", "contactNumber", "country", "email", "name", "postcode"],
         "type": "object",
         "properties": {
           "name": {
+            "minLength": 1,
             "type": "string",
-            "description": "Name of the recipient",
-            "nullable": true
+            "description": "Name of the recipient"
           },
           "contactNumber": {
+            "minLength": 1,
             "type": "string",
-            "description": "Contact number of the recipient",
-            "nullable": true
+            "description": "Contact number of the recipient"
           },
           "email": {
+            "minLength": 1,
             "type": "string",
-            "description": "Email of the recipient",
-            "nullable": true
+            "description": "Email of the recipient"
           },
           "address": {
+            "minLength": 1,
             "type": "string",
-            "description": "Street address of the recipient",
-            "nullable": true
+            "description": "Street address of the recipient"
           },
           "city": {
+            "minLength": 1,
             "type": "string",
-            "description": "City of the recipient",
-            "nullable": true
+            "description": "City of the recipient"
           },
           "postcode": {
+            "minLength": 1,
             "type": "string",
-            "description": "Postcode of the recipient",
-            "nullable": true
+            "description": "Postcode of the recipient"
           },
           "country": {
+            "minLength": 1,
             "type": "string",
-            "description": "Country of the recipient",
-            "nullable": true
+            "description": "Country of the recipient"
           }
         },
         "additionalProperties": false
@@ -13171,14 +13152,7 @@
         "description": "Possible limit statuses.\r\n\r\nPossible  values:\r\n* Active,\r\n* Pending,\r\n* Canceled,\r\n* Expired"
       },
       "LimitTypeEnum": {
-        "enum": [
-          "TotalWager",
-          "TotalLost",
-          "GameSessionDuration",
-          "MaxSingleBet",
-          "Deposit",
-          "SiteSessionDuration"
-        ],
+        "enum": ["TotalWager", "TotalLost", "GameSessionDuration", "MaxSingleBet", "Deposit", "SiteSessionDuration"],
         "type": "string",
         "description": "Types of player limits.\r\n\r\nPossible  values:\r\n* TotalWager,\r\n* TotalLost,\r\n* GameSessionDuration,\r\n* MaxSingleBet,\r\n* Deposit,\r\n* SiteSessionDuration"
       },
@@ -13749,14 +13723,7 @@
         "additionalProperties": false
       },
       "MessageTypeEnum": {
-        "enum": [
-          "LoginPopup",
-          "GameStartPopup",
-          "WithdrawalPopup",
-          "InboxNotification",
-          "BlockPopup",
-          "ConsolePopup"
-        ],
+        "enum": ["LoginPopup", "GameStartPopup", "WithdrawalPopup", "InboxNotification", "BlockPopup", "ConsolePopup"],
         "type": "string",
         "description": "Message type\r\nPossible values:\r\n* LoginPopup,\r\n* GameStartPopup,\r\n* WithdrawalPopup,\r\n* InboxNotification,\r\n* BlockPopup,\r\n* ConsolePopup"
       },
@@ -13848,16 +13815,7 @@
         "additionalProperties": false
       },
       "OnboardingRequest": {
-        "required": [
-          "countryCode",
-          "cpf",
-          "currencyCode",
-          "email",
-          "locale",
-          "password",
-          "portalId",
-          "userName"
-        ],
+        "required": ["countryCode", "cpf", "currencyCode", "email", "locale", "password", "portalId", "userName"],
         "type": "object",
         "properties": {
           "userName": {
@@ -16763,13 +16721,7 @@
         "type": "string"
       },
       "WageringContributionModeEnum": {
-        "enum": [
-          "Wagering",
-          "Chunks",
-          "WagerCount",
-          "WageringAndWagerCount",
-          "WageringOrWagerCount"
-        ],
+        "enum": ["Wagering", "Chunks", "WagerCount", "WageringAndWagerCount", "WageringOrWagerCount"],
         "type": "string"
       },
       "WageringRequirementChunk": {
