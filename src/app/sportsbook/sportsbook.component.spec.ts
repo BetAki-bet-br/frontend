@@ -9,6 +9,7 @@ import { PlayerStatusService } from '@app/@shared/services/player.service';
 import { AuthDialogService } from '@app/auth/auth-dialog.service';
 import { NgcCookieConsentService } from 'ngx-cookieconsent';
 import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('SportsbookComponent', () => {
   let component: SportsbookComponent;
@@ -26,7 +27,7 @@ describe('SportsbookComponent', () => {
           provide: NgcCookieConsentService,
           useValue: jasmine.createSpyObj('NgcCookieConsentService', ['hasConsented', 'hasAnswered']),
         },
-        { provide: ActivatedRoute, useValue: {} },
+        { provide: ActivatedRoute, useValue: { url: of([]) } }, // Mock url for ActivatedRoute
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],

@@ -2,7 +2,6 @@ import { Dialog } from '@angular/cdk/dialog';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -10,6 +9,7 @@ import {
   Renderer2,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,10 +31,9 @@ const log = new Logger('SportsbookComponent');
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SportsbookService],
 })
-export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
+export class SportsbookComponent implements AfterViewInit, OnDestroy {
   private sportsbookService = inject(SportsbookService);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
   private renderer = inject(Renderer2);
   private route = inject(ActivatedRoute);
   private sanitizer = inject(DomSanitizer);
@@ -55,8 +54,8 @@ export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
   private routeSub: Subscription = new Subscription();
   private mainContainer: HTMLElement | null = null;
 
-  safeUrl: SafeResourceUrl | undefined;
-  isAuth = false;
+  safeUrl = signal<SafeResourceUrl | undefined>(undefined);
+  isAuth = signal(false);
 
   private handleMessage = (event: MessageEvent) => {
     // Optional: Restrict to trusted origin
@@ -102,18 +101,6 @@ export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
 
   constructor() {
     this.loadingService.show();
-  }
-
-  ngAfterViewInit(): void {
-    this.unlisten = this.renderer.listen('window', 'message', this.handleMessage);
-    this.mainContainer = this.el.nativeElement.closest('.main-container');
-    if (this.mainContainer) {
-      this.mainContainer.style.height = '100%';
-      this.mainContainer.style.minHeight = '100dvh';
-    }
-  }
-
-  ngOnInit(): void {
     this.routeSub.add(
       this.route.url
         .pipe(
@@ -127,11 +114,19 @@ export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
 
     this.routeSub.add(
       this.credentialsService.isAuthenticated$.subscribe((res) => {
-        if (!res && this.isAuth) {
-          this.loadSportsbookUrl();
+        if (!res && this.isAuth()) {
         }
       }),
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.unlisten = this.renderer.listen('window', 'message', this.handleMessage);
+    this.mainContainer = this.el.nativeElement.closest('.main-container');
+    if (this.mainContainer) {
+      this.mainContainer.style.height = '100%';
+      this.mainContainer.style.minHeight = '100dvh';
+    }
   }
 
   ngOnDestroy(): void {
@@ -147,7 +142,7 @@ export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
 
   private loadSportsbookUrl() {
     if (this.credentialsService.isAuthenticated()) {
-      this.isAuth = true;
+      this.isAuth.set(true);
       this.authDialogService
         .initAccountVerification(AccountVerificationActionEnum.GameLaunch)
         .pipe(
@@ -175,8 +170,8 @@ export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.sportsbookService.getSportsbookUrl(false).subscribe((res) => {
         if (res?.lobbyUrl) {
-          this.setSportsbookUrl(res.lobbyUrl, this.isAuth);
-          this.isAuth = false;
+          this.setSportsbookUrl(res.lobbyUrl, this.isAuth());
+          this.isAuth.set(false);
         }
       });
     }
@@ -209,8 +204,7 @@ export class Sportsbook implements OnInit, AfterViewInit, OnDestroy {
     }
 
     const finalUrl = `${base}?${params.toString()}`;
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(finalUrl);
-    this.cdr.markForCheck();
+    this.safeUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(finalUrl));
   }
 
   private openPlayerBlockedDialog() {

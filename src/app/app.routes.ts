@@ -14,10 +14,6 @@ export const appRoutes: Routes = [
     component: ShellComponent,
     children: [
       {
-        path: '',
-        loadChildren: () => import('./home/home.routes').then((m) => m.routes),
-      },
-      {
         path: 'promotions',
         loadChildren: () => import('./promotions/promotions.routes').then((m) => m.routes),
       },
