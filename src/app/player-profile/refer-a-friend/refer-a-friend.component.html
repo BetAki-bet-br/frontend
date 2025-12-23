@@ -30,31 +30,31 @@
       <div formArrayName="referees">
         @for (referee of referees.controls; track referee; let i = $index) {
           <div [formGroupName]="i" class="referee-row">
-            <mat-form-field appearance="outline" class="form-input-secondary" subscriptSizing="dynamic">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>{{ 'Name' | translate }}</mat-label>
               <input matInput formControlName="name" />
-              @if (referee.get('name')?.hasError('required')) {
+              @if (referee.get('name')?.hasError('required') && referee.get('name')?.touched) {
                 <ng-container>
-                  <mat-error>
+                  <mat-error class="error-msg">
                     {{ 'Name is required' | translate }}
                   </mat-error>
                 </ng-container>
               }
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="form-input-secondary" subscriptSizing="dynamic">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>{{ 'Email' | translate }}</mat-label>
               <input matInput formControlName="contact" type="email" />
-              @if (referee.get('contact')?.hasError('required')) {
+              @if (referee.get('contact')?.hasError('required') && referee.get('contact')?.touched) {
                 <ng-container>
-                  <mat-error>
+                  <mat-error class="error-msg">
                     {{ 'Email is required' | translate }}
                   </mat-error>
                 </ng-container>
               }
-              @if (referee.get('contact')?.hasError('email')) {
+              @if (referee.get('contact')?.hasError('email') && referee.get('contact')?.touched) {
                 <ng-container>
-                  <mat-error>
+                  <mat-error class="error-msg">
                     {{ 'Invalid email' | translate }}
                   </mat-error>
                 </ng-container>

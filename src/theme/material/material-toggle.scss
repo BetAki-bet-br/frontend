@@ -62,13 +62,13 @@
 .mat-mdc-slide-toggle {
   height: 1.5rem !important;
 
-  --mat-slide-toggle-disabled-selected-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-disabled-unselected-handle-color: #{color.adjust(
-      map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
-      $alpha: -0.65
-    )};
-  --mat-slide-toggle-disabled-selected-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-  --mat-slide-toggle-disabled-unselected-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
+  // --mat-slide-toggle-disabled-selected-handle-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  // --mat-slide-toggle-disabled-unselected-handle-color: #{color.adjust(
+  //     map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
+  //     $alpha: -0.65
+  //   )};
+  // --mat-slide-toggle-disabled-selected-track-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
+  // --mat-slide-toggle-disabled-unselected-track-color: #{map.get(vars.$app-custom-colors, "neutral-100")};
   --mat-slide-toggle-unselected-focus-state-layer-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65
@@ -106,11 +106,11 @@
       $alpha: -0.65
     )};
   --mat-slide-toggle-selected-icon-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
-  --mat-slide-toggle-disabled-unselected-icon-color: #{color.adjust(
-      map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
-      $alpha: -0.65
-    )};
+  // --mat-slide-toggle-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "Betaki_branco_neve")};
+  // --mat-slide-toggle-disabled-unselected-icon-color: #{color.adjust(
+  //     map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
+  //     $alpha: -0.65
+  //   )};
   --mat-slide-toggle-unselected-icon-color: #{color.adjust(
       map.get(vars.$app-custom-colors, "Betaki_branco_neve"),
       $alpha: -0.65

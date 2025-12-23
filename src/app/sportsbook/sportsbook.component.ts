@@ -100,7 +100,7 @@ export class SportsbookComponent implements AfterViewInit, OnDestroy {
   };
 
   constructor() {
-    this.loadingService.show();
+    // this.loadingService.show();
     this.routeSub.add(
       this.route.url
         .pipe(
