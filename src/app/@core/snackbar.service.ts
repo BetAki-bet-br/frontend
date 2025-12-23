@@ -30,7 +30,6 @@ import { TranslateService } from '@ngx-translate/core';
 export class SnackbarService {
   snackBar = inject(MatSnackBar);
   translateService = inject(TranslateService);
-  private zone = inject(NgZone);
 
   /* public openPrimary(
     message: string = '',

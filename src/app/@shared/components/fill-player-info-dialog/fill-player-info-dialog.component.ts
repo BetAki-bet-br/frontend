@@ -100,9 +100,7 @@ export class FillPlayerInfoDialogComponent implements OnInit {
       playerInfo: this.configurationService.getPlayerInfo(getPlayerInfoFromCache),
       countryCodeList: this.playerProfileService.getCountryCodes(),
     })
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ({ playerInfo, countryCodeList }) => {
           this.playerDetails = playerInfo;
