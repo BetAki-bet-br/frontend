@@ -107,4 +107,9 @@ export const routes: Routes = [
         (m) => m.EmailConfirmationComponent,
       ),
   },
+  {
+    path: 'refer-a-friend',
+    loadComponent: () =>
+      import('./refer-a-friend/refer-a-friend.component').then((m) => m.ReferAFriendComponent),
+  },
 ];

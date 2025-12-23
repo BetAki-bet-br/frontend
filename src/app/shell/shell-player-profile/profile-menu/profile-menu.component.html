@@ -126,6 +126,20 @@
 
   <a
     class="profile-link"
+    routerLink="/profile/refer-a-friend"
+    (click)="onLinkClick()"
+    [routerLinkActive]="['profile-link-active']"
+  >
+    <div class="flex profile-link-content">
+      <mat-icon class="link-icon" svgIcon="essentials-account-box" />
+      <div class="link-title">
+        {{ 'Refer a Friend' | translate }}
+      </div>
+    </div>
+  </a>
+
+  <a
+    class="profile-link"
     routerLink="/profile/messages"
     (click)="onLinkClick()"
     [routerLinkActive]="['profile-link-active']"

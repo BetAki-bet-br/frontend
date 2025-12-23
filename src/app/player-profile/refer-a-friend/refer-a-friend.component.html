@@ -1,0 +1,83 @@
+<div class="refer-a-friend-container ps-0!">
+  <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+  @if (statistics) {
+    <div class="statistics-section">
+      <h2>{{ 'Refer a Friend Statistics' | translate }}</h2>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="label">{{ 'Total Invited' | translate }}</span>
+          <span class="value">{{ statistics.total }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">{{ 'Successful' | translate }}</span>
+          <span class="value">{{ statistics.successful }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">{{ 'Registered' | translate }}</span>
+          <span class="value">{{ statistics.currentRegistered }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="label">{{ 'Bonuses' | translate }}</span>
+          <span class="value">{{ statistics.totalReferalBonuses }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="invite-section">
+    <h2>{{ 'Invite Friends' | translate }}</h2>
+    <form [formGroup]="referForm" (ngSubmit)="onSubmit()">
+      <div formArrayName="referees">
+        @for (referee of referees.controls; track referee; let i = $index) {
+          <div [formGroupName]="i" class="referee-row">
+            <mat-form-field appearance="outline" class="form-input-secondary" subscriptSizing="dynamic">
+              <mat-label>{{ 'Name' | translate }}</mat-label>
+              <input matInput formControlName="name" />
+              @if (referee.get('name')?.hasError('required')) {
+                <ng-container>
+                  <mat-error>
+                    {{ 'Name is required' | translate }}
+                  </mat-error>
+                </ng-container>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-input-secondary" subscriptSizing="dynamic">
+              <mat-label>{{ 'Email' | translate }}</mat-label>
+              <input matInput formControlName="contact" type="email" />
+              @if (referee.get('contact')?.hasError('required')) {
+                <ng-container>
+                  <mat-error>
+                    {{ 'Email is required' | translate }}
+                  </mat-error>
+                </ng-container>
+              }
+              @if (referee.get('contact')?.hasError('email')) {
+                <ng-container>
+                  <mat-error>
+                    {{ 'Invalid email' | translate }}
+                  </mat-error>
+                </ng-container>
+              }
+            </mat-form-field>
+
+            @if (referees.length > 1) {
+              <button mat-icon-button color="warn" type="button" (click)="removeReferee(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="actions">
+        <button mat-stroked-button type="button" (click)="addReferee()">
+          <mat-icon>add</mat-icon> {{ 'Add Another Friend' | translate }}
+        </button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="referForm.invalid || isLoading">
+          {{ 'Send Invites' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

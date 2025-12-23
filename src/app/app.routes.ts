@@ -13,6 +13,7 @@ export const appRoutes: Routes = [
     path: '',
     component: ShellComponent,
     children: [
+      { path: '', loadChildren: () => import('./sportsbook/sportsbook.routes').then((m) => m.routes) },
       {
         path: 'promotions',
         loadChildren: () => import('./promotions/promotions.routes').then((m) => m.routes),
@@ -44,7 +45,6 @@ export const appRoutes: Routes = [
       },
       { path: 'auth', loadChildren: () => import('./auth/auth.routes').then((m) => m.routes) },
       { path: '', loadChildren: () => import('./help/help.routes').then((m) => m.routes) },
-      { path: '', loadChildren: () => import('./sportsbook/sportsbook.routes').then((m) => m.routes) },
       { path: 'not-found', component: PageNotFoundComponent },
       { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
     ],

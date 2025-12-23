@@ -29,8 +29,7 @@ import {
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription, catchError, of, throwError } from 'rxjs';
-import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { LowerCasePipe } from '@angular/common';
 import { PageBreadcrumbsComponent } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 
@@ -47,7 +46,7 @@ interface phoneVerificationForm {
   styleUrls: ['./profile-settings-verification.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
+    LowerCasePipe,
     ReactiveFormsModule,
     TranslateModule,
     MatIconModule,

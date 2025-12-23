@@ -1,0 +1,58 @@
+@use "theme/theme-variables" as theme-variables;
+@use "sass:map";
+.refer-a-friend-container {
+  padding: 1.5rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  .statistics-section {
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+
+      .stat-item {
+        background: var(--bg-card, #fff);
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .label {
+          font-size: 0.9rem;
+          color: var(--text-secondary, #666);
+        }
+
+        .value {
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+
+  .invite-section {
+    .referee-row {
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+
+      mat-form-field {
+        flex: 1;
+      }
+    }
+
+    .actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+  }
+}

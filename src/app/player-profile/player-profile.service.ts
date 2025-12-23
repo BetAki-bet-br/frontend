@@ -50,6 +50,9 @@ import {
   ProdGameService,
   PromotionsCouponCodeRequest,
   ReVerificationResponse,
+  ReferAFriendRequest,
+  ReferAFriendResponse,
+  ReferAFriendStatisticsResponse,
   SetPlayerLimitRequest,
   SportsbookService,
   TimeOutPlayerRequest,
@@ -879,6 +882,30 @@ export class PlayerProfileService {
       }),
       catchError((err) => {
         log.debug('apiPortalV1PlayerPlayerStatisticsPost() returned error:', err);
+        throw err;
+      }),
+    );
+  }
+
+  getReferAFriendStatistics(): Observable<ReferAFriendStatisticsResponse> {
+    return this.playerServiceApi.apiPortalV1PlayerReferAFriendGet().pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError((err) => {
+        log.debug('getReferAFriendStatistics() returned error:', err);
+        throw err;
+      }),
+    );
+  }
+
+  referAFriend(request: ReferAFriendRequest): Observable<ReferAFriendResponse> {
+    return this.playerServiceApi.apiPortalV1PlayerReferAFriendPost(request).pipe(
+      map((response) => {
+        return response;
+      }),
+      catchError((err) => {
+        log.debug('referAFriend() returned error:', err);
         throw err;
       }),
     );
