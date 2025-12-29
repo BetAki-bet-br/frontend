@@ -22,5 +22,15 @@ $app-theme: theme-variables.$app-theme;
   @include mat.tooltip-theme($theme);
   @include mat.progress-bar-theme($theme);
   @include mat.radio-theme($theme);
-  // Add other Material component themes as needed
+  @include mat.menu-theme($theme);
+  @include mat.progress-spinner-theme($theme);
+  @include mat.card-theme($theme);
+  @include mat.divider-theme($theme);
+  @include mat.paginator-theme($theme);
+  @include mat.sort-theme($theme);
+  @include mat.autocomplete-theme($theme);
+  @include mat.stepper-theme($theme);
+  @include mat.button-toggle-theme($theme);
+  @include mat.list-theme($theme);
+  @include mat.sidenav-theme($theme);
 }

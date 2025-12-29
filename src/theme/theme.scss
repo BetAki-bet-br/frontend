@@ -35,7 +35,7 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 @include material-theming.angular-material-theme(material-theming.$app-theme);
-@include mat.all-component-themes(material-theming.$app-theme);
+// @include mat.all-component-themes(material-theming.$app-theme);
 
 // Typography is defined in the app-theme
 // @include mat.all-component-typographies($custom-typography);
