@@ -1,9 +1,5 @@
 import { Routes } from '@angular/router';
-import { PageNotFoundComponent } from './@shared/components/page-not-found/page-not-found.component';
-import { ProfileLayoutComponent } from './shell/shell-player-profile/profile-layout.component';
 import { ShellComponent } from './shell/shell-common/shell.component';
-import { GamesPage } from './games-page/games-page';
-import { IngamePage } from './games-page/ingame-page/ingame-page';
 import { ingamePageResolver } from './games-page/ingame-page/ingame-page.resolver';
 import { privateAuthGuard } from './auth.guard';
 import { playerStatusGuard } from './player-status.guard';
@@ -21,22 +17,19 @@ export const appRoutes: Routes = [
       { path: 'users', loadChildren: () => import('./users/users.routes').then((m) => m.routes) },
       {
         path: 'games',
-        component: GamesPage,
-        title: 'Cassino - Bet Aki',
-        loadChildren: () => import('./games-page/games.routes').then((m) => m.GAMES_ROUTES),
+        loadChildren: () => import('./games-page/games.routes').then((m) => m.GAMES_ROOT_ROUTES),
       },
       {
         path: 'game/:id',
-        component: IngamePage,
+        loadComponent: () => import('./games-page/ingame-page/ingame-page').then((m) => m.IngamePage),
         title: 'Jogar - Bet Aki',
         canActivate: [privateAuthGuard, playerStatusGuard],
         resolve: { data: ingamePageResolver },
       },
       {
         path: 'profile',
-        component: ProfileLayoutComponent,
         canActivate: [privateAuthGuard],
-        loadChildren: () => import('./player-profile/player-profile.routes').then((m) => m.routes),
+        loadChildren: () => import('./player-profile/player-profile.routes').then((m) => m.PROFILE_ROOT_ROUTES),
       },
       {
         path: 'dev/dialogs',
@@ -45,7 +38,11 @@ export const appRoutes: Routes = [
       },
       { path: 'auth', loadChildren: () => import('./auth/auth.routes').then((m) => m.routes) },
       { path: '', loadChildren: () => import('./help/help.routes').then((m) => m.routes) },
-      { path: 'not-found', component: PageNotFoundComponent },
+      {
+        path: 'not-found',
+        loadComponent: () =>
+          import('./@shared/components/page-not-found/page-not-found.component').then((m) => m.PageNotFoundComponent),
+      },
       { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
     ],
   },

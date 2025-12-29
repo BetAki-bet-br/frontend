@@ -13,7 +13,6 @@ import { SideNavMenuMockCasino, SideNavMenuMockSportsbook } from './sidenav-menu
 import { SidenavMenuService } from './sidenav-menu.service';
 import { ProfileMenuComponent } from '../shell-player-profile/profile-menu/profile-menu.component';
 import { MatIcon } from '@angular/material/icon';
-import { NgStyle } from '../../../../node_modules/@angular/common/types/_common_module-chunk';
 
 const log = new Logger('SidenavMenuComponent');
 

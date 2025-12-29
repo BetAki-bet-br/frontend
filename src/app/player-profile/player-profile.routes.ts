@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { ProfileLayoutComponent } from '@app/shell/shell-player-profile/profile-layout.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'general', pathMatch: 'prefix' },
@@ -109,7 +110,14 @@ export const routes: Routes = [
   },
   {
     path: 'refer-a-friend',
-    loadComponent: () =>
-      import('./refer-a-friend/refer-a-friend.component').then((m) => m.ReferAFriendComponent),
+    loadComponent: () => import('./refer-a-friend/refer-a-friend.component').then((m) => m.ReferAFriendComponent),
+  },
+];
+
+export const PROFILE_ROOT_ROUTES: Routes = [
+  {
+    path: '',
+    component: ProfileLayoutComponent,
+    children: routes,
   },
 ];

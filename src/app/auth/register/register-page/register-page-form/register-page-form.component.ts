@@ -9,12 +9,7 @@ import {
   inject,
 } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter,
-} from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core'; // Added MatNativeDateModule
+import { MatNativeDateModule } from '@angular/material/core'; // Added MatNativeDateModule
 import { DataStoreService } from '@app/@core';
 import { Logger } from '@app/@shared';
 import {
@@ -43,7 +38,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core'; // Adde
 import { CommonModule } from '@angular/common'; // Added CommonModule
 import { MatFormFieldModule } from '@angular/material/form-field'; // Added MatFormFieldModule
 import { MatInputModule } from '@angular/material/input'; // Added MatInputModule
-import { MatIcon, MatIconModule } from '@angular/material/icon'; // Added MatIconModule
+import { MatIconModule } from '@angular/material/icon'; // Added MatIconModule
 import { MatDatepickerModule } from '@angular/material/datepicker'; // Added MatDatepickerModule
 import { MatCheckboxModule } from '@angular/material/checkbox'; // Added MatCheckboxModule
 
@@ -81,15 +76,6 @@ export interface RegistrationForm {
     RouterModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-  ],
 })
 export class RegisterPageFormComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);

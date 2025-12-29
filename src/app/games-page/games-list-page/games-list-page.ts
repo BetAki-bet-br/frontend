@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { afterNextRender, Component, computed, effect, inject, signal } from '@angular/core';
 import { GameDetailModal } from './game-detail-modal/game-detail-modal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -66,6 +66,12 @@ export class GamesListPage {
   private categoryOrderService = inject(CategoryOrderService);
 
   subLevels = toSignal(this.route.data.pipe(map((data) => data['games'] as SubLevel[] | undefined)));
+
+  constructor() {
+    afterNextRender(() => {
+      console.log(this.pageLayout());
+    });
+  }
 
   categoryOrder = toSignal(this.categoryOrderService.getCategoryOrder(this.portalService.portalId, 'Casino'));
 

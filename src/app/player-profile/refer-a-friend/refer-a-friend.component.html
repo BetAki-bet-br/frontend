@@ -1,83 +1,236 @@
-<div class="refer-a-friend-container ps-0!">
+<div class="page-container flex flex-col text-gray-700">
   <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
-  @if (statistics) {
-    <div class="statistics-section">
-      <h2>{{ 'Refer a Friend Statistics' | translate }}</h2>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="label">{{ 'Total Invited' | translate }}</span>
-          <span class="value">{{ statistics.total }}</span>
+  <div class="refer-a-friend-container">
+    <div class="flex flex-1 max-w-[1600px] mx-auto w-full ps-0! pt-[1rem]! gap-8">
+      <main class="flex-1 min-w-0 overflow-y-auto pb-10">
+        <div class="mb-8 animate-fade-in-up">
+          <h1 class="text-center sm:text-start text-xl sm:text-3xl font-bold text-gray-900 mb-0!">
+            {{ 'Refer a Friend Statistics' | translate }}
+          </h1>
+          <p class="text-center sm:text-start text-sm sm:text-base text-gray-500 mt-1">
+            {{ 'Track your referrals and earnings in real time.' | translate }}
+          </p>
         </div>
-        <div class="stat-item">
-          <span class="label">{{ 'Successful' | translate }}</span>
-          <span class="value">{{ statistics.successful }}</span>
-        </div>
-        <div class="stat-item">
-          <span class="label">{{ 'Registered' | translate }}</span>
-          <span class="value">{{ statistics.currentRegistered }}</span>
-        </div>
-        <div class="stat-item">
-          <span class="label">{{ 'Bonuses' | translate }}</span>
-          <span class="value">{{ statistics.totalReferalBonuses }}</span>
-        </div>
-      </div>
-    </div>
-  }
 
-  <div class="invite-section">
-    <h2>{{ 'Invite Friends' | translate }}</h2>
-    <form [formGroup]="referForm" (ngSubmit)="onSubmit()">
-      <div formArrayName="referees">
-        @for (referee of referees.controls; track referee; let i = $index) {
-          <div [formGroupName]="i" class="referee-row">
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-              <mat-label>{{ 'Name' | translate }}</mat-label>
-              <input matInput formControlName="name" />
-              @if (referee.get('name')?.hasError('required') && referee.get('name')?.touched) {
-                <ng-container>
-                  <mat-error class="error-msg">
-                    {{ 'Name is required' | translate }}
-                  </mat-error>
-                </ng-container>
-              }
-            </mat-form-field>
+        <!-- Stats Grid -->
+        @if (statistics()) {
+          <div
+            animate.enter="animate-enter-slide-down"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10"
+          >
+            <!-- Card 1 -->
+            <div
+              class="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center justify-center text-center transition-transform hover:-translate-y-1 duration-300 border border-transparent group"
+            >
+              <span class="text-sm font-medium text-gray-500 mb-2 group-hover:text-betaki-500 transition-colors">
+                {{ 'Total Invited' | translate }}
+              </span>
+              <div class="text-4xl font-bold text-blue-500">{{ statistics()?.total }}</div>
+              <div class="mt-2 text-xs text-green-600 bg-green-100 px-2 py-0.5 rounded-full flex items-center">
+                <mat-icon color="green-600" class="text-[14px] mr-1 !w-[14px] !h-[14px] !text-[14px] leading-none"
+                  >trending_up</mat-icon
+                >
+                {{ 'Active' | translate }}
+              </div>
+            </div>
 
-            <mat-form-field appearance="outline" subscriptSizing="dynamic">
-              <mat-label>{{ 'Email' | translate }}</mat-label>
-              <input matInput formControlName="contact" type="email" />
-              @if (referee.get('contact')?.hasError('required') && referee.get('contact')?.touched) {
-                <ng-container>
-                  <mat-error class="error-msg">
-                    {{ 'Email is required' | translate }}
-                  </mat-error>
-                </ng-container>
-              }
-              @if (referee.get('contact')?.hasError('email') && referee.get('contact')?.touched) {
-                <ng-container>
-                  <mat-error class="error-msg">
-                    {{ 'Invalid email' | translate }}
-                  </mat-error>
-                </ng-container>
-              }
-            </mat-form-field>
+            <!-- Card 2 -->
+            <div
+              class="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center justify-center text-center transition-transform hover:-translate-y-1 duration-300 border border-transparent group"
+            >
+              <span class="text-sm font-medium text-gray-500 mb-2 group-hover:text-betaki-500 transition-colors">
+                {{ 'Successful' | translate }}
+              </span>
+              <div class="text-4xl font-bold text-blue-500">{{ statistics()?.successful }}</div>
+              <div class="mt-2 text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                {{ 'Validation Pendente' | translate }}
+              </div>
+            </div>
 
-            @if (referees.length > 1) {
-              <button mat-icon-button color="warn" type="button" (click)="removeReferee(i)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            }
+            <!-- Card 3 -->
+            <div
+              class="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center justify-center text-center transition-transform hover:-translate-y-1 duration-300 border border-transparent group"
+            >
+              <span class="text-sm font-medium text-gray-500 mb-2 group-hover:text-betaki-500 transition-colors">
+                {{ 'Registered' | translate }}
+              </span>
+              <div class="text-4xl font-bold text-blue-500">{{ statistics()?.currentRegistered }}</div>
+              <div class="mt-2 text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                {{ 'New Users' | translate }}
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div
+              class="bg-white rounded-2xl p-6 shadow-md flex flex-col items-center justify-center text-center transition-transform hover:-translate-y-1 duration-300 border border-transparent group"
+            >
+              <span class="text-sm font-medium text-gray-500 mb-2 group-hover:text-betaki-500 transition-colors">
+                {{ 'Bonuses' | translate }}
+              </span>
+              <div class="text-4xl font-bold text-blue-500">{{ statistics()?.totalReferalBonuses }}</div>
+              <div class="mt-2 text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                {{ 'R$ Earned' | translate }}
+              </div>
+            </div>
           </div>
         }
-      </div>
 
-      <div class="actions">
-        <button mat-stroked-button type="button" (click)="addReferee()">
-          <mat-icon>add</mat-icon> {{ 'Add Another Friend' | translate }}
-        </button>
-        <button mat-flat-button color="primary" type="submit" [disabled]="referForm.invalid || isLoading">
-          {{ 'Send Invites' | translate }}
-        </button>
-      </div>
-    </form>
+        <!-- Invite Form -->
+        <div class="bg-white rounded-2xl shadow-md p-8 border border-transparent transition-all">
+          <div class="mb-6 flex justify-between items-center">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                {{ 'Invite Friends' | translate }}
+                <span class="bg-betaki-500/10 text-lime-600 text-xs px-2 py-1 rounded-full">{{
+                  referees.controls.length
+                }}</span>
+              </h2>
+              <p class="text-sm text-gray-500 mt-1">
+                {{ 'Add friends via email to send an invite.' | translate }}
+              </p>
+            </div>
+            <div class="hidden sm:block">
+              <mat-icon class="text-4xl !text-betaki-500 -rotate-30 !w-[40px] !h-[40px] !text-[40px]">send</mat-icon>
+            </div>
+          </div>
+
+          <form [formGroup]="referForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            <div formArrayName="referees" class="space-y-4">
+              @for (referee of referees.controls; track referee; let i = $index) {
+                <div [formGroupName]="i" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-start group">
+                  <!-- Name Input -->
+                  <div class="md:col-span-5 relative">
+                    <label
+                      class="absolute -top-2 left-4 bg-white px-1 text-xs font-medium text-gray-500 transition-colors z-10"
+                    >
+                      {{ 'Name' | translate }}*
+                    </label>
+                    <input
+                      class="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-betaki-500 focus:border-transparent transition-all placeholder-gray-400"
+                      formControlName="name"
+                      type="text"
+                      [placeholder]="'Friend\'s Name' | translate"
+                    />
+                    @if (referee.get('name')?.hasError('required') && referee.get('name')?.touched) {
+                      <p class="text-xs text-red-500 mt-1 ml-1">{{ 'Name is required' | translate }}</p>
+                    }
+                  </div>
+
+                  <!-- Email Input -->
+                  <div class="md:col-span-6 relative">
+                    <label
+                      class="absolute -top-2 left-4 bg-white px-1 text-xs font-medium text-gray-500 transition-colors z-10"
+                    >
+                      {{ 'Email' | translate }}*
+                    </label>
+                    <input
+                      class="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-betaki-500 focus:border-transparent transition-all placeholder-gray-400"
+                      formControlName="contact"
+                      type="email"
+                      placeholder="email@example.com"
+                    />
+                    @if (referee.get('contact')?.touched) {
+                      @if (referee.get('contact')?.hasError('required')) {
+                        <p class="text-xs text-red-500 mt-1 ml-1">{{ 'Email is required' | translate }}</p>
+                      }
+                      @if (referee.get('contact')?.hasError('email')) {
+                        <p class="text-xs text-red-500 mt-1 ml-1">{{ 'Invalid email' | translate }}</p>
+                      }
+                    }
+                  </div>
+
+                  <!-- Delete Button -->
+                  <div class="md:col-span-1 flex items-center justify-center h-full pt-1">
+                    @if (referees.length > 1) {
+                      <button
+                        type="button"
+                        (click)="removeReferee(i)"
+                        class="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                        [title]="'Remove' | translate"
+                      >
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-4 pt-4 border-t border-gray-100">
+              <button
+                type="button"
+                (click)="addReferee()"
+                class="w-full sm:w-auto flex items-center justify-center px-6 py-3 border border-betaki-500 text-betaki-500 font-semibold rounded-xl hover:bg-betaki-500 hover:text-white transition-all duration-200 group focus:ring-2 focus:ring-offset-2 focus:ring-betaki-500"
+              >
+                <mat-icon class="mr-2 group-hover:rotate-90 transition-transform">add</mat-icon>
+                {{ 'Add Another Friend' | translate }}
+              </button>
+
+              <button
+                type="submit"
+                [disabled]="referForm.invalid || isLoading"
+                class="w-full sm:w-auto px-8 py-3 font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
+                [class.bg-blue-600]="!referForm.invalid && !isLoading"
+                [class.text-white]="!referForm.invalid && !isLoading"
+                [class.hover:bg-blue-700]="!referForm.invalid && !isLoading"
+                [class.shadow-lg]="!referForm.invalid && !isLoading"
+                [class.bg-gray-200]="referForm.invalid || isLoading"
+                [class.text-gray-400]="referForm.invalid || isLoading"
+                [class.cursor-not-allowed]="referForm.invalid || isLoading"
+              >
+                @if (isLoading) {
+                  <mat-icon class="animate-spin text-sm">refresh</mat-icon>
+                  {{ 'Sending...' | translate }}
+                } @else {
+                  {{ 'Send Invites' | translate }}
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Referral Banner -->
+        <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div
+            class="bg-betaki-500 rounded-2xl p-8 text-white col-span-1 lg:col-span-3 flex items-center justify-between relative overflow-hidden shadow-lg group"
+          >
+            <div class="relative z-10 w-full md:w-auto">
+              <h3 class="font-bold text-2xl mb-1">{{ 'Share your referral link' | translate }}</h3>
+              <p class="text-white/80 text-sm mb-6 max-w-lg">
+                {{ 'Earn 20% bonus for every friend who registers and makes a first deposit.' | translate }}
+              </p>
+
+              <div
+                class="flex bg-black/20 rounded-xl p-1.5 backdrop-blur-sm max-w-md border border-white/20 transition-colors focus-within:border-white/50"
+              >
+                <input
+                  class="bg-transparent border-none text-sm text-white focus:ring-0 flex-1 px-4 placeholder-white/50 w-full outline-none"
+                  type="text"
+                  readonly
+                  [value]="referralLink"
+                />
+                <button
+                  (click)="copyLink()"
+                  class="bg-white text-betaki-500 px-6 py-2 rounded-lg text-sm font-bold hover:bg-gray-100 transition-colors shadow-sm flex items-center gap-2 min-w-[100px] justify-center"
+                >
+                  @if (copied) {
+                    <mat-icon class="text-base !w-[16px] !h-[16px] !text-[16px]">check</mat-icon>
+                    {{ 'Copied' | translate }}
+                  } @else {
+                    {{ 'Copy' | translate }}
+                  }
+                </button>
+              </div>
+            </div>
+
+            <!-- Decorative elements -->
+            <div
+              class="absolute -right-10 -bottom-20 w-64 h-64 border-[30px] border-white/10 rounded-full group-hover:scale-110 transition-transform duration-700 ease-in-out"
+            ></div>
+            <div class="absolute top-10 right-40 w-12 h-12 bg-white/10 rounded-full blur-xl animate-pulse"></div>
+          </div>
+        </div>
+      </main>
+    </div>
   </div>
 </div>

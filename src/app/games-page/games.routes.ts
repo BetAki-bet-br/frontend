@@ -14,6 +14,7 @@ import { liveGameListCategoriesResolver } from '@app/games-page/live-games-list-
 import { liveGamesResolver } from '@app/games-page/live-games-list-page/live-games.resolver';
 import { liveProvidersResolver } from '@app/games-page/live-games-list-page/live-providers.resolver';
 import { liveRecentGamesResolver } from '@app/games-page/live-games-list-page/live-recent-games.resolver';
+import { GamesPage } from './games-page';
 
 export const GAMES_ROUTES: Routes = [
   {
@@ -161,5 +162,14 @@ export const GAMES_ROUTES: Routes = [
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
       description: 'Aposte no cassino da BetAki com super bônus.',
     },
+  },
+];
+
+export const GAMES_ROOT_ROUTES: Routes = [
+  {
+    path: '',
+    component: GamesPage,
+    title: 'Cassino - Bet Aki',
+    children: GAMES_ROUTES,
   },
 ];

@@ -18,6 +18,7 @@ import {
   Breadcrumbs,
   PageBreadcrumbsComponent,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-refer-a-friend',
@@ -41,9 +42,14 @@ export class ReferAFriendComponent implements OnInit {
   private translateService = inject(TranslateService);
   private snackBar = inject(MatSnackBar);
 
-  statistics: ReferAFriendStatisticsResponse | undefined;
+  statistics = toSignal<ReferAFriendStatisticsResponse | null>(this.referAFriendService.getReferAFriendStatistics(), {
+    initialValue: null,
+  });
   referForm: FormGroup;
   isLoading = false;
+  referralLink = 'betaki.com/ref/vini123'; // Placeholder as per design
+  copied = false;
+
   breadcrumbs: Breadcrumbs[] = [
     {
       svgIcon: 'essentials-home',
@@ -65,14 +71,7 @@ export class ReferAFriendComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadStatistics();
-  }
-
-  loadStatistics() {
-    this.referAFriendService.getReferAFriendStatistics().subscribe({
-      next: (stats) => (this.statistics = stats),
-      error: (err) => console.error(err),
-    });
+    this.referralLink = `${window.location.origin}/register?ref=USER_ID_PLACEHOLDER`;
   }
 
   get referees() {
@@ -82,13 +81,21 @@ export class ReferAFriendComponent implements OnInit {
   addReferee() {
     const refereeGroup = this.fb.group({
       name: ['', Validators.required],
-      contact: ['', [Validators.required, Validators.email]], // Assuming Email for now
+      contact: ['', [Validators.required, Validators.email]],
     });
     this.referees.push(refereeGroup);
   }
 
   removeReferee(index: number) {
     this.referees.removeAt(index);
+  }
+
+  copyLink() {
+    navigator.clipboard.writeText(this.referralLink);
+    this.copied = true;
+    setTimeout(() => {
+      this.copied = false;
+    }, 2000);
   }
 
   onSubmit() {
@@ -115,7 +122,7 @@ export class ReferAFriendComponent implements OnInit {
           this.referForm.reset();
           this.referees.clear();
           this.addReferee();
-          this.loadStatistics();
+          // this.statistics().
         } else {
           this.snackBar.open(
             this.translateService.instant(marker('Some invitations failed. Please check details.')),
