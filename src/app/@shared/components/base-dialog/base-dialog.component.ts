@@ -13,7 +13,6 @@ import {
   AfterContentChecked,
   ElementRef,
   ContentChildren,
-  Signal,
   SimpleChanges,
   inject,
   input,
@@ -24,13 +23,14 @@ import { MatRippleModule } from '@angular/material/core';
 import { AppBreakpoints } from '@app/@shared/app-breakpoints';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { Subscription } from 'rxjs';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-base-dialog',
   templateUrl: './base-dialog.component.html',
   styleUrls: ['./base-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, MatRippleModule, CdnizePipe],
+  imports: [MatIconModule, MatRippleModule, CdnizePipe, NgClass],
 })
 export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterContentChecked {
   private dialogRef = inject<DialogRef<BaseDialogComponent>>(DialogRef);
@@ -58,37 +58,24 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
   private dialogContentElements!: QueryList<ElementRef>;
 
   hasDialogContent = signal(false);
+  closing = signal(false);
 
   ngOnInit(): void {
-    if (!this.width) {
-      this.width = this.defaultWidth;
-    }
-
     this.subscriptions.push(
       this.breakpointObserver.observe([AppBreakpoints.LtSmall2]).subscribe((state: BreakpointState) => {
         this.isMobile = state.matches;
 
-        const strategy = this.dialogRef.overlayRef.getConfig().positionStrategy as GlobalPositionStrategy;
-        const heightTmp = this.height ?? undefined;
-
-        this.dialogRef.updateSize(
-          this.isMobile ? (this.widthMobile ?? '100%') : this.width,
-          this.isMobile && this.fullscreenMobile ? '100%' : heightTmp,
-        );
-        this.setPosition(strategy);
-        this.dialogRef.updatePosition();
+        // Force full screen overlay to allow CSS centering and backdrop control
+        this.dialogRef.updateSize('100%', '100%');
         this.cdr.markForCheck();
       }),
     );
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['height']) {
-      const heightTmp = this.height ?? undefined;
-      const strategy = this.dialogRef.overlayRef.getConfig().positionStrategy as GlobalPositionStrategy;
-      this.dialogRef.updateSize(this.isMobile ? '100%' : this.width, this.isMobile ? '100%' : heightTmp);
-      this.setPosition(strategy);
-      this.dialogRef.updatePosition();
+    if (changes['height'] || changes['width']) {
+      // Ensure we keep full screen even if inputs change, layout is handled by template
+      this.dialogRef.updateSize('100%', '100%');
       this.cdr.markForCheck();
     }
   }
@@ -106,30 +93,26 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
   }
 
   closeDialog() {
-    this.dialogRef.close();
+    this.closing.set(true);
   }
 
-  private setPosition(strategy: GlobalPositionStrategy) {
-    switch (this.position) {
-      case 'top':
-        strategy.top('0');
-        break;
-      case 'bottom':
-        strategy.bottom('0');
-        break;
-      case 'bottom-right':
-        strategy.bottom('0');
-        strategy.right('0');
-        strategy.left('');
-        strategy.top('');
-        break;
-      case 'center':
-        strategy.centerVertically();
-        break;
-
-      default:
-        strategy.top('0');
-        break;
+  onAnimationEnd(event: AnimationEvent) {
+    if (this.closing() && event.target === event.currentTarget) {
+      this.dialogRef.close();
     }
+  }
+
+  get dialogStyleWidth(): string | null {
+    if (this.isMobile) {
+      return this.widthMobile ?? '100%';
+    }
+    return this.width || (this.size() ? null : this.defaultWidth);
+  }
+
+  get dialogStyleHeight(): string | null {
+    if (this.isMobile && this.fullscreenMobile) {
+      return '100%';
+    }
+    return this.height || null;
   }
 }
