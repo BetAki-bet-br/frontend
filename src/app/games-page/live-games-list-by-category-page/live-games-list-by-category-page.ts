@@ -24,7 +24,7 @@ export class LiveGamesListByCategoryPage {
   selectedGame = signal<GameMain | null>(null);
   private screenWidth = signal(window.innerWidth);
 
-  initialVisibleGames = 24;
+  initialVisibleGames = 30;
   gamesIncrement = 12;
   visibleGamesCount = signal(this.initialVisibleGames);
 

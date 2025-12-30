@@ -18,7 +18,7 @@
   <div class="border-t border-accent my-4 w-1/3"></div>
 </div>
 
-<div class="text-center text-white mt-4">
+<div class="text-center text-white mt-4 pb-4">
   <p class="mb-4">Exibindo {{ inView() }} de {{ category()!.gameMains.length }}</p>
   @if (visibleGamesCount() < category()!.gameMains.length) {
   <button (click)="loadMoreGames()" class="bg-betaki-500 font-bold py-2 px-6 rounded-lg cursor-pointer">
