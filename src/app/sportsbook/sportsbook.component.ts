@@ -131,7 +131,8 @@ export class SportsbookComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.mainContainer) {
-      this.mainContainer.style.height = ''; // Clear the inline style
+      this.mainContainer.style.height = '';
+      this.mainContainer.style.minHeight = '';
     }
 
     this.routeSub.unsubscribe();

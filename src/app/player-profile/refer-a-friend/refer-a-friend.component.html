@@ -170,9 +170,9 @@
                 type="submit"
                 [disabled]="referForm.invalid || isLoading"
                 class="w-full sm:w-auto px-8 py-3 font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
-                [class.bg-blue-600]="!referForm.invalid && !isLoading"
+                [class.bg-betaki-500]="!referForm.invalid && !isLoading"
                 [class.text-white]="!referForm.invalid && !isLoading"
-                [class.hover:bg-blue-700]="!referForm.invalid && !isLoading"
+                [class.hover:opacity-80]="!referForm.invalid && !isLoading"
                 [class.shadow-lg]="!referForm.invalid && !isLoading"
                 [class.bg-gray-200]="referForm.invalid || isLoading"
                 [class.text-gray-400]="referForm.invalid || isLoading"
@@ -190,7 +190,7 @@
         </div>
 
         <!-- Referral Banner -->
-        <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div
             class="bg-betaki-500 rounded-2xl p-8 text-white col-span-1 lg:col-span-3 flex items-center justify-between relative overflow-hidden shadow-lg group"
           >
@@ -223,13 +223,12 @@
               </div>
             </div>
 
-            <!-- Decorative elements -->
             <div
               class="absolute -right-10 -bottom-20 w-64 h-64 border-[30px] border-white/10 rounded-full group-hover:scale-110 transition-transform duration-700 ease-in-out"
             ></div>
             <div class="absolute top-10 right-40 w-12 h-12 bg-white/10 rounded-full blur-xl animate-pulse"></div>
           </div>
-        </div>
+        </div> -->
       </main>
     </div>
   </div>

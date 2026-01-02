@@ -48,6 +48,8 @@ export class CarouselComponent implements OnInit, OnDestroy {
   isDragging = signal(false);
   private startX = signal(0);
   private readonly threshold = 50;
+  
+  loadedImages = signal<Set<number>>(new Set());
 
   private readonly platformId = inject(PLATFORM_ID);
   private isSmallScreen = signal(false);
@@ -67,6 +69,18 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.pauseAutoPlay();
+  }
+
+  onImageLoad(index: number): void {
+    this.loadedImages.update((set) => {
+      const newSet = new Set(set);
+      newSet.add(index);
+      return newSet;
+    });
+  }
+
+  isImageLoaded(index: number): boolean {
+    return this.loadedImages().has(index);
   }
 
   onResize(): void {

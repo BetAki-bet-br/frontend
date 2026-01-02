@@ -5,16 +5,37 @@
       <a
         [href]="slide.href"
         [target]="slide.target || '_self'"
-        class="block w-full h-full"
+        class="block w-full h-full relative"
         [class.pointer-events-none]="isDragging()"
       >
+        @if (!isImageLoaded(i)) {
+        <div class="absolute inset-0 bg-betaki-darker animate-pulse rounded-lg z-10 flex items-center justify-center">
+          <svg
+            class="w-10 h-10 betaki-500 animate-spin"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        </div>
+        }
         <img
           [ngSrc]="slide.imageUrl | cdnize"
           [alt]="slide.alt"
           class="w-full h-full object-center object-cover sm:rounded-lg"
+          [class.opacity-0]="!isImageLoaded(i)"
+          [class.transition-opacity]="true"
+          [class.duration-500]="true"
           draggable="false"
           fill
           priority
+          (load)="onImageLoad(i)"
         />
       </a>
     </div>
@@ -22,7 +43,7 @@
     <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex space-x-2 rounded-full z-10 px-3 py-1">
       @for (slide of slides(); let i = $index; track slide.imageUrl) {
       <button
-        class="w-3 h-3 rounded-full cursor-pointer"
+        class="w-3 h-3 rounded-full cursor-pointer transition-colors duration-300"
         [class.bg-white]="i === currentIndex()"
         [class.bg-gray-400]="i !== currentIndex()"
         (click)="currentIndex.set(i)"

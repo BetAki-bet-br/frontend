@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { GameMain } from '@app/games-page/models/game.models';
 import { AssetsService } from '@app/@shared/assets.service';
@@ -17,8 +17,14 @@ export class GameCard {
   layout = input<'fixed' | 'responsive'>('fixed');
   isPriority = input<boolean>(false);
 
+  isImageLoaded = signal(false);
+
   get gameImageUrl(): string {
     if (!this.game()) return '';
     return this.assetsService.getGameImageUrl(this.game().externalId);
+  }
+
+  onImageLoad() {
+    this.isImageLoaded.set(true);
   }
 }

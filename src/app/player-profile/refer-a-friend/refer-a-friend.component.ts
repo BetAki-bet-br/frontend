@@ -67,7 +67,7 @@ export class ReferAFriendComponent implements OnInit {
     this.referForm = this.fb.group({
       referees: this.fb.array([]),
     });
-    this.addReferee(); // Add one initial row
+    this.addReferee();
   }
 
   ngOnInit(): void {
