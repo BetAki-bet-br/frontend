@@ -14,3 +14,18 @@ img.loading {
     opacity: 0.5;
   }
 }
+
+.pop-out-card {
+  animation: popOut 0.2s ease-out forwards;
+}
+
+@keyframes popOut {
+  from {
+    opacity: 0;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}

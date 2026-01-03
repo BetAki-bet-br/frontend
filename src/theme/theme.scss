@@ -70,16 +70,6 @@ body {
   }
 }
 
-body {
-  .intercom-lightweight-app {
-    z-index: 999;
-  }
-
-  > iframe[name^="goog_"] {
-    display: none !important;
-  }
-}
-
 app-root {
   display: flex;
   flex-direction: column;

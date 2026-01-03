@@ -15,6 +15,8 @@ export interface GameMain {
   parameters: unknown[] | null;
   gameTypeName: string;
   gameTypeId: number;
+  volatility?: number;
+  minBet?: number;
 }
 
 export interface SubLevel {
