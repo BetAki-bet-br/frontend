@@ -31,6 +31,8 @@ function toLocalGameMain(apiGame: ApiGameMain): GameMain {
     gameTypeName: apiGame.gameTypeName ?? '',
     gameTypeId: apiGame.gameTypeId ?? 0,
     parameters: apiGame.parameters ?? null,
+    volatility: Math.floor(Math.random() * 5) + 1,
+    minBet: Number((Math.random() * (5 - 0.5) + 0.5).toFixed(2)),
   };
 }
 

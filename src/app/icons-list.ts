@@ -318,4 +318,8 @@ export const IconsList: AssetItem[] = [
     name: 'fail',
     url: 'assets/general/icons/fail.svg',
   },
+  {
+    name: 'flame',
+    url: 'assets/general/icons/flame.svg',
+  },
 ];
