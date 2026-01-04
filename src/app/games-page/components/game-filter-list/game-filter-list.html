@@ -16,18 +16,19 @@
 
   @if (currentSelectedCategory() !== null) {
   <div
-    class="flex flex-col items-center gap-3 cursor-pointer shrink-0 select-none"
+    class="flex flex-col items-center cursor-pointer shrink-0 select-none"
     animate.leave="animate-leave-fadeOut"
     animate.enter="animate-enter-fadeIn"
+    (click)="selectFilter(null)"
+    (keyup.enter)="selectFilter(null)"
+    (keyup.space)="selectFilter(null)"
+    tabindex="0"
+    role="button"
   >
     <div
-      class="flex flex-col items-center text-center border-2 border-betaki-500 bg-black rounded-full p-2 sm:p-2 text-white hover:text-betaki-500 transition-colors 300ms ease-in-out"
-      (click)="selectFilter(null)"
-      (keyup.enter)="selectFilter(null)"
-      (keyup.space)="selectFilter(null)"
-      tabindex="0"
+      class="flex flex-col items-center text-center rounded-full p-2 sm:p-3 bg-red-600 hover:bg-red-700 transition-colors 300ms ease-in-out"
     >
-      <span class="text-bold break-words text-xs xs:text-sm"> Limpar filtro </span>
+      <img src="/assets/general/icons/close.svg" alt="Limpar filtro" class="w-8 h-8 icon-black" />
     </div>
   </div>
   }

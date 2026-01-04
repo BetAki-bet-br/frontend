@@ -14,10 +14,6 @@ export class GameFilterList {
   filterSelect = output<GameCategory | null>();
   currentSelectedCategory = input<GameCategory | null>(null);
 
-  logFilters(): void {
-    console.log('GameFilterList component initialized', this.filters());
-  }
-
   selectFilter(filter: GameCategory | null): void {
     this.filterSelect.emit(filter);
   }
