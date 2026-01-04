@@ -1,4 +1,4 @@
-<div class="winners-list-container justify-evenly px-3 sm:ps-3" [class.loading]="loading()">
+<div class="winners-list-container justify-evenly px-3 sm:px-2" [class.loading]="loading()">
   @for (winner of displayedWinners().slice(0,winnersToList()); track winner.id) {
   <div
     class="winner-card-wrapper"
