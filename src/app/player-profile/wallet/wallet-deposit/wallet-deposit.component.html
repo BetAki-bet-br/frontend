@@ -37,35 +37,23 @@
         </div>
         <div class="deposit-form flex flex-col">
           <div class="deposit-amount-buttons">
-            <button
-              mat-button
-              class="main-button smaller width-full"
-              (click)="depositForm.controls.amount.setValue('20,00')"
-            >
+            <button mat-button class="main-button smaller width-full" (click)="setAmount('20,00')">
               <span class="text-white!">R$20,00</span>
             </button>
-            <button
-              mat-button
-              class="main-button smaller width-full"
-              (click)="depositForm.controls.amount.setValue('50,00')"
-            >
+            <button mat-button class="main-button smaller width-full" (click)="setAmount('50,00')">
               <span class="text-white!">R$50,00</span>
             </button>
-            <button
-              mat-button
-              class="main-button smaller width-full"
-              (click)="depositForm.controls.amount.setValue('100,00')"
-            >
+            <button mat-button class="main-button smaller width-full" (click)="setAmount('100,00')">
               <span class="text-white!">R$100,00</span>
             </button>
           </div>
-          <div [formGroup]="depositForm">
+          <div [formGroup]="depositForm" class="flex flex-col">
             <mat-form-field
               appearance="outline"
               subscriptSizing="dynamic"
               class="form-input-secondary deposit-form-field error-border"
             >
-              <div class="flex flex-col deposit-input-field width-full">
+              <div class="flex flex-col deposit-input-field width-full mb-0.5">
                 <span translate class="deposit-input-span">Deposit amount:</span>
                 <div class="input-wrapper">
                   <span class="prefix center" matTextPrefix>R$</span>
@@ -74,33 +62,27 @@
                     type="text"
                     placeholder="5,00"
                     formControlName="amount"
-                    (ngModelChange)="onInput($event)"
+                    (input)="onInput($event.target.value)"
                     (blur)="onBlur()"
                     [style.width]="inputWidth"
                   />
                 </div>
               </div>
-              <mat-hint class="hint" translate>*Minimum deposit amount: <b>R$5,00</b></mat-hint>
-              @if (amountControl.hasError('required') && (amountControl.touched || amountControl.dirty)) {
-                +
-                <ng-container>
-                  <mat-error class="error-message" translate>
-                    <ng-container> {{ 'FORMS.ERRORS.REQUIRED' | translate }}</ng-container>
-                    <ng-container> {{ 'FORMS.ERRORS.REQUIRED' | translate }}</ng-container>
-                  </mat-error>
-                </ng-container>
-              }
-              @if (amountControl.hasError('min') && (amountControl.touched || amountControl.dirty)) {
-                <ng-container>
-                  <mat-error class="error-message" translate>
-                    <ng-container>
-                      {{ 'The minimum deposit amount is' | translate }} {{ minAmount }} {{ currency }}.
-                      {{ 'Please enter a valid amount.' | translate }}
-                    </ng-container>
-                  </mat-error>
-                </ng-container>
-              }
             </mat-form-field>
+            @if (!(amountControl.invalid && (amountControl.touched || amountControl.dirty))) {
+              <mat-hint class="hint text-xs xs:text-sm" translate animate.enter="animate-enter-slide-down"
+                >*Minimum deposit amount: <b>R${{ minAmount }},00</b></mat-hint
+              >
+            }
+            @if (amountControl.hasError('required') && (amountControl.touched || amountControl.dirty)) {
+              <div class="error-message" animate.enter="animate-enter-slide-down">A quantidade é obrigatória.</div>
+            }
+            @if (amountControl.hasError('min') && (amountControl.touched || amountControl.dirty)) {
+              <div class="error-message" animate.enter="animate-enter-slide-down">
+                {{ 'The minimum deposit amount is' | translate }} {{ minAmount }} {{ currency }}.
+                {{ 'Please enter a valid amount.' | translate }}
+              </div>
+            }
           </div>
           <button mat-button class="main-button width-full mt-[22px]" (click)="goToSecondStep()">
             <span class="text-white!" translate>Depositar</span>
@@ -160,7 +142,7 @@
 
     @if (currentStep === 2) {
       <div class="disclaimer-container">
-        <span class="disclaimer-span" translate>
+        <span class="disclaimer-span text-xs!" translate>
           *Deposits are only accepted from bank accounts with the same CPF as the account holder.
         </span>
       </div>
