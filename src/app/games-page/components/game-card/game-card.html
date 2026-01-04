@@ -5,7 +5,7 @@
   [ngClass]="{
     'w-full': layout() === 'responsive',
     'w-32 sm:w-[150px] lg:w-[165px]': layout() === 'fixed',
-
+    'z-50': isHovering()
   }"
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
