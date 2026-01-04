@@ -10,12 +10,15 @@ import { PlayerService } from '@app/@shared/services/player.service-v2';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { RoutingService } from '@app/@shared/services/routing.service';
+import { MenuItem } from '../mobile-menu/menu-item.model';
+import { CdnizePipe } from '../../@pipes/cdnize.pipe';
+
 @Component({
   selector: 'app-sidebar-mobile',
   templateUrl: './sidebar-mobile.html',
   styleUrl: './sidebar-mobile.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, CdnizePipe],
 })
 export class SidebarMobile {
   protected readonly sidebarService: SidebarService = inject(SidebarService);
@@ -37,14 +40,42 @@ export class SidebarMobile {
       )
     : signal<PlayerDetails | null>(null);
 
-  protected items: unknown[] = [];
+  protected menuItems: MenuItem[] = [
+    {
+      label: 'Clube Bet Aki',
+      icon: '/assets/icons/betaki-icon.svg', // Assuming this is correct based on previous HTML
+      routerLink: '/games',
+    },
+    {
+      label: 'Lançamentos',
+      icon: 'assets/icons/star-icon.svg',
+      routerLink: '/games/category/1000097',
+    },
+    {
+      label: 'Torneios',
+      icon: 'assets/icons/trophy-icon.svg',
+      routerLink: '/games/category/1000093',
+    },
+    {
+      label: 'Promoções',
+      icon: 'assets/icons/trophy-icon.svg', // Check correct icon
+      routerLink: '/promotions', // Logic for auth check will be handled in click or separate items
+      action: () => this.isAuthenticated() ? this.navigateTo('/profile/promo') : this.navigateTo('/promotions')
+    },
+    {
+      label: 'Provedores',
+      icon: 'assets/icons/provider-icon.svg',
+      routerLink: '/games/category/providers',
+    },
+    {
+      label: 'Contate-nos',
+      icon: 'assets/icons/support-icon.svg',
+      action: () => this.openTawkChat(),
+    }
+  ];
+
   protected RegisterIcon = 'assets/icons/register-icon.svg';
   protected BetAkiWhiteIcon = '/assets/brand/logo-white.svg';
-  protected TournamentIcon = 'assets/icons/trophy-icon.svg';
-  protected JoystickIcon = 'assets/icons/joystick-icon.svg';
-  protected StarIcon = 'assets/icons/star-icon.svg';
-  protected ProviderIcon = 'assets/icons/provider-icon.svg';
-  protected SupportIcon = 'assets/icons/support-icon.svg';
 
   constructor() {
     effect(() => {

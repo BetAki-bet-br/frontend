@@ -5,16 +5,7 @@ import { RoutingService } from '@app/@shared/services/routing.service';
 import { SidebarService } from '@app/@shared/services/sidebar-mobile.service';
 import { CdnizePipe } from '../../@pipes/cdnize.pipe';
 import { NgOptimizedImage } from '@angular/common';
-
-interface MobileMenuItem {
-  label: string;
-  icon: string;
-  iconActive?: string;
-  routerLink?: string;
-  isSpecial?: boolean;
-  action?: () => void;
-  exact?: boolean;
-}
+import { MenuItem } from './menu-item.model';
 
 @Component({
   selector: 'app-mobile-menu',
@@ -29,7 +20,7 @@ export class MobileMenu {
 
   readonly isFullscreen = this.fullscreenService.isFullscreen;
 
-  menuItems: MobileMenuItem[] = [
+  menuItems: MenuItem[] = [
     { label: '', icon: '/assets/icons/ball-icon.svg', routerLink: '/', exact: true },
     {
       label: 'Ao Vivo',
@@ -60,7 +51,7 @@ export class MobileMenu {
     this.sidebarService.toggle();
   }
 
-  isLinkActive(item: MobileMenuItem): boolean {
+  isLinkActive(item: MenuItem): boolean {
     if (!item.routerLink) return false;
     return this.routingService.isLinkActive(item.routerLink, item.exact ?? true);
   }

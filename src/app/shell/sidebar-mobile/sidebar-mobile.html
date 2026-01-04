@@ -44,141 +44,34 @@
           </div>
         </button>
       </div>
+      
       <div class="flex flex-col items-center gap-[10px] rounded-lg">
-        <div
-          class="bg-betaki-darker flex h-[45px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px]"
-        >
-          <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
-            <div class="flex items-center justify-center size-[20px]">
-              <div id="general/bottom_casino" class="text-menu-icon size-[20px]" style="display: inline-block">
-                <svg
-                  width="100%"
-                  height="100%"
-                  preserveAspectRatio="xMidYMid meet"
-                  fill="none"
-                  viewBox="0 0 24 25"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g fill="currentColor">
-                    <path
-                      d="m10.9498 3.7339c-.166-.47837-.0441-1.00954.314-1.36759l.7359-.73594.7225.72251c.365.36498.4841.90905.3049 1.39309l-.2361.63769c1.073.04203 1.8515.16729 1.8515.31528 0 .15439-.8473.28404-1.9924.32026v.04758c.3649.36489.3649.95649 0 1.32137-.3649.36489-.9565.36489-1.3214 0-.3649-.36488-.3649-.95648 0-1.32137v-.04824c-1.1346-.03712-1.9717-.16614-1.9717-.3196 0-.14648.7627-.27069 1.8188-.31397z"
-                    ></path>
-                    <path
-                      d="m12.6607 19.6343v-12.65987c.6662-.4971 1.5475-.71851 2.4969-.71416 1.08.00494 2.1653.30404 2.9396.72239 1.1669.67598 1.9181 1.6366 2.2251 2.68442.3066 1.04622.1851 2.22852-.4822 3.38432l-3.5623 6.5829z"
-                    ></path>
-                    <path
-                      d="m11.3393 19.6343v-12.51382c-1.45849-.95565-3.38817-1.07241-4.99933-.14221-2.27968 1.31618-3.06076 4.23123-1.74458 6.51093l3.54789 6.1451z"
-                    ></path>
-                    <path
-                      d="m6.6175 19.6343-3.16645-5.4844c-.75095-1.3007-.96737-2.7633-.71742-4.1335-.37818.0618-.75178.1919-1.10329.3948-1.5590398.9001-2.093204 2.8937-1.193093 4.4527l2.754203 4.7704z"
-                    ></path>
-                    <path
-                      d="m17.7803 19.6343h3.0406l2.7422-4.7496c.8994-1.5579.3657-3.5499-1.1922-4.4493-.1953-.1128-.3975-.203-.6035-.2715.1368 1.1643-.1136 2.3857-.778 3.5402z"
-                    ></path>
-                    <path
-                      d="m2.08973 22.3891c0 .7298.5916 1.3214 1.32137 1.3214h17.1778c.7298 0 1.3214-.5916 1.3214-1.3214s-.5916-1.3214-1.3214-1.3214h-17.1778c-.72977 0-1.32137.5916-1.32137 1.3214z"
-                    ></path>
-                  </g>
-                </svg>
+        @for (item of menuItems; track $index) {
+          @if ($index === 2) {
+             <div class="bg-betaki-500 relative h-[100px] w-full rounded-[8px]">
+              <img ngSrc="assets/banner2.png" fill alt="Banner" class="object-cover rounded-[8px]" />
+            </div>
+          }
+
+          <div
+            class="bg-betaki-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px] cursor-pointer"
+            (click)="item.action ? item.action() : navigateTo(item.routerLink!)"
+            (keyup.enter)="item.action ? item.action() : navigateTo(item.routerLink!)"
+          >
+            <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
+              <div class="flex items-center justify-center size-[20px]">
+                <div class="text-menu-icon size-[20px]" style="display: inline-block">
+                   @if (item.icon.endsWith('.svg') || item.icon.endsWith('.webp') || item.icon.endsWith('.png')) {
+                     <img [ngSrc]="item.icon | cdnize" [alt]="item.label" class="size-full" width="24" height="24" />
+                   } @else {
+                     <!-- Fallback if needed or SVG content logic -->
+                   }
+                </div>
               </div>
-            </div>
-
-            <div><span class="text-general-main">Clube </span><span class="text-general-light">Bet Aki </span></div>
-          </div>
-        </div>
-        <div
-          class="bg-betaki-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px]"
-          (click)="navigateTo('/games/category/1000097')"
-          (keyup.enter)="navigateTo('/games/category/1000097')"
-        >
-          <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
-            <div class="flex items-center justify-center size-[20px]">
-              <div id="general/bottom_sports" class="text-menu-icon size-[20px]" style="display: inline-block">
-                <img [ngSrc]="StarIcon" alt="Lançamentos" class="size-full" width="24" height="24" />
-              </div>
-            </div>
-
-            <span>Lançamentos</span>
-          </div>
-        </div>
-        <div
-          class="bg-betaki-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px]"
-          (click)="navigateTo('/games/category/1000093')"
-          (keyup.enter)="navigateTo('/games/category/1000093')"
-        >
-          <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
-            <div class="flex items-center justify-center size-[20px]">
-              <div id="general/points" class="text-menu-icon size-[20px]" style="display: inline-block">
-                <img [ngSrc]="TournamentIcon" alt="Torneios" class="size-full" width="24" height="24" />
-              </div>
-            </div>
-
-            <h2>Torneios</h2>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-betaki-500 relative h-[100px] w-full rounded-[8px]">
-        <img ngSrc="assets/banner2.png" fill alt="Banner" class="object-cover rounded-[8px]" />
-      </div>
-
-      <div
-        class="bg-betaki-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px]"
-      >
-        <div
-          class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]"
-          (click)="isAuthenticated() ? navigateTo('/profile/promo') : navigateTo('/promotions')"
-          (keyup.enter)="isAuthenticated() ? navigateTo('/profile/promo') : navigateTo('/promotions')"
-        >
-          <div class="flex items-center justify-center size-[20px]">
-            <div id="general/bonus" class="text-menu-icon size-[20px]" style="display: inline-block">
-              <svg
-                width="100%"
-                height="100%"
-                preserveAspectRatio="xMidYMid meet"
-                fill="none"
-                viewBox="0 0 24 25"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="m10.3705 23.7506v-15.76832h3.1581v15.76832zm-6.43431 0c-2.73625 0-2.43842-2.0402-2.43842-2.4755v-7.7711h7.49428v10.2421h-.01886zm10.93721 0v-10.2421h7.5011v7.7666c.0567.3343.0332.6773-.0686 1.0008s-.2789.6183-.5169.8599c-.2379.2417-.5297.4235-.8517.5304-.3219.1068-.6648.1358-1.0001.0844zm0-11.8223.029-3.94165h7.4934c.2027.00672.3945.09253.5347.23894s.2175.34187.2154.54453v2.36478c.0036.203-.0733.3993-.2138.546s-.3332.232-.5363.2373zm-13.36907 0c-.09931-.0005-.19732-.0212-.28837-.0608-.09104-.0396-.1731-.0974-.241079-.1698-.143544-.151-.223631-.3513-.22386-.5596v-2.3602c-.00216-.20265.075193-.39812.215387-.54453.140192-.14641.332002-.23208.534642-.23879h7.49456v3.94152zm2.77216-7.92112c-.03171-.66249.20036-1.3106.64534-1.80258.44498-.49199 1.06679-.78791 1.72939-.82295.38861-.00931.77341.07842 1.11957.25519.30872.1477.58322.35809.80607.61776l3.40114 4.22578 3.3912-4.2583c.2252-.25947.5017-.46963.8118-.61761.294-.13733.613-.2133.9373-.22323.3243-.00992.6472.04634.949.16544s.576.29847.8061.52718c.23.22871.411.50198.5319.803.2067.4765.2695 1.00305.1804 1.51474-.0892.51169-.3263.98613-.682 1.36474l-.0123-.01898c-.2207.24095-.4889.43352-.7877.56584-.2989.13231-.6219.20138-.9488.20287h-10.44546c-.65289-.01639-1.2734-.28772-1.72857-.75587-.45516-.46816-.70882-1.09581-.70657-1.74862z"
-                  fill="currentColor"
-                ></path>
-              </svg>
+              <span>{{ item.label }}</span>
             </div>
           </div>
-          <span>Promoções</span>
-        </div>
-      </div>
-      <div
-        class="bg-betaki-darker mt-[4px] flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px]"
-        (click)="navigateTo('/games/category/providers')"
-        (keyup.enter)="navigateTo('/games/category/providers')"
-      >
-        <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
-          <div class="flex items-center justify-center size-[20px]">
-            <div id="games/category/providers" class="text-menu-icon size-[20px]" style="display: inline-block">
-              <img [ngSrc]="ProviderIcon" alt="Provedores" class="size-full" width="24" height="24" />
-            </div>
-          </div>
-          <span>Provedores</span>
-        </div>
-      </div>
-      <div
-        class="bg-betaki-darker mt-[4px] flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px]"
-        (click)="openTawkChat()"
-        (keyup.enter)="openTawkChat()"
-        tabindex="0"
-        role="button"
-      >
-        <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
-          <div class="flex items-center justify-center size-[20px]">
-            <div id="general/contact-us" class="text-menu-icon size-[20px]" style="display: inline-block">
-              <img [ngSrc]="SupportIcon" alt="Contate-nos" class="size-full" width="16" height="16" />
-            </div>
-          </div>
-          <span>Contate-nos</span>
-        </div>
+        }
       </div>
     </div>
   </div>

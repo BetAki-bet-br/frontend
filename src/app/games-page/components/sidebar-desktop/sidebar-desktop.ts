@@ -6,6 +6,8 @@ import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service
 import { AuthenticationService, CredentialsService } from '@app/auth';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { CdnizePipe } from '../../../@pipes/cdnize.pipe';
+import { MenuItem } from '../../../shell/mobile-menu/menu-item.model';
+
 @Component({
   selector: 'app-sidebar-desktop',
   templateUrl: './sidebar-desktop.html',
@@ -22,14 +24,37 @@ export class SidebarDesktop {
   protected readonly isAuthenticated = this.sessionService.isAuthenticated();
   protected readonly playerDetails = signal<PlayerDetails | null>(null);
 
-  protected items: unknown[] = [];
-  protected RegisterIcon = 'assets/icons/register-icon.svg';
-  protected BetAkiWhiteIcon = 'assets/icons/betaki-white-icon.svg';
-  protected TournamentIcon = 'assets/icons/tournament-icon.svg';
-  protected JoystickIcon = 'assets/icons/joystick-icon.svg';
-  protected StarIcon = 'assets/icons/star-icon.svg';
-  protected ProviderIcon = 'assets/icons/provider-icon.svg';
-  protected SupportIcon = 'assets/icons/support-icon.svg';
+  protected menuItems: MenuItem[] = [
+    {
+      label: 'Club Bet Aki',
+      icon: '/assets/icons/betaki-icon.svg',
+      routerLink: '/games',
+      // class: 'bg-club' (if needed to map specific classes)
+    },
+    {
+      label: 'Torneios',
+      icon: '/assets/icons/trophy-icon-color.svg',
+      routerLink: '/games/category/1000093',
+      // class: 'bg-tournaments'
+    },
+    {
+      label: 'Os mais jogados',
+      icon: '/assets/icons/joystick-icon-color.svg',
+      routerLink: '/games/category/502',
+    },
+    {
+      label: 'Lançamentos',
+      icon: '/assets/icons/star-icon-color.svg',
+      routerLink: '/games/category/1000097',
+      // class: 'bg-fresh'
+    },
+    {
+      label: 'Provedores',
+      icon: '/assets/icons/provider-icon-color.svg',
+      routerLink: '/games/category/providers',
+      // class: 'bg-providers'
+    }
+  ];
 
   isCollapsed = signal(true);
 
