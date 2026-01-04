@@ -1,6 +1,11 @@
-<app-base-dialog [position]="'bottom-right'" [title]="'This site uses cookies' | translate">
+<app-base-dialog
+  [position]="'bottom-right'"
+  [fullscreenMobile]="false"
+  [title]="'This site uses cookies' | translate"
+  customClass="w-[90vw]! max-w-[486px]! h-fit! m-auto md:m-0!"
+>
   <ng-container dialogContent>
-    <p class="text-center mb-4" translate>
+    <p class="text-center mb-4 text-sm md:text-base" translate>
       This website uses cookies to ensure you get the best experience on our website.
     </p>
   </ng-container>
