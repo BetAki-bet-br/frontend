@@ -30,7 +30,7 @@
   >
     <div
       appDragScroll
-      class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto overflow-y-visible scroll-smooth select-none no-scrollbar py-16 -my-12 -mx-16 relative z-0 hover:z-20 ps-3"
+      class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto overflow-y-visible scroll-smooth select-none no-scrollbar py-16 -my-12 relative z-0 hover:z-20 ps-3"
     >
       @for (game of section.data.gameMains.slice(0, 10); track game.id; let i = $index) {
       <app-awarded-game-card

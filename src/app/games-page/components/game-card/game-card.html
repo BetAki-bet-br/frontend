@@ -65,12 +65,12 @@
         <h3 class="text-white font-bold text-sm text-start line-clamp-1 mt-2">{{ game().name }}</h3>
 
         @if (game().minBet; as minBet) {
-        <div class="flex justify-between items-center text-xs text-white font-bold leading-none">
+        <div class="flex justify-between items-center text-xs text-white leading-none">
           <span class="drop-shadow-md">Aposta mínima:</span>
           <span class="text-betaki-400 drop-shadow-md">{{ minBet | currency:'BRL':'symbol':'1.0-2':'pt-BR' }}</span>
         </div>
         } @if (game().volatility; as volatility) {
-        <div class="flex justify-between items-center text-xs text-white font-bold leading-none">
+        <div class="flex justify-between items-center text-xs text-white leading-none">
           <span class="text-white/90 drop-shadow-md">Volatilidade:</span>
           <div class="flex gap-0.5 drop-shadow-md items-center">
             @for (i of volatilityRange; track i) {

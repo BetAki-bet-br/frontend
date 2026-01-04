@@ -17,6 +17,7 @@ export interface GameMain {
   gameTypeId: number;
   volatility?: number;
   minBet?: number;
+  rtp?: number;
 }
 
 export interface SubLevel {
