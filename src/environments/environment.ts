@@ -5,6 +5,7 @@ export const environment = {
   production: false,
   version: env['npm_package_version'] + '-dev',
   serverUrl: '',
+  backofficeApiUrl: 'http://localhost:8080',
   defaultLanguage: 'pt-BR',
   supportedLanguages: ['en-US', 'pt-BR'],
   desktopPortalId: 5,
