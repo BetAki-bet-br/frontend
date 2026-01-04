@@ -9,9 +9,11 @@
         [class.pointer-events-none]="isDragging()"
       >
         @if (!isImageLoaded(i)) {
-        <div class="absolute inset-0 bg-betaki-darker animate-pulse rounded-lg z-10 flex items-center justify-center">
+        <div
+          class="absolute inset-0 bg-[#272a31] border rounded-lg border-betaki-500 animate-pulse z-10 flex items-center justify-center"
+        >
           <svg
-            class="w-10 h-10 text-white animate-spin"
+            class="w-10 h-10 text-betaki-400 animate-spin"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
