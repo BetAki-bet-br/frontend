@@ -16,8 +16,8 @@ import { WinnersService } from '@app/@shared/services/winners.service';
 import { SubLevel, GameMain } from '@app/games-page/models/game.models';
 import { WinnerCard } from '../winner-card/winner-card';
 
-const REFRESH_INTERVAL = 5000; // 5 seconds
-const ANIMATION_DURATION = 500; // 0.5 seconds
+const REFRESH_INTERVAL = 4000; // 4 seconds
+const ANIMATION_DURATION = 400; // 0.4 seconds
 const WINNERS_COUNT = 14;
 
 @Component({
