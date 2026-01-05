@@ -4,12 +4,10 @@
       <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
     </div>
 
-    <div class="banners-wrapper">
-      @if (bannerPromotions) {
-        @for (bannerPromotion of bannerPromotions; track bannerPromotion) {
-          <div class="promo-banner" [innerHTML]="bannerPromotion?.templateHtml"></div>
-        }
-      } @else {
+    <div class="banners-wrapper flex flex-col sm:flex-row">
+      @for (bannerPromotion of bannerPromotions; track bannerPromotion) {
+        <div class="promo-banner" [innerHTML]="bannerPromotion?.templateHtml"></div>
+      } @empty {
         @for (skeleton of skeletons; track $index) {
           <div
             class="promo-banner rounded-[1.5rem] border border-shark-400 h-[30.875rem] overflow-hidden animate-pulse"

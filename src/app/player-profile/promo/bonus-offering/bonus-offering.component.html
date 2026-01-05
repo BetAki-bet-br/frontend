@@ -1,5 +1,5 @@
 <div class="bonuses-container">
-  <div class="bonuses-wrapper">
+  <div class="bonuses-wrapper flex-col">
     @for (banner of bannerList; track banner) {
       <div class="bonus-item" [innerHTML]="banner.templateHtml"></div>
     } @empty {
