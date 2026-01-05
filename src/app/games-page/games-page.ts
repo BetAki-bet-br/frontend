@@ -14,17 +14,17 @@ export class GamesPage {
   banners: CarouselSlide[] = [
     {
       href: '',
-      imageUrl: '/assets/silvia.jpg',
+      imageUrl: '/assets/silvia.webp',
       alt: 'Banner 7',
     },
     {
       href: '',
-      imageUrl: '/assets/gustavo.jpg',
+      imageUrl: '/assets/gustavo.webp',
       alt: 'Banner 8',
     },
     {
       href: '',
-      imageUrl: '/assets/liminha.jpg',
+      imageUrl: '/assets/liminha.webp',
       alt: 'Banner 9',
     },
   ];

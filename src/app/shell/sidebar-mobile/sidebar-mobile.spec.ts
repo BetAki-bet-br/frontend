@@ -64,7 +64,7 @@ describe('SidebarMobile', () => {
     // Check for Liminha banner
     const liminhaImg = fixture.debugElement.query(By.css('img[alt="Banner Liminha"]'));
     expect(liminhaImg).toBeTruthy();
-    expect(liminhaImg.attributes['ngSrc']).toContain('assets/liminha.jpg');
+    expect(liminhaImg.attributes['ngSrc']).toContain('assets/liminha.webp');
     // priority is an input, not necessarily an attribute in the DOM output in all versions, but usually present or handled by checking inputs.
     // In Angular tests for ngSrc, checking the attribute usually works if it reflects.
     // But better to check the component instance properties if it was a directive, but here it's an attribute on the element.

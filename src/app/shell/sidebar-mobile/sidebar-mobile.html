@@ -8,7 +8,7 @@
   <div class="relative h-full w-full transition-container">
     <div class="grid gap-[10px] p-3">
       <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
-        <img ngSrc="assets/liminha.jpg" fill alt="Banner Liminha" class="object-cover" priority />
+        <img ngSrc="assets/liminha.webp" fill alt="Banner Liminha" class="object-cover" priority />
       </div>
 
       <div class="flex w-full gap-2">
@@ -44,33 +44,32 @@
           </div>
         </button>
       </div>
-      
-      <div class="flex flex-col items-center gap-[10px] rounded-lg">
-        @for (item of menuItems; track $index) {
-          @if ($index === 2) {
-             <div class="bg-betaki-500 relative h-[100px] w-full rounded-[8px]">
-              <img ngSrc="assets/banner2.png" fill alt="Banner" class="object-cover rounded-[8px]" />
-            </div>
-          }
 
-          <div
-            class="bg-betaki-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px] cursor-pointer"
-            (click)="item.action ? item.action() : navigateTo(item.routerLink!)"
-            (keyup.enter)="item.action ? item.action() : navigateTo(item.routerLink!)"
-          >
-            <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
-              <div class="flex items-center justify-center size-[20px]">
-                <div class="text-menu-icon size-[20px]" style="display: inline-block">
-                   @if (item.icon.endsWith('.svg') || item.icon.endsWith('.webp') || item.icon.endsWith('.png')) {
-                     <img [ngSrc]="item.icon | cdnize" [alt]="item.label" class="size-full" width="24" height="24" />
-                   } @else {
-                     <!-- Fallback if needed or SVG content logic -->
-                   }
-                </div>
+      <div class="flex flex-col items-center gap-[10px] rounded-lg">
+        @for (item of menuItems; track $index) { @if ($index === 2) {
+        <div class="bg-betaki-500 relative h-[100px] w-full rounded-[8px]">
+          <img ngSrc="assets/banner2.png" fill alt="Banner" class="object-cover rounded-[8px]" />
+        </div>
+        }
+
+        <div
+          class="bg-betaki-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px] cursor-pointer"
+          (click)="item.action ? item.action() : navigateTo(item.routerLink!)"
+          (keyup.enter)="item.action ? item.action() : navigateTo(item.routerLink!)"
+        >
+          <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
+            <div class="flex items-center justify-center size-[20px]">
+              <div class="text-menu-icon size-[20px]" style="display: inline-block">
+                @if (item.icon.endsWith('.svg') || item.icon.endsWith('.webp') || item.icon.endsWith('.png')) {
+                <img [ngSrc]="item.icon | cdnize" [alt]="item.label" class="size-full" width="24" height="24" />
+                } @else {
+                <!-- Fallback if needed or SVG content logic -->
+                }
               </div>
-              <span>{{ item.label }}</span>
             </div>
+            <span>{{ item.label }}</span>
           </div>
+        </div>
         }
       </div>
     </div>
