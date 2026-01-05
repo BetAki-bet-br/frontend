@@ -23,14 +23,13 @@ import { MatRippleModule } from '@angular/material/core';
 import { AppBreakpoints } from '@app/@shared/app-breakpoints';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { Subscription } from 'rxjs';
-import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-base-dialog',
   templateUrl: './base-dialog.component.html',
   styleUrls: ['./base-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, MatRippleModule, CdnizePipe, NgClass],
+  imports: [MatIconModule, MatRippleModule, CdnizePipe],
 })
 export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterContentChecked {
   private dialogRef = inject<DialogRef<BaseDialogComponent>>(DialogRef);

@@ -79,8 +79,6 @@ enum WithdrawalTypeEnum {
     MatIcon,
     MatSelect,
     MatInputModule,
-    MatError,
-    MatButtonModule,
     MatTooltipModule,
     TranslateModule,
     MatFormFieldModule,
