@@ -1,21 +1,69 @@
 <div class="main-container flex flex-col">
   @if (currentPage() === 'form') {
   <div class="flex justify-center">
-    <div class="w-1/2 flex flex-col bg-accent rounded-l-[1rem] hidden lg:flex relative">
-      <img ngSrc="assets/natal-register.jpeg" alt="Banner" fill class="object-cover rounded-l-[1rem]" priority />
+    <div class="w-1/2 flex flex-col bg-shark-900 rounded-l-[1rem] hidden lg:flex relative overflow-hidden">
+      @if (!isBannerLoaded()) {
+      <div class="absolute inset-0 bg-shark-900 animate-pulse z-10 flex items-center justify-center rounded-l-[1rem]">
+        <svg
+          class="w-8 h-8 text-betaki-400 animate-spin"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      </div>
+      }
+      <img
+        ngSrc="assets/natal-register.jpeg"
+        alt="Banner"
+        fill
+        class="object-cover rounded-l-[1rem] transition-opacity duration-300"
+        [class.opacity-0]="!isBannerLoaded()"
+        (load)="onBannerLoad()"
+        priority
+      />
     </div>
 
     <div
       class="bg-[#FFF] w-full h-full lg:w-3/4 rounded-[1rem] lg:rounded-l-[0px] md:rounded-r-[1rem] md:min-h-[500px] flex flex-col justify-center sm:pt-4!"
     >
-      <img
-        ngSrc="assets/banner2.png"
-        alt="Banner"
-        width="320"
-        height="117"
-        priority
-        class="w-full h-auto rounded-t-lg md:hidden"
-      />
+      <div class="w-full relative md:hidden">
+        @if (!isInnerBannerLoaded()) {
+        <div
+          class="absolute inset-0 bg-shark-900 animate-pulse z-10 flex items-center justify-center rounded-t-lg h-[117px]"
+        >
+          <svg
+            class="w-8 h-8 text-betaki-400 animate-spin"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        </div>
+        }
+        <img
+          ngSrc="assets/banner2.png"
+          alt="Banner"
+          width="320"
+          height="117"
+          priority
+          class="w-full h-auto rounded-t-lg transition-opacity duration-300"
+          [class.opacity-0]="!isInnerBannerLoaded()"
+          (load)="onInnerBannerLoad()"
+        />
+      </div>
       <!-- inner banner -->
       <h1 class="flex items-center justify-center text-lg sm:mt-0 sm:ps-10 mb-0! sm:text-3xl font-bold">
         Crie sua conta

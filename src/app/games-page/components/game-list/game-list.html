@@ -26,7 +26,7 @@
       <a
         [routerLink]="overrideLink() || ['category', categoryId()]"
         [class.hidden]="isExpanded()"
-        class="text-sm xs:text-md leading-normal text-white transition-colors bg-betaki-darker rounded-s-full rounded-e-full p-1 px-3 hover:text-betaki-600 flex items-center"
+        class="text-sm xs:text-md leading-normal text-white transition-colors bg-betaki-darker rounded-s-full rounded-e-full p-1 px-3 hover:text-betaki-600 flex items-center z-30"
       >
         <span class="text-nowrap flex items-center">
           <span class="font-bold text-xs sm:text-sm">{{ gameCount() }}</span>

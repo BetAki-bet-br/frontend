@@ -83,6 +83,8 @@ export class LoginPage implements OnInit, OnDestroy {
   submitLoading = signal(false);
   showPassword = signal(false);
   loginError = signal<string | null>(null);
+  isBannerLoaded = signal(false);
+  isInnerBannerLoaded = signal(false);
 
   @ViewChild('usernameInput', { static: true }) usernameInput!: ElementRef<HTMLElement>;
 
@@ -90,6 +92,14 @@ export class LoginPage implements OnInit, OnDestroy {
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
+
+  onBannerLoad() {
+    this.isBannerLoaded.set(true);
+  }
+
+  onInnerBannerLoad() {
+    this.isInnerBannerLoaded.set(true);
+  }
   fingerprintRequestId: string = '';
   redirectURL = '';
   showHidePasswordLabel: string = this.translate.instant('Show password');

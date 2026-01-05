@@ -16,6 +16,8 @@ export class BonusOfferingComponent {
   @Input() bonusList: PlayerBonusResolved[] = [];
   @Input() bannerList: Banner[] | undefined = [];
 
+  readonly skeletons = new Array(4);
+
   constructor() {
     effect(() => {
       console.log('Bonus List:', this.bonusList);

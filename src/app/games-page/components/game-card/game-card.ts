@@ -3,6 +3,7 @@ import { CommonModule, NgOptimizedImage, CurrencyPipe } from '@angular/common';
 import { GameMain } from '@app/games-page/models/game.models';
 import { AssetsService } from '@app/@shared/assets.service';
 import { A11yModule } from '@angular/cdk/a11y';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-game-card',
@@ -13,6 +14,8 @@ import { A11yModule } from '@angular/cdk/a11y';
 })
 export class GameCard {
   private assetsService = inject(AssetsService);
+  private deviceService = inject(DeviceDetectorService);
+
   game = input.required<GameMain>();
   class = input<string>('');
   layout = input<'fixed' | 'responsive'>('fixed');
@@ -32,7 +35,9 @@ export class GameCard {
   }
 
   onMouseEnter() {
-    this.isHovering.set(true);
+    if (!this.deviceService.isMobile() && !this.deviceService.isTablet()) {
+      this.isHovering.set(true);
+    }
   }
 
   onMouseLeave() {

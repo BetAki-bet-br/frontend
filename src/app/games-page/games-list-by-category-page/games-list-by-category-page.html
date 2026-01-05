@@ -7,7 +7,7 @@
 >
   <div class="grid grid-cols-2 px-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-10 gap-2 sm:gap-4">
     @for (game of category()!.gameMains.slice(0, visibleGamesCount()); track game.id; let i = $index) {
-    <div class="game-card-container" [style.animation-delay.ms]="(i % 12) * 50">
+    <div class="game-card-container relative hover:z-50" [style.animation-delay.ms]="(i % 12) * 50">
       <app-game-card [game]="game" [layout]="'responsive'" (click)="handleGameClick(game)"></app-game-card>
     </div>
     }

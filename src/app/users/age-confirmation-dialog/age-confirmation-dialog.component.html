@@ -1,4 +1,8 @@
-<app-base-dialog customClass="confirmation-dialog" [title]="'Are you over 18 years old?' | translate">
+<app-base-dialog
+  [fullscreenMobile]="false"
+  customClass="w-[90vw]! max-w-[486px]! h-fit!"
+  [title]="'Are you over 18 years old?' | translate"
+>
   <ng-container dialogButtons>
     <div class="flex w-full justify-end gap-4">
       <button mat-stroked-button class="button-text-small label-dark flex-grow" (click)="onCancel()">

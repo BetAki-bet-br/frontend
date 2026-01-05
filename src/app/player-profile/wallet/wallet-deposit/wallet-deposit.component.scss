@@ -159,7 +159,8 @@
   font-size: 0.75rem;
   letter-spacing: 0.025rem;
   line-height: 0.9375rem;
-  color: map.get(theme-variables.$app-custom-colors, "red-75");
+  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  margin-top: 0.25rem;
 }
 
 :host ::ng-deep .loader {

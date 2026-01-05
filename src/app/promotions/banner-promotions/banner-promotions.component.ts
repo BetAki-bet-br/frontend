@@ -23,6 +23,7 @@ export class BannerPromotionsComponent implements OnInit {
 
   bannerPromotions$ = this.cmsService.getBannersForPromotions();
   bannerPromotions: Banner[] | undefined;
+  readonly skeletons = new Array(4);
   breadcrumbs: Breadcrumbs[] = [
     {
       svgIcon: 'essentials-home',

@@ -302,12 +302,22 @@
       }
 
       .sponsor-img {
-        height: 5rem; /* h-20 (80px) */
+        /* Classe base - pode ser sobrescrita pelas utilitárias abaixo */
         width: auto;
       }
 
+      /* Utilitários Customizados de Altura */
+      .h-18 {
+        height: 4.5rem !important; /* 72px */
+      }
+      .h-20 {
+        height: 5rem !important; /* 80px */
+      }
       .h-21 {
-        height: 5.25rem; /* h-21 (84px) */
+        height: 5.25rem !important; /* 84px */
+      }
+      .mb-2 {
+        margin-bottom: 0.5rem !important;
       }
       .w-auto {
         width: auto;
@@ -402,7 +412,7 @@
         <div class="links-grid">
           <!-- Coluna 1: Sobre -->
           <div class="col-links">
-            <h5 class="col-title">Sobre o BetAki</h5>
+            <h5 class="col-title">Sobre a BetAki</h5>
             <a class="footer-link" href="#" onclick="return navigateToPP('/terms-and-conditions');"
               >Termos e Condições</a
             >
@@ -520,13 +530,13 @@
 
           <div class="sponsorship-logos">
             <a href="https://www.instagram.com/sampaiocorrea" target="_blank" class="sponsor-link">
-              <img src="/assets/footer/scfc.png" alt="SCFC logo" class="sponsor-img" />
+              <img src="/assets/footer/scfc.png" alt="SCFC logo" class="sponsor-img h-18" />
             </a>
             <a href="https://www.instagram.com/uberlandiaesporteclube" target="_blank" class="sponsor-link">
-              <img src="/assets/footer/escudo_uec.png" alt="UEC brand" class="h-21 w-auto" />
+              <img src="/assets/footer/escudo_uec.png" alt="UEC brand" class="sponsor-img h-21 mb-2" />
             </a>
             <a href="https://www.instagram.com/forroemulherfestival" target="_blank" class="sponsor-link">
-              <img src="/assets/footer/forro-e-mulher.png" alt="Forró e Mulher logo" class="sponsor-img" />
+              <img src="/assets/footer/forro-e-mulher.png" alt="Forró e Mulher logo" class="sponsor-img h-20" />
             </a>
           </div>
         </div>

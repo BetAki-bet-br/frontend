@@ -64,7 +64,17 @@ export class RegisterPage {
   showPassword = signal(false);
   showConfirmPassword = signal(false);
   registerError = signal<string | null>(null);
+  isBannerLoaded = signal(false);
+  isInnerBannerLoaded = signal(false);
   dateInputType = 'text';
+
+  onBannerLoad() {
+    this.isBannerLoaded.set(true);
+  }
+
+  onInnerBannerLoad() {
+    this.isInnerBannerLoaded.set(true);
+  }
 
   currentPage = signal<'form' | 'success'>('form');
   faceAuthParams = signal<FaceAuthParams | null>(null);

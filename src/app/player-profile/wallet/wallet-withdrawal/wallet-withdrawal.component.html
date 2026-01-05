@@ -95,13 +95,17 @@
                 subscriptSizing="dynamic"
                 class="form-input-primary keep-desktop-size error-border mb-4"
               >
-                <input [placeholder]="valuePlaceholder | translate" matInput formControlName="key" readonly />
-                @if (keyControl.hasError('required') && (keyControl.touched || keyControl.dirty)) {
-                  <ng-container>
-                    <mat-error class="error-message" translate> Key is required </mat-error>
-                  </ng-container>
-                }
+                <input
+                  [placeholder]="valuePlaceholder | translate"
+                  class="mb-0"
+                  matInput
+                  formControlName="key"
+                  readonly
+                />
               </mat-form-field>
+              @if (keyControl.hasError('required') && (keyControl.touched || keyControl.dirty)) {
+                <div class="error-message" translate animate.enter="animate-enter-slide-down">Key is required</div>
+              }
             </div>
             <!-- Amount  -->
             <div class="withdrawal-amount flex flex-col form-field flex-1">
@@ -115,44 +119,40 @@
               <mat-form-field
                 appearance="outline"
                 subscriptSizing="dynamic"
-                class="form-input-primary keep-desktop-size error-border mb-4"
+                class="form-input-primary flex-col keep-desktop-size error-border mb-0.5"
               >
                 <input placeholder="R$ 0,00" matInput formControlName="amount" type="number" />
-                <mat-hint translate>Minimum amount: R$ 20.00</mat-hint>
-                @if (amountControl.hasError('required') && (amountControl.touched || amountControl.dirty)) {
-                  <ng-container>
-                    <mat-error class="error-message" translate> Amount is required. </mat-error>
-                  </ng-container>
-                }
-                @if (amountControl.hasError('min') && (amountControl.touched || amountControl.dirty)) {
-                  <ng-container>
-                    <mat-error class="error-message" translate>
-                      {{ 'The minimum withdrawal amount is' | translate }} {{ minAmount }} {{ currency }}.
-                      {{ 'Please enter a valid amount.' | translate }}
-                    </mat-error>
-                  </ng-container>
-                }
-                @if (amountControl.hasError('max') && (amountControl.touched || amountControl.dirty)) {
-                  <ng-container>
-                    <mat-error class="error-message" translate>
-                      {{ 'The maximum withdrawal amount is' | translate }} {{ maxAmount }} {{ currency }}.
-                      {{ 'Please enter a valid amount.' | translate }}
-                    </mat-error>
-                  </ng-container>
-                }
-                @if (
-                  amountControl.hasError('notEnoughFunds') &&
-                  !amountControl.hasError('max') &&
-                  !amountControl.hasError('min') &&
-                  (amountControl.touched || amountControl.dirty)
-                ) {
-                  <ng-container>
-                    <mat-error class="error-message" translate>
-                      {{ 'Balance is too low' | translate }}. {{ 'Please enter a valid amount.' | translate }}
-                    </mat-error>
-                  </ng-container>
-                }
               </mat-form-field>
+              @if (!(amountControl.invalid && (amountControl.touched || amountControl.dirty))) {
+                <mat-hint class="text-xs xs:text-sm" translate animate.enter="animate-enter-slide-down"
+                  >Minimum amount: R$ 20.00</mat-hint
+                >
+              }
+              @if (amountControl.hasError('required') && (amountControl.touched || amountControl.dirty)) {
+                <div class="error-message" translate animate.enter="animate-enter-slide-down">Amount is required.</div>
+              }
+              @if (amountControl.hasError('min') && (amountControl.touched || amountControl.dirty)) {
+                <div class="error-message" animate.enter="animate-enter-slide-down">
+                  {{ 'The minimum withdrawal amount is' | translate }} {{ minAmount }} {{ currency }}.
+                  {{ 'Please enter a valid amount.' | translate }}
+                </div>
+              }
+              @if (amountControl.hasError('max') && (amountControl.touched || amountControl.dirty)) {
+                <div class="error-message" animate.enter="animate-enter-slide-down">
+                  {{ 'The maximum withdrawal amount is' | translate }} {{ maxAmount }} {{ currency }}.
+                  {{ 'Please enter a valid amount.' | translate }}
+                </div>
+              }
+              @if (
+                amountControl.hasError('notEnoughFunds') &&
+                !amountControl.hasError('max') &&
+                !amountControl.hasError('min') &&
+                (amountControl.touched || amountControl.dirty)
+              ) {
+                <div class="error-message" animate.enter="animate-enter-slide-down">
+                  {{ 'Balance is too low' | translate }}. {{ 'Please enter a valid amount.' | translate }}
+                </div>
+              }
             </div>
             <!-- Button -->
             <button class="withdraw-button flex-2" (click)="withdraw()" [disabled]="withdrawalForm.invalid" mat-button>

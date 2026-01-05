@@ -2,7 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { SnackbarService } from '@app/@core/snackbar.service';
@@ -79,7 +79,7 @@ export class WalletDepositComponent implements OnInit {
   currency: string | undefined = this.dataStoreService.defaultCurrency;
 
   depositForm: FormGroup<DepositForm> = new FormGroup<DepositForm>({
-    amount: new FormControl<string>('5,00', [Validators.required, Validators.min(this.minAmount)]),
+    amount: new FormControl<string>('5,00', [Validators.required, this.minAmountValidator(this.minAmount)]),
   });
 
   isLoading: boolean = false;
@@ -115,6 +115,21 @@ export class WalletDepositComponent implements OnInit {
     return this.depositForm.controls.amount;
   }
 
+  private parseAmount(value: string | null | undefined): number {
+    if (!value) return 0;
+    return parseFloat(value.toString().replace(/\./g, '').replace(',', '.'));
+  }
+
+  minAmountValidator(min: number) {
+    return (control: AbstractControl) => {
+      const parsed = this.parseAmount(control.value);
+      if (isNaN(parsed) || parsed < min) {
+        return { min: true };
+      }
+      return null;
+    };
+  }
+
   ngOnInit(): void {
     this.loadBanner();
     this.playerService.balanceSub$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((balance) => {
@@ -132,7 +147,10 @@ export class WalletDepositComponent implements OnInit {
       paymentTestModeEnabled = paymentTestModeEnabled.toLowerCase() === 'true';
     }
     if (paymentTestModeEnabled) {
-      this.depositForm.controls.amount?.setValidators([Validators.min(this.minAmountTestMode)]);
+      this.depositForm.controls.amount?.setValidators([
+        Validators.required,
+        this.minAmountValidator(this.minAmountTestMode),
+      ]);
       this.depositForm?.updateValueAndValidity();
     }
   }
@@ -153,7 +171,7 @@ export class WalletDepositComponent implements OnInit {
           if (result?.canDeposit) {
             const request: PaymentRequest = {
               paymentInstrumentId: 1,
-              amount: +(this.amountControl.value?.replace(',', '.') || '0'),
+              amount: this.parseAmount(this.amountControl.value),
               currency: 'BRL',
             };
 
@@ -232,11 +250,7 @@ export class WalletDepositComponent implements OnInit {
   onInput(value: string) {
     // Remove any invalid characters (keep digits and one comma)
     value = value.replace(/[^0-9,]/g, '');
-
-    const parsed = parseFloat(value.replace(',', '.'));
-    if (!isNaN(parsed)) {
-      this.amount = parsed;
-    }
+    this.amount = this.parseAmount(value);
 
     if (value !== this.amountControl.value) {
       this.amountControl.setValue(value, { emitEvent: false });
@@ -244,13 +258,17 @@ export class WalletDepositComponent implements OnInit {
   }
 
   onBlur() {
-    if (!isNaN(this.amount)) {
-      // Format with comma and 2 decimals
-      this.amountControl.setValue(this.amount.toFixed(2).replace('.', ','));
+    const parsed = this.parseAmount(this.amountControl.value);
+    if (!isNaN(parsed)) {
+      this.amount = parsed;
+      this.amountControl.setValue(parsed.toFixed(2).replace('.', ','));
     }
-    // else {
-    //   this.amountControl.setValue('0,00');
-    // }
+  }
+
+  setAmount(value: string) {
+    this.amountControl.setValue(value);
+    this.amount = this.parseAmount(value);
+    this.amountControl.markAsDirty();
   }
 
   private processFailedDeposit(err: any) {

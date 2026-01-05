@@ -44,7 +44,7 @@ export class Footer {
   private readonly tawkMessengerService = inject(TawkToScriptService);
   linkColumns: LinkColumn[] = [
     {
-      title: 'Sobre o Bet Aki',
+      title: 'Sobre a Bet Aki',
       links: [
         { text: 'Termos e Condições', url: '/terms-and-conditions' },
         { text: 'Jogo Responsável', url: '/rgl' },
