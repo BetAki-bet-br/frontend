@@ -27,10 +27,15 @@ export class LiveSearchPage {
   selectedGame = signal<GameMain | undefined>(undefined);
   isGameDetailModalOpen = signal(false);
   loading = signal(false);
+  isMascoteLoaded = signal(false);
 
   placeholderCategory = toSignal(
     this.gameService.getGamesByCategory(1000122, GameEnum.LIVE_CASINO, this.portalService.portalId),
   );
+
+  onMascoteLoad() {
+    this.isMascoteLoaded.set(true);
+  }
 
   placeholderGames = computed(() => {
     return this.placeholderCategory()?.gameMains ?? [];
