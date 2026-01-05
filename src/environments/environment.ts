@@ -11,6 +11,7 @@ export const environment = {
   mobilePortalId: 6,
   defaultBrandId: 2,
   API_BASE_PATH: 'http://52.14.253.252:4200',
+  backofficeApiUrl: '',
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',
   useLocalHtmlTemplates: true, // Set this to true to use the local template definitions in `cms-templates-data`
   demoPlayEnabled: false,
