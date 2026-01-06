@@ -1,0 +1,80 @@
+# Button Migration Todo List
+
+The following files contain Angular Material buttons (`mat-button`, `mat-raised-button`, `mat-stroked-button`, `mat-flat-button`, `mat-icon-button`) that should be migrated to use the shared `app-button` component (`@shared/components/button`).
+
+## Payments (Completed)
+- `src/app/payments/payments/payments-table/payments-table.component.html` (Done)
+
+## Users (Completed)
+- `src/app/users/reset-pasword/reset-pasword.component.html` (Done)
+- `src/app/users/resend-unlock-instructions/resend-unlock-instructions.component.html` (Done)
+- `src/app/users/resend-confirmation-instructions/resend-confirmation-instructions.component.html` (Done)
+- `src/app/users/email-verified-success/email-verified-success.component.html` (Done)
+- `src/app/users/forgot-password/forgot-password.component.html` (Done)
+- `src/app/users/age-confirmation-dialog/age-confirmation-dialog.component.html` (Done)
+
+## Shell (Completed)
+- `src/app/shell/sidenav-menu/profile-info-sidenav/profile-info-sidenav.component.html` (Done)
+- `src/app/shell/shell-player-profile/player-info-dialog/player-info-dialog.component.html` (Done)
+- `src/app/shell/header/header.component.html` (Done)
+- `src/app/shell/header/profile-info-header/profile-info-header.component.html` (Done)
+
+## Promotions (Completed)
+- `src/app/promotions/promotions/promotion-confirmation-dialog/promotion-confirmation-dialog.component.html` (Done)
+- `src/app/promotions/promotions/promotion-action-dialog/promotion-action-dialog.component.html` (Done)
+
+## Player Profile (Completed)
+- `src/app/player-profile/wallet/wallet-withdrawal/wallet-withdrawal.component.html` (Done)
+- `src/app/player-profile/wallet/wallet-history/wallet-history.component.html` (Done)
+- `src/app/player-profile/wallet/wallet-deposit/wallet-deposit.component.html` (Done)
+- `src/app/player-profile/sportsbook-bet-history/sportsbook-bet-history.component.html` (Done)
+- `src/app/player-profile/responsible-gambling/pause-period-dialog/pause-period-dialog.component.html` (Done)
+- `src/app/player-profile/responsible-gambling/edit-limit-dialog/edit-limit-dialog.component.html` (Done)
+- `src/app/player-profile/responsible-gambling/responsible-limits/responsible-limits.component.html` (Done)
+- `src/app/player-profile/responsible-gambling/responsible-limits/limit-card/limit-card.component.html` (Done)
+- `src/app/player-profile/responsible-gambling/responsible-limit-duration/responsible-limit-duration.component.html` (Done)
+- `src/app/player-profile/promo/bonus-opt-in-result-dialog/bonus-opt-in-result-dialog.component.html` (Done)
+- `src/app/player-profile/promo/bonus-history/bonus-history.component.html` (Done)
+- `src/app/player-profile/profile-settings/profile-settings.component.html` (Done)
+- `src/app/player-profile/profile-settings/profile-settings-verification/profile-settings-verification.component.html` (Done)
+- `src/app/player-profile/profile-settings/profile-settings-subscriptions/profile-settings-subscriptions.component.html` (Done)
+- `src/app/player-profile/profile-settings/profile-settings-security/profile-settings-security.component.html` (Done)
+- `src/app/player-profile/profile-settings/profile-settings-security/profile-settings-login-credentials/profile-settings-login-credentials.component.html` (Done)
+- `src/app/player-profile/profile-settings/profile-settings-security/profile-settings-edit-password/profile-settings-edit-password.component.html` (Done)
+- `src/app/player-profile/profile-settings/profile-settings-security/account-closure-dialog/account-closure-dialog.component.html` (Done)
+- `src/app/player-profile/profile-settings/email-confirmation/email-confirmation.component.html` (Done)
+- `src/app/player-profile/profile-settings/profile-settings-info/profile-settings-info.component.html` (Done)
+- `src/app/player-profile/game-history/game-history.component.html` (Done)
+
+## Shared & Others
+
+## Auth (Completed)
+- `src/app/auth/register/register-page/register-page.component.html` (Done)
+- `src/app/auth/register/register-page/register-page-success/register-page-success.component.html` (Done)
+- `src/app/auth/register/register-page/register-page-init/register-page-init.component.html` (Done)
+- `src/app/auth/register/register-page/register-page-form/register-page-form.component.html` (Done)
+- `src/app/auth/login/login-page/login-page.component.html` (Done)
+- `src/app/auth/login/terms-and-conditions-updated-dialog/terms-and-conditions-updated-dialog.component.html` (Done)
+- `src/app/auth/register/register-dialog/register-dialog.component.html` (Done)
+- `src/app/auth/login/set-username-dialog/set-username-dialog.component.html` (Done)
+- `src/app/auth/login/last-session-dialog/last-session-dialog.component.html` (Done)
+- `src/app/auth/login/adblocker-dialog/adblocker-dialog.component.html` (Done)
+- `src/app/auth/login/account-reverification-dialog/account-reverification-dialog.component.html` (Done)
+- `src/app/auth/login/login-dialog/login-dialog.component.html` (Done)
+- `src/app/auth/register/register-dialog/personal-data/personal-data.component.html` (Done)
+- `src/app/auth/login/login-dialog/migration-login-completed/migration-login-completed.component.html` (Done)
+
+## Shared & Others
+- `src/app/help/support/support.component.html`
+- `src/app/i18n/language-selector.component.html`
+- `src/app/forgot-password-dialog/forgot-password-dialog.component.html`
+- `src/app/@shared/components/withdrawal-authentication-dialog/withdrawal-authentication-dialog.component.html`
+- `src/app/@shared/components/withdrawal-dialog/withdrawal-dialog.component.html`
+- `src/app/@shared/components/player-activation-dialog/player-activation-dialog.component.html`
+- `src/app/@shared/components/popup-message-dialog/popup-message-dialog.component.html`
+- `src/app/@shared/components/fill-player-info-dialog/fill-player-info-dialog.component.html`
+- `src/app/@shared/components/cookie-consent-dialog/cookie-consent-dialog.component.html`
+- `src/app/@shared/components/confirmation-dialog/confirmation-dialog.component.html`
+- `src/app/@shared/components/category-card/category-card.component.html`
+- `src/app/@shared/components/annual-verification-dialog/annual-verification-dialog.component.html`
+- `src/app/@shared/components/access-restricted-dialog/access-restricted-dialog.component.html`
