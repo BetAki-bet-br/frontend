@@ -27,6 +27,7 @@ import { passwordsMatchValidator } from '@app/helpers/passwordsMatchValidator';
 import { passwordStrengthValidator } from '@app/helpers/passwordStrengthValidator';
 import { NgxMaskDirective } from 'ngx-mask';
 import { NgOptimizedImage } from '@angular/common';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 
 interface NavigatorWithDeviceMemory extends Navigator {
   readonly deviceMemory?: number;
@@ -44,6 +45,7 @@ interface NavigatorWithDeviceMemory extends Navigator {
     TranslateModule,
     MatButtonModule,
     NgOptimizedImage,
+    ButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
