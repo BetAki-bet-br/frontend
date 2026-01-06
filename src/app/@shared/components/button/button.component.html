@@ -1,0 +1,8 @@
+<button mat-button [disabled]="disabled || loading" [type]="type" [class]="classes">
+  @if (loading) {
+    <mat-spinner diameter="20" class="mr-2 text-current"></mat-spinner>
+  }
+  <span class="flex items-center gap-2 font-bold">
+    <ng-content></ng-content>
+  </span>
+</button>
