@@ -64,7 +64,7 @@ export class AppStartupService {
   }
 
   private setAppVersion() {
-    const appVersion = environment.deployConfig.longVersion || environment.version || '';
+    const appVersion = environment.deployConfig.longVersion.toString() || environment.version.toString() || '';
     document.querySelector('html')?.setAttribute('version', appVersion);
   }
 
