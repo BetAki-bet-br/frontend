@@ -3,6 +3,7 @@ export * from './awards.service';
 export * from './banners.service';
 export * from './categories.service';
 export * from './footers.service';
+export * from './lobbies.service';
 export * from './menus.service';
 export * from './settings.service';
 export * from './showcases.service';
