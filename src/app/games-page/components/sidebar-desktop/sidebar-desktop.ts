@@ -7,6 +7,9 @@ import { AuthenticationService, CredentialsService } from '@app/auth';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { CdnizePipe } from '../../../@pipes/cdnize.pipe';
 import { MenuItem } from '../../../shell/mobile-menu/menu-item.model';
+import { MenusService } from '@app/@core/backoffice';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar-desktop',
@@ -20,41 +23,31 @@ export class SidebarDesktop {
   private readonly authService: AuthenticationService = inject(AuthenticationService);
   private readonly tawkMessengerService = inject(TawkToScriptService);
   private readonly playerService: PlayerService = inject(PlayerService);
+  private readonly menusService = inject(MenusService);
   private readonly router = inject(Router);
   protected readonly isAuthenticated = this.sessionService.isAuthenticated();
   protected readonly playerDetails = signal<PlayerDetails | null>(null);
 
-  protected menuItems: MenuItem[] = [
-    {
-      label: 'Club Bet Aki',
-      icon: '/assets/icons/betaki-icon.svg',
-      routerLink: '/games',
-      // class: 'bg-club' (if needed to map specific classes)
-    },
-    {
-      label: 'Torneios',
-      icon: '/assets/icons/trophy-icon-color.svg',
-      routerLink: '/games/category/1000093',
-      // class: 'bg-tournaments'
-    },
-    {
-      label: 'Os mais jogados',
-      icon: '/assets/icons/joystick-icon-color.svg',
-      routerLink: '/games/category/502',
-    },
-    {
-      label: 'Lançamentos',
-      icon: '/assets/icons/star-icon-color.svg',
-      routerLink: '/games/category/1000097',
-      // class: 'bg-fresh'
-    },
-    {
-      label: 'Provedores',
-      icon: '/assets/icons/provider-icon-color.svg',
-      routerLink: '/games/category/providers',
-      // class: 'bg-providers'
-    }
-  ];
+  isLoading = signal(true);
+
+  protected menuItems = toSignal(
+    this.menusService.getMenus().pipe(
+      tap(() => this.isLoading.set(false)),
+      map((items) =>
+        items.map((item) => ({
+          label: item.name,
+          icon: item.meta.icon,
+          routerLink: item.meta.routerLink,
+          class: item.meta.class,
+        } as MenuItem)),
+      ),
+      catchError(() => {
+        this.isLoading.set(false);
+        return of([]);
+      }),
+    ),
+    { initialValue: [] },
+  );
 
   isCollapsed = signal(true);
 

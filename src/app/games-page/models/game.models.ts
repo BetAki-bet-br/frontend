@@ -61,6 +61,7 @@ export interface PostGameResponse {
 export interface GameCategory {
   id: number | undefined;
   name: string;
+  slug?: string;
   parentId: number | null;
   categoryTypeId: number;
   // subLevels: GameCategory[];
@@ -94,4 +95,21 @@ export interface TopRecentGame {
 export interface GetGameMainsResponse {
   gameMainList: GameMain[];
   recordCount: number;
+}
+
+export interface LobbySection {
+  id: number | string;
+  type: string; // 'game-list' | 'recent-games' | etc.
+  title: string;
+  order: number;
+  games?: GameMain[];
+  data?: any;
+  metadata?: {
+    categoryId?: number | string;
+    [key: string]: any;
+  };
+}
+
+export interface LobbyResponse {
+  sections: LobbySection[];
 }

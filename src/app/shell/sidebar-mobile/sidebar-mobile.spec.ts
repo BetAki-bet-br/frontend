@@ -10,6 +10,7 @@ import { signal } from '@angular/core';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NgOptimizedImage } from '@angular/common';
+import { MenusService } from '@app/@core/backoffice';
 
 describe('SidebarMobile', () => {
   let component: SidebarMobile;
@@ -36,6 +37,9 @@ describe('SidebarMobile', () => {
   const mockRouter = {
     navigateByUrl: jasmine.createSpy('navigateByUrl'),
   };
+  const mockMenusService = {
+    getMenus: () => of([]),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -48,6 +52,7 @@ describe('SidebarMobile', () => {
         { provide: PlayerService, useValue: mockPlayerService },
         { provide: TawkToScriptService, useValue: mockTawkToScriptService },
         { provide: Router, useValue: mockRouter },
+        { provide: MenusService, useValue: mockMenusService },
       ],
     }).compileComponents();
 

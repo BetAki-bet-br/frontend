@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal, Renderer2 } from '@angular/core';
-import { DOCUMENT, NgOptimizedImage } from '@angular/common';
+import { DOCUMENT, NgOptimizedImage, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { SidebarService } from '@app/@shared/services/sidebar-mobile.service';
 import { AuthenticationService, CredentialsService } from '@app/auth';
 import { PlayerService } from '@app/@shared/services/player.service-v2';
@@ -12,13 +12,14 @@ import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service
 import { RoutingService } from '@app/@shared/services/routing.service';
 import { MenuItem } from '../mobile-menu/menu-item.model';
 import { CdnizePipe } from '../../@pipes/cdnize.pipe';
+import { MenusService } from '@app/@core/backoffice';
 
 @Component({
   selector: 'app-sidebar-mobile',
   templateUrl: './sidebar-mobile.html',
   styleUrl: './sidebar-mobile.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage, CdnizePipe],
+  imports: [NgOptimizedImage, CdnizePipe, NgClass],
 })
 export class SidebarMobile {
   protected readonly sidebarService: SidebarService = inject(SidebarService);
@@ -27,6 +28,7 @@ export class SidebarMobile {
   protected readonly routingService: RoutingService = inject(RoutingService);
   protected readonly authService: AuthenticationService = inject(AuthenticationService);
   private readonly playerService: PlayerService = inject(PlayerService);
+  private readonly menusService = inject(MenusService);
   private readonly document: Document = inject(DOCUMENT);
   private readonly renderer: Renderer2 = inject(Renderer2);
   private readonly tawkMessengerService = inject(TawkToScriptService);
@@ -40,39 +42,44 @@ export class SidebarMobile {
       )
     : signal<PlayerDetails | null>(null);
 
-  protected menuItems: MenuItem[] = [
-    {
-      label: 'Clube Bet Aki',
-      icon: '/assets/icons/betaki-icon.svg', // Assuming this is correct based on previous HTML
-      routerLink: '/games',
-    },
-    {
-      label: 'Lançamentos',
-      icon: 'assets/icons/star-icon.svg',
-      routerLink: '/games/category/1000097',
-    },
-    {
-      label: 'Torneios',
-      icon: 'assets/icons/trophy-icon.svg',
-      routerLink: '/games/category/1000093',
-    },
-    {
-      label: 'Promoções',
-      icon: 'assets/icons/trophy-icon.svg', // Check correct icon
-      routerLink: '/promotions', // Logic for auth check will be handled in click or separate items
-      action: () => this.isAuthenticated() ? this.navigateTo('/profile/promo') : this.navigateTo('/promotions')
-    },
-    {
-      label: 'Provedores',
-      icon: 'assets/icons/provider-icon.svg',
-      routerLink: '/games/category/providers',
-    },
-    {
-      label: 'Contate-nos',
-      icon: 'assets/icons/support-icon.svg',
-      action: () => this.openTawkChat(),
-    }
-  ];
+  isLoadingMenu = signal(true);
+  loadedImages = signal<Set<string>>(new Set());
+
+  protected menuItems = toSignal(
+    this.menusService.getMenus().pipe(
+      tap(() => this.isLoadingMenu.set(false)),
+      map((items) => {
+        const mapped = items.map(
+          (item) =>
+            ({
+              label: item.name,
+              icon: item.meta.icon,
+              routerLink: item.meta.routerLink,
+              class: item.meta.class,
+            } as MenuItem),
+        );
+
+        mapped.push({
+          label: 'Contate-nos',
+          icon: 'assets/icons/support-icon.svg',
+          action: () => this.openTawkChat(),
+        } as MenuItem);
+
+        return mapped;
+      }),
+      catchError(() => {
+        this.isLoadingMenu.set(false);
+        return of([
+          {
+            label: 'Contate-nos',
+            icon: 'assets/icons/support-icon.svg',
+            action: () => this.openTawkChat(),
+          } as MenuItem,
+        ]);
+      }),
+    ),
+    { initialValue: [] },
+  );
 
   protected RegisterIcon = 'assets/icons/register-icon.svg';
   protected BetAkiWhiteIcon = '/assets/brand/logo-white.svg';
@@ -85,6 +92,18 @@ export class SidebarMobile {
         this.renderer.removeClass(this.document.body, 'sidebar-open');
       }
     });
+  }
+
+  onImageLoad(id: string): void {
+    this.loadedImages.update((set) => {
+      const newSet = new Set(set);
+      newSet.add(id);
+      return newSet;
+    });
+  }
+
+  isImageLoaded(id: string): boolean {
+    return this.loadedImages().has(id);
   }
 
   openTawkChat(): void {

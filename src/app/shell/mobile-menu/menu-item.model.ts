@@ -6,4 +6,6 @@ export interface MenuItem {
   isSpecial?: boolean;
   action?: () => void;
   exact?: boolean;
+  class?: string;
+  slug?: string;
 }
