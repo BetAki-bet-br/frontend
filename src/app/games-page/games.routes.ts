@@ -5,12 +5,14 @@ import { GamesListByCategoryPage } from '@app/games-page/games-list-by-category-
 import { GamesListByProviderPage } from '@app/games-page/games-list-by-provider-page/games-list-by-provider-page';
 import { providerListGamesResolver } from '@app/games-page/games-list-by-provider-page/provider-list-games.resolver';
 import { gameListCategoriesResolver } from '@app/games-page/games-list-page/game-list-categories.resolver';
+import { casinoLobbyResolver } from '@app/games-page/games-list-page/casino-lobby.resolver';
 import { GamesListPage } from '@app/games-page/games-list-page/games-list-page';
 import { gamesResolver } from '@app/games-page/games-list-page/games.resolver';
 import { providersResolver } from '@app/games-page/games-list-page/providers.resolver';
 import { recentGamesResolver } from '@app/games-page/games-list-page/recent-games.resolver';
 import { liveCategoryResolver } from '@app/games-page/live-games-list-by-category-page/live-category.resolver';
 import { liveGameListCategoriesResolver } from '@app/games-page/live-games-list-page/live-game-list-categories.resolver';
+import { liveLobbyResolver } from '@app/games-page/live-games-list-page/live-lobby.resolver';
 import { liveGamesResolver } from '@app/games-page/live-games-list-page/live-games.resolver';
 import { liveProvidersResolver } from '@app/games-page/live-games-list-page/live-providers.resolver';
 import { liveRecentGamesResolver } from '@app/games-page/live-games-list-page/live-recent-games.resolver';
@@ -22,9 +24,9 @@ export const GAMES_ROUTES: Routes = [
     component: GamesListPage,
     title: 'Cassino - Bet Aki',
     resolve: {
-      games: gamesResolver,
       categories: gameListCategoriesResolver,
       providers: providersResolver,
+      lobby: casinoLobbyResolver,
     },
     data: {
       robots: ['index', 'follow'],
@@ -96,6 +98,7 @@ export const GAMES_ROUTES: Routes = [
       games: liveGamesResolver,
       categories: liveGameListCategoriesResolver,
       providers: liveProvidersResolver,
+      lobby: liveLobbyResolver,
     },
     data: {
       robots: ['index', 'follow'],

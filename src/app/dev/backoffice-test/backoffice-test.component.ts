@@ -11,6 +11,7 @@ import {
   TopWinnersService,
   AwardsService,
   SettingsService,
+  LobbiesService,
 } from '@app/@core/backoffice';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
@@ -143,6 +144,30 @@ import { catchError, of } from 'rxjs';
             <p class="text-gray-500">Loading...</p>
           }
         </section>
+
+        <!-- Casino Lobby -->
+        <section class="border p-4 rounded shadow">
+          <h2 class="text-xl font-semibold mb-2 text-blue-600">Casino Lobby</h2>
+          @if (casinoLobby(); as data) {
+            <div class="bg-gray-100 p-2 rounded overflow-auto max-h-40 text-xs text-black">
+              <pre>{{ data | json }}</pre>
+            </div>
+          } @else {
+            <p class="text-gray-500">Loading...</p>
+          }
+        </section>
+
+        <!-- Live Lobby -->
+        <section class="border p-4 rounded shadow">
+          <h2 class="text-xl font-semibold mb-2 text-blue-600">Live Lobby</h2>
+          @if (liveLobby(); as data) {
+            <div class="bg-gray-100 p-2 rounded overflow-auto max-h-40 text-xs text-black">
+              <pre>{{ data | json }}</pre>
+            </div>
+          } @else {
+            <p class="text-gray-500">Loading...</p>
+          }
+        </section>
       </div>
     </div>
   `,
@@ -166,6 +191,7 @@ export class BackofficeTestComponent {
   private topWinnersService = inject(TopWinnersService);
   private awardsService = inject(AwardsService);
   private settingsService = inject(SettingsService);
+  private lobbiesService = inject(LobbiesService);
 
   // Signals for data
   banners = toSignal(this.bannersService.getBanners().pipe(catchError((e) => of({ err: e.message }))));
@@ -178,4 +204,6 @@ export class BackofficeTestComponent {
   topWinners = toSignal(this.topWinnersService.getBatches().pipe(catchError((e) => of({ err: e.message }))));
   awards = toSignal(this.awardsService.getBatches().pipe(catchError((e) => of({ err: e.message }))));
   settings = toSignal(this.settingsService.getPublicSettings().pipe(catchError((e) => of({ err: e.message }))));
+  casinoLobby = toSignal(this.lobbiesService.getCasinoLobby().pipe(catchError((e) => of({ err: e.message }))));
+  liveLobby = toSignal(this.lobbiesService.getLiveLobby().pipe(catchError((e) => of({ err: e.message }))));
 }

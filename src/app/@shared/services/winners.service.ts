@@ -25,7 +25,7 @@ export class WinnersService {
 
   getTopWinners(): Observable<TopWinner[]> {
     return this.prodGameService
-      .apiPortalV1ProdGameTopWinnersGet(1)
+      .apiPortalV1ProdGameTopWinnersGet(5)
       .pipe(map((response: TopWinnersATL[]) => response.map(toLocalTopWinner)));
   }
 }

@@ -15,6 +15,10 @@ export class SlotsService {
     return this.http.get(this.baseUrl, { params });
   }
 
+  getSlotsByExternalIds(externalIds: string[]): Observable<Slot[]> {
+    return this.http.post<Slot[]>(`${this.baseUrl}/by-ids`, { externalIds });
+  }
+
   createSlot(slot: Slot): Observable<any> {
     return this.http.post(this.baseUrl, slot);
   }

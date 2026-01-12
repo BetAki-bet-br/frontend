@@ -5,13 +5,11 @@ import { AssetsService } from '@app/@shared/assets.service';
 import { GameMenuCategoryModel, GameProviderData, GameProviderDataWithUrl, GameTile } from '@app/@shared/models';
 import { CredentialsService } from '@app/auth';
 import { I18nService } from '@app/i18n';
-import {
-  GameMain,
-  LevelDataGameMain,
-  PlayerShortcutGameMain,
-  ProdGameService,
-} from '@icore/ngx-portalgateway-api-client-atl';
-import { BehaviorSubject, filter, finalize, map, Observable, of, switchMap, take } from 'rxjs';
+import { GameMain, PlayerShortcutGameMain, ProdGameService } from '@icore/ngx-portalgateway-api-client-atl';
+import { BehaviorSubject, filter, finalize, map, Observable, of, switchMap, take, forkJoin, catchError } from 'rxjs';
+import { CategoriesService } from '@app/@core/backoffice';
+import { GameService } from '@app/@shared/services/game.service';
+import { Category } from '@app/@core/backoffice/models';
 
 interface AllGameDataModel {
   lobbyGames: GameTile[];
@@ -28,6 +26,8 @@ export class GamesService {
   private credentialsService = inject(CredentialsService);
   private assetsService = inject(AssetsService);
   private gameCategoryService = inject(GameCategoriesService);
+  private categoriesService = inject(CategoriesService);
+  private gameService = inject(GameService);
   private i18nService = inject(I18nService);
 
   /**
@@ -129,38 +129,42 @@ export class GamesService {
     } else {
       this.setPending(levelId, true);
 
-      let api$: Observable<LevelDataGameMain[]>;
+      // Using forkJoin to fetch categories and games in parallel
+      return forkJoin({
+        categories: this.categoriesService.getCategories({ status: 'active' }).pipe(catchError(() => of([]))),
+        games: this.gameService.getGamesByPortal(this.dataStoreService.defaultPortalId).pipe(catchError(() => of([]))),
+      }).pipe(
+        map(({ categories, games }) => {
+          // Process Games
+          const lobbyGames: GameTile[] = this.prepareGameTiles(games as GameMain[]);
 
-      if (this.credentialsService.isAuthenticated()) {
-        api$ = this.prodGameService.apiPortalV1ProdGamePlayerLobbyGet(
-          this.dataStoreService.defaultPortalId,
-          this.dataStoreService.gameLobbyLanguage,
-          levelId,
-        );
-      } else {
-        api$ = this.prodGameService.apiPortalV1ProdGameLobbyGet(
-          this.dataStoreService.defaultPortalId,
-          this.dataStoreService.gameLobbyLanguage,
-          levelId,
-        );
-      }
-
-      return api$.pipe(
-        map((response) => {
-          let lobbyGames: GameTile[] = [];
+          // Process Categories
+          // Assuming categories is an array of Category objects. Map them to GameMenuCategoryModel.
+          // Note: The backoffice categories might differ in structure, adapting as best as possible.
           let gameCategories: GameMenuCategoryModel[] = [];
-          let providers: GameProviderData[] = [];
-
-          if (response && response.length > 0) {
-            const lobbyData = response[0];
-            lobbyGames = this.getLobbyGames(lobbyData);
-            gameCategories = this.getGameMenuCategories(lobbyData).sort((a, b) => {
-              if (a.id < b.id) return -1;
-              if (a.id > b.id) return 1;
-              return 0;
-            });
-            providers = this.getGameProviders(lobbyData);
+          if (Array.isArray(categories)) {
+            gameCategories = categories.map((cat: any) => ({
+              id: cat.id,
+              categoryType: 'Category', // Default or derived
+              name: cat.title || cat.name || '',
+              parentName: '', // Backoffice category might not have parent info easily mapped here without tree
+              cleanName: getCleanUrlName(cat.title || cat.name || ''),
+              games: [], // Avoiding heavy processing of games per category
+            }));
+          } else if (categories && Array.isArray(categories.data)) {
+            // Handle paginated response if applicable
+            gameCategories = categories.data.map((cat: any) => ({
+              id: cat.id,
+              categoryType: 'Category',
+              name: cat.title || cat.name || '',
+              parentName: '',
+              cleanName: getCleanUrlName(cat.title || cat.name || ''),
+              games: [],
+            }));
           }
+
+          // Process Providers (derived from games to avoid another call)
+          const providers: GameProviderData[] = this.deriveProvidersFromGames(games as GameMain[]);
 
           this.dataStoreService.setLobbyGames(lobbyGames, levelId);
           this.dataStoreService.setGameMenuCategory(gameCategories, levelId);
@@ -177,137 +181,25 @@ export class GamesService {
     }
   }
 
-  private getGameMenuCategories(menu: LevelDataGameMain): GameMenuCategoryModel[] {
-    const gameCategories: GameMenuCategoryModel[] = [];
+  private deriveProvidersFromGames(games: GameMain[]): GameProviderData[] {
+    const providersMap = new Map<number, GameProviderData>();
 
-    if (menu.subLevel && menu.subLevel.length > 0) {
-      //menu has sub categories
-      menu.subLevel.forEach((level) => {
-        if (level.id && level.name) {
-          gameCategories.push({
-            id: level.id,
-            categoryType: level?.levelType ?? null,
-            name: level.name,
-            parentName: this.gameCategoryService.getCategoryParentName(level.parentId ?? 0),
-            games: this.prepareGameTiles(level?.gameMains ?? []),
-            cleanName: getCleanUrlName(level.name),
+    games.forEach((game) => {
+      if (game.productId && game.productName) {
+        if (!providersMap.has(game.productId)) {
+          providersMap.set(game.productId, {
+            id: game.productId,
+            name: game.productName,
+            cleanName: getCleanUrlName(game.productName),
+            gamesCount: 0,
           });
         }
-      });
-    } else {
-      if (menu.id && menu.name) {
-        //we left name empty because game main object does not need it
-        gameCategories.push({
-          id: menu.id,
-          categoryType: menu?.levelType ?? null,
-          name: '',
-          parentName: this.gameCategoryService.getCategoryParentName(menu.parentId ?? 0),
-          games: this.prepareGameTiles(menu?.gameMains ?? []),
-          cleanName: '',
-        });
+        const provider = providersMap.get(game.productId)!;
+        provider.gamesCount++;
       }
-    }
-    return gameCategories;
-  }
-
-  private getLobbyGames(lobbyData: LevelDataGameMain): GameTile[] {
-    const gamesMap = new Map<number, GameTile>();
-
-    if (lobbyData.gameMains) {
-      for (let game of lobbyData.gameMains) {
-        if (game.id != null) {
-          gamesMap.set(game.id, {
-            id: game?.id ?? 0,
-            gameName: game?.name ?? '',
-            gameProviderId: game?.productId ?? 0,
-            gameProvider: game?.productName ?? '',
-            externalGameId: game?.externalId ?? '',
-            demoPlayRestricted: game?.demoPlayRestricted ?? false,
-            realPlayRestricted: game?.realPlayRestricted ?? false,
-          });
-        }
-      }
-    }
-
-    const subLevels: LevelDataGameMain[] = [lobbyData];
-
-    while (subLevels.length) {
-      let currSubLevel = subLevels.pop();
-
-      currSubLevel?.subLevel?.forEach((subLevel) => {
-        if (subLevel.subLevel?.length) {
-          subLevels.push(...subLevel.subLevel);
-        }
-
-        subLevel.gameMains?.forEach((game) => {
-          if (game.id == null) return;
-
-          gamesMap.set(game.id, {
-            id: game?.id ?? 0,
-            gameName: game?.name ?? '',
-            gameProviderId: game?.productId ?? 0,
-            gameProvider: game?.productName ?? '',
-            externalGameId: game?.externalId ?? '',
-            demoPlayRestricted: game?.demoPlayRestricted ?? false,
-            realPlayRestricted: game?.realPlayRestricted ?? false,
-          });
-        });
-      });
-    }
-
-    const gameTiles = this.assetsService.getGamesImages(Array.from(gamesMap.values()));
-
-    return gameTiles;
-  }
-
-  private getGameProviders(lobbyData: LevelDataGameMain): GameProviderData[] {
-    const providers: GameProviderData[] = [];
-    const gameCounts = new Map<number | null | undefined, number>();
-    const gameListChecked = new Set<number>();
-
-    const processLevel = (levelData: LevelDataGameMain) => {
-      for (const game of levelData?.gameMains ?? []) {
-        if (gameListChecked.has(game.id ?? 0)) continue; // Skip if already counted
-        this.updateProviderData(game, providers, gameCounts);
-        gameListChecked.add(game.id ?? 0);
-      }
-
-      if (levelData?.subLevel && levelData.subLevel.length > 0) {
-        for (const subLevel of levelData.subLevel) {
-          processLevel(subLevel);
-        }
-      }
-    };
-
-    processLevel(lobbyData);
-
-    providers.forEach((provider) => {
-      provider.gamesCount = Number(gameCounts.get(provider.id));
     });
 
-    return providers;
-  }
-
-  private updateProviderData(
-    game: GameMain,
-    providers: GameProviderData[],
-    gameCounts: Map<number | null | undefined, number>,
-  ): void {
-    let gameCount: number = Number(gameCounts.get(game.productId));
-    if (isNaN(gameCount)) {
-      gameCounts.set(game.productId, 0);
-      gameCount = 0;
-    }
-    gameCounts.set(game.productId, gameCount + 1);
-
-    if (!providers.find((t) => t.id === game.productId)) {
-      providers.push({
-        id: game.productId ?? 0,
-        name: game.productName ?? '',
-        cleanName: getCleanUrlName(game.productName ?? ''),
-        gamesCount: 0,
-      });
-    }
+    return Array.from(providersMap.values());
   }
 
   private prepareGameTiles(games?: GameMain[]) {

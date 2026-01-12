@@ -7,14 +7,16 @@ import {
   inject,
   signal,
   input,
-  computed,
 } from '@angular/core';
 
 import { Winner } from './winner.model';
 import { TopWinner } from '@app/@shared/models/winner.models';
 import { WinnersService } from '@app/@shared/services/winners.service';
-import { SubLevel, GameMain } from '@app/games-page/models/game.models';
+import { GameMain } from '@app/games-page/models/game.models';
 import { WinnerCard } from '../winner-card/winner-card';
+import { SlotsService } from '@app/@core/backoffice/slots.service';
+import { switchMap, map, of } from 'rxjs';
+import { Slot } from '@app/@core/backoffice/models';
 
 const REFRESH_INTERVAL = 4000; // 4 seconds
 const ANIMATION_DURATION = 400; // 0.4 seconds
@@ -29,12 +31,12 @@ const WINNERS_COUNT = 14;
 })
 export class WinnersList implements OnInit, OnDestroy {
   winnersToList = input.required<number>();
-  games = input.required<SubLevel[]>();
+  // games input removed
   gameClick = output<GameMain>();
 
   private winnersService = inject(WinnersService);
+  private slotsService = inject(SlotsService);
 
-  private allGames = computed(() => this.games()?.flatMap((subLevel) => subLevel.gameMains) ?? []);
   private allWinners = signal<Winner[]>([]);
 
   loading = signal(true);
@@ -57,15 +59,39 @@ export class WinnersList implements OnInit, OnDestroy {
   }
 
   onWinnerClick(winner: Winner): void {
-    this.gameClick.emit(winner.game);
+    if (winner.game) {
+       this.gameClick.emit(winner.game);
+    }
   }
 
   private fetchWinners(): void {
     this.loading.set(true);
-    this.winnersService.getTopWinners().subscribe((topWinners) => {
-      const newWinners = topWinners.map((topWinner) => this.mapToWinner(topWinner));
-      this.allWinners.set(newWinners);
+    this.winnersService.getTopWinners().pipe(
+      switchMap((topWinners) => {
+        if (!topWinners || topWinners.length === 0) return of({ topWinners: [], gamesMap: new Map<string, GameMain>() });
+        
+        const externalIds = [...new Set(topWinners.map(w => w.gameExternalId))];
+        return this.slotsService.getSlotsByExternalIds(externalIds).pipe(
+          map(slots => {
+            const gamesMap = new Map<string, GameMain>();
+            slots.forEach(slot => {
+               if(slot['provider_game_id']) {
+                 gamesMap.set(slot['provider_game_id'], this.mapSlotToGameMain(slot));
+               }
+            });
+            return { topWinners, gamesMap };
+          })
+        );
+      })
+    ).subscribe(({ topWinners, gamesMap }) => {
+      console.log('Received top winners and games:', topWinners, gamesMap);
+      const newWinners = topWinners.map((topWinner) => this.mapToWinner(topWinner, gamesMap.get(topWinner.gameExternalId)));
+      
+      // Filter out winners where game data could not be found
+      const validWinners = newWinners.filter(w => !!w.game);
 
+      this.allWinners.set(validWinners);
+      console.log('Fetched valid winners:', validWinners);
       this.displayedWinners.set(this.allWinners().slice(0, WINNERS_COUNT));
       this.nextWinnerIndex = WINNERS_COUNT;
 
@@ -105,9 +131,7 @@ export class WinnersList implements OnInit, OnDestroy {
     }, ANIMATION_DURATION);
   }
 
-  private mapToWinner(topWinner: TopWinner): Winner {
-    const game = this.allGames().find((g) => g.externalId === topWinner.gameExternalId);
-
+  private mapToWinner(topWinner: TopWinner, game?: GameMain): Winner {
     if (!this.winnerNames.has(topWinner.playerId)) {
       this.winnerNames.set(topWinner.playerId, this.getRandomWinnerName());
     }
@@ -120,7 +144,7 @@ export class WinnersList implements OnInit, OnDestroy {
       winnerName: this.winnerNames.get(topWinner.playerId)!,
       userIcon: '/assets/icons/user-icon.svg',
       gameAlt: topWinner.gameName,
-      game: game!,
+      game: game!, // Assumed defined for valid winners
       isLeaving: false,
     };
   }
@@ -129,5 +153,29 @@ export class WinnersList implements OnInit, OnDestroy {
     const randomIndex = Math.floor(Math.random() * 26);
     const letter = String.fromCharCode(65 + randomIndex);
     return `${letter}********`;
+  }
+
+  private mapSlotToGameMain(slot: Slot): GameMain {
+    return {
+      id: slot.id ?? 0,
+      externalId: slot['provider_game_id'] ?? '',
+      name: slot['name'] ?? '',
+      gameName: slot['name'] ?? '',
+      gameTypeName: slot['type'] ?? '',
+      productSupplierName: slot['provider'] ?? '',
+      productSupplierId: 0, // Not available in Slot model, but not critical for display
+      productId: 0,
+      productName: slot['provider'] ?? '',
+      demoPlayRestricted: false,
+      realPlayRestricted: false,
+      maintenanceModeEnabled: false,
+      progressiveJackpots: null,
+      translations: null,
+      gameTypeId: 0,
+      parameters: null,
+      rtp: slot['rtp'],
+      volatility: slot['volatility'],
+      minBet: slot['min_bet'],
+    };
   }
 }
