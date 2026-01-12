@@ -92,8 +92,29 @@ export interface Showcase {
 }
 
 export interface Slot {
-  id?: number;
-  [key: string]: any;
+  id: number;
+  title: string;
+  cover_url: any;
+  status: string;
+  provider: string;
+  provider_game_id: string;
+  tags: Tags;
+  position: number;
+  created_by: number;
+  updated_by: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: any;
+  rtp: string;
+  volatility: any;
+  min_bet: string;
+}
+
+export interface Tags {
+  id: number;
+  productId: number;
+  gameTypeId: number;
+  gameTypeName: string;
 }
 
 export interface TopList {

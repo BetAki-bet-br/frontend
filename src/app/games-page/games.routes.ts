@@ -27,6 +27,7 @@ export const GAMES_ROUTES: Routes = [
       categories: gameListCategoriesResolver,
       providers: providersResolver,
       lobby: casinoLobbyResolver,
+      recent: recentGamesResolver,
     },
     data: {
       robots: ['index', 'follow'],
@@ -95,10 +96,10 @@ export const GAMES_ROUTES: Routes = [
     loadComponent: () => import('./live-games-list-page/live-games-list-page').then((m) => m.LiveGamesListPage),
     title: 'Cassino ao Vivo - Bet Aki',
     resolve: {
-      games: liveGamesResolver,
       categories: liveGameListCategoriesResolver,
       providers: liveProvidersResolver,
       lobby: liveLobbyResolver,
+      recent: liveRecentGamesResolver,
     },
     data: {
       robots: ['index', 'follow'],

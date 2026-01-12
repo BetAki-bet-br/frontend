@@ -7,7 +7,9 @@ import {
   inject,
   signal,
   input,
+  DestroyRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Winner } from './winner.model';
 import { TopWinner } from '@app/@shared/models/winner.models';
@@ -36,12 +38,14 @@ export class WinnersList implements OnInit, OnDestroy {
 
   private winnersService = inject(WinnersService);
   private slotsService = inject(SlotsService);
+  private destroyRef = inject(DestroyRef);
 
   private allWinners = signal<Winner[]>([]);
 
   loading = signal(true);
 
   private intervalId?: ReturnType<typeof setInterval>;
+  private timeoutId?: ReturnType<typeof setTimeout>;
   private nextWinnerIndex = 0;
   private nextId = 0;
   private winnerNames = new Map<string, string>();
@@ -49,57 +53,76 @@ export class WinnersList implements OnInit, OnDestroy {
   displayedWinners = signal<Winner[]>([]);
 
   ngOnInit(): void {
-    this.fetchWinners();
+    this.fetchWinners(true);
   }
 
   ngOnDestroy(): void {
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
   }
 
   onWinnerClick(winner: Winner): void {
     if (winner.game) {
-       this.gameClick.emit(winner.game);
+      this.gameClick.emit(winner.game);
     }
   }
 
-  private fetchWinners(): void {
-    this.loading.set(true);
-    this.winnersService.getTopWinners().pipe(
-      switchMap((topWinners) => {
-        if (!topWinners || topWinners.length === 0) return of({ topWinners: [], gamesMap: new Map<string, GameMain>() });
-        
-        const externalIds = [...new Set(topWinners.map(w => w.gameExternalId))];
-        return this.slotsService.getSlotsByExternalIds(externalIds).pipe(
-          map(slots => {
-            const gamesMap = new Map<string, GameMain>();
-            slots.forEach(slot => {
-               if(slot['provider_game_id']) {
-                 gamesMap.set(slot['provider_game_id'], this.mapSlotToGameMain(slot));
-               }
-            });
-            return { topWinners, gamesMap };
-          })
+  private fetchWinners(isInitialLoad = true): void {
+    if (isInitialLoad) {
+      this.loading.set(true);
+    }
+    this.winnersService
+      .getTopWinners()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        switchMap((topWinners) => {
+          if (!topWinners || topWinners.length === 0)
+            return of({ topWinners: [], gamesMap: new Map<string, GameMain>() });
+
+          const externalIds = [...new Set(topWinners.map((w) => w.gameExternalId))];
+          return this.slotsService.getSlotsByExternalIds(externalIds).pipe(
+            map((slots) => {
+              const gamesMap = new Map<string, GameMain>();
+              slots.forEach((slot) => {
+                if (slot['provider_game_id']) {
+                  gamesMap.set(slot['provider_game_id'], this.mapSlotToGameMain(slot));
+                }
+              });
+              return { topWinners, gamesMap };
+            }),
+          );
+        }),
+      )
+      .subscribe(({ topWinners, gamesMap }) => {
+        console.log('Received top winners and games:', topWinners, gamesMap);
+        const newWinners = topWinners.map((topWinner) =>
+          this.mapToWinner(topWinner, gamesMap.get(topWinner.gameExternalId)),
         );
-      })
-    ).subscribe(({ topWinners, gamesMap }) => {
-      console.log('Received top winners and games:', topWinners, gamesMap);
-      const newWinners = topWinners.map((topWinner) => this.mapToWinner(topWinner, gamesMap.get(topWinner.gameExternalId)));
-      
-      // Filter out winners where game data could not be found
-      const validWinners = newWinners.filter(w => !!w.game);
 
-      this.allWinners.set(validWinners);
-      console.log('Fetched valid winners:', validWinners);
-      this.displayedWinners.set(this.allWinners().slice(0, WINNERS_COUNT));
-      this.nextWinnerIndex = WINNERS_COUNT;
+        // Filter out winners where game data could not be found
+        const validWinners = newWinners.filter((w) => !!w.game);
 
-      this.loading.set(false);
+        if (validWinners.length > 0) {
+          this.allWinners.set(validWinners);
+          console.log('Fetched valid winners:', validWinners);
 
-      if (this.intervalId) clearInterval(this.intervalId);
-      this.intervalId = setInterval(() => this.updateDisplayedWinners(), REFRESH_INTERVAL);
-    });
+          if (isInitialLoad) {
+            this.displayedWinners.set(this.allWinners().slice(0, WINNERS_COUNT));
+            this.nextWinnerIndex = WINNERS_COUNT;
+
+            this.loading.set(false);
+
+            if (this.intervalId) clearInterval(this.intervalId);
+            this.intervalId = setInterval(() => this.updateDisplayedWinners(), REFRESH_INTERVAL);
+          }
+        } else if (isInitialLoad) {
+          this.loading.set(false);
+        }
+      });
   }
 
   private updateDisplayedWinners(): void {
@@ -109,6 +132,7 @@ export class WinnersList implements OnInit, OnDestroy {
 
     if (this.nextWinnerIndex >= this.allWinners().length) {
       this.nextWinnerIndex = 0; // Loop back
+      this.fetchWinners(false);
     }
 
     const newWinner = this.allWinners()[this.nextWinnerIndex];
@@ -123,7 +147,7 @@ export class WinnersList implements OnInit, OnDestroy {
     });
 
     // After animation, remove the first and add the new one
-    setTimeout(() => {
+    this.timeoutId = setTimeout(() => {
       this.displayedWinners.update((winners) => {
         const updatedWinners = winners.slice(1);
         return [...updatedWinners, newWinner];
@@ -159,11 +183,11 @@ export class WinnersList implements OnInit, OnDestroy {
     return {
       id: slot.id ?? 0,
       externalId: slot['provider_game_id'] ?? '',
-      name: slot['name'] ?? '',
-      gameName: slot['name'] ?? '',
-      gameTypeName: slot['type'] ?? '',
+      name: slot['title'] ?? '',
+      gameName: slot['title'] ?? '',
+      gameTypeName: slot.tags.gameTypeName ?? '',
       productSupplierName: slot['provider'] ?? '',
-      productSupplierId: 0, // Not available in Slot model, but not critical for display
+      productSupplierId: 0,
       productId: 0,
       productName: slot['provider'] ?? '',
       demoPlayRestricted: false,
@@ -175,7 +199,7 @@ export class WinnersList implements OnInit, OnDestroy {
       parameters: null,
       rtp: slot['rtp'],
       volatility: slot['volatility'],
-      minBet: slot['min_bet'],
+      minBet: slot['min_bet'] as string,
     };
   }
 }

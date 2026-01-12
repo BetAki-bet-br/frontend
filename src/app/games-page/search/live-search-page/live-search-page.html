@@ -53,7 +53,7 @@
         (load)="onMascoteLoad()"
       />
     </div>
-    } @for(game of searchResults(); track game.id) {
+    } @for(game of searchResults(); track game.id + '-' + $index) {
     <app-game-card
       [layout]="'responsive'"
       [game]="game"

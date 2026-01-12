@@ -1,8 +1,8 @@
-import { afterNextRender, Component, computed, effect, inject, signal } from '@angular/core';
+import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
 import { GameDetailModal } from './game-detail-modal/game-detail-modal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { map, switchMap, of, tap, finalize } from 'rxjs';
 import { DragScrollDirective } from '@app/@shared/directives/drag-scroll.directive';
 import { AwardedGameCard } from '../components/awarded-game-card/awarded-game-card';
 import { GameCard } from '../components/game-card/game-card';
@@ -12,26 +12,16 @@ import { GameList } from '../components/game-list/game-list';
 import { ProvidersCarousel } from '../components/providers-carousel/providers-carousel';
 import { Top10List } from '../components/top-10-list/top-10-list';
 import { WinnersList } from '../components/winners-list/winners-list';
-import { SubLevel, GameMain, GameCategory, Provider } from '../models/game.models';
+import { GameMain, GameCategory, Provider, LobbyResponse, SubLevel } from '../models/game.models';
 import { CredentialsService } from '@app/auth';
 import { PortalService } from '@app/@shared/services/portal.service';
 import { GameService } from '@app/@shared/services/game.service';
 import { ModalService } from '@app/@shared/services/modal.service';
-import { CategoryOrderService } from '@app/@shared/services/category-order.service';
-
-export type SectionType =
-  | 'game-list'
-  | 'recent-games'
-  | 'mais-premiados'
-  | 'winners-list'
-  | 'top-10-list'
-  | 'providers-carousel';
-
-export interface PageSection {
-  id: string | number;
-  type: SectionType;
-  data: any;
-}
+import { SectionType } from '@app/@shared/models/section-type.model';
+import { PageSection } from '@app/@shared/models/page-section.model';
+import { SlotsService } from '@app/@core/backoffice/slots.service';
+import { Slot } from '@app/@core/backoffice/models';
+import { PublicGameService } from '@app/@core/public-game.service';
 
 @Component({
   selector: 'app-games-list-page',
@@ -60,69 +50,27 @@ export class GamesListPage {
   isGameDetailModalOpen = this.modalService.isModalOpen('gameDetail');
   isFilterModalOpen = this.modalService.isModalOpen('gameFilter');
 
-  private gameService = inject(GameService);
-  private sessionService = inject(CredentialsService);
+  private publicGameService = inject(PublicGameService);
   private portalService = inject(PortalService);
-  private categoryOrderService = inject(CategoryOrderService);
-
-  subLevels = toSignal(this.route.data.pipe(map((data) => data['games'] as SubLevel[] | undefined)));
 
   constructor() {
     afterNextRender(() => {
-      console.log(this.pageLayout());
+      this.pageLayout(); // Initial computation
     });
   }
 
-  categoryOrder = toSignal(this.categoryOrderService.getCategoryOrder(this.portalService.portalId, 'Casino'));
-
-  sortedSubLevels = computed(() => {
-    const levels = this.subLevels();
-    const order = this.categoryOrder();
-
-    if (!levels) return undefined;
-    if (!order) return levels;
-
-    return [...levels].sort((a, b) => {
-      const indexA = order.indexOf(a.name);
-      const indexB = order.indexOf(b.name);
-
-      if (indexA === -1 && indexB === -1) return 0;
-      if (indexA === -1) return 1;
-      if (indexB === -1) return -1;
-
-      return indexA - indexB;
-    });
-  });
-
-  recentGamesIds = this.sessionService.isAuthenticated()
-    ? toSignal(
-        this.gameService
-          .getRecentGames(20, this.portalService.portalId)
-          .pipe(map((games) => games.map((g) => g.gameExternalId))),
-        { initialValue: [] },
-      )
-    : signal([]);
-
-  recentGames = computed(() => {
-    if (!this.sessionService.isAuthenticated()) return [];
-
-    const allGames = this.sortedSubLevels()?.flatMap((sl) => sl.gameMains) ?? [];
-    const recentIds = this.recentGamesIds();
-    if (!allGames.length || !recentIds || !recentIds.length) {
-      return [];
-    }
-
-    const recentGamesMap = new Map(allGames.map((game) => [game.externalId, game]));
-    return recentIds.map((id) => recentGamesMap.get(id!)).filter((g): g is GameMain => !!g);
-  });
-
+  lobbyConfig = toSignal(this.route.data.pipe(map((data) => data['lobby'] as LobbyResponse | undefined)));
+  recentGames = toSignal(
+    this.route.data.pipe(map((data) => (data['recent'] as SubLevel | undefined)?.gameMains ?? [])),
+  );
   gameFilters = toSignal(this.route.data.pipe(map((data) => data['categories'] as GameCategory[] | undefined)));
-
   providers = toSignal(this.route.data.pipe(map((data) => data['providers'] as Provider[] | undefined)));
 
-  games = signal<GameMain[]>([]);
   selectedCategory = signal<GameCategory | null>(null);
   selectedProviders = signal<Provider[]>([]);
+
+  filteredGames = signal<GameMain[]>([]);
+  isLoadingFilter = signal(false);
 
   selectedGame = signal<GameMain | null>(null);
 
@@ -130,66 +78,63 @@ export class GamesListPage {
     return this.selectedCategory() !== null || this.selectedProviders().length > 0;
   });
 
-  maisPremiados = computed(() => {
-    const levels = this.sortedSubLevels();
-    if (!levels) return undefined;
-
-    const categoryId = '502';
-    return levels.find((level) => level.id === categoryId);
-  });
-
-  filteredSubLevels = computed(() => {
-    const category = this.selectedCategory();
-    const levels = this.sortedSubLevels();
-    const selProviders = this.selectedProviders();
-
-    let filteredLevels = levels;
-
-    if (category) {
-      filteredLevels = levels?.filter((level) => String(level.id) === String(category.id));
-    }
-
-    if (selProviders.length > 0) {
-      const providerNames = selProviders.map((p) => p.name);
-      return filteredLevels?.map((level) => ({
-        ...level,
-        gameMains: level.gameMains.filter((game) => {
-          const prodName = (game as any).productName || (game as any).productSupplierName || '';
-          const supplierName = (game as any).productSupplierName || '';
-          return providerNames.includes(prodName) || providerNames.includes(supplierName);
-        }),
-      }));
-    }
-
-    return filteredLevels;
-  });
-
-  destaquesAoVivo = computed(() => {
-    const levels = this.sortedSubLevels();
-    if (!levels) return undefined;
-    const categoryId = '1000094';
-    return levels.find((level) => level.id === categoryId);
-  });
-
-  top10games = computed(() => {
-    return this.destaquesAoVivo()?.gameMains.slice(0, 10) ?? [];
-  });
-
   pageLayout = computed(() => {
-    const allSubLevels = this.filteredSubLevels() ?? [];
-
     if (this.isFilterActive()) {
-      return allSubLevels
-        .filter((subLevel) => subLevel.gameMains.length > 0)
-        .map((subLevel) => ({
-          id: subLevel.id,
-          type: 'game-list',
-          data: subLevel,
-        }));
+      let gamesSource: GameMain[] = [];
+      let title = 'Todos os Jogos';
+      let id: string | number = 'filtered';
+      let count: number | undefined;
+
+      const category = this.selectedCategory();
+      const providers = this.selectedProviders();
+
+      if (category) {
+        title = category.name;
+        id = category.id ?? 'cat-filtered';
+        count = category.gameCount;
+
+        if (this.filteredGames().length > 0) {
+          gamesSource = this.filteredGames();
+        } else {
+          const config = this.lobbyConfig();
+          const section = config?.sections.find(
+            (s) =>
+              String(s.id) === String(category.id) ||
+              (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id)),
+          );
+          if (section) {
+            if (section.games) {
+              gamesSource = section.games;
+            }
+            if (section.gameCount) {
+              count = section.gameCount;
+            }
+          }
+        }
+      } else if (providers.length > 0) {
+        title = providers.map((p) => p.name).join(', ');
+        id = `providers-${providers.map((p) => p.id).join('-')}`;
+        gamesSource = this.filteredGames();
+      }
+
+      return [
+        {
+          id: id,
+          type: 'game-list' as SectionType,
+          data: {
+            gameMains: gamesSource,
+            gameCount: count,
+            name: title,
+            id: id,
+          },
+          gameCount: count,
+        },
+      ];
     }
 
+    const config = this.lobbyConfig();
+    const sections = config?.sections || [];
     const layout: PageSection[] = [];
-    const premiados = this.maisPremiados();
 
     if (this.recentGames()?.length) {
       layout.push({
@@ -199,37 +144,48 @@ export class GamesListPage {
       });
     }
 
-    if (premiados?.gameMains.length) {
-      layout.push({
-        id: premiados.id,
-        type: 'mais-premiados',
-        data: { title: '🔥 Mais premiados', ...premiados },
-      });
+    for (const section of sections) {
+      let mappedType: SectionType = 'game-list';
+      let data: any = {};
+      let games: GameMain[] = section.games || [];
+
+      const type = section.type as SectionType;
+
+      switch (type) {
+        case 'mais-premiados':
+          mappedType = 'mais-premiados';
+          data = { ...section, gameMains: games, title: section.title, id: section.id };
+          break;
+        case 'winners-list':
+          mappedType = 'winners-list';
+          data = { categoryId: 'winners', winnersToList: this.winnersCount() };
+          break;
+        case 'top-10-list':
+          mappedType = 'top-10-list';
+          const top10 = games;
+          if (top10.length === 0) continue;
+          data = { categoryId: 'top-10', games: top10 };
+          break;
+        default:
+          mappedType = 'game-list';
+          data = { ...section, gameMains: games, name: section.title, id: section.id };
+          break;
+      }
+
+      if (
+        (games.length > 0 && mappedType !== 'winners-list') ||
+        mappedType === 'winners-list' ||
+        mappedType === 'mais-premiados' ||
+        mappedType === 'top-10-list'
+      ) {
+        layout.push({
+          id: section.id,
+          type: mappedType,
+          data: data,
+          gameCount: section.gameCount,
+        });
+      }
     }
-
-    const regularCategories = allSubLevels.filter((sl) => sl.id !== premiados?.id);
-
-    regularCategories.forEach((subLevel, index) => {
-      if (subLevel.gameMains.length > 0) {
-        layout.push({ id: subLevel.id, type: 'game-list', data: subLevel });
-      }
-
-      if (index === 3) {
-        layout.push({
-          id: 'winners',
-          type: 'winners-list',
-          data: { games: this.sortedSubLevels()!, winnersToList: this.winnersCount() },
-        });
-      }
-
-      if (index === 7 && this.top10games().length > 0) {
-        layout.push({
-          id: 'top-10',
-          type: 'top-10-list',
-          data: { categoryId: 1000094, games: this.top10games() },
-        });
-      }
-    });
 
     if (this.providers()?.length) {
       layout.push({
@@ -244,10 +200,36 @@ export class GamesListPage {
 
   onFilterSelect(category: GameCategory | null): void {
     this.selectedCategory.set(category);
+    this.selectedProviders.set([]);
+    this.filteredGames.set([]);
+    if (category) {
+      const config = this.lobbyConfig();
+      const section = config?.sections.find(
+        (s) =>
+          String(s.id) === String(category.id) ||
+          (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id)),
+      );
+
+      if (section && section.games && section.games.length > 0) {
+        return;
+      }
+    }
   }
 
   onFiltersApplied({ providers }: { providers: Provider[] }): void {
     this.selectedProviders.set(providers);
+    this.selectedCategory.set(null);
+    this.filteredGames.set([]);
+
+    if (providers.length > 0) {
+      this.isLoadingFilter.set(true);
+      const providerId = providers[0].id;
+      this.filteredGames.set(
+        this.publicGameService
+          .getGamesByProvider(this.portalService.portalId, providerId)
+          .pipe(tap(() => this.isLoadingFilter.set(false))) as unknown as GameMain[],
+      );
+    }
   }
 
   openGameDetails(game: GameMain): void {
