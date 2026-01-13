@@ -14,8 +14,11 @@
     right: 0;
     bottom: 0;
     width: 3rem; /* Adjust as needed */
-    background: linear-gradient(to right, transparent, #0a0a0a);
     pointer-events: none;
     z-index: 1;
+
+    @media screen and (max-width: 768px) {
+      background: linear-gradient(to right, transparent, #0a0a0a);
+    }
   }
 }
