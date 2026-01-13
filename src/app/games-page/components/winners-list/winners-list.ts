@@ -98,7 +98,6 @@ export class WinnersList implements OnInit, OnDestroy {
         }),
       )
       .subscribe(({ topWinners, gamesMap }) => {
-        console.log('Received top winners and games:', topWinners, gamesMap);
         const newWinners = topWinners.map((topWinner) =>
           this.mapToWinner(topWinner, gamesMap.get(topWinner.gameExternalId)),
         );
@@ -130,7 +129,7 @@ export class WinnersList implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.nextWinnerIndex >= this.allWinners().length) {
+    if (this.nextWinnerIndex >= this.allWinners().length - 4) {
       this.nextWinnerIndex = 0; // Loop back
       this.fetchWinners(false);
     }
