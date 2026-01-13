@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { allProvidersResolver } from '@app/games-page/all-providers-page/all-providers.resolver';
 import { AllProvidersPage } from '@app/games-page/all-providers-page/all-providers-page';
 import { categoryResolver } from '@app/games-page/games-list-by-category-page/category.resolver';
 import { GamesListByCategoryPage } from '@app/games-page/games-list-by-category-page/games-list-by-category-page';
@@ -63,6 +64,7 @@ export const GAMES_ROUTES: Routes = [
     path: 'category/providers',
     loadComponent: () => import('./all-providers-page/all-providers-page').then((m) => m.AllProvidersPage),
     title: 'Todos os Provedores - Bet Aki',
+    resolve: { providers: allProvidersResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
@@ -140,6 +142,7 @@ export const GAMES_ROUTES: Routes = [
     title: 'Jogos por Provedor Ao Vivo - Bet Aki',
     resolve: { provider: providerListGamesResolver },
     data: {
+      levelId: 520,
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
       description: 'Aposte no cassino da BetAki com super bônus.',
@@ -149,6 +152,7 @@ export const GAMES_ROUTES: Routes = [
     path: 'live/category/providers',
     component: AllProvidersPage,
     title: 'Todos os Provedores Ao Vivo - Bet Aki',
+    resolve: { providers: allProvidersResolver },
     data: {
       levelId: 520,
       robots: ['index', 'follow'],

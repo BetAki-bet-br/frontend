@@ -136,3 +136,12 @@ export interface Setting {
   id?: number;
   [key: string]: any;
 }
+
+export interface Provider {
+  id: number;
+  name?: string;
+  status?: 'active' | 'inactive';
+  external_id?: string;
+  games?: any[];
+  [key: string]: any;
+}
