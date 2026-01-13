@@ -3,11 +3,12 @@ import { ResolveFn } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { Provider } from '../models/game.models';
 import { PortalService } from '@app/@shared/services/portal.service';
-import { PublicGameService } from '@app/@core/public-game.service';
+import { ProvidersService } from '@app/@core/backoffice/providers.service';
+import { GameEnum } from '@app/@shared/enums/gameEnum';
 
 export const liveProvidersResolver: ResolveFn<Provider[]> = (): Observable<Provider[]> => {
-  const publicGameService = inject(PublicGameService);
+  const providersService = inject(ProvidersService);
   const portalService = inject(PortalService);
 
-  return publicGameService.getProviders(portalService.portalId).pipe(map((providers) => providers || []));
+  return providersService.getProvidersForFrontend(GameEnum.LIVE_CASINO, portalService.portalId).pipe(map((providers) => providers || []));
 };

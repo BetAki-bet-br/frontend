@@ -21,7 +21,8 @@ import { SectionType } from '@app/@shared/models/section-type.model';
 import { PageSection } from '@app/@shared/models/page-section.model';
 import { SlotsService } from '@app/@core/backoffice/slots.service';
 import { Slot } from '@app/@core/backoffice/models';
-import { PublicGameService } from '@app/@core/public-game.service';
+import { ProvidersService } from '@app/@core/backoffice/providers.service';
+import { GameEnum } from '@app/@shared/enums/gameEnum';
 
 @Component({
   selector: 'app-games-list-page',
@@ -50,7 +51,7 @@ export class GamesListPage {
   isGameDetailModalOpen = this.modalService.isModalOpen('gameDetail');
   isFilterModalOpen = this.modalService.isModalOpen('gameFilter');
 
-  private publicGameService = inject(PublicGameService);
+  private providersService = inject(ProvidersService);
   private portalService = inject(PortalService);
 
   constructor() {
@@ -224,11 +225,15 @@ export class GamesListPage {
     if (providers.length > 0) {
       this.isLoadingFilter.set(true);
       const providerId = providers[0].id;
-      this.filteredGames.set(
-        this.publicGameService
-          .getGamesByProvider(this.portalService.portalId, providerId)
-          .pipe(tap(() => this.isLoadingFilter.set(false))) as unknown as GameMain[],
-      );
+      this.providersService
+        .getGamesByProviderForFrontend(providerId, GameEnum.CASINO, this.portalService.portalId)
+        .pipe(
+          tap(() => this.isLoadingFilter.set(false)),
+          map((subLevel) => subLevel.gameMains)
+        )
+        .subscribe((games) => {
+          this.filteredGames.set(games);
+        });
     }
   }
 
@@ -295,7 +300,7 @@ export class GamesListPage {
 
     if (width < 1280) {
       return 5;
-    }
+        }
 
     if (width < 1536) {
       return 6;
@@ -308,3 +313,4 @@ export class GamesListPage {
     this.screenWidth.set(window.innerWidth);
   }
 }
+

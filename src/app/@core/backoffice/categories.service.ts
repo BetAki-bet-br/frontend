@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { environment } from '@env/environment';
 import { Category } from './models';
 
@@ -11,21 +11,42 @@ export class CategoriesService {
   private http = inject(HttpClient);
   private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/categories`;
 
+  private categoriesCache: Record<string, Observable<any>> = {};
+  private slotsCategoriesCache: Observable<any> | null = null;
+  private liveCategoriesCache: Observable<any> | null = null;
+  private categoryCache: Record<number, Observable<any>> = {};
+
   getCategories(params?: {
     q?: string;
     status?: 'active' | 'inactive';
     vertical?: 'slots' | 'live';
     type?: string;
   }): Observable<any> {
-    return this.http.get(this.baseUrl, { params });
+    const key = JSON.stringify(params || {});
+    if (!this.categoriesCache[key]) {
+      this.categoriesCache[key] = this.http.get(this.baseUrl, { params }).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.categoriesCache[key];
   }
 
   getSlotsCategories(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/slots`);
+    if (!this.slotsCategoriesCache) {
+      this.slotsCategoriesCache = this.http.get(`${this.baseUrl}/slots`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.slotsCategoriesCache;
   }
 
   getLiveCategories(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/live`);
+    if (!this.liveCategoriesCache) {
+      this.liveCategoriesCache = this.http.get(`${this.baseUrl}/live`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.liveCategoriesCache;
   }
 
   createCategory(category: Category): Observable<any> {
@@ -33,7 +54,12 @@ export class CategoriesService {
   }
 
   getCategory(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+    if (!this.categoryCache[id]) {
+      this.categoryCache[id] = this.http.get(`${this.baseUrl}/${id}`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.categoryCache[id];
   }
 
   updateCategory(id: number, category: Category): Observable<any> {

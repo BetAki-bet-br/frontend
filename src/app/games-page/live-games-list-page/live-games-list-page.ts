@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map, finalize } from 'rxjs';
+import { map, finalize, tap } from 'rxjs';
 
 import { GameDetailModal } from '../games-list-page/game-detail-modal/game-detail-modal';
 import { DragScrollDirective } from '@app/@shared/directives/drag-scroll.directive';
@@ -17,6 +17,8 @@ import { PortalService } from '@app/@shared/services/portal.service';
 import { SubLevel, GameMain, GameCategory, Provider, LobbyResponse } from '../models/game.models';
 import { PublicGameService } from '@app/@core/public-game.service';
 import { AwardedGameCard } from '../components/awarded-game-card/awarded-game-card';
+import { ProvidersService } from '@app/@core/backoffice/providers.service';
+import { GameEnum } from '@app/@shared/enums/gameEnum';
 
 export type SectionType =
   | 'game-list'
@@ -62,7 +64,7 @@ export class LiveGamesListPage {
   isFilterModalOpen = this.modalService.isModalOpen('gameFilter');
 
   private portalService = inject(PortalService);
-  private publicGameService = inject(PublicGameService);
+  private providersService = inject(ProvidersService);
 
   lobbyConfig = toSignal(this.route.data.pipe(map((data) => data['lobby'] as LobbyResponse | undefined)));
 
@@ -243,9 +245,12 @@ export class LiveGamesListPage {
       this.isLoadingFilter.set(true);
       const providerId = providers[0].id;
 
-      this.publicGameService
-        .getGamesByProvider(this.portalService.portalId, providerId)
-        .pipe(finalize(() => this.isLoadingFilter.set(false)))
+      this.providersService
+        .getGamesByProviderForFrontend(providerId, GameEnum.LIVE_CASINO, this.portalService.portalId)
+        .pipe(
+          tap(() => this.isLoadingFilter.set(false)),
+          map((subLevel) => subLevel.gameMains)
+        )
         .subscribe((games) => {
           this.filteredGames.set(games);
         });
@@ -305,7 +310,7 @@ export class LiveGamesListPage {
 
     if (width < 1280) {
       return 5;
-    }
+        }
 
     if (width < 1536) {
       return 6;

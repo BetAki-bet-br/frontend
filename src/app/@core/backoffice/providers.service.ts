@@ -7,7 +7,7 @@ import { Provider } from './models';
 import { GameEnum } from '@app/@shared/enums/gameEnum';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProvidersService {
   private http = inject(HttpClient);
@@ -18,22 +18,17 @@ export class ProvidersService {
   private providersFrontendCache: Record<string, Observable<GameProvider[]>> = {};
   private providerGamesFrontendCache: Record<number, Observable<SubLevel>> = {};
 
-
   getProviders(params?: { status?: 'active' | 'inactive'; vertical?: string }): Observable<Provider[]> {
     const key = JSON.stringify(params);
     if (!this.providersCache[key]) {
-      this.providersCache[key] = this.http.get<Provider[]>(this.baseUrl, { params }).pipe(
-        shareReplay(1)
-      );
+      this.providersCache[key] = this.http.get<Provider[]>(this.baseUrl, { params }).pipe(shareReplay(1));
     }
     return this.providersCache[key];
   }
 
   getProvider(id: number): Observable<Provider> {
     if (!this.providerDetailCache[id]) {
-      this.providerDetailCache[id] = this.http.get<Provider>(`${this.baseUrl}/${id}`).pipe(
-        shareReplay(1)
-      );
+      this.providerDetailCache[id] = this.http.get<Provider>(`${this.baseUrl}/${id}`).pipe(shareReplay(1));
     }
     return this.providerDetailCache[id];
   }
@@ -42,19 +37,20 @@ export class ProvidersService {
     return this.http.post(`${this.baseUrl}/sync`, { portal_id: portalId });
   }
 
-  // Frontend compatible methods
   public getProvidersForFrontend(levelId: number, portalId: number): Observable<GameProvider[]> {
     const vertical = levelId === GameEnum.LIVE_CASINO ? 'live' : 'slots';
     const cacheKey = `${vertical}_active`;
 
     if (!this.providersFrontendCache[cacheKey]) {
       this.providersFrontendCache[cacheKey] = this.getProviders({ vertical, status: 'active' }).pipe(
-        map(providers => providers.map(p => ({
-          id: p.id,
-          name: p.name || '',
-          gameCount: 0
-        }))),
-        shareReplay(1)
+        map((providers) =>
+          providers.map((p) => ({
+            id: p.id,
+            name: p.name || '',
+            gameCount: 0,
+          })),
+        ),
+        shareReplay(1),
       );
     }
     return this.providersFrontendCache[cacheKey];
@@ -63,27 +59,27 @@ export class ProvidersService {
   public getGamesByProviderForFrontend(providerId: number, levelId: number, portalId: number): Observable<SubLevel> {
     if (!this.providerGamesFrontendCache[providerId]) {
       this.providerGamesFrontendCache[providerId] = this.getProvider(providerId).pipe(
-        map(data => {
+        map((data) => {
           const games: GameMain[] = (data.games || []).map((slot: any) => ({
-             id: slot.id,
-             externalId: slot.provider_game_id,
-             name: slot.title,
-             productSupplierName: slot.provider,
-             productId: slot.tags?.productId || 0,
-             productName: slot.provider,
-             gameName: slot.title,
-             demoPlayRestricted: false,
-             realPlayRestricted: false,
-             maintenanceModeEnabled: slot.status !== 'active',
-             gameTypeName: slot.tags?.gameTypeName || '',
-             gameTypeId: slot.tags?.gameTypeId || 0,
-             progressiveJackpots: [],
-             translations: [],
-             parameters: [],
-             volatility: slot.volatility,
-             minBet: slot.min_bet,
-             rtp: slot.rtp,
-             productSupplierId: 0
+            id: slot.id,
+            externalId: slot.provider_game_id,
+            name: slot.title,
+            productSupplierName: slot.provider,
+            productId: slot.tags?.productId || 0,
+            productName: slot.provider,
+            gameName: slot.title,
+            demoPlayRestricted: false,
+            realPlayRestricted: false,
+            maintenanceModeEnabled: slot.status !== 'active',
+            gameTypeName: slot.tags?.gameTypeName || '',
+            gameTypeId: slot.tags?.gameTypeId || 0,
+            progressiveJackpots: [],
+            translations: [],
+            parameters: [],
+            volatility: slot.volatility,
+            minBet: slot.min_bet,
+            rtp: slot.rtp,
+            productSupplierId: 0,
           }));
 
           return {
@@ -92,10 +88,10 @@ export class ProvidersService {
             gameName: null,
             subLevel: [],
             gameMains: games,
-            levelType: 'provider'
+            levelType: 'provider',
           };
         }),
-        shareReplay(1)
+        shareReplay(1),
       );
     }
     return this.providerGamesFrontendCache[providerId];
