@@ -137,7 +137,6 @@ export class WinnersList implements OnInit, OnDestroy {
     const newWinner = this.allWinners()[this.nextWinnerIndex];
     this.nextWinnerIndex++;
 
-    // Mark the first winner for removal
     this.displayedWinners.update((winners) => {
       if (winners.length > 0) {
         winners[0].isLeaving = true;
@@ -145,7 +144,6 @@ export class WinnersList implements OnInit, OnDestroy {
       return [...winners];
     });
 
-    // After animation, remove the first and add the new one
     this.timeoutId = setTimeout(() => {
       this.displayedWinners.update((winners) => {
         const updatedWinners = winners.slice(1);
