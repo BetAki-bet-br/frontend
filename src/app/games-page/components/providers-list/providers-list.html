@@ -10,7 +10,7 @@
       @for (provider of providers(); track provider.id) {
       <div class="provider-tile bg-[#E0E0E0] rounded-lg shadow-lg flex items-center justify-center p-3">
         <a
-          [routerLink]="['/games/provider', provider.id]"
+          [routerLink]="[getProviderUrl(), provider.id]"
           class="flex items-center p-0 z-10 transition-transform duration-300 hover:scale-105"
         >
           <img

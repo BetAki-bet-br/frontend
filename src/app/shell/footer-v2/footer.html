@@ -18,7 +18,7 @@
         <img src="/assets/footer/pix.png" alt="Pix logo" class="h-10 w-auto" width="100" height="36" />
         <button
           type="button"
-          class="inline-flex mt-4 items-center justify-center font-medium transition-colors cursor-pointer rounded-md focus:outline-none focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-sm border-2 border-transparent text-betaki-500 w-auto bg-shark-950! hover:bg-shark-50/20!"
+          class="inline-flex mt-4 items-center justify-center font-medium transition-colors cursor-pointer rounded-md focus:outline-none focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-sm border-2 border-transparent text-betaki-400 w-auto bg-shark-950! hover:bg-shark-50/20!"
           (click)="openTawkChat()"
         >
           <span class="mr-2">
@@ -122,9 +122,9 @@
     <div class="flex flex-row items-center justify-center mt-2 mb-2 gap-3 pb-22 md:pb-0">
       @for (item of supportOptions; track $index) {
       <p
-        class="text-xs leading-normal text-betaki-500 hover:underline font-normal text-center cursor-pointer"
+        class="text-xs leading-normal text-betaki-400 hover:underline font-normal text-center cursor-pointer"
         [routerLink]="item.url"
-        [class]="{ 'pe-3 border-e border-shark-500': $index < supportOptions.length - 1 }"
+        [class]="$index < supportOptions.length - 1 && 'pe-3 border-e border-shark-500'"
       >
         {{ item.name }}
       </p>

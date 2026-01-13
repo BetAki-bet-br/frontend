@@ -14,18 +14,33 @@ export class GamesPage {
   banners: CarouselSlide[] = [
     {
       href: '',
-      imageUrl: '/assets/silvia.jpg',
-      alt: 'Banner 7',
+      imageUrl: '/assets/carousel/2026_JAN_BANNER_CARAMELO SORTUDO_01.jpg',
+      alt: 'Caramelo Sortudo',
     },
     {
       href: '',
-      imageUrl: '/assets/gustavo.jpg',
-      alt: 'Banner 8',
+      imageUrl: '/assets/carousel/2026_JAN_BANNER_CASHBACK_01.jpg',
+      alt: 'Cashback 01',
     },
     {
       href: '',
-      imageUrl: '/assets/liminha.jpg',
-      alt: 'Banner 9',
+      imageUrl: '/assets/carousel/2026_JAN_BANNER_CASHBACK_02.jpg',
+      alt: 'Cashback 02',
+    },
+    {
+      href: '',
+      imageUrl: '/assets/carousel/2026_JAN_BANNER_FORTUNE YURI_01.jpg',
+      alt: 'Fortune Yuri',
+    },
+    {
+      href: '',
+      imageUrl: '/assets/carousel/2026_JAN_BANNER_SILVIA ABRAVANEL_01.jpg',
+      alt: 'Silvia Abravanel',
+    },
+    {
+      href: '',
+      imageUrl: '/assets/carousel/2026_JAN_BANNER_YO DRAGON_01.jpg',
+      alt: 'Yo Dragon',
     },
   ];
 }

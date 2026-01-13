@@ -1,15 +1,13 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, afterNextRender } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { switchMap, debounceTime, distinctUntilChanged, tap, finalize, of } from 'rxjs';
-import { Router } from '@angular/router';
-import { GameEnum } from '@app/@shared/enums/gameEnum';
-import { GameService } from '@app/@shared/services/game.service';
-import { PortalService } from '@app/@shared/services/portal.service';
+import { switchMap, debounceTime, distinctUntilChanged, tap, finalize, of, map } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SlotsService } from '@app/@core/backoffice/slots.service';
 import { GameCard } from '@app/games-page/components/game-card/game-card';
 import { GameDetailModal } from '@app/games-page/games-list-page/game-detail-modal/game-detail-modal';
-import { GameMain } from '@app/games-page/models/game.models';
+import { GameMain, SubLevel } from '@app/games-page/models/game.models';
 
 @Component({
   selector: 'app-search-page',
@@ -18,8 +16,8 @@ import { GameMain } from '@app/games-page/models/game.models';
   styleUrl: './search-page.scss',
 })
 export class SearchPage {
-  private gameService = inject(GameService);
-  private portalService = inject(PortalService);
+  private slotsService = inject(SlotsService);
+  private route = inject(ActivatedRoute);
   screenWidth = signal(window.innerWidth);
   private router = inject(Router);
 
@@ -29,9 +27,7 @@ export class SearchPage {
   loading = signal(false);
   isMascoteLoaded = signal(false);
 
-  placeholderCategory = toSignal(
-    this.gameService.getGamesByCategory(502, GameEnum.CASINO, this.portalService.portalId),
-  );
+  placeholderCategory = toSignal(this.route.data.pipe(map((data) => data['placeholder'] as SubLevel | undefined)));
 
   onMascoteLoad() {
     this.isMascoteLoaded.set(true);
@@ -50,9 +46,36 @@ export class SearchPage {
         if (term.length < 3) {
           return of([]);
         }
-        return this.gameService
-          .searchGames(term, this.portalService.portalId)
-          .pipe(finalize(() => this.loading.set(false)));
+        return this.slotsService.getSlots({ q: term }).pipe(
+          map((response: any) => {
+            const slots = Array.isArray(response) ? response : response.data || [];
+            return slots.map(
+              (slot: any) =>
+                ({
+                  id: slot.id ?? 0,
+                  externalId: slot['provider_game_id'] ?? '',
+                  name: slot['title'] ?? slot['name'] ?? '',
+                  gameName: slot['title'] ?? slot['name'] ?? '',
+                  gameTypeName: slot['type'] ?? '',
+                  productSupplierName: slot['provider'] ?? '',
+                  productSupplierId: 0,
+                  productId: 0,
+                  productName: slot['provider'] ?? '',
+                  demoPlayRestricted: false,
+                  realPlayRestricted: false,
+                  maintenanceModeEnabled: false,
+                  progressiveJackpots: null,
+                  translations: null,
+                  gameTypeId: 0,
+                  parameters: null,
+                  rtp: slot['rtp'],
+                  volatility: slot['volatility'],
+                  minBet: slot['minBet'],
+                }) as GameMain,
+            );
+          }),
+          finalize(() => this.loading.set(false)),
+        );
       }),
     ),
     { initialValue: [] },

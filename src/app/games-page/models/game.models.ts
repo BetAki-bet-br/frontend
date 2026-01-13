@@ -16,8 +16,8 @@ export interface GameMain {
   gameTypeName: string;
   gameTypeId: number;
   volatility?: number;
-  minBet?: number;
-  rtp?: number;
+  minBet?: string;
+  rtp?: string;
 }
 
 export interface SubLevel {
@@ -60,24 +60,13 @@ export interface PostGameResponse {
 
 export interface GameCategory {
   id: number | undefined;
+  gameCount?: number;
   name: string;
+  type?: string;
+  slug?: string;
   parentId: number | null;
   categoryTypeId: number;
-  // subLevels: GameCategory[];
 }
-
-// export interface GameCategory {
-//     id?: number;
-//     portalId?: number;
-//     name?: string | null;
-//     description?: string | null;
-//     tag?: string | null;
-//     categoryTypeId?: string | null;
-//     parentId?: number | null;
-//     parentName?: string | null;
-//     translations?: Array<CategoryTranslation> | null;
-//     position?: number | null;
-// }
 
 export interface GameCategoryResponse {
   gameCategoryList: GameCategory[];
@@ -94,4 +83,23 @@ export interface TopRecentGame {
 export interface GetGameMainsResponse {
   gameMainList: GameMain[];
   recordCount: number;
+}
+
+export interface LobbySection {
+  id: number | string;
+  title: string;
+  order: number;
+  type: string;
+  games?: GameMain[];
+  gameCount?: number;
+  data?: any;
+  metadata?: {
+    categoryId?: number | string;
+    type?: string;
+    [key: string]: any;
+  };
+}
+
+export interface LobbyResponse {
+  sections: LobbySection[];
 }

@@ -6,18 +6,18 @@
     (filterSelect)="onFilterSelect($event)"
   ></app-game-filter-list>
 
-  @for (section of pageLayout(); track section.id) { @switch (section.type) { @case ('recent-games') {
+  @for (section of pageLayout(); track section.id + '-' + $index) { @switch (section.type) { @case ('recent-games') {
   <app-game-list
     [categoryId]="section.id"
     [title]="section.data.title"
-    [gameCount]="section.data.games.length"
+    [gameCount]="section.gameCount ?? section.data.games.length"
     [overrideLink]="section.data.overrideLink"
   >
     <div
       appDragScroll
       class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto overflow-y-visible scroll-smooth select-none no-scrollbar py-16 -my-12 relative z-0 hover:z-20 ps-3"
     >
-      @for (game of section.data.games.slice(0, recentGamesCount()); track game.id; let i = $index) {
+      @for (game of section.data.games.slice(0, recentGamesCount()); track game.id + '-' + $index; let i = $index) {
       <app-game-card
         [game]="game"
         [class.mr-3]="section.data.games.slice(0, recentGamesCount()).length - 1 === i"
@@ -27,13 +27,34 @@
       }
     </div>
   </app-game-list>
-  } @case ('game-list') { @if(section.data.gameMains.length > 0) {
-  <app-game-list [categoryId]="section.data.id" [gameCount]="section.data.gameMains.length" [title]="section.data.name">
+  } @case ('mais-premiados') {
+  <app-game-list
+    [categoryId]="section.data.id"
+    [gameCount]="section.gameCount ?? section.data.gameMains.length"
+    [title]="section.data.title"
+    [showViewAll]="false"
+  >
     <div
       appDragScroll
       class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto overflow-y-visible scroll-smooth select-none no-scrollbar py-16 -my-12 relative z-0 hover:z-20 ps-3"
     >
-      @for (game of section.data.gameMains.slice(0, gamesCount()); track game.id; let i = $index) {
+      @for (game of section.data.gameMains.slice(0, 10); track game.id + '-' + $index; let i = $index) {
+      <app-awarded-game-card
+        [game]="game"
+        [class.mr-3]="section.data.gameMains.slice(0, 10).length - 1 === i"
+        (click)="handleGameClick(game)"
+        [isPriority]="$index < 5"
+      ></app-awarded-game-card>
+      }
+    </div>
+  </app-game-list>
+  } @case ('game-list') {
+  <app-game-list [categoryId]="section.data.id" [gameCount]="section.gameCount ?? section.data.gameMains.length" [title]="section.data.name">
+    <div
+      appDragScroll
+      class="flex gap-2 sm:gap-4 lg:gap-8 overflow-x-auto overflow-y-visible scroll-smooth select-none no-scrollbar py-16 -my-12 relative z-0 hover:z-20 ps-3"
+    >
+      @for (game of section.data.gameMains.slice(0, gamesCount()); track game.id + '-' + $index; let i = $index) {
       <app-game-card
         [game]="game"
         [class.mr-3]="section.data.gameMains.slice(0, gamesCount()).length - 1 === i"
@@ -42,11 +63,10 @@
       }
     </div>
   </app-game-list>
-  } } @case ('winners-list') {
+  } @case ('winners-list') {
   <app-winners-list
     [winnersToList]="section.data.winnersToList"
     (gameClick)="handleGameClick($event)"
-    [games]="section.data.games"
   ></app-winners-list>
   } @case ('top-10-live-list') {
   <app-top-10-live-list

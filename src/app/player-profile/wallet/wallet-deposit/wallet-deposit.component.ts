@@ -24,7 +24,7 @@ import { environment } from '@env/environment';
 import { CreatePaymentResponse, PaymentRequest } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of, switchMap } from 'rxjs';
-import { MatFormField, MatHint, MatError } from '@angular/material/form-field';
+import { MatFormField, MatHint } from '@angular/material/form-field';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -44,7 +44,6 @@ interface DepositForm {
     PageBreadcrumbsComponent,
     MatFormField,
     MatHint,
-    MatError,
     MatButtonModule,
     RouterLink,
     CdnizePipe,

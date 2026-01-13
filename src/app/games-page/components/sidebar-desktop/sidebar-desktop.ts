@@ -5,6 +5,11 @@ import { PlayerService } from '@app/@shared/services/player.service-v2';
 import { AuthenticationService, CredentialsService } from '@app/auth';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { CdnizePipe } from '../../../@pipes/cdnize.pipe';
+import { MenuItem } from '../../../shell/mobile-menu/menu-item.model';
+import { MenusService } from '@app/@core/backoffice';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
+
 @Component({
   selector: 'app-sidebar-desktop',
   templateUrl: './sidebar-desktop.html',
@@ -16,18 +21,31 @@ export class SidebarDesktop {
   private readonly sessionService: CredentialsService = inject(CredentialsService);
   private readonly authService: AuthenticationService = inject(AuthenticationService);
   private readonly playerService: PlayerService = inject(PlayerService);
+  private readonly menusService = inject(MenusService);
   private readonly router = inject(Router);
   protected readonly isAuthenticated = this.sessionService.isAuthenticated();
   protected readonly playerDetails = signal<PlayerDetails | null>(null);
 
-  protected items: unknown[] = [];
-  protected RegisterIcon = 'assets/icons/register-icon.svg';
-  protected BetAkiWhiteIcon = 'assets/icons/betaki-white-icon.svg';
-  protected TournamentIcon = 'assets/icons/tournament-icon.svg';
-  protected JoystickIcon = 'assets/icons/joystick-icon.svg';
-  protected StarIcon = 'assets/icons/star-icon.svg';
-  protected ProviderIcon = 'assets/icons/provider-icon.svg';
-  protected SupportIcon = 'assets/icons/support-icon.svg';
+  isLoading = signal(true);
+
+  protected menuItems = toSignal(
+    this.menusService.getMenus().pipe(
+      tap(() => this.isLoading.set(false)),
+      map((items) =>
+        items.map((item) => ({
+          label: item.name,
+          icon: item.meta.icon,
+          routerLink: item.meta.routerLink,
+          class: item.meta.class,
+        } as MenuItem)),
+      ),
+      catchError(() => {
+        this.isLoading.set(false);
+        return of([]);
+      }),
+    ),
+    { initialValue: [] },
+  );
 
   isCollapsed = signal(true);
 

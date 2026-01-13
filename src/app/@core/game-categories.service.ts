@@ -9,44 +9,6 @@ import { DataStoreService } from './data-store.service';
 
 const log = new Logger('GameCategoriesService');
 
-export type GameCategoryStringKey =
-  | 'Recommended' /* Desktop */
-  | 'Releases'
-  | 'Crash'
-  | 'Table'
-  | 'Card'
-  | 'Fun'
-  | 'Providers';
-
-export type GameCategoryStringKeyMobile =
-  | 'Recommended' /* Mobile */
-  | 'Brazilian'
-  | 'Blackjack'
-  | 'Roulette'
-  | 'Baccarat'
-  | 'Bingo'
-  | 'Show'
-  | 'Providers';
-
-export type ProductTypeLabelKey =
-  | 'Recommended' /* Desktop */
-  | 'Releases'
-  | 'Crash'
-  | 'Table'
-  | 'Card'
-  | 'Fun'
-  | 'Providers';
-
-export type ProductTypeLabelKeyMobile =
-  | 'Recommended' /* Mobile */
-  | 'Brazilian'
-  | 'Blackjack'
-  | 'Roulette'
-  | 'Baccarat'
-  | 'Bingo'
-  | 'Show'
-  | 'Providers';
-
 export enum GameCategoryLobbyEnum {
   Lobby = 'Casino',
   'Lobby live' = 'Live Casino',
@@ -64,38 +26,6 @@ export type GameCategoryId = {
 export interface GameCategoryIdsPortal {
   [portalId: number]: { data: { [key: string]: number } };
 }
-
-// export const PRODUCT_TYPE_LABEL_MAP: { [K in GameCategoryStringKey]: string } = {
-//   Recommended: marker('Recommended'),
-//   Releases: marker('Releases'),
-//   Crash: marker('Crash'),
-//   Table: marker('Table'),
-//   Card: marker('Card'),
-//   Fun: marker('Fun'),
-//   Providers: marker('Providers'),
-// };
-
-// export const PRODUCT_TYPE_LABEL_MAP_LIVE: { [K in ProductTypeLabelKeyMobile]: string } = {
-//   Recommended: marker('Recommended'),
-//   Brazilian: marker('Brazilian'),
-//   Blackjack: marker('Blackjack'),
-//   Roulette: marker('Roulette'),
-//   Baccarat: marker('Baccarat'),
-//   Bingo: marker('Bingo'),
-//   Show: marker('Show'),
-//   Providers: marker('Providers'),
-// };
-
-// disabled sorting because categories are sorted as they come from api, or are sorted in DB by ids
-/* export const CATEGORY_ORDER: GameCategoryStringKey[] = [
-  'Most Played',
-  'Tendencies',
-  'Slots',
-  'Crash',
-  'Lotteries',
-  'Providers',
-  'Live',
-]; */
 
 // TODO: [klemenb] need to get right SVG icons and update them
 // export const GAME_CATEGORY_ICONS: { [K: string]: { svgIcon?: string; icon?: string } } = {

@@ -14,8 +14,8 @@
         />
       </button>
     </div>
-    @if(isAuthenticated){
-    <div
+    <!-- @if(isAuthenticated){ -->
+    <!-- <div
       class="flex items-center gap-3 px-1 py-2 rounded-lg transition-colors group hover:opacity-80 cursor-pointer"
       [class.justify-center]="isCollapsed()"
       (click)="handleProfileClick()"
@@ -27,55 +27,43 @@
         <span class="text-sm font-light">ID: {{ details.id }}</span>
       </div>
       }
-    </div>
-    }
+    </div> -->
+    <!-- } -->
 
-    <button
-      class="flex items-center p-2 gap-x-2 cursor-pointer bg-tournaments rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80 mb-1"
-      [class.justify-start]="!isCollapsed()"
-      [class.justify-center]="isCollapsed()"
-      (click)="navigateTo('/games')"
-    >
-      <img [src]="'/assets/icons/betaki-icon.svg' | cdnize" alt="Casino" class="w-6 h-6 shrink-0" />
-      <span [class.hidden]="isCollapsed()">Club Bet Aki</span>
-    </button>
+    <!-- Menu Items Iteration -->
     <div class="flex flex-col mt-1 gap-y-2">
-      <button
-        class="flex items-center p-2 gap-x-2 cursor-pointer bg-tournaments rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80"
-        [class.justify-start]="!isCollapsed()"
-        [class.justify-center]="isCollapsed()"
-        (click)="navigateTo('/games/category/1000093')"
-      >
-        <img [src]="'/assets/icons/trophy-icon-color.svg' | cdnize" alt="Casino" class="w-6 h-6 shrink-0" />
-        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Torneios</span>
-      </button>
+      @if (isLoading()) {
+      <div class="flex items-center justify-center py-8">
+        <svg
+          class="w-8 h-8 text-betaki-400 animate-spin"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      </div>
+      } @else { @for (item of menuItems(); track item.label) {
       <button
         class="flex items-center p-2 gap-x-2 cursor-pointer rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80"
+        [class]="item.class"
+        [class.bg-tournaments]="item.label === 'Torneios' || item.label === 'Club Bet Aki'"
+        [class.bg-fresh]="item.label === 'Lançamentos'"
+        [class.bg-providers]="item.label === 'Provedores'"
+        [class.mb-1]="item.label === 'Club Bet Aki'"
         [class.justify-start]="!isCollapsed()"
         [class.justify-center]="isCollapsed()"
-        (click)="navigateTo('/games/category/502')"
+        (click)="navigateTo(item.routerLink!)"
       >
-        <img [src]="'/assets/icons/joystick-icon-color.svg' | cdnize" alt="Casino" class="w-6 h-6 shrink-0" />
-        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Os mais jogados</span>
+        <img [src]="item.icon | cdnize" [alt]="item.label" class="w-6 h-6 shrink-0" />
+        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">{{ item.label }}</span>
       </button>
-      <button
-        class="flex items-center p-2 gap-x-2 cursor-pointer rounded-xl bg-fresh transition-opacity duration-200 ease-in-out hover:opacity-80"
-        [class.justify-start]="!isCollapsed()"
-        [class.justify-center]="isCollapsed()"
-        (click)="navigateTo('/games/category/1000097')"
-      >
-        <img [src]="'/assets/icons/star-icon-color.svg' | cdnize" alt="Casino" class="w-6 h-6 shrink-0" />
-        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Lançamentos</span>
-      </button>
-      <button
-        class="flex items-center p-2 gap-x-2 cursor-pointer rounded-xl bg-providers transition-opacity duration-200 ease-in-out hover:opacity-80"
-        [class.justify-start]="!isCollapsed()"
-        [class.justify-center]="isCollapsed()"
-        (click)="navigateTo('/games/category/providers')"
-      >
-        <img [src]="'/assets/icons/provider-icon-color.svg' | cdnize" alt="Casino" class="w-6 h-6 shrink-0" />
-        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Provedores</span>
-      </button>
+      } }
     </div>
 
     @if (isAuthenticated) {

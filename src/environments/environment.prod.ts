@@ -5,12 +5,13 @@ export const environment = {
   production: true,
   version: 1.0,
   serverUrl: '',
+  backofficeApiUrl: '',
   defaultLanguage: 'pt-BR',
   supportedLanguages: ['en-US', 'pt-BR'],
   desktopPortalId: 5,
   mobilePortalId: 6,
   defaultBrandId: 2,
-  API_BASE_PATH: 'http://52.14.253.252:4200', // from environment.prod.ts
+  API_BASE_PATH: 'http://52.14.253.252:4200/api', // from environment.prod.ts
   useLocalHtmlTemplates: false, // Should be false for production
   demoPlayEnabled: false,
   indexPageTitle: 'Bet Aki | Apostas Regulamentadas, Super Odds e Diversão Garantida', // from environment-betaki.prod.ts

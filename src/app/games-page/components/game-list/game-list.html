@@ -23,6 +23,7 @@
 
       <h5 class="text-base font-semibold leading-normal text-white md:text-xl line-clamp-1">{{ title() }}</h5>
 
+      @if (showViewAll()) {
       <a
         [routerLink]="overrideLink() || ['category', categoryId()]"
         [class.hidden]="isExpanded()"
@@ -33,6 +34,7 @@
         </span>
         <img src="/assets/icons/arrow-right.svg" alt="Ver todos" class="inline h-3 w-3 ml-2" />
       </a>
+      }
     </div>
 
     <ng-content></ng-content>

@@ -10,6 +10,7 @@ import { signal } from '@angular/core';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NgOptimizedImage } from '@angular/common';
+import { MenusService } from '@app/@core/backoffice';
 
 describe('SidebarMobile', () => {
   let component: SidebarMobile;
@@ -36,6 +37,9 @@ describe('SidebarMobile', () => {
   const mockRouter = {
     navigateByUrl: jasmine.createSpy('navigateByUrl'),
   };
+  const mockMenusService = {
+    getMenus: () => of([]),
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -48,6 +52,7 @@ describe('SidebarMobile', () => {
         { provide: PlayerService, useValue: mockPlayerService },
         { provide: TawkToScriptService, useValue: mockTawkToScriptService },
         { provide: Router, useValue: mockRouter },
+        { provide: MenusService, useValue: mockMenusService },
       ],
     }).compileComponents();
 
@@ -64,7 +69,7 @@ describe('SidebarMobile', () => {
     // Check for Liminha banner
     const liminhaImg = fixture.debugElement.query(By.css('img[alt="Banner Liminha"]'));
     expect(liminhaImg).toBeTruthy();
-    expect(liminhaImg.attributes['ngSrc']).toContain('assets/liminha.jpg');
+    expect(liminhaImg.attributes['ngSrc']).toContain('assets/liminha.webp');
     // priority is an input, not necessarily an attribute in the DOM output in all versions, but usually present or handled by checking inputs.
     // In Angular tests for ngSrc, checking the attribute usually works if it reflects.
     // But better to check the component instance properties if it was a directive, but here it's an attribute on the element.

@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs';
+import { map, finalize, tap } from 'rxjs';
 
 import { GameDetailModal } from '../games-list-page/game-detail-modal/game-detail-modal';
 import { DragScrollDirective } from '@app/@shared/directives/drag-scroll.directive';
@@ -13,18 +13,26 @@ import { ProvidersCarousel } from '../components/providers-carousel/providers-ca
 import { Top10LiveList } from '../components/top-10-live-list/top-10-live-list';
 import { WinnersList } from '../components/winners-list/winners-list';
 import { ModalService } from '@app/@shared/services/modal.service';
-import { GameService } from '@app/@shared/services/game.service';
 import { PortalService } from '@app/@shared/services/portal.service';
-import { SubLevel, GameMain, GameCategory, Provider } from '../models/game.models';
-import { CredentialsService } from '@app/auth';
-import { CategoryOrderService } from '@app/@shared/services/category-order.service';
+import { SubLevel, GameMain, GameCategory, Provider, LobbyResponse } from '../models/game.models';
+import { PublicGameService } from '@app/@core/public-game.service';
+import { AwardedGameCard } from '../components/awarded-game-card/awarded-game-card';
+import { ProvidersService } from '@app/@core/backoffice/providers.service';
+import { GameEnum } from '@app/@shared/enums/gameEnum';
 
-export type SectionType = 'game-list' | 'recent-games' | 'winners-list' | 'top-10-live-list' | 'providers-carousel';
+export type SectionType =
+  | 'game-list'
+  | 'recent-games'
+  | 'winners-list'
+  | 'top-10-live-list'
+  | 'providers-carousel'
+  | 'mais-premiados';
 
 export interface PageSection {
   id: string | number;
   type: SectionType;
   data: any;
+  gameCount?: number;
 }
 
 @Component({
@@ -39,6 +47,7 @@ export interface PageSection {
     WinnersList,
     GameFilterModal,
     GameCard,
+    AwardedGameCard,
   ],
   templateUrl: './live-games-list-page.html',
   styleUrl: './live-games-list-page.scss',
@@ -54,60 +63,26 @@ export class LiveGamesListPage {
   isGameDetailModalOpen = this.modalService.isModalOpen('gameDetail');
   isFilterModalOpen = this.modalService.isModalOpen('gameFilter');
 
-  private gameService = inject(GameService);
   private portalService = inject(PortalService);
-  private sessionService = inject(CredentialsService);
-  private categoryOrderService = inject(CategoryOrderService);
+  private providersService = inject(ProvidersService);
 
-  subLevels = toSignal(this.route.data.pipe(map((data) => data['games'] as SubLevel[] | undefined)));
+  lobbyConfig = toSignal(this.route.data.pipe(map((data) => data['lobby'] as LobbyResponse | undefined)));
 
-  categoryOrder = toSignal(this.categoryOrderService.getCategoryOrder(this.portalService.portalId, 'Live Casino'));
+  constructor() {
+    console.log(this.pageLayout());
+  }
 
-  sortedSubLevels = computed(() => {
-    const levels = this.subLevels();
-    const order = this.categoryOrder();
-
-    if (!levels) return undefined;
-    if (!order) return levels;
-
-    return [...levels].sort((a, b) => {
-      const indexA = order.indexOf(a.name);
-      const indexB = order.indexOf(b.name);
-
-      if (indexA === -1 && indexB === -1) return 0;
-      if (indexA === -1) return 1;
-      if (indexB === -1) return -1;
-
-      return indexA - indexB;
-    });
-  });
-
-  recentGamesIds = this.sessionService.isAuthenticated()
-    ? toSignal(
-        this.gameService
-          .getRecentGames(20, this.portalService.portalId)
-          .pipe(map((games) => games.map((g) => g.gameExternalId))),
-        { initialValue: [] },
-      )
-    : signal([]);
-
-  recentGames = computed(() => {
-    if (!this.sessionService.isAuthenticated()) return [];
-    const allGames = this.sortedSubLevels()?.flatMap((sl) => sl.gameMains) ?? [];
-    const recentIds = this.recentGamesIds();
-    if (!allGames.length || !recentIds || !recentIds.length) {
-      return [];
-    }
-
-    const recentGamesMap = new Map(allGames.map((game) => [game.externalId, game]));
-    return recentIds.map((id) => recentGamesMap.get(id!)).filter((g): g is GameMain => !!g);
-  });
+  recentGames = toSignal(
+    this.route.data.pipe(map((data) => (data['recent'] as SubLevel | undefined)?.gameMains ?? [])),
+    { initialValue: [] },
+  );
 
   gameFilters = toSignal(this.route.data.pipe(map((data) => data['categories'] as GameCategory[] | undefined)));
 
   providers = toSignal(this.route.data.pipe(map((data) => data['providers'] as Provider[] | undefined)));
+  filteredGames = signal<GameMain[]>([]);
+  isLoadingFilter = signal(false);
 
-  games = signal<GameMain[]>([]);
   selectedCategory = signal<GameCategory | null>(null);
   selectedProviders = signal<Provider[]>([]);
 
@@ -117,60 +92,65 @@ export class LiveGamesListPage {
     return this.selectedCategory() !== null || this.selectedProviders().length > 0;
   });
 
-  destaquesCassino = computed(() => {
-    const levels = this.sortedSubLevels();
-    if (!levels) return undefined;
-
-    const categoryId = '1000124'; // from the messy file
-    return levels.find((level) => level.id === categoryId);
-  });
-
-  filteredSubLevels = computed(() => {
-    const category = this.selectedCategory();
-    const levels = this.sortedSubLevels();
-    const selProviders = this.selectedProviders();
-
-    let filteredLevels = levels;
-
-    if (category) {
-      filteredLevels = levels?.filter((level) => String(level.id) === String(category.id));
-    }
-
-    if (selProviders.length > 0) {
-      const providerNames = selProviders.map((p) => p.name);
-      return filteredLevels?.map((level) => ({
-        ...level,
-        gameMains: level.gameMains.filter((game) => {
-          const prodName = (game as any).productName || (game as any).productSupplierName || '';
-          const supplierName = (game as any).productSupplierName || '';
-          return providerNames.includes(prodName) || providerNames.includes(supplierName);
-        }),
-      }));
-    }
-
-    return filteredLevels;
-  });
-
-  top10games = computed(() => this.destaquesCassino()?.gameMains.slice(0, 10) ?? []);
-
   pageLayout = computed(() => {
-    const allSubLevels = this.filteredSubLevels() ?? [];
-
     if (this.isFilterActive()) {
-      return allSubLevels
-        .filter((subLevel) => subLevel.gameMains.length > 0)
-        .map(
-          (subLevel) =>
-            ({
-              id: subLevel.id,
-              type: 'game-list',
-              data: subLevel,
-            }) as PageSection,
-        );
+      let gamesSource: GameMain[] = [];
+      let title = 'Todos os Jogos';
+      let id: string | number = 'filtered';
+      let count: number | undefined;
+
+      const category = this.selectedCategory();
+      const providers = this.selectedProviders();
+
+      if (category) {
+        title = category.name;
+        id = category.id ?? 'cat-filtered';
+        count = category.gameCount;
+
+        if (this.filteredGames().length > 0) {
+          gamesSource = this.filteredGames();
+        } else {
+          const config = this.lobbyConfig();
+          const section = config?.sections.find(
+            (s) =>
+              String(s.id) === String(category.id) ||
+              (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id)),
+          );
+          if (section) {
+            if (section.games) {
+              gamesSource = section.games;
+            }
+            if (section.gameCount) {
+              count = section.gameCount;
+            }
+          }
+        }
+      } else if (providers.length > 0) {
+        title = providers.map((p) => p.name).join(', ');
+        id = `providers-${providers.map((p) => p.id).join('-')}`;
+        gamesSource = this.filteredGames();
+      }
+
+      return [
+        {
+          id: id,
+          type: 'game-list' as SectionType,
+          data: {
+            gameMains: gamesSource,
+            gameCount: count,
+            name: title,
+            id: id,
+          },
+          gameCount: count,
+        },
+      ];
     }
 
+    const config = this.lobbyConfig();
+    const sections = config?.sections || [];
     const layout: PageSection[] = [];
 
+    // Recent Games
     if (this.recentGames()?.length) {
       layout.push({
         id: 'recent',
@@ -183,29 +163,46 @@ export class LiveGamesListPage {
       });
     }
 
-    const regularCategories = allSubLevels;
+    for (const section of sections) {
+      let mappedType: SectionType = 'game-list';
+      let data: any = {};
+      let games: GameMain[] = section.games || [];
 
-    regularCategories.forEach((subLevel, index) => {
-      if (subLevel.gameMains.length > 0) {
-        layout.push({ id: subLevel.id, type: 'game-list', data: subLevel });
+      const type = section.type as SectionType;
+
+      switch (type) {
+        case 'mais-premiados':
+          mappedType = 'mais-premiados';
+          data = { ...section, gameMains: games, title: section.title, id: section.id };
+          break;
+        case 'winners-list':
+          mappedType = 'winners-list';
+          data = { categoryId: 'winners', winnersToList: this.winnersCount() };
+          break;
+        case 'top-10-live-list':
+          mappedType = 'top-10-live-list';
+          if (games.length === 0) continue;
+          data = { categoryId: section.id, games: games };
+          break;
+        default:
+          mappedType = 'game-list';
+          data = { ...section, gameMains: games, name: section.title, id: section.id };
+          break;
       }
 
-      if (index === 3) {
+      if (
+        (games.length > 0 && mappedType !== 'winners-list') ||
+        mappedType === 'winners-list' ||
+        mappedType === 'top-10-live-list'
+      ) {
         layout.push({
-          id: 'winners',
-          type: 'winners-list',
-          data: { games: this.sortedSubLevels()!, winnersToList: this.winnersCount() },
+          id: section.id,
+          type: mappedType,
+          data: data,
+          gameCount: section.gameCount,
         });
       }
-
-      if (index === 7 && this.top10games().length > 0) {
-        layout.push({
-          id: 'top-10-live',
-          type: 'top-10-live-list',
-          data: { categoryId: 1000124, games: this.top10games() },
-        });
-      }
-    });
+    }
 
     if (this.providers()?.length) {
       layout.push({
@@ -222,10 +219,42 @@ export class LiveGamesListPage {
 
   onFilterSelect(category: GameCategory | null): void {
     this.selectedCategory.set(category);
+    this.selectedProviders.set([]);
+    this.filteredGames.set([]);
+
+    if (category) {
+      const config = this.lobbyConfig();
+      const section = config?.sections.find(
+        (s) =>
+          String(s.id) === String(category.id) ||
+          (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id)),
+      );
+
+      if (section && section.games && section.games.length > 0) {
+        return;
+      }
+    }
   }
 
   onFiltersApplied({ providers }: { providers: Provider[] }): void {
     this.selectedProviders.set(providers);
+    this.selectedCategory.set(null);
+    this.filteredGames.set([]);
+
+    if (providers.length > 0) {
+      this.isLoadingFilter.set(true);
+      const providerId = providers[0].id;
+
+      this.providersService
+        .getGamesByProviderForFrontend(providerId, GameEnum.LIVE_CASINO, this.portalService.portalId)
+        .pipe(
+          tap(() => this.isLoadingFilter.set(false)),
+          map((subLevel) => subLevel.gameMains)
+        )
+        .subscribe((games) => {
+          this.filteredGames.set(games);
+        });
+    }
   }
 
   public gamesCount = computed(() => {
@@ -281,7 +310,7 @@ export class LiveGamesListPage {
 
     if (width < 1280) {
       return 5;
-    }
+        }
 
     if (width < 1536) {
       return 6;

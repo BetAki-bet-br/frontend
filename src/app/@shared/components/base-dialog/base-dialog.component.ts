@@ -24,7 +24,6 @@ import { AppBreakpoints } from '@app/@shared/app-breakpoints';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { Subscription } from 'rxjs';
 
-
 @Component({
   selector: 'app-base-dialog',
   templateUrl: './base-dialog.component.html',
