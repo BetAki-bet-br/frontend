@@ -129,7 +129,7 @@ export class WinnersList implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.nextWinnerIndex >= this.allWinners().length - 4) {
+    if (this.nextWinnerIndex >= this.allWinners().length + 4) {
       this.nextWinnerIndex = 0; // Loop back
       this.fetchWinners(false);
     }
