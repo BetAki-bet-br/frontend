@@ -13,9 +13,10 @@ import { recentGamesResolver } from '@app/games-page/games-list-page/recent-game
 import { liveCategoryResolver } from '@app/games-page/live-games-list-by-category-page/live-category.resolver';
 import { liveGameListCategoriesResolver } from '@app/games-page/live-games-list-page/live-game-list-categories.resolver';
 import { liveLobbyResolver } from '@app/games-page/live-games-list-page/live-lobby.resolver';
-import { liveGamesResolver } from '@app/games-page/live-games-list-page/live-games.resolver';
 import { liveProvidersResolver } from '@app/games-page/live-games-list-page/live-providers.resolver';
 import { liveRecentGamesResolver } from '@app/games-page/live-games-list-page/live-recent-games.resolver';
+import { searchPlaceholderResolver } from './search/search-page/search-placeholder.resolver';
+import { liveSearchPlaceholderResolver } from './search/live-search-page/live-search-placeholder.resolver';
 import { GamesPage } from './games-page';
 
 export const GAMES_ROUTES: Routes = [
@@ -39,6 +40,7 @@ export const GAMES_ROUTES: Routes = [
     path: 'search',
     loadComponent: () => import('./search/search-page/search-page').then((m) => m.SearchPage),
     title: 'Pesquisa de jogos - Bet Aki',
+    resolve: { placeholder: searchPlaceholderResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
@@ -111,6 +113,7 @@ export const GAMES_ROUTES: Routes = [
     path: 'live/search',
     loadComponent: () => import('./search/live-search-page/live-search-page').then((m) => m.LiveSearchPage),
     title: 'Pesquisa de jogos - Bet Aki',
+    resolve: { placeholder: liveSearchPlaceholderResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',

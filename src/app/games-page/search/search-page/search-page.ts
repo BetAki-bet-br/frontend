@@ -3,14 +3,11 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { switchMap, debounceTime, distinctUntilChanged, tap, finalize, of, map } from 'rxjs';
-import { Router } from '@angular/router';
-import { GameEnum } from '@app/@shared/enums/gameEnum';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SlotsService } from '@app/@core/backoffice/slots.service';
-import { PortalService } from '@app/@shared/services/portal.service';
 import { GameCard } from '@app/games-page/components/game-card/game-card';
 import { GameDetailModal } from '@app/games-page/games-list-page/game-detail-modal/game-detail-modal';
 import { GameMain, SubLevel } from '@app/games-page/models/game.models';
-import { CategoriesService } from '@app/@core/backoffice/categories.service';
 
 @Component({
   selector: 'app-search-page',
@@ -19,9 +16,8 @@ import { CategoriesService } from '@app/@core/backoffice/categories.service';
   styleUrl: './search-page.scss',
 })
 export class SearchPage {
-  private categoriesService = inject(CategoriesService);
-  private portalService = inject(PortalService);
   private slotsService = inject(SlotsService);
+  private route = inject(ActivatedRoute);
   screenWidth = signal(window.innerWidth);
   private router = inject(Router);
 
@@ -31,53 +27,7 @@ export class SearchPage {
   loading = signal(false);
   isMascoteLoaded = signal(false);
 
-  constructor() {
-    afterNextRender(() => {
-      console.log(this.placeholderCategory());
-    });
-  }
-
-  placeholderCategory = toSignal(
-    this.categoriesService.getCategory(1000098).pipe(
-      map((response: any) => {
-        console.log('Placeholder category response:', response);
-        if (!response) return undefined;
-        const gameMains: GameMain[] = (response.slots || []).map((slot: any) => {
-          const gameData = slot.game_data || {};
-          return {
-            id: slot.id ?? 0,
-            externalId: gameData.externalId ?? slot.provider_game_id ?? '',
-            name: slot.title ?? gameData.name ?? '',
-            gameName: slot.title ?? gameData.gameName ?? '',
-            gameTypeName: gameData.gameTypeName ?? slot.type ?? '',
-            productSupplierName: slot.provider ?? gameData.productSupplierName ?? '',
-            productSupplierId: gameData.productSupplierId ?? 0,
-            productId: gameData.productId ?? 0,
-            productName: slot.provider ?? gameData.productName ?? '',
-            demoPlayRestricted: gameData.demoPlayRestricted ?? false,
-            realPlayRestricted: gameData.realPlayRestricted ?? false,
-            maintenanceModeEnabled: gameData.maintenanceModeEnabled ?? false,
-            progressiveJackpots: gameData.progressiveJackpots ?? null,
-            translations: gameData.translations ?? null,
-            gameTypeId: gameData.gameTypeId ?? 0,
-            parameters: gameData.parameters ?? null,
-            rtp: slot.rtp ?? gameData.rtp,
-            volatility: slot.volatility ?? gameData.volatility,
-            minBet: slot.minBet ?? gameData.minBet,
-          } as GameMain;
-        });
-
-        return {
-          id: response.id,
-          name: response.name,
-          gameName: null,
-          subLevel: [],
-          gameMains: gameMains,
-          levelType: response.type || 'category',
-        } as SubLevel;
-      }),
-    ),
-  );
+  placeholderCategory = toSignal(this.route.data.pipe(map((data) => data['placeholder'] as SubLevel | undefined)));
 
   onMascoteLoad() {
     this.isMascoteLoaded.set(true);
