@@ -12,7 +12,7 @@ import { AffiliatesService } from './affiliates.service';
 import { PlayerActivationService } from './player-activation.service';
 import { PlayerPromoService } from './player-promo.service';
 import { LegitimuzScriptLoaderService } from './legitimuz-script-loader';
-import { TawktoScriptLoader } from './tawkto-script-loader';
+import { FonetalkScriptLoader } from './fonetalk-script-loader';
 import { LegitimuzGeolocationService, LegitimuzGeolocationAction } from './legitimuz-geolocation.service';
 import { Dialog } from '@angular/cdk/dialog';
 import { AgeConfirmationDialogComponent } from '@app/users/age-confirmation-dialog/age-confirmation-dialog.component';
@@ -42,7 +42,7 @@ export class AppStartupService {
   private playerActivationService = inject(PlayerActivationService);
   private playerPromoService = inject(PlayerPromoService);
   private legitimuzScriptLoaderService = inject(LegitimuzScriptLoaderService);
-  private tawktoScriptLoaderService = inject(TawktoScriptLoader);
+  private fonetalkScriptLoaderService = inject(FonetalkScriptLoader);
   private legitimuzGeolocationService = inject(LegitimuzGeolocationService);
   private dialog = inject(Dialog);
   private credentialsService = inject(CredentialsService);
@@ -71,7 +71,7 @@ export class AppStartupService {
   private loadThirdPartyScripts() {
     this.legitimuzScriptLoaderService.loadGeolocSdk();
     this.legitimuzScriptLoaderService.loadOcrSdk();
-    this.tawktoScriptLoaderService.loadScript();
+    this.fonetalkScriptLoaderService.loadScript();
   }
 
   private initI18n() {

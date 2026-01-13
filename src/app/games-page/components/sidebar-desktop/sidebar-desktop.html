@@ -89,15 +89,5 @@
       <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Sair</span>
     </button>
     }
-
-    <button
-      class="flex items-center justify-center p-2 gap-x-2 cursor-pointer rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80"
-      (click)="openSupportChat()"
-      [class.justify-start]="!isCollapsed()"
-      [class.justify-center]="isCollapsed()"
-    >
-      <img [src]="'/assets/icons/support-icon-color.svg' | cdnize" alt="Casino" class="w-6 h-6 shrink-0" />
-      <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Precisa de ajuda?</span>
-    </button>
   </nav>
 </div>

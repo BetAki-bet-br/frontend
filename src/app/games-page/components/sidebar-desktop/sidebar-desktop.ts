@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@ang
 import { Router } from '@angular/router';
 import { Player } from '@app/@shared/models';
 import { PlayerService } from '@app/@shared/services/player.service-v2';
-import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { AuthenticationService, CredentialsService } from '@app/auth';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { CdnizePipe } from '../../../@pipes/cdnize.pipe';
@@ -16,7 +15,6 @@ import { CdnizePipe } from '../../../@pipes/cdnize.pipe';
 export class SidebarDesktop {
   private readonly sessionService: CredentialsService = inject(CredentialsService);
   private readonly authService: AuthenticationService = inject(AuthenticationService);
-  private readonly tawkMessengerService = inject(TawkToScriptService);
   private readonly playerService: PlayerService = inject(PlayerService);
   private readonly router = inject(Router);
   protected readonly isAuthenticated = this.sessionService.isAuthenticated();
@@ -56,10 +54,6 @@ export class SidebarDesktop {
 
   logout(): void {
     this.authService.logout();
-  }
-
-  openSupportChat(): void {
-    this.tawkMessengerService.maximize();
   }
 
   navigateTo(path: string): void {
