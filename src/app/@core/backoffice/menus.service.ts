@@ -19,7 +19,6 @@ export class MenusService {
   getMenus(): Observable<MenuApi[]> {
     return this.http.get<GetMenusResponse>(this.baseUrl).pipe(
       map((response) => {
-        console.log(response.data);
         return response.data;
       }),
     );

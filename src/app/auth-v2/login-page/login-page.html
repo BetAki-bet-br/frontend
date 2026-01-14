@@ -122,21 +122,22 @@
             formControlName="password"
           />
 
-                    <button
-                      type="button"
-                      class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer focus:outline-none focus:ring-0"
-                      (click)="togglePasswordVisibility()"
-                      [class.red-icon]="
+          <button
+            type="button"
+            class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer focus:outline-none focus:ring-0"
+            (click)="togglePasswordVisibility()"
+            [class.red-icon]="
                         form.get('password')?.invalid &&
                         (form.get('password')?.touched || form.get('password')?.dirty)
                       "
-                    >
-                      <img
-                        [src]="showPassword() ? 'assets/icons/eye-open.svg' : 'assets/icons/hide-pass.svg'"
-                        alt="Toggle password visibility"
-                        class="w-5 h-5 text-shark-950 hover:text-shark-800"
-                      />
-                    </button>        </div>
+          >
+            <img
+              [src]="showPassword() ? 'assets/icons/eye-open.svg' : 'assets/icons/hide-pass.svg'"
+              alt="Toggle password visibility"
+              class="w-5 h-5 text-shark-950 hover:text-shark-800"
+            />
+          </button>
+        </div>
         @if (form.get('password')?.invalid && (form.get('password')?.touched || form.get('password')?.dirty)) {
         <div class="text-red-500 text-xs mt-1">
           @if (form.get('password')?.hasError('required')) {
@@ -159,7 +160,7 @@
         variant="primary"
         shape="rectangle"
         size="lg"
-        overrideClass="w-1/2 sm:w-full m-auto rounded-xl p-2 sm:p-4 text-lg"
+        overrideClass="w-full m-auto rounded-xl p-2 sm:p-4 text-lg"
         type="submit"
         [disabled]="form.invalid || submitLoading()"
         [loading]="submitLoading()"
