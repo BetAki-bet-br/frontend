@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://betaki.bet.br/api",
+    "target": "https://pgapi.betaki.bet.br",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug",
