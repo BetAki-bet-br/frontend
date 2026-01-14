@@ -11,7 +11,7 @@ export const environment = {
   mobilePortalId: 6,
   defaultBrandId: 2,
   backofficeApiUrl: 'http://3.18.69.221:8080',
-  API_BASE_PATH: 'http://52.14.253.252:4200', // from environment.prod.ts
+  API_BASE_PATH: '', // from environment.prod.ts
   useLocalHtmlTemplates: false, // Should be false for production
   demoPlayEnabled: false,
   indexPageTitle: 'Bet Aki | Apostas Regulamentadas, Super Odds e Diversão Garantida', // from environment-betaki.prod.ts
