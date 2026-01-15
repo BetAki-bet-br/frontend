@@ -6,8 +6,9 @@ import { SubLevel, GameMain } from '@app/games-page/models/game.models';
 
 export const searchPlaceholderResolver: ResolveFn<SubLevel | undefined> = (): Observable<SubLevel | undefined> => {
   const categoriesService = inject(CategoriesService);
+  const crashGamesId = 17;
 
-  return categoriesService.getCategory(1000098).pipe(
+  return categoriesService.getCategory(crashGamesId).pipe(
     map((response: any) => {
       if (!response) return undefined;
       const gameMains: GameMain[] = (response.slots || []).map((slot: any) => {
