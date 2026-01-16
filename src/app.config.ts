@@ -9,6 +9,7 @@ import { apiKeyInterceptor } from '@app/@shared/http/api-key.interceptor';
 import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angular/material/checkbox';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { authInterceptor } from '@app/@shared/http/auth.interceptor';
+import { apiPathRewriteInterceptor } from '@app/@shared/http/api-path-rewrite.interceptor';
 import { provideNgxMask } from 'ngx-mask';
 
 const materialFormDefaultOptions: MatFormFieldDefaultOptions = {
@@ -28,7 +29,7 @@ export const appConfig: ApplicationConfig = {
     }),
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: materialFormDefaultOptions },
     { provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: materialCheckboxDefaultOptions },
-    provideHttpClient(withFetch(), withInterceptors([apiKeyInterceptor, authInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([apiPathRewriteInterceptor, apiKeyInterceptor, authInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideNgxMask(),
     provideRouter(appRoutes),

@@ -10,7 +10,7 @@ export const environment = {
   desktopPortalId: 5,
   mobilePortalId: 6,
   defaultBrandId: 2,
-  API_BASE_PATH: '',
+  API_BASE_PATH: 'http://localhost:8080/comtrade-api',
   backofficeApiUrl: 'http://localhost:8080',
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',
   useLocalHtmlTemplates: true, // Set this to true to use the local template definitions in `cms-templates-data`
