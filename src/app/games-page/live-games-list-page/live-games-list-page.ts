@@ -24,7 +24,7 @@ export type SectionType =
   | 'game-list'
   | 'recent-games'
   | 'winners-list'
-  | 'top-10-live-list'
+  | 'top-10-list'
   | 'providers-carousel'
   | 'mais-premiados';
 
@@ -179,8 +179,8 @@ export class LiveGamesListPage {
           mappedType = 'winners-list';
           data = { categoryId: 'winners', winnersToList: this.winnersCount() };
           break;
-        case 'top-10-live-list':
-          mappedType = 'top-10-live-list';
+        case 'top-10-list':
+          mappedType = 'top-10-list';
           if (games.length === 0) continue;
           data = { categoryId: section.id, games: games };
           break;
@@ -193,7 +193,7 @@ export class LiveGamesListPage {
       if (
         (games.length > 0 && mappedType !== 'winners-list') ||
         mappedType === 'winners-list' ||
-        mappedType === 'top-10-live-list'
+        mappedType === 'top-10-list'
       ) {
         layout.push({
           id: section.id,
@@ -249,7 +249,7 @@ export class LiveGamesListPage {
         .getGamesByProviderForFrontend(providerId, GameEnum.LIVE_CASINO, this.portalService.portalId)
         .pipe(
           tap(() => this.isLoadingFilter.set(false)),
-          map((subLevel) => subLevel.gameMains)
+          map((subLevel) => subLevel.gameMains),
         )
         .subscribe((games) => {
           this.filteredGames.set(games);
@@ -310,7 +310,7 @@ export class LiveGamesListPage {
 
     if (width < 1280) {
       return 5;
-        }
+    }
 
     if (width < 1536) {
       return 6;
