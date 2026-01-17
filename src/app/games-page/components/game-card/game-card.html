@@ -12,7 +12,19 @@
 >
   <!-- Base Card (Static) -->
   <div class="relative overflow-hidden rounded-lg shadow-lg bg-shark-900 aspect-[3/4] cursor-pointer">
-    @if (!isImageLoaded()) {
+    <img
+      [ngSrc]="gameImageUrl"
+      [alt]="game().name"
+      fill
+      draggable="false"
+      class="w-full h-full object-cover"
+      [class.opacity-0]="!isImageLoaded() && !imageLoadError()"
+      [priority]="isPriority()"
+      (load)="onImageLoad()"
+      (error)="imageLoadError.set(true)"
+    />
+  </div>
+  @if (!isImageLoaded() && !imageLoadError()) {
     <div
       class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 animate-pulse z-10 flex items-center justify-center"
     >
@@ -30,18 +42,13 @@
         ></path>
       </svg>
     </div>
-    }
-    <img
-      [ngSrc]="gameImageUrl"
-      [alt]="game().name"
-      fill
-      draggable="false"
-      class="w-full h-full object-cover"
-      [class.opacity-0]="!isImageLoaded()"
-      [priority]="isPriority()"
-      (load)="onImageLoad()"
-    />
-  </div>
+  } @else if (!isImageLoaded() && imageLoadError()) {
+    <div
+      class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 z-10 flex items-center justify-center"
+    >
+      <img src="assets/icons/logo-white.webp" alt="Logo" class="w-1/2 h-1/2 object-contain" />
+    </div>
+  }
   <h3 class="text-white font-bold text-sm sm:text-base mb-1 truncate ps-2 mt-2">{{ game().name }}</h3>
 
   <!-- Pop-out Hover Card (50% Larger) -->
@@ -50,7 +57,17 @@
     class="pop-out-card absolute inset-0 z-50 bg-shark-900 rounded-lg shadow-2xl flex flex-col overflow-hidden pointer-events-none"
   >
     <div class="relative flex-grow overflow-hidden aspect-[3/4]">
-      <img [src]="gameImageUrl" class="w-full h-full object-cover" [alt]="game().name" />
+      <img
+        [src]="gameImageUrl"
+        class="w-full h-full object-cover"
+        [alt]="game().name"
+        (error)="imageLoadError.set(true)"
+      />
+      @if (imageLoadError()) {
+        <div class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 z-10 flex items-center justify-center">
+          <img src="assets/icons/logo-white.webp" alt="Logo" class="w-1/2 h-1/2 object-contain" />
+        </div>
+      }
 
       <!-- Game Type Badge -->
       <div class="absolute top-2 left-2 z-10">

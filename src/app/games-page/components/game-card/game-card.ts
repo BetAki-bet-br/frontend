@@ -23,6 +23,7 @@ export class GameCard {
 
   isImageLoaded = signal(false);
   isHovering = signal(false);
+  imageLoadError = signal(false);
   volatilityRange = [1, 2, 3, 4, 5];
 
   get gameImageUrl(): string {
