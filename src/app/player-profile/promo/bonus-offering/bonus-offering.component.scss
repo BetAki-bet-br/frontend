@@ -24,13 +24,3 @@
     gap: 1.5rem;
   }
 }
-
-.bonuses-wrapper > .bonus-item {
-  flex: 0 1 calc(50% - 1rem);
-  box-sizing: border-box;
-
-  @media screen and (max-width: 64rem) {
-    flex: unset;
-    width: 100%;
-  }
-}

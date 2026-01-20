@@ -1,3 +1,10 @@
+export interface AwardedData {
+  wins_count: number;
+  prize_sum: number;
+  max_prize: number;
+  avg_prize: number;
+}
+
 export interface GameMain {
   id: number;
   externalId: string;
@@ -8,6 +15,7 @@ export interface GameMain {
   name: string;
   gameName: string;
   demoPlayRestricted: boolean;
+  current_prize_sum?: number;
   realPlayRestricted: boolean;
   maintenanceModeEnabled: boolean;
   progressiveJackpots: string[] | null;
@@ -18,6 +26,7 @@ export interface GameMain {
   volatility?: number;
   minBet?: string;
   rtp?: string;
+  awarded?: AwardedData;
 }
 
 export interface SubLevel {
