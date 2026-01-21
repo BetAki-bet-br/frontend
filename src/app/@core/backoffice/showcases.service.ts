@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 import { Showcase } from './models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ShowcasesService {
   private http = inject(HttpClient);

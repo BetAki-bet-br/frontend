@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 import { Banner, BannerIndex, BannerStoreRequest } from './models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BannersService {
   private http = inject(HttpClient);

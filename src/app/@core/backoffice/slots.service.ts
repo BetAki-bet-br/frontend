@@ -20,9 +20,9 @@ export class SlotsService {
   getSlotsByExternalIds(externalIds: string[]): Observable<Slot[]> {
     const key = [...externalIds].sort().join(',');
     if (!this.slotsByIdsCache[key]) {
-      this.slotsByIdsCache[key] = this.http.post<Slot[]>(`${this.baseUrl}/by-ids`, { externalIds }).pipe(
-        shareReplay(1)
-      );
+      this.slotsByIdsCache[key] = this.http
+        .post<Slot[]>(`${this.baseUrl}/by-ids`, { externalIds })
+        .pipe(shareReplay(1));
     }
     return this.slotsByIdsCache[key];
   }
@@ -35,7 +35,7 @@ export class SlotsService {
     return this.http.get<Slot>(`${this.baseUrl}/${id}`);
   }
 
-  updateSlot(id: number, slot : Slot): Observable<Slot> {
+  updateSlot(id: number, slot: Slot): Observable<Slot> {
     return this.http.put<Slot>(`${this.baseUrl}/${id}`, slot);
   }
 

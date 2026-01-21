@@ -24,27 +24,21 @@ export class CategoriesService {
   }): Observable<any> {
     const key = JSON.stringify(params || {});
     if (!this.categoriesCache[key]) {
-      this.categoriesCache[key] = this.http.get(this.baseUrl, { params }).pipe(
-        shareReplay(1)
-      );
+      this.categoriesCache[key] = this.http.get(this.baseUrl, { params }).pipe(shareReplay(1));
     }
     return this.categoriesCache[key];
   }
 
   getSlotsCategories(): Observable<any> {
     if (!this.slotsCategoriesCache) {
-      this.slotsCategoriesCache = this.http.get(`${this.baseUrl}/slots`).pipe(
-        shareReplay(1)
-      );
+      this.slotsCategoriesCache = this.http.get(`${this.baseUrl}/slots`).pipe(shareReplay(1));
     }
     return this.slotsCategoriesCache;
   }
 
   getLiveCategories(): Observable<any> {
     if (!this.liveCategoriesCache) {
-      this.liveCategoriesCache = this.http.get(`${this.baseUrl}/live`).pipe(
-        shareReplay(1)
-      );
+      this.liveCategoriesCache = this.http.get(`${this.baseUrl}/live`).pipe(shareReplay(1));
     }
     return this.liveCategoriesCache;
   }
@@ -55,9 +49,7 @@ export class CategoriesService {
 
   getCategory(id: number): Observable<any> {
     if (!this.categoryCache[id]) {
-      this.categoryCache[id] = this.http.get(`${this.baseUrl}/${id}`).pipe(
-        shareReplay(1)
-      );
+      this.categoryCache[id] = this.http.get(`${this.baseUrl}/${id}`).pipe(shareReplay(1));
     }
     return this.categoryCache[id];
   }

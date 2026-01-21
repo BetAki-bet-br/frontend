@@ -56,7 +56,7 @@ export class SidebarMobile {
               icon: item.meta.icon,
               routerLink: item.meta.routerLink,
               class: item.meta.class,
-            } as MenuItem),
+            }) as MenuItem,
         );
 
         mapped.push({

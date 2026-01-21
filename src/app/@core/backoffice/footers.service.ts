@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 import { Footer, FooterIndex, FooterLink } from './models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FootersService {
   private http = inject(HttpClient);

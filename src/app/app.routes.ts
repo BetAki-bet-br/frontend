@@ -38,8 +38,9 @@ export const appRoutes: Routes = [
       },
       {
         path: 'backoffice-test',
-        loadComponent: () => import('./dev/backoffice-test/backoffice-test.component').then(m => m.BackofficeTestComponent),
-        title: 'Backoffice API Test'
+        loadComponent: () =>
+          import('./dev/backoffice-test/backoffice-test.component').then((m) => m.BackofficeTestComponent),
+        title: 'Backoffice API Test',
       },
       { path: 'auth', loadChildren: () => import('./auth/auth.routes').then((m) => m.routes) },
       { path: '', loadChildren: () => import('./help/help.routes').then((m) => m.routes) },

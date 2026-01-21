@@ -10,5 +10,7 @@ export const liveProvidersResolver: ResolveFn<Provider[]> = (): Observable<Provi
   const providersService = inject(ProvidersService);
   const portalService = inject(PortalService);
 
-  return providersService.getProvidersForFrontend(GameEnum.LIVE_CASINO, portalService.portalId).pipe(map((providers) => providers || []));
+  return providersService
+    .getProvidersForFrontend(GameEnum.LIVE_CASINO, portalService.portalId)
+    .pipe(map((providers) => providers || []));
 };

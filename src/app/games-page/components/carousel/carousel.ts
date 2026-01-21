@@ -48,7 +48,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
   isDragging = signal(false);
   private startX = signal(0);
   private readonly threshold = 50;
-  
+
   loadedImages = signal<Set<number>>(new Set());
 
   private readonly platformId = inject(PLATFORM_ID);

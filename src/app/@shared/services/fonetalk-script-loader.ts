@@ -22,9 +22,11 @@ export class FonetalkScriptLoader {
     const w = window as any;
 
     // Initialize UC2BChat command queue as per Fonetalk implementation tag
-    w.UC2BChat = w.UC2BChat || function (c: any) {
-      w.UC2BChat._.push(c);
-    };
+    w.UC2BChat =
+      w.UC2BChat ||
+      function (c: any) {
+        w.UC2BChat._.push(c);
+      };
     w.UC2BChat._ = w.UC2BChat._ || [];
     w.UC2BChat.url = 'https://chatvanguard.fonetalk.com.br/livechat';
 

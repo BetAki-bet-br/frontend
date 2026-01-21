@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 import { TopList } from './models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TopListsService {
   private http = inject(HttpClient);

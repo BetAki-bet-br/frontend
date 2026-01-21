@@ -51,6 +51,6 @@ export const liveCategoryResolver: ResolveFn<SubLevel | undefined> = (
         gameMains: gameMains,
         levelType: 'category',
       };
-    })
+    }),
   );
 };

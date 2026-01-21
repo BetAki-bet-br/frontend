@@ -16,5 +16,5 @@ button.mat-mdc-button-base {
 // Ensure spinner color matches text
 :host ::ng-deep .mat-mdc-progress-spinner circle,
 .mat-mdc-progress-spinner circle {
-    stroke: currentColor !important;
+  stroke: currentColor !important;
 }

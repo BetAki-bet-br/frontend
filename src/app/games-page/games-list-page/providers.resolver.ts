@@ -10,7 +10,7 @@ export const providersResolver: ResolveFn<Provider[]> = (): Observable<Provider[
   const providersService = inject(ProvidersService);
   const portalService = inject(PortalService);
 
-  return providersService.getProvidersForFrontend(GameEnum.CASINO, portalService.portalId).pipe(
-    map((providers) => providers || []),
-  );
+  return providersService
+    .getProvidersForFrontend(GameEnum.CASINO, portalService.portalId)
+    .pipe(map((providers) => providers || []));
 };

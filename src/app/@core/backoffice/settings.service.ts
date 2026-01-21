@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 import { Setting } from './models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SettingsService {
   private http = inject(HttpClient);

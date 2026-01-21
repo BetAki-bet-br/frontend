@@ -5,7 +5,7 @@ import { environment } from '@env/environment';
 import { Award } from './models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AwardsService {
   private http = inject(HttpClient);

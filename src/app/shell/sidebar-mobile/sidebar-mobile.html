@@ -9,7 +9,7 @@
     <div class="grid gap-[10px] p-3">
       <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
         @if (!isImageLoaded('liminha')) {
-          <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
+        <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
         }
         <img
           ngSrc="assets/liminha.webp"
@@ -30,8 +30,8 @@
         >
           <div class="flex items-center justify-center size-[22px] relative">
             <div id="general/like" class="text-menu-icon size-[22px]" style="display: inline-block">
-               @if (!isImageLoaded('ball-icon')) {
-                <div class="absolute inset-0 bg-shark-900 rounded-full animate-pulse z-10"></div>
+              @if (!isImageLoaded('ball-icon')) {
+              <div class="absolute inset-0 bg-shark-900 rounded-full animate-pulse z-10"></div>
               }
               <img
                 class="size-full mb-1 transition-opacity duration-300"
@@ -51,8 +51,8 @@
         >
           <div class="flex items-center justify-center size-[22px] relative">
             <div id="general/collect" class="text-menu-icon size-[22px]" style="display: inline-block">
-               @if (!isImageLoaded('betaki-icon')) {
-                <div class="absolute inset-0 bg-shark-900 rounded-full animate-pulse z-10"></div>
+              @if (!isImageLoaded('betaki-icon')) {
+              <div class="absolute inset-0 bg-shark-900 rounded-full animate-pulse z-10"></div>
               }
               <img
                 class="mb-1 transition-opacity duration-300"
@@ -73,7 +73,7 @@
           <div class="flex items-center justify-center size-[22px] relative">
             <div id="general/history" class="text-menu-icon size-[22px]" style="display: inline-block">
               @if (!isImageLoaded('bet-coin')) {
-                <div class="absolute inset-0 bg-shark-900 rounded-full animate-pulse z-10"></div>
+              <div class="absolute inset-0 bg-shark-900 rounded-full animate-pulse z-10"></div>
               }
               <img
                 class="size-full mb-1 transition-opacity duration-300"
@@ -90,59 +90,55 @@
       </div>
 
       <div class="flex flex-col items-center gap-[10px] rounded-lg">
-        @if (isLoadingMenu()) {
-          @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
-            <div class="h-[40px] w-full bg-betaki-darker rounded-[8px] animate-pulse"></div>
+        @if (isLoadingMenu()) { @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+        <div class="h-[40px] w-full bg-betaki-darker rounded-[8px] animate-pulse"></div>
+        } } @else { @for (item of menuItems(); track $index) { @if ($index === 2) {
+        <div class="bg-betaki-500 relative h-[100px] w-full rounded-[8px] overflow-hidden">
+          @if (!isImageLoaded('banner-2')) {
+          <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
           }
-        } @else {
-          @for (item of menuItems(); track $index) { @if ($index === 2) {
-          <div class="bg-betaki-500 relative h-[100px] w-full rounded-[8px] overflow-hidden">
-             @if (!isImageLoaded('banner-2')) {
-                <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
-              }
-            <img
-              ngSrc="assets/banner2.png"
-              fill
-              alt="Banner"
-              class="object-cover rounded-[8px] transition-opacity duration-500"
-              [class.opacity-0]="!isImageLoaded('banner-2')"
-              (load)="onImageLoad('banner-2')"
-            />
-          </div>
-          }
-
-          <div
-            class="bg-betaki-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px] cursor-pointer"
-            [ngClass]="item.class"
-            (click)="item.action ? item.action() : navigateTo(item.routerLink!)"
-            (keyup.enter)="item.action ? item.action() : navigateTo(item.routerLink!)"
-          >
-            <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
-              <div class="flex items-center justify-center size-[20px] relative">
-                <div class="text-menu-icon size-[20px]" style="display: inline-block">
-                  @if (item.icon.endsWith('.svg') || item.icon.endsWith('.webp') || item.icon.endsWith('.png')) {
-                     @if (!isImageLoaded('menu-icon-' + $index)) {
-                        <div class="absolute inset-0 bg-shark-900 rounded-full animate-pulse z-10"></div>
-                      }
-                  <img
-                    [ngSrc]="item.icon | cdnize"
-                    [alt]="item.label"
-                    class="size-full transition-opacity duration-300"
-                    [class.opacity-0]="!isImageLoaded('menu-icon-' + $index)"
-                    width="24"
-                    height="24"
-                    (load)="onImageLoad('menu-icon-' + $index)"
-                  />
-                  } @else {
-                  <!-- Fallback if needed or SVG content logic -->
-                  }
-                </div>
-              </div>
-              <span>{{ item.label }}</span>
-            </div>
-          </div>
-          }
+          <img
+            ngSrc="assets/banner2.png"
+            fill
+            alt="Banner"
+            class="object-cover rounded-[8px] transition-opacity duration-500"
+            [class.opacity-0]="!isImageLoaded('banner-2')"
+            (load)="onImageLoad('banner-2')"
+          />
+        </div>
         }
+
+        <div
+          class="bg-betaki-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px] cursor-pointer"
+          [ngClass]="item.class"
+          (click)="item.action ? item.action() : navigateTo(item.routerLink!)"
+          (keyup.enter)="item.action ? item.action() : navigateTo(item.routerLink!)"
+        >
+          <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
+            <div class="flex items-center justify-center size-[20px] relative">
+              <div class="text-menu-icon size-[20px]" style="display: inline-block">
+                @if (item.icon.endsWith('.svg') || item.icon.endsWith('.webp') || item.icon.endsWith('.png')) { @if
+                (!isImageLoaded('menu-icon-' + $index)) {
+                <div class="absolute inset-0 bg-shark-900 rounded-full animate-pulse z-10"></div>
+                }
+                <img
+                  [ngSrc]="item.icon | cdnize"
+                  [alt]="item.label"
+                  class="size-full transition-opacity duration-300"
+                  [class.opacity-0]="!isImageLoaded('menu-icon-' + $index)"
+                  width="24"
+                  height="24"
+                  (load)="onImageLoad('menu-icon-' + $index)"
+                />
+                } @else {
+                <!-- Fallback if needed or SVG content logic -->
+                }
+              </div>
+            </div>
+            <span>{{ item.label }}</span>
+          </div>
+        </div>
+        } }
       </div>
     </div>
   </div>

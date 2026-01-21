@@ -229,7 +229,7 @@ export class GamesListPage {
         .getGamesByProviderForFrontend(providerId, GameEnum.CASINO, this.portalService.portalId)
         .pipe(
           tap(() => this.isLoadingFilter.set(false)),
-          map((subLevel) => subLevel.gameMains)
+          map((subLevel) => subLevel.gameMains),
         )
         .subscribe((games) => {
           this.filteredGames.set(games);
@@ -300,7 +300,7 @@ export class GamesListPage {
 
     if (width < 1280) {
       return 5;
-        }
+    }
 
     if (width < 1536) {
       return 6;
@@ -313,4 +313,3 @@ export class GamesListPage {
     this.screenWidth.set(window.innerWidth);
   }
 }
-

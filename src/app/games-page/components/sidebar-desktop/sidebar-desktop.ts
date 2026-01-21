@@ -32,12 +32,15 @@ export class SidebarDesktop {
     this.menusService.getMenus().pipe(
       tap(() => this.isLoading.set(false)),
       map((items) =>
-        items.map((item) => ({
-          label: item.name,
-          icon: item.meta.icon,
-          routerLink: item.meta.routerLink,
-          class: item.meta.class,
-        } as MenuItem)),
+        items.map(
+          (item) =>
+            ({
+              label: item.name,
+              icon: item.meta.icon,
+              routerLink: item.meta.routerLink,
+              class: item.meta.class,
+            }) as MenuItem,
+        ),
       ),
       catchError(() => {
         this.isLoading.set(false);
