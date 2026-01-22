@@ -14,7 +14,7 @@ export class CategoriesService {
   private categoriesCache: Record<string, Observable<any>> = {};
   private slotsCategoriesCache: Observable<any> | null = null;
   private liveCategoriesCache: Observable<any> | null = null;
-  private categoryCache: Record<number, Observable<any>> = {};
+  private categoryCache: Record<string, Observable<any>> = {};
 
   getCategories(params?: {
     q?: string;
@@ -47,11 +47,29 @@ export class CategoriesService {
     return this.http.post(this.baseUrl, category);
   }
 
-  getCategory(id: number): Observable<any> {
-    if (!this.categoryCache[id]) {
-      this.categoryCache[id] = this.http.get(`${this.baseUrl}/${id}`).pipe(shareReplay(1));
+  getCategory(
+    id: number,
+    params: {
+      with_slots?: boolean;
+      slots_limit?: number;
+      slots_page?: number;
+    } = {},
+  ): Observable<any> {
+    const cacheKey =
+      id +
+      '?' +
+      new URLSearchParams(
+        Object.entries(params)
+          .filter(([, value]) => value !== undefined && value !== null)
+          .map(([key, value]) => [key, String(value)]),
+      ).toString();
+
+    if (!this.categoryCache[cacheKey]) {
+      this.categoryCache[cacheKey] = this.http
+        .get(`${this.baseUrl}/${id}`, { params: params as any })
+        .pipe(shareReplay(1));
     }
-    return this.categoryCache[id];
+    return this.categoryCache[cacheKey];
   }
 
   updateCategory(id: number, category: Category): Observable<any> {

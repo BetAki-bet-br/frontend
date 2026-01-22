@@ -36,6 +36,7 @@ export interface SubLevel {
   gameName: string | null;
   subLevel: SubLevel[];
   gameMains: GameMain[];
+  slots?: GameMain[];
   levelType: string;
 }
 
