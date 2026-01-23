@@ -58,7 +58,7 @@
         [class.mb-1]="item.label === 'Club Bet Aki'"
         [class.justify-start]="!isCollapsed()"
         [class.justify-center]="isCollapsed()"
-        (click)="navigateTo(item.routerLink!)"
+        (click)="navigateTo(item)"
       >
         <img [src]="item.icon | cdnize" [alt]="item.label" class="w-6 h-6 shrink-0" />
         <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">{{ item.label }}</span>

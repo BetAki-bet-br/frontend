@@ -16,4 +16,5 @@ export interface Meta {
   icon: string;
   class: string;
   routerLink: string;
+  categoryId?: string | number;
 }

@@ -55,4 +55,20 @@ export class RoutingService {
 
     return this.router.isActive(path, options);
   }
+
+  navigateToMenuItem(item: { routerLink?: string; categoryId?: string | number }): void {
+    let path = item.routerLink;
+
+    if (item.categoryId === 'providers') {
+      if (this.router.url.startsWith('/games/live')) {
+        path = '/games/live/category/providers';
+      } else {
+        path = '/games/category/providers';
+      }
+    }
+
+    if (path) {
+      this.router.navigateByUrl(path);
+    }
+  }
 }
