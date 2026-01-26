@@ -48,7 +48,7 @@ export class SportsbookComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('sportsbookIframe') iframeRef!: ElementRef;
 
-  footerURL = `https://${window.location.origin}/static/footer.html`;
+  footerURL = `${window.location.host}/static/footer.html`;
   casinoLobby = '/games';
 
   private routeSub: Subscription = new Subscription();
