@@ -124,7 +124,7 @@
       <p
         class="text-xs leading-normal text-betaki-400 hover:underline font-normal text-center cursor-pointer"
         [routerLink]="item.url"
-        [class]="$index < supportOptions.length - 1 && 'pe-3 border-e border-shark-500'"
+        [class]="$index < supportOptions.length - 1 ? 'pe-3 border-e border-shark-500' : ''"
       >
         {{ item.name }}
       </p>
