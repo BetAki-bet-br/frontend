@@ -143,6 +143,6 @@ Development, build and quality processes are based on [angular-cli](https://gith
 - [Browser routing](docs/routing.md)
 
 
-#### Deploy AWS S3
+#### Deploy AWS
 
-- efetue o git push em new-platform e o carregamento pelo pipeline é automático
+- Em Documentação
