@@ -20,10 +20,26 @@
 
   @if(searchTerm().length < 3) {
   <h2 class="text-2xl font-bold mb-4 text-white">{{ placeholderCategory()?.name }}</h2>
-  }
+  } @if (loading()) {
+  <div class="flex justify-center items-center h-64">
+    <svg
+      class="w-8 h-8 text-betaki-400 animate-spin"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+  </div>
+  } @else {
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-10 gap-4 mt-4">
     @if(searchTerm().length < 3 && searchResults().length > 0) {
-    <div class="col-span-2 row-span-2 relative w-full h-full overflow-hidden">
+    <div class="col-span-2 row-span-2 relative flex items-center justify-center overflow-hidden">
       @if (!isMascoteLoaded()) {
       <div
         class="absolute inset-0 bg-[#272a31] border border-betaki-500 animate-pulse z-10 flex items-center justify-center rounded-lg"
@@ -47,13 +63,14 @@
         ngSrc="assets/mascote.webp"
         alt="Mascote BetAki"
         priority
-        fill
-        class="rounded-lg object-cover h-[100px] hidden sm:block transition-opacity duration-500"
+        width="1080"
+        height="1350"
+        class="w-full h-full rounded-lg object-cover min-h-27 transition-opacity duration-500"
         [class.opacity-0]="!isMascoteLoaded()"
         (load)="onMascoteLoad()"
       />
     </div>
-    } @for(game of searchResults(); track game.id + '-' + $index) {
+    } @for(game of searchResults(); track game.id) {
     <app-game-card
       [layout]="'responsive'"
       [scale]="1.40"
@@ -62,13 +79,14 @@
       (keyup.enter)="handleGameClick(game)"
       (keyup.space)="handleGameClick(game)"
     ></app-game-card>
-    } @empty {
+    }@empty {
     <div class="col-span-full flex flex-col items-center justify-center h-64 lg:h-28 2xl:h-64 text-white">
       <p class="text-xl font-bold mb-2">Ops! Nenhum jogo encontrado.</p>
       <p class="text-md text-center">Tente ajustar sua busca ou explore outras categorias.</p>
     </div>
     }
   </div>
+  }
 </div>
 
 <app-game-detail-modal

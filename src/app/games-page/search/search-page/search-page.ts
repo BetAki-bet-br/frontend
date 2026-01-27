@@ -56,7 +56,7 @@ export class SearchPage {
                   externalId: slot['provider_game_id'] ?? '',
                   name: slot['title'] ?? slot['name'] ?? '',
                   gameName: slot['title'] ?? slot['name'] ?? '',
-                  gameTypeName: slot['type'] ?? '',
+                  gameTypeName: slot['gameTypeName'] ?? '',
                   productSupplierName: slot['provider'] ?? '',
                   productSupplierId: 0,
                   productId: 0,
@@ -70,7 +70,7 @@ export class SearchPage {
                   parameters: null,
                   rtp: slot['rtp'],
                   volatility: slot['volatility'],
-                  minBet: slot['minBet'],
+                  minBet: slot['min_bet'],
                 }) as GameMain,
             );
           }),
