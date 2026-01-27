@@ -22,11 +22,19 @@
   </button>
 
   <div class="absolute bottom-0 left-0 right-0 p-5 text-white">
+    @if (game().gameTypeName) {
     <span
       class="inline-flex items-center px-3.5 py-2 rounded-full text-base font-bold bg-shark-950/50 text-shark-50/80 backdrop-blur-sm mb-2"
     >
       {{ game().gameTypeName }}
     </span>
+    } @if (game().rtp) {
+    <span
+      class="inline-flex items-center px-3.5 py-2 rounded-full text-base font-bold bg-shark-950/50 text-shark-50/80 backdrop-blur-sm mb-2"
+    >
+      <p class="text-betaki-400">{{ game().rtp }}%</p>
+    </span>
+    }
     <h2 class="text-3xl font-bold mb-2">{{ game().name }}</h2>
 
     <div class="flex flex-col gap-2 mb-6">

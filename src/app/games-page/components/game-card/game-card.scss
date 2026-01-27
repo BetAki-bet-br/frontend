@@ -29,6 +29,6 @@ img.loading {
 
   to {
     opacity: 1;
-    transform: scale(1.25);
+    transform: scale(var(--pop-out-scale, 1.25));
   }
 }

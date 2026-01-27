@@ -20,6 +20,7 @@ export class GameCard {
   class = input<string>('');
   layout = input<'fixed' | 'responsive'>('fixed');
   isPriority = input<boolean>(false);
+  scale = input<number>(1.25);
 
   isImageLoaded = signal(false);
   isHovering = signal(false);

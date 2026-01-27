@@ -56,6 +56,7 @@
     } @for(game of searchResults(); track game.id + '-' + $index) {
     <app-game-card
       [layout]="'responsive'"
+      [scale]="1.40"
       [game]="game"
       (click)="handleGameClick(game)"
       (keyup.enter)="handleGameClick(game)"

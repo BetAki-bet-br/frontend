@@ -23,37 +23,38 @@
       (load)="onImageLoad()"
       (error)="imageLoadError.set(true)"
     />
-  @if (!isImageLoaded() && !imageLoadError()) {
-  <div
-    class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 animate-pulse z-10 flex items-center justify-center"
-  >
-    <svg
-      class="w-8 h-8 text-betaki-400 animate-spin"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
+    @if (!isImageLoaded() && !imageLoadError()) {
+    <div
+      class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 animate-pulse z-10 flex items-center justify-center"
     >
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path
-        class="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      ></path>
-    </svg>
+      <svg
+        class="w-8 h-8 text-betaki-400 animate-spin"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+    </div>
+    } @else if (!isImageLoaded() && imageLoadError()) {
+    <div
+      class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 z-10 flex items-center justify-center"
+    >
+      <img src="assets/icons/logo-white.webp" alt="Logo" class="w-1/2 h-1/2 object-contain" />
+    </div>
+    }
   </div>
-  } @else if (!isImageLoaded() && imageLoadError()) {
-  <div
-    class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 z-10 flex items-center justify-center"
-  >
-    <img src="assets/icons/logo-white.webp" alt="Logo" class="w-1/2 h-1/2 object-contain" />
-  </div>
-  }
-      </div>
-      <h3 class="text-white font-bold text-sm sm:text-base mb-1 truncate ps-2 mt-2 relative z-20">{{ game().name }}</h3>
-      <!-- Pop-out Hover Card (50% Larger) -->
+  <h3 class="text-white font-bold text-sm sm:text-base mb-1 truncate ps-2 mt-2 relative z-20">{{ game().name }}</h3>
+  <!-- Pop-out Hover Card (50% Larger) -->
   @if (isHovering()) {
   <div
     class="pop-out-card absolute inset-0 z-50 bg-shark-900 rounded-lg shadow-2xl flex flex-col overflow-hidden pointer-events-none"
+    [style.--pop-out-scale]="scale()"
   >
     <div class="relative flex-grow overflow-hidden aspect-[3/4]">
       <img
@@ -87,7 +88,7 @@
         <span
           class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-shark-950/50 text-shark-50/80 backdrop-blur-sm"
         >
-          RTP: {{ game().rtp }}
+          <p class="text-betaki-400">{{ game().rtp }}%</p>
         </span>
       </div>
       }
