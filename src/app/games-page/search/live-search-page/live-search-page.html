@@ -22,7 +22,7 @@
   <h2 class="text-2xl font-bold mb-4 text-white">{{ placeholderCategory()?.name }}</h2>
   }
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-10 gap-4 mt-4">
-    @if(searchTerm().length < 3) {
+    @if(searchTerm().length < 3 && searchResults().length > 0) {
     <div class="col-span-2 row-span-2 relative w-full h-full overflow-hidden">
       @if (!isMascoteLoaded()) {
       <div
@@ -61,6 +61,11 @@
       (keyup.enter)="handleGameClick(game)"
       (keyup.space)="handleGameClick(game)"
     ></app-game-card>
+    } @empty {
+      <div class="col-span-full flex flex-col items-center justify-center h-64 lg:h-28 2xl:h-64 text-white">
+        <p class="text-xl font-bold mb-2">Ops! Nenhum jogo encontrado.</p>
+        <p class="text-md text-center">Tente ajustar sua busca ou explore outras categorias.</p>
+      </div>
     }
   </div>
 </div>

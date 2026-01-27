@@ -16,10 +16,8 @@ export class LobbiesService {
 
   getCasinoLobby(): Observable<LobbyResponse> {
     if (!this.casinoLobbyCache) {
-      console.log('Fetching Casino Lobby Data from API');
       this.casinoLobbyCache = this.http.get<LobbyResponse>(`${this.baseUrl}/casino`).pipe(shareReplay(1));
     }
-    console.log('Casino Lobby Cache:', this.casinoLobbyCache);
     return this.casinoLobbyCache;
   }
 
