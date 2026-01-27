@@ -65,7 +65,8 @@ export class SidebarDesktop {
     this.authService.logout();
   }
 
-  navigateTo(item: MenuItem & { categoryId?: string | number }): void { // Changed parameter type
+  navigateTo(item: MenuItem & { categoryId?: string | number }): void {
+    // Changed parameter type
     this.routingService.navigateToMenuItem(item); // Delegated to RoutingService
   }
 }
