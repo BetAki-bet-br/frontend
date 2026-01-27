@@ -1,5 +1,6 @@
 import { Injectable, Renderer2, RendererFactory2, inject, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,9 @@ export class FonetalkScriptLoader {
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private renderer: Renderer2;
+  private readySubject = new BehaviorSubject<boolean>(false);
+  public readonly isReady$: Observable<boolean> = this.readySubject.asObservable();
+  private scriptLoaded = false;
 
   constructor() {
     const rendererFactory = inject(RendererFactory2);
@@ -15,10 +19,11 @@ export class FonetalkScriptLoader {
   }
 
   public loadScript(): void {
-    if (!isPlatformBrowser(this.platformId)) {
+    if (this.scriptLoaded || !isPlatformBrowser(this.platformId)) {
       return;
     }
 
+    this.scriptLoaded = true;
     const w = window as any;
 
     // Initialize UC2BChat command queue as per Fonetalk implementation tag
@@ -35,11 +40,43 @@ export class FonetalkScriptLoader {
     script.async = true;
     script.src = 'https://chatvanguard.fonetalk.com.br/livechat/livechat.min.js?_=201903270000';
 
+    script.onload = () => {
+      this.checkIfWidgetReady();
+    };
+
     this.renderer.appendChild(this.document.head, script);
 
     // Initial configuration
     w.UC2BChat(function (this: any) {
       this.setLinkedToFlow('');
     });
+  }
+
+  public showWidget(): void {
+    const w = this.document.defaultView as any;
+    if (w.UC2BChat) {
+      w.UC2BChat(function (this: any) {
+        this.showWidget();
+      });
+    }
+  }
+
+  public hideWidget(): void {
+    const w = this.document.defaultView as any;
+    if (w.UC2BChat) {
+      w.UC2BChat(function (this: any) {
+        this.hideWidget();
+      });
+    }
+  }
+
+  private checkIfWidgetReady(): void {
+    const interval = setInterval(() => {
+      const widget = this.document.querySelector('.rocketchat-widget');
+      if (widget) {
+        this.readySubject.next(true);
+        clearInterval(interval);
+      }
+    }, 200);
   }
 }

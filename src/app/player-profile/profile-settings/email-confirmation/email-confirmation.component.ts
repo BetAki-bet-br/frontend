@@ -1,9 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { SnackbarService } from '@app/@core/snackbar.service';
-import { Logger } from '@app/@shared';
-import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
+import { ChatService } from '@app/@shared/services/chat.service';
 import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -12,6 +7,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SnackbarService } from '@app/@core/snackbar.service';
+import { Logger } from '@app/@shared';
 
 const log = new Logger('EmailConfirmationComponent');
 
@@ -35,7 +35,7 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
   private snackbarService = inject(SnackbarService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
-  private tawkToService = inject(TawkToScriptService);
+  private chatService = inject(ChatService);
   private translate = inject(TranslateService);
 
   otpForm = new FormGroup({
@@ -176,7 +176,7 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
   }
 
   onChatClick() {
-    this.tawkToService.maximize();
+    this.chatService.showChat();
   }
 
   private startTimer() {

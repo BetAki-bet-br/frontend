@@ -1,37 +1,4 @@
-import { Dialog, DialogModule } from '@angular/cdk/dialog';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-  inject,
-} from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatCardModule } from '@angular/material/card';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { TwentyFourDateFormat } from '@app/@core/date-formats';
-import { SnackbarService } from '@app/@core/snackbar.service';
-import { TableColumn, TableConfig, BaseTableComponent } from '@app/@shared/components/base-table/base-table.component';
-import {
-  PageBreadcrumbsComponent,
-  Breadcrumbs,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
-import { Logger } from '@app/@shared/logger.service';
-import { SessionHistory } from '@app/@shared/models';
-import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
+import { ChatService } from '@app/@shared/services/chat.service';
 import { AuthenticationService } from '@app/auth';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { LoginHistoryRequestParameters, PlayerProfileService } from '@app/player-profile/player-profile.service';
@@ -48,6 +15,39 @@ import { CommonModule } from '@angular/common';
 import { BaseTableMsgsComponent } from '@app/@shared/components/base-table-msgs/base-table-msgs.component';
 import { FaceAuthenticatorDialogComponent } from '@app/@shared/components/face-authenticator-dialog/face-authenticator-dialog.component';
 import { MatTooltip } from '@angular/material/tooltip';
+import { DialogModule, Dialog } from '@angular/cdk/dialog';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+  inject,
+  ChangeDetectorRef,
+  ViewChild,
+  TemplateRef,
+} from '@angular/core';
+import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
+import { RouterLink, Router } from '@angular/router';
+import { TwentyFourDateFormat } from '@app/@core/date-formats';
+import { SnackbarService } from '@app/@core/snackbar.service';
+import { Logger } from '@app/@shared';
+import { TableColumn, TableConfig } from '@app/@shared/components/base-table/base-table.component';
+import {
+  PageBreadcrumbsComponent,
+  Breadcrumbs,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { SessionHistory } from '@app/@shared/models';
 
 export interface SessionHistoryFormGroup {
   dateFrom: FormControl<Date | null>;
@@ -91,7 +91,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
   private playerProfileService = inject(PlayerProfileService);
   private snackbarService = inject(SnackbarService);
   private translateService = inject(TranslateService);
-  private tawkToScriptService = inject(TawkToScriptService);
+  private chatService = inject(ChatService);
   private authDialogService = inject(AuthDialogService);
   private authenticationService = inject(AuthenticationService);
   private router = inject(Router);
@@ -387,7 +387,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
   }
 
   onChatClick(): void {
-    this.tawkToScriptService.maximize();
+    this.chatService.showChat();
   }
 
   private getSessionHistory(): void {

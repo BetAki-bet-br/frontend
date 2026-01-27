@@ -1,19 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  inject,
-  DestroyRef,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DataStoreService } from '@app/@core';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
-import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
+import { ChatService } from '@app/@shared/services/chat.service';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '../player-profile.service';
 import { ConfigurationService } from '@app/@core/configuration.service';
@@ -27,6 +12,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { CdnizePipe } from '../../@pipes/cdnize.pipe';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+  inject,
+  ChangeDetectorRef,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DataStoreService } from '@app/@core';
+import {
+  PageBreadcrumbsComponent,
+  Breadcrumbs,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 
 export interface VerificationStatus {
   phone: boolean;
@@ -55,7 +55,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
   dataStoreService = inject(DataStoreService);
   private playerProfileService = inject(PlayerProfileService);
   private cdr = inject(ChangeDetectorRef);
-  private tawkToScriptService = inject(TawkToScriptService);
+  private chatService = inject(ChatService);
   private authDialogService = inject(AuthDialogService);
   private configurationService = inject(ConfigurationService);
   private destroyRef = inject(DestroyRef);
@@ -139,7 +139,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
   }
 
   onSupportClick() {
-    this.tawkToScriptService.maximize();
+    this.chatService.showChat();
   }
 
   onIdentityVerificationClick() {

@@ -1,43 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
-import { Dialog } from '@angular/cdk/dialog';
-import { HttpErrorResponse } from '@angular/common/http';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  inject,
-  DestroyRef,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher, MatOption } from '@angular/material/core';
-import { DataStoreService } from '@app/@core';
-import { ConfigurationService } from '@app/@core/configuration.service';
-import { SnackbarService } from '@app/@core/snackbar.service';
-import { Logger } from '@app/@shared';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
-import {
-  WithdrawalAuthenticationDialogComponent,
-  WithdrawalAuthenticationDialogResult,
-} from '@app/@shared/components/withdrawal-authentication-dialog/withdrawal-authentication-dialog.component';
-import { WithdrawalDialogComponent } from '@app/@shared/components/withdrawal-dialog/withdrawal-dialog.component';
-import { TransactionStatusStringEnum, WithdrawalError } from '@app/@shared/models';
-import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
-import { PaymentsService } from '@app/@shared/services/payment.service';
-import { PlayerStatusService } from '@app/@shared/services/player.status.service';
-import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
+import { ChatService } from '@app/@shared/services/chat.service';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { environment } from '@env/environment';
 import { PaymentRequest, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
@@ -45,9 +6,47 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { catchError, map, of, Subscription, switchMap, throwError } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
 import { MatFormFieldModule, MatError } from '@angular/material/form-field';
-import { MatSelect } from '@angular/material/select';
+import { MatOption, MatSelect } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Dialog } from '@angular/cdk/dialog';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+  inject,
+  ChangeDetectorRef,
+  DestroyRef,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  FormControl,
+  ReactiveFormsModule,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { DataStoreService } from '@app/@core';
+import { ConfigurationService } from '@app/@core/configuration.service';
+import { SnackbarService } from '@app/@core/snackbar.service';
+import { Logger } from '@app/@shared';
+import {
+  PageBreadcrumbsComponent,
+  Breadcrumbs,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import {
+  WithdrawalAuthenticationDialogResult,
+  WithdrawalAuthenticationDialogComponent,
+} from '@app/@shared/components/withdrawal-authentication-dialog/withdrawal-authentication-dialog.component';
+import { WithdrawalDialogComponent } from '@app/@shared/components/withdrawal-dialog/withdrawal-dialog.component';
+import { WithdrawalError, TransactionStatusStringEnum } from '@app/@shared/models';
+import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
+import { PaymentsService } from '@app/@shared/services/payment.service';
+import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 
 const log = new Logger('WalletWithdrawalComponent');
 
@@ -94,7 +93,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   private dialog = inject(Dialog);
   private dataStoreService = inject(DataStoreService);
   private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
-  private tawkToScriptService = inject(TawkToScriptService);
+  private chatService = inject(ChatService);
   private playerService = inject(PlayerStatusService);
   private authDialogService = inject(AuthDialogService);
   private paymentService = inject(PaymentsService);
@@ -505,7 +504,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   }
 
   onChatClick() {
-    this.tawkToScriptService.maximize();
+    this.chatService.showChat();
   }
 
   backButtonClicked() {

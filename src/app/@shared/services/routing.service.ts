@@ -2,6 +2,7 @@ import { Injectable, signal, inject, computed } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { SidebarService } from './sidebar-mobile.service';
+import { ChatService } from './chat.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ export class RoutingService {
   private readonly router = inject(Router);
   private readonly viewportScroller = inject(ViewportScroller);
   private readonly sidebarService = inject(SidebarService);
+  private readonly chatService = inject(ChatService);
   isNavigating = computed(() => !!this.router.currentNavigation());
   isInCassino = signal(false);
   isSportsbook = signal(false);
@@ -30,6 +32,7 @@ export class RoutingService {
         this.viewportScroller.scrollToPosition([0, 0], {
           behavior: 'smooth',
         });
+        this.chatService.setCanShow(!this.isIngame() && !this.isSportsbook());
       }
     });
   }

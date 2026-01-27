@@ -1,4 +1,5 @@
 @use "theme/theme";
+
 @use "tailwindcss";
 
 @theme {
@@ -38,4 +39,11 @@
 
 body.sidebar-open {
   overflow: hidden;
+}
+
+.rocketchat-widget {
+  bottom: 0px !important;
+  @media (min-width: 768px) {
+    bottom: 20px !important;
+  }
 }

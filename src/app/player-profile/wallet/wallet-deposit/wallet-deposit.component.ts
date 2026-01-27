@@ -1,23 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
-import { Clipboard } from '@angular/cdk/clipboard';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject, DestroyRef } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { DataStoreService } from '@app/@core';
-import { SnackbarService } from '@app/@core/snackbar.service';
-import {
-  Breadcrumbs,
-  PageBreadcrumbsComponent,
-} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
-import { Logger } from '@app/@shared/logger.service';
-import { Banner } from '@app/@shared/models';
-import { CategoryKeyEnum } from '@app/@shared/models/template.model';
-import { CmsService } from '@app/@shared/services/cms.service';
-import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
-import { PaymentsService } from '@app/@shared/services/payment.service';
-import { PlayerStatusService } from '@app/@shared/services/player.status.service';
-import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
+import { ChatService } from '@app/@shared/services/chat.service';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { environment } from '@env/environment';
@@ -28,6 +9,25 @@ import { MatFormField, MatHint } from '@angular/material/form-field';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { MatInputModule } from '@angular/material/input';
 import { A11yModule } from '@angular/cdk/a11y';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { Component, ChangeDetectionStrategy, OnInit, inject, ChangeDetectorRef, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, ReactiveFormsModule, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink, Router } from '@angular/router';
+import { DataStoreService } from '@app/@core';
+import { SnackbarService } from '@app/@core/snackbar.service';
+import { Logger } from '@app/@shared';
+import {
+  PageBreadcrumbsComponent,
+  Breadcrumbs,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { Banner } from '@app/@shared/models';
+import { CategoryKeyEnum } from '@app/@shared/models/template.model';
+import { CmsService } from '@app/@shared/services/cms.service';
+import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
+import { PaymentsService } from '@app/@shared/services/payment.service';
+import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 
 const log = new Logger('WalletDepositComponent');
 
@@ -62,7 +62,7 @@ export class WalletDepositComponent implements OnInit {
   private dataStoreService = inject(DataStoreService);
   private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
   private playerService = inject(PlayerStatusService);
-  private tawkToScriptService = inject(TawkToScriptService);
+  private chatService = inject(ChatService);
   private cmsService = inject(CmsService);
   private router = inject(Router);
   private authDialogService = inject(AuthDialogService);
@@ -241,7 +241,7 @@ export class WalletDepositComponent implements OnInit {
   }
 
   onChatClick() {
-    this.tawkToScriptService.maximize();
+    this.chatService.showChat();
   }
 
   amount: number = 0;
