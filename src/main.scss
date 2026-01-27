@@ -42,7 +42,15 @@ body.sidebar-open {
 }
 
 .rocketchat-widget {
-  bottom: 0px !important;
+  @media (max-width: 767px) {
+    &[data-state="closed"] {
+      bottom: 55px !important;
+    }
+    &[data-state="opened"] {
+      bottom: 0px !important;
+    }
+  }
+
   @media (min-width: 768px) {
     bottom: 20px !important;
   }

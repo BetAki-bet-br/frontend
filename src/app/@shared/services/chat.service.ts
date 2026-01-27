@@ -1,12 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { FonetalkScriptLoader } from './fonetalk-script-loader';
 import { Observable } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
   private fonetalkScriptLoader = inject(FonetalkScriptLoader);
+  private document = inject(DOCUMENT);
   private _canShow = true;
 
   public readonly isReady$: Observable<boolean> = this.fonetalkScriptLoader.isReady$;
@@ -32,5 +34,10 @@ export class ChatService {
 
   hideChat() {
     this.fonetalkScriptLoader.hideWidget();
+  }
+
+  isOpen(): boolean {
+    const widget = this.document.querySelector('.rocketchat-widget');
+    return widget?.getAttribute('data-state') === 'opened';
   }
 }
