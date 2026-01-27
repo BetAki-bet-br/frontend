@@ -179,7 +179,6 @@ export class SportsbookComponent implements AfterViewInit, OnDestroy {
   }
 
   private sendFooterDomain(): void {
-    console.log('Sending footer domain to sportsbook iframe:', this.footerURL);
     const message = {
       eventType: 'footerDomain',
       eventData: {

@@ -18,7 +18,14 @@
           fill
           class="w-full h-full awarded-img object-cover rounded-lg"
           [priority]="isPriority()"
+          (load)="onImageLoad()"
+          (error)="imageLoadError.set(true)"
         />
+        @if (imageLoadError()) {
+        <div class="absolute inset-0 bg-[#272a31] rounded-lg z-10 flex items-center justify-center">
+          <img src="assets/icons/logo-white.webp" alt="Logo" class="w-1/2 h-1/2 object-contain" />
+        </div>
+        }
       </div>
 
       <div class="absolute top-1 right-1 z-10">
@@ -54,7 +61,14 @@
           fill
           class="w-full h-full awarded-img object-cover rounded-lg"
           [priority]="isPriority()"
+          (load)="onImageLoad()"
+          (error)="imageLoadError.set(true)"
         />
+        @if (imageLoadError()) {
+        <div class="absolute inset-0 bg-[#272a31] rounded-lg z-10 flex items-center justify-center">
+          <img src="assets/icons/logo-white.webp" alt="Logo" class="w-1/2 h-1/2 object-contain" />
+        </div>
+        }
       </div>
 
       <div class="absolute top-1 right-1 z-10">

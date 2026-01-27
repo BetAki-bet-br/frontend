@@ -20,9 +20,16 @@ export class AwardedGameCard {
   isPriority = input<boolean>(false); // Add isPriority input
   isHovering = signal(false);
 
+  isImageLoaded = signal(false);
+  imageLoadError = signal(false);
+
   get gameImageUrl(): string {
     if (!this.game()) return '';
     return this.assetsService.getGameImageUrl(this.game().externalId); // Use AssetsService
+  }
+
+  onImageLoad() {
+    this.isImageLoaded.set(true);
   }
 
   onMouseEnter() {
