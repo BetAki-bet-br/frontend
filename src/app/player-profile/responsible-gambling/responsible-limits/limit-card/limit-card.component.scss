@@ -1,7 +1,6 @@
 @use "sass:map" as map;
 @use "sass:color" as color;
 @use "theme/utils" as utils;
-
 @use "theme/theme-variables" as theme-variables;
 
 .limit-card-container {
@@ -10,17 +9,20 @@
   font-size: 0.75rem;
   line-height: 1.05rem;
   color: color.adjust(map.get(theme-variables.$app-custom-colors, "betaki-black100"), $alpha: -0.5);
+
   // color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.5);
   border-radius: 0.375rem;
 
   .limit-card-header {
     border-bottom: 1px solid color.adjust(map.get(theme-variables.$app-custom-colors, "betaki-grey100"), $alpha: -0.9);
+
     // border-bottom: 1px solid color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.9);
     padding-bottom: 0.75rem;
   }
 
   .limit-value {
     color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+
     // color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   }
 

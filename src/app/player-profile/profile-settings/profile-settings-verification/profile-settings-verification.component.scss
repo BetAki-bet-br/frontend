@@ -149,8 +149,6 @@
 
 @include utils.media("xs") {
   .documents-container {
-    word-break: break-word;
-
     .file-icon {
       width: 100%;
       max-width: 1.5rem;

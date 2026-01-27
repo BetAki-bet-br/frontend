@@ -1,6 +1,5 @@
 @use "sass:map" as map;
 @use "sass:color" as color;
-
 @use "theme/theme-variables" as theme-variables;
 
 .vip-level-container {
@@ -17,7 +16,6 @@
 
 .vip-name {
   color: map.get(theme-variables.$app-custom-colors, "neutral-white");
-
   text-align: center;
   font-size: 0.75rem;
   font-style: normal;
@@ -28,7 +26,6 @@
 
 .vip-icon {
   color: map.get(theme-variables.$app-custom-colors, "neutral-white");
-
   font-size: 1rem;
   height: 1rem;
   width: 1rem;

@@ -1,6 +1,5 @@
 @use "sass:map" as map;
 @use "theme/utils" as utils;
-
 @use "theme/theme-variables" as theme-variables;
 
 :host {
@@ -35,6 +34,7 @@
     @include utils.media("gt-sm-2") {
       display: none;
     }
+
     position: fixed;
     top: 0;
     z-index: 999;

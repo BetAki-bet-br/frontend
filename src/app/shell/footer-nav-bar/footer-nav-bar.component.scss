@@ -1,6 +1,5 @@
 @use "sass:map" as map;
 @use "sass:color" as color;
-
 @use "theme/theme-variables" as theme-variables;
 
 .active-link {
@@ -16,7 +15,6 @@
   align-items: center;
   justify-content: flex-start;
   height: 100%;
-
   width: 3rem;
 
   span {

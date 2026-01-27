@@ -7,9 +7,9 @@
 @use "src/theme/utils.scss" as utils;
 @use "sass:color" as color;
 
-//*****************************************************************************
-//#region Base material design overrides
-//*****************************************************************************
+// *****************************************************************************
+// #region Base material design overrides
+// *****************************************************************************
 
 // General mat button settings
 .mdc-button.mat-mdc-button-base {
@@ -18,7 +18,6 @@
   letter-spacing: 0.0563rem;
   line-height: 1.25rem;
   border-radius: 0.63rem;
-
   padding: 0 0.5rem;
   min-width: 0;
 
@@ -150,10 +149,12 @@
   &.mat-unthemed {
     background-color: map.get(vars.$app-custom-colors, "betaki-green100");
     border: 1px solid map.get(vars.$app-custom-colors, "betaki-green100");
+
     // background-color: map.get(vars.$app-custom-colors, Betaki_success);
 
     &:not(:disabled) {
       color: map.get(vars.$app-custom-colors, "betaki-black30");
+
       // color: map.get(vars.$app-custom-colors, primary-200);
     }
 
@@ -173,12 +174,14 @@
 
     &:not(:disabled) {
       color: map.get(vars.$app-custom-colors, "betaki-black30");
+
       // color: map.get(vars.$app-custom-colors, Betaki_black);
     }
 
     &:hover {
       background-color: map.get(vars.$app-custom-colors, "betaki-green50");
       border: 1px solid map.get(vars.$app-custom-colors, "betaki-green100");
+
       // background-color: color.adjust(map.get(vars.$app-custom-colors, Betaki_success), $lightness: 10%);
     }
   }
@@ -188,7 +191,7 @@
 // <button mat-stroked-button>Basic</button>
 .mdc-button.mdc-button--outlined.mat-mdc-outlined-button {
   &.mat-unthemed {
-    color: map.get(vars.$app-custom-colors, Betaki_olivia); //map.get(vars.$app-custom-colors, "Betaki_error");
+    color: map.get(vars.$app-custom-colors, Betaki_olivia); // map.get(vars.$app-custom-colors, "Betaki_error");
 
     .mdc-button__ripple {
       border: 0.0625rem solid;
@@ -196,6 +199,7 @@
         vars.$app-custom-colors,
         Betaki_success
       ); // map.get(vars.$app-custom-colors, "Betaki_error");
+
       transition:
         background-color 0.3s ease,
         border-color 0.3s ease,
@@ -209,6 +213,7 @@
           vars.$app-custom-colors,
           neutral-white
         ); // map.get(vars.$app-custom-colors, "Betaki_error");
+
         transition:
           background-color 0.3s ease,
           border-color 0.3s ease,
@@ -221,11 +226,11 @@
         background-color: map.get(
           vars.$app-custom-colors,
           Betaki_success
-        ); //map.get(vars.$app-custom-colors, "Betaki_error");
+        ); // map.get(vars.$app-custom-colors, "Betaki_error");
       }
 
       .mdc-button__label {
-        color: map.get(vars.$app-custom-colors, Betaki_olivia); //map.get(vars.$app-custom-colors, "neutral-10");
+        color: map.get(vars.$app-custom-colors, Betaki_olivia); // map.get(vars.$app-custom-colors, "neutral-10");
       }
     }
 
@@ -241,13 +246,13 @@
   }
 }
 
-//*****************************************************************************
-//#endregion
-//*****************************************************************************
+// *****************************************************************************
+// #endregion
+// *****************************************************************************
 
-//*****************************************************************************
-//#region Custom designs
-//*****************************************************************************
+// *****************************************************************************
+// #region Custom designs
+// *****************************************************************************
 
 // Basic nav link button without color theme set
 // <button class="nav-link-button" mat-button routerLinkActive="active-button" </button>
@@ -288,6 +293,7 @@
   &.mat-unthemed {
     /* stylelint-disable-next-line declaration-no-important */
     --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white") !important;
+
     color: map.get(vars.$app-custom-colors, "neutral-white");
   }
 }
@@ -314,6 +320,7 @@ app-payments-table {
     }
   }
 }
-//*****************************************************************************
-//#endregion
-//*****************************************************************************
+
+// *****************************************************************************
+// #endregion
+// *****************************************************************************

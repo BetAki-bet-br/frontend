@@ -11,10 +11,8 @@ $material-design-icons-font-directory-path: "../dist/fonts/";
 $custom-typography: mat.m2-define-typography-config(
   $font-family: "'Roboto', sans-serif",
 );
-
-$dark-primary-text: rgba(black, 0.87);
+$dark-primary-text: rgb(black, 0.87);
 $light-primary-text: white;
-
 $pp-palette: (
   50: #fff9e7,
   100: #fff1c4,

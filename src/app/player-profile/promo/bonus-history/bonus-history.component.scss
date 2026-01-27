@@ -1,7 +1,6 @@
 @use "sass:map" as map;
 @use "sass:color" as color;
 @use "theme/utils" as utils;
-
 @use "theme/theme-variables" as theme-variables;
 
 :host {
@@ -68,6 +67,7 @@
 
 .table-row {
   display: flex;
+
   // justify-content: space-between;
   padding: 1rem 1.5rem;
   font-size: 14px;

@@ -1,12 +1,13 @@
 .winner-card {
   position: relative;
+
   /* Desktop-first: fixed size for desktop layout from 'winner-card copy' */
   height: 60px;
   width: 180px;
   overflow: hidden;
 
   /* Mobile override: full-width behavior from current 'winner-card' */
-  @media screen and (max-width: 640px) {
+  @media screen and (width <= 640px) {
     width: 100%;
     height: auto;
   }

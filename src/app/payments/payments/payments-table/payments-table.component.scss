@@ -1,10 +1,9 @@
 @use "sass:map" as map;
 @use "theme/utils" as utils;
 @use "sass:color" as color;
-
 @use "theme/theme-variables" as theme-variables;
 
-//TABLE
+// TABLE
 .payments-table {
   border-spacing: 0;
   width: 100%;
@@ -232,9 +231,10 @@ td {
   }
 }
 
-//TABLE CELL SIZE
+// TABLE CELL SIZE
 td:first-child {
   background-color: map.get(theme-variables.$app-custom-colors, "neutral-200");
+
   @include utils.media("gt-md") {
     width: 11.0625rem;
   }
@@ -354,11 +354,12 @@ td:last-child {
   }
 }
 
-//PROCESSING TIME LABEL FORMATTING
+// PROCESSING TIME LABEL FORMATTING
 .process-time-th::before {
   @include utils.media("lt-md") {
     content: "Process. time";
   }
+
   @include utils.media("gt-sm-2") {
     content: "Processing time";
   }

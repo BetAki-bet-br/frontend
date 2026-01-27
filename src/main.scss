@@ -1,5 +1,4 @@
 @use "theme/theme";
-
 @use "tailwindcss";
 
 @theme {
@@ -8,12 +7,14 @@
   --font-alt: "Inter", sans-serif;
   --color-accent-highlight: #e8fb20;
   --color-accent: #c6d42d;
+
   // --color-white: #e4eaf2;
   --color-betaki-200: #fcff92;
   --color-betaki-400: #e8fb20;
   --color-black: #1e1e1e;
   --color-alt-light: #e0e0e0;
   --color-betaki-500: #869502;
+
   // --color-betaki-darker: #596308;
   // --color-betaki-darker: #394006;
   --color-betaki-darker: #454d0a;
@@ -42,16 +43,17 @@ body.sidebar-open {
 }
 
 .rocketchat-widget {
-  @media (max-width: 767px) {
+  @media (width <= 767px) {
     &[data-state="closed"] {
       bottom: 55px !important;
     }
+
     &[data-state="opened"] {
-      bottom: 0px !important;
+      bottom: 0 !important;
     }
   }
 
-  @media (min-width: 768px) {
+  @media (width >= 768px) {
     bottom: 20px !important;
   }
 }

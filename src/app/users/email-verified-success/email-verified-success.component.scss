@@ -41,6 +41,7 @@
     letter-spacing: 0.07px;
     text-align: center;
     vertical-align: middle;
+
     @include utils.media("lt-sm-2") {
       font-size: 0.875rem;
     }
@@ -118,6 +119,7 @@
 .age-icon {
   max-height: 2.5rem;
   max-width: 2.5rem;
+
   @include utils.media("lt-sm-2") {
     max-height: 2.3rem;
     max-width: 2.3rem;

@@ -9,6 +9,7 @@
   @include mat.button-theme(material-theming.$app-theme);
   @include mat.icon-theme(material-theming.$app-theme);
   @include mat.divider-theme(material-theming.$app-theme);
+
   width: 100%;
 }
 
@@ -74,6 +75,7 @@
   height: 2.5rem;
   width: 10rem;
   color: white !important;
+
   @include utils.media("lt-sm-2") {
     height: 3rem;
   }

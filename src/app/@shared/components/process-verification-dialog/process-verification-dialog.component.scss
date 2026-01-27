@@ -33,7 +33,6 @@
 
   .subtitle {
     text-overflow: ellipsis;
-
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -77,6 +76,5 @@
 .description {
   max-width: 19.875rem;
   text-align: center;
-  align-self: center;
-  justify-self: center;
+  place-self: center center;
 }

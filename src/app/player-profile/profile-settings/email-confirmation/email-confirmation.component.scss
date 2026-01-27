@@ -32,7 +32,6 @@
     border: none;
     background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
     border-radius: 1rem;
-
     font-size: 2rem;
     line-height: 100%;
     letter-spacing: 1.13px;
@@ -42,7 +41,6 @@
     @include utils.media("lt-sm-2") {
       height: 2rem;
       width: 2rem;
-
       font-size: 1.25rem;
       border-radius: 0.5rem;
     }
@@ -113,6 +111,7 @@
     letter-spacing: 0.07px;
     text-align: center;
     vertical-align: middle;
+
     @include utils.media("lt-sm-2") {
       font-size: 0.875rem;
     }
@@ -190,6 +189,7 @@
 .age-icon {
   max-height: 2.5rem;
   max-width: 2.5rem;
+
   @include utils.media("lt-sm-2") {
     max-height: 2.3rem;
     max-width: 2.3rem;

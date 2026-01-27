@@ -12,6 +12,7 @@
   color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
   text-align: center;
   justify-content: start;
+
   @include utils.media("lt-sm-2") {
     padding: 2rem;
     gap: 2rem;

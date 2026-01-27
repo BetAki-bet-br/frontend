@@ -7,9 +7,9 @@
 @use "src/theme/theme-variables" as vars;
 @use "theme/utils" as utils;
 
-//*****************************************************************************
-//#region Material tabs
-//*****************************************************************************
+// *****************************************************************************
+// #region Material tabs
+// *****************************************************************************
 // primary tabs
 .tab-group-container-primary {
   .mdc-tab {
@@ -96,7 +96,7 @@
 
   .mat-mdc-tab-header-pagination {
     @include utils.media("lt-sm-2") {
-      //hides chevron button on mat tab header in mobile view
+      // hides chevron button on mat tab header in mobile view
       /* stylelint-disable-next-line declaration-no-important */
       display: none !important;
     }
@@ -204,6 +204,7 @@ app-responsible-limits {
 
         .mat-mdc-tab-list {
           overflow-x: auto;
+
           // below rule prevents sliding of buttons' container
           // because it not sliding properly - to left it not slide as well
           /* stylelint-disable-next-line declaration-no-important */
@@ -252,6 +253,6 @@ app-responsible-limits {
   }
 }
 
-//*****************************************************************************
-//#endregion Material tabs
-//*****************************************************************************
+// *****************************************************************************
+// #endregion Material tabs
+// *****************************************************************************

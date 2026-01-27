@@ -2,15 +2,15 @@
   position: fixed;
   width: 12rem; /* 192px */
   z-index: 40;
-
   opacity: 0;
   transition:
     opacity 0.2s ease-in-out,
     transform 0.2s ease-in-out;
   pointer-events: none;
+
   // max-w
 
-  @media screen and (max-width: 40rem) {
+  @media screen and (width <= 40rem) {
     width: 100%;
     left: 0;
     right: 0;
@@ -18,7 +18,7 @@
 }
 
 .profile-modal-content {
-  @media screen and (max-width: 40rem) {
+  @media screen and (width <= 40rem) {
     width: 100%;
   }
 }

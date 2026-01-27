@@ -13,7 +13,7 @@
   }
 
   // 45 sec animation in mobile
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     animation-duration: 45s;
   }
 }
@@ -28,6 +28,7 @@
   0% {
     transform: translateX(0%);
   }
+
   100% {
     transform: translateX(-50%);
   }

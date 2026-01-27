@@ -60,7 +60,8 @@
     flex-direction: column;
     width: 100%;
     contain-intrinsic-size: 30.625rem 34.75rem;
-    //padding-top: 0.5rem;
+
+    // padding-top: 0.5rem;
 
     @include utils.media(sm-2) {
       max-width: 39rem;

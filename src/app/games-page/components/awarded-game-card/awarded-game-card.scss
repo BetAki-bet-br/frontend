@@ -4,7 +4,7 @@
     content: "";
     position: absolute;
     inset: 0; // Cover the entire parent.
-    background: linear-gradient(180.19deg, rgba(158, 62, 107, 0) 43.61%, #271b48 99.83%);
+    background: linear-gradient(180.19deg, rgb(158 62 107 / 0%) 43.61%, #271b48 99.83%);
 
     // The parent element has `rounded-lg` (0.5rem).
     // The pseudo-element needs to have the same border-radius to not overflow the rounded corners,
@@ -26,6 +26,7 @@
     opacity: 0;
     transform: scale(1);
   }
+
   to {
     opacity: 1;
     transform: scale(1.1);

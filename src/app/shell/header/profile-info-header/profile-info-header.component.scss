@@ -1,7 +1,6 @@
 @use "sass:map" as map;
 @use "theme/utils" as utils;
 @use "sass:color" as color;
-
 @use "theme/theme-variables" as theme-variables;
 
 :host {
@@ -69,7 +68,8 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  //margin-right: 0.5rem;
+
+  // margin-right: 0.5rem;
   margin-right: 0;
 
   @include utils.media("lt-sm-2") {
@@ -221,7 +221,6 @@
 .header-dropdown-container {
   gap: 0.5rem;
   min-width: 23.875rem;
-
   min-height: 16.875rem;
   max-height: 28.125rem;
   height: 100%;
@@ -317,7 +316,7 @@
   text-transform: capitalize;
 
   @include utils.media("lt-sm-2") {
-    //height: 1.125rem;
+    // height: 1.125rem;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5rem;
@@ -360,7 +359,6 @@
     .logo-img {
       max-width: 5rem;
       max-height: 2.5rem;
-
       filter: brightness(0) invert(1);
     }
   }

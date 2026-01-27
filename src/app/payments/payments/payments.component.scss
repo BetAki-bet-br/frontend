@@ -58,6 +58,7 @@ p {
   @include utils.media("lt-sm-2") {
     display: none;
   }
+
   display: block;
 }
 

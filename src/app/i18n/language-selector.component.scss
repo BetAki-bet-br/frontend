@@ -1,6 +1,5 @@
 @use "sass:map" as map;
 @use "sass:color" as color;
-
 @use "theme/theme-variables" as theme-variables;
 
 .button-container {
@@ -84,6 +83,7 @@
 
     &:hover {
       border-radius: 4px;
+
       // workaround for [disableRipple]="true" not working on button in angular 15
       --mat-mdc-button-persistent-ripple-color: none;
     }

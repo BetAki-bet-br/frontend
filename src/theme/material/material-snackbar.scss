@@ -7,14 +7,14 @@
 @use "src/theme/theme-variables" as vars;
 @use "theme/utils" as utils;
 
-//*****************************************************************************
-//#region Custom component snackbar
-//*****************************************************************************
+// *****************************************************************************
+// #region Custom component snackbar
+// *****************************************************************************
 .mat-mdc-snack-bar-container.custom-component-snackbar {
   border-radius: 0.25rem;
   box-shadow:
-    0 4px 8px 3px rgba(0, 0, 0, 15%),
-    0 1px 3px 0 rgba(0, 0, 0, 30%);
+    0 4px 8px 3px rgb(0 0 0 / 15%),
+    0 1px 3px 0 rgb(0 0 0 / 30%);
   padding: 0;
   min-width: 12.5rem;
   min-height: auto;
@@ -40,7 +40,6 @@
   .message {
     font-size: 0.875rem;
     line-height: 1.25rem;
-    word-break: break-word;
     letter-spacing: 0.25px;
     font-weight: 400;
   }
@@ -114,6 +113,7 @@
     @include utils.media("lt-sm-2") {
       margin-bottom: 3.875rem;
     }
+
     margin-bottom: 1.875rem;
 
     .mdc-snackbar__surface {
@@ -125,6 +125,7 @@
     }
   }
 }
-//*****************************************************************************
-//#endregion Custom component snackbar
-//*****************************************************************************
+
+// *****************************************************************************
+// #endregion Custom component snackbar
+// *****************************************************************************
