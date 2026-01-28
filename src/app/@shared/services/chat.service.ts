@@ -13,9 +13,9 @@ export class ChatService {
 
   public readonly isReady$: Observable<boolean> = this.fonetalkScriptLoader.isReady$;
 
-  constructor() {
-    this.fonetalkScriptLoader.loadScript();
-  }
+  // constructor() {
+  //   this.fonetalkScriptLoader.loadScript();
+  // }
 
   setCanShow(canShow: boolean) {
     this._canShow = canShow;
