@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { AuthenticationService, CredentialsService } from '@app/auth';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { CdnizePipe } from '../../../@pipes/cdnize.pipe';
@@ -19,6 +20,7 @@ import { RoutingService } from '@app/@shared/services/routing.service'; // Added
 export class SidebarDesktop {
   private readonly sessionService: CredentialsService = inject(CredentialsService);
   private readonly authService: AuthenticationService = inject(AuthenticationService);
+  private readonly tawkMessengerService = inject(TawkToScriptService);
   private readonly menusService = inject(MenusService);
   private readonly router = inject(Router);
   private readonly routingService = inject(RoutingService); // Added injection
@@ -63,6 +65,10 @@ export class SidebarDesktop {
 
   logout(): void {
     this.authService.logout();
+  }
+
+  openSupportChat(): void {
+    this.tawkMessengerService.maximize();
   }
 
   navigateTo(item: MenuItem & { categoryId?: string | number }): void {
