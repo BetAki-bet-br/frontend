@@ -21,8 +21,6 @@ export class ChatService {
     this._canShow = canShow;
     if (!canShow) {
       this.hideChat();
-    } else {
-      this.showChat();
     }
   }
 
