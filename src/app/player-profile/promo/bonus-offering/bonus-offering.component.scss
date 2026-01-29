@@ -15,20 +15,17 @@
 }
 
 .bonuses-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 2rem;
   align-items: stretch;
+
+  @include utils.media("gt-sm-1") {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   @include utils.media("lt-sm-2") {
     gap: 1.5rem;
   }
 
-  .bonus-item {
-    flex: 0 0 100%;
 
-    @include utils.media("gt-sm-2") {
-      flex: 0 0 calc(50% - 1rem);
-    }
-  }
 }
