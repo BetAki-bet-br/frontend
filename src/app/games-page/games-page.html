@@ -4,7 +4,7 @@
   <app-sidebar-desktop></app-sidebar-desktop>
   <div class="flex-1" [class.overflow-y-hidden]="!routingService.isSearch()">
     <div class="px-0 lg:px-5 xl:px-10 lg:ps-4">
-      <app-carousel [slides]="banners"></app-carousel>
+      <app-carousel [slides]="computedBanners()"></app-carousel>
       <router-outlet></router-outlet>
     </div>
   </div>

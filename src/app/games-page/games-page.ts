@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CarouselComponent, CarouselSlide } from './components/carousel/carousel';
 import { SidebarDesktop } from './components/sidebar-desktop/sidebar-desktop';
@@ -14,7 +14,9 @@ import { RoutingService } from '@app/@shared/services/routing.service';
 export class GamesPage {
   routingService = inject(RoutingService);
 
-  banners: CarouselSlide[] = [
+  computedBanners = computed(() => (this.routingService.isLiveCasino() ? this.liveBanners : this.cassinoBanners));
+
+  cassinoBanners: CarouselSlide[] = [
     {
       href: '',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_CARAMELO SORTUDO_01.jpg',
@@ -44,6 +46,29 @@ export class GamesPage {
       href: '',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_YO DRAGON_01.jpg',
       alt: 'Yo Dragon',
+    },
+  ];
+
+  liveBanners: CarouselSlide[] = [
+    {
+      href: '',
+      imageUrl: '/assets/carousel/banner-live-cassino-1.jpeg',
+      alt: 'Banner ao vivo 1',
+    },
+    {
+      href: '',
+      imageUrl: '/assets/carousel/banner-live-cassino-2.jpeg',
+      alt: 'Banner ao vivo 2',
+    },
+    {
+      href: '',
+      imageUrl: '/assets/carousel/banner-live-cassino-3.jpeg',
+      alt: 'Banner ao vivo 3',
+    },
+    {
+      href: '',
+      imageUrl: '/assets/carousel/banner-live-cassino-4.jpeg',
+      alt: 'Banner ao vivo 4',
     },
   ];
 }

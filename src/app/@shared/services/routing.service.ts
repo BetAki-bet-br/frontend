@@ -14,6 +14,7 @@ export class RoutingService {
   private readonly chatService = inject(ChatService);
   isNavigating = computed(() => !!this.router.currentNavigation());
   isInCassino = signal(false);
+  isLiveCasino = signal(false);
   isSportsbook = signal(false);
   isIngame = signal(false);
   isProfile = signal(false);
@@ -25,7 +26,8 @@ export class RoutingService {
       if (event instanceof NavigationEnd) {
         const sportsbookRoutes = ['/', '/sportsbook-live'];
         this.isSportsbook.set(sportsbookRoutes.includes(event.urlAfterRedirects));
-        this.isInCassino.set(event.urlAfterRedirects.startsWith('/games'));
+        this.isInCassino.set(event.urlAfterRedirects.startsWith('/games') && !event.urlAfterRedirects.startsWith('/games/live'));
+        this.isLiveCasino.set(event.urlAfterRedirects.startsWith('/games/live'));
         this.isIngame.set(event.urlAfterRedirects.startsWith('/game/'));
         this.isProfile.set(event.urlAfterRedirects.startsWith('/profile'));
         this.isPromotions.set(event.urlAfterRedirects.startsWith('/promotions'));

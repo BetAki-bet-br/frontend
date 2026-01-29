@@ -2,6 +2,7 @@ import { NgOptimizedImage, NgStyle, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  OnChanges,
   OnDestroy,
   OnInit,
   PLATFORM_ID,
@@ -36,7 +37,7 @@ export interface CarouselSlide {
     '(touchend)': 'handleEnd($event)',
   },
 })
-export class CarouselComponent implements OnInit, OnDestroy {
+export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
   slides = input<CarouselSlide[]>([]);
   autoPlayInterval = input(3500);
   maxWidth = input('');
@@ -69,6 +70,12 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.pauseAutoPlay();
+  }
+
+  ngOnChanges(): void {
+    this.loadedImages.set(new Set());
+    this.currentIndex.set(this.slides().length > 0 ? Math.floor(this.slides().length / 2) : 0);
+    this.resumeAutoPlay();
   }
 
   onImageLoad(index: number): void {
