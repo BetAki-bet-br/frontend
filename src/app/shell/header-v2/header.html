@@ -38,7 +38,7 @@
       }
     </ul>
     <div class="flex flex-row items-center justify-center gap-1 text-white">
-      @if(routingService.isInCassino()) {
+      @if(routingService.isInCassino() || routingService.isLiveCasino()) {
       <button
         type="button"
         animate.enter="animate-enter-slide-down"
