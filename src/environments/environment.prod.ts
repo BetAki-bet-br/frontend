@@ -13,6 +13,7 @@ export const environment = {
   backofficeApiUrl: '/backoffice',
   API_BASE_PATH: '', // from environment.prod.ts
   useLocalHtmlTemplates: false, // Should be false for production
+  comtradeAssetsBaseUrl: 'https://pp-assets.icbkiassets.com/cmslibrary/betaki',
   demoPlayEnabled: false,
   indexPageTitle: 'Bet Aki | Apostas Regulamentadas, Super Odds e Diversão Garantida', // from environment-betaki.prod.ts
 
