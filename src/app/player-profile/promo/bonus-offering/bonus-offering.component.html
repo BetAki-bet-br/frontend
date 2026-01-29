@@ -1,10 +1,10 @@
 <div class="bonuses-container">
   <div class="bonuses-wrapper">
-    @for (banner of bannerList; track banner) {
-      <div class="bonus-item" [innerHTML]="banner.templateHtml"></div>
-    }
     @for (bonus of bonusList; track bonus) {
       <div class="bonus-item" [innerHTML]="bonus.templateOffersHtml"></div>
+    }
+    @for (banner of bannerList; track banner) {
+      <div class="bonus-item" [innerHTML]="banner.templateHtml"></div>
     }
     @if (!bannerList?.length && !bonusList.length) {
       @for (skeleton of skeletons; track $index) {
@@ -27,8 +27,8 @@
 
             <!-- Description -->
             <div class="space-y-2">
-                  <div class="h-4 w-full bg-shark-400 rounded"></div>
-                  <div class="h-4 w-5/6 bg-shark-400 rounded"></div>
+              <div class="h-4 w-full bg-shark-400 rounded"></div>
+              <div class="h-4 w-5/6 bg-shark-400 rounded"></div>
             </div>
 
             <!-- Button (at bottom) -->
