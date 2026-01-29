@@ -24,6 +24,7 @@ export const environment = {
     assetsPath: '',
     assetsQueryString: '',
     gamesThumbsBaseUrl: 'https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails',
+    comtradeAssetsBaseUrl: 'https://pp-assets.icbkiassets.com/cmslibrary/betaki',
     gamesThumbsUrlSuffix: '',
     antillephoneLicensingSealId: '',
     antillephoneLicensingScriptMethodId: '',

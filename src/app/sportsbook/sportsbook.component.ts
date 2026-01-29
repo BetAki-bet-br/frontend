@@ -115,9 +115,8 @@ export class SportsbookComponent implements AfterViewInit, OnDestroy {
     );
 
     this.routeSub.add(
-      this.credentialsService.isAuthenticated$.subscribe((res) => {
-        if (!res && this.isAuth()) {
-        }
+      this.credentialsService.isAuthenticated$.pipe(distinctUntilChanged()).subscribe(() => {
+        this.loadSportsbookUrl();
       }),
     );
   }
