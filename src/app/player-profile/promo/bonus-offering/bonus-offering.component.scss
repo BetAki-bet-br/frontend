@@ -15,9 +15,13 @@
 }
 
 .bonuses-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 2rem;
+  grid-template-columns: 1fr;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
 
   @include utils.media("lt-sm-2") {
     gap: 1.5rem;
