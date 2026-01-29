@@ -21,6 +21,7 @@ import { ChatService } from '@app/@shared/services/chat.service';
 import { CredentialsService } from '@app/auth';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { distinctUntilChanged, map, Subscription, switchMap } from 'rxjs';
+import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 
 const log = new Logger('SportsbookComponent');
 
@@ -40,6 +41,7 @@ export class SportsbookComponent implements AfterViewInit, OnDestroy {
   private credentialsService = inject(CredentialsService);
   private authDialogService = inject(AuthDialogService);
   private chatService = inject(ChatService);
+  private tawkToService = inject(TawkToScriptService);
   private el = inject(ElementRef);
   private dialog = inject(Dialog);
   private loadingService = inject(LoadingService);
@@ -76,7 +78,7 @@ export class SportsbookComponent implements AfterViewInit, OnDestroy {
       case 'CHAT':
         log.debug('Received CHAT message:', message);
         if (message.path === 'open') {
-          this.chatService.showChat();
+          this.tawkToService.maximize();
         }
         break;
       // Event from sportsbook to notify that it is ready
