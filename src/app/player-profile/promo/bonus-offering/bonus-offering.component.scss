@@ -14,7 +14,7 @@
   }
 }
 
-.banners-wrapper {
+.bonuses-wrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -24,7 +24,7 @@
   }
 }
 
-.banners-wrapper > div {
+.bonuses-wrapper > div {
   flex: 0 1 calc(50% - 1rem);
   box-sizing: border-box;
 
