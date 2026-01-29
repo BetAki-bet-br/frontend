@@ -12,10 +12,19 @@
       />
 
       <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
-        <img src="/assets/icons/search-icon.svg" alt="Ícone de busca" class="w-5 h-5 text-light/60 text-accent" />
+        <img
+          src="/assets/icons/search-icon.svg"
+          alt="Ícone de busca"
+          class="w-5 h-5 text-light/60 text-accent hover:scale-130 transition-transform ml-2"
+        />
       </div>
     </div>
-    <button (click)="closeSearch()" class="text-white text-3xl leading-none p-2 z-10 cursor-pointer">&times;</button>
+    <button
+      (click)="closeSearch()"
+      class="text-white text-3xl leading-none p-2 z-10 cursor-pointer hover:scale-150 transition-transform ml-2"
+    >
+      &times;
+    </button>
   </div>
 
   @if(searchTerm().length < 3) {

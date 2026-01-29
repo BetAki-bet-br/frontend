@@ -1,4 +1,4 @@
-<div [class]="'w-full ' + class()" [style.max-width]="maxWidth()">
+<div [class]="'w-full relative ' + class()" [style.max-width]="maxWidth()">
   <div class="relative cursor-grab active:cursor-grabbing lg:rounded-lg select-none overflow-hidden aspect-[450/130]">
     @for (slide of slides(); let i = $index; track slide.imageUrl) {
     <div class="absolute inset-0 w-full h-full" [style]="getSlideStyle(i)">

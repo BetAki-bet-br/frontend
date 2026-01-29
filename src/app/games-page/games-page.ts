@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CarouselComponent, CarouselSlide } from './components/carousel/carousel';
 import { SidebarDesktop } from './components/sidebar-desktop/sidebar-desktop';
 import { GhostColorLayer } from './components/ghost-color-layer/ghost-color-layer';
+import { RoutingService } from '@app/@shared/services/routing.service';
 
 @Component({
   selector: 'app-games-page',
@@ -11,6 +12,8 @@ import { GhostColorLayer } from './components/ghost-color-layer/ghost-color-laye
   styleUrl: './games-page.scss',
 })
 export class GamesPage {
+  routingService = inject(RoutingService);
+
   banners: CarouselSlide[] = [
     {
       href: '',

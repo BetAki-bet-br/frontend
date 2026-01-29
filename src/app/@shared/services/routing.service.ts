@@ -18,6 +18,7 @@ export class RoutingService {
   isIngame = signal(false);
   isProfile = signal(false);
   isPromotions = signal(false);
+  isSearch = signal(false);
 
   constructor() {
     this.router.events.subscribe((event) => {
@@ -28,11 +29,19 @@ export class RoutingService {
         this.isIngame.set(event.urlAfterRedirects.startsWith('/game/'));
         this.isProfile.set(event.urlAfterRedirects.startsWith('/profile'));
         this.isPromotions.set(event.urlAfterRedirects.startsWith('/promotions'));
+        // url is /game/search
+        this.isSearch.set(event.urlAfterRedirects.includes('/search'));
         this.sidebarService.close();
         this.viewportScroller.scrollToPosition([0, 0], {
           behavior: 'smooth',
         });
-        this.chatService.setCanShow(!this.isIngame() && !this.isSportsbook());
+        this.chatService.setCanShow(!this.isIngame());
+
+        if (!this.isIngame() && !this.isSportsbook()) {
+          this.chatService.showChat();
+        } else {
+          this.chatService.hideChat();
+        }
       }
     });
   }

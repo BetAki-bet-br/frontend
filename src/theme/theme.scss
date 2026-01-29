@@ -59,7 +59,7 @@ html,
 body {
   width: 100%;
   display: flex;
-  flex-direction: column;
+  overflow-x: hidden;
   margin: 0;
   height: 100dvh;
   background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");

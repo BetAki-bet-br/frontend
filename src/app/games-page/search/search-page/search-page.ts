@@ -93,7 +93,6 @@ export class SearchPage {
   }
 
   handleGameClick(game: GameMain): void {
-    console.log('Game clicked:', game);
     if (this.screenWidth() > 640) {
       this.router.navigate(['/game', game.externalId]);
       return;
