@@ -75,8 +75,10 @@ export class PromotionsTermsAndConditionsComponent implements OnInit {
           text: marker('Promotion details'),
         },
       ];
+      const url = `${environment.deployConfig.comtradeAssetsBaseUrl}/assetshtml/promotions/${this.title}.html`;
 
-      const url = this._assetsService.cdnizeUrl('assetshtml/promotions/' + this.title + '.html');
+      // const url = this._assetsService.cdnizeUrl('assetshtml/promotions/' + this.title + '.html');
+      console.log('sending reqs');
       this.httpClient.get(url, { responseType: 'text' }).subscribe({
         next: (result) => {
           this.htmlContent = this._sanitizer.bypassSecurityTrustHtml(
@@ -84,6 +86,7 @@ export class PromotionsTermsAndConditionsComponent implements OnInit {
               cdnBaseUrl: environment.deployConfig.assetsBaseUrl,
             }),
           );
+          console.log('Loaded promotion terms and conditions html from url: ' + url);
           this.cdr.markForCheck();
         },
         error: (err) => {
