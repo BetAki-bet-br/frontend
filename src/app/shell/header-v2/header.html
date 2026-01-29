@@ -50,7 +50,7 @@
           <img src="/assets/icons/search-icon-header.svg" alt="Ícone de busca" class="w-5 h-5" />
         </span>
       </button>
-      } @if(routingService.isSportsbook()) {
+      }
       <button
         type="button"
         class="items-center md:hidden justify-center font-medium transition-colors cursor-pointer rounded-md focus:outline-none focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed p-2 text-sm border-2 border-transparent bg-transparent text-betaki-500 hover:bg-shark-50/20 hover:text-betaki-600 w-auto"
@@ -65,7 +65,7 @@
           class="w-5 h-5"
         />
       </button>
-      } @if(!isLoggedIn()){
+      @if(!isLoggedIn()){
       <button
         type="button"
         class="inline-flex items-center justify-center font-medium transition-colors cursor-pointer rounded-md focus:outline-none focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed p-2 text-xs sm:text-sm border-shark-50 bg-transparent text-shark-50 hover:border-shark-100 hover:bg-shark-100/20 hover:text-shark-100 w-auto"
