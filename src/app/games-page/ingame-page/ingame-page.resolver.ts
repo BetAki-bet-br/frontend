@@ -8,10 +8,9 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { CredentialsService } from '@app/auth';
 import { GameMain, PostGameResponse } from '../models/game.models';
-import { Slot, SlotsService } from '@app/@core/backoffice';
 
 export interface IngamePageData {
-  game: Slot | undefined;
+  game: GameMain | undefined;
   gameUrl: SafeResourceUrl | null;
   error?: string;
 }
@@ -19,14 +18,13 @@ export interface IngamePageData {
 export const ingamePageResolver: ResolveFn<IngamePageData> = (
   route: ActivatedRouteSnapshot,
 ): Observable<IngamePageData> => {
-  const slotService = inject(SlotsService);
   const gameService = inject(GameService);
   const sessionService = inject(CredentialsService);
   const sanitizer = inject(DomSanitizer);
   const loadingService = inject(LoadingService);
-  const gameId = Number(route.paramMap.get('id')!);
+  const gameId = route.paramMap.get('id')!;
 
-  const game$: Observable<Slot | undefined> = slotService.getSlot(gameId);
+  const game$: Observable<GameMain | undefined> = gameService.getGameFromApiById(gameId, 5);
   loadingService.showInline();
 
   return game$.pipe(
@@ -39,11 +37,13 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
         return of({ game, gameUrl: null });
       }
 
-      const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(game.id.toString(), 5).pipe(
-        catchError(() => {
-          return of(null);
-        }),
-      );
+      const launchGame$: Observable<PostGameResponse | null> = gameService
+        .launchGame(game.externalId as string, 5)
+        .pipe(
+          catchError(() => {
+            return of(null);
+          }),
+        );
 
       return launchGame$.pipe(
         map((launchData) => {
