@@ -57,3 +57,9 @@ body.sidebar-open {
     bottom: 20px !important;
   }
 }
+
+/* Hide specific tracking pixel */
+img[src*="webtrafficsource.com"][width="1"][height="1"] {
+  display: none !important;
+}
+
