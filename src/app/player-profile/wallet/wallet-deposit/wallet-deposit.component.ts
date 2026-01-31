@@ -28,6 +28,7 @@ import { CmsService } from '@app/@shared/services/cms.service';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { PaymentsService } from '@app/@shared/services/payment.service';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
+import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 
 const log = new Logger('WalletDepositComponent');
 
@@ -62,7 +63,8 @@ export class WalletDepositComponent implements OnInit {
   private dataStoreService = inject(DataStoreService);
   private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
   private playerService = inject(PlayerStatusService);
-  private chatService = inject(ChatService);
+  // private chatService = inject(ChatService);
+  private tawktoService = inject(TawkToScriptService);
   private cmsService = inject(CmsService);
   private router = inject(Router);
   private authDialogService = inject(AuthDialogService);
@@ -241,7 +243,7 @@ export class WalletDepositComponent implements OnInit {
   }
 
   onChatClick() {
-    this.chatService.showChat();
+    this.tawktoService.maximize();
   }
 
   amount: number = 0;

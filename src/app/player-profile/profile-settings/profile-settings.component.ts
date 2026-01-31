@@ -27,6 +27,7 @@ import {
   PageBreadcrumbsComponent,
   Breadcrumbs,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 
 export interface VerificationStatus {
   phone: boolean;
@@ -55,7 +56,8 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
   dataStoreService = inject(DataStoreService);
   private playerProfileService = inject(PlayerProfileService);
   private cdr = inject(ChangeDetectorRef);
-  private chatService = inject(ChatService);
+  // private chatService = inject(ChatService);
+  private tawkToService = inject(TawkToScriptService);
   private authDialogService = inject(AuthDialogService);
   private configurationService = inject(ConfigurationService);
   private destroyRef = inject(DestroyRef);
@@ -139,7 +141,8 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
   }
 
   onSupportClick() {
-    this.chatService.showChat();
+    // this.chatService.showChat();
+    this.tawkToService.maximize();
   }
 
   onIdentityVerificationClick() {
