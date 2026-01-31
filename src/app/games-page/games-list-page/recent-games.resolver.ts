@@ -1,6 +1,5 @@
 import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
-import { GameEnum } from '@app/@shared/enums/gameEnum';
+import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { GameService } from '@app/@shared/services/game.service';
 import { PortalService } from '@app/@shared/services/portal.service';
 import { Observable, map, switchMap, of } from 'rxjs';
@@ -9,17 +8,22 @@ import { GameMain, SubLevel } from '../models/game.models';
 import { SlotsService } from '@app/@core/backoffice/slots.service';
 import { Slot } from '@app/@core/backoffice/models';
 
-export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (): Observable<SubLevel | undefined> => {
+export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+): Observable<SubLevel | undefined> => {
   const gameService = inject(GameService);
   const portalService = inject(PortalService);
   const sessionService = inject(CredentialsService);
   const slotsService = inject(SlotsService);
 
+  const url = state.url;
+
   if (!sessionService.isAuthenticated()) {
     return of(undefined);
   }
 
-  return gameService.getRecentGames(50, portalService.portalId).pipe(
+  return gameService.getRecentGames(url.includes('/games/category/recent') ? 50 : 15, portalService.portalId).pipe(
     map((games) => games.map((g) => g.gameExternalId).filter((id): id is string => !!id)),
     switchMap((ids) => {
       if (ids.length === 0) return of([]);

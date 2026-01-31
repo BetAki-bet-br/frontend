@@ -26,7 +26,9 @@ export class RoutingService {
       if (event instanceof NavigationEnd) {
         const sportsbookRoutes = ['/', '/sportsbook-live'];
         this.isSportsbook.set(sportsbookRoutes.includes(event.urlAfterRedirects));
-        this.isInCassino.set(event.urlAfterRedirects.startsWith('/games') && !event.urlAfterRedirects.startsWith('/games/live'));
+        this.isInCassino.set(
+          event.urlAfterRedirects.startsWith('/games') && !event.urlAfterRedirects.startsWith('/games/live'),
+        );
         this.isLiveCasino.set(event.urlAfterRedirects.startsWith('/games/live'));
         this.isIngame.set(event.urlAfterRedirects.startsWith('/game/'));
         this.isProfile.set(event.urlAfterRedirects.startsWith('/profile'));
@@ -37,13 +39,14 @@ export class RoutingService {
         this.viewportScroller.scrollToPosition([0, 0], {
           behavior: 'smooth',
         });
-        this.chatService.setCanShow(!this.isIngame());
 
-        if (!this.isIngame() && !this.isSportsbook()) {
-          this.chatService.showChat();
-        } else {
-          this.chatService.hideChat();
-        }
+        // this.chatService.setCanShow(!this.isIngame());
+
+        // if (!this.isIngame() && !this.isSportsbook()) {
+        //   this.chatService.showChat();
+        // } else {
+        //   this.chatService.hideChat();
+        // }
       }
     });
   }

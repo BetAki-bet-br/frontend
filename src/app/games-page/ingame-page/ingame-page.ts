@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { IngamePageData } from './ingame-page.resolver';
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { GameMain } from '../models/game.models';
+import { Slot } from '@app/@core/backoffice';
 
 @Component({
   selector: 'app-ingame-page',
@@ -19,7 +19,7 @@ export class IngamePage {
     initialValue: { game: undefined, gameUrl: null },
   });
 
-  readonly game: Signal<GameMain | undefined> = computed(() => this.data().game);
+  readonly game: Signal<Slot | undefined> = computed(() => this.data().game);
   readonly gameUrl: Signal<SafeResourceUrl | null> = computed(() => this.data().gameUrl);
   readonly launchError: Signal<string | undefined> = computed(() => this.data().error);
 }

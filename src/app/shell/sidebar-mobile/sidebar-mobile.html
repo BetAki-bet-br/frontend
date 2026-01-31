@@ -98,12 +98,13 @@
           <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
           }
           <img
-            ngSrc="assets/banner2.png"
+            ngSrc="assets/banner2.jpeg"
             fill
             alt="Banner"
             class="object-cover rounded-[8px] transition-opacity duration-500"
             [class.opacity-0]="!isImageLoaded('banner-2')"
             (load)="onImageLoad('banner-2')"
+            priority
           />
         </div>
         }
