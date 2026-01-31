@@ -20,7 +20,7 @@ export class IngamePage {
     initialValue: { game: undefined, gameUrl: null },
   });
 
-  readonly game: Signal<GameMain | undefined> = computed(() => this.data().game);
+  readonly game: Signal<Slot | undefined> = computed(() => this.data().game);
   readonly gameUrl: Signal<SafeResourceUrl | null> = computed(() => this.data().gameUrl);
   readonly launchError: Signal<string | undefined> = computed(() => this.data().error);
 }

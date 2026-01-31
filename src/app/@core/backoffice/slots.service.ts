@@ -42,4 +42,8 @@ export class SlotsService {
   deleteSlot(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  getSlotByExternalId(externalId: string): Observable<Slot> {
+    return this.http.get<Slot>(`${this.baseUrl}/by-external-id/${externalId}`);
+  }
 }

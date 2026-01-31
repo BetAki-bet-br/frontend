@@ -8,7 +8,6 @@ import { providerListGamesResolver } from '@app/games-page/games-list-by-provide
 import { gameListCategoriesResolver } from '@app/games-page/games-list-page/game-list-categories.resolver';
 import { casinoLobbyResolver } from '@app/games-page/games-list-page/casino-lobby.resolver';
 import { GamesListPage } from '@app/games-page/games-list-page/games-list-page';
-import { gamesResolver } from '@app/games-page/games-list-page/games.resolver';
 import { providersResolver } from '@app/games-page/games-list-page/providers.resolver';
 import { recentGamesResolver } from '@app/games-page/games-list-page/recent-games.resolver';
 import { liveCategoryResolver } from '@app/games-page/live-games-list-by-category-page/live-category.resolver';
