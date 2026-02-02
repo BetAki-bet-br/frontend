@@ -60,27 +60,7 @@ export class ProvidersService {
     if (!this.providerGamesFrontendCache[providerId]) {
       this.providerGamesFrontendCache[providerId] = this.getProvider(providerId).pipe(
         map((data) => {
-          const games: GameMain[] = (data.games || []).map((slot: any) => ({
-            id: slot.id,
-            externalId: slot.provider_game_id,
-            name: slot.title,
-            productSupplierName: slot.provider,
-            productId: slot.tags?.productId || 0,
-            productName: slot.provider,
-            gameName: slot.title,
-            demoPlayRestricted: false,
-            realPlayRestricted: false,
-            maintenanceModeEnabled: slot.status !== 'active',
-            gameTypeName: slot.tags?.gameTypeName || '',
-            gameTypeId: slot.tags?.gameTypeId || 0,
-            progressiveJackpots: [],
-            translations: [],
-            parameters: [],
-            volatility: slot.volatility,
-            minBet: slot.min_bet,
-            rtp: slot.rtp,
-            productSupplierId: 0,
-          }));
+          const games: GameMain[] = data.games || [];
 
           return {
             id: data.id.toString(),
