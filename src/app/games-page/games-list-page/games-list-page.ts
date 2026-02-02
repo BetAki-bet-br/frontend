@@ -2,7 +2,7 @@ import { afterNextRender, Component, computed, inject, signal } from '@angular/c
 import { GameDetailModal } from './game-detail-modal/game-detail-modal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map, switchMap, of, tap, finalize } from 'rxjs';
+import { forkJoin, map, of, tap } from 'rxjs';
 import { DragScrollDirective } from '@app/@shared/directives/drag-scroll.directive';
 import { AwardedGameCard } from '../components/awarded-game-card/awarded-game-card';
 import { GameCard } from '../components/game-card/game-card';
@@ -13,14 +13,10 @@ import { ProvidersCarousel } from '../components/providers-carousel/providers-ca
 import { Top10List } from '../components/top-10-list/top-10-list';
 import { WinnersList } from '../components/winners-list/winners-list';
 import { GameMain, GameCategory, Provider, LobbyResponse, SubLevel } from '../models/game.models';
-import { CredentialsService } from '@app/auth';
 import { PortalService } from '@app/@shared/services/portal.service';
-import { GameService } from '@app/@shared/services/game.service';
 import { ModalService } from '@app/@shared/services/modal.service';
 import { SectionType } from '@app/@shared/models/section-type.model';
 import { PageSection } from '@app/@shared/models/page-section.model';
-import { SlotsService } from '@app/@core/backoffice/slots.service';
-import { Slot } from '@app/@core/backoffice/models';
 import { ProvidersService } from '@app/@core/backoffice/providers.service';
 import { GameEnum } from '@app/@shared/enums/gameEnum';
 
@@ -54,15 +50,9 @@ export class GamesListPage {
   private providersService = inject(ProvidersService);
   private portalService = inject(PortalService);
 
-  constructor() {
-    afterNextRender(() => {
-      this.pageLayout(); // Initial computation
-    });
-  }
-
   lobbyConfig = toSignal(this.route.data.pipe(map((data) => data['lobby'] as LobbyResponse | undefined)));
   recentGames = toSignal(
-    this.route.data.pipe(map((data) => (data['recent'] as SubLevel | undefined)?.gameMains ?? [])),
+    this.route.data.pipe(map((data) => (data['recent'] as SubLevel | undefined)?.gameMains ?? []))
   );
   gameFilters = toSignal(this.route.data.pipe(map((data) => data['categories'] as GameCategory[] | undefined)));
   providers = toSignal(this.route.data.pipe(map((data) => data['providers'] as Provider[] | undefined)));
@@ -101,7 +91,7 @@ export class GamesListPage {
           const section = config?.sections.find(
             (s) =>
               String(s.id) === String(category.id) ||
-              (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id)),
+              (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id))
           );
           if (section) {
             if (section.games) {
@@ -114,8 +104,25 @@ export class GamesListPage {
         }
       } else if (providers.length > 0) {
         title = providers.map((p) => p.name).join(', ');
-        id = `providers-${providers.map((p) => p.id).join('-')}`;
+        const providerIds = providers.map((p) => p.id);
+        id = providerIds.join(',');
         gamesSource = this.filteredGames();
+        count = gamesSource.length;
+
+        return [
+          {
+            id: id,
+            type: 'game-list' as SectionType,
+            data: {
+              gameMains: gamesSource,
+              gameCount: count,
+              name: title,
+              id: id,
+              viewAllPath: '/games/provider/multi/' + id,
+            },
+            gameCount: count,
+          },
+        ];
       }
 
       return [
@@ -208,7 +215,7 @@ export class GamesListPage {
       const section = config?.sections.find(
         (s) =>
           String(s.id) === String(category.id) ||
-          (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id)),
+          (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id))
       );
 
       if (section && section.games && section.games.length > 0) {
@@ -224,15 +231,23 @@ export class GamesListPage {
 
     if (providers.length > 0) {
       this.isLoadingFilter.set(true);
-      const providerId = providers[0].id;
-      this.providersService
-        .getGamesByProviderForFrontend(providerId, GameEnum.CASINO, this.portalService.portalId)
+
+      const gameRequests = providers.map((provider) =>
+        this.providersService.getGamesByProviderForFrontend(
+          provider.id,
+          GameEnum.CASINO,
+          this.portalService.portalId
+        )
+      );
+
+      forkJoin(gameRequests)
         .pipe(
-          tap(() => this.isLoadingFilter.set(false)),
-          map((subLevel) => subLevel.gameMains),
+          map((results) => results.flatMap((subLevel) => subLevel.gameMains)),
+          tap(() => this.isLoadingFilter.set(false))
         )
         .subscribe((games) => {
-          this.filteredGames.set(games);
+          const uniqueGames = [...new Map(games.map((game) => [game.id, game])).values()];
+          this.filteredGames.set(uniqueGames);
         });
     }
   }
@@ -280,7 +295,11 @@ export class GamesListPage {
       return 8;
     }
 
-    return 12;
+    if (width < 2560) {
+      return 12;
+    }
+
+    return 16;
   });
 
   public winnersCount = computed(() => {

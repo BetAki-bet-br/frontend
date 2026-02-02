@@ -17,6 +17,7 @@ export class GameList {
   gameCount = input.required<number>();
   showViewAll = input<boolean>(true);
   overrideLink = input<string | null>(null);
+  viewAllPath = input<string | null>(null);
   listTypeLabel = input<string>('jogos');
   location = inject(Location);
 
