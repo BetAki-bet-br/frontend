@@ -23,15 +23,13 @@
       <h3 class="text-xl font-bold mb-2">Provedores</h3>
       <div class="grid grid-cols-2 gap-4 h-60 overflow-y-auto">
         @for(provider of providers(); track provider.id) {
-        <label class="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            class="w-4 h-4 text-betaki-500 bg-gray-100 border-gray-300 rounded focus:ring-betaki-500"
-            [checked]="selectedProviders().includes(provider)"
-            (change)="toggleProvider(provider)"
-          />
-          <span>{{ provider.name }}</span>
-        </label>
+        <mat-checkbox
+          [checked]="isSelected(provider)"
+          (change)="toggleProvider(provider)"
+          class="msg-checkbox mdc-form-field-alignment-normal"
+        >
+          <p class="text-white! text-base!">{{ provider.name }}</p>
+        </mat-checkbox>
         }
       </div>
     </div>
@@ -47,7 +45,7 @@
         Limpar e Aplicar
       </button>
       <button
-        class="flex-1 block bg-betaki-500 font-bold py-3 px-4 rounded-lg text-center text-lg"
+        class="flex-1 block bg-betaki-500 font-bold py-3 px-4 rounded-lg text-center text-lg text-white"
         (click)="applyFilters()"
       >
         Aplicar Filtros

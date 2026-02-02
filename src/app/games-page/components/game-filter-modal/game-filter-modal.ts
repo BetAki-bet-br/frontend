@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, input, output, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Provider } from '@app/games-page/models/game.models';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-game-filter-modal',
+  imports: [CommonModule, MatCheckboxModule],
   templateUrl: './game-filter-modal.html',
   styleUrls: ['./game-filter-modal.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,10 +34,15 @@ export class GameFilterModal {
     this.closeModal.emit();
   }
 
+  isSelected(provider: Provider): boolean {
+    return this.selectedProviders().some(p => p.id === provider.id);
+  }
+
   toggleProvider(provider: Provider): void {
     this.selectedProviders.update((providers) => {
-      if (providers.includes(provider)) {
-        return providers.filter((p) => p !== provider);
+      const isSelected = providers.some(p => p.id === provider.id);
+      if (isSelected) {
+        return providers.filter((p) => p.id !== provider.id);
       } else {
         return [...providers, provider];
       }
