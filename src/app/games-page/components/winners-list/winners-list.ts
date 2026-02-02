@@ -8,24 +8,32 @@ import {
   signal,
   input,
   DestroyRef,
+  computed,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { switchMap, map, of, catchError, filter, finalize } from 'rxjs';
 
+// Models
 import { Winner } from './winner.model';
 import { TopWinner } from '@app/@shared/models/winner.models';
-import { WinnersService } from '@app/@shared/services/winners.service';
 import { GameMain } from '@app/games-page/models/game.models';
-import { WinnerCard } from '../winner-card/winner-card';
-import { SlotsService } from '@app/@core/backoffice/slots.service';
-import { switchMap, map, of } from 'rxjs';
 import { Slot } from '@app/@core/backoffice/models';
 
-const REFRESH_INTERVAL = 4000; // 4 seconds
-const ANIMATION_DURATION = 400; // 0.4 seconds
-const WINNERS_COUNT = 14;
+// Services
+import { WinnersService } from '@app/@shared/services/winners.service';
+import { SlotsService } from '@app/@core/backoffice/slots.service';
+
+// Components
+import { WinnerCard } from '../winner-card/winner-card';
+import { environment } from '@env/environment';
+
+// Constants
+const REFRESH_INTERVAL = 4000;
+const ANIMATION_DURATION = 400;
 
 @Component({
   selector: 'app-winners-list',
+  standalone: true, // Garanta que é standalone
   imports: [WinnerCard],
   templateUrl: './winners-list.html',
   styleUrl: './winners-list.scss',
@@ -33,36 +41,30 @@ const WINNERS_COUNT = 14;
 })
 export class WinnersList implements OnInit, OnDestroy {
   winnersToList = input.required<number>();
-  // games input removed
   gameClick = output<GameMain>();
 
-  private winnersService = inject(WinnersService);
-  private slotsService = inject(SlotsService);
-  private destroyRef = inject(DestroyRef);
-
-  private allWinners = signal<Winner[]>([]);
+  private readonly winnersService = inject(WinnersService);
+  private readonly slotsService = inject(SlotsService);
+  private readonly destroyRef = inject(DestroyRef);
 
   loading = signal(true);
+  displayedWinners = signal<Winner[]>([]);
 
+  private allWinners = signal<Winner[]>([]);
   private intervalId?: ReturnType<typeof setInterval>;
   private timeoutId?: ReturnType<typeof setTimeout>;
   private nextWinnerIndex = 0;
   private nextId = 0;
-  private winnerNames = new Map<string, string>();
 
-  displayedWinners = signal<Winner[]>([]);
+  private readonly winnerNamesCache = new Map<string, string>();
 
   ngOnInit(): void {
+    this.nextWinnerIndex = this.winnersToList();
     this.fetchWinners(true);
   }
 
   ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
-    if (this.timeoutId) {
-      clearTimeout(this.timeoutId);
-    }
+    this.clearTimers();
   }
 
   onWinnerClick(winner: Winner): void {
@@ -75,118 +77,137 @@ export class WinnersList implements OnInit, OnDestroy {
     if (isInitialLoad) {
       this.loading.set(true);
     }
+
     this.winnersService
       .getTopWinners()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         switchMap((topWinners) => {
-          if (!topWinners || topWinners.length === 0)
-            return of({ topWinners: [], gamesMap: new Map<string, GameMain>() });
-
+          if (!topWinners?.length) {
+            return of([]);
+          }
           const externalIds = [...new Set(topWinners.map((w) => w.gameExternalId))];
+
           return this.slotsService.getSlotsByExternalIds(externalIds).pipe(
-            map((slots) => {
-              const gamesMap = new Map<string, GameMain>();
-              slots.forEach((slot) => {
-                if (slot['provider_game_id']) {
-                  gamesMap.set(slot['provider_game_id'], this.mapSlotToGameMain(slot));
-                }
-              });
-              return { topWinners, gamesMap };
+            map((slots) => this.mergeWinnersWithSlots(topWinners, slots)),
+            catchError((err) => {
+              console.error('Error fetching slots', err);
+              return of([]);
             }),
           );
         }),
+        finalize(() => this.loading.set(false)),
       )
-      .subscribe(({ topWinners, gamesMap }) => {
-        const newWinners = topWinners.map((topWinner) =>
-          this.mapToWinner(topWinner, gamesMap.get(topWinner.gameExternalId)),
-        );
-
-        // Filter out winners where game data could not be found
-        const validWinners = newWinners.filter((w) => !!w.game);
-
-        if (validWinners.length > 0) {
-          this.allWinners.set(validWinners);
-          console.log('Fetched valid winners:', validWinners);
-
-          if (isInitialLoad) {
-            this.displayedWinners.set(this.allWinners().slice(0, WINNERS_COUNT));
-            this.nextWinnerIndex = WINNERS_COUNT;
-
-            this.loading.set(false);
-
-            if (this.intervalId) clearInterval(this.intervalId);
-            this.intervalId = setInterval(() => this.updateDisplayedWinners(), REFRESH_INTERVAL);
-          }
-        } else if (isInitialLoad) {
-          this.loading.set(false);
-        }
+      .subscribe((validWinners) => {
+        this.handleWinnersUpdate(validWinners, isInitialLoad);
       });
   }
 
-  private updateDisplayedWinners(): void {
-    if (this.allWinners().length === 0) {
-      return;
-    }
+  private handleWinnersUpdate(validWinners: Winner[], isInitialLoad: boolean): void {
+    if (validWinners.length === 0) return;
 
-    if (this.nextWinnerIndex >= this.allWinners().length - 4) {
-      this.nextWinnerIndex = 0; // Loop back
+    this.allWinners.set(validWinners);
+
+    if (isInitialLoad) {
+      // Usa o input winnersToList() para definir o tamanho inicial
+      const initialCount = this.winnersToList();
+      this.displayedWinners.set(this.allWinners().slice(0, initialCount));
+      this.nextWinnerIndex = initialCount;
+
+      this.startCarousel();
+    }
+  }
+
+  private startCarousel(): void {
+    this.clearTimers();
+    if (this.allWinners().length > this.winnersToList()) {
+      this.intervalId = setInterval(() => this.rotateWinners(), REFRESH_INTERVAL);
+    }
+  }
+
+  private rotateWinners(): void {
+    const all = this.allWinners();
+    if (all.length === 0) return;
+
+    // Lógica de Loop: Se chegarmos perto do fim, busca novos dados em background
+    // Magic number 4 mantido, mas idealmente seria baseado no tamanho da lista
+    if (this.nextWinnerIndex >= all.length - 4) {
+      this.nextWinnerIndex = 0;
       this.fetchWinners(false);
     }
 
-    const newWinner = this.allWinners()[this.nextWinnerIndex];
-    this.nextWinnerIndex++;
+    const newWinner = all[this.nextWinnerIndex];
+    this.nextWinnerIndex = (this.nextWinnerIndex + 1) % all.length;
 
-    this.displayedWinners.update((winners) => {
-      if (winners.length > 0) {
-        winners[0].isLeaving = true;
-      }
-      return [...winners];
+    this.displayedWinners.update((current) => {
+      if (current.length === 0) return current;
+      const copy = [...current];
+      copy[0] = { ...copy[0], isLeaving: true }; // Immutability
+      return copy;
     });
 
     this.timeoutId = setTimeout(() => {
-      this.displayedWinners.update((winners) => {
-        const updatedWinners = winners.slice(1);
-        return [...updatedWinners, newWinner];
+      this.displayedWinners.update((current) => {
+        const remaining = current.slice(1);
+        return [...remaining, newWinner];
       });
     }, ANIMATION_DURATION);
   }
 
+  private clearTimers(): void {
+    if (this.intervalId) clearInterval(this.intervalId);
+    if (this.timeoutId) clearTimeout(this.timeoutId);
+  }
+
+  private mergeWinnersWithSlots(topWinners: TopWinner[], slots: Slot[]): Winner[] {
+    const gamesMap = new Map<string, GameMain>();
+
+    slots.forEach((slot) => {
+      const gameId = (slot as any)['provider_game_id'];
+      if (gameId) {
+        gamesMap.set(gameId, this.mapSlotToGameMain(slot));
+      }
+    });
+
+    return topWinners
+      .map((w) => this.mapToWinner(w, gamesMap.get(w.gameExternalId)))
+      .filter((w): w is Winner => !!w.game);
+  }
+
   private mapToWinner(topWinner: TopWinner, game?: GameMain): Winner {
-    if (!this.winnerNames.has(topWinner.playerId)) {
-      this.winnerNames.set(topWinner.playerId, this.getRandomWinnerName());
+    if (!this.winnerNamesCache.has(topWinner.playerId)) {
+      this.winnerNamesCache.set(topWinner.playerId, this.generateRandomName());
     }
 
     return {
       id: this.nextId++,
       prize: topWinner.amount,
       gameName: topWinner.gameName,
-      gameImageUrl: `https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails/${topWinner.gameExternalId}.webp`,
-      winnerName: this.winnerNames.get(topWinner.playerId)!,
+
+      gameImageUrl: `${environment.deployConfig.gamesThumbsBaseUrl}/${topWinner.gameExternalId}.webp`,
+      winnerName: this.winnerNamesCache.get(topWinner.playerId)!,
       userIcon: '/assets/icons/user-icon.svg',
       gameAlt: topWinner.gameName,
-      game: game!, // Assumed defined for valid winners
+      game: game!,
       isLeaving: false,
     };
   }
 
-  private getRandomWinnerName(): string {
-    const randomIndex = Math.floor(Math.random() * 26);
-    const letter = String.fromCharCode(65 + randomIndex);
-    return `${letter}********`;
-  }
-
   private mapSlotToGameMain(slot: Slot): GameMain {
+    // Adapter pattern simples
+    // Assumindo que 'slot' pode ter propriedades dinâmicas não tipadas na interface Slot
+    const s = slot as any;
+
     return {
       id: slot.id ?? 0,
-      externalId: slot['provider_game_id'] ?? '',
-      name: slot['title'] ?? '',
-      gameName: slot['title'] ?? '',
-      gameTypeName: slot.tags.gameTypeName ?? '',
-      productSupplierName: slot['provider'] ?? '',
+      externalId: s.provider_game_id ?? '',
+      name: s.title ?? '',
+      gameName: s.title ?? '',
+      gameTypeName: slot.tags?.gameTypeName ?? '',
+      productSupplierName: s.provider ?? '',
       productSupplierId: 0,
       productId: 0,
-      productName: slot['provider'] ?? '',
+      productName: s.provider ?? '',
       demoPlayRestricted: false,
       realPlayRestricted: false,
       maintenanceModeEnabled: false,
@@ -194,9 +215,14 @@ export class WinnersList implements OnInit, OnDestroy {
       translations: null,
       gameTypeId: 0,
       parameters: null,
-      rtp: slot['rtp'],
-      volatility: slot['volatility'],
-      minBet: slot['min_bet'] as string,
+      rtp: s.rtp,
+      volatility: s.volatility,
+      minBet: String(s.min_bet),
     };
+  }
+
+  private generateRandomName(): string {
+    const letter = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+    return `${letter}********`;
   }
 }
