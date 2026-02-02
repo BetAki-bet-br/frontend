@@ -24,7 +24,7 @@ export class GamesListByProviderPage {
   private screenWidth = signal(window.innerWidth);
 
   initialVisibleGames = 30;
-  gamesIncrement = 12;
+  gamesIncrement = 10;
   visibleGamesCount = signal(this.initialVisibleGames);
 
   loadMoreGames(): void {

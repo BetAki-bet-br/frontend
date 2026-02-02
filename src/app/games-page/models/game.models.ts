@@ -101,6 +101,7 @@ export interface LobbySection {
   order: number;
   type: string;
   games?: GameMain[];
+  gameMains?: GameMain[];
   gameCount?: number;
   data?: any;
   metadata?: {
