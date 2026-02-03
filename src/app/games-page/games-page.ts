@@ -30,37 +30,37 @@ export class GamesPage {
 
   cassinoBanners: CarouselSlide[] = [
     {
-      href: '',
+      href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/tigre_janeiro.jpeg',
       alt: 'Tigre Sortudo 30 giros grátis',
     },
     {
-      href: '/profile/promo',
+      href: 'https://betaki.bet.br/game/ALE-19922',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_CARAMELO SORTUDO_01.jpg',
       alt: 'Caramelo Sortudo',
     },
     {
-      href: '',
+      href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_CASHBACK_01.jpg',
       alt: 'Cashback 01',
     },
     {
-      href: '',
+      href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_CASHBACK_02.jpg',
       alt: 'Cashback 02',
     },
     {
-      href: '',
+      href: 'https://betaki.bet.br/game/ALE-24812',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_FORTUNE YURI_01.jpg',
       alt: 'Fortune Yuri',
     },
     {
-      href: '',
+      href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_SILVIA ABRAVANEL_01.jpg',
       alt: 'Silvia Abravanel',
     },
     {
-      href: '',
+      href: 'https://betaki.bet.br/game/ALE-18493',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_YO DRAGON_01.jpg',
       alt: 'Yo Dragon',
     },
@@ -68,22 +68,22 @@ export class GamesPage {
 
   liveBanners: CarouselSlide[] = [
     {
-      href: '',
+      href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/banner-live-cassino-1.jpeg',
       alt: 'Banner ao vivo 1',
     },
     {
-      href: '',
+      href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/banner-live-cassino-2.jpeg',
       alt: 'Banner ao vivo 2',
     },
     {
-      href: '',
+      href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/banner-live-cassino-3.jpeg',
       alt: 'Banner ao vivo 3',
     },
     {
-      href: '',
+      href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/banner-live-cassino-4.jpeg',
       alt: 'Banner ao vivo 4',
     },
