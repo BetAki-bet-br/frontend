@@ -50,7 +50,6 @@
     }
   </div>
   <h3 class="text-white font-bold text-sm sm:text-base mb-1 truncate ps-2 mt-2 relative z-20">{{ game().name }}</h3>
-  <!-- Pop-out Hover Card (50% Larger) -->
   @if (isHovering()) {
   <div
     class="pop-out-card absolute inset-0 z-50 bg-shark-900 rounded-lg shadow-2xl flex flex-col overflow-hidden pointer-events-none"
@@ -71,27 +70,29 @@
       </div>
       }
 
-      <!-- Game Type Badge -->
-      @if (game().gameTypeName) {
-      <div class="absolute top-2 left-2 z-10">
-        <span
-          class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-shark-950/50 text-shark-50/80 backdrop-blur-sm"
-        >
-          {{ game().gameTypeName }}
-        </span>
-      </div>
-      }
+      <div class="flex absolute top-2 left-2 z-10 flex-wrap gap-1 items-center w-full">
+        <!-- Game Type Badge -->
+        @if (game().gameTypeName) {
+        <div class="relative">
+          <span
+            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-shark-950/50 text-shark-50/80 backdrop-blur-sm"
+          >
+            {{ game().gameTypeName }}
+          </span>
+        </div>
+        }
 
-      <!-- RTP Badge -->
-      @if (game().rtp) {
-      <div class="absolute top-2 right-2 z-10">
-        <span
-          class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-shark-950/50 text-shark-50/80 backdrop-blur-sm"
-        >
-          <p class="text-betaki-400">{{ game().rtp }}%</p>
-        </span>
+        <!-- RTP Badge -->
+        @if (game().rtp) {
+        <div class="relative">
+          <span
+            class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-shark-950/50 text-shark-50/80 backdrop-blur-sm"
+          >
+            <p class="text-betaki-400">{{ game().rtp }}%</p>
+          </span>
+        </div>
+        }
       </div>
-      }
 
       <!-- Info Overlay -->
       <div
