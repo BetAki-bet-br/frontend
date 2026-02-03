@@ -1,9 +1,11 @@
-import { Component, computed, inject } from '@angular/core';
+import { afterNextRender, Component, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CarouselComponent, CarouselSlide } from './components/carousel/carousel';
 import { SidebarDesktop } from './components/sidebar-desktop/sidebar-desktop';
 import { GhostColorLayer } from './components/ghost-color-layer/ghost-color-layer';
 import { RoutingService } from '@app/@shared/services/routing.service';
+import { BannersService } from '@app/@core/backoffice';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-games-page',
@@ -13,12 +15,27 @@ import { RoutingService } from '@app/@shared/services/routing.service';
 })
 export class GamesPage {
   routingService = inject(RoutingService);
-
+  // bannerService = inject(BannersService);
   computedBanners = computed(() => (this.routingService.isLiveCasino() ? this.liveBanners : this.cassinoBanners));
+
+  // tigreSortudoBanner = toSignal(this.bannerService.getBanner(1), {
+  //   initialValue: null,
+  // });
+
+  // constructor() {
+  //   afterNextRender(() => {
+  //     console.log('Tigre Sortudo Banner:', this.tigreSortudoBanner());
+  //   });
+  // }
 
   cassinoBanners: CarouselSlide[] = [
     {
       href: '',
+      imageUrl: '/assets/carousel/tigre_janeiro.jpeg',
+      alt: 'Tigre Sortudo 30 giros grátis',
+    },
+    {
+      href: '/profile/promo',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_CARAMELO SORTUDO_01.jpg',
       alt: 'Caramelo Sortudo',
     },

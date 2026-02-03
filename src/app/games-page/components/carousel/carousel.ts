@@ -50,6 +50,8 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
   private startX = signal(0);
   private readonly threshold = 50;
 
+  hasDragged = signal(false);
+
   loadedImages = signal<Set<number>>(new Set());
 
   private readonly platformId = inject(PLATFORM_ID);
@@ -133,12 +135,12 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
       } else if (offset === -1) {
         // Previous slide
         style['transform'] = 'translateX(-40%) scale(0.6)';
-        style['filter'] = 'blur(3px)';
+        // style['filter'] = 'blur(3px)';
         style['opacity'] = 0.6;
       } else if (offset === 1) {
         // Next slide
         style['transform'] = 'translateX(40%) scale(0.6)';
-        style['filter'] = 'blur(3px)';
+        // style['filter'] = 'blur(3px)';
         style['opacity'] = 0.6;
       } else {
         // Other slides
@@ -192,29 +194,43 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
       return; // Only allow main mouse button drags
     }
     this.isDragging.set(true);
+    this.hasDragged.set(false);
     this.startX.set(e instanceof MouseEvent ? e.clientX : e.touches[0].clientX);
     this.pauseAutoPlay();
   }
 
   handleMove(e: MouseEvent | TouchEvent): void {
     if (!this.isDragging()) return;
-    e.preventDefault();
+
+    const currentX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
+    const deltaX = currentX - this.startX();
+    if (Math.abs(deltaX) > 10) {
+      this.hasDragged.set(true);
+    }
+
+    if (this.hasDragged()) {
+      e.preventDefault();
+    }
   }
 
   handleEnd(e: MouseEvent | TouchEvent): void {
     if (!this.isDragging()) return;
 
-    this.isDragging.set(false);
-    const endX = e instanceof MouseEvent ? e.clientX : e.changedTouches[0].clientX;
-    const deltaX = endX - this.startX();
+    if (this.hasDragged()) {
+      const endX = e instanceof MouseEvent ? e.clientX : e.changedTouches[0].clientX;
+      const deltaX = endX - this.startX();
 
-    if (Math.abs(deltaX) > this.threshold) {
-      if (deltaX > 0) {
-        this.prevSlide();
-      } else {
-        this.nextSlide();
+      if (Math.abs(deltaX) > this.threshold) {
+        if (deltaX > 0) {
+          this.prevSlide();
+        }
+        else {
+          this.nextSlide();
+        }
       }
     }
+
+    this.isDragging.set(false);
     this.resumeAutoPlay();
   }
 }

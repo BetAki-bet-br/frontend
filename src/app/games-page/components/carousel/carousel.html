@@ -6,7 +6,7 @@
         [href]="slide.href"
         [target]="slide.target || '_self'"
         class="block w-full h-full relative"
-        [class.pointer-events-none]="isDragging()"
+        [class.pointer-events-none]="hasDragged()"
       >
         @if (!isImageLoaded(i)) {
         <div
