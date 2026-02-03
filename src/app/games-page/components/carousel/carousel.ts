@@ -17,6 +17,7 @@ export interface CarouselSlide {
   target?: '_blank' | '_self' | '_parent' | '_top';
   imageUrl: string;
   alt: string;
+  duration?: number;
 }
 
 @Component({
@@ -24,7 +25,7 @@ export interface CarouselSlide {
   templateUrl: './carousel.html',
   styleUrl: './carousel.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage, CdnizePipe],
+  imports: [NgOptimizedImage, CdnizePipe, NgStyle],
   host: {
     '(window:resize)': 'onResize()',
     '(mouseenter)': 'pauseAutoPlay()',
@@ -45,7 +46,7 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
 
   currentIndex = signal(0);
 
-  private autoPlayTimer: ReturnType<typeof setInterval> | null = null;
+  private autoPlayTimer: ReturnType<typeof setTimeout> | null = null;
   isDragging = signal(false);
   private startX = signal(0);
   private readonly threshold = 50;
@@ -66,7 +67,6 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     if (this.slides() && this.slides().length > 1) {
       this.updateIndexes();
-
       this.startAutoPlay();
     }
   }
@@ -129,18 +129,16 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
     } else {
       if (offset === 0) {
         // Center slide
-        style['transform'] = 'translateX(0) scale(0.75)'; // Smaller main card
+        style['transform'] = 'translateX(0) scale(0.75)';
         style['filter'] = 'blur(0)';
         style['opacity'] = 1;
       } else if (offset === -1) {
         // Previous slide
         style['transform'] = 'translateX(-40%) scale(0.6)';
-        // style['filter'] = 'blur(3px)';
         style['opacity'] = 0.6;
       } else if (offset === 1) {
         // Next slide
         style['transform'] = 'translateX(40%) scale(0.6)';
-        // style['filter'] = 'blur(3px)';
         style['opacity'] = 0.6;
       } else {
         // Other slides
@@ -153,32 +151,56 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
     return style;
   }
 
+  getDotStyle(i: number): Record<string, string> {
+    const isActive = i === this.currentIndex();
+    const duration = this.slides()[i]?.duration || this.autoPlayInterval();
+    const width = isActive ? Math.min(1 + (duration / 5000) * 1.5, 4) : 1;
+
+    return {
+      width: `${width}rem`,
+      backgroundColor: isActive ? 'white' : 'rgb(156 163 175)',
+    };
+  }
+
+  goToSlide(index: number): void {
+    this.currentIndex.set(index);
+    this.scheduleAutoPlay();
+  }
+
   startAutoPlay(): void {
     this.pauseAutoPlay();
-    this.autoPlayTimer = setInterval(() => {
+    this.scheduleAutoPlay();
+  }
+
+  scheduleAutoPlay(): void {
+    const currentSlide = this.slides()[this.currentIndex()];
+    const duration = currentSlide?.duration || this.autoPlayInterval();
+    this.autoPlayTimer = setTimeout(() => {
       this.nextSlide();
-    }, this.autoPlayInterval());
+    }, duration);
   }
 
   pauseAutoPlay(): void {
     if (this.autoPlayTimer) {
-      clearInterval(this.autoPlayTimer);
+      clearTimeout(this.autoPlayTimer);
       this.autoPlayTimer = null;
     }
   }
 
   resumeAutoPlay(): void {
-    if (this.slides() && this.slides().length > 1) {
+    if (this.slides()?.length > 1) {
       this.startAutoPlay();
     }
   }
 
   nextSlide(): void {
     this.currentIndex.update((current) => (current + 1) % this.slides().length);
+    this.scheduleAutoPlay();
   }
 
   prevSlide(): void {
     this.currentIndex.update((current) => (current === 0 ? this.slides().length - 1 : current - 1));
+    this.scheduleAutoPlay();
   }
 
   onMouseLeave(e: MouseEvent): void {
@@ -191,7 +213,7 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
 
   handleStart(e: MouseEvent | TouchEvent): void {
     if (e instanceof MouseEvent && e.button !== 0) {
-      return; // Only allow main mouse button drags
+      return;
     }
     this.isDragging.set(true);
     this.hasDragged.set(false);
@@ -223,8 +245,7 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
       if (Math.abs(deltaX) > this.threshold) {
         if (deltaX > 0) {
           this.prevSlide();
-        }
-        else {
+        } else {
           this.nextSlide();
         }
       }

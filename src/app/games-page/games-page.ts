@@ -33,36 +33,43 @@ export class GamesPage {
       href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/tigre_janeiro.jpeg',
       alt: 'Tigre Sortudo 30 giros grátis',
+      duration: 5000,
     },
     {
       href: 'https://betaki.bet.br/game/ALE-19922',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_CARAMELO SORTUDO_01.jpg',
       alt: 'Caramelo Sortudo',
+      duration: 3500,
     },
     {
       href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_CASHBACK_01.jpg',
       alt: 'Cashback 01',
+      duration: 3500,
     },
     {
       href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_CASHBACK_02.jpg',
       alt: 'Cashback 02',
+      duration: 3500,
     },
     {
       href: 'https://betaki.bet.br/game/ALE-24812',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_FORTUNE YURI_01.jpg',
       alt: 'Fortune Yuri',
+      duration: 5000,
     },
     {
       href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_SILVIA ABRAVANEL_01.jpg',
       alt: 'Silvia Abravanel',
+      duration: 3500,
     },
     {
       href: 'https://betaki.bet.br/game/ALE-18493',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_YO DRAGON_01.jpg',
       alt: 'Yo Dragon',
+      duration: 3500,
     },
   ];
 
@@ -71,21 +78,25 @@ export class GamesPage {
       href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/banner-live-cassino-1.jpeg',
       alt: 'Banner ao vivo 1',
+      duration: 3500,
     },
     {
       href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/banner-live-cassino-2.jpeg',
       alt: 'Banner ao vivo 2',
+      duration: 3500,
     },
     {
       href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/banner-live-cassino-3.jpeg',
       alt: 'Banner ao vivo 3',
+      duration: 5000,
     },
     {
       href: 'https://betaki.bet.br/profile/promo',
       imageUrl: '/assets/carousel/banner-live-cassino-4.jpeg',
       alt: 'Banner ao vivo 4',
+      duration: 3500,
     },
   ];
 }

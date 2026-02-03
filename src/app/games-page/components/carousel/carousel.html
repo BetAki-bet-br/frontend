@@ -42,15 +42,16 @@
       </a>
     </div>
     } @if (slides().length > 1) {
-    <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex space-x-2 rounded-full z-10 px-3 py-1">
+    <div
+      class="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center space-x-2 rounded-full z-10 px-3 py-1"
+    >
       @for (slide of slides(); let i = $index; track slide.imageUrl) {
-      <button
-        class="w-3 h-3 rounded-full cursor-pointer transition-colors duration-300"
-        [class.bg-white]="i === currentIndex()"
-        [class.bg-gray-400]="i !== currentIndex()"
-        (click)="currentIndex.set(i)"
+      <div
+        class="h-3 rounded-full cursor-pointer transition-all duration-300"
+        [ngStyle]="getDotStyle(i)"
+        (click)="goToSlide(i)"
         [attr.aria-label]="'Ir para slide ' + (i + 1)"
-      ></button>
+      ></div>
       }
     </div>
     }
