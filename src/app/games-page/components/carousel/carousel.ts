@@ -63,7 +63,8 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     if (this.slides() && this.slides().length > 1) {
-      this.currentIndex.set(Math.floor(this.slides().length / 2));
+      this.updateIndexes();
+
       this.startAutoPlay();
     }
   }
@@ -74,8 +75,16 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(): void {
     this.loadedImages.set(new Set());
-    this.currentIndex.set(this.slides().length > 0 ? Math.floor(this.slides().length / 2) : 0);
+    this.updateIndexes();
     this.resumeAutoPlay();
+  }
+
+  updateIndexes(): void {
+    if (this.slides().length % 2 === 1) {
+      this.currentIndex.set(Math.floor(this.slides().length / 2));
+    } else {
+      this.currentIndex.set(0);
+    }
   }
 
   onImageLoad(index: number): void {
