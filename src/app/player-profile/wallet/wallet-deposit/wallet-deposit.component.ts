@@ -212,6 +212,25 @@ export class WalletDepositComponent implements OnInit {
 
           this.depositId = (response as CreatePaymentResponse)?.transactionId ?? '';
 
+          // Push the deposit_request event to GTM
+          const accountId = this.dataStoreService.getCredentials()?.userId;
+          const stake = this.parseAmount(this.amountControl.value);
+          const currency = this.dataStoreService.defaultCurrency;
+
+          console.log('Pushing deposit_request event to GTM:', {
+            event: 'deposit_request',
+            accountID: accountId,
+            stake: stake,
+            currency: currency,
+          });
+
+          this.googleTagManagerServiceImpl.pushGtmTag({
+            event: 'deposit_request',
+            accountID: accountId,
+            stake: stake,
+            currency: currency,
+          });
+
           this.googleTagManagerServiceImpl.pushGtmTag({ event: 'deposit' });
           this.cdr.detectChanges();
         },
