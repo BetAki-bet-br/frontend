@@ -30,12 +30,6 @@ export class GamesPage {
 
   cassinoBanners: CarouselSlide[] = [
     {
-      href: 'https://betaki.bet.br/profile/promo',
-      imageUrl: '/assets/carousel/tigre_janeiro.jpeg',
-      alt: 'Tigre Sortudo 30 giros grátis',
-      duration: 5000,
-    },
-    {
       href: 'https://betaki.bet.br/game/ALE-19922',
       imageUrl: '/assets/carousel/2026_JAN_BANNER_CARAMELO SORTUDO_01.jpg',
       alt: 'Caramelo Sortudo',
