@@ -15,7 +15,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '@app/@core';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Logger } from '@app/@shared';
@@ -57,13 +57,13 @@ export interface ResponsibleLimitForm {
   templateUrl: './responsible-limits.component.html',
   styleUrls: ['./responsible-limits.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     TranslateModule,
     MatIcon,
     MatInputModule,
     MatExpansionModule,
     MatSelectModule,
+    ReactiveFormsModule,
     MatExpansionPanelHeader,
     TimeLeftPipe,
     AsyncPipe,
