@@ -1,14 +1,23 @@
 <div [class]="'w-full relative ' + class()" [style.max-width]="maxWidth()">
-  <div class="relative cursor-grab active:cursor-grabbing lg:rounded-lg select-none overflow-hidden aspect-[450/130]">
-    @for (slide of slides(); let i = $index; track slide.imageUrl) {
-    <div class="absolute inset-0 w-full h-full" [style]="getSlideStyle(i)">
+  <div
+    class="relative cursor-grab active:cursor-grabbing lg:rounded-lg select-none overflow-hidden aspect-[450/130]"
+    role="region"
+    aria-label="Carrossel de imagens"
+  >
+    @for (slide of slides(); track slide.imageUrl; let i = $index) {
+    <div
+      class="absolute inset-0 w-full h-full will-change-transform"
+      [ngStyle]="slideStyles()[i]"
+      [attr.aria-hidden]="i !== currentIndex()"
+    >
       <a
         [href]="slide.href"
         [target]="slide.target || '_self'"
         class="block w-full h-full relative"
         [class.pointer-events-none]="hasDragged()"
+        [tabindex]="i === currentIndex() ? 0 : -1"
       >
-        @if (!isImageLoaded(i)) {
+        @if (loading() && !isImageLoaded(i)) {
         <div
           class="absolute inset-0 bg-[#272a31] border rounded-lg border-betaki-500 animate-pulse z-10 flex items-center justify-center"
         >
@@ -30,13 +39,13 @@
         <img
           [ngSrc]="slide.imageUrl | cdnize"
           [alt]="slide.alt"
-          class="w-full h-full object-center object-cover sm:rounded-lg"
+          class="w-full h-full object-center object-cover sm:rounded-lg transition-opacity duration-500"
+          draggable="false"
           [class.opacity-0]="!isImageLoaded(i)"
           [class.transition-opacity]="true"
           [class.duration-500]="true"
-          draggable="false"
           fill
-          priority
+          [priority]="i === 0"
           (load)="onImageLoad(i)"
         />
       </a>
@@ -45,13 +54,15 @@
     <div
       class="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center space-x-2 rounded-full z-10 px-3 py-1"
     >
-      @for (slide of slides(); let i = $index; track slide.imageUrl) {
-      <div
-        class="h-3 rounded-full cursor-pointer transition-all duration-300"
-        [ngStyle]="getDotStyle(i)"
+      @for (slide of slides(); track slide.imageUrl; let i = $index) {
+      <button
+        type="button"
+        class="h-3 rounded-full cursor-pointer transition-all duration-300 border-none focus:outline-none focus:ring-2 focus:ring-white"
+        [ngStyle]="dotStyles()[i]"
         (click)="goToSlide(i)"
-        [attr.aria-label]="'Ir para slide ' + (i + 1)"
-      ></div>
+        [attr.aria-label]="'Ir para o slide ' + (i + 1)"
+        [attr.aria-current]="i === currentIndex()"
+      ></button>
       }
     </div>
     }
