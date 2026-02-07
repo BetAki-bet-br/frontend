@@ -2,13 +2,13 @@ import { NgOptimizedImage, NgStyle, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnChanges,
   OnDestroy,
-  OnInit,
   PLATFORM_ID,
+  effect,
   inject,
   input,
   signal,
+  computed,
 } from '@angular/core';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 
@@ -17,7 +17,7 @@ export interface CarouselSlide {
   target?: '_blank' | '_self' | '_parent' | '_top';
   imageUrl: string;
   alt: string;
-  duration?: number;
+  duration?: string;
 }
 
 @Component({
@@ -34,17 +34,18 @@ export interface CarouselSlide {
     '(mouseup)': 'handleEnd($event)',
     '(mousemove)': 'handleMove($event)',
     '(touchstart)': 'handleStart($event)',
-    '(touchmove)': 'handleMove($event)',
+    '(touchmove)': 'handleEnd($event)',
     '(touchend)': 'handleEnd($event)',
   },
 })
-export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
+export class CarouselComponent implements OnDestroy {
   slides = input<CarouselSlide[]>([]);
   autoPlayInterval = input(3500);
   maxWidth = input('');
   class = input('');
 
   currentIndex = signal(0);
+  loading = signal(true);
 
   private autoPlayTimer: ReturnType<typeof setTimeout> | null = null;
   isDragging = signal(false);
@@ -65,9 +66,11 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnInit(): void {
-    if (this.slides() && this.slides().length > 1) {
+    if (this.slides().length > 1) {
       this.updateIndexes();
       this.startAutoPlay();
+    } else if (this.slides().length === 1) {
+      this.loading.set(false);
     }
   }
 
@@ -89,6 +92,14 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  formatDuration(duration: string | undefined): number {
+    if (!duration) {
+      return this.autoPlayInterval();
+    }
+    const parsed = parseInt(duration.replace('s', ''), 10) * 1000;
+    return isNaN(parsed) ? this.autoPlayInterval() : parsed;
+  }
+
   onImageLoad(index: number): void {
     this.loadedImages.update((set) => {
       const newSet = new Set(set);
@@ -107,62 +118,87 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  getSlideStyle(i: number): Record<string, string | number> {
-    const n = this.slides().length;
-    let offset = i - this.currentIndex();
+  slideStyles = computed(() => {
+    const current = this.currentIndex();
+    const slides = this.slides();
+    const isSmall = this.isSmallScreen();
+    const n = slides.length;
 
-    if (n > 2 && Math.abs(offset) > n / 2) {
-      offset = offset > 0 ? offset - n : offset + n;
-    }
+    return slides.map((_, i) => {
+      let offset = i - current;
 
-    const absOffset = Math.abs(offset);
-
-    const style: Record<string, string | number> = {
-      transition: 'transform 500ms ease-in-out, filter 500ms ease-in-out, opacity 500ms ease-in-out',
-      zIndex: this.slides().length - absOffset,
-    };
-
-    if (this.isSmallScreen()) {
-      style['transform'] = `translateX(${offset * 100}%)`;
-      style['filter'] = 'blur(0)';
-      style['opacity'] = absOffset === 0 ? 1 : 0;
-    } else {
-      if (offset === 0) {
-        // Center slide
-        style['transform'] = 'translateX(0) scale(0.75)';
-        style['filter'] = 'blur(0)';
-        style['opacity'] = 1;
-      } else if (offset === -1) {
-        // Previous slide
-        style['transform'] = 'translateX(-40%) scale(0.6)';
-        style['opacity'] = 0.6;
-      } else if (offset === 1) {
-        // Next slide
-        style['transform'] = 'translateX(40%) scale(0.6)';
-        style['opacity'] = 0.6;
-      } else {
-        // Other slides
-        style['transform'] = `translateX(${Math.sign(offset) * 50}%) scale(0.5)`;
-        style['filter'] = 'blur(5px)';
-        style['opacity'] = 0;
+      if (n > 2 && Math.abs(offset) > n / 2) {
+        offset = offset > 0 ? offset - n : offset + n;
       }
-    }
 
-    return style;
-  }
+      const absOffset = Math.abs(offset);
 
-  getDotStyle(i: number): Record<string, string> {
-    const isActive = i === this.currentIndex();
-    const duration = this.slides()[i]?.duration || this.autoPlayInterval();
-    const width = isActive ? Math.min(1 + (duration / 5000) * 1.5, 4) : 1;
+      // Base Style
+      const style: Record<string, string | number> = {
+        transition: 'transform 500ms ease-in-out, filter 500ms ease-in-out, opacity 500ms ease-in-out',
+        zIndex: n - absOffset,
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: '100%',
+        height: '100%',
+      };
 
-    return {
-      width: `${width}rem`,
-      backgroundColor: isActive ? 'white' : 'rgb(156 163 175)',
-    };
-  }
+      if (isSmall) {
+        style['transform'] = `translateX(${offset * 100}%)`;
+        style['filter'] = 'blur(0)';
+        style['opacity'] = absOffset === 0 ? 1 : 0;
+        style['visibility'] = absOffset <= 1 ? 'visible' : 'hidden';
+      } else {
+        if (offset === 0) {
+          style['transform'] = 'translateX(0) scale(0.75)';
+          style['opacity'] = 1;
+          style['filter'] = 'blur(0)';
+        } else if (offset === -1) {
+          style['transform'] = 'translateX(-40%) scale(0.6)';
+          style['opacity'] = 0.6;
+        } else if (offset === 1) {
+          style['transform'] = 'translateX(40%) scale(0.6)';
+          style['opacity'] = 0.6;
+        } else {
+          style['transform'] = `translateX(${Math.sign(offset) * 50}%) scale(0.5)`;
+          style['opacity'] = 0;
+          style['filter'] = 'blur(5px)';
+          style['pointer-events'] = 'none';
+        }
+      }
+      return style;
+    });
+  });
+
+  dotStyles = computed(() => {
+    const current = this.currentIndex();
+    const slides = this.slides();
+    const baseInterval = this.autoPlayInterval();
+
+    return slides.map((slide, i) => {
+      const isActive = i === current;
+      const durationStr = slide.duration;
+
+      let durationS = baseInterval;
+      if (durationStr) {
+        const parsed = parseInt(durationStr.replace('s', ''), 10) * 1000;
+        if (!isNaN(parsed)) durationS = parsed;
+      }
+
+      console.log('Duration for slide', i, 'is', durationS);
+
+      const width = isActive ? Math.min(1 + (durationS / 5000) * 1.5, 4) : 1;
+
+      return {
+        width: `${width}rem`,
+        backgroundColor: isActive ? 'white' : 'rgb(156 163 175)',
+      };
+    });
+  });
 
   goToSlide(index: number): void {
+    this.pauseAutoPlay();
     this.currentIndex.set(index);
     this.scheduleAutoPlay();
   }
@@ -174,10 +210,9 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
 
   scheduleAutoPlay(): void {
     const currentSlide = this.slides()[this.currentIndex()];
-    const duration = currentSlide?.duration || this.autoPlayInterval();
     this.autoPlayTimer = setTimeout(() => {
       this.nextSlide();
-    }, duration);
+    }, this.formatDuration(currentSlide?.duration));
   }
 
   pauseAutoPlay(): void {
