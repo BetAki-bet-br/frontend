@@ -121,7 +121,16 @@
                 subscriptSizing="dynamic"
                 class="form-input-primary flex-col keep-desktop-size error-border mb-0.5"
               >
-                <input placeholder="R$ 0,00" matInput formControlName="amount" type="number" />
+                <input
+                  placeholder="R$ 0,00"
+                  matInput
+                  formControlName="amount"
+                  prefix="R$ "
+                  type="text"
+                  mask="separator.2"
+                  thousandSeparator="."
+                  decimalMarker=","
+                />
               </mat-form-field>
               @if (!(amountControl.invalid && (amountControl.touched || amountControl.dirty))) {
                 <mat-hint class="text-xs xs:text-sm" translate animate.enter="animate-enter-slide-down"
@@ -154,10 +163,14 @@
                 </div>
               }
             </div>
-            <!-- Button -->
-            <button class="withdraw-button flex-2" (click)="withdraw()" [disabled]="withdrawalForm.invalid" mat-button>
+            <app-button
+              class="m-auto w-full md:w-25"
+              overrideClass="w-full"
+              (click)="withdraw()"
+              [disabled]="withdrawalForm.invalid"
+            >
               <span translate>Withdraw</span>
-            </button>
+            </app-button>
           </div>
         </div>
 

@@ -45,8 +45,12 @@ import {
 import { WithdrawalDialogComponent } from '@app/@shared/components/withdrawal-dialog/withdrawal-dialog.component';
 import { WithdrawalError, TransactionStatusStringEnum } from '@app/@shared/models';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
+import { NgxMaskDirective } from 'ngx-mask';
+
 import { PaymentsService } from '@app/@shared/services/payment.service';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 
 const log = new Logger('WalletWithdrawalComponent');
 
@@ -78,11 +82,14 @@ enum WithdrawalTypeEnum {
     MatIcon,
     MatSelect,
     MatInputModule,
+    MatButtonModule,
     MatTooltipModule,
     TranslateModule,
     MatFormFieldModule,
     ReactiveFormsModule,
+    NgxMaskDirective,
     MatOption,
+    ButtonComponent,
   ],
 })
 export class WalletWithdrawalComponent implements OnInit, OnDestroy {
