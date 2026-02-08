@@ -54,6 +54,7 @@
   <div
     class="pop-out-card absolute inset-0 z-50 bg-shark-900 rounded-lg shadow-2xl flex flex-col overflow-hidden pointer-events-none"
     [style.--pop-out-scale]="scale()"
+    [style.transform-origin]="popOutTransformOrigin()"
   >
     <div class="relative flex-grow overflow-hidden aspect-[3/4]">
       <img
