@@ -31,7 +31,6 @@ import {
 import { catchError, finalize, first, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { CredentialsService } from './credentials.service';
-import { LastSessionDialogComponent } from './login/last-session-dialog/last-session-dialog.component';
 import {
   TermsAndConditionsUpdatedDialogComponent,
   TermsAndConditionsUpdatedDialogResult,
@@ -515,18 +514,6 @@ export class AuthDialogService {
         );
       }),
     );
-  }
-
-  private openLastLoginDialog(lastLoginTime: string | null): Observable<boolean> {
-    return this.dialog
-      .open<LastSessionDialogComponent, string, LastSessionDialogComponent>(LastSessionDialogComponent, {
-        data: lastLoginTime,
-      })
-      .closed.pipe(
-        switchMap(() => {
-          return of(true);
-        }),
-      );
   }
 
   private updatePlayerLocaleAndReturnResult(): Observable<boolean> {

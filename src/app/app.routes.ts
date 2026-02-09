@@ -36,12 +36,6 @@ export const appRoutes: Routes = [
         loadChildren: () => import('./dev/dialog-test/dialog-test.routes').then((m) => m.routes),
         title: 'Dialog Test Page',
       },
-      {
-        path: 'backoffice-test',
-        loadComponent: () =>
-          import('./dev/backoffice-test/backoffice-test.component').then((m) => m.BackofficeTestComponent),
-        title: 'Backoffice API Test',
-      },
       { path: 'auth', loadChildren: () => import('./auth/auth.routes').then((m) => m.routes) },
       { path: '', loadChildren: () => import('./help/help.routes').then((m) => m.routes) },
       {
