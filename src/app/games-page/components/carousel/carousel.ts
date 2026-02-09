@@ -186,8 +186,6 @@ export class CarouselComponent implements OnDestroy {
         if (!isNaN(parsed)) durationS = parsed;
       }
 
-      console.log('Duration for slide', i, 'is', durationS);
-
       const width = isActive ? Math.min(1 + (durationS / 5000) * 1.5, 4) : 1;
 
       return {
