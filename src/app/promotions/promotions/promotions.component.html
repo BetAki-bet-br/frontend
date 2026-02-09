@@ -5,34 +5,3 @@
     <div [innerHTML]="bonus.templateHtml"></div>
   }
 </div>
-
-@if (false) {
-  <!-- removed for GLI version -->
-  <app-winners-section [hidePoolJackpot]="true" [withBackground]="true" />
-}
-
-<app-welcome-message class="full-width">
-  <h1 translate>Promotions at Comtrade Gaming Online Casino and Slots</h1>
-  <p translate>
-    Welcome to Comtrade Gaming, the ultimate destination for thrilling online casino and slots games. Get ready to
-    experience non-stop entertainment and incredible winning opportunities.
-  </p>
-
-  @if (readMoreHidden) {
-    <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read more...</p>
-  }
-
-  <div [class.hidden]="readMoreHidden">
-    <h2 translate>Welcome Bonus</h2>
-    <p translate>
-      Start your gaming adventure at Comtrade Gaming and claim our generous welcome bonus and enjoy a head start on your
-      favourite online casino games and slots. Make your first deposit and unlock a bonus that will boost your bankroll,
-      allowing you to explore a wide range of exciting games and increase your winning potential.
-    </p>
-    <p translate>Discover our latest promotions and boost your <a (click)="depositClick()">deposit</a>.</p>
-  </div>
-
-  @if (!readMoreHidden) {
-    <p class="read-more" (click)="this.readMoreHidden = !this.readMoreHidden">Read less...</p>
-  }
-</app-welcome-message>

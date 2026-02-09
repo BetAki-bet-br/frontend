@@ -150,14 +150,6 @@ export class AppStartupService {
     this.playerActivationService.processAnnualIncomeReportUrl().subscribe();
     this.playerPromoService.processPromoActivationUrl().subscribe();
 
-    // Redirects
-    // this.playerActivationService.processRedirectUrl().subscribe(() => {
-    //   this.router.navigate([], {
-    //     relativeTo: this.activatedRoute,
-    //     queryParams: {},
-    //   });
-    // });
-
     // Legitimuz Geolocation
     this.legitimuzScriptLoaderService.geolocSdkLoaded$
       .pipe(

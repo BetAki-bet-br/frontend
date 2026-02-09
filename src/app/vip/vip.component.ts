@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { VipService } from './vip.service';
 import { VipProgram } from '@app/@shared/models';
 import { VipProgramCardComponent } from './vip-program-card/vip-program-card.component';
-import { WelcomeMessageComponent } from '@app/@shared/components/welcome-message/welcome-message.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -10,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './vip.component.html',
   styleUrls: ['./vip.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [VipProgramCardComponent, WelcomeMessageComponent, TranslateModule],
+  imports: [VipProgramCardComponent, TranslateModule],
 })
 export class VipComponent implements OnInit {
   private vipService = inject(VipService);
