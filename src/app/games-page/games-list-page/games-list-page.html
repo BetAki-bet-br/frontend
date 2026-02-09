@@ -41,6 +41,8 @@
                   [game]="game"
                   (click)="handleGameClick(game)"
                   [isPriority]="$index < 5"
+                  [isFirst]="i === 0"
+                  [isLast]="i === section.data.games.slice(0, gamesCount()).length - 1"
                 ></app-game-card>
               }
             </div>
@@ -84,6 +86,8 @@
                   [game]="game"
                   [class.mr-3]="section.data.gameMains.slice(0, gamesCount()).length - 1 === i"
                   (click)="handleGameClick(game)"
+                  [isFirst]="i === 0"
+                  [isLast]="i === section.data.gameMains.slice(0, gamesCount()).length - 1"
                 ></app-game-card>
               }
             </div>

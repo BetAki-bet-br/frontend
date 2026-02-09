@@ -25,8 +25,8 @@ export class GamesListByCategoryPage {
   selectedGame = signal<GameMain | null>(null);
   private screenWidth = signal(window.innerWidth);
 
-  initialVisibleGames = 30;
-  gamesIncrement = 10;
+  initialVisibleGames = 32;
+  gamesIncrement = 8;
   visibleGamesCount = signal(this.initialVisibleGames);
 
   loadMoreGames(): void {
