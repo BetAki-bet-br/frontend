@@ -14,7 +14,7 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validator
 
 import { NgxMaskDirective } from 'ngx-mask';
 import { Dialog } from '@angular/cdk/dialog';
-import { finalize, of, Subscription, switchMap } from 'rxjs';
+import { finalize, map, of, Subscription, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PortalGatewayErrorResponse } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -47,6 +47,8 @@ import { AuthenticationService, LoginContext } from '@app/auth/authentication.se
 import { AuthEvent, AuthEventsService } from '@app/auth/auth-events.service';
 import { NgOptimizedImage } from '@angular/common';
 import { ButtonComponent } from '@app/@shared/components/button/button.component';
+import { BannersService } from '@app/@core/backoffice';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 const log = new Logger('LoginPageComponent');
 
@@ -73,6 +75,7 @@ export class LoginPage implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(Dialog);
+  private readonly bannerService = inject(BannersService);
   private readonly tawkToScriptService = inject(TawkToScriptService);
   private readonly legitimuzGeolocationService = inject(LegitimuzGeolocationService);
   private readonly translate = inject(TranslateService);
@@ -87,6 +90,13 @@ export class LoginPage implements OnInit, OnDestroy {
   loginError = signal<string | null>(null);
   isBannerLoaded = signal(false);
   isInnerBannerLoaded = signal(false);
+  loginBannerDesktop = toSignal(
+    this.bannerService.getBanners({ q: 'banner-login' }).pipe(
+      map((res) => res.data[0] ?? null),
+      tap((res) => console.log('Banner response: ', res)),
+    ),
+    { initialValue: null },
+  );
 
   @ViewChild('usernameInput', { static: true }) usernameInput!: ElementRef<HTMLElement>;
 

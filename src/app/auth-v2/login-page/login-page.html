@@ -19,8 +19,9 @@
       </svg>
     </div>
     }
+    <!-- loginBannerDesktop -->
     <img
-      ngSrc="assets/banner-login.jpeg"
+      [ngSrc]="loginBannerDesktop()?.cover_url || 'assets/banner-login.jpeg'"
       alt="Banner"
       fill
       class="object-cover rounded-l-[1rem] transition-opacity duration-300"

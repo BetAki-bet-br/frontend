@@ -16,6 +16,7 @@ export interface Banner {
   publish_at?: string;
   expire_at?: string;
   link_url?: string;
+  cover_url?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -94,7 +95,7 @@ export interface Showcase {
 export interface Slot {
   id: number;
   title: string;
-  cover_url: any;
+  cover_url: string;
   status: string;
   provider: string;
   provider_game_id: string;
