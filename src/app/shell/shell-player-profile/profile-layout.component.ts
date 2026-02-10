@@ -13,8 +13,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { AppBreakpoints } from '@shared';
 import { SidenavMenuComponent } from '../sidenav-menu/sidenav-menu.component';
 import { ProfileMenuComponent } from './profile-menu/profile-menu.component';
-import { MobileMenu } from '../mobile-menu/mobile-menu';
-import { SidebarMobile } from '../sidebar-mobile/sidebar-mobile';
 
 @Component({
   selector: 'app-profile-layout',
