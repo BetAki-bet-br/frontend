@@ -112,8 +112,6 @@ export class AuthenticationService {
       }),
       switchMap(({ credentials, loginFaceAuth, lastLoginTime }) => {
         // Clear the games data, as logged in users can have different games as anonymous
-        this.dataStoreService.clearGamesAndLobbyInfoConfigurationCache();
-
         return this.credentialsService.setCredentials(credentials).pipe(
           map((result) => {
             // store credentials

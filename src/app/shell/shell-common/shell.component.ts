@@ -3,7 +3,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { RouterOutlet } from '@angular/router';
 import { ConfigurationService } from '@app/@core/configuration.service';
-import { GlobalSearchService } from '@app/@shared/global-search.service';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { CredentialsService } from '@app/auth';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
@@ -27,7 +26,6 @@ import { LoadingService } from '@app/@shared/components/loading/loading.service'
   imports: [Header, RouterOutlet, Footer, MobileMenu, SidebarMobile, Loading, InlineLoading],
 })
 export class ShellComponent {
-  globalSearchService = inject(GlobalSearchService);
   private credentialsService = inject(CredentialsService);
   private configurationService = inject(ConfigurationService);
   private playerService = inject(PlayerStatusService);

@@ -28,9 +28,11 @@ import {
 } from '@app/@shared/models/template.model';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { TranslateService } from '@ngx-translate/core';
-import { GamesService } from '@app/@shared/services/games/games.service';
+
 import { TemplateService } from '@app/@shared/services/template.service';
 import { SafeHtml } from '@angular/platform-browser';
+import { SlotsService } from '@app/@core/backoffice';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 const log = new Logger('PromotionsService');
 
@@ -46,7 +48,8 @@ export class PromotionsService {
   private ellipsisPipe = inject(EllipsisPipe);
   private promotionService = inject(PromotionService);
   private translateService = inject(TranslateService);
-  private gamesService = inject(GamesService);
+
+  private gamesService = inject(SlotsService);
   private templateService = inject(TemplateService);
 
   /**
@@ -129,8 +132,11 @@ export class PromotionsService {
         // Add the game name to the promotion details
         const promotionDataWithGameName = response.map((promotionData) => {
           const extGameId = this.getCustomContent(promotionData, CustomContentType.ExtGameId);
-          const gameName$ = extGameId ? this.gamesService.getGameName(extGameId) : of(undefined);
+          const gameName$: Observable<string | undefined> = extGameId
+            ? this.gamesService.getSlotByExternalId(extGameId).pipe(map((slot) => slot.title))
+            : of(undefined);
 
+          console.log('extGameId', extGameId, 'gameName$', gameName$);
           const ret: Observable<PromotionDetails & { gameName: string | undefined }> = gameName$.pipe(
             map((p) => {
               return { ...promotionData, gameName: p };

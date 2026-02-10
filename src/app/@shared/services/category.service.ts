@@ -14,7 +14,6 @@ function toLocalGameCategory(apiCategory: ApiGameCategory): GameCategory {
     name: apiCategory.name ?? '',
     parentId: apiCategory.parentId ?? null,
     categoryTypeId: isNaN(categoryTypeId) ? '0' : String(categoryTypeId),
-    // subLevels: [], // Initialized as empty, assumed to be populated by consumers.
   };
 }
 

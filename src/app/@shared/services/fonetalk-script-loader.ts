@@ -26,7 +26,6 @@ export class FonetalkScriptLoader {
     this.scriptLoaded = true;
     const w = window as any;
 
-    // Initialize UC2BChat command queue as per Fonetalk implementation tag
     w.UC2BChat =
       w.UC2BChat ||
       function (c: any) {
@@ -46,7 +45,6 @@ export class FonetalkScriptLoader {
 
     this.renderer.appendChild(this.document.head, script);
 
-    // Initial configuration
     w.UC2BChat(function (this: any) {
       this.setLinkedToFlow('');
     });

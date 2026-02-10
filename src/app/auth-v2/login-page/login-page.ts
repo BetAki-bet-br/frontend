@@ -160,9 +160,7 @@ export class LoginPage implements OnInit, OnDestroy {
       this.usernameInput.nativeElement.focus();
       return;
     }
-    this.legitimuzGeolocationService.sendAnalysis({ cpf: this.form.value.username ?? '' });
 
-    log.debug('onLogin: ', this.form.value);
     this.submitLoading.set(true);
 
     const loginData: LoginContext = {
@@ -175,6 +173,8 @@ export class LoginPage implements OnInit, OnDestroy {
         .login(loginData)
         .pipe(
           switchMap((result) => {
+            this.legitimuzGeolocationService.sendAnalysis({ cpf: result.credentials.username ?? '' });
+
             if (result.credentials?.username) {
               const credentialsReferenceId = result?.credentials?.referenceId ?? '';
               const credentialsReverificationURL = result?.credentials?.reverificationURL ?? '';

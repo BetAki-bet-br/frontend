@@ -34,8 +34,6 @@ import { CmsService } from '@app/@shared/services/cms.service';
 import { HelpPagesLoaderComponent } from '@app/help/help-pages/help-pages-loader/help-pages-loader.component';
 import { BonusesService } from '@app/@shared/services/bonuses.service';
 import { MainBannerComponent } from '@app/@shared/components/main-banner/main-banner.component';
-import { WinnersSectionComponent } from '@app/@shared/components/winners-section/winners-section.component';
-import { WelcomeMessageComponent } from '@app/@shared/components/welcome-message/welcome-message.component';
 import { AsyncPipe } from '@angular/common';
 
 import { ActionType } from '../promotions.models';
@@ -47,7 +45,7 @@ const log = new Logger('PromotionsComponent');
   templateUrl: './promotions.component.html',
   styleUrls: ['./promotions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MainBannerComponent, AsyncPipe, WinnersSectionComponent, WelcomeMessageComponent],
+  imports: [MainBannerComponent, AsyncPipe],
 })
 export class PromotionsComponent implements OnInit {
   private promotionsService = inject(PromotionsService);

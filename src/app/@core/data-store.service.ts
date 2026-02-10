@@ -16,7 +16,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Logger } from '@app/@shared/logger.service';
-import { Banner, LatestWinnersCache } from '@app/@shared/models';
+import { Banner } from '@app/@shared/models';
 import { GameMenuCategoryModel, GameProviderData, GameTile } from '@app/@shared/models/game.model';
 import { Credentials } from '@app/auth';
 import { I18nService } from '@app/i18n';
@@ -35,8 +35,6 @@ import { BehaviorSubject, Subject } from 'rxjs';
 const log = new Logger('DataStoreService');
 
 const configurationCacheSessionKey = 'config';
-const latestWinnersIndexKey = 'latestWinnersIndex';
-const latestWinnersKey = 'latestWinners';
 
 export interface PaymentGroupListElement {
   brandId: number;
@@ -123,8 +121,6 @@ export class DataStoreService {
   // mobile portal id
   mobilePortalId = +environment.deployConfig.mobilePortalId;
 
-  public latestWinners$ = new BehaviorSubject<LatestWinnersCache | null>(null);
-
   cacheLifeSpan = 1800000; // lifespan of the cached item in ms (1800000ms = 30min)
 
   private _configurationCache: { [name: string]: CacheItem<any> } = {
@@ -150,58 +146,6 @@ export class DataStoreService {
     },
     currenciesList: {
       data: null as Currency[] | null,
-      timestamp: Date.now(),
-    },
-    menuGameTypes: {
-      data: {
-        [this.desktopPortalId]: {
-          data: null as GameCategory[] | null,
-          timestamp: Date.now(),
-        },
-        [this.mobilePortalId]: {
-          data: null as GameCategory[] | null,
-          timestamp: Date.now(),
-        },
-      } as MenuCategoryPortal,
-      timestamp: Date.now(),
-    },
-    lobbyGames: {
-      data: {
-        [this.desktopPortalId]: {
-          data: {} as LobbyGameCache,
-          timestamp: Date.now(),
-        },
-        [this.mobilePortalId]: {
-          data: {} as LobbyGameCache,
-          timestamp: Date.now(),
-        },
-      } as LobbyGameCachePortal,
-      timestamp: Date.now(),
-    },
-    gamesMenuCategories: {
-      data: {
-        [this.desktopPortalId]: {
-          data: {} as GameMenuCategories,
-          timestamp: Date.now(),
-        },
-        [this.mobilePortalId]: {
-          data: {} as GameMenuCategories,
-          timestamp: Date.now(),
-        },
-      } as GameMenuCategoriesPortal,
-      timestamp: Date.now(),
-    },
-    gameProviders: {
-      data: {
-        [this.desktopPortalId]: {
-          data: {} as GameProvidersLevel,
-          timestamp: Date.now(),
-        },
-        [this.mobilePortalId]: {
-          data: {} as GameProvidersLevel,
-          timestamp: Date.now(),
-        },
-      } as GameProvidersPortal,
       timestamp: Date.now(),
     },
     templatesList: {
@@ -341,58 +285,6 @@ export class DataStoreService {
         data: null as Currency[] | null,
         timestamp: Date.now(),
       },
-      menuGameTypes: {
-        data: {
-          [this.desktopPortalId]: {
-            data: null as GameCategory[] | null,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: null as GameCategory[] | null,
-            timestamp: Date.now(),
-          },
-        } as MenuCategoryPortal,
-        timestamp: Date.now(),
-      },
-      lobbyGames: {
-        data: {
-          [this.desktopPortalId]: {
-            data: {} as LobbyGameCache,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: {} as LobbyGameCache,
-            timestamp: Date.now(),
-          },
-        } as LobbyGameCachePortal,
-        timestamp: Date.now(),
-      },
-      gamesMenuCategories: {
-        data: {
-          [this.desktopPortalId]: {
-            data: {} as GameMenuCategories,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: {} as GameMenuCategories,
-            timestamp: Date.now(),
-          },
-        } as GameMenuCategoriesPortal,
-        timestamp: Date.now(),
-      },
-      gameProviders: {
-        data: {
-          [this.desktopPortalId]: {
-            data: {} as GameProvidersLevel,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: {} as GameProvidersLevel,
-            timestamp: Date.now(),
-          },
-        } as GameProvidersPortal,
-        timestamp: Date.now(),
-      },
       templatesList: {
         data: null as TemplateData[] | null,
         timestamp: Date.now(),
@@ -434,45 +326,7 @@ export class DataStoreService {
         data: this.fallbackLanguage,
         timestamp: Date.now(),
       },
-      lobbyGames: {
-        data: {
-          [this.desktopPortalId]: {
-            data: {} as LobbyGameCache,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: {} as LobbyGameCache,
-            timestamp: Date.now(),
-          },
-        } as LobbyGameCachePortal,
-        timestamp: Date.now(),
-      },
-      gamesMenuCategories: {
-        data: {
-          [this.desktopPortalId]: {
-            data: {} as GameMenuCategories,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: {} as GameMenuCategories,
-            timestamp: Date.now(),
-          },
-        } as GameMenuCategoriesPortal,
-        timestamp: Date.now(),
-      },
-      gameProviders: {
-        data: {
-          [this.desktopPortalId]: {
-            data: {} as GameProvidersLevel,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: {} as GameProvidersLevel,
-            timestamp: Date.now(),
-          },
-        } as GameProvidersPortal,
-        timestamp: Date.now(),
-      },
+
       currentBanners: {
         data: null as CurrentBannersData | null,
         timestamp: Date.now(),
@@ -489,67 +343,6 @@ export class DataStoreService {
     this.saveConfigToStorage();
 
     this.clearInMemoryConfigurationCache();
-  }
-
-  /**
-   * Clear games data
-   */
-  clearGamesAndLobbyInfoConfigurationCache() {
-    this._configurationCache = {
-      ...this._configurationCache,
-      lobbyGames: {
-        data: {
-          [this.desktopPortalId]: {
-            data: {} as LobbyGameCache,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: {} as LobbyGameCache,
-            timestamp: Date.now(),
-          },
-        } as LobbyGameCachePortal,
-        timestamp: Date.now(),
-      },
-      gamesMenuCategories: {
-        data: {
-          [this.desktopPortalId]: {
-            data: {} as GameMenuCategories,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: {} as GameMenuCategories,
-            timestamp: Date.now(),
-          },
-        } as GameMenuCategoriesPortal,
-        timestamp: Date.now(),
-      },
-      gameProviders: {
-        data: {
-          [this.desktopPortalId]: {
-            data: {} as GameProvidersLevel,
-            timestamp: Date.now(),
-          },
-          [this.mobilePortalId]: {
-            data: {} as GameProvidersLevel,
-            timestamp: Date.now(),
-          },
-        } as GameProvidersPortal,
-        timestamp: Date.now(),
-      },
-      currentBanners: {
-        data: null as CurrentBannersData | null,
-        timestamp: Date.now(),
-      },
-      currentPromotionBanners: {
-        data: null as Banner[] | null,
-        timestamp: Date.now(),
-      },
-      playerVerificationStatus: {
-        data: null as PlayerStatusesResponse | null,
-        timestamp: Date.now(),
-      },
-    };
-    this.saveConfigToStorage();
   }
 
   //#endregion CONFIGURATION CACHE
@@ -648,215 +441,6 @@ export class DataStoreService {
   public setPlayerInfoInMemoryPending(isPending: boolean): void {
     this.playerInfoInMemoryPending$.next(isPending);
   }
-
-  /**
-   * Get/Set Lobby cache
-   */
-
-  setLobbyGames(games: GameTile[], levelId: string) {
-    const gamesCopy = JSON.parse(JSON.stringify(games)) as GameTile[];
-
-    let lobbyGames = this._configurationCache['lobbyGames']?.data as LobbyGameCachePortal;
-    if (!lobbyGames) {
-      lobbyGames = {
-        [this.mobilePortalId]: {
-          data: {},
-          timestamp: Date.now(),
-        },
-        [this.desktopPortalId]: {
-          data: {},
-          timestamp: Date.now(),
-        },
-      };
-
-      this._configurationCache['lobbyGames'] = {
-        data: lobbyGames,
-        timestamp: Date.now(),
-      } as CacheItem<LobbyGameCachePortal>;
-    }
-
-    if (lobbyGames[this.defaultPortalId]) {
-      lobbyGames[this.defaultPortalId].data[levelId] = { data: gamesCopy, timestamp: Date.now() };
-    }
-
-    this.saveConfigToStorage();
-  }
-
-  getLobbyGames(levelId: string): GameTile[] {
-    // return a copy
-    const lobbyGames = this._configurationCache['lobbyGames']?.data as LobbyGameCachePortal;
-    const games = lobbyGames[this.defaultPortalId]?.data[levelId]?.data;
-    return JSON.parse(JSON.stringify(games ?? null));
-  }
-
-  isLobbyGamesCached(levelId: string) {
-    const lobbyGamesCachePortal = this._configurationCache['lobbyGames']?.data as LobbyGameCachePortal;
-    const lobbyGames = lobbyGamesCachePortal[this.defaultPortalId]?.data;
-    if (lobbyGames) {
-      const gamesForlevelId = lobbyGames[levelId];
-      return gamesForlevelId && gamesForlevelId?.data && gamesForlevelId?.timestamp + this.cacheLifeSpan > Date.now();
-    }
-
-    return false;
-  }
-
-  /**
-   * Get/Set game menu category
-   */
-
-  setGameMenuCategory(games: GameMenuCategoryModel[], levelId: string) {
-    const gamesCopy = JSON.parse(JSON.stringify(games)) as GameMenuCategoryModel[];
-
-    let menuCategoryPortal = this._configurationCache['gamesMenuCategories']?.data as GameMenuCategoriesPortal;
-    if (!menuCategoryPortal) {
-      menuCategoryPortal = {
-        [this.mobilePortalId]: {
-          data: {},
-          timestamp: Date.now(),
-        },
-        [this.desktopPortalId]: {
-          data: {},
-          timestamp: Date.now(),
-        },
-      };
-
-      this._configurationCache['gamesMenuCategories'] = {
-        data: menuCategoryPortal,
-        timestamp: Date.now(),
-      } as CacheItem<GameMenuCategoriesPortal>;
-    }
-
-    if (menuCategoryPortal[this.defaultPortalId]) {
-      menuCategoryPortal[this.defaultPortalId].data[levelId] = {
-        data: {
-          menu: gamesCopy,
-        },
-        timestamp: Date.now(),
-      };
-    }
-
-    this.saveConfigToStorage();
-  }
-
-  getGameMenuCategory(levelId: string): GameMenuCategoriesData {
-    // return a copy
-    const menuCatPortal = this._configurationCache['gamesMenuCategories']?.data as GameMenuCategoriesPortal;
-    const menuCat = menuCatPortal[this.defaultPortalId]?.data[levelId]?.data;
-    return JSON.parse(JSON.stringify(menuCat ?? null));
-  }
-
-  isGameMenuCategoryCached(levelId: string) {
-    const menuCatPortal = this._configurationCache['gamesMenuCategories']?.data as GameMenuCategoriesPortal;
-    const menuCateg = menuCatPortal[this.defaultPortalId]?.data;
-    if (menuCateg) {
-      const menuForLvlId = menuCateg[levelId];
-      return menuForLvlId && menuForLvlId?.data && menuForLvlId?.timestamp + this.cacheLifeSpan > Date.now();
-    }
-
-    return false;
-  }
-
-  /**
-   * Get/Set game providers
-   */
-
-  setGameProvider(providers: GameProviderData[], levelId: string) {
-    const providersCopy = JSON.parse(JSON.stringify(providers)) as GameProviderData[];
-
-    let gameProvidersPortal = this._configurationCache['gameProviders']?.data as GameProvidersPortal;
-    if (!gameProvidersPortal) {
-      gameProvidersPortal = {
-        [this.mobilePortalId]: {
-          data: {},
-          timestamp: Date.now(),
-        },
-        [this.desktopPortalId]: {
-          data: {},
-          timestamp: Date.now(),
-        },
-      };
-
-      this._configurationCache['gameProviders'] = {
-        data: gameProvidersPortal,
-        timestamp: Date.now(),
-      } as CacheItem<GameProvidersPortal>;
-    }
-
-    if (gameProvidersPortal[this.defaultPortalId]) {
-      gameProvidersPortal[this.defaultPortalId].data[levelId] = {
-        data: providersCopy,
-        timestamp: Date.now(),
-      };
-    }
-
-    this.saveConfigToStorage();
-  }
-
-  getGameProviders(levelId: string): GameProviderData[] {
-    // return a copy
-    const providersPortal = this._configurationCache['gameProviders']?.data as GameProvidersPortal;
-    const providers = providersPortal[this.defaultPortalId]?.data[levelId]?.data;
-    return JSON.parse(JSON.stringify(providers ?? null));
-  }
-
-  isGameProvidersCached(levelId: string) {
-    const providersPortal = this._configurationCache['gameProviders']?.data as GameProvidersPortal;
-    const providersLevel = providersPortal[this.defaultPortalId]?.data;
-    if (providersLevel) {
-      const providersForLevel = providersLevel[levelId];
-      return (
-        providersForLevel && providersForLevel?.data && providersForLevel?.timestamp + this.cacheLifeSpan > Date.now()
-      );
-    }
-
-    return false;
-  }
-
-  /**
-   * Get/Set MenuGameTypes cache
-   */
-
-  set menuGameTypes(menuGameTypes: GameCategory[]) {
-    let menuGameTypeCache = this._configurationCache['menuGameTypes']?.data;
-    if (!menuGameTypeCache) {
-      const menuGameTypePortalObj: MenuCategoryPortal = {
-        [this.mobilePortalId]: {
-          data: [],
-          timestamp: Date.now(),
-        },
-        [this.desktopPortalId]: {
-          data: [],
-          timestamp: Date.now(),
-        },
-      };
-
-      this._configurationCache['menuGameTypes'] = {
-        data: menuGameTypePortalObj,
-        timestamp: Date.now(),
-      } as CacheItem<any>;
-    }
-
-    menuGameTypeCache[this.defaultPortalId] = {
-      data: JSON.parse(JSON.stringify(menuGameTypes)),
-      timestamp: Date.now(),
-    };
-
-    this.saveConfigToStorage();
-  }
-
-  get menuGameTypes() {
-    //returns a copy
-    const menuGameTypeCache = this._configurationCache['menuGameTypes'].data[this.defaultPortalId].data;
-    return JSON.parse(JSON.stringify(menuGameTypeCache ?? null));
-  }
-
-  isMenuGameTypesCached() {
-    return (
-      !!this._configurationCache['menuGameTypes']?.data[this.defaultPortalId].data &&
-      this._configurationCache['menuGameTypes']?.data[this.defaultPortalId].timestamp + this.cacheLifeSpan > Date.now()
-    );
-  }
-
   /**
    * Get/Set Templates list configuration cache
    */
@@ -936,28 +520,6 @@ export class DataStoreService {
     );
   }
 
-  get latestWinners(): LatestWinnersCache | null {
-    return this.latestWinners$.value;
-  }
-
-  set latestWinners(data: LatestWinnersCache | null) {
-    this.latestWinners$.next(data);
-    this.saveConfigToStorage();
-  }
-
-  get latestWinnersIndex() {
-    return this._latestWinnersIndex;
-  }
-
-  set latestWinnersIndex(index: number | null) {
-    this._latestWinnersIndex = index;
-    try {
-      sessionStorage.setItem(latestWinnersIndexKey, JSON.stringify(index));
-    } catch (error) {
-      log.error('Error saving to session storage', error);
-    }
-  }
-
   /**
    * Returns profile for logged in user
    */
@@ -1023,8 +585,6 @@ export class DataStoreService {
 
     const savedConfig =
       sessionStorage.getItem(configurationCacheSessionKey) || localStorage.getItem(configurationCacheSessionKey);
-    const savedLatestWinnersIndex = sessionStorage.getItem(latestWinnersIndexKey);
-    const savedLatestWinners = sessionStorage.getItem(latestWinnersKey);
 
     if (savedConfig) {
       try {
@@ -1036,14 +596,6 @@ export class DataStoreService {
       }
     }
 
-    if (savedLatestWinnersIndex) {
-      this._latestWinnersIndex = JSON.parse(savedLatestWinnersIndex);
-    }
-
-    if (savedLatestWinners) {
-      this.latestWinners = JSON.parse(savedLatestWinners);
-    }
-
     if (!restored) {
       log.debug('Starting with clean configuration cache.');
       this.clearConfigurationCache();
@@ -1053,7 +605,6 @@ export class DataStoreService {
   private saveConfigToStorage() {
     try {
       sessionStorage.setItem(configurationCacheSessionKey, JSON.stringify(this._configurationCache));
-      sessionStorage.setItem(latestWinnersKey, JSON.stringify(this.latestWinners));
     } catch (error) {
       log.error('Error saving to session storage', error);
     }

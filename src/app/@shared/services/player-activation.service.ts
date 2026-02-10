@@ -198,7 +198,6 @@ export class PlayerActivationService {
             }),
             switchMap(({ credentials, loginFaceAuth }) => {
               // Step 4: Clear games data and set credentials
-              this.dataStoreService.clearGamesAndLobbyInfoConfigurationCache();
 
               // set credentials to credentials service
               return this.credentialsService.setCredentials(credentials).pipe(
