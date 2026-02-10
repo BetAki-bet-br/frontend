@@ -8,17 +8,17 @@
   <div class="relative h-full w-full transition-container">
     <div class="grid gap-[10px] p-3">
       <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
-        @if (!isImageLoaded('liminha')) {
+        @if (!isImageLoaded('banner-sidebar-mobile-top')) {
         <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
         }
         <img
-          ngSrc="assets/liminha.webp"
+          [ngSrc]="bannerSidebarMobileTop()?.cover_url!"
           fill
-          alt="Banner Liminha"
+          alt="Banner Sidebar Mobile Top"
           class="object-cover transition-opacity duration-500"
-          [class.opacity-0]="!isImageLoaded('liminha')"
+          [class.opacity-0]="!isImageLoaded('banner-sidebar-mobile-top')"
           priority
-          (load)="onImageLoad('liminha')"
+          (load)="onImageLoad('banner-sidebar-mobile-top')"
         />
       </div>
 
@@ -93,18 +93,18 @@
         @if (isLoadingMenu()) { @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
         <div class="h-[40px] w-full bg-betaki-darker rounded-[8px] animate-pulse"></div>
         } } @else { @for (item of menuItems(); track $index) { @if ($index === 2) {
-        <div class="bg-betaki-500 relative h-[100px] w-full rounded-[8px] overflow-hidden">
-          @if (!isImageLoaded('banner-2')) {
+        <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
+          @if (!isImageLoaded('banner-sidebar-mobile-bottom')) {
           <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
           }
           <img
-            ngSrc="assets/banner2.jpeg"
+            [ngSrc]="bannerSidebarMobileBottom()?.cover_url!"
             fill
-            alt="Banner"
-            class="object-cover rounded-[8px] transition-opacity duration-500"
-            [class.opacity-0]="!isImageLoaded('banner-2')"
-            (load)="onImageLoad('banner-2')"
+            alt="Banner Sidebar Mobile Bottom"
+            class="object-cover transition-opacity duration-500"
+            [class.opacity-0]="!isImageLoaded('banner-sidebar-mobile-bottom')"
             priority
+            (load)="onImageLoad('banner-sidebar-mobile-bottom')"
           />
         </div>
         }

@@ -21,7 +21,7 @@
     }
     <!-- loginBannerDesktop -->
     <img
-      [ngSrc]="loginBannerDesktop()?.cover_url || 'assets/banner-login.jpeg'"
+      [ngSrc]="loginBannerDesktop()?.cover_url!"
       alt="Banner"
       fill
       class="object-cover rounded-l-[1rem] transition-opacity duration-300"
@@ -55,7 +55,7 @@
       </div>
       }
       <img
-        ngSrc="assets/banner2.png"
+        [ngSrc]="loginBannerMobile()?.cover_url!"
         alt="Banner"
         width="320"
         height="117"

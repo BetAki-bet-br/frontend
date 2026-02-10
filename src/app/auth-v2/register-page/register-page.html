@@ -20,7 +20,7 @@
       </div>
       }
       <img
-        ngSrc="assets/natal-register.webp"
+        [ngSrc]="registerBannerDesktop()?.cover_url!"
         alt="Banner"
         fill
         class="object-cover rounded-l-[1rem] transition-opacity duration-300"
@@ -53,17 +53,16 @@
           </svg>
         </div>
         }
-        <img
-          ngSrc="assets/banner2.png"
-          alt="Banner"
-          width="320"
-          height="117"
-          priority
-          class="w-full h-auto rounded-t-lg transition-opacity duration-300"
-          [class.opacity-0]="!isInnerBannerLoaded()"
-          (load)="onInnerBannerLoad()"
-        />
-      </div>
+              <img
+                  [ngSrc]="registerBannerMobile()?.cover_url!"
+                  alt="Banner"
+                  width="320"
+                  height="117"
+                  priority
+                  class="w-full h-auto rounded-t-lg transition-opacity duration-300"
+                  [class.opacity-0]="!isInnerBannerLoaded()"
+                  (load)="onInnerBannerLoad()"
+              />      </div>
       <!-- inner banner -->
       <h1 class="flex items-center justify-center text-lg sm:mt-0 sm:ps-10 mb-0! sm:text-3xl font-bold">
         Crie sua conta

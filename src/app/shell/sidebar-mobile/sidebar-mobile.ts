@@ -13,6 +13,7 @@ import { RoutingService } from '@app/@shared/services/routing.service';
 import { MenuItem } from '../mobile-menu/menu-item.model';
 import { CdnizePipe } from '../../@pipes/cdnize.pipe';
 import { MenusService } from '@app/@core/backoffice';
+import { BannersService } from '@app/@core/backoffice';
 
 @Component({
   selector: 'app-sidebar-mobile',
@@ -29,6 +30,7 @@ export class SidebarMobile {
   protected readonly authService: AuthenticationService = inject(AuthenticationService);
   private readonly playerService: PlayerService = inject(PlayerService);
   private readonly menusService = inject(MenusService);
+  private readonly bannerService = inject(BannersService);
   private readonly document: Document = inject(DOCUMENT);
   private readonly renderer: Renderer2 = inject(Renderer2);
   private readonly tawkMessengerService = inject(TawkToScriptService);
@@ -44,6 +46,22 @@ export class SidebarMobile {
 
   isLoadingMenu = signal(true);
   loadedImages = signal<Set<string>>(new Set());
+
+  bannerSidebarMobileTop = toSignal(
+    this.bannerService.getBanners({ q: 'banner-sidebar-mobile-top' }).pipe(
+      map((res) => res.data[0] ?? null),
+      tap(() => this.onImageLoad('banner-sidebar-mobile-top')),
+    ),
+    { initialValue: null },
+  );
+
+  bannerSidebarMobileBottom = toSignal(
+    this.bannerService.getBanners({ q: 'banner-sidebar-mobile-bottom' }).pipe(
+      map((res) => res.data[0] ?? null),
+      tap(() => this.onImageLoad('banner-sidebar-mobile-bottom')),
+    ),
+    { initialValue: null },
+  );
 
   protected menuItems = toSignal(
     this.menusService.getMenus().pipe(

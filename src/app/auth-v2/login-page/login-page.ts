@@ -71,7 +71,7 @@ const log = new Logger('LoginPageComponent');
   providers: [NgxMaskDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginPage implements OnInit, OnDestroy {
+export class LoginPage implements OnDestroy {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(Dialog);
@@ -90,10 +90,23 @@ export class LoginPage implements OnInit, OnDestroy {
   loginError = signal<string | null>(null);
   isBannerLoaded = signal(false);
   isInnerBannerLoaded = signal(false);
+
   loginBannerDesktop = toSignal(
     this.bannerService.getBanners({ q: 'banner-login' }).pipe(
+      tap((res) => log.debug(res.data[0] ? `Login banner loaded: ${res.data[0].cover_url}` : 'No login banner found')),
       map((res) => res.data[0] ?? null),
-      tap((res) => console.log('Banner response: ', res)),
+      tap(() => this.isBannerLoaded.set(true)),
+    ),
+    { initialValue: null },
+  );
+
+  loginBannerMobile = toSignal(
+    this.bannerService.getBanners({ q: 'banner-login-mobile' }).pipe(
+      tap((res) =>
+        log.debug(res.data[0] ? `Login banner mobile loaded: ${res.data[0].cover_url}` : 'No login banner found'),
+      ),
+      map((res) => res.data[0] ?? null),
+      tap(() => this.isInnerBannerLoaded.set(true)),
     ),
     { initialValue: null },
   );
@@ -129,10 +142,6 @@ export class LoginPage implements OnInit, OnDestroy {
   bannerItem: Banner | null = null;
 
   private subscriptions = new Subscription();
-
-  ngOnInit(): void {
-    this.loadBanner();
-  }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
@@ -356,13 +365,6 @@ export class LoginPage implements OnInit, OnDestroy {
 
     dialogRef?.closed.subscribe(() => {
       // Handle dialog close if needed
-    });
-  }
-
-  private loadBanner() {
-    this.cmsService.getBannersBySlug(CategoryKeyEnum.LoginPage).subscribe((res) => {
-      this.bannerItem = res;
-      this.cdr.markForCheck();
     });
   }
 }

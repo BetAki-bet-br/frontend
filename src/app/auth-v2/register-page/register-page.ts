@@ -1,8 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+  signal,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { finalize, Subscription, switchMap } from 'rxjs';
+import { finalize, Subscription, switchMap, map, tap } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,6 +37,7 @@ import { passwordStrengthValidator } from '@app/helpers/passwordStrengthValidato
 import { NgxMaskDirective } from 'ngx-mask';
 import { NgOptimizedImage } from '@angular/common';
 import { ButtonComponent } from '@app/@shared/components/button/button.component';
+import { BannersService } from '@app/@core/backoffice';
 
 interface NavigatorWithDeviceMemory extends Navigator {
   readonly deviceMemory?: number;
@@ -52,8 +62,6 @@ interface NavigatorWithDeviceMemory extends Navigator {
 export class RegisterPage {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly gtmService = inject(GoogleTagManagerImplementationService);
-  // private readonly legitimuzService = inject(Legitimuz);
   private readonly tawkToScriptService = inject(TawkToScriptService);
   private readonly authDialogService = inject(AuthDialogService);
   private readonly authenticationService = inject(AuthenticationService);
@@ -61,6 +69,7 @@ export class RegisterPage {
   private readonly dataStoreService = inject(DataStoreService);
   private readonly legitimuzGeoService = inject(LegitimuzGeolocationService);
   private readonly affiliateService = inject(AffiliatesService);
+  private readonly bannerService = inject(BannersService);
 
   submitLoading = signal(false);
   showPassword = signal(false);
@@ -69,6 +78,22 @@ export class RegisterPage {
   isBannerLoaded = signal(false);
   isInnerBannerLoaded = signal(false);
   dateInputType = 'text';
+
+  registerBannerDesktop = toSignal(
+    this.bannerService.getBanners({ q: 'banner-registro' }).pipe(
+      map((res) => res.data[0] ?? null),
+      tap(() => this.isBannerLoaded.set(true)),
+    ),
+    { initialValue: null },
+  );
+
+  registerBannerMobile = toSignal(
+    this.bannerService.getBanners({ q: 'banner-registro-mobile' }).pipe(
+      map((res) => res.data[0] ?? null),
+      tap(() => this.isInnerBannerLoaded.set(true)),
+    ),
+    { initialValue: null },
+  );
 
   onBannerLoad() {
     this.isBannerLoaded.set(true);
