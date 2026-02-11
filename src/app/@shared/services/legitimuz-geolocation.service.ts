@@ -17,7 +17,6 @@ export enum LegitimuzGeolocationAction {
 })
 export class LegitimuzGeolocationService {
   private sdkInstance: any;
-  private scriptLoaded = false;
 
   constructor() {}
 

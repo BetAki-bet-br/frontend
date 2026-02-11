@@ -43,10 +43,6 @@ export class CategoriesService {
     return this.liveCategoriesCache;
   }
 
-  createCategory(category: Category): Observable<any> {
-    return this.http.post(this.baseUrl, category);
-  }
-
   getCategory(
     id: number,
     params: {
@@ -70,25 +66,5 @@ export class CategoriesService {
         .pipe(shareReplay(1));
     }
     return this.categoryCache[cacheKey];
-  }
-
-  updateCategory(id: number, category: Category): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, category);
-  }
-
-  deleteCategory(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
-  }
-
-  syncSlots(id: number, items: { slot_id: number; position: number }[]): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}/slots`, { items });
-  }
-
-  reorder(items: { id: number; position: number }[]): Observable<void> {
-    return this.http.put<void>(`${this.baseUrl}/reorder`, { items });
-  }
-
-  sync(portalId?: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/sync`, { portal_id: portalId });
   }
 }

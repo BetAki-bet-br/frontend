@@ -45,7 +45,7 @@ export const environment = {
     socialTwitterUrl: 'https://x.com/oficialbetaki?s=11',
     defaultLanguage: 'pt-BR',
     tawkToSDK: 'https://embed.tawk.to/665338ba981b6c564774d393/1huqhb6hp',
-    legitimuzSDKToken: 'fce8adab-1411-45a1-a244-8e70d446a2b9',
+    legitimuzSDKToken: '4112d1ec-8796-4b68-85da-2c4080973c50',
     paymentTestModeEnabled: true,
   },
 };
