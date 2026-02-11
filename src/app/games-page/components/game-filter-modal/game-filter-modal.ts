@@ -35,12 +35,12 @@ export class GameFilterModal {
   }
 
   isSelected(provider: Provider): boolean {
-    return this.selectedProviders().some(p => p.id === provider.id);
+    return this.selectedProviders().some((p) => p.id === provider.id);
   }
 
   toggleProvider(provider: Provider): void {
     this.selectedProviders.update((providers) => {
-      const isSelected = providers.some(p => p.id === provider.id);
+      const isSelected = providers.some((p) => p.id === provider.id);
       if (isSelected) {
         return providers.filter((p) => p.id !== provider.id);
       } else {

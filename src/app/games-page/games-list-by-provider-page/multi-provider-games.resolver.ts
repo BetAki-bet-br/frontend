@@ -23,22 +23,23 @@ export const multiProviderGamesResolver: ResolveFn<SubLevel> = (route: Activated
     });
   }
 
-  const providerIds = providerIdsParam.split(',').map(Number).filter(id => !isNaN(id));
+  const providerIds = providerIdsParam
+    .split(',')
+    .map(Number)
+    .filter((id) => !isNaN(id));
   const levelId = (route.data['levelId'] as number) ?? GameEnum.CASINO;
   const portalId = portalService.portalId;
 
-  const gameRequests = providerIds.map((id) =>
-    providersService.getGamesByProviderForFrontend(id, levelId, portalId),
-  );
+  const gameRequests = providerIds.map((id) => providersService.getGamesByProviderForFrontend(id, levelId, portalId));
 
   return forkJoin(gameRequests).pipe(
     map((results) => {
       // Get provider names from the results and create a combined title
-      const providerNames = results.map(result => result.name).join(', ');
-      
+      const providerNames = results.map((result) => result.name).join(', ');
+
       // Flatten the games from all results
       const allGames = results.flatMap((subLevel) => subLevel.gameMains);
-      
+
       // Remove duplicates
       const uniqueGames = [...new Map(allGames.map((game) => [game.id, game])).values()];
 

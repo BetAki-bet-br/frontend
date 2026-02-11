@@ -52,7 +52,7 @@ export class GamesListPage {
 
   lobbyConfig = toSignal(this.route.data.pipe(map((data) => data['lobby'] as LobbyResponse | undefined)));
   recentGames = toSignal(
-    this.route.data.pipe(map((data) => (data['recent'] as SubLevel | undefined)?.gameMains ?? []))
+    this.route.data.pipe(map((data) => (data['recent'] as SubLevel | undefined)?.gameMains ?? [])),
   );
   gameFilters = toSignal(this.route.data.pipe(map((data) => data['categories'] as GameCategory[] | undefined)));
   providers = toSignal(this.route.data.pipe(map((data) => data['providers'] as Provider[] | undefined)));
@@ -91,7 +91,7 @@ export class GamesListPage {
           const section = config?.sections.find(
             (s) =>
               String(s.id) === String(category.id) ||
-              (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id))
+              (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id)),
           );
           if (section) {
             if (section.games) {
@@ -215,7 +215,7 @@ export class GamesListPage {
       const section = config?.sections.find(
         (s) =>
           String(s.id) === String(category.id) ||
-          (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id))
+          (s.metadata?.categoryId && String(s.metadata.categoryId) === String(category.id)),
       );
 
       if (section && section.games && section.games.length > 0) {
@@ -233,17 +233,13 @@ export class GamesListPage {
       this.isLoadingFilter.set(true);
 
       const gameRequests = providers.map((provider) =>
-        this.providersService.getGamesByProviderForFrontend(
-          provider.id,
-          GameEnum.CASINO,
-          this.portalService.portalId
-        )
+        this.providersService.getGamesByProviderForFrontend(provider.id, GameEnum.CASINO, this.portalService.portalId),
       );
 
       forkJoin(gameRequests)
         .pipe(
           map((results) => results.flatMap((subLevel) => subLevel.gameMains)),
-          tap(() => this.isLoadingFilter.set(false))
+          tap(() => this.isLoadingFilter.set(false)),
         )
         .subscribe((games) => {
           const uniqueGames = [...new Map(games.map((game) => [game.id, game])).values()];

@@ -50,7 +50,6 @@ const log = new Logger('ResponsibleGamblingComponent');
 })
 export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
   private playerProfileService = inject(PlayerProfileService);
-  private dataStoreService = inject(DataStoreService);
   private configurationService = inject(ConfigurationService);
   private cdr = inject(ChangeDetectorRef);
   private translateService = inject(TranslateService);
