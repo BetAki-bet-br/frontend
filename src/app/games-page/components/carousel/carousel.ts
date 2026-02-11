@@ -9,6 +9,7 @@ import {
   signal,
   computed,
   OnInit,
+  OnChanges,
 } from '@angular/core';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 
@@ -38,7 +39,7 @@ export interface CarouselSlide {
     '(touchend)': 'handleEnd($event)',
   },
 })
-export class CarouselComponent implements OnInit, OnDestroy {
+export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
   slides = input<CarouselSlide[]>([]);
   autoPlayInterval = input(3500);
   maxWidth = input('');
