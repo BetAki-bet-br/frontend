@@ -1,41 +1,27 @@
 import { Injectable, inject } from '@angular/core';
-import { FonetalkScriptLoader } from './fonetalk-script-loader';
+import { ChatbotScriptLoader } from './fonetalk-script-loader';
 import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  private fonetalkScriptLoader = inject(FonetalkScriptLoader);
+  private chatbotScriptLoader = inject(ChatbotScriptLoader);
   private document = inject(DOCUMENT);
-  private _canShow = true;
+  public readonly isReady$: Observable<boolean> = this.chatbotScriptLoader.isReady$;
 
-  public readonly isReady$: Observable<boolean> = this.fonetalkScriptLoader.isReady$;
-
-  // constructor() {
-  //   this.fonetalkScriptLoader.loadScript();
-  // }
-
-  setCanShow(canShow: boolean) {
-    this._canShow = canShow;
-    if (!canShow) {
-      this.hideChat();
-    }
+  constructor() {
+    this.chatbotScriptLoader.loadScript();
   }
 
   showChat() {
-    if (this._canShow) {
-      this.fonetalkScriptLoader.showWidget();
-    }
-  }
-
-  hideChat() {
-    this.fonetalkScriptLoader.hideWidget();
-  }
-
-  isOpen(): boolean {
-    const widget = this.document.querySelector('.rocketchat-widget');
-    return widget?.getAttribute('data-state') === 'opened';
+    const link = document.createElement('a');
+    link.href = '/assets/docs/Canais de atendimento _ Bet Aki.pdf';
+    link.download = 'Canais de atendimento _ Bet Aki.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }

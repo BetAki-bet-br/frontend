@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class FonetalkScriptLoader {
+export class ChatbotScriptLoader {
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private renderer: Renderer2;
@@ -24,53 +24,27 @@ export class FonetalkScriptLoader {
     }
 
     this.scriptLoaded = true;
-    const w = window as any;
 
-    w.UC2BChat =
-      w.UC2BChat ||
-      function (c: any) {
-        w.UC2BChat._.push(c);
-      };
-    w.UC2BChat._ = w.UC2BChat._ || [];
-    w.UC2BChat.url = 'https://chatvanguard.fonetalk.com.br/livechat';
+    const chatBotWidget = this.renderer.createElement('ra-chatbot-widget');
+    this.renderer.setAttribute(chatBotWidget, 'id', 'ra_wc_chatbot');
+    this.renderer.setAttribute(chatBotWidget, 'slug', 'xVQ8CmKj4WeWn77RDZeUiyty7VEivNYnpJmP4Y9Q');
+    this.renderer.appendChild(this.document.body, chatBotWidget);
 
     const script = this.renderer.createElement('script');
-    script.type = 'text/javascript';
-    script.async = true;
-    script.src = 'https://chatvanguard.fonetalk.com.br/livechat/livechat.min.js?_=201903270000';
+    this.renderer.setAttribute(script, 'id', 'ra_chatbot' + Math.floor(200 * Math.random()));
+    this.renderer.setAttribute(script, 'defer', 'true');
+    this.renderer.setAttribute(script, 'src', 'https://sitewidget.net/chatbot-sdk.js');
 
-    script.onload = () => {
+    script.onload = script.onreadystatechange = () => {
       this.checkIfWidgetReady();
     };
 
-    this.renderer.appendChild(this.document.head, script);
-
-    w.UC2BChat(function (this: any) {
-      this.setLinkedToFlow('');
-    });
-  }
-
-  public showWidget(): void {
-    const w = this.document.defaultView as any;
-    if (w.UC2BChat) {
-      w.UC2BChat(function (this: any) {
-        this.showWidget();
-      });
-    }
-  }
-
-  public hideWidget(): void {
-    const w = this.document.defaultView as any;
-    if (w.UC2BChat) {
-      w.UC2BChat(function (this: any) {
-        this.hideWidget();
-      });
-    }
+    this.renderer.appendChild(this.document.body, script);
   }
 
   private checkIfWidgetReady(): void {
     const interval = setInterval(() => {
-      const widget = this.document.querySelector('.rocketchat-widget');
+      const widget = this.document.querySelector('ra-chatbot-widget');
       if (widget) {
         this.readySubject.next(true);
         clearInterval(interval);
