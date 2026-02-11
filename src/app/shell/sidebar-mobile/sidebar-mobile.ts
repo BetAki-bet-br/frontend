@@ -49,7 +49,6 @@ export class SidebarMobile {
 
   bannerSidebarMobileTop = toSignal(
     this.bannerService.getBanners({ q: 'banner-sidebar-mobile-top' }).pipe(
-      tap((res) => console.log(res)),
       map((res) => res.data[0] ?? null),
       tap(() => this.onImageLoad('banner-sidebar-mobile-top')),
     ),
