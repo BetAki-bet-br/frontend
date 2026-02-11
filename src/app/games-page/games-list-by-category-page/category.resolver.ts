@@ -14,18 +14,22 @@ export const categoryResolver: ResolveFn<SubLevel | undefined> = (
     return of(undefined);
   }
 
-  return categoriesService.getCategory(+categoryId).pipe(
-    map((category: SubLevel) => {
-      if (!category) return undefined;
+  return categoriesService
+    .getCategory(+categoryId, {
+      slots_limit: -1,
+    })
+    .pipe(
+      map((category: SubLevel) => {
+        if (!category) return undefined;
 
-      return {
-        id: category.id,
-        name: category.name,
-        gameName: null,
-        subLevel: [],
-        gameMains: category.slots || [],
-        levelType: 'category',
-      };
-    }),
-  );
+        return {
+          id: category.id,
+          name: category.name,
+          gameName: null,
+          subLevel: [],
+          gameMains: category.slots || [],
+          levelType: 'category',
+        };
+      }),
+    );
 };
