@@ -73,31 +73,39 @@ export class Footer {
   ];
 
   socialIcons: SocialIcon[] = [
+    // src\assets\general\icons\instagram-color.svg
     {
-      alt: 'Instagram icone',
-      src: '/assets/icons/instagram-icon.svg',
+      alt: 'Instagram',
+      src: '/assets/general/icons/instagram-color.svg',
       url: 'https://www.instagram.com/betakioficial?igsh=em90NDYyZHY2bWs=',
       width: 18,
       height: 18,
     },
     {
-      alt: 'Telegram icone',
-      src: '/assets/icons/telegram-icon.svg',
+      alt: 'Telegram',
+      src: '/assets/icons/telegram-color.svg',
       url: 'https://t.me/+ipUxRRqh3dEyNTUx',
       width: 18,
       height: 16,
     },
     {
-      alt: 'TikTok icone',
+      alt: 'TikTok',
       src: '/assets/icons/tiktok-icon.svg',
       url: 'https://www.tiktok.com/@betaki.bet.br?_r=1&_t=ZS-93akTPrMQey',
       width: 18,
       height: 20,
     },
     {
-      alt: 'Facebook icone',
-      src: '/assets/icons/facebook-icon.svg',
+      alt: 'Facebook',
+      src: '/assets/icons/facebook-color.svg',
       url: 'https://www.facebook.com/share/1K4P5ZL18Q/?mibextid=wwXIfr',
+      width: 18,
+      height: 34,
+    },
+    {
+      alt: 'X (Twitter)',
+      src: '/assets/icons/x-icon.svg',
+      url: 'https://x.com/oficialbetaki?s=21',
       width: 18,
       height: 34,
     },
@@ -143,7 +151,6 @@ export class Footer {
 
   supportOptions: SupportOption[] = [
     { name: 'Ouvidoria', url: '/customer-support' },
-    { name: 'Denúncias', url: '' },
     { name: 'Privacidade', url: '/privacy-policy' },
   ];
 
