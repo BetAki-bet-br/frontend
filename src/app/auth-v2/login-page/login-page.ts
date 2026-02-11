@@ -93,7 +93,6 @@ export class LoginPage implements OnDestroy {
 
   loginBannerDesktop = toSignal(
     this.bannerService.getBanners({ q: 'banner-login' }).pipe(
-      tap((res) => log.debug(res.data[0] ? `Login banner loaded: ${res.data[0].cover_url}` : 'No login banner found')),
       map((res) => res.data[0] ?? null),
       tap(() => this.isBannerLoaded.set(true)),
     ),
@@ -102,9 +101,6 @@ export class LoginPage implements OnDestroy {
 
   loginBannerMobile = toSignal(
     this.bannerService.getBanners({ q: 'banner-login-mobile' }).pipe(
-      tap((res) =>
-        log.debug(res.data[0] ? `Login banner mobile loaded: ${res.data[0].cover_url}` : 'No login banner found'),
-      ),
       map((res) => res.data[0] ?? null),
       tap(() => this.isInnerBannerLoaded.set(true)),
     ),
