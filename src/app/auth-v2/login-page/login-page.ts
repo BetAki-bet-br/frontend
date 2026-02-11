@@ -20,11 +20,16 @@ import { PortalGatewayErrorResponse } from '@icore/ngx-portalgateway-api-client-
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { Banner } from '@app/@shared/models';
+import { CategoryKeyEnum } from '@app/@shared/models/template.model';
+import { LoaderComponent } from '@app/@shared/loader/loader.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Breadcrumbs } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
+import {
+  Breadcrumbs,
+  PageBreadcrumbsComponent,
+} from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { Logger } from '@app/@shared';
 import { PopupMessageDialogComponent } from '@app/@shared/components/popup-message-dialog/popup-message-dialog.component';
 import { MessageResolved } from '@app/@shared/models/message.model';
@@ -78,6 +83,7 @@ export class LoginPage implements OnDestroy {
   private readonly authEventsService = inject(AuthEventsService);
   private readonly authenticationService = inject(AuthenticationService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly cmsService = inject(CmsService);
 
   submitLoading = signal(false);
   showPassword = signal(false);
