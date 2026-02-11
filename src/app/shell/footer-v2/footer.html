@@ -7,7 +7,12 @@
       <div class="col-span-1 md:col-span-1 justify-self-start md:justify-self-center lg:col-span-1">
         <h5 class="text-xl md:text-2xl leading-normal font-bold text-left mb-3">{{ column.title }}</h5>
         @for (link of column.links; track link.text) {
-        <a [href]="link.url" class="text-sm leading-normal hover:text-shark-50/20 font-light text-left block">
+        <a
+          [href]="link.url"
+          class="text-sm leading-normal hover:text-shark-50/20 font-light text-left block"
+          [attr.target]="link.text === 'Canais de Atendimento' ? '_blank' : null"
+          [attr.download]="link.text === 'Canais de Atendimento' ? true : null"
+        >
           {{ link.text }}
         </a>
         }

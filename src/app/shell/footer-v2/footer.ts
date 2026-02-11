@@ -58,7 +58,7 @@ export class Footer {
         { text: 'Promoções', url: '/promotions' },
         { text: 'Blog', url: '#' },
         { text: 'Central de Ajuda', url: '/customer-support' },
-        { text: 'Canais de Atendimento', url: '/contact' },
+        { text: 'Canais de Atendimento', url: '/assets/docs/Canais de atendimento _ Bet Aki.pdf' },
       ],
     },
     {
