@@ -73,10 +73,10 @@ export class RoutingService {
     return this.router.isActive(path, options);
   }
 
-  navigateToMenuItem(item: { routerLink?: string; categoryId?: string | number }): void {
+  navigateToMenuItem(item: { routerLink?: string; categoryId?: string | number; label: string }): void {
     let path = item.routerLink;
 
-    if (item.categoryId === 'providers') {
+    if (item.label === 'Provedores') {
       if (this.router.url.startsWith('/games/live')) {
         path = '/games/live/category/providers';
       } else {

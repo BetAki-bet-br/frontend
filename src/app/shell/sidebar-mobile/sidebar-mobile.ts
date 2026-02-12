@@ -24,7 +24,6 @@ import { BannersService } from '@app/@core/backoffice';
 })
 export class SidebarMobile {
   protected readonly sidebarService: SidebarService = inject(SidebarService);
-  // protected readonly sessionService: SessionService = inject(SessionService);
   protected readonly credentialsService: CredentialsService = inject(CredentialsService);
   protected readonly routingService: RoutingService = inject(RoutingService);
   protected readonly authService: AuthenticationService = inject(AuthenticationService);
@@ -74,7 +73,8 @@ export class SidebarMobile {
               icon: item.meta.icon,
               routerLink: item.meta.routerLink,
               class: item.meta.class,
-            }) as MenuItem,
+              categoryId: item.meta.categoryId,
+            }) as MenuItem & { categoryId?: string | number },
         );
 
         mapped.push({
@@ -139,6 +139,11 @@ export class SidebarMobile {
 
   navigateTo(path: string): void {
     this.router.navigateByUrl(path);
+    this.close();
+  }
+
+  navigateToMenu(item: MenuItem & { categoryId?: string | number }): void {
+    this.routingService.navigateToMenuItem(item);
     this.close();
   }
 }
