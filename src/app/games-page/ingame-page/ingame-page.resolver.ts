@@ -7,6 +7,7 @@ import { LoadingService } from '@app/@shared/services/loading.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Observable, of, throwError, EMPTY } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { CredentialsService } from '@app/auth';
 import { PostGameResponse } from '../models/game.models';
@@ -28,6 +29,10 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
   const loadingService = inject(LoadingService);
   const snackbarService = inject(SnackbarService);
   const location = inject(Location);
+  const deviceDetectorService = inject(DeviceDetectorService);
+  const isMobile = deviceDetectorService.isMobile();
+  const portalId = isMobile ? 6 : 5;
+
   const gameId = route.paramMap.get('id')!;
 
   const game$: Observable<Slot | undefined> = slotService
@@ -48,7 +53,17 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
         location.back();
         return of({ game, gameUrl: null });
       }
-      const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(gameId, 5).pipe(
+
+      const urlHost = window?.location?.host;
+      let lobbyUrl: string | undefined;
+      if (urlHost) {
+        const urlProtocol = window?.location?.protocol;
+        lobbyUrl = `${urlProtocol}//${urlHost}`;
+        const isLive = route.url.some((segment) => segment.path === 'live');
+        lobbyUrl += isLive ? '/games-live' : '/games';
+      }
+
+      const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(gameId, portalId, lobbyUrl).pipe(
         catchError((error) => {
           if (error.errorMessage === 'GameAvailability') {
             return throwError(() => new Error('GameAvailability'));
@@ -70,6 +85,7 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
             };
           }
 
+          console.log(launchData);
           const url = new URL(launchData.location as string);
           for (const key in launchData.parameters) {
             url.searchParams.set(key, launchData.parameters[key]);
