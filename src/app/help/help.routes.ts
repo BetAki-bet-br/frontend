@@ -23,7 +23,7 @@ export const routes: Routes = [
       staticHtmlPath: staticFilePaths.CustomerSupport,
       title: marker('Customer support'),
       robots: ['index', 'follow'],
-      customClassName: 'html-assets',
+      customClassName: 'html-assets mt-4',
     },
   },
   {

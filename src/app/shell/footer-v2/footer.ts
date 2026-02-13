@@ -1,4 +1,3 @@
-import { NgClass, NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
@@ -56,9 +55,7 @@ export class Footer {
       title: 'Comunidade',
       links: [
         { text: 'Promoções', url: '/promotions' },
-        { text: 'Blog', url: '#' },
         { text: 'Central de Ajuda', url: '/customer-support' },
-        { text: 'Canais de Atendimento', url: '/assets/docs/Canais de atendimento _ Bet Aki.pdf' },
       ],
     },
     {

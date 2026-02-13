@@ -4,5 +4,8 @@
   </div>
   <app-help-pages-container class="help-pages-loader" [customClassName]="customClassName">
     <div [class]="customClassName" [innerHTML]="htmlContent"></div>
+    @if (outerHtmlContent) {
+      <div outerContent [class]="customClassName" [innerHTML]="outerHtmlContent"></div>
+    }
   </app-help-pages-container>
 </app-basic-page-container>

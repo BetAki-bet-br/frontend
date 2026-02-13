@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  Renderer2,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-basic-page-container',
@@ -16,7 +7,5 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BasicPageContainerComponent {
-  private renderer = inject(Renderer2);
-
   @Input() help: string = '';
 }

@@ -41,6 +41,7 @@ export class HelpPagesLoaderComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
 
   public htmlContent: SafeHtml = '';
+  public outerHtmlContent: SafeHtml = '';
   public customClassName: string = '';
 
   private httpClient: HttpClient;
@@ -115,13 +116,22 @@ export class HelpPagesLoaderComponent implements OnInit, OnDestroy {
       const url = this._assetsService.cdnizeUrl(staticHtmlPath ?? this.activatedRoute.snapshot.data['staticHtmlPath']);
       this.httpClient.get(url, { responseType: 'text' }).subscribe({
         next: (result) => {
-          this.htmlContent = this._sanitizer.bypassSecurityTrustHtml(
-            mustache.render(result, {
-              cdnBaseUrl: environment.deployConfig.assetsBaseUrl,
-              langCode: this.langCode || 'en',
-              lang: this.langCode || 'en',
-            }),
-          );
+          const renderedResult = mustache.render(result, {
+            cdnBaseUrl: environment.deployConfig.assetsBaseUrl,
+            langCode: this.langCode || 'en',
+            lang: this.langCode || 'en',
+          });
+
+          const sectionBreak = '<!-- SECTION_BREAK -->';
+          if (renderedResult.includes(sectionBreak)) {
+            const parts = renderedResult.split(sectionBreak);
+            this.htmlContent = this._sanitizer.bypassSecurityTrustHtml(parts[0]);
+            this.outerHtmlContent = this._sanitizer.bypassSecurityTrustHtml(parts[1]);
+          } else {
+            this.htmlContent = this._sanitizer.bypassSecurityTrustHtml(renderedResult);
+            this.outerHtmlContent = '';
+          }
+
           this.cdr.markForCheck();
         },
         error: (err) => {
