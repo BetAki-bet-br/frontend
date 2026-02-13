@@ -10,6 +10,7 @@ import { DataStoreService } from '@app/@core';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { CdnizePipe } from '../../../@pipes/cdnize.pipe';
 import { MatIcon } from '@angular/material/icon';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-profile-modal',
@@ -52,9 +53,8 @@ export class ProfileModal {
   }
 
   onLogout(): void {
-    this.authService.logout().subscribe(() => {
-      this.logoutClicked.emit();
-    });
+    this.authService.logout().pipe(take(1)).subscribe();
+    this.logoutClicked.emit();
   }
 
   onMyAccount(): void {
