@@ -30,6 +30,13 @@ export class ChatbotScriptLoader {
     this.renderer.setAttribute(chatBotWidget, 'slug', 'xVQ8CmKj4WeWn77RDZeUiyty7VEivNYnpJmP4Y9Q');
     this.renderer.appendChild(this.document.body, chatBotWidget);
 
+    const style = this.renderer.createElement('style');
+    this.renderer.appendChild(
+      style,
+      this.renderer.createText(`#ra_wc_chatbot { bottom: 30px !important; }`)
+    );
+    this.renderer.appendChild(this.document.head, style);
+
     const script = this.renderer.createElement('script');
     this.renderer.setAttribute(script, 'id', 'ra_chatbot' + Math.floor(200 * Math.random()));
     this.renderer.setAttribute(script, 'defer', 'true');
