@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ChatbotScriptLoader {
+export class FonetalkScriptLoader {
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private renderer: Renderer2;
@@ -24,11 +24,15 @@ export class ChatbotScriptLoader {
     }
 
     this.scriptLoaded = true;
+    const w = window as any;
 
-    const chatBotWidget = this.renderer.createElement('ra-chatbot-widget');
-    this.renderer.setAttribute(chatBotWidget, 'id', 'ra_wc_chatbot');
-    this.renderer.setAttribute(chatBotWidget, 'slug', 'xVQ8CmKj4WeWn77RDZeUiyty7VEivNYnpJmP4Y9Q');
-    this.renderer.appendChild(this.document.body, chatBotWidget);
+    w.UC2BChat =
+      w.UC2BChat ||
+      function (c: any) {
+        w.UC2BChat._.push(c);
+      };
+    w.UC2BChat._ = w.UC2BChat._ || [];
+    w.UC2BChat.url = 'https://chatvanguard.fonetalk.com.br/livechat';
 
     const style = this.renderer.createElement('style');
     this.renderer.appendChild(
@@ -38,20 +42,42 @@ export class ChatbotScriptLoader {
     this.renderer.appendChild(this.document.head, style);
 
     const script = this.renderer.createElement('script');
-    this.renderer.setAttribute(script, 'id', 'ra_chatbot' + Math.floor(200 * Math.random()));
-    this.renderer.setAttribute(script, 'defer', 'true');
-    this.renderer.setAttribute(script, 'src', 'https://sitewidget.net/chatbot-sdk.js');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://chatvanguard.fonetalk.com.br/livechat/livechat.min.js?_=201903270000';
 
-    script.onload = script.onreadystatechange = () => {
+    script.onload = () => {
       this.checkIfWidgetReady();
     };
 
-    this.renderer.appendChild(this.document.body, script);
+    this.renderer.appendChild(this.document.head, script);
+
+    w.UC2BChat(function (this: any) {
+      this.setLinkedToFlow('');
+    });
+  }
+
+  public showWidget(): void {
+    const w = this.document.defaultView as any;
+    if (w.UC2BChat) {
+      w.UC2BChat(function (this: any) {
+        this.showWidget();
+      });
+    }
+  }
+
+  public hideWidget(): void {
+    const w = this.document.defaultView as any;
+    if (w.UC2BChat) {
+      w.UC2BChat(function (this: any) {
+        this.hideWidget();
+      });
+    }
   }
 
   private checkIfWidgetReady(): void {
     const interval = setInterval(() => {
-      const widget = this.document.querySelector('ra-chatbot-widget');
+      const widget = this.document.querySelector('.rocketchat-widget');
       if (widget) {
         this.readySubject.next(true);
         clearInterval(interval);
