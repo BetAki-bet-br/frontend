@@ -33,7 +33,7 @@ export class ChatbotScriptLoader {
     const style = this.renderer.createElement('style');
     this.renderer.appendChild(
       style,
-      this.renderer.createText(`#ra_wc_chatbot { bottom: 30px !important; }`)
+      this.renderer.createText(`.ra_wc_bubble { bottom: 70px !important; }`)
     );
     this.renderer.appendChild(this.document.head, style);
 
