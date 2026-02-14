@@ -28,7 +28,6 @@ export class ChatbotScriptLoader {
     const chatBotWidget = this.renderer.createElement('ra-chatbot-widget');
     this.renderer.setAttribute(chatBotWidget, 'id', 'ra_wc_chatbot');
     this.renderer.setAttribute(chatBotWidget, 'slug', 'xVQ8CmKj4WeWn77RDZeUiyty7VEivNYnpJmP4Y9Q');
-    this.renderer.setAttribute(chatBotWidget, 'style', 'bottom: 30px;');
     this.renderer.appendChild(this.document.body, chatBotWidget);
 
     const script = this.renderer.createElement('script');
