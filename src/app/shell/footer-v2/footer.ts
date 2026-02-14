@@ -55,16 +55,16 @@ export class Footer {
       title: 'Comunidade',
       links: [
         { text: 'Promoções', url: '/promotions' },
-        { text: 'Canais de atendimento', url: '/customer-support' },
+        { text: 'Central de Ajuda', url: '/customer-support' },
       ],
     },
     {
       title: 'Aposte',
       links: [
-        { text: 'Aposta Esportiva', url: '/' },
-        { text: 'Esportes Ao Vivo', url: '/sportsbook-live' },
-        { text: 'Jogos Slots', url: '/games' },
-        { text: 'Jogos Ao Vivo', url: '/games/live' },
+        { text: 'Aposta Esportiva', url: '#' },
+        { text: 'Esportes Ao Vivo', url: '#' },
+        { text: 'Jogos Slots', url: '#' },
+        { text: 'Jogos Ao Vivo', url: '#' },
       ],
     },
   ];
