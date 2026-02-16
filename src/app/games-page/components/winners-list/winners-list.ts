@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { switchMap, map, of, catchError, filter, finalize } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 // Models
 import { Winner } from './winner.model';
@@ -33,7 +34,6 @@ const ANIMATION_DURATION = 400;
 
 @Component({
   selector: 'app-winners-list',
-  standalone: true, // Garanta que é standalone
   imports: [WinnerCard],
   templateUrl: './winners-list.html',
   styleUrl: './winners-list.scss',
@@ -46,9 +46,22 @@ export class WinnersList implements OnInit, OnDestroy {
   private readonly winnersService = inject(WinnersService);
   private readonly slotsService = inject(SlotsService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly breakpointObserver = inject(BreakpointObserver);
 
   loading = signal(true);
   displayedWinners = signal<Winner[]>([]);
+  isMobile = signal(false);
+
+  showList = computed(() => {
+    const winnersCount = this.displayedWinners().length;
+    if (winnersCount > 1) {
+      return true; // Always show if more than one winner
+    }
+    if (winnersCount === 1 && this.isMobile()) {
+      return true; // Show only on mobile if there's just one winner
+    }
+    return false; // Otherwise, hide
+  });
 
   private allWinners = signal<Winner[]>([]);
   private intervalId?: ReturnType<typeof setInterval>;
@@ -60,6 +73,12 @@ export class WinnersList implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.nextWinnerIndex = this.winnersToList();
+    this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result) => {
+        this.isMobile.set(result.matches);
+      });
     this.fetchWinners(true);
   }
 

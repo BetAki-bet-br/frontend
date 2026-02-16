@@ -20,7 +20,7 @@
         <span class="text-accent"> {{ winner().gameName }} </span>
       </h3>
       <div class="flex flex-row items-center gap-2">
-        <img [src]="winner().userIcon" draggable="false" alt="User icon" />
+        <img [src]="winner().userIcon | cdnize" draggable="false" alt="User icon" />
         <p class="sm:text-xs leading-tight">{{ winner().winnerName }}</p>
       </div>
     </div>
