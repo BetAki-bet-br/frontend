@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "PortalGateway.ATL.Web",
-    "version": "4.110.0-4110+3593.cd607adc.cd607adc79ff8e4ff8f8a11fe4194c737146026e"
+    "version": "4.121.0-4121+3765.14a81552.14a815526b7c10976c8e7ffb71c751a9342fe71e"
   },
   "paths": {
     "/api/portal/v1/balance": {
@@ -81,7 +81,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BalanceController.GetBalance",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -111,8 +111,8 @@
                   "value": {
                     "withManualTransactions": true,
                     "retrieveChildTransactions": true,
-                    "fromDate": "2024-12-21T17:39:46.0337099+00:00",
-                    "toDate": "2025-12-22T17:39:46.0337181+00:00",
+                    "fromDate": "2025-02-17T20:36:24.5657213+00:00",
+                    "toDate": "2026-02-18T20:36:24.5657289+00:00",
                     "pageSize": 10,
                     "pageNumber": 1,
                     "transactionType": "Deposit"
@@ -165,7 +165,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BalanceController.PlayerTransactions",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -241,7 +241,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.BalanceController.TransactionDetails",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -345,7 +345,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BannerController.GetBanners"
       }
     },
@@ -443,7 +443,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BannerController.GetPlayerBanners",
         "x-authorization-required": true
       }
@@ -537,7 +537,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BonusController.GetBonuses"
       }
     },
@@ -633,7 +633,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BonusController.GetPlayerBonuses",
         "x-authorization-required": true
       },
@@ -703,7 +703,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.BonusController.PlayerBonuses",
         "x-authorization-required": true
       }
@@ -854,7 +854,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetBonus",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -876,6 +876,68 @@
           "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.AcceptWithdrawalRequestBonus",
           "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.CreateDeposit"
         ]
+      }
+    },
+    "/api/portal/v1/bonus/time-to-meet-conditions": {
+      "post": {
+        "tags": ["Bonus"],
+        "summary": "",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetTimeToMeetConditionsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Request finished successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTimeToMeetConditionsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetTimeToMeetConditions",
+        "x-authorization-required": true
       }
     },
     "/api/portal/v1/bonus/player/promotions": {
@@ -1036,7 +1098,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetListOfPlayerPromotions",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -1172,7 +1234,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetListOfPromotions",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -1251,7 +1313,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.OptInCode",
         "x-authorization-required": true
       }
@@ -1315,7 +1377,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.OptOutPlayer",
         "x-authorization-required": true
       }
@@ -1396,7 +1458,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.OptInCodeWithPlayerPromotions",
         "x-authorization-required": true
       }
@@ -1470,7 +1532,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetPlayerCurrentFreeSpinGames",
         "x-authorization-required": true
       }
@@ -1526,7 +1588,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetListOfBonusesToExpireOnWithdrawal",
         "x-authorization-required": true
       }
@@ -1582,7 +1644,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.PromotionsCouponCode",
         "x-authorization-required": true
       }
@@ -1638,7 +1700,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.DeclinePlayerBonusContext",
         "x-authorization-required": true
       }
@@ -1721,7 +1783,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetMultiChoiceBonuses",
         "x-authorization-required": true
       }
@@ -1797,7 +1859,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetBonusContent",
         "x-authorization-required": true
       }
@@ -1853,7 +1915,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.AcceptMultiChoiceBonus",
         "x-authorization-required": true
       }
@@ -1909,7 +1971,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.DeclineMultiChoiceBonus",
         "x-authorization-required": true
       }
@@ -1976,7 +2038,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetMultiChoiceBonusGroups",
         "x-authorization-required": true
       }
@@ -2042,7 +2104,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetWithdrawalRequestBonuses",
         "x-authorization-required": true
       }
@@ -2098,7 +2160,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.AcceptWithdrawalRequestBonus",
         "x-authorization-required": true
       }
@@ -2154,7 +2216,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.OptInToBonus",
         "x-authorization-required": true
       }
@@ -2207,7 +2269,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetBonusesAvailableForOptIn",
         "x-authorization-required": true
       }
@@ -2273,12 +2335,831 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.BonusController.GetBonusesInfo",
         "x-authorization-required": true
       }
     },
     "/api/portal/v1/config/portal": {},
+    "/api/portal/v1/gamification/getprograms": {
+      "get": {
+        "tags": ["Gamification"],
+        "summary": "Retrieves a list of all active programs.",
+        "description": "The result of this method may be cached to improve performance. This method does not\r\n            require authentication.",
+        "responses": {
+          "200": {
+            "description": "Returns all active programs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetProgramResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.GetPrograms"
+      }
+    },
+    "/api/portal/v1/gamification/getplayerlevelrewards": {
+      "get": {
+        "tags": ["Gamification"],
+        "summary": "Retrieves the rewards associated with a player's level progression within a specified program.",
+        "description": "This method caches the result to improve performance for repeated requests with the\r\n            same parameters. The returned data may include historical rewards and levels based on the options specified\r\n            in the request.",
+        "parameters": [
+          {
+            "name": "ProgramId",
+            "in": "query",
+            "description": "Program id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "examples": {
+              "Get player tasks request": {
+                "value": "1"
+              }
+            }
+          },
+          {
+            "name": "IncludeHistory",
+            "in": "query",
+            "description": "Include history",
+            "schema": {
+              "type": "boolean"
+            },
+            "examples": {
+              "Get player tasks request": {
+                "value": "True"
+              }
+            }
+          },
+          {
+            "name": "IncludeLevelsUpToCurrentPriority",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the player's level rewards for the specified program",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPlayerLevelRewardsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.GetPlayerLevelRewards",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/gamification/getplayertasks": {
+      "get": {
+        "tags": ["Gamification"],
+        "summary": "Retrieves the list of tasks assigned to a player for a specified program.",
+        "description": "# Get player tasks for a specific program\r\n\r\nThis method retrieves the list of tasks assigned to a player for a specified gamification program.\r\n\r\n# Errors\r\n\r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while retrieving player tasks.",
+        "parameters": [
+          {
+            "name": "ProgramId",
+            "in": "query",
+            "description": "Program id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "examples": {
+              "Get player tasks request": {
+                "value": "1"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the player's tasks for the specified program",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPlayerTasksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.GetPlayerTasks",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/gamification/getplayeractiveprograms": {
+      "get": {
+        "tags": ["Gamification"],
+        "summary": "Retrieves the list of active programs for the specified player.",
+        "description": "# Get player active programs\r\n\r\nThis method retrieves the list of active gamification programs for the specified player.\r\n\r\n# Errors\r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while retrieving player active programs.",
+        "responses": {
+          "200": {
+            "description": "Request finished successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPlayerActiveProgramsResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.GetPlayerActivePrograms",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/gamification/getprogramleaderboard": {
+      "get": {
+        "tags": ["Gamification"],
+        "summary": "Retrieves the leaderboard rankings for a specified program, task type, and player.",
+        "description": "# Get program leaderboard rankings\r\n\r\nThis method retrieves the leaderboard rankings for a specified gamification program and task type.\r\n\r\n# Errors\r\n\r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while retrieving leaderboard rankings.",
+        "parameters": [
+          {
+            "name": "ProgramId",
+            "in": "query",
+            "description": "Program id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "TaskTypeId",
+            "in": "query",
+            "description": "Task type id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "TopNumber",
+            "in": "query",
+            "description": "Number of players in leaderboard",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request finished successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProgramLeaderboardRankingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.GetProgramLeaderboard",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/gamification/getprogramleaderboardnotloggedin": {
+      "get": {
+        "tags": ["Gamification"],
+        "summary": "Retrieves the program leaderboard rankings for a specified program without requiring user authentication.",
+        "description": "# Get program leaderboard rankings without authentication",
+        "parameters": [
+          {
+            "name": "ProgramId",
+            "in": "query",
+            "description": "Program id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "TaskTypeId",
+            "in": "query",
+            "description": "Task type id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "TopNumber",
+            "in": "query",
+            "description": "Number of players in leaderboard",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request finished successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProgramLeaderboardRankingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.GetProgramLeaderboardNotLoggedIn"
+      }
+    },
+    "/api/portal/v1/gamification/getallprogramcategories": {
+      "get": {
+        "tags": ["Gamification"],
+        "summary": "Retrieves a list of all available program categories.",
+        "description": "# Get all program categories\r\n\r\nThis method retrieves a list of all available gamification program categories.\r\n\r\n# Errors\r\n\r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while retrieving program categories.",
+        "responses": {
+          "200": {
+            "description": "Request finished successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetProgramCategoryResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.GetAllProgramCategories"
+      }
+    },
+    "/api/portal/v1/gamification/getalltaskcategories": {
+      "get": {
+        "tags": ["Gamification"],
+        "summary": "Retrieves a list of all available task categories.",
+        "description": "# Get all task categories\r\n\r\nThis method retrieves a list of all available gamification task categories.\r\n\r\n# Errors\r\n\r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while retrieving task categories.",
+        "responses": {
+          "200": {
+            "description": "Request finished successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetTaskCategoryResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.GetAllTaskCategories"
+      }
+    },
+    "/api/portal/v1/gamification/claimtaskrewards": {
+      "post": {
+        "tags": ["Gamification"],
+        "summary": "Claims the rewards for a specified task completed by a player.",
+        "description": "# Get claim task rewards\r\n\r\nThis method allows a player to claim the rewards for a specified task they have completed.\r\n\r\n# Errors\r\n\r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while claiming task rewards.",
+        "parameters": [
+          {
+            "name": "TaskId",
+            "in": "query",
+            "description": "Player task id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "examples": {
+              "Get player tasks request": {
+                "value": "1"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request finished successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimTaskRewardsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.ClaimTaskRewards",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/gamification/claimtaskreward": {
+      "post": {
+        "tags": ["Gamification"],
+        "summary": "Claims a reward for a completed gamification task for the specified player.",
+        "description": "# Get claim task reward\r\n\r\nThis method allows a player to claim a reward for a completed gamification task.\r\n\r\n# Errors\r\n\r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while claiming task reward.",
+        "parameters": [
+          {
+            "name": "TaskRewardId",
+            "in": "query",
+            "description": "The ID of the task reward for which the reward is being claimed.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "examples": {
+              "Get player tasks request": {
+                "value": "10"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the claimed task reward details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimTaskRewardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.ClaimTaskReward",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/gamification/claimprogramreward": {
+      "post": {
+        "tags": ["Gamification"],
+        "summary": "Processes a request to claim a program reward for a player.",
+        "description": "# Get claim program reward\r\n\r\nThis method allows a player to claim a reward for a completed gamification program.\r\n\r\n# Errors\r\n\r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while claiming program reward.",
+        "parameters": [
+          {
+            "name": "ProgramLevelAwardGroupType",
+            "in": "query",
+            "description": "Id of program level award group type",
+            "schema": {
+              "$ref": "#/components/schemas/ProgramLevelAwardGroupTypeEnum"
+            },
+            "examples": {
+              "Get player tasks request": {
+                "value": "LevelUpgrade"
+              }
+            }
+          },
+          {
+            "name": "ProgramAwards",
+            "in": "query",
+            "description": "List of awards to claim",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Indicates whether the program reward was successfully claimed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v1.GamificationController.ClaimProgramReward",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v2/gamification/getprograms": {
+      "get": {
+        "tags": ["Gamification"],
+        "summary": "Retrieves a list of all active programs per portal/brand.",
+        "description": "Results are cached to improve performance. This endpoint does not require\r\n            authentication.",
+        "parameters": [
+          {
+            "name": "portalId",
+            "in": "query",
+            "description": "The unique identifier of the portal for which to retrieve programs.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns all active programs for the specified portal",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetProgramResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "Gamification.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.Gamification.Gamification.Api.Controllers.v2.GamificationController.GetPrograms"
+      }
+    },
     "/api/portal/v1/globalization/countries": {
       "get": {
         "tags": ["Globalization"],
@@ -2338,7 +3219,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.GetCountries",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2410,7 +3291,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.GetCurrencies",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2467,7 +3348,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.GetContactInfoTypes",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2524,7 +3405,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.Title",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2591,7 +3472,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.SecretQuestion",
         "x-cache-enabled": true,
         "x-cache-type": "Local",
@@ -2657,7 +3538,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.GlobalizationController.GeolocationConfiguration",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -2720,7 +3601,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.LoyaltyController.RedeemLoyaltyPoints",
         "x-authorization-required": true
       },
@@ -2769,7 +3650,7 @@
             },
             "examples": {
               "Redeem points transactions": {
-                "value": "12/21/2004 17:39:46 +00:00"
+                "value": "02/17/2005 20:36:24 +00:00"
               }
             }
           },
@@ -2783,7 +3664,7 @@
             },
             "examples": {
               "Redeem points transactions": {
-                "value": "12/22/2025 17:39:46 +00:00"
+                "value": "02/18/2026 20:36:24 +00:00"
               }
             }
           }
@@ -2831,7 +3712,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.LoyaltyController.RedeemedPointsTransactions",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -2895,7 +3776,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.LoyaltyController.LoyaltyDetail",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -2959,7 +3840,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.GetUnreadMessagesCount",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -3030,7 +3911,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.DeleteMessage",
         "x-authorization-required": true
       },
@@ -3095,7 +3976,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.ChangeMessageStatus",
         "x-authorization-required": true
       },
@@ -3158,7 +4039,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.GetMessage",
         "x-authorization-required": true
       }
@@ -3251,7 +4132,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.GetMessages",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -3327,7 +4208,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.GetPopups",
         "x-authorization-required": true
       }
@@ -3385,7 +4266,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.MessageController.HandleMessage",
         "x-authorization-required": true
       }
@@ -3465,7 +4346,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.CreateDeposit",
         "x-authorization-required": true
       }
@@ -3537,7 +4418,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.CancelWithdrawal",
         "x-authorization-required": true
       }
@@ -3591,7 +4472,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.WithdrawalEligibilityParameters",
         "x-authorization-required": true
       }
@@ -3644,12 +4525,13 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.GetAvailablePaymentInstruments",
         "x-authorization-required": true
       }
     },
     "/api/portal/v1/payment/providers": {},
+    "/api/portal/v1/payment/providers/filtered": {},
     "/api/portal/v1/payment/accounts/filtered": {
       "get": {
         "tags": ["Payment"],
@@ -3742,7 +4624,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.ListFilteredPaymentAccounts",
         "x-authorization-required": true
       }
@@ -3821,7 +4703,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.UpdatePaymentAccount",
         "x-authorization-required": true
       }
@@ -3879,7 +4761,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.RemovePaymentAccount",
         "x-authorization-required": true
       }
@@ -3935,7 +4817,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.ListPaymentAccounts",
         "x-authorization-required": true
       }
@@ -4016,11 +4898,13 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.AddPaymentAccount",
         "x-authorization-required": true
       }
     },
+    "/api/portal/v1/payment/account/pre-authorize": {},
+    "/api/portal/v1/payment/account/authorize": {},
     "/api/portal/v1/payment/quickpaymentsettings": {
       "post": {
         "tags": ["Payment"],
@@ -4087,7 +4971,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.GetQuickPaymentSettings",
         "x-authorization-required": true
       }
@@ -4182,7 +5066,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.WithdrawalEligibilityCheck",
         "x-authorization-required": true
       }
@@ -4277,7 +5161,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.WithdrawalFaceAuth",
         "x-authorization-required": true
       }
@@ -4340,7 +5224,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PaymentController.WithdrawalFacialAuthentication",
         "x-authorization-required": true
       }
@@ -4400,7 +5284,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.Login"
       }
     },
@@ -4427,7 +5311,7 @@
                       "firstName": "John",
                       "lastName": "Doe",
                       "middleName": null,
-                      "dateOfBirth": "2004-12-21",
+                      "dateOfBirth": "2005-02-17",
                       "gender": null,
                       "street": null,
                       "houseNumber": null,
@@ -4505,7 +5389,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CreatePlayer"
       },
       "get": {
@@ -4555,7 +5439,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerDetails",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -4616,7 +5500,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.Logout",
         "x-authorization-required": true
       }
@@ -4674,7 +5558,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ChangeForgottenPassword"
       }
     },
@@ -4736,7 +5620,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ChangePlayerPassword",
         "x-authorization-required": true
       }
@@ -4793,7 +5677,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.SetPlayerLimit",
         "x-authorization-required": true
       }
@@ -4849,7 +5733,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerLimits",
         "x-authorization-required": true
       }
@@ -4907,7 +5791,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CancelPlayerLimit",
         "x-authorization-required": true
       }
@@ -4960,7 +5844,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerContactPreferences",
         "x-authorization-required": true
       },
@@ -5014,7 +5898,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.UpdatePlayerContactPreferences",
         "x-authorization-required": true
       }
@@ -5089,7 +5973,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ValidatePlayerData"
       }
     },
@@ -5141,7 +6025,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ReferAFriendStatistic",
         "x-authorization-required": true
       },
@@ -5216,7 +6100,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ReferAFriend",
         "x-authorization-required": true
       }
@@ -5272,7 +6156,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.TimeoutPlayer",
         "x-authorization-required": true
       }
@@ -5333,7 +6217,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.UpdatePlayerCustomParameters",
         "x-authorization-required": true
       }
@@ -5398,7 +6282,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CheckContactInfoVerificationStatus",
         "x-authorization-required": true
       },
@@ -5463,7 +6347,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.VerifyContactInfo",
         "x-authorization-required": true
       },
@@ -5519,7 +6403,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ContactInfoVerification",
         "x-authorization-required": true
       }
@@ -5611,7 +6495,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.UploadDocument",
         "x-authorization-required": true
       }
@@ -5664,7 +6548,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetDocuments",
         "x-authorization-required": true
       }
@@ -5718,7 +6602,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.EmailVerification"
       }
     },
@@ -5780,7 +6664,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ForgotUsername"
       }
     },
@@ -5832,7 +6716,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerData",
         "x-authorization-required": true
       }
@@ -5895,7 +6779,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetPlayerSegments",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -5960,7 +6844,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CreatePlayerToken",
         "x-authorization-required": true
       }
@@ -6013,7 +6897,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CreateTransferSessionToken",
         "x-authorization-required": true
       }
@@ -6079,7 +6963,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.VerifyPlayerToken",
         "x-authorization-required": true
       }
@@ -6139,7 +7023,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ActivatePlayer"
       }
     },
@@ -6191,7 +7075,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.SendActivationEmail"
       }
     },
@@ -6315,9 +7199,89 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GetLogonHistory",
         "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/player/login/send-notification": {
+      "get": {
+        "tags": ["Player"],
+        "parameters": [
+          {
+            "name": "ChannelType",
+            "in": "query",
+            "description": "Types of altenative channels for player notifications.\r\n\r\nPossible  values:\r\n* Email\r\n* SMS\r\n* SocialLogin",
+            "schema": {
+              "$ref": "#/components/schemas/AlternativeChannelTypeEnum"
+            },
+            "examples": {
+              "SMS OTP login": {
+                "value": "SMS"
+              }
+            }
+          },
+          {
+            "name": "Value",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "SMS OTP login": {
+                "value": "+631234567890"
+              }
+            }
+          },
+          {
+            "name": "PortalId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "examples": {
+              "SMS OTP login": {
+                "value": "1"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request finished successfully"
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.SendPlayerNotification"
       }
     },
     "/api/portal/v1/player/player-activity": {
@@ -6361,7 +7325,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.PlayerController.PlayerActivity",
         "x-authorization-required": true
       }
@@ -6421,7 +7385,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.Onboarding",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -6499,7 +7463,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.OnboardingCheck"
       }
     },
@@ -6563,7 +7527,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.SelfExcludeFaceAuth",
         "x-authorization-required": true
       }
@@ -6616,7 +7580,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.CloseAccountFaceAuth",
         "x-authorization-required": true
       }
@@ -6676,7 +7640,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ForgotPasswordFaceAuth"
       }
     },
@@ -6738,7 +7702,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.UpdatePlayerFaceAuth",
         "x-authorization-required": true
       }
@@ -6801,7 +7765,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.LoginAuth",
         "x-authorization-required": true
       }
@@ -6864,7 +7828,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.AnnualVerificationFaceAuth",
         "x-authorization-required": true
       }
@@ -6925,7 +7889,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.FacialAuthentication"
       }
     },
@@ -6984,7 +7948,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ActivateInactivePlayer"
       }
     },
@@ -7046,7 +8010,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.GeoLocationCheck",
         "x-authorization-required": true
       }
@@ -7109,7 +8073,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ReVerification",
         "x-authorization-required": true
       }
@@ -7155,7 +8119,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.AnnualReportDemand",
         "x-authorization-required": true
       }
@@ -7209,7 +8173,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.AnnualReportCheck"
       }
     },
@@ -7271,7 +8235,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.ChangePlayerPasswordAuth",
         "x-authorization-required": true
       }
@@ -7324,7 +8288,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.PlayerStatistics",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -7389,7 +8353,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.Brazil, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.Brazil.PlayerPortalFacadeControllers.Controllers.v1.PlayerController.PlayerStatuses",
         "x-authorization-required": true
       }
@@ -7472,7 +8436,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.PostGameNotSecure"
       }
     },
@@ -7558,7 +8522,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.PostPlayerGame",
         "x-authorization-required": true
       }
@@ -7620,7 +8584,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameMains",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -7689,7 +8653,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameMainsForCategory",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -7760,7 +8724,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetPreGameByExtGameId",
         "x-authorization-required": true
       }
@@ -7865,7 +8829,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.LobbyNotSecureGameMain",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -7980,7 +8944,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.PlayerLobbyGameMain",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -8053,7 +9017,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetPlayerShortcutGameMains",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -8122,7 +9086,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.AddPlayerShortcutGameMain",
         "x-authorization-required": true
       },
@@ -8177,7 +9141,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.RemovePlayerShortcutGameMain",
         "x-authorization-required": true
       }
@@ -8242,7 +9206,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetRestrictionsForPlayer",
         "x-authorization-required": true
       }
@@ -8320,7 +9284,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetPlayerTopRecentGames",
         "x-authorization-required": true
       }
@@ -8413,7 +9377,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetRestrictionsNotSecure"
       }
     },
@@ -8495,7 +9459,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameMainHelp"
       }
     },
@@ -8560,7 +9524,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameMainParameters"
       }
     },
@@ -8620,7 +9584,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameCategories",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -8676,7 +9640,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameCategoriesTypes"
       }
     },
@@ -8782,7 +9746,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.ProdGameController.GetGameHistory",
         "x-authorization-required": true
       }
@@ -8852,7 +9816,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.ProdGameController.TopWinners",
         "x-cache-enabled": true,
         "x-cache-type": "Distributed",
@@ -8922,7 +9886,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.ProdGameController.GetGeneralLobbyForProduct",
         "x-authorization-required": true
       }
@@ -8982,7 +9946,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers.ATL, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.CustomerSpecific.ATL.Controllers.PlayerPortalFacadeControllers.ATL.Controllers.v1.ProdGameController.GetGeneralLobbyForProductNotSecure"
       }
     },
@@ -9075,7 +10039,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.PromotionController.GetPromotions"
       }
     },
@@ -9171,7 +10135,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.PromotionController.GetPlayerPromotions",
         "x-authorization-required": true
       }
@@ -9254,7 +10218,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.GetAllRewards"
       }
     },
@@ -9321,7 +10285,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.GetClaimableRewards",
         "x-authorization-required": true
       }
@@ -9395,7 +10359,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.ClaimRewardItem",
         "x-authorization-required": true
       }
@@ -9456,7 +10420,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.ClaimRewardBonus",
         "x-authorization-required": true
       }
@@ -9524,9 +10488,537 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.RewardController.GetClaimedRewards",
         "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/reward-game/game/all/active": {
+      "get": {
+        "tags": ["RewardGame"],
+        "summary": "Retrieves all active reward game configurations.",
+        "description": "# Get all active reward games\r\n\r\nThis method retrieves a list of all currently active reward games that are available for players to participate in.\r\n\r\n# Errors\r\n  \r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while retrieving games.",
+        "responses": {
+          "200": {
+            "description": "Returns all active reward games.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllActiveRewardGamesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "RewardGame.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.RewardGame.RewardGame.Api.Controllers.Controllers.v1.RewardGameController.GetAllActiveRewardGames"
+      }
+    },
+    "/api/portal/v1/reward-game/result/playergameaward/{PlayerGameAwardId}": {
+      "get": {
+        "tags": ["RewardGame"],
+        "summary": "Retrieves the game result associated with the specified player reward game.",
+        "description": "# Get player game result\r\n\r\nThis method retrieves the result of a specific game attempt for a player, identified by the player game award ID.\r\nThe result includes information about the winning position, possible new game award ID and whether there was an error.\r\n\r\n# Errors\r\n  \r\nError code                  | Description\r\n--------------------------- | -----------\r\n`PlayerSessionCheckFailed`  | Player session expired or invalid.\r\n`InternalError`             | Internal error occurred while retrieving the result.\r\n`NotFound`                  | The specified player game award was not found.",
+        "parameters": [
+          {
+            "name": "PlayerGameAwardId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "examples": {
+              "Get player game result request": {
+                "value": "1"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the game result for the specified player reward game.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPlayerGameResultResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "RewardGame.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.RewardGame.RewardGame.Api.Controllers.Controllers.v1.RewardGameController.GetPlayerGameResult",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/reward-game/player/waiting-awards": {
+      "get": {
+        "tags": ["RewardGame"],
+        "summary": "Retrieves all waiting awards for the specified player.",
+        "description": "# Get waiting player game awards\r\n\r\nThis method retrieves all pending reward games that the player can play.\r\nThese awards are in a \"waiting\" state and require player action to be processed.\r\n\r\n# Errors\r\n  \r\nError code                  | Description\r\n--------------------------- | -----------\r\n`PlayerSessionCheckFailed`  | Player session expired or invalid.\r\n`InternalError`             | Internal error occurred while retrieving awards.\r\n`BadRequest`                | PlayerId is required but was not provided.",
+        "responses": {
+          "200": {
+            "description": "Returns a list of reward games waiting to be played by the player.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPlayerAwardsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "RewardGame.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.RewardGame.RewardGame.Api.Controllers.Controllers.v1.RewardGameController.GetWaitingPlayerGameAwards",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/reward-game/player/awards-history": {
+      "get": {
+        "tags": ["RewardGame"],
+        "summary": "Retrieves the player's spin the wheel win history.",
+        "description": "# Get player spin the wheel history\r\n            \r\nThis method retrieves the complete history of wins from spin the wheel games for the specified player.\r\nThe history includes details of all past wins with localized information based on the provided language code.\r\n\r\n# Errors\r\n  \r\nError code                  | Description\r\n--------------------------- | -----------\r\n`PlayerSessionCheckFailed`  | Player session expired or invalid.\r\n`InternalError`             | Internal error occurred while retrieving history.\r\n`BadRequest`                | PlayerId or LanguageCode is required but was not provided.",
+        "parameters": [
+          {
+            "name": "LanguageCode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "Get player game result request": {
+                "value": "en-US"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the player's spin the wheel win history.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPlayerSpinWheelHistoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "RewardGame.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.RewardGame.RewardGame.Api.Controllers.Controllers.v1.RewardGameController.GetPlayerSpinWheelHistory",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/reward-game/player/awards-history-paged": {
+      "get": {
+        "tags": ["RewardGame"],
+        "summary": "Retrieves the player's spin the wheel win history with pagination support.",
+        "description": "# Get player spin wheel history (paged)\r\n            \r\nThis method retrieves the history of wins from spin the wheel games for the specified player with pagination support.\r\nThe history includes details of past wins with localized information based on the provided language code.\r\n\r\n# Errors\r\n  \r\nError code                  | Description\r\n--------------------------- | -----------\r\n`PlayerSessionCheckFailed`  | Player session expired or invalid.\r\n`InternalError`             | Internal error occurred while retrieving history.\r\n`BadRequest`                | PlayerId or LanguageCode is required but was not provided.",
+        "parameters": [
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "examples": {
+              "Get player game result request": {
+                "value": "1"
+              }
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "examples": {
+              "Get player game result request": {
+                "value": "50"
+              }
+            }
+          },
+          {
+            "name": "OrderBy",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/PlayerGameAwardSearchOrderByEnum"
+            },
+            "examples": {
+              "Get player game result request": {
+                "value": "ModifiedDate"
+              }
+            }
+          },
+          {
+            "name": "Descending",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "examples": {
+              "Get player game result request": {
+                "value": "True"
+              }
+            }
+          },
+          {
+            "name": "LanguageCode",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "Get player game result request": {
+                "value": "en-US"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a paginated list of the player's spin wheel win history.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPlayerSpinWheelHistoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          },
+          {
+            "JwtBearer_PG": []
+          }
+        ],
+        "x-assembly": "RewardGame.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.RewardGame.RewardGame.Api.Controllers.Controllers.v1.RewardGameController.GetPlayerSpinWheelHistoryPaged",
+        "x-authorization-required": true
+      }
+    },
+    "/api/portal/v1/reward-game/game/all/latest-winner": {
+      "get": {
+        "tags": ["RewardGame"],
+        "summary": "Retrieves the latest winner information.",
+        "description": "# Get latest winner\r\n\r\nThis method retrieves information about the most recent winner in the reward game system.\r\n\r\n# Errors\r\n  \r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while retrieving the latest winner.\r\n`NotFound`                  | No winner information available.",
+        "responses": {
+          "200": {
+            "description": "Returns information about the most recent winner.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLatestWinnerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "RewardGame.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.RewardGame.RewardGame.Api.Controllers.Controllers.v1.RewardGameController.GetLatestWinner"
+      }
+    },
+    "/api/portal/v2/reward-game/game/all/active": {
+      "get": {
+        "tags": ["RewardGame"],
+        "summary": "Retrieves all active reward game configurations for a specific portal.",
+        "description": "# Get all active reward games (v2)\r\n\r\nThis method retrieves a list of all currently active reward games that are available for players to participate in,\r\nfiltered by the specified portal ID.\r\n\r\n# Errors\r\n  \r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while retrieving games.",
+        "parameters": [
+          {
+            "name": "portalId",
+            "in": "query",
+            "description": "The ID of the portal to retrieve active games for.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns all active reward games for the specified portal.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllActiveRewardGamesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "RewardGame.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.RewardGame.RewardGame.Api.Controllers.Controllers.v2.RewardGameController.GetAllActiveRewardGames"
+      }
+    },
+    "/api/portal/v2/reward-game/game/all/latest-winner": {
+      "get": {
+        "tags": ["RewardGame"],
+        "summary": "Retrieves the latest winner information for a specific portal.",
+        "description": "# Get latest winner (v2)\r\n\r\nThis method retrieves information about the most recent winner in the reward game system for a specific portal.\r\n\r\n# Errors\r\n  \r\nError code                  | Description\r\n--------------------------- | -----------\r\n`InternalError`             | Internal error occurred while retrieving the latest winner.",
+        "parameters": [
+          {
+            "name": "portalId",
+            "in": "query",
+            "description": "The ID of the portal to retrieve the latest winner for.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns information about the most recent winner for the specified portal.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLatestWinnerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A known error has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PortalGatewayValidationFailedResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "An unknown error has occurred"
+          }
+        },
+        "security": [
+          {
+            "ApiKey_PG": []
+          }
+        ],
+        "x-assembly": "RewardGame.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
+        "x-method": "PortalGateway.Modules.RewardGame.RewardGame.Api.Controllers.Controllers.v2.RewardGameController.GetLatestWinner"
       }
     },
     "/api/portal/v1/sportsbook/bets": {
@@ -9545,7 +11037,7 @@
             },
             "examples": {
               "Basic register": {
-                "value": "12/21/2004 17:39:46 +00:00"
+                "value": "02/17/2005 20:36:24 +00:00"
               }
             }
           },
@@ -9559,7 +11051,7 @@
             },
             "examples": {
               "Basic register": {
-                "value": "12/22/2025 17:39:46 +00:00"
+                "value": "02/18/2026 20:36:24 +00:00"
               }
             }
           },
@@ -9643,7 +11135,7 @@
             "JwtBearer_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.SportsbookController.GetBetHistory",
         "x-authorization-required": true,
         "x-cache-enabled": true,
@@ -9715,7 +11207,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "CMS.Api.Controllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "CMS.Api.Controllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Modules.CMS.CMS.Api.Controllers.v1.TemplateController.GetTemplates"
       }
     },
@@ -9795,7 +11287,7 @@
             "ApiKey_PG": []
           }
         ],
-        "x-assembly": "PlayerPortalFacadeControllers, Version=4.110.0.3593, Culture=neutral, PublicKeyToken=null",
+        "x-assembly": "PlayerPortalFacadeControllers, Version=4.121.0.3765, Culture=neutral, PublicKeyToken=null",
         "x-method": "PortalGateway.Vanilla.Controllers.PlayerPortalFacadeControllers.Controllers.v1.TemplateController.CurrentTermsAndConditions"
       }
     }
@@ -10001,6 +11493,11 @@
         },
         "additionalProperties": false,
         "description": "Add Payment Accounts return"
+      },
+      "AlternativeChannelTypeEnum": {
+        "enum": ["Email", "SMS", "SocialLogin"],
+        "type": "string",
+        "description": "Types of altenative channels for player notifications.\r\n\r\nPossible  values:\r\n* Email\r\n* SMS\r\n* SocialLogin"
       },
       "AnnualVerificationAuthRequest": {
         "required": [
@@ -10897,6 +12394,71 @@
             "minLength": 1,
             "type": "string",
             "description": "Country of the recipient"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClaimTaskRewardResponse": {
+        "type": "object",
+        "properties": {
+          "playerId": {
+            "type": "integer",
+            "description": "Player id",
+            "format": "int64"
+          },
+          "taskRewardId": {
+            "type": "integer",
+            "description": "Id of the claimed task reward",
+            "format": "int64"
+          },
+          "taskId": {
+            "type": "integer",
+            "description": "Task id",
+            "format": "int64"
+          },
+          "upgraded": {
+            "type": "boolean",
+            "description": "Upgraded"
+          },
+          "playerProgramId": {
+            "type": "integer",
+            "description": "Player program id",
+            "format": "int32"
+          },
+          "playerProgramLevelId": {
+            "type": "integer",
+            "description": "Player program level id",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClaimTaskRewardsResponse": {
+        "type": "object",
+        "properties": {
+          "playerId": {
+            "type": "integer",
+            "description": "Player id",
+            "format": "int64"
+          },
+          "taskId": {
+            "type": "integer",
+            "description": "Task id",
+            "format": "int64"
+          },
+          "upgraded": {
+            "type": "boolean",
+            "description": "Upgraded"
+          },
+          "playerProgramId": {
+            "type": "integer",
+            "description": "Player program id",
+            "format": "int32"
+          },
+          "playerProgramLevelId": {
+            "type": "integer",
+            "description": "Player program level id",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -12067,6 +13629,32 @@
         "type": "string",
         "description": "Game status.\r\n\r\nPossible values:\r\n* Active, \r\n* Finished,\r\n* Voided"
       },
+      "GameExpirationTypeEnum": {
+        "enum": ["EndOfDay", "EndOfWeek", "EndOfMonth"],
+        "type": "string"
+      },
+      "GameLocalizationDTO": {
+        "required": ["languageCode", "subtitle", "title"],
+        "type": "object",
+        "properties": {
+          "languageCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "subtitle": {
+            "type": "string",
+            "nullable": true
+          },
+          "isDefaultLanguage": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "GameMain": {
         "type": "object",
         "properties": {
@@ -12162,6 +13750,14 @@
             },
             "description": "Game Parameters",
             "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Game Parameters",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -12235,6 +13831,85 @@
         },
         "additionalProperties": false,
         "description": "Game Parameters"
+      },
+      "GamePositionDTO": {
+        "type": "object",
+        "properties": {
+          "positionNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prizeTypeId": {
+            "$ref": "#/components/schemas/PrizeTypeEnum"
+          },
+          "gamePositionLocalizationList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GamePositionLocalizationDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GamePositionLocalizationDTO": {
+        "required": ["languageCode", "text"],
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "scale": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "languageCode": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GameResponse": {
+        "required": ["backgroundUrl", "name", "templateType"],
+        "type": "object",
+        "properties": {
+          "gameId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "templateType": {
+            "type": "string",
+            "nullable": true
+          },
+          "backgroundUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "gameLocalizationList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameLocalizationDTO"
+            },
+            "nullable": true
+          },
+          "gamePositionList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GamePositionDTO"
+            },
+            "nullable": true
+          },
+          "gameExpirationType": {
+            "$ref": "#/components/schemas/GameExpirationTypeEnum"
+          }
+        },
+        "additionalProperties": false
       },
       "GamesModel": {
         "type": "object",
@@ -12324,6 +13999,24 @@
             },
             "description": "Available languages for the resolved geolocation",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetAllActiveRewardGamesResponse": {
+        "required": ["games"],
+        "type": "object",
+        "properties": {
+          "games": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameResponse"
+            },
+            "nullable": true
+          },
+          "recordCount": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -12614,6 +14307,17 @@
         "additionalProperties": false,
         "description": "Get General Lobby For Product Response"
       },
+      "GetLatestWinnerResponse": {
+        "required": ["playerId"],
+        "type": "object",
+        "properties": {
+          "playerId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
       "GetMessageResponse": {
         "type": "object",
         "properties": {
@@ -12644,6 +14348,87 @@
         },
         "additionalProperties": false,
         "description": "Get messages return"
+      },
+      "GetPlayerActiveProgramsResponse": {
+        "type": "object",
+        "properties": {
+          "playerId": {
+            "type": "integer",
+            "description": "Player Id",
+            "format": "int64"
+          },
+          "programId": {
+            "type": "integer",
+            "description": "Program Id",
+            "format": "int64"
+          },
+          "programLevelId": {
+            "type": "integer",
+            "description": "Program Level Id",
+            "format": "int64"
+          },
+          "username": {
+            "type": "string",
+            "description": "Player Username",
+            "nullable": true
+          },
+          "pointAmount": {
+            "type": "number",
+            "description": "Player's program points",
+            "format": "double"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Active"
+          },
+          "levelEnrolmentDate": {
+            "type": "string",
+            "description": "Date when the player was enrolled in the program level",
+            "format": "date-time"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "Created date",
+            "format": "date-time"
+          },
+          "dateUpdated": {
+            "type": "string",
+            "description": "Updated date",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPlayerAwardResponse": {
+        "type": "object",
+        "properties": {
+          "playerGameId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "gameId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPlayerAwardsResponse": {
+        "type": "object",
+        "properties": {
+          "playerAwards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetPlayerAwardResponse"
+            },
+            "nullable": true
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
       },
       "GetPlayerBonusesRequest": {
         "required": ["bonusIncentiveIds", "languageCode", "slugs"],
@@ -12731,6 +14516,41 @@
         "additionalProperties": false,
         "description": "Get player contact preferences response."
       },
+      "GetPlayerGameResultResponse": {
+        "type": "object",
+        "properties": {
+          "positionNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "playerGameAwardId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "outcomeType": {
+            "$ref": "#/components/schemas/OutcomeTypeEnum"
+          },
+          "isError": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPlayerLevelRewardsResponse": {
+        "type": "object",
+        "properties": {
+          "rewards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerRewardsLevelDTO"
+            },
+            "description": "List of all player rewards",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "GetPlayerLimit": {
         "type": "object",
         "properties": {
@@ -12799,6 +14619,73 @@
         },
         "additionalProperties": false,
         "description": "Get player segments response."
+      },
+      "GetPlayerSpinWheelHistoryResponse": {
+        "required": ["spinWheelWinHistory"],
+        "type": "object",
+        "properties": {
+          "spinWheelWinHistory": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetPlayerSpinWheelWinHistory"
+            },
+            "nullable": true
+          },
+          "recordCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPlayerSpinWheelWinHistory": {
+        "required": ["prize", "spinType"],
+        "type": "object",
+        "properties": {
+          "spinType": {
+            "type": "string",
+            "nullable": true
+          },
+          "spinDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "prize": {
+            "type": "string",
+            "nullable": true
+          },
+          "gameId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetPlayerTasksResponse": {
+        "type": "object",
+        "properties": {
+          "tasks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerActiveTasks"
+            },
+            "description": "Task list",
+            "nullable": true
+          },
+          "progress": {
+            "$ref": "#/components/schemas/ProgressPlayerLevel"
+          },
+          "oneTimeCompletedTaskFlags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerOneTimeTaskFlag"
+            },
+            "description": "Player one time completed task flags",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "GetPlayerTransactionsRequest": {
         "required": ["fromDate", "pageNumber", "pageSize", "toDate"],
@@ -12902,6 +14789,79 @@
         "additionalProperties": false,
         "description": "Returns the pregame message response."
       },
+      "GetProgramCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Program Category Id",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Program Category Name",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProgramLeaderboardRankingResponse": {
+        "type": "object",
+        "properties": {
+          "leaderboardList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProgramLeaderboardRankResponse"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetProgramResponse": {
+        "required": ["friendlyName"],
+        "type": "object",
+        "properties": {
+          "brandId": {
+            "type": "integer",
+            "description": "Brand id",
+            "format": "int32"
+          },
+          "programId": {
+            "type": "integer",
+            "description": "Program Id",
+            "format": "int64"
+          },
+          "categoryId": {
+            "type": "integer",
+            "description": "Category id",
+            "format": "int32"
+          },
+          "friendlyName": {
+            "type": "string",
+            "description": "Program friendly name",
+            "nullable": true
+          },
+          "tasks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskDTO"
+            },
+            "description": "List of tasks in program",
+            "nullable": true
+          },
+          "levels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProgramLevelDTO"
+            },
+            "description": "List of levels in program",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Record of all programs"
+      },
       "GetQuickPaymentSettingsRequest": {
         "type": "object",
         "properties": {
@@ -12975,6 +14935,70 @@
         },
         "additionalProperties": false,
         "description": "Get secret questions return"
+      },
+      "GetTaskCategoryResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Task Category Id",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "Task Category Name",
+            "nullable": true
+          },
+          "priority": {
+            "type": "integer",
+            "description": "Task Category Priority",
+            "format": "int32",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Indicates if the task category is active"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "Task Category Created Date",
+            "format": "date-time"
+          },
+          "dateUpdated": {
+            "type": "string",
+            "description": "Task Category Updated Date",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetTimeToMeetConditionsRequest": {
+        "required": ["bonusIncentiveIds"],
+        "type": "object",
+        "properties": {
+          "bonusIncentiveIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetTimeToMeetConditionsResponse": {
+        "type": "object",
+        "properties": {
+          "timeToMeetConditions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TimeToMeetConditions"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "GetTitlesResponse": {
         "type": "object",
@@ -13925,6 +15949,10 @@
         "enum": ["AllPromotions", "OptedInPromotions", "PossibleOptinOrOptinNotRequiredPromotions"],
         "type": "string"
       },
+      "OutcomeTypeEnum": {
+        "enum": ["Win", "Loss"],
+        "type": "string"
+      },
       "PaymentAccount": {
         "type": "object",
         "properties": {
@@ -14050,6 +16078,36 @@
         "additionalProperties": false,
         "description": "Payment instruments data return"
       },
+      "PaymentProvidersAdditionalSettingsReturn": {
+        "type": "object",
+        "properties": {
+          "paymentProviderId": {
+            "type": "integer",
+            "description": "Payment provider's id",
+            "format": "int32"
+          },
+          "paymentProviderName": {
+            "type": "string",
+            "description": "Payment provider's name",
+            "nullable": true
+          },
+          "paymentInstrumentType": {
+            "$ref": "#/components/schemas/PaymentInstrumentTypeEnum"
+          },
+          "depositEnabled": {
+            "type": "boolean",
+            "description": "Flag if account is enabled for withdrawal.",
+            "nullable": true
+          },
+          "withdrawalEnabled": {
+            "type": "boolean",
+            "description": "Flag if account is enabled for withdrawal.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Payment Provider Additional Settings"
+      },
       "PaymentRequest": {
         "type": "object",
         "properties": {
@@ -14161,6 +16219,39 @@
         ],
         "type": "string",
         "description": "Transaction type.\r\nPossible  values:\r\n* Deposit,\r\n* Withdrawal,\r\n* ManualBalanceCorrection,\r\n* CashCorrection,\r\n* HighRollerCorrection,\r\n* PlayerToPlayer,\r\n* CICO,\r\n* CancelWithdrawal,\r\n* BalanceAdjustment,\r\n* Refund,\r\n* ChargeBack,\r\n* ReverseChargeback,\r\n* Return,\r\n* ReverseReturn,\r\n* Tip,\r\n* CreditWallet,\r\n* ExternalWalletCredit,\r\n* ExternalWalletDebit,\r\n* ExternalWalletDeposit,\r\n* ExternalWalletWithdrawal,\r\n* ExternalWalletWithdrawalCancel,\r\n* ExternalWalletTransferCredit,\r\n* ExternalWalletTransferDebit,\r\n* ExternalWalletTransferDebitCancel,\r\n* ExternalWalletManualBalanceCorrection,\r\n* ExternalWalletOfflineDeposit,\r\n* AgentCredit,\r\n* AgentDebit,\r\n* Fee,\r\n* VirtualSeamlessWalletCredit,\r\n* VirtualSeamlessWalletTransferCredit,\r\n* VirtualSeamlessWalletDebit,\r\n* VirtualSeamlessWalletTransferDebit,\r\n* Commission,\r\n* TokenBalanceConvertFiatToToken,\r\n* TokenBalanceConvertTokenToFiat,\r\n* CreditLinePlayerCredit,\r\n* CreditLinePlayerDebit"
+      },
+      "PlayerActiveTasks": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "recurring": {
+            "type": "boolean"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PlayerTaskContextStatusEnum"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/ProgressPlayerTask"
+          },
+          "rewardsStatus": {
+            "$ref": "#/components/schemas/PlayerTaskAwardStatusEnum"
+          },
+          "taskRewards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerTaskReward"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "PlayerBonusHistory": {
         "type": "object",
@@ -14814,6 +16905,10 @@
         "additionalProperties": false,
         "description": "Player Document."
       },
+      "PlayerGameAwardSearchOrderByEnum": {
+        "enum": ["ModifiedDate"],
+        "type": "string"
+      },
       "PlayerGameRequest": {
         "required": ["extGameId", "isNative", "language", "portalId", "realPlay"],
         "type": "object",
@@ -14869,6 +16964,18 @@
           "KYCReverificationFailed"
         ],
         "type": "string"
+      },
+      "PlayerOneTimeTaskFlag": {
+        "type": "object",
+        "properties": {
+          "triggerType": {
+            "$ref": "#/components/schemas/TriggerTypeEnum"
+          },
+          "isOneTimeTaskCompleted": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
       },
       "PlayerOptInBonus": {
         "type": "object",
@@ -15007,9 +17114,98 @@
         },
         "additionalProperties": false
       },
+      "PlayerProgramLevelAwardStatusEnum": {
+        "enum": [
+          "Pending",
+          "InApproval",
+          "PendingClaim",
+          "Awarded",
+          "Declined",
+          "ExpiredClaim",
+          "AwardedInPreviousCycle"
+        ],
+        "type": "string"
+      },
+      "PlayerRewardLevelAwardDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "awardTypeId": {
+            "$ref": "#/components/schemas/ProgramLevelAwardTypeEnum"
+          },
+          "awardReferenceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "programLevelAwardConfig": {
+            "$ref": "#/components/schemas/ProgramLevelAwardConfigDTO"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PlayerProgramLevelAwardStatusEnum"
+          }
+        },
+        "additionalProperties": false
+      },
       "PlayerRewardStatusEnum": {
         "enum": ["Claimed", "Processing", "Delivered", "Cancelled"],
         "type": "string"
+      },
+      "PlayerRewardsLevelDTO": {
+        "type": "object",
+        "properties": {
+          "levelId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "awardGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerRewardsLevelGroupDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PlayerRewardsLevelGroupDTO": {
+        "type": "object",
+        "properties": {
+          "awardGroupTypeId": {
+            "$ref": "#/components/schemas/ProgramLevelAwardGroupTypeEnum"
+          },
+          "playerRewards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerRewardLevelAwardDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "PlayerShortcutGameMain": {
         "type": "object",
@@ -15123,6 +17319,47 @@
           },
           "calculatedStatus": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PlayerTaskAwardStatusEnum": {
+        "enum": ["Pending", "InApproval", "PendingClaim", "Awarded", "Declined", "ExpiredClaim"],
+        "type": "string"
+      },
+      "PlayerTaskContextStatusEnum": {
+        "enum": ["Pending", "Active", "Completed", "Expired", "Deactivated"],
+        "type": "string"
+      },
+      "PlayerTaskReward": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "taskId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rewardStatus": {
+            "$ref": "#/components/schemas/PlayerTaskAwardStatusEnum"
+          },
+          "updatedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "awardedAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "awardReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "rewardType": {
+            "$ref": "#/components/schemas/TaskAwardTypeEnum"
           }
         },
         "additionalProperties": false
@@ -15297,6 +17534,10 @@
         "additionalProperties": false,
         "description": "Post game response."
       },
+      "PrizeTypeEnum": {
+        "enum": ["Bonus", "ManualBonus", "RewardItem", "RepeatGame"],
+        "type": "string"
+      },
       "ProductAvailability": {
         "type": "object",
         "properties": {
@@ -15381,6 +17622,264 @@
         },
         "additionalProperties": false,
         "description": "Product type parameters extended."
+      },
+      "ProgramLeaderboardRankResponse": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "playerUsername": {
+            "type": "string",
+            "nullable": true
+          },
+          "totalTasksCompleted": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "level": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgramLevelAwardConfigDTO": {
+        "type": "object",
+        "properties": {
+          "programLevelAwardConfigDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProgramLevelAwardConfigDetailsDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgramLevelAwardConfigDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgramLevelAwardDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "programLevelAwardGroupId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "awardTypeId": {
+            "$ref": "#/components/schemas/ProgramLevelAwardTypeEnum"
+          },
+          "awardReferenceId": {
+            "type": "string",
+            "nullable": true
+          },
+          "programLevelAwardConfig": {
+            "$ref": "#/components/schemas/ProgramLevelAwardConfigDTO"
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgramLevelAwardGroupConfigDTO": {
+        "type": "object",
+        "properties": {
+          "oneAward": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgramLevelAwardGroupDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "programLevelId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "awardGroupTypeId": {
+            "$ref": "#/components/schemas/ProgramLevelAwardGroupTypeEnum"
+          },
+          "programLevelAwardGroupConfig": {
+            "$ref": "#/components/schemas/ProgramLevelAwardGroupConfigDTO"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "programLevelAwardList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProgramLevelAwardDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgramLevelAwardGroupTypeEnum": {
+        "enum": ["LevelUpgrade", "LevelRetention"],
+        "type": "string"
+      },
+      "ProgramLevelAwardTypeEnum": {
+        "enum": ["Bonus", "ManualBonus"],
+        "type": "string"
+      },
+      "ProgramLevelDTO": {
+        "required": ["description", "name"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "programId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "points": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "programLevelAwardGroupList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProgramLevelAwardGroupDTO"
+            },
+            "nullable": true
+          },
+          "programLevelFriendlyNameList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProgramLevelFriendlyNameDTO"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgramLevelFriendlyNameDTO": {
+        "required": ["friendlyName", "languageCode"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "programLevelId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "languageCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultLanguage": {
+            "type": "boolean"
+          },
+          "friendlyName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgressPlayerLevel": {
+        "type": "object",
+        "properties": {
+          "levelId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pointAmount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "points": {
+            "type": "number",
+            "format": "decimal"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProgressPlayerTask": {
+        "type": "object",
+        "properties": {
+          "currentValue": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "neededValue": {
+            "type": "number",
+            "format": "decimal"
+          }
+        },
+        "additionalProperties": false
       },
       "PromotionData": {
         "type": "object",
@@ -15995,6 +18494,378 @@
         "additionalProperties": false,
         "description": "Tag"
       },
+      "TaskAwardConfigCountDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskAwardConfigDTO": {
+        "type": "object",
+        "properties": {
+          "taskLevelAwardConfigDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskAwardConfigDetailsDTO"
+            },
+            "nullable": true
+          },
+          "taskAwardConfigCountDetails": {
+            "$ref": "#/components/schemas/TaskAwardConfigCountDetailsDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskAwardConfigDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskAwardDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "taskId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "taskAwardTypeId": {
+            "$ref": "#/components/schemas/TaskAwardTypeEnum"
+          },
+          "awardReference": {
+            "type": "string",
+            "nullable": true
+          },
+          "awardAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "taskAwardConfig": {
+            "$ref": "#/components/schemas/TaskAwardConfigDTO"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskAwardTypeEnum": {
+        "enum": ["Points", "SpinTheWheel"],
+        "type": "string"
+      },
+      "TaskConfigDTO": {
+        "type": "object",
+        "properties": {
+          "taskDailyPeriod": {
+            "$ref": "#/components/schemas/TaskDailyPeriodDTO"
+          },
+          "taskWeeklyPeriod": {
+            "$ref": "#/components/schemas/TaskWeeklyPeriodDTO"
+          },
+          "taskMonthlyPeriod": {
+            "$ref": "#/components/schemas/TaskMonthlyPeriodDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskDTO": {
+        "required": ["name"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "programId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "taskTypeId": {
+            "$ref": "#/components/schemas/TaskTypeEnum"
+          },
+          "taskStatusId": {
+            "$ref": "#/components/schemas/TaskStatusEnum"
+          },
+          "recurring": {
+            "type": "boolean"
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fromDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "toDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "taskConfig": {
+            "$ref": "#/components/schemas/TaskConfigDTO"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "taskAwardList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskAwardDTO"
+            },
+            "nullable": true
+          },
+          "taskFriendlyDescriptionList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskFriendlyDescriptionDTO"
+            },
+            "nullable": true
+          },
+          "taskFriendlyNameList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskFriendlyNameDTO"
+            },
+            "nullable": true
+          },
+          "taskTrigger": {
+            "$ref": "#/components/schemas/TaskTriggerDTO"
+          },
+          "taskCategoryList": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskDailyPeriodDTO": {
+        "type": "object",
+        "properties": {
+          "dayFrequency": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskFriendlyDescriptionDTO": {
+        "required": ["friendlyDescription", "languageCode"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "taskId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "languageCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultLanguage": {
+            "type": "boolean"
+          },
+          "friendlyDescription": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskFriendlyNameDTO": {
+        "required": ["friendlyName", "languageCode"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "taskId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "languageCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultLanguage": {
+            "type": "boolean"
+          },
+          "friendlyName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskMonthlyPeriodDTO": {
+        "type": "object",
+        "properties": {
+          "monthFrequency": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskStatusEnum": {
+        "enum": ["Draft", "InApproval", "Active", "Deactivated", "Finished"],
+        "type": "string"
+      },
+      "TaskTriggerConfigAmountDTO": {
+        "type": "object",
+        "properties": {
+          "currencyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "minAmount": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskTriggerConfigCountDTO": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number",
+            "format": "decimal"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskTriggerConfigDTO": {
+        "type": "object",
+        "properties": {
+          "taskTriggerConfigAmount": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaskTriggerConfigAmountDTO"
+            },
+            "nullable": true
+          },
+          "taskTriggerConfigCount": {
+            "$ref": "#/components/schemas/TaskTriggerConfigCountDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskTriggerDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "taskId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "triggerTypeId": {
+            "$ref": "#/components/schemas/TriggerTypeEnum"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "taskTriggerConfig": {
+            "$ref": "#/components/schemas/TaskTriggerConfigDTO"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dateUpdated": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TaskTypeEnum": {
+        "enum": ["Onetime", "Daily", "Weekly", "Monthly", "Lifetime"],
+        "type": "string"
+      },
+      "TaskWeeklyPeriodDTO": {
+        "type": "object",
+        "properties": {
+          "weekFrequency": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "TemplateData": {
         "type": "object",
         "properties": {
@@ -16057,6 +18928,20 @@
       "TimePeriodTypeEnum": {
         "enum": ["Once", "Day", "Week", "Month", "HalfMonth"],
         "type": "string"
+      },
+      "TimeToMeetConditions": {
+        "type": "object",
+        "properties": {
+          "bonusIncentiveId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "expirationTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
       },
       "TimeTypeEnum": {
         "enum": ["Hour", "Day", "Week", "Month", "GameSession"],
@@ -16392,6 +19277,28 @@
         },
         "additionalProperties": false,
         "description": "Transaction details response"
+      },
+      "TriggerTypeEnum": {
+        "enum": [
+          "Login",
+          "LoginConsecutive",
+          "RegistrationRAF",
+          "DepositAmount",
+          "DepositCount",
+          "DepositRAF",
+          "DepositAmountRAF",
+          "BetAmount",
+          "BetCount",
+          "SportsbookBetAmount",
+          "CasinoBetAmount",
+          "SportsbookBetCount",
+          "CasinoBetCount",
+          "Activity",
+          "VerifyEmail",
+          "VerifyMobile",
+          "ChangeNickname"
+        ],
+        "type": "string"
       },
       "UpdatePlayer": {
         "required": ["countryCode", "eMail", "firstName", "lastName", "locale"],
