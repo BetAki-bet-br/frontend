@@ -1,9 +1,20 @@
 import { inject } from '@angular/core';
 import { ResolveFn } from '@angular/router';
 import { LobbiesService } from '@app/@core/backoffice';
-import { Observable, map } from 'rxjs';
-import { LobbyResponse, LobbySection, GameMain } from '../models/game.models';
+import { Observable, tap } from 'rxjs';
+import { LobbyResponse } from '../models/game.models';
+import { Dialog } from '@angular/cdk/dialog';
+import { MaintenanceDialogComponent } from '@app/@shared/components/maintenance-dialog/maintenance-dialog.component';
 
 export const casinoLobbyResolver: ResolveFn<LobbyResponse> = (): Observable<LobbyResponse> => {
-  return inject(LobbiesService).getCasinoLobby();
+  const dialog = inject(Dialog);
+  return inject(LobbiesService)
+    .getCasinoLobby()
+    .pipe(
+      tap(() => {
+        if (dialog.openDialogs.length === 0) {
+          dialog.open(MaintenanceDialogComponent);
+        }
+      }),
+    );
 };

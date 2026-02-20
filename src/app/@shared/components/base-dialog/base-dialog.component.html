@@ -55,15 +55,17 @@
       <h2 class="text-xl md:text-2xl font-bold p-4 flex-shrink-0">{{ title }}</h2>
     }
 
-    <div class="p-4 sm:p-3 2xl:p-6 flex-grow overflow-y-auto overscroll-contain">
+    <div class="p-4 sm:p-3 2xl:p-6 flex-grow overflow-y-auto overscroll-contain" [class]="innerDialogClass">
       <div class="h-full flex flex-col">
         <div [class.flex-grow]="hasDialogContent()">
           <ng-content select="[dialogContent]" />
         </div>
 
-        <div class="base-dialog-button-wrapper mt-auto flex-shrink-0" [class]="customButtonClass">
-          <ng-content select="[dialogButtons]" />
-        </div>
+        @if (showButton) {
+          <div class="base-dialog-button-wrapper mt-auto flex-shrink-0" [class]="customButtonClass">
+            <ng-content select="[dialogButtons]" />
+          </div>
+        }
       </div>
     </div>
   </div>

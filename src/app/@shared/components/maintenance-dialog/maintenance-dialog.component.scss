@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+::ng-deep .maintenance-dialog {
+  .base-dialog-container {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+}

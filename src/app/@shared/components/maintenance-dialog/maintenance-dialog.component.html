@@ -1,0 +1,21 @@
+<app-base-dialog
+  width="auto"
+  [displayLogo]="false"
+  [displayCloseButton]="false"
+  [showButton]="false"
+  [displayLogo]="false"
+  [customClass]="'!p-0 !bg-transparent !shadow-none'"
+  [innerDialogClass]="'overflow-y-hidden items-center justify-center h-full  maintenance-dialog'"
+  customClass="bg-transparent! maintenance-dialog"
+>
+  <div (click)="onAccept()" dialogContent class="flex items-center justify-center h-full overflow-hidden rounded-2xl">
+    <img
+      [ngSrc]="'assets/pop_up_manutencao.png' | cdnize"
+      alt="Manutenção"
+      width="600"
+      height="400"
+      priority
+      class="max-h-[80vh] w-auto max-w-full object-contain"
+    />
+  </div>
+</app-base-dialog>

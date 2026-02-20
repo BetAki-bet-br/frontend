@@ -41,8 +41,10 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
   @Input() width!: string;
   @Input() height!: string;
   @Input() customClass: string = '';
+  @Input() innerDialogClass: string = '';
   @Input() displayCloseButton: boolean = false;
   @Input() displayLogo: boolean = true;
+  @Input() showButton: boolean = true;
   @Input() displayTopBar: boolean = true;
   @Input() fullscreenMobile: boolean = true;
   @Input() widthMobile!: string;

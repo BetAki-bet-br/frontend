@@ -19,7 +19,6 @@ export const AuthenticationInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      console.error('HTTP Error:', error);
       if (
         token &&
         (error.status === 401 ||
