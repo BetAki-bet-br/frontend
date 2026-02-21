@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { allProvidersResolver } from '@app/games-page/all-providers-page/all-providers.resolver';
 import { AllProvidersPage } from '@app/games-page/all-providers-page/all-providers-page';
 import { categoryResolver } from '@app/games-page/games-list-by-category-page/category.resolver';
+import { softswissCategoryResolver } from '@app/games-page/games-list-by-category-page/softswiss-category.resolver';
 import { GamesListByProviderPage } from '@app/games-page/games-list-by-provider-page/games-list-by-provider-page';
 import { providerListGamesResolver } from '@app/games-page/games-list-by-provider-page/provider-list-games.resolver';
 import { multiProviderGamesResolver } from '@app/games-page/games-list-by-provider-page/multi-provider-games.resolver'; // New import
@@ -67,6 +68,17 @@ export const GAMES_ROUTES: Routes = [
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
       description: 'Aposte no cassino da BetAki com super bônus.',
+    },
+  },
+  {
+    // Hidden test category for Softswiss acceptance tests — not linked in navigation
+    path: 'category/softswiss',
+    loadComponent: () =>
+      import('./games-list-by-category-page/games-list-by-category-page').then((m) => m.GamesListByCategoryPage),
+    resolve: { category: softswissCategoryResolver },
+    title: 'Softswiss Games - Bet Aki',
+    data: {
+      robots: ['noindex', 'nofollow'],
     },
   },
   {

@@ -4,7 +4,9 @@
   @if (launchError()) {
   <div class="error-message p-4 text-center text-red-500">{{ launchError() }}</div>
   } @else if (isSoftswissGame()) {
-  <app-softswiss-game-launcher [launchData]="softswissLaunchData()"></app-softswiss-game-launcher>
+  <div class="iframe-container flex-grow">
+    <app-softswiss-game-launcher [launchData]="softswissLaunchData()"></app-softswiss-game-launcher>
+  </div>
   } @else if(gameUrl(); as url) {
   <div class="iframe-container flex-grow">
     <iframe [src]="url" referrerpolicy="origin" frameborder="0" class="game-iframe w-full h-full"></iframe>

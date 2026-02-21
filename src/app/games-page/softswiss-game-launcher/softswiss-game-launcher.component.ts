@@ -1,14 +1,12 @@
-// src/app/games-page/softswiss-game-launcher/softswiss-game-launcher.component.ts
-import { Component, Input, OnInit, OnDestroy, inject, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 
-declare const GameLauncher: any; // Declare GameLauncher to avoid TypeScript errors
+declare const GameLauncher: any;
 
 @Component({
   selector: 'app-softswiss-game-launcher',
   standalone: true,
   template: `
-    <div [id]="gameContainerId"></div>
+    <div [id]="gameContainerId" class="w-full h-full"></div>
     @if (!gameLaunched) {
       <div class="loading-overlay">
         <p>Carregando jogo...</p>
@@ -22,10 +20,6 @@ declare const GameLauncher: any; // Declare GameLauncher to avoid TypeScript err
         width: 100%;
         height: 100%;
         position: relative;
-      }
-      div[id] {
-        width: 100%;
-        height: 100%;
       }
       .loading-overlay {
         position: absolute;
@@ -44,81 +38,63 @@ declare const GameLauncher: any; // Declare GameLauncher to avoid TypeScript err
   ],
 })
 export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
-  @Input() launchData: any; // The raw server response from gameService.launchGame
-  gameContainerId = 'softswiss_game_wrapper';
+  @Input() launchData: any;
+
+  readonly gameContainerId = 'softswiss_game_wrapper';
   gameLaunched = false;
-  private scriptElement: HTMLScriptElement | null = null;
-  private readonly SCRIPT_URL = 'https://s3.eu-central-1.amazonaws.com/ignition.button/round-1/connector.js';
-  private readonly elementRef = inject(ElementRef);
+
+  private readonly cdr = inject(ChangeDetectorRef);
+  private pollInterval: ReturnType<typeof setInterval> | null = null;
+  private pollTimeout: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
     if (this.launchData) {
-      this.loadSoftswissScript().then(() => {
-        this.initializeGameLauncher();
-      });
+      this.initializeGameLauncher();
     }
   }
 
   ngOnDestroy(): void {
-    this.removeSoftswissScript();
+    this.clearTimers();
   }
 
-  private loadSoftswissScript(): Promise<void> {
-    return new Promise((resolve) => {
-      if (document.getElementById('softswiss-connector-script')) {
-        resolve();
-        return;
-      }
-
-      this.scriptElement = document.createElement('script');
-      this.scriptElement.id = 'softswiss-connector-script';
-      this.scriptElement.src = this.SCRIPT_URL;
-      this.scriptElement.defer = true;
-      this.scriptElement.onload = () => resolve();
-      this.scriptElement.onerror = (error) => {
-        console.error('Failed to load Softswiss connector script:', error);
-        resolve(); // Resolve even on error to avoid hanging, but log it
-      };
-      document.head.appendChild(this.scriptElement);
-    });
-  }
-
-  private removeSoftswissScript(): void {
-    if (this.scriptElement && this.scriptElement.parentNode) {
-      this.scriptElement.parentNode.removeChild(this.scriptElement);
-      this.scriptElement = null;
+  private clearTimers(): void {
+    if (this.pollInterval !== null) {
+      clearInterval(this.pollInterval);
+      this.pollInterval = null;
+    }
+    if (this.pollTimeout !== null) {
+      clearTimeout(this.pollTimeout);
+      this.pollTimeout = null;
     }
   }
 
   private initializeGameLauncher(): void {
-    // Ensure the div is in the DOM before initializing
-    // The component's template already includes the div.
-    // We need to wait for the DOM to be ready and the script to be loaded.
-    const interval = setInterval(() => {
+    // connector.js is loaded globally in index.html; poll until GameLauncher is available
+    this.pollInterval = setInterval(() => {
       if (typeof GameLauncher !== 'undefined') {
-        clearInterval(interval);
+        this.clearTimers();
         try {
-          // It's important to run this on DOMContentLoaded if the script expects it,
-          // but since we're loading the script dynamically and waiting for it,
-          // we can call it directly. The GameLauncher itself might add event listeners.
           const launcher = new GameLauncher(this.gameContainerId);
-          launcher.run(this.launchData);
+          // launcher.run expects the server response string (location field from PostGameResponse)
+          launcher.run(this.launchData.location ?? this.launchData);
           this.gameLaunched = true;
+          this.cdr.markForCheck();
         } catch (e) {
           console.error('Error initializing GameLauncher:', e);
-          // Handle error, e.g., show an error message to the user
+          this.gameLaunched = true;
+          this.cdr.markForCheck();
         }
-      } else {
-        console.log('Waiting for GameLauncher to be defined...');
       }
-    }, 100); // Check every 100ms for GameLauncher
-    setTimeout(() => {
+    }, 100);
+
+    // Timeout after 10 s to avoid infinite polling
+    this.pollTimeout = setTimeout(() => {
       if (!this.gameLaunched) {
-        clearInterval(interval);
-        console.error('GameLauncher was not defined within the timeout period.');
-        // Show an error message if the script fails to load/initialize
-        this.gameLaunched = true; // Hide loading overlay
+        this.clearTimers();
+        console.error('GameLauncher was not available within the timeout period.');
+        this.gameLaunched = true;
+        this.cdr.markForCheck();
       }
-    }, 10000); // Timeout after 10 seconds
+    }, 10000);
   }
 }
