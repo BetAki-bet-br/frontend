@@ -14,7 +14,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 })
 export class GameCard {
   private assetsService = inject(AssetsService);
-  private deviceService = inject(DeviceDetectorService);
+  private readonly isMobileOrTablet = inject(DeviceDetectorService).isMobile() || inject(DeviceDetectorService).isTablet();
 
   game = input.required<GameMain>();
   class = input<string>('');
@@ -49,7 +49,7 @@ export class GameCard {
   }
 
   onMouseEnter() {
-    if (!this.deviceService.isMobile() && !this.deviceService.isTablet()) {
+    if (!this.isMobileOrTablet) {
       this.isHovering.set(true);
     }
   }

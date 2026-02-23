@@ -29,7 +29,7 @@ import { WinnerCard } from '../winner-card/winner-card';
 import { environment } from '@env/environment';
 
 // Constants
-const REFRESH_INTERVAL = 4000;
+const REFRESH_INTERVAL = 30000;
 const ANIMATION_DURATION = 400;
 
 @Component({

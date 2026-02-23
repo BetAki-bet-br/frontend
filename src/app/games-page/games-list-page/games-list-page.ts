@@ -166,7 +166,7 @@ export class GamesListPage {
           break;
         case 'winners-list':
           mappedType = 'winners-list';
-          data = { categoryId: 'winners', winnersToList: this.winnersCount() };
+          data = { categoryId: 'winners' };
           break;
         case 'top-10-list':
           mappedType = 'top-10-list';
