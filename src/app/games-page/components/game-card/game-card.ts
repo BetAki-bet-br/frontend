@@ -14,7 +14,8 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 })
 export class GameCard {
   private assetsService = inject(AssetsService);
-  private readonly isMobileOrTablet = inject(DeviceDetectorService).isMobile() || inject(DeviceDetectorService).isTablet();
+  private readonly deviceDetectorService = inject(DeviceDetectorService);
+  private readonly isMobileOrTablet = this.deviceDetectorService.isMobile() || this.deviceDetectorService.isTablet();
 
   game = input.required<GameMain>();
   class = input<string>('');

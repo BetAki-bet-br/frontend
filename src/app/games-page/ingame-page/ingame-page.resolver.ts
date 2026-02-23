@@ -39,7 +39,6 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
 
   return game$.pipe(
     switchMap((game) => {
-      console.log('Fetched game:', game);
       if (!game) {
         snackbarService.openCustomError('Jogo não encontrado.');
         location.back();
@@ -78,8 +77,6 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
               error: 'Não foi possível carregar o jogo. Tente novamente mais tarde.',
             };
           }
-
-          console.log('Launch Data:', launchData);
 
           //    productId: 4000,
           // externalId: 'SSW-BookOfPanda',
