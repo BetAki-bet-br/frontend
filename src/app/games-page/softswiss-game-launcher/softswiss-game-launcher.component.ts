@@ -2,6 +2,13 @@ import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '
 
 declare const GameLauncher: any;
 
+interface SoftSwissLaunchData {
+  id: number;
+  gameExternalId: string;
+  launch_url: string; // SoftSwiss expects 'launch_url', not 'location'
+  parameters?: any;
+  webMethod?: string;
+}
 @Component({
   selector: 'app-softswiss-game-launcher',
   standalone: true,
@@ -38,7 +45,7 @@ declare const GameLauncher: any;
   ],
 })
 export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
-  @Input() launchData: any;
+  @Input() launchData: SoftSwissLaunchData | null = null;
 
   readonly gameContainerId = 'softswiss_game_wrapper';
   gameLaunched = false;
@@ -49,6 +56,7 @@ export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.launchData) {
+      console.log('Initializing SoftSwissGameLauncher with launchData:', this.launchData);
       this.initializeGameLauncher();
     }
   }
@@ -76,7 +84,7 @@ export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
         try {
           const launcher = new GameLauncher(this.gameContainerId);
           // launcher.run expects the server response string (location field from PostGameResponse)
-          launcher.run(this.launchData.location ?? this.launchData);
+          launcher.run(JSON.stringify(this.launchData));
           this.gameLaunched = true;
           this.cdr.markForCheck();
         } catch (e) {

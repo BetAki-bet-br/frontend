@@ -39,6 +39,7 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
 
   return game$.pipe(
     switchMap((game) => {
+      console.log('Fetched game:', game);
       if (!game) {
         snackbarService.openCustomError('Jogo não encontrado.');
         location.back();
@@ -50,6 +51,7 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
         location.back();
         return of({ game, gameUrl: null });
       }
+
       const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(gameId, 5).pipe(
         catchError((error) => {
           if (error.errorMessage === 'GameAvailability') {
@@ -64,6 +66,11 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
 
       return launchGame$.pipe(
         map((launchData) => {
+          if (game.provider === 'Softswiss Bgaming Casino') {
+            loadingService.hideInline();
+            return { game, gameUrl: null, isSoftswissGame: true };
+          }
+
           if (!launchData) {
             return {
               game,
