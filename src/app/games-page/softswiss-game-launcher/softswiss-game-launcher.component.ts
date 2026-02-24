@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject, signal } from '@angular/core';
 
 declare const GameLauncher: any;
 
@@ -7,14 +7,13 @@ interface SoftSwissLaunchData {
   gameExternalId: string;
   launch_url: string; // SoftSwiss expects 'launch_url', not 'location'
   parameters?: any;
-  location?: string;
   webMethod?: string;
 }
 @Component({
   selector: 'app-softswiss-game-launcher',
   standalone: true,
   template: `
-    <div [id]="gameContainerId" class="w-full h-full"></div>
+    <div [id]="gameContainerId()" class="w-full h-full"></div>
     @if (!gameLaunched) {
       <div class="loading-overlay">
         <p>Carregando jogo...</p>
@@ -48,20 +47,16 @@ interface SoftSwissLaunchData {
 export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
   @Input() launchData: SoftSwissLaunchData | null = null;
 
-  readonly gameContainerId = 'softswiss_game_wrapper';
+  readonly gameContainerId = signal('softswiss_game_0');
   gameLaunched = false;
 
   private readonly cdr = inject(ChangeDetectorRef);
   private pollInterval: ReturnType<typeof setInterval> | null = null;
   private pollTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  constructor() {
-    console.log('Initializing SoftSwissGameLauncher with launchData:', this.launchData);
-  }
-
   ngOnInit(): void {
     if (this.launchData) {
-      console.log('Initializing SoftSwissGameLauncher with launchData:', this.launchData);
+      this.gameContainerId.set(`softswiss_game_${this.launchData.id ?? this.launchData.gameExternalId}`);
       this.initializeGameLauncher();
     }
   }
@@ -86,28 +81,14 @@ export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
     this.pollInterval = setInterval(() => {
       if (typeof GameLauncher !== 'undefined') {
         this.clearTimers();
-
-        console.log('GameLauncher is available. Initializing with launchData:', this.launchData);
-
-        const serverResponse = {
-          id: this.launchData?.id,
-          gameExternalId: this.launchData?.gameExternalId,
-          game_launcher_url: this.launchData?.location,
-          parameters: this.launchData?.parameters,
-          webMethod: this.launchData?.webMethod,
-        };
-
-        console.log('GameLauncher is available. Server response:', serverResponse);
-
+        const containerId = this.gameContainerId();
         try {
-          const launcher = new GameLauncher(this.gameContainerId);
-          // launcher.run expects the server response string (location field from PostGameResponse)
-          // map location to launch_url as expected by SoftSwiss
-          launcher.run(JSON.stringify(serverResponse));
+          const launcher = new GameLauncher(containerId);
+          launcher.run(JSON.stringify(this.launchData));
           this.gameLaunched = true;
           this.cdr.markForCheck();
         } catch (e) {
-          console.error('Error initializing GameLauncher:', e);
+          console.error('Error initializing SoftSwiss GameLauncher:', e);
           this.gameLaunched = true;
           this.cdr.markForCheck();
         }

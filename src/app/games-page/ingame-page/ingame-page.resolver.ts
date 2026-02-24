@@ -43,7 +43,6 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
 
   return game$.pipe(
     switchMap((game) => {
-      console.log('Fetched game data:', game$);
       if (!game) {
         snackbarService.openCustomError('Jogo não encontrado.');
         location.back();
@@ -57,19 +56,26 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
       }
 
       const baseUrl = `${window.location.protocol}//${window.location.host}`;
-      const lobbyUrl = baseUrl + '/games';
+      const isLive = route.url.some((segment) => segment.path === 'live');
+      const properties: Record<string, string> = {
+        lobbyUrl: baseUrl + '/games',
+        ReturnUrl: baseUrl + (isLive ? '/games-live' : '/games'),
+        DepositUrl: baseUrl + '/profile/wallet/deposit',
+      };
 
-      const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(gameId, portalId, lobbyUrl).pipe(
-        catchError((error) => {
-          if (error.errorMessage === 'GameAvailability') {
-            return throwError(() => new Error('GameAvailability'));
-          }
-          loadingService.hideInline();
-          snackbarService.openCustomError('Não foi possível carregar o jogo. Tente novamente mais tarde.');
-          location.back();
-          return EMPTY;
-        }),
-      );
+      const launchGame$: Observable<PostGameResponse | null> = gameService
+        .launchGame(gameId, portalId, properties)
+        .pipe(
+          catchError((error) => {
+            if (error.errorMessage === 'GameAvailability') {
+              return throwError(() => new Error('GameAvailability'));
+            }
+            loadingService.hideInline();
+            snackbarService.openCustomError('Não foi possível carregar o jogo. Tente novamente mais tarde.');
+            location.back();
+            return EMPTY;
+          }),
+        );
 
       return launchGame$.pipe(
         map((launchData) => {
@@ -81,14 +87,21 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
             };
           }
 
-          if (game.provider === 'Softswiss Bgaming Casino') {
-            loadingService.hideInline();
-            return { game, gameUrl: null, isSoftswissGame: true, softswissLaunchData: launchData };
-          }
+          const isSoftSwiss =
+            game.provider === 'Softswiss Bgaming Casino' ||
+            game.provider === 'Softswiss' ||
+            launchData.location?.includes('s3.eu-central-1.amazonaws.com/ignition.button');
 
-          if (game.provider === 'Softswiss') {
+          if (isSoftSwiss) {
+            const softswissLaunchData = {
+              id: launchData.id,
+              gameExternalId: launchData.gameExternalId,
+              launch_url: launchData.location,
+              parameters: launchData.parameters ?? {},
+              webMethod: launchData.webMethod || 'GET',
+            };
             loadingService.hideInline();
-            return { game, gameUrl: null, isSoftswissGame: true, softswissLaunchData: launchData };
+            return { game, gameUrl: null, isSoftswissGame: true, softswissLaunchData };
           }
 
           const url = new URL(launchData.location as string);
