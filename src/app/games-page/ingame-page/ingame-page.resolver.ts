@@ -56,16 +56,16 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
         return of({ game, gameUrl: null });
       }
 
+      const properties: Record<string, string> = {};
       const urlHost = window?.location?.host;
-      let lobbyUrl: string | undefined;
       if (urlHost) {
-        const urlProtocol = window?.location?.protocol;
-        lobbyUrl = `${urlProtocol}//${urlHost}`;
+        const baseUrl = `${window.location.protocol}//${urlHost}`;
         const isLive = route.url.some((segment) => segment.path === 'live');
-        lobbyUrl += isLive ? '/games-live' : '/games';
+        properties['ReturnUrl'] = baseUrl + (isLive ? '/games-live' : '/games');
+        properties['DepositUrl'] = baseUrl + '/profile/wallet/deposit';
       }
 
-      const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(gameId, portalId, lobbyUrl).pipe(
+      const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(gameId, portalId, properties).pipe(
         catchError((error) => {
           if (error.errorMessage === 'GameAvailability') {
             return throwError(() => new Error('GameAvailability'));
