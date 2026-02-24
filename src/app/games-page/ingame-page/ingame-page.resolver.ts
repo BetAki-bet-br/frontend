@@ -56,34 +56,30 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
         return of({ game, gameUrl: null });
       }
 
-      const properties: Record<string, string> = {};
-      const urlHost = window?.location?.host;
-      if (urlHost) {
-        const baseUrl = `${window.location.protocol}//${urlHost}`;
-        const isLive = route.url.some((segment) => segment.path === 'live');
-        properties['ReturnUrl'] = baseUrl + (isLive ? '/games-live' : '/games');
-        properties['DepositUrl'] = baseUrl + '/profile/wallet/deposit';
-      }
+      const baseUrl = `${window.location.protocol}//${window.location.host}`;
+      const isLive = route.url.some((segment) => segment.path === 'live');
+      const properties: Record<string, string> = {
+        lobbyUrl: baseUrl + '/games',
+        ReturnUrl: baseUrl + (isLive ? '/games-live' : '/games'),
+        DepositUrl: baseUrl + '/profile/wallet/deposit',
+      };
 
-      const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(gameId, portalId, properties).pipe(
-        catchError((error) => {
-          if (error.errorMessage === 'GameAvailability') {
-            return throwError(() => new Error('GameAvailability'));
-          }
-          loadingService.hideInline();
-          snackbarService.openCustomError('Não foi possível carregar o jogo. Tente novamente mais tarde.');
-          location.back();
-          return EMPTY;
-        }),
-      );
+      const launchGame$: Observable<PostGameResponse | null> = gameService
+        .launchGame(gameId, portalId, properties)
+        .pipe(
+          catchError((error) => {
+            if (error.errorMessage === 'GameAvailability') {
+              return throwError(() => new Error('GameAvailability'));
+            }
+            loadingService.hideInline();
+            snackbarService.openCustomError('Não foi possível carregar o jogo. Tente novamente mais tarde.');
+            location.back();
+            return EMPTY;
+          }),
+        );
 
       return launchGame$.pipe(
         map((launchData) => {
-          if (game.provider === 'Softswiss Bgaming Casino') {
-            loadingService.hideInline();
-            return { game, gameUrl: null, isSoftswissGame: true };
-          }
-
           if (!launchData) {
             return {
               game,
@@ -92,21 +88,23 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
             };
           }
 
-          //    productId: 4000,
-          // externalId: 'SSW-BookOfPanda',
-          // gameTypeId: 29,
-          // parameters: [],
-          // productName: 'Softswiss Bgaming Casino',
-          // gameTypeName: 'Slots',
-          // translations: null,
-          // productSupplierId: 4,
-          // demoPlayRestricted: false,
-          // realPlayRestricted: false,
-          // productSupplierName: 'Softswiss',
-          // Check if it's a Softswiss game
-          if (game.provider === 'Softswiss') {
+          // Detect SoftSwiss games by provider name or by location URL containing the SoftSwiss domain
+          const isSoftSwiss =
+            game.provider === 'Softswiss Bgaming Casino' ||
+            game.provider === 'Softswiss' ||
+            launchData.location?.includes('s3.eu-central-1.amazonaws.com/ignition.button');
+
+          if (isSoftSwiss) {
+            // Map PostGameResponse fields to what SoftSwiss connector.js expects
+            const softswissLaunchData = {
+              id: launchData.id,
+              gameExternalId: launchData.gameExternalId,
+              launch_url: launchData.location,
+              parameters: launchData.parameters ?? {},
+              webMethod: launchData.webMethod || 'GET',
+            };
             loadingService.hideInline();
-            return { game, gameUrl: null, isSoftswissGame: true, softswissLaunchData: launchData };
+            return { game, gameUrl: null, isSoftswissGame: true, softswissLaunchData };
           }
 
           const url = new URL(launchData.location as string);
