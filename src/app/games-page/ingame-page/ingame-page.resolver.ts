@@ -43,6 +43,7 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
 
   return game$.pipe(
     switchMap((game) => {
+      console.log('Fetched game data:', game$);
       if (!game) {
         snackbarService.openCustomError('Jogo não encontrado.');
         location.back();
@@ -72,11 +73,6 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
 
       return launchGame$.pipe(
         map((launchData) => {
-          if (game.provider === 'Softswiss Bgaming Casino') {
-            loadingService.hideInline();
-            return { game, gameUrl: null, isSoftswissGame: true };
-          }
-
           if (!launchData) {
             return {
               game,
@@ -85,18 +81,11 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
             };
           }
 
-          //    productId: 4000,
-          // externalId: 'SSW-BookOfPanda',
-          // gameTypeId: 29,
-          // parameters: [],
-          // productName: 'Softswiss Bgaming Casino',
-          // gameTypeName: 'Slots',
-          // translations: null,
-          // productSupplierId: 4,
-          // demoPlayRestricted: false,
-          // realPlayRestricted: false,
-          // productSupplierName: 'Softswiss',
-          // Check if it's a Softswiss game
+          if (game.provider === 'Softswiss Bgaming Casino') {
+            loadingService.hideInline();
+            return { game, gameUrl: null, isSoftswissGame: true, softswissLaunchData: launchData };
+          }
+
           if (game.provider === 'Softswiss') {
             loadingService.hideInline();
             return { game, gameUrl: null, isSoftswissGame: true, softswissLaunchData: launchData };

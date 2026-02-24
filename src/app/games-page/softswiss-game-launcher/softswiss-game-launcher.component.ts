@@ -54,6 +54,10 @@ export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
   private pollInterval: ReturnType<typeof setInterval> | null = null;
   private pollTimeout: ReturnType<typeof setTimeout> | null = null;
 
+  constructor() {
+    console.log('Initializing SoftSwissGameLauncher with launchData:', this.launchData);
+  }
+
   ngOnInit(): void {
     if (this.launchData) {
       console.log('Initializing SoftSwissGameLauncher with launchData:', this.launchData);
@@ -81,10 +85,24 @@ export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
     this.pollInterval = setInterval(() => {
       if (typeof GameLauncher !== 'undefined') {
         this.clearTimers();
+
+        console.log('GameLauncher is available. Initializing with launchData:', this.launchData);
+
+        const serverResponse = {
+          id: this.launchData?.id,
+          gameExternalId: this.launchData?.gameExternalId,
+          game_launcher_url: this.launchData?.launch_url,
+          parameters: this.launchData?.parameters,
+          webMethod: this.launchData?.webMethod,
+        };
+
+        console.log('GameLauncher is available. Server response:', serverResponse);
+
         try {
           const launcher = new GameLauncher(this.gameContainerId);
           // launcher.run expects the server response string (location field from PostGameResponse)
-          launcher.run(JSON.stringify(this.launchData));
+          // map location to launch_url as expected by SoftSwiss
+          launcher.run(JSON.stringify(serverResponse));
           this.gameLaunched = true;
           this.cdr.markForCheck();
         } catch (e) {
