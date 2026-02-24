@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject, signal } from '@angular/core';
 
 declare const GameLauncher: any;
 
@@ -13,7 +13,7 @@ interface SoftSwissLaunchData {
   selector: 'app-softswiss-game-launcher',
   standalone: true,
   template: `
-    <div [id]="gameContainerId" class="w-full h-full"></div>
+    <div [id]="gameContainerId()" class="w-full h-full"></div>
     @if (!gameLaunched) {
       <div class="loading-overlay">
         <p>Carregando jogo...</p>
@@ -47,7 +47,7 @@ interface SoftSwissLaunchData {
 export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
   @Input() launchData: SoftSwissLaunchData | null = null;
 
-  readonly gameContainerId = 'softswiss_game_wrapper';
+  readonly gameContainerId = signal('softswiss_game_0');
   gameLaunched = false;
 
   private readonly cdr = inject(ChangeDetectorRef);
@@ -56,7 +56,7 @@ export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.launchData) {
-      console.log('Initializing SoftSwissGameLauncher with launchData:', this.launchData);
+      this.gameContainerId.set(`softswiss_game_${this.launchData.id ?? this.launchData.gameExternalId}`);
       this.initializeGameLauncher();
     }
   }
@@ -81,14 +81,14 @@ export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
     this.pollInterval = setInterval(() => {
       if (typeof GameLauncher !== 'undefined') {
         this.clearTimers();
+        const containerId = this.gameContainerId();
         try {
-          const launcher = new GameLauncher(this.gameContainerId);
-          // launcher.run expects the server response string (location field from PostGameResponse)
+          const launcher = new GameLauncher(containerId);
           launcher.run(JSON.stringify(this.launchData));
           this.gameLaunched = true;
           this.cdr.markForCheck();
         } catch (e) {
-          console.error('Error initializing GameLauncher:', e);
+          console.error('Error initializing SoftSwiss GameLauncher:', e);
           this.gameLaunched = true;
           this.cdr.markForCheck();
         }
