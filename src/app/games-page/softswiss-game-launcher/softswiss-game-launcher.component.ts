@@ -7,6 +7,7 @@ interface SoftSwissLaunchData {
   gameExternalId: string;
   launch_url: string; // SoftSwiss expects 'launch_url', not 'location'
   parameters?: any;
+  location?: string;
   webMethod?: string;
 }
 @Component({
@@ -91,7 +92,7 @@ export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
         const serverResponse = {
           id: this.launchData?.id,
           gameExternalId: this.launchData?.gameExternalId,
-          game_launcher_url: this.launchData?.launch_url,
+          game_launcher_url: this.launchData?.location,
           parameters: this.launchData?.parameters,
           webMethod: this.launchData?.webMethod,
         };
