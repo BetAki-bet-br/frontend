@@ -7,6 +7,7 @@ import { LoadingService } from '@app/@shared/services/loading.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Observable, of, throwError, EMPTY } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { CredentialsService } from '@app/auth';
 import { PostGameResponse } from '../models/game.models';
@@ -30,6 +31,10 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
   const loadingService = inject(LoadingService);
   const snackbarService = inject(SnackbarService);
   const location = inject(Location);
+  const deviceDetectorService = inject(DeviceDetectorService);
+  const isMobile = deviceDetectorService.isMobile();
+  const portalId = isMobile ? 6 : 5;
+
   const gameId = route.paramMap.get('id')!;
 
   const game$: Observable<Slot | undefined> = slotService
@@ -51,7 +56,16 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
         return of({ game, gameUrl: null });
       }
 
-      const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(gameId, 5).pipe(
+      const properties: Record<string, string> = {};
+      const urlHost = window?.location?.host;
+      if (urlHost) {
+        const baseUrl = `${window.location.protocol}//${urlHost}`;
+        const isLive = route.url.some((segment) => segment.path === 'live');
+        properties['ReturnUrl'] = baseUrl + (isLive ? '/games-live' : '/games');
+        properties['DepositUrl'] = baseUrl + '/profile/wallet/deposit';
+      }
+
+      const launchGame$: Observable<PostGameResponse | null> = gameService.launchGame(gameId, portalId, properties).pipe(
         catchError((error) => {
           if (error.errorMessage === 'GameAvailability') {
             return throwError(() => new Error('GameAvailability'));

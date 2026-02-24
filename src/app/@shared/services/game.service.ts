@@ -202,14 +202,18 @@ export class GameService {
     return this.getGamesByPortal(portalId).pipe(map((games) => games.find((g) => g.externalId === gameId)));
   }
 
-  public launchGame(extGameId: string, portalId: number, lobbyUrl?: string): Observable<PostGameResponse> {
+  public launchGame(
+    extGameId: string,
+    portalId: number,
+    properties?: Record<string, string>,
+  ): Observable<PostGameResponse> {
     const payload: PlayerGameRequest = {
       extGameId,
       portalId,
       realPlay: true,
       isNative: false,
       language: 'pt-BR',
-      properties: lobbyUrl ? { lobbyUrl } : {},
+      properties: properties ?? {},
       desiredCurrency: 'BRL',
     };
     return this.prodGameService.apiPortalV1ProdGamePlayerGamePost(payload).pipe(map(toLocalPostGameResponse));
