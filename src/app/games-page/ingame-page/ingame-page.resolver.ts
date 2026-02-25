@@ -58,9 +58,8 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
       const baseUrl = `${window.location.protocol}//${window.location.host}`;
       const isLive = route.url.some((segment) => segment.path === 'live');
       const properties: Record<string, string> = {
-        lobbyUrl: baseUrl + '/games',
-        ReturnUrl: baseUrl + (isLive ? '/games-live' : '/games'),
-        DepositUrl: baseUrl + '/profile/wallet/deposit',
+        return_url: baseUrl + (isLive ? '/games-live' : '/games'),
+        deposit_url: baseUrl + '/profile/wallet/deposit',
       };
 
       const launchGame$: Observable<PostGameResponse | null> = gameService
