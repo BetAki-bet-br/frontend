@@ -11,12 +11,12 @@
   </ng-container>
 
   <ng-container dialogButtons>
-    <div class="flex w-full justify-end gap-4">
-      <app-button variant="outline-neutral" (click)="onCancel()">
+    <div class="flex w-full items-center gap-4">
+      <app-button class="flex-1" fullWidth variant="outline-neutral" (click)="onCancel()">
         <mat-icon fontSet="material-icons-outlined">cancel</mat-icon>
         <span>Recusar</span>
       </app-button>
-      <app-button variant="neutral" (click)="onConfirm()">
+      <app-button class="flex-1" fullWidth variant="neutral" (click)="onConfirm()">
         <mat-icon fontSet="material-icons-outlined">check_circle</mat-icon>
         <span>Aceitar</span>
       </app-button>

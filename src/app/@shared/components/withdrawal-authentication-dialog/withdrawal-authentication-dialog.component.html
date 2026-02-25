@@ -6,11 +6,11 @@
   </div>
 
   <ng-container dialogButtons>
-    <div class="flex items-center w-full justify-center gap-4">
-      <app-button variant="outline-neutral" (click)="cancel()">
+    <div class="flex items-center w-full gap-4">
+      <app-button class="flex-1" fullWidth variant="outline-neutral" (click)="cancel()">
         {{ 'Cancel' | translate }}
       </app-button>
-      <app-button variant="neutral" (click)="confirm()">
+      <app-button class="flex-1" fullWidth variant="neutral" (click)="confirm()">
         {{ 'Authenticate' | translate }}
       </app-button>
     </div>

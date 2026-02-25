@@ -22,11 +22,11 @@
   </div>
 
   <ng-container dialogButtons>
-    <div class="flex w-full justify-end gap-4 mt-6">
-      <app-button variant="outline-neutral" type="submit" (click)="onClose(false)">
+    <div class="flex w-full items-center gap-4 mt-6">
+      <app-button class="flex-1" fullWidth variant="outline-neutral" type="submit" (click)="onClose(false)">
         {{ 'Cancel' | translate }}
       </app-button>
-      <app-button variant="neutral" type="submit" (click)="onClose(true)">
+      <app-button class="flex-1" fullWidth variant="neutral" type="submit" (click)="onClose(true)">
         @if (data.isSelfExclusion) {
           <span>{{ 'Authenticate' | translate }}</span>
         } @else {

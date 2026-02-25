@@ -10,12 +10,14 @@
 
   <ng-container dialogButtons>
     @if (termsAndConditions) {
-      <app-button variant="outline-neutral" (click)="cancel()">
-        <span translate>Decline</span>
-      </app-button>
-      <app-button variant="neutral" (click)="confirm()">
-        <span translate>Accept</span>
-      </app-button>
+      <div class="flex w-full items-center gap-4">
+        <app-button class="flex-1" fullWidth variant="outline-neutral" (click)="cancel()">
+          <span translate>Decline</span>
+        </app-button>
+        <app-button class="flex-1" fullWidth variant="neutral" (click)="confirm()">
+          <span translate>Accept</span>
+        </app-button>
+      </div>
     }
   </ng-container>
 </app-base-dialog>
