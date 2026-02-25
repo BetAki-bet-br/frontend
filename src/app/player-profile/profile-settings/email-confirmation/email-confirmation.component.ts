@@ -3,7 +3,7 @@ import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-prof
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
@@ -24,7 +24,7 @@ const log = new Logger('EmailConfirmationComponent');
     ReactiveFormsModule,
     TranslateModule,
     MatIconModule,
-    MatButtonModule,
+    ButtonComponent,
     MatInputModule,
     MatFormFieldModule,
     CdnizePipe,

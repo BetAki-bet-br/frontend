@@ -8,7 +8,7 @@ import { AccountResolved } from '@app/@shared/models';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { CdnizePipe } from '../../@pipes/cdnize.pipe';
@@ -45,7 +45,7 @@ export interface VerificationStatus {
     RouterLink,
     TranslateModule,
     MatIconModule,
-    MatButtonModule,
+    ButtonComponent,
     MatDividerModule,
     PageBreadcrumbsComponent,
     CdnizePipe,

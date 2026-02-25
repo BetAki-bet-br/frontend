@@ -27,7 +27,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -68,7 +68,7 @@ const log = new Logger('ProfileSettingsSecurityComponent');
     RouterLink,
     TranslateModule,
     MatIconModule,
-    MatButtonModule,
+    ButtonComponent,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,

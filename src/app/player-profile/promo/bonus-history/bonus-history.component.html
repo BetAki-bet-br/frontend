@@ -100,9 +100,9 @@
       </div>
       <div class="flex flex-wrap flex-col--lt-sm-2 gap-x-6 gap-y-4 full-width">
         <div class="section-actions">
-          <button [disabled]="filterForm.invalid" mat-button class="section-action flex-grow" (click)="searchItems()">
+          <app-button variant="neutral" [disabled]="filterForm.invalid" (click)="searchItems()">
             <span translate>Search</span>
-          </button>
+          </app-button>
         </div>
       </div>
       @if (pagedData.length) {

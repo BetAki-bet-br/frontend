@@ -24,7 +24,7 @@ import { DataStoreService } from '@app/@core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -66,7 +66,7 @@ const log = new Logger('BonusHistoryComponent');
     ReactiveFormsModule,
     TranslateModule,
     MatIconModule,
-    MatButtonModule,
+    ButtonComponent,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,

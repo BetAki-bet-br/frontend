@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
@@ -10,7 +10,7 @@ import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
   templateUrl: './email-verified-success.component.html',
   styleUrls: ['./email-verified-success.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIcon, MatButtonModule, CdnizePipe],
+  imports: [MatIcon, ButtonComponent, CdnizePipe],
 })
 export class EmailVerifiedSuccessComponent {
   private router = inject(Router);

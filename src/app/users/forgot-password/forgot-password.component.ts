@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { Component, OnDestroy, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -38,7 +38,7 @@ interface ForgotPasswordForm {
     MatLabel,
     MatInputModule,
     LoaderComponent,
-    MatButtonModule,
+    ButtonComponent,
     TranslateModule,
     ReactiveFormsModule,
   ],

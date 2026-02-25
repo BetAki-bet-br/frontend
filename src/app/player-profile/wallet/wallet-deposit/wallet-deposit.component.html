@@ -37,15 +37,15 @@
         </div>
         <div class="deposit-form flex flex-col">
           <div class="deposit-amount-buttons">
-            <button mat-button class="main-button smaller width-full" (click)="setAmount('20,00')">
+            <app-button variant="primary" (click)="setAmount('20,00')">
               <span class="text-white!">R$20,00</span>
-            </button>
-            <button mat-button class="main-button smaller width-full" (click)="setAmount('50,00')">
+            </app-button>
+            <app-button variant="primary" (click)="setAmount('50,00')">
               <span class="text-white!">R$50,00</span>
-            </button>
-            <button mat-button class="main-button smaller width-full" (click)="setAmount('100,00')">
+            </app-button>
+            <app-button variant="primary" (click)="setAmount('100,00')">
               <span class="text-white!">R$100,00</span>
-            </button>
+            </app-button>
           </div>
           <div [formGroup]="depositForm" class="flex flex-col">
             <mat-form-field
@@ -84,9 +84,9 @@
               </div>
             }
           </div>
-          <button mat-button class="main-button width-full mt-[22px]" (click)="goToSecondStep()">
+          <app-button variant="primary" class="mt-[22px]" overrideClass="w-full" (click)="goToSecondStep()">
             <span class="text-white!" translate>Depositar</span>
-          </button>
+          </app-button>
         </div>
         <span class="message-span">
           <b>{{ '*Important:' | translate }} </b
@@ -103,15 +103,15 @@
         <div class="flex flex-col gap-4 width-full top-bar">
           <div class="flex items-center justify-between">
             <span class="deposit-amount-span" translate>Deposit amount</span>
-            <button mat-button class="main-button smaller">
+            <app-button variant="primary">
               <span class="step-2">R$ {{ depositForm.value.amount }}</span>
-            </button>
+            </app-button>
           </div>
           <div class="flex items-center justify-between">
             <span class="deposit-amount-span" translate>Deposit ID</span>
-            <button mat-button class="main-button smaller transaction-id-button">
+            <app-button variant="primary">
               <span class="step-2">{{ depositId }}</span>
-            </button>
+            </app-button>
           </div>
         </div>
         <div class="qr-code-container flex flex-col gap-4 justify-center items-center">
@@ -120,17 +120,17 @@
             <img class="qr-code-image" [src]="qrCodeImage" />
           </div>
           <span class="qr-code-title">Ou</span>
-          <button class="main-button smaller label-dark" mat-button (click)="copyCode()">
+          <app-button variant="primary" (click)="copyCode()">
             {{ 'Copy and paste' | translate }}
-          </button>
+          </app-button>
           <div class="code-text">{{ qrCodeText }}</div>
         </div>
       </div>
     }
     @if (currentStep === 2) {
-      <button class="main-button inbetween" mat-button routerLink="/">
+      <app-button variant="primary" routerLink="/">
         <span class="text-white" translate>Return to play</span>
-      </button>
+      </app-button>
     }
 
     <!-- <div *ngIf="currentStep === 2" class="flex items-center justify-between">
@@ -156,13 +156,10 @@
         O jogo deve ser uma forma de entretenimento saudável. Pratique sempre o jogo consciente e fique atento aos
         sinais de comportamento compulsivo.
       </p>
-      <button
-        class="flex p-2 justify-center items-center m-auto mt-3 gap-x-2 font-bold text-white cursor-pointer rounded-xl bg-betaki-500 p-2 transition-opacity duration-200 ease-in-out hover:opacity-80"
-        (click)="onChatClick()"
-      >
+      <app-button variant="primary" (click)="onChatClick()">
         <img [src]="'/assets/icons/support-icon.svg' | cdnize" alt="Casino" class="w-6 h-6" />
         Precisa de ajuda?
-      </button>
+      </app-button>
     </div>
   </div>
 </div>

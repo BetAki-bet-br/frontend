@@ -101,16 +101,15 @@
     </form>
   }
   @if (resetStep === 1) {
-    <button
+    <app-button
+      variant="neutral"
       [disabled]="registerForm.invalid"
-      mat-button
       type="submit"
-      class="button-text-xx-large label-dark flex flex-grow confirm-button"
       (click)="changePassword()"
     >
       {{ 'Create new password' | translate }}
       <app-loader class="loader" [isLoading]="isLoading" [size]="0.5" />
-    </button>
+    </app-button>
   }
   @if (resetStep === 2) {
     <div class="flex flex-col form-container items-center gap-8">
@@ -126,9 +125,9 @@
         }}</span
       >
       <span class="success-message">{{ 'Are you ready to have some fun?' | translate }}</span>
-      <button mat-button class="button-text-xx-large confirm-button label-dark flex flex-grow" routerLink="/sign-in">
+      <app-button variant="neutral" routerLink="/sign-in">
         <span translate>To login</span>
-      </button>
+      </app-button>
     </div>
   }
 
@@ -143,11 +142,11 @@
       </span>
     </div>
 
-    <button class="live-chat-button" (click)="onChatClick()" mat-button>
+    <app-button variant="neutral" (click)="onChatClick()">
       <div class="flex items-center gap-2.5">
         <mat-icon svgIcon="help-chat-icon" />
         <span translate> Do you need help? </span>
       </div>
-    </button>
+    </app-button>
   </div>
 </div>

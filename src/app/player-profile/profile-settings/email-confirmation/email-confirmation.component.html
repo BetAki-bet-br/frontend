@@ -31,9 +31,9 @@
           }}</mat-error>
         }
       </div>
-      <button [disabled]="getOtpCode().length !== otpLength" mat-button (click)="onVerifyCode()">
+      <app-button variant="neutral" [disabled]="getOtpCode().length !== otpLength" (click)="onVerifyCode()">
         <span translate>Proceed</span>
-      </button>
+      </app-button>
     </div>
   }
 
@@ -47,18 +47,18 @@
   }
   @if (verificationStep === 2 && isSuccess) {
     <div class="flex flex flex-col gap-4 items-center width-full">
-      <button routerLink="/" class="button-text-xx-large label-dark success-button" mat-button>
+      <app-button variant="neutral" routerLink="/" class="success-button">
         <span translate>To Sportsbook</span>
-      </button>
+      </app-button>
       <span class="divider" translate>Or</span>
-      <button
+      <app-button
+        variant="neutral"
         routerLink="/games"
         routerLinkActive="router-link-active"
-        class="button-text-xx-large label-dark success-button"
-        mat-button
+        class="success-button"
       >
         <span translate>To Casino</span>
-      </button>
+      </app-button>
     </div>
   }
 
@@ -88,9 +88,9 @@
           >
         </div>
       }
-      <button [disabled]="resendDisabled" mat-stroked-button class="resend-button" (click)="onResendCode()">
+      <app-button variant="outline-neutral" [disabled]="resendDisabled" class="resend-button" (click)="onResendCode()">
         <span translate>Send a new code</span>
-      </button>
+      </app-button>
     </div>
   }
 

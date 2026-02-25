@@ -23,7 +23,7 @@ import { switchMap } from 'rxjs';
 import { PlayerProfileService } from '../player-profile.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -56,7 +56,7 @@ export interface IdLabel {
     ReactiveFormsModule,
     TranslateModule,
     MatIconModule,
-    MatButtonModule,
+    ButtonComponent,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,

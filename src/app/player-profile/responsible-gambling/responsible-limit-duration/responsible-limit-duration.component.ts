@@ -34,7 +34,7 @@ import {
 import { MatLabel, MatFormField, MatError } from '@angular/material/form-field';
 import { MatSelect, MatOption } from '@angular/material/select';
 import { MatIcon } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -55,7 +55,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     ReactiveFormsModule,
     MatError,
-    MatButtonModule,
+    ButtonComponent,
   ],
 })
 export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnChanges {

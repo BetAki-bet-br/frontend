@@ -17,7 +17,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
@@ -34,7 +34,7 @@ const log = new Logger('ProfileSettingsSubscriptionsComponent');
     ReactiveFormsModule,
     TranslateModule,
     MatIconModule,
-    MatButtonModule,
+    ButtonComponent,
     MatSlideToggleModule,
     MatExpansionModule,
     MatDividerModule,

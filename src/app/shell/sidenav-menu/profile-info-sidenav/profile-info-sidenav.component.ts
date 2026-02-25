@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { Logger } from '@app/@shared/logger.service';
@@ -13,7 +13,7 @@ import { DecimalPipe } from '@angular/common';
 
 const log = new Logger('ProfileInfoHeaderComponent');
 @Component({
-  imports: [MatProgressBarModule, MatButtonModule, DecimalPipe],
+  imports: [MatProgressBarModule, ButtonComponent, DecimalPipe],
   selector: 'app-profile-info-sidenav',
   templateUrl: './profile-info-sidenav.component.html',
   styleUrls: ['./profile-info-sidenav.component.scss'],

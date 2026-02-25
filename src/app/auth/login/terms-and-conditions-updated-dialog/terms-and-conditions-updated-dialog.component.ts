@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnIn
 import { HelpService } from '@app/help/help.service';
 import { CurrentTermsAndConditionsResponse } from '@icore/ngx-portalgateway-api-client-atl';
 import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { TranslateModule } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -16,7 +17,7 @@ export interface TermsAndConditionsUpdatedDialogResult {
   templateUrl: './terms-and-conditions-updated-dialog.component.html',
   styleUrls: ['./terms-and-conditions-updated-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, MatProgressSpinner, TranslateModule],
+  imports: [BaseDialogComponent, MatProgressSpinner, TranslateModule, ButtonComponent],
 })
 export class TermsAndConditionsUpdatedDialogComponent implements OnInit {
   private dialogRef = inject<DialogRef<TermsAndConditionsUpdatedDialogResult>>(DialogRef);

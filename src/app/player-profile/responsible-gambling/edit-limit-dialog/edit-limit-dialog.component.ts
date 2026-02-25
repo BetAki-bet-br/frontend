@@ -18,7 +18,7 @@ import { LoaderComponent } from '@app/@shared/loader/loader.component';
 import { UpperCasePipe } from '@angular/common';
 
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 
 const log = new Logger('EditLimitDialogComponent');
 
@@ -43,7 +43,7 @@ export interface EditLimitDialogData {
     TranslateModule,
     ReactiveFormsModule,
     UpperCasePipe,
-    MatButtonModule,
+    ButtonComponent,
     MatInputModule,
   ],
 })

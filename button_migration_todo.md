@@ -2,8 +2,10 @@
 
 The following files contain Angular Material buttons (`mat-button`, `mat-raised-button`, `mat-stroked-button`, `mat-flat-button`, `mat-icon-button`) that should be migrated to use the shared `app-button` component (`@shared/components/button`).
 
+> **Last verified:** 2026-02-25. All "Done" entries were verified against the actual codebase. Files that no longer exist were removed.
+
 ## Payments (Completed)
-- `src/app/payments/payments/payments-table/payments-table.component.html` (Done)
+- ~~`src/app/payments/payments/payments-table/payments-table.component.html`~~ (File no longer exists)
 
 ## Users (Completed)
 - `src/app/users/reset-pasword/reset-pasword.component.html` (Done)
@@ -15,9 +17,9 @@ The following files contain Angular Material buttons (`mat-button`, `mat-raised-
 
 ## Shell (Completed)
 - `src/app/shell/sidenav-menu/profile-info-sidenav/profile-info-sidenav.component.html` (Done)
-- `src/app/shell/shell-player-profile/player-info-dialog/player-info-dialog.component.html` (Done)
-- `src/app/shell/header/header.component.html` (Done)
-- `src/app/shell/header/profile-info-header/profile-info-header.component.html` (Done)
+- ~~`src/app/shell/shell-player-profile/player-info-dialog/player-info-dialog.component.html`~~ (File no longer exists)
+- ~~`src/app/shell/header/header.component.html`~~ (File no longer exists)
+- ~~`src/app/shell/header/profile-info-header/profile-info-header.component.html`~~ (File no longer exists)
 
 ## Promotions (Completed)
 - `src/app/promotions/promotions/promotion-confirmation-dialog/promotion-confirmation-dialog.component.html` (Done)
@@ -31,7 +33,7 @@ The following files contain Angular Material buttons (`mat-button`, `mat-raised-
 - `src/app/player-profile/responsible-gambling/pause-period-dialog/pause-period-dialog.component.html` (Done)
 - `src/app/player-profile/responsible-gambling/edit-limit-dialog/edit-limit-dialog.component.html` (Done)
 - `src/app/player-profile/responsible-gambling/responsible-limits/responsible-limits.component.html` (Done)
-- `src/app/player-profile/responsible-gambling/responsible-limits/limit-card/limit-card.component.html` (Done)
+- ~~`src/app/player-profile/responsible-gambling/responsible-limits/limit-card/limit-card.component.html`~~ (File no longer exists)
 - `src/app/player-profile/responsible-gambling/responsible-limit-duration/responsible-limit-duration.component.html` (Done)
 - `src/app/player-profile/promo/bonus-opt-in-result-dialog/bonus-opt-in-result-dialog.component.html` (Done)
 - `src/app/player-profile/promo/bonus-history/bonus-history.component.html` (Done)
@@ -46,35 +48,33 @@ The following files contain Angular Material buttons (`mat-button`, `mat-raised-
 - `src/app/player-profile/profile-settings/profile-settings-info/profile-settings-info.component.html` (Done)
 - `src/app/player-profile/game-history/game-history.component.html` (Done)
 
-## Shared & Others
-
 ## Auth (Completed)
-- `src/app/auth/register/register-page/register-page.component.html` (Done)
-- `src/app/auth/register/register-page/register-page-success/register-page-success.component.html` (Done)
-- `src/app/auth/register/register-page/register-page-init/register-page-init.component.html` (Done)
-- `src/app/auth/register/register-page/register-page-form/register-page-form.component.html` (Done)
-- `src/app/auth/login/login-page/login-page.component.html` (Done)
+- ~~`src/app/auth/register/register-page/register-page.component.html`~~ (File no longer exists)
+- ~~`src/app/auth/register/register-page/register-page-success/register-page-success.component.html`~~ (File no longer exists)
+- ~~`src/app/auth/register/register-page/register-page-init/register-page-init.component.html`~~ (File no longer exists)
+- ~~`src/app/auth/register/register-page/register-page-form/register-page-form.component.html`~~ (File no longer exists)
+- ~~`src/app/auth/login/login-page/login-page.component.html`~~ (File no longer exists)
 - `src/app/auth/login/terms-and-conditions-updated-dialog/terms-and-conditions-updated-dialog.component.html` (Done)
-- `src/app/auth/register/register-dialog/register-dialog.component.html` (Done)
-- `src/app/auth/login/set-username-dialog/set-username-dialog.component.html` (Done)
-- `src/app/auth/login/last-session-dialog/last-session-dialog.component.html` (Done)
+- ~~`src/app/auth/register/register-dialog/register-dialog.component.html`~~ (File no longer exists)
+- ~~`src/app/auth/login/set-username-dialog/set-username-dialog.component.html`~~ (File no longer exists)
+- ~~`src/app/auth/login/last-session-dialog/last-session-dialog.component.html`~~ (File no longer exists)
 - `src/app/auth/login/adblocker-dialog/adblocker-dialog.component.html` (Done)
-- `src/app/auth/login/account-reverification-dialog/account-reverification-dialog.component.html` (Done)
-- `src/app/auth/login/login-dialog/login-dialog.component.html` (Done)
-- `src/app/auth/register/register-dialog/personal-data/personal-data.component.html` (Done)
-- `src/app/auth/login/login-dialog/migration-login-completed/migration-login-completed.component.html` (Done)
+- ~~`src/app/auth/login/account-reverification-dialog/account-reverification-dialog.component.html`~~ (File no longer exists)
+- ~~`src/app/auth/login/login-dialog/login-dialog.component.html`~~ (File no longer exists)
+- ~~`src/app/auth/register/register-dialog/personal-data/personal-data.component.html`~~ (File no longer exists)
+- ~~`src/app/auth/login/login-dialog/migration-login-completed/migration-login-completed.component.html`~~ (File no longer exists)
 
-## Shared & Others
-- `src/app/help/support/support.component.html`
-- `src/app/i18n/language-selector.component.html`
-- `src/app/forgot-password-dialog/forgot-password-dialog.component.html`
-- `src/app/@shared/components/withdrawal-authentication-dialog/withdrawal-authentication-dialog.component.html`
-- `src/app/@shared/components/withdrawal-dialog/withdrawal-dialog.component.html`
-- `src/app/@shared/components/player-activation-dialog/player-activation-dialog.component.html`
-- `src/app/@shared/components/popup-message-dialog/popup-message-dialog.component.html`
-- `src/app/@shared/components/fill-player-info-dialog/fill-player-info-dialog.component.html`
-- `src/app/@shared/components/cookie-consent-dialog/cookie-consent-dialog.component.html`
-- `src/app/@shared/components/confirmation-dialog/confirmation-dialog.component.html`
-- `src/app/@shared/components/category-card/category-card.component.html`
-- `src/app/@shared/components/annual-verification-dialog/annual-verification-dialog.component.html`
-- `src/app/@shared/components/access-restricted-dialog/access-restricted-dialog.component.html`
+## Shared & Others (Completed)
+- `src/app/help/support/support.component.html` (Done)
+- `src/app/i18n/language-selector.component.html` (Skipped — uses `mat-icon-button` with `matMenuTriggerFor`, not supported by `app-button`)
+- `src/app/forgot-password-dialog/forgot-password-dialog.component.html` (Done)
+- `src/app/@shared/components/withdrawal-authentication-dialog/withdrawal-authentication-dialog.component.html` (Done)
+- `src/app/@shared/components/withdrawal-dialog/withdrawal-dialog.component.html` (Done)
+- `src/app/@shared/components/player-activation-dialog/player-activation-dialog.component.html` (Done)
+- `src/app/@shared/components/popup-message-dialog/popup-message-dialog.component.html` (Done)
+- `src/app/@shared/components/fill-player-info-dialog/fill-player-info-dialog.component.html` (Done)
+- `src/app/@shared/components/cookie-consent-dialog/cookie-consent-dialog.component.html` (Done)
+- `src/app/@shared/components/confirmation-dialog/confirmation-dialog.component.html` (Done)
+- ~~`src/app/@shared/components/category-card/category-card.component.html`~~ (File no longer exists)
+- `src/app/@shared/components/annual-verification-dialog/annual-verification-dialog.component.html` (Done)
+- `src/app/@shared/components/access-restricted-dialog/access-restricted-dialog.component.html` (Done)

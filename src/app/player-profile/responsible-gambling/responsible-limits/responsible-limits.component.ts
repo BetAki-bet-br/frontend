@@ -33,7 +33,7 @@ import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { TimeLeftPipe } from '@app/player-profile/promo/active-promo-tile/time-left.pipe';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { AsyncPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -68,7 +68,7 @@ export interface ResponsibleLimitForm {
     TimeLeftPipe,
     AsyncPipe,
     MatFormFieldModule,
-    MatButtonModule,
+    ButtonComponent,
     MatCardModule,
     MatDividerModule,
   ],

@@ -14,17 +14,16 @@
   </div>
 
   <div class="flex">
-    <button
-      mat-button
+    <app-button
+      variant="neutral"
       type="submit"
-      class="button-larger-text confirm-button flex"
       (click)="resendConfirmationInstructions()"
     >
       <span class="confirm-button-text mr-2" translate>{{
         'Resend confirmation instructions' | translate | uppercase
       }}</span>
       <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
-    </button>
+    </app-button>
   </div>
 
   <!-- <div class="link-container flex-col items-center gap-2 mt-11">

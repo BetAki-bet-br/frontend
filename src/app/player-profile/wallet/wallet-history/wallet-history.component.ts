@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
@@ -60,7 +60,7 @@ export interface IdLabel {
     MatExpansionPanelHeader,
     MatExpansionPanelTitle,
     MatPaginator,
-    MatButtonModule,
+    ButtonComponent,
     TranslateModule,
     DatePipe,
     ReactiveFormsModule,

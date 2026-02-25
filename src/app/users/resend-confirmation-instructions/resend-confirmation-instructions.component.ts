@@ -1,4 +1,4 @@
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,7 +22,7 @@ interface ResendConfirmationInstructionsForm {
   templateUrl: './resend-confirmation-instructions.component.html',
   styleUrls: [/*'./resend-confirmation-instructions.component.scss',*/ '../users-page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatButton, LoaderComponent, UpperCasePipe, TranslateModule, MatFormField, MatError, ReactiveFormsModule],
+  imports: [ButtonComponent, LoaderComponent, UpperCasePipe, TranslateModule, MatFormField, MatError, ReactiveFormsModule],
 })
 export class ResendConfirmationInstructionsComponent implements OnInit {
   private router = inject(Router);

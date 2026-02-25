@@ -87,13 +87,13 @@
   </div>
 
   <ng-container dialogButtons>
-    <button
+    <app-button
+      variant="neutral"
+      fullWidth
       [disabled]="profileGeneralForm.invalid || isDataLoading"
-      mat-button
-      class="button-text-small label-dark flex-grow full-width"
       (click)="onConfirm()"
     >
       <span translate>Confirm details</span>
-    </button>
+    </app-button>
   </ng-container>
 </app-base-dialog>

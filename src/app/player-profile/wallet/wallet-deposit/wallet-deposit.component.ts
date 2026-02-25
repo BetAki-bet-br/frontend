@@ -13,7 +13,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { Component, ChangeDetectionStrategy, OnInit, inject, ChangeDetectorRef, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { RouterLink, Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { SnackbarService } from '@app/@core/snackbar.service';
@@ -45,7 +45,7 @@ interface DepositForm {
     PageBreadcrumbsComponent,
     MatFormField,
     MatHint,
-    MatButtonModule,
+    ButtonComponent,
     RouterLink,
     CdnizePipe,
     TranslateModule,

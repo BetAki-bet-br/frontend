@@ -22,6 +22,7 @@ import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 import { LoaderComponent } from '../../loader/loader.component';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { LowerCasePipe } from '@angular/common'; // Explicitly import LowerCasePipe
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 const log = new Logger('ProfileSettingsInfoComponent');
@@ -50,6 +51,7 @@ type FillInfoStatus = 'Fulfilled' | 'Partial' | 'Failed';
     LoaderComponent,
     CdnizePipe,
     LowerCasePipe,
+    ButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

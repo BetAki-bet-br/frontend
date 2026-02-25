@@ -68,14 +68,13 @@
                   }
                 </mat-form-field>
               </div>
-              <button
+              <app-button
+                variant="neutral"
                 [disabled]="!getForm(limitType.type).dirty || getForm(limitType.type).invalid"
-                mat-button
-                class="section-action button"
                 (click)="onAddLimit(limitType.type)"
               >
                 <span translate>Save changes</span>
-              </button>
+              </app-button>
             </div>
             @if (getLimits(limitType.type).length > 0) {
               <mat-divider />

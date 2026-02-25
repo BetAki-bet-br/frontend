@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { ChangeDetectorRef, inject } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
@@ -35,7 +35,7 @@ const log = new Logger('ResetPasswordComponent');
     MatFormField,
     MatIcon,
     MatInputModule,
-    MatButtonModule,
+    ButtonComponent,
     TranslateModule,
     LoaderComponent,
     PageBreadcrumbsComponent,

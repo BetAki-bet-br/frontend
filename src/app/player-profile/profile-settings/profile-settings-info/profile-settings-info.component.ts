@@ -43,7 +43,7 @@ import { forkJoin, map, of, switchMap } from 'rxjs';
 import { GENDER_LIST } from './profile-settings-info.mock';
 import { brazilianMobileValidator } from '@app/@shared/validators/brazilian-mobile-validator';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -75,7 +75,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     ReactiveFormsModule,
     TranslateModule,
     MatIconModule,
-    MatButtonModule,
+    ButtonComponent,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,

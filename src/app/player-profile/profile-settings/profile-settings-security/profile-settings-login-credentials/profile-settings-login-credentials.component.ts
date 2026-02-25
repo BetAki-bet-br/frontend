@@ -8,7 +8,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
@@ -16,7 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
   templateUrl: './profile-settings-login-credentials.component.html',
   styleUrls: ['./profile-settings-login-credentials.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslateModule, MatIconModule, MatButtonModule, MatDividerModule, PageBreadcrumbsComponent],
+  imports: [RouterLink, TranslateModule, MatIconModule, ButtonComponent, MatDividerModule, PageBreadcrumbsComponent],
 })
 export class ProfileSettingsLoginCredentialsComponent implements OnInit {
   private translateService = inject(TranslateService);

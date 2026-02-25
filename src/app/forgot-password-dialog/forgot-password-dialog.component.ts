@@ -2,7 +2,7 @@ import { DialogRef, DialogModule } from '@angular/cdk/dialog'; // Added DialogMo
 // Added CommonModule
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'; // Added ReactiveFormsModule
-import { MatButtonModule } from '@angular/material/button'; // Added MatButtonModule
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatFormFieldModule } from '@angular/material/form-field'; // Added MatFormFieldModule
 import { MatInputModule } from '@angular/material/input'; // Added MatInputModule
 import { MatError } from '@angular/material/form-field'; // Added MatError
@@ -37,7 +37,7 @@ interface ForgotPasswordForm {
     MatFormFieldModule,
     MatInputModule,
     MatError,
-    MatButtonModule,
+    ButtonComponent,
     LoaderComponent,
     DialogModule,
   ],

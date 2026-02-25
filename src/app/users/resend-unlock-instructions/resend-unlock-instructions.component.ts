@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ interface ResendUnlockInstructionsForm {
   styleUrls: [/*'./resend-unlock-instructions.component.scss',*/ '../users-page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    MatButtonModule,
+    ButtonComponent,
     MatError,
     MatFormField,
     LoaderComponent,

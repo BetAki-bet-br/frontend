@@ -87,14 +87,13 @@
             />
           </div>
           <div class="section-actions align-left">
-            <button
+            <app-button
+              variant="neutral"
               [disabled]="!subscriptionsForm.dirty"
-              mat-button
-              class="section-action"
               (click)="updateContactPreferences()"
             >
               <span translate>Save changes</span>
-            </button>
+            </app-button>
           </div>
         </div>
       </div>
@@ -115,9 +114,9 @@
             To ensure the accuracy of your data, please visit the Profile section where you can change your personal settings and update the required fields. Please note that specific fields deemed necessary to verify your eligibility, such as date of birth or age, can only be changed by contacting our customer service directly. For a more detailed analysis of our processing activities and how your data is involved in each of them, please visit the dedicated section in our Privacy Policy.
           </div>
           <div class="section-actions align-left">
-            <button mat-button class="section-action" routerLink="/profile/wallet/deposit">
+            <app-button variant="neutral" routerLink="/profile/wallet/deposit">
               <span translate>Submit request</span>
-            </button>
+            </app-button>
           </div>
         </div>
       </div>
@@ -138,9 +137,9 @@
             You maintain the right to receive the personal data you have submitted to us and to reuse/transmit it to a different service provider. For any additional clarifications regarding your Right to Data Portability, please visit the dedicated section of our Privacy Policy.
           </div>
           <div class="section-actions align-left">
-            <button mat-button class="section-action" routerLink="/profile/wallet/deposit">
+            <app-button variant="neutral" routerLink="/profile/wallet/deposit">
               <span translate>Submit request</span>
-            </button>
+            </app-button>
           </div>
           <mat-divider></mat-divider>
           <div class="subscriptions-item-label" [innerHTML]="'PortabilityUserInformation' | translate">

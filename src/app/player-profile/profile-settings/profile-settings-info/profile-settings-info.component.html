@@ -126,10 +126,11 @@
               </mat-form-field>
             </div>
             <div class="section-actions flex gap-4 full-width mt-2">
-              <button mat-button class="section-action-2 flex-grow" (click)="onCancelAddress()">
+              <app-button variant="neutral" (click)="onCancelAddress()">
                 <span translate>Cancel</span>
-              </button>
-              <button
+              </app-button>
+              <app-button
+                variant="neutral"
                 [disabled]="
                   (!profileGeneralForm.controls.city.dirty &&
                     !profileGeneralForm.controls.postalCode.dirty &&
@@ -141,12 +142,10 @@
                   !profileGeneralForm.controls.houseNumber.valid ||
                   !profileGeneralForm.controls.street.valid
                 "
-                mat-button
-                class="section-action flex-grow"
                 (click)="onSaveAddress()"
               >
                 <span translate>Save</span>
-              </button>
+              </app-button>
             </div>
           </div>
         </div>
@@ -220,22 +219,20 @@
                 }
               </mat-form-field>
               <div class="section-actions flex gap-4 full-width mt-2 mb-2">
-                <button
-                  mat-button
+                <app-button
+                  variant="neutral"
                   [disabled]="isDataLoading"
-                  class="section-action-2 flex-grow"
                   (click)="onCancelPhoneNumber()"
                 >
                   <span translate>Cancel</span>
-                </button>
-                <button
+                </app-button>
+                <app-button
+                  variant="neutral"
                   [disabled]="
                     !profileGeneralForm.controls.mobileNumber.valid ||
                     !profileGeneralForm.controls.mobileNumber.dirty ||
                     isDataLoading
                   "
-                  mat-button
-                  class="section-action flex-grow"
                   (click)="onSavePhoneNumber()"
                 >
                   @if (!isDataLoading) {
@@ -244,7 +241,7 @@
                   @if (isDataLoading) {
                     <mat-spinner class="spinner-on-button" diameter="20" />
                   }
-                </button>
+                </app-button>
               </div>
             </div>
           </div>

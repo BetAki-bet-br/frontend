@@ -20,7 +20,7 @@
           >
         </div>
       </div>
-      <button mat-stroked-button (click)="updateBalance()">{{ 'Update' | translate }}</button>
+      <app-button variant="outline-neutral" (click)="updateBalance()">{{ 'Update' | translate }}</app-button>
     </div>
 
     @if (withdrawStep === 1) {
@@ -182,13 +182,10 @@
             O jogo deve ser uma forma de entretenimento saudável. Pratique sempre o jogo consciente e fique atento aos
             sinais de comportamento compulsivo.
           </p>
-          <button
-            class="flex p-2 justify-center items-center m-auto mt-3 gap-x-2 font-bold text-white cursor-pointer rounded-xl bg-betaki-500 p-2 transition-opacity duration-200 ease-in-out hover:opacity-80"
-            (click)="onChatClick()"
-          >
+          <app-button variant="primary" (click)="onChatClick()">
             <img src="/assets/icons/support-icon.svg" alt="Casino" class="w-6 h-6" />
             Precisa de ajuda?
-          </button>
+          </app-button>
         </div>
       </div>
     }

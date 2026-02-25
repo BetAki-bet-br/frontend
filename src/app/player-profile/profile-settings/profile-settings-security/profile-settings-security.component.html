@@ -150,9 +150,9 @@
     </div>
     <div class="flex flex-wrap flex-col--lt-sm-2 gap-x-6 gap-y-4 full-width">
       <div class="section-actions">
-        <button [disabled]="filterForm.invalid" mat-button class="section-action flex-grow" (click)="searchItems()">
+        <app-button variant="neutral" [disabled]="filterForm.invalid" (click)="searchItems()">
           <span translate>Apply</span>
-        </button>
+        </app-button>
       </div>
     </div>
     @if (pagedData.length) {
@@ -171,9 +171,9 @@
           | translate
       "
     ></p>
-    <button mat-button class="button-text-small label-dark flex-grow mt-5 text-white!" (click)="annualReportRequest()">
+    <app-button variant="neutral" class="mt-5 text-white!" (click)="annualReportRequest()">
       {{ 'Request report' | translate }}
-    </button>
+    </app-button>
   </div>
 </ng-template>
 
@@ -206,8 +206,8 @@
 <ng-template #closeAccountTemplate>
   <div class="panel-content-box">
     <p [innerHTML]="'We are sorry to see you go. Close account.' | translate"></p>
-    <button mat-button class="button-text-small label-dark flex-grow mt-5 text-white!" (click)="closeAccount()">
+    <app-button variant="neutral" class="mt-5 text-white!" (click)="closeAccount()">
       {{ 'Close Account' | translate }}
-    </button>
+    </app-button>
   </div>
 </ng-template>

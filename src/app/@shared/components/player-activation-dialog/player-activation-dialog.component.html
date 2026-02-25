@@ -7,12 +7,8 @@
   </div>
 
   <ng-container dialogButtons>
-    <button
-      mat-button
-      class="button-text-small label-dark flex-grow w-full"
-      (click)="onClose({ closeEvent: 'signIn' })"
-    >
+    <app-button variant="neutral" fullWidth (click)="onClose({ closeEvent: 'signIn' })">
       {{ 'SIGN IN' | translate }}
-    </button>
+    </app-button>
   </ng-container>
 </app-base-dialog>

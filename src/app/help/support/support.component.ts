@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { BasicPageContainerComponent } from '@app/@shared/components/basic-page-container/basic-page-container.component';
 
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
@@ -25,7 +25,7 @@ interface SupportForm {
     TranslateModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
+    ButtonComponent,
     CdnizePipe,
   ],
 })

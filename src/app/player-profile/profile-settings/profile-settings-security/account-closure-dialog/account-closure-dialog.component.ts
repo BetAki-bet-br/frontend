@@ -2,7 +2,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
 
 export interface AccountClosureDialogResult {
@@ -14,7 +14,7 @@ export interface AccountClosureDialogResult {
   templateUrl: './account-closure-dialog.component.html',
   styleUrls: ['./account-closure-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslateModule, MatButtonModule, BaseDialogComponent],
+  imports: [TranslateModule, ButtonComponent, BaseDialogComponent],
 })
 export class AccountClosureDialogComponent {
   private dialogRef = inject<DialogRef<AccountClosureDialogResult>>(DialogRef);

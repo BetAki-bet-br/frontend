@@ -5,11 +5,11 @@
   </div>
 
   <ng-container dialogButtons>
-    <button mat-button class="button-text-small label-dark flex-grow" (click)="onConfirm()">
+    <app-button variant="neutral" (click)="onConfirm()">
       {{ 'Confirm' | translate | uppercase }}
-    </button>
-    <button mat-stroked-button class="button-text-small label-dark flex-grow" (click)="onCancel()">
+    </app-button>
+    <app-button variant="outline-neutral" (click)="onCancel()">
       {{ 'Cancel' | translate | uppercase }}
-    </button>
+    </app-button>
   </ng-container>
 </app-base-dialog>
