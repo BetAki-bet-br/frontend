@@ -33,12 +33,12 @@
       </div>
       <div class="button-row flex w-full items-center gap-4">
         <!-- Delete button -->
-        <app-button class="flex-1" fullWidth variant="outline-neutral" type="submit" (click)="onDelete()">
+        <app-button class="flex-1" fullWidth variant="outline" type="submit" (click)="onDelete()">
           {{ 'Delete limit' | translate | uppercase }}
           <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
         </app-button>
         <!-- Update button -->
-        <app-button class="flex-1" fullWidth variant="neutral" type="submit" (click)="onUpdate()">
+        <app-button class="flex-1" fullWidth variant="primary" type="submit" (click)="onUpdate()">
           {{ 'Update' | translate | uppercase }}
           <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
         </app-button>

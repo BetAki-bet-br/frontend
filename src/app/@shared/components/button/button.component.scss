@@ -8,12 +8,11 @@
   }
 }
 
-// Override internal MatButton overrides if necessary
-button.mat-mdc-button-base {
-  height: auto !important; // Allow tailwind py- to dictate height
-  min-width: unset !important; // Allow small buttons
-  color: inherit !important; // Force text color to inherit from Tailwind utility classes
-  --mdc-text-button-label-text-color: inherit;
+// Reset native button defaults
+button {
+  border: none;
+  outline: none;
+  background: none;
 }
 
 // Ensure spinner color matches text

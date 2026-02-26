@@ -2,10 +2,10 @@
   <p class="text-center" dialogContent>{{ data.message | translate }}</p>
   <ng-container dialogButtons>
     <div class="flex w-full items-center gap-4">
-      <app-button class="flex-1" fullWidth variant="outline-neutral" (click)="cancel()">
+      <app-button class="flex-1" fullWidth variant="outline" (click)="cancel()">
         {{ data.cancelButtonText ?? 'No' | translate }}
       </app-button>
-      <app-button class="flex-1" fullWidth variant="neutral" (click)="confirm()">
+      <app-button class="flex-1" fullWidth variant="primary" (click)="confirm()">
         {{ data.confirmButtonText ?? 'Yes' | translate }}
       </app-button>
     </div>

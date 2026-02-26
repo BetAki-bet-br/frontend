@@ -6,10 +6,10 @@
 
   <ng-container dialogButtons>
     <div class="flex w-full items-center gap-4">
-      <app-button class="flex-1" fullWidth variant="outline-neutral" (click)="onCancel()">
+      <app-button class="flex-1" fullWidth variant="outline" (click)="onCancel()">
         {{ 'Cancel' | translate | uppercase }}
       </app-button>
-      <app-button class="flex-1" fullWidth variant="neutral" (click)="onConfirm()">
+      <app-button class="flex-1" fullWidth variant="primary" (click)="onConfirm()">
         {{ 'Confirm' | translate | uppercase }}
       </app-button>
     </div>
