@@ -19,8 +19,6 @@ import { SectionType } from '@app/@shared/models/section-type.model';
 import { PageSection } from '@app/@shared/models/page-section.model';
 import { ProvidersService } from '@app/@core/backoffice/providers.service';
 import { GameEnum } from '@app/@shared/enums/gameEnum';
-import { Dialog } from '@angular/cdk/dialog';
-import { MaintenanceDialogComponent } from '@app/@shared/components/maintenance-dialog/maintenance-dialog.component';
 
 @Component({
   selector: 'app-games-list-page',
@@ -45,7 +43,6 @@ import { MaintenanceDialogComponent } from '@app/@shared/components/maintenance-
 export class GamesListPage {
   private route = inject(ActivatedRoute);
   router = inject(Router);
-  dialog = inject(Dialog);
   modalService = inject(ModalService);
   isGameDetailModalOpen = this.modalService.isModalOpen('gameDetail');
   isFilterModalOpen = this.modalService.isModalOpen('gameFilter');
@@ -71,10 +68,6 @@ export class GamesListPage {
   isFilterActive = computed(() => {
     return this.selectedCategory() !== null || this.selectedProviders().length > 0;
   });
-
-  constructor() {
-    this.dialog.open(MaintenanceDialogComponent);
-  }
 
   pageLayout = computed(() => {
     if (this.isFilterActive()) {
