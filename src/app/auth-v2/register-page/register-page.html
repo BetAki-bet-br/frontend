@@ -220,30 +220,28 @@
             <div>
               <div class="relative">
                 <input
-                  #dateOfBirthInput
-                  placeholder="Data de Nascimento"
+                  placeholder="Data de Nascimento (DD/MM/AAAA)"
                   class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
                   [class.border-red-500!]="
                     form.get('dateOfBirth')?.invalid &&
                     (form.get('dateOfBirth')?.touched || form.get('dateOfBirth')?.dirty)
                   "
-                  [type]="dateInputType"
-                  (focus)="dateInputType = 'date'"
-                  (blur)="!form.get('dateOfBirth')?.value && (dateInputType = 'text')"
+                  type="text"
+                  inputmode="numeric"
                   id="dateOfBirth"
                   formControlName="dateOfBirth"
+                  mask="00/00/0000"
+                  [dropSpecialCharacters]="false"
                 />
-                <button
-                  type="button"
-                  class="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 cursor-pointer focus:outline-none focus:ring-0"
-                  (click)="dateOfBirthInput.focus()"
+                <img
+                  src="/assets/icons/calendar.svg"
+                  alt="Calendar Icon"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5"
                   [class.red-icon]="
                     form.get('dateOfBirth')?.invalid &&
                     (form.get('dateOfBirth')?.touched || form.get('dateOfBirth')?.dirty)
                   "
-                >
-                  <img src="/assets/icons/calendar.svg" alt="Calendar Icon" />
-                </button>
+                />
               </div>
               @if (form.get('dateOfBirth')?.invalid && (form.get('dateOfBirth')?.touched ||
               form.get('dateOfBirth')?.dirty)) {

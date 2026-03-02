@@ -31,7 +31,7 @@ import { AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { AuthenticationService } from '@app/auth/authentication.service';
 import { cpfValidator } from '@app/@shared/form-utils';
-import { ageValidator } from '@app/helpers/ageValidator';
+import { ageValidator, parseDateBR } from '@app/helpers/ageValidator';
 import { passwordsMatchValidator } from '@app/helpers/passwordsMatchValidator';
 import { passwordStrengthValidator } from '@app/helpers/passwordStrengthValidator';
 import { NgxMaskDirective } from 'ngx-mask';
@@ -77,7 +77,7 @@ export class RegisterPage {
   registerError = signal<string | null>(null);
   isBannerLoaded = signal(false);
   isInnerBannerLoaded = signal(false);
-  dateInputType = 'text';
+
 
   registerBannerDesktop = toSignal(
     this.bannerService.getBanners({ q: 'banner-registro' }).pipe(
@@ -155,6 +155,17 @@ export class RegisterPage {
     this.legitimuzGeoService.changeAction(LegitimuzGeolocationAction.Register);
     this.legitimuzGeoService.sendAnalysis({ cpf: formValue.cpf ?? '' });
 
+    let dateOfBirth = formValue.dateOfBirth ?? '';
+    if (dateOfBirth.includes('/')) {
+      const parsed = parseDateBR(dateOfBirth);
+      if (parsed) {
+        const y = parsed.getFullYear();
+        const m = String(parsed.getMonth() + 1).padStart(2, '0');
+        const d = String(parsed.getDate()).padStart(2, '0');
+        dateOfBirth = `${y}-${m}-${d}`;
+      }
+    }
+
     const registerData: RegisterData = {
       username: formValue.cpf?.toString() ?? '',
       email: formValue.email ?? '',
@@ -162,7 +173,7 @@ export class RegisterPage {
       cpf: formValue.cpf ?? '',
       promotionalOffers: true,
       fingerprintRequestId: this.fingerprintRequestId,
-      dateOfBirth: formValue.dateOfBirth ?? '',
+      dateOfBirth,
       phone: formValue.phone ? `+55${formValue.phone.replace(/\D/g, '')}` : '',
     };
 
