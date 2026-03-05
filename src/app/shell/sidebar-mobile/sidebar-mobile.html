@@ -11,9 +11,10 @@
         @if (!isImageLoaded('banner-sidebar-mobile-top')) {
         <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
         }
+        @if (bannerSidebarMobileTop()?.cover_url) {
         <a [href]="bannerSidebarMobileTop()?.link_url" rel="noopener noreferrer">
           <img
-            [ngSrc]="bannerSidebarMobileTop()?.cover_url!"
+            [ngSrc]="bannerSidebarMobileTop()!.cover_url!"
             fill
             alt="Banner Sidebar Mobile Top"
             class="object-cover transition-opacity duration-500"
@@ -22,6 +23,7 @@
             (load)="onImageLoad('banner-sidebar-mobile-top')"
           />
         </a>
+        }
       </div>
 
       <div class="flex w-full gap-2">
@@ -99,9 +101,10 @@
           @if (!isImageLoaded('banner-sidebar-mobile-bottom')) {
           <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
           }
+          @if (bannerSidebarMobileBottom()?.cover_url) {
           <a [href]="bannerSidebarMobileBottom()?.link_url" rel="noopener noreferrer">
             <img
-              [ngSrc]="bannerSidebarMobileBottom()?.cover_url!"
+              [ngSrc]="bannerSidebarMobileBottom()!.cover_url!"
               fill
               alt="Banner Sidebar Mobile Bottom"
               class="object-cover transition-opacity duration-500"
@@ -110,6 +113,7 @@
               (load)="onImageLoad('banner-sidebar-mobile-bottom')"
             />
           </a>
+          }
         </div>
         }
 
