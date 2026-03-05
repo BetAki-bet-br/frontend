@@ -195,13 +195,13 @@ export class GamesListPage {
       }
     }
 
-    if (this.providers()?.length) {
-      layout.push({
-        id: 'providers',
-        type: 'providers-carousel',
-        data: { providers: this.providers()!, categoryId: 'providers' },
-      });
-    }
+    // if (this.providers()?.length) {
+    //   layout.push({
+    //     id: 'providers',
+    //     type: 'providers-carousel',
+    //     data: { providers: this.providers()!, categoryId: 'providers' },
+    //   });
+    // }
 
     return layout;
   });
