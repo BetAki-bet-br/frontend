@@ -5,10 +5,11 @@ import { SidebarDesktop } from './components/sidebar-desktop/sidebar-desktop';
 import { RoutingService } from '@app/@shared/services/routing.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SlidesService } from '@app/@core/backoffice/slides.service';
+import { GhostColorLayer } from './components/ghost-color-layer/ghost-color-layer';
 
 @Component({
   selector: 'app-games-page',
-  imports: [CarouselComponent, RouterOutlet, SidebarDesktop],
+  imports: [CarouselComponent, RouterOutlet, SidebarDesktop, GhostColorLayer],
   templateUrl: './games-page.html',
   styleUrl: './games-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
