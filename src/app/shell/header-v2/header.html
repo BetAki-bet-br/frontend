@@ -36,6 +36,16 @@
         >
       </li>
       }
+      <li
+        class="h-full border-b-[3px] border-b-transparent transition-all duration-300 hover:border-b-shark-50 hover:text-shark-50"
+      >
+        <button
+          (click)="openSpinTheWheel()"
+          class="h-full flex text-sm lg:text-base items-center text-nowrap cursor-pointer bg-transparent border-none text-white"
+        >
+          Spin the Wheel
+        </button>
+      </li>
     </ul>
     <div class="flex flex-row items-center justify-center gap-1 text-white">
       @if(routingService.isInCassino() || routingService.isLiveCasino()) {

@@ -14,6 +14,7 @@ import { MenuItem } from '../mobile-menu/menu-item.model';
 import { CdnizePipe } from '../../@pipes/cdnize.pipe';
 import { MenusService } from '@app/@core/backoffice';
 import { BannersService } from '@app/@core/backoffice';
+import { SpinTheWheelService } from '@app/spin-the-wheel/spin-the-wheel.service';
 
 @Component({
   selector: 'app-sidebar-mobile',
@@ -34,6 +35,7 @@ export class SidebarMobile {
   private readonly renderer: Renderer2 = inject(Renderer2);
   private readonly tawkMessengerService = inject(TawkToScriptService);
   private readonly router: Router = inject(Router);
+  private readonly spinTheWheelService = inject(SpinTheWheelService);
 
   protected readonly isOpen = this.sidebarService.isOpen;
   protected readonly isAuthenticated = this.credentialsService.isAuthenticated;
@@ -145,5 +147,10 @@ export class SidebarMobile {
   navigateToMenu(item: MenuItem & { categoryId?: string | number }): void {
     this.routingService.navigateToMenuItem(item);
     this.close();
+  }
+
+  openSpinTheWheel(): void {
+    this.close();
+    this.spinTheWheelService.open();
   }
 }

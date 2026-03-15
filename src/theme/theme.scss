@@ -309,6 +309,16 @@ a.nostyle {
     height: auto;
   }
 
+  .spin-the-wheel-dialog {
+    .cdk-dialog-container {
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      max-width: 100vw;
+      overflow: hidden;
+    }
+  }
+
   .mat-mdc-menu-content {
     ::-webkit-scrollbar {
       width: 0.3125rem;

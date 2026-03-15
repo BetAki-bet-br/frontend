@@ -1,0 +1,20 @@
+@if (scriptLoaded()) {
+<spin-the-wheel
+  [attr.apiKey]="config.apiKey"
+  [attr.portalId]="config.portalId"
+  [attr.languageCode]="config.languageCode"
+  [attr.assetsBasePath]="config.assetsBasePath"
+  [attr.mediaLibraryUrl]="config.mediaLibraryUrl"
+  [attr.mediaLibraryBrand]="config.mediaLibraryBrand"
+  [attr.languagesBasePath]="config.languagesBasePath"
+  [attr.countdownTimezone]="config.countdownTimezone"
+  [attr.isAuthenticated]="config.isAuthenticated"
+  [attr.skipLogin]="config.skipLogin"
+  [attr.openWheel]="config.openWheel"
+  [attr.isMobile]="isMobile()"
+  [attr.hideMenu]="config.hideMenu"
+  [attr.summarizeWinnings]="config.summarizeWinnings"
+  [attr.bonusSpinMultiplication]="config.bonusSpinMultiplication"
+  (close)="onClose()"
+></spin-the-wheel>
+}

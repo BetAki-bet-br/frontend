@@ -10,6 +10,7 @@ import { ClickOutsideDirective } from '@app/@shared/directives/click-outside.dir
 import { RoutingService } from '@app/@shared/services/routing.service';
 import { FullscreenService } from '@app/@shared/services/fullscreen.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { SpinTheWheelService } from '@app/spin-the-wheel/spin-the-wheel.service';
 
 interface RouteWithLabel {
   path: string;
@@ -30,6 +31,7 @@ export class Header {
   private playerService = inject(PlayerStatusService);
   private dataStoreService = inject(DataStoreService);
   routingService = inject(RoutingService);
+  private spinTheWheelService = inject(SpinTheWheelService);
 
   showProfileModal = signal(false);
 
@@ -90,6 +92,10 @@ export class Header {
 
   closeProfileModal(): void {
     this.showProfileModal.set(false);
+  }
+
+  openSpinTheWheel(): void {
+    this.spinTheWheelService.open();
   }
 
   isLinkActive(path: string, exact: boolean): boolean {
