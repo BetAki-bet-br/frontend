@@ -78,7 +78,6 @@ export class RegisterPage {
   isBannerLoaded = signal(false);
   isInnerBannerLoaded = signal(false);
 
-
   registerBannerDesktop = toSignal(
     this.bannerService.getBanners({ q: 'banner-registro' }).pipe(
       map((res) => res.data[0] ?? null),

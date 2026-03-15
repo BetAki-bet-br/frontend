@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  CUSTOM_ELEMENTS_SCHEMA,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit, signal } from '@angular/core';
 import { DialogRef } from '@angular/cdk/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -31,12 +24,9 @@ export class SpinTheWheelDialogComponent implements OnInit {
 
   scriptLoaded = signal(false);
 
-  isMobile = toSignal(
-    this.breakpointObserver
-      .observe([AppBreakpoints.LtSmall2])
-      .pipe(map((state) => state.matches)),
-    { initialValue: false }
-  );
+  isMobile = toSignal(this.breakpointObserver.observe([AppBreakpoints.LtSmall2]).pipe(map((state) => state.matches)), {
+    initialValue: false,
+  });
 
   readonly config = {
     apiKey: environment.deployConfig.apiKey,

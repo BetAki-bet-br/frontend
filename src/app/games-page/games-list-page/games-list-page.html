@@ -23,8 +23,8 @@
       ></path>
     </svg>
   </div>
-  } @else { @switch (section.type) { @case ('recent-games') {
-  @let recentVisible = section.data.games.slice(0, gamesCount());
+  } @else { @switch (section.type) { @case ('recent-games') { @let recentVisible = section.data.games.slice(0,
+  gamesCount());
   <app-game-list
     [categoryId]="section.id"
     [title]="section.data.title"
@@ -46,8 +46,7 @@
       }
     </div>
   </app-game-list>
-  } @case ('mais-premiados') {
-  @let awardedVisible = section.data.gameMains.slice(0, 10);
+  } @case ('mais-premiados') { @let awardedVisible = section.data.gameMains.slice(0, 10);
   <app-game-list
     [categoryId]="section.data.id"
     [gameCount]="section.gameCount ?? section.data.gameMains.length"
@@ -68,8 +67,7 @@
       }
     </div>
   </app-game-list>
-  } @case ('game-list') {
-  @let gameListVisible = section.data.gameMains.slice(0, gamesCount());
+  } @case ('game-list') { @let gameListVisible = section.data.gameMains.slice(0, gamesCount());
   <app-game-list
     [categoryId]="section.data.id"
     [gameCount]="section.gameCount ?? section.data.gameMains.length"
@@ -92,10 +90,7 @@
     </div>
   </app-game-list>
   } @case ('winners-list') {
-  <app-winners-list
-    [winnersToList]="winnersCount()"
-    (gameClick)="handleGameClick($event)"
-  ></app-winners-list>
+  <app-winners-list [winnersToList]="winnersCount()" (gameClick)="handleGameClick($event)"></app-winners-list>
   } @case ('top-10-list') {
   <app-top-10-list
     [categoryId]="section.data.categoryId"

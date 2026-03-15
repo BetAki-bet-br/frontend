@@ -8,9 +8,8 @@ describe('GuardRedirectDialog', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GuardRedirectDialog]
-    })
-    .compileComponents();
+      imports: [GuardRedirectDialog],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GuardRedirectDialog);
     component = fixture.componentInstance;

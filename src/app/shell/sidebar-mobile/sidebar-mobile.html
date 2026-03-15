@@ -10,8 +10,7 @@
       <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
         @if (!isImageLoaded('banner-sidebar-mobile-top')) {
         <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
-        }
-        @if (bannerSidebarMobileTop()?.cover_url) {
+        } @if (bannerSidebarMobileTop()?.cover_url) {
         <a [href]="bannerSidebarMobileTop()?.link_url" rel="noopener noreferrer">
           <img
             [ngSrc]="bannerSidebarMobileTop()!.cover_url!"
@@ -100,8 +99,7 @@
         <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
           @if (!isImageLoaded('banner-sidebar-mobile-bottom')) {
           <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
-          }
-          @if (bannerSidebarMobileBottom()?.cover_url) {
+          } @if (bannerSidebarMobileBottom()?.cover_url) {
           <a [href]="bannerSidebarMobileBottom()?.link_url" rel="noopener noreferrer">
             <img
               [ngSrc]="bannerSidebarMobileBottom()!.cover_url!"
@@ -159,9 +157,19 @@
           <div class="text-general-light flex items-center gap-[10px] text-[14px] font-semibold leading-[22px]">
             <div class="flex items-center justify-center size-[20px]">
               <div class="text-menu-icon size-[20px]" style="display: inline-block">
-                <svg width="100%" height="100%" preserveAspectRatio="xMidYMid meet" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="currentColor"/>
-                  <path d="M12 6l-1.5 4.5L6 12l4.5 1.5L12 18l1.5-4.5L18 12l-4.5-1.5z" fill="currentColor"/>
+                <svg
+                  width="100%"
+                  height="100%"
+                  preserveAspectRatio="xMidYMid meet"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                    fill="currentColor"
+                  />
+                  <path d="M12 6l-1.5 4.5L6 12l4.5 1.5L12 18l1.5-4.5L18 12l-4.5-1.5z" fill="currentColor" />
                 </svg>
               </div>
             </div>

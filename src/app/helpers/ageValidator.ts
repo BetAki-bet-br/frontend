@@ -15,9 +15,7 @@ export function ageValidator(minAge: number): ValidatorFn {
       return null;
     }
 
-    const birthDateObj = birthDate.includes('/')
-      ? parseDateBR(birthDate)
-      : new Date(birthDate);
+    const birthDateObj = birthDate.includes('/') ? parseDateBR(birthDate) : new Date(birthDate);
 
     if (!birthDateObj || isNaN(birthDateObj.getTime())) {
       return { underage: true };

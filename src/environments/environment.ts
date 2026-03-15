@@ -12,7 +12,7 @@ export const environment = {
   defaultBrandId: 2,
   API_BASE_PATH: '',
   // backofficeApiUrl: 'http://localhost:8080',
-  backofficeApiUrl: 'https://api.goatech.com.br',
+  backofficeApiUrl: 'http://3.18.69.221:8080',
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',
   useLocalHtmlTemplates: true, // Set this to true to use the local template definitions in `cms-templates-data`
   demoPlayEnabled: false,
