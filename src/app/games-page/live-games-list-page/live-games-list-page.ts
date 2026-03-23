@@ -18,7 +18,6 @@ import { SubLevel, GameMain, GameCategory, Provider, LobbyResponse } from '../mo
 import { AwardedGameCard } from '../components/awarded-game-card/awarded-game-card';
 import { ProvidersService } from '@app/@core/backoffice/providers.service';
 import { GameEnum } from '@app/@shared/enums/gameEnum';
-import { MaintenanceDialogComponent } from '@app/@shared/components/maintenance-dialog/maintenance-dialog.component';
 import { Dialog } from '@angular/cdk/dialog';
 
 export type SectionType =
@@ -89,10 +88,6 @@ export class LiveGamesListPage {
   isFilterActive = computed(() => {
     return this.selectedCategory() !== null || this.selectedProviders().length > 0;
   });
-
-  constructor() {
-    this.dialog.open(MaintenanceDialogComponent);
-  }
 
   pageLayout = computed(() => {
     if (this.isFilterActive()) {
