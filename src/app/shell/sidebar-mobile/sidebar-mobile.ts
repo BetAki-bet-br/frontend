@@ -50,6 +50,10 @@ export class SidebarMobile {
     this.bannerService.getBanners({ q: 'banner-sidebar-mobile-top' }).pipe(
       map((res) => res.data[0] ?? null),
       tap(() => this.onImageLoad('banner-sidebar-mobile-top')),
+      catchError(() => {
+        this.onImageLoad('banner-sidebar-mobile-top');
+        return of(null);
+      }),
     ),
     { initialValue: null },
   );
@@ -58,6 +62,10 @@ export class SidebarMobile {
     this.bannerService.getBanners({ q: 'banner-sidebar-mobile-bottom' }).pipe(
       map((res) => res.data[0] ?? null),
       tap(() => this.onImageLoad('banner-sidebar-mobile-bottom')),
+      catchError(() => {
+        this.onImageLoad('banner-sidebar-mobile-bottom');
+        return of(null);
+      }),
     ),
     { initialValue: null },
   );

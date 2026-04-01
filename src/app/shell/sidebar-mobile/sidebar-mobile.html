@@ -7,11 +7,11 @@
 >
   <div class="relative h-full w-full transition-container">
     <div class="grid gap-[10px] p-3">
+      @if (bannerSidebarMobileTop()?.cover_url) {
       <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
         @if (!isImageLoaded('banner-sidebar-mobile-top')) {
         <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
         }
-        @if (bannerSidebarMobileTop()?.cover_url) {
         <a [href]="bannerSidebarMobileTop()?.link_url" rel="noopener noreferrer">
           <img
             [ngSrc]="bannerSidebarMobileTop()!.cover_url!"
@@ -23,8 +23,8 @@
             (load)="onImageLoad('banner-sidebar-mobile-top')"
           />
         </a>
-        }
       </div>
+      }
 
       <div class="flex w-full gap-2">
         <button
@@ -96,12 +96,11 @@
       <div class="flex flex-col items-center gap-[10px] rounded-lg">
         @if (isLoadingMenu()) { @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
         <div class="h-[40px] w-full bg-betaki-darker rounded-[8px] animate-pulse"></div>
-        } } @else { @for (item of menuItems(); track $index) { @if ($index === 2) {
+        } } @else { @for (item of menuItems(); track $index) { @if ($index === 2 && bannerSidebarMobileBottom()?.cover_url) {
         <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
           @if (!isImageLoaded('banner-sidebar-mobile-bottom')) {
           <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
           }
-          @if (bannerSidebarMobileBottom()?.cover_url) {
           <a [href]="bannerSidebarMobileBottom()?.link_url" rel="noopener noreferrer">
             <img
               [ngSrc]="bannerSidebarMobileBottom()!.cover_url!"
@@ -113,7 +112,6 @@
               (load)="onImageLoad('banner-sidebar-mobile-bottom')"
             />
           </a>
-          }
         </div>
         }
 
