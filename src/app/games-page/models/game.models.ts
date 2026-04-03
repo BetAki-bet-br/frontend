@@ -112,5 +112,7 @@ export interface LobbySection {
 }
 
 export interface LobbyResponse {
+  status?: 'active' | 'inactive' | 'maintenance';
+  message?: string;
   sections: LobbySection[];
 }

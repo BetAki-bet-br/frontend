@@ -1,9 +1,27 @@
 import { inject } from '@angular/core';
-import { ResolveFn } from '@angular/router';
+import { ResolveFn, Router } from '@angular/router';
+import { Dialog } from '@angular/cdk/dialog';
 import { LobbiesService } from '@app/@core/backoffice';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { LobbyResponse } from '../models/game.models';
+import { MaintenanceDialogComponent } from '@app/@shared/components/maintenance-dialog/maintenance-dialog.component';
 
 export const casinoLobbyResolver: ResolveFn<LobbyResponse> = (): Observable<LobbyResponse> => {
-  return inject(LobbiesService).getCasinoLobby();
+  const router = inject(Router);
+  const dialog = inject(Dialog);
+
+  return inject(LobbiesService)
+    .getCasinoLobby()
+    .pipe(
+      tap((response) => {
+        if (response.status === 'inactive') {
+          router.navigate(['/games/live'], { replaceUrl: true });
+        } else if (response.status === 'maintenance') {
+          dialog.open(MaintenanceDialogComponent, {
+            panelClass: 'maintenance-dialog-panel',
+          });
+          router.navigate(['/games/live'], { replaceUrl: true });
+        }
+      }),
+    );
 };
