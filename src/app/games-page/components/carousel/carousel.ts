@@ -148,7 +148,7 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
       if (isSmall) {
         style['transform'] = `translateX(${offset * 100}%)`;
         style['filter'] = 'blur(0)';
-        style['opacity'] = absOffset === 0 ? 1 : 0;
+        style['opacity'] = 1;
         style['visibility'] = absOffset <= 1 ? 'visible' : 'hidden';
       } else {
         if (offset === 0) {
@@ -156,16 +156,15 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
           style['opacity'] = 1;
           style['filter'] = 'blur(0)';
         } else if (offset === -1) {
-          style['transform'] = 'translateX(-40%) scale(0.6)';
-          // style['opacity'] = 0.6;
+          style['transform'] = 'translateX(-70%) scale(0.6)';
+          style['opacity'] = 1;
         } else if (offset === 1) {
-          style['transform'] = 'translateX(40%) scale(0.6)';
-          // style['opacity'] = 0.6;
+          style['transform'] = 'translateX(70%) scale(0.6)';
+          style['opacity'] = 1;
         } else {
-          style['transform'] = `translateX(${Math.sign(offset) * 50}%) scale(0.5)`;
-          style['opacity'] = 0;
-          style['filter'] = 'blur(5px)';
-          style['pointer-events'] = 'none';
+          style['transform'] = `translateX(${Math.sign(offset) * 130}%) scale(0.5)`;
+          style['opacity'] = 1;
+          style['filter'] = 'blur(0)';
         }
       }
       return style;
