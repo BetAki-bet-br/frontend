@@ -24,13 +24,7 @@
         [class.text-shark-50!]="isLinkActive(item.path, item.exact)"
       >
         <a
-          [routerLink]="
-            item.path === '/promotions'
-              ? isLoggedIn()
-                ? '/profile/promo'
-                : '/promotions'
-              : item.path
-          "
+          [routerLink]="item.path"
           class="h-full flex text-sm lg:text-base items-center text-nowrap"
           >{{ item.label | translate }}</a
         >
@@ -54,7 +48,7 @@
       <button
         type="button"
         class="items-center md:hidden justify-center font-medium transition-colors cursor-pointer rounded-md focus:outline-none focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed p-2 text-sm border-2 border-transparent bg-transparent text-betaki-500 hover:bg-shark-50/20 hover:text-betaki-600 w-auto"
-        [routerLink]="isLoggedIn() ? '/profile/promo' : '/promotions'"
+        routerLink="/games"
       >
         <img
           ngSrc="/assets/icons/promotion-icon.svg"

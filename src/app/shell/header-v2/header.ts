@@ -34,15 +34,9 @@ export class Header {
   showProfileModal = signal(false);
 
   routesWithLabel: RouteWithLabel[] = [
-    { path: '/', label: 'Sports', exact: true },
-    { path: '/sportsbook-live', label: 'Sports live', exact: true },
     { path: '/games', label: 'Casino', exact: false },
-    { path: '/games/live', label: 'Casino live', exact: false },
-    {
-      path: '/promotions',
-      label: 'Promotions',
-      exact: false,
-    },
+    { path: '/games', label: 'Casino live', exact: false },
+    { path: '/games', label: 'Promotions', exact: false },
   ];
 
   isLoggedIn = toSignal(this.credentialsService.isAuthenticated$, { initialValue: false });
@@ -93,12 +87,6 @@ export class Header {
   }
 
   isLinkActive(path: string, exact: boolean): boolean {
-    if (path === '/promotions') {
-      return (
-        this.routingService.isLinkActive('/promotions', false) ||
-        this.routingService.isLinkActive('/profile/promo', false)
-      );
-    }
     return this.routingService.isLinkActive(path, exact);
   }
 }
