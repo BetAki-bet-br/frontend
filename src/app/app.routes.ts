@@ -9,7 +9,7 @@ export const appRoutes: Routes = [
     path: '',
     component: ShellComponent,
     children: [
-      { path: '', loadChildren: () => import('./sportsbook/sportsbook.routes').then((m) => m.routes) },
+      { path: '', redirectTo: 'games', pathMatch: 'full' },
       {
         path: 'promotions',
         loadChildren: () => import('./promotions/promotions.routes').then((m) => m.routes),
