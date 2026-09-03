@@ -252,6 +252,17 @@ export class AppStartupService {
   }
 
   private initCms() {
-    this.cmsService.getActiveMainBanners(this.breakpointObserver.isMatched(AppBreakpoints.LtSmall2)).subscribe();
+    // Legacy Comtrade CMS banners. The hero carousel reads its slides from the backoffice
+    // (SlidesService), so a dead gateway here only means no legacy banner data - never a
+    // blocked startup or a console full of unhandled errors.
+    this.cmsService
+      .getActiveMainBanners(this.breakpointObserver.isMatched(AppBreakpoints.LtSmall2))
+      .pipe(
+        catchError((err) => {
+          log.debug('Legacy CMS banners unavailable:', err);
+          return of(null);
+        }),
+      )
+      .subscribe();
   }
 }
