@@ -30,20 +30,37 @@
             "outputPath": {
               "base": "dist"
             },
-            "index": "src/index.html",
+            "index": "brands/betaki/index.html",
             "polyfills": ["@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/robots.txt",
-              "src/sitemap.xml",
               "src/assetslocal",
               "src/assets",
-              "src/assetshtml",
               {
                 "glob": "**/*",
                 "input": "static",
                 "output": "/static/"
+              },
+              {
+                "glob": "**/*",
+                "input": "brands/betaki/assets",
+                "output": "/assets/brand"
+              },
+              {
+                "glob": "**/*",
+                "input": "brands/betaki/legal",
+                "output": "/assetshtml"
+              },
+              {
+                "glob": "robots.txt",
+                "input": "brands/betaki",
+                "output": "/"
+              },
+              {
+                "glob": "sitemap.xml",
+                "input": "brands/betaki",
+                "output": "/"
               }
             ],
             "styles": ["src/main.scss"],
@@ -80,19 +97,7 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true,
-              "assets": [
-                "src/robots.txt",
-                "src/sitemap.xml",
-                "src/assets",
-                "src/assetslocal",
-                "src/assetshtml",
-                {
-                  "glob": "**/*",
-                  "input": "static",
-                  "output": "/static/"
-                }
-              ]
+              "namedChunks": true
             },
             "ci": {
               "progress": false
@@ -141,7 +146,7 @@
             },
             "scripts": [],
             "styles": ["src/main.scss"],
-            "assets": ["src/robots.txt", "src/sitemap.xml", "src/assets", "src/assetslocal"]
+            "assets": ["src/assets", "src/assetslocal"]
           },
           "configurations": {
             "ci": {
