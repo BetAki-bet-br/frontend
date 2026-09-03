@@ -145,7 +145,7 @@ Uma instância Laravel por marca; `BRAND.api.backofficeApiUrl` por ambiente. Sem
 | WL-3 | Tema: `brands/betaki/brand-theme.scss` + `brand-variables.scss` + `material-variables.scss` a partir do `main.scss` e do `theme-variables.scss` vanilla; codemod `betaki-` → `brand-`; remover `brand-themes/`, `scripts/replace-brand-files.js`, `src/brand-sitemap`, `src/static-pages/index-betaki.html` | **diff do CSS gerado** (`dist/betaki/browser/styles-*.css` normalizado) contra o build anterior: só renomes de token; screenshots da home, lobby, login, perfil iguais | ✅ feito |
 | WL-4 | Strings, logos, GTM, CDN, traduções via `BRAND` | `git grep -i "bet ?aki" src/app` só em comentários | ✅ feito |
 | WL-5 | `brands/_template` + `docs/white-label/02-como-criar-marca.md` (checklist de 1 página) | criar marca `demo` seguindo o doc leva minutos | ✅ feito |
-| WL-6 | `brands/girosbet` com paleta, fontes, logo placeholder, index, config com placeholders | `npm run build:girosbet` verde; screenshots das mesmas telas | ⬜ pendente |
+| WL-6 | `brands/girosbet` com paleta, fontes, logo placeholder, index, config com placeholders | `npm run build:girosbet` verde; screenshots das mesmas telas | ✅ feito |
 
 Ordem: WL-0 → WL-1 → WL-2 → WL-3 → WL-4 → WL-5 → WL-6. Cada tarefa é um ou poucos commits na branch `white-label`.
 
