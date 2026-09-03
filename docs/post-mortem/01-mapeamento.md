@@ -81,35 +81,45 @@ A metade regulada da plataforma: perfil, carteira (depósito/saque/histórico), 
 
 ### Métricas de modernização (src/)
 
-| Métrica | Valor |
-|---|---|
-| Arquivos .ts / LOC | 483 / 38.457 |
-| Specs | 145 (182 `it()`) |
-| Componentes / injectables | 125 / 84 (82 `providedIn: 'root'`) |
-| `@NgModule` | **0** |
-| `standalone: true` redundante | 6 |
-| OnPush | 94/125 (75%). Os 31 sem OnPush são os arquivos mais novos (páginas de games-page, header-v2, footer-v2, mobile-menu, app-button) |
-| Zoneless | `provideZonelessChangeDetection()`; zone.js fora do package.json |
-| `inject()` vs DI por construtor | 686 em 205 arquivos vs **0** |
-| `signal` / `computed` / `effect` / `toSignal` | 98 / 31 / 4 / 54 |
-| `input()` vs `@Input` | 46 vs 83 |
-| `output()` vs `@Output` | 11 vs 14 |
-| `viewChild()` vs `@ViewChild` | **0** vs 21 |
-| `@if` vs `*ngIf` | 352 vs ~10 |
-| `@for` vs `*ngFor` | 77 vs 0 |
-| `@defer` | 0 |
-| `animate.enter/leave` | 36 em 13 arquivos |
-| `NgOptimizedImage` (`ngSrc`) | 28 |
-| Flex Layout | 0 |
-| Tailwind | ~4.006 tokens, 2.187 atributos `class`, 130 templates, 261 prefixos responsivos; config CSS-first em `src/main.scss` |
-| SCSS ainda vivo | 13.788 linhas (material-form.scss 55 KB, theme.scss 44 KB) |
-| Material | 327 imports, 420 tags `<mat-*>` (mat-icon 133, mat-form-field 69, mat-error 50) |
-| Botões | 97 Material crus vs 7 `<app-button>` |
-| Resolvers funcionais | 32 em 16 arquivos (games-page) |
-| Guards funcionais | 5 (+2 class guards mortos) |
-| `withComponentInputBinding` | não usado |
-| `rxResource` / `httpResource` | 0 |
-| Client OpenAPI gerado | 335 arquivos, 21.798 LOC, gerado no `postinstall` para `node_modules/@icore/...`, importado em 119 arquivos |
+A coluna **após migração** foi medida em 2026-09-03, na branch `white-label`, depois
+de quatro etapas: (1) os schematics oficiais do `@angular/core` — `control-flow`,
+`signal-input-migration`, `output-migration`, `signal-queries-migration`,
+`inject-migration` — mais `ngClass`/`ngStyle` na mão; (2) OnPush em todos os
+componentes, `withComponentInputBinding()` e remoção da rota `dev/dialogs`;
+(3) remoção de código morto, docs do gerador ngX-Rocket e specs que não compilavam
+mais; (4) migração dos botões de diálogo e das páginas de `users/` para
+`<app-button>`.
+
+| Métrica | Valor | Após migração |
+|---|---|---|
+| Arquivos .ts / LOC | 483 / 38.457 | 403 / 34.719 |
+| Specs | 145 (182 `it()`) | 79 (91 `it()`) — a suíte compila e roda: 51 passam, 39 falham |
+| Componentes / injectables | 125 / 84 (82 `providedIn: 'root'`) | 120 / 79 (79 `providedIn: 'root'`) |
+| `@NgModule` | **0** | **0** |
+| `standalone: true` redundante | 6 | **0** |
+| OnPush | 94/125 (75%). Os 31 sem OnPush são os arquivos mais novos (páginas de games-page, header-v2, footer-v2, mobile-menu, app-button) | **120/120 (100%)** |
+| Zoneless | `provideZonelessChangeDetection()`; zone.js fora do package.json | idem |
+| `inject()` vs DI por construtor | 686 em 205 arquivos vs **0** | 732 em 188 arquivos vs **0** |
+| `signal` / `computed` / `effect` / `toSignal` | 98 / 31 / 4 / 54 | 109 / 31 / 4 / 35 (a queda em `toSignal` é a remoção de `sportsbook/` e `vip/`) |
+| `input()` vs `@Input` | 46 vs 83 | **128 vs 0** |
+| `output()` vs `@Output` | 11 vs 14 | **25 vs 0** |
+| `viewChild()` vs `@ViewChild` | **0** vs 21 | 17 `viewChild()` + 1 `contentChildren()` vs 2 (os setters `@ViewChild(MatSort)` de `base-table*`) |
+| `@if` vs `*ngIf` | 352 vs ~10 | 335 vs **0 vivos** (as 12 ocorrências restantes estão dentro de comentários HTML) |
+| `@for` vs `*ngFor` | 77 vs 0 | 73 vs 0 |
+| `ngClass` / `ngStyle` | 11 / 2 | **0 / 0** (1 `ngClass` sobra dentro de um comentário) |
+| `@defer` | 0 | 0 |
+| `animate.enter/leave` | 36 em 13 arquivos | 36 em 13 arquivos |
+| `NgOptimizedImage` (`ngSrc`) | 28 | 34 |
+| Flex Layout | 0 | 0 |
+| Tailwind | ~4.006 tokens, 2.187 atributos `class`, 130 templates, 261 prefixos responsivos; config CSS-first em `src/main.scss` | 2.075 atributos `class`, 124 templates |
+| SCSS ainda vivo | 13.788 linhas (material-form.scss 55 KB, theme.scss 44 KB) | 13.073 linhas |
+| Material | 327 imports, 420 tags `<mat-*>` (mat-icon 133, mat-form-field 69, mat-error 50) | 251 imports em 88 arquivos, 418 tags `<mat-*>` (mat-icon 134, mat-form-field 68, mat-error 48) |
+| Botões | 97 Material crus vs 7 `<app-button>` | 50 Material crus vivos vs **43 `<app-button>`** — sobram 7 `mat-icon-button` (`matSuffix` / `matMenuTriggerFor`, que precisam de um `button` real) e 43 botões de página do `player-profile/` cujo visual vem de SCSS com escopo de componente |
+| Resolvers funcionais | 32 em 16 arquivos (games-page) | inalterado |
+| Guards funcionais | 5 (+2 class guards mortos) | **4, nenhum class guard** (`AuthenticationGuard` era morto e foi removido; `PromotionsGuard` estava vivo na rota e virou `promotionsGuard` funcional) |
+| `withComponentInputBinding` | não usado | **em uso** em `provideRouter` |
+| `rxResource` / `httpResource` | 0 | 0 |
+| Client OpenAPI gerado | 335 arquivos, 21.798 LOC, gerado no `postinstall` para `node_modules/@icore/...`, importado em 119 arquivos | importado em 81 arquivos (os 38 a menos são specs removidos) |
 
 ### Onde o tempo foi
 
@@ -153,7 +163,9 @@ Zoneless, NgModules zerados, DI 100% `inject()`, control flow ~97%, Flex Layout 
 
 ## 7. O que ficou pela metade
 
-`@Input`/`@Output`/`@ViewChild` → APIs signal; OnPush nos arquivos novos; remoção do Material (97 botões, 420 tags); consolidação SCSS → Tailwind; `@defer`; `rxResource`; SSR (feito, não mergeado); white-label; lint e testes rodando.
+Levantado antes da migração final: `@Input`/`@Output`/`@ViewChild` → APIs signal; OnPush nos arquivos novos; remoção do Material (97 botões, 420 tags); consolidação SCSS → Tailwind; `@defer`; `rxResource`; SSR (feito, não mergeado); white-label; lint e testes rodando.
+
+Fechado desde então (ver a coluna "após migração" na §3): as APIs signal, OnPush em 100% dos componentes, `withComponentInputBinding`, código morto e specs quebrados, e 43 dos 97 botões Material. Continua aberto: os 418 tags `<mat-*>` e os 43 botões de página do `player-profile/` (dependem de SCSS com escopo de componente e das telas autenticadas, que precisam de sessão para revisar), a consolidação SCSS → Tailwind (13.073 linhas), `@defer`, `rxResource`/`httpResource`, SSR e as 39 specs "should create" com `TestBed` não configurado.
 
 ## 8. Perguntas em aberto para o texto final
 
