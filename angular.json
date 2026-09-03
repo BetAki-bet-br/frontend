@@ -101,6 +101,45 @@
             },
             "ci": {
               "progress": false
+            },
+            "betaki": {
+              "tsConfig": "tsconfig.brand-betaki.json",
+              "index": "brands/betaki/index.html",
+              "outputPath": {
+                "base": "dist/betaki"
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["brands/betaki", ".", "node_modules", "src"]
+              },
+              "assets": [
+                "src/assetslocal",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "static",
+                  "output": "/static/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/betaki/assets",
+                  "output": "/assets/brand"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/betaki/legal",
+                  "output": "/assetshtml"
+                },
+                {
+                  "glob": "robots.txt",
+                  "input": "brands/betaki",
+                  "output": "/"
+                },
+                {
+                  "glob": "sitemap.xml",
+                  "input": "brands/betaki",
+                  "output": "/"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -116,6 +155,9 @@
             },
             "development": {
               "buildTarget": "angular-pp:build:development"
+            },
+            "betaki": {
+              "buildTarget": "angular-pp:build:development,betaki"
             },
             "development-ssl": {
               "ssl": true,
@@ -158,7 +200,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html", "brands/**/*.ts"]
           }
         },
         "cypress-run": {
