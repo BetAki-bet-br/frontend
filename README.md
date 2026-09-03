@@ -52,6 +52,8 @@ Task automation is based on [NPM scripts](https://docs.npmjs.com/misc/scripts).
 | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `npm start`                                     | Run development server on `http://localhost:4200/`                                                               |
 | `npm run build [-- --configuration=production]` | Lint code and build web app for production (with [AOT](https://angular.io/guide/aot-compiler)) in `dist/` folder |
+| `npm run start:betaki`                          | Run the development server with the `betaki` brand package                                                       |
+| `npm run build:betaki`                          | Production build of the `betaki` brand into `dist/betaki/`                                                       |
 | `npm test`                                      | Run unit tests via [Karma](https://karma-runner.github.io) in watch mode                                         |
 | `npm run test:ci`                               | Lint code and run unit tests once for continuous integration                                                     |
 | `npm run e2e`                                   | Run e2e tests using [Cypress](https://www.cypress.io/)                                                           |
@@ -64,6 +66,23 @@ When building the application, you can specify the target configuration using th
 `--configuration <name>` (do not forget to prepend `--` to pass arguments to npm scripts).
 
 The default build configuration is `prod`.
+
+## Brands (white-label)
+
+Everything brand specific — configuration, theme, logos, legal pages, `index.html`, robots and
+sitemap — lives in `brands/<slug>/`, and the build picks one through the matching `angular.json`
+configuration. Environment and brand are two independent axes, combined on the command line:
+
+```bash
+ng build --configuration=production,betaki   # what `npm run build:betaki` runs
+ng serve --configuration=development,betaki  # what `npm run start:betaki` runs
+```
+
+`npm start` / `npm run build` without a brand still build the default (betaki) configuration.
+
+To add a brand, copy `brands/_template` and follow
+[`docs/white-label/02-como-criar-marca.md`](docs/white-label/02-como-criar-marca.md). The reasoning
+behind the mechanism is in [`docs/white-label/01-design.md`](docs/white-label/01-design.md).
 
 ## Development server
 
