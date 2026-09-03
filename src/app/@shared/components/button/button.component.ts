@@ -22,7 +22,6 @@ export type ButtonShape = 'rectangle' | 'pill' | 'circle';
 
 @Component({
   selector: 'app-button',
-  standalone: true,
   imports: [MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],

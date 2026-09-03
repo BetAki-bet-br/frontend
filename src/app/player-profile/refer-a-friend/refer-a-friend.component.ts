@@ -23,7 +23,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-refer-a-friend',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslateModule,

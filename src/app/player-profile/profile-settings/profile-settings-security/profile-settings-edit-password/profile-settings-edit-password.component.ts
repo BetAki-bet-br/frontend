@@ -45,7 +45,6 @@ interface PasswordResetForm {
   templateUrl: './profile-settings-edit-password.component.html',
   styleUrls: ['./profile-settings-edit-password.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     TranslateModule,

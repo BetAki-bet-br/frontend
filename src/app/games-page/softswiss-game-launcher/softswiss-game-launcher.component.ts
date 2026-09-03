@@ -11,7 +11,6 @@ interface SoftSwissLaunchData {
 }
 @Component({
   selector: 'app-softswiss-game-launcher',
-  standalone: true,
   template: `
     <div [id]="gameContainerId()" class="w-full h-full"></div>
     @if (!gameLaunched) {

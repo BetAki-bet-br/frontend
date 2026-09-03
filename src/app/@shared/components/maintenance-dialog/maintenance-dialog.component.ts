@@ -7,7 +7,6 @@ import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
   selector: 'app-maintenance-dialog',
   templateUrl: './maintenance-dialog.component.html',
   styleUrls: ['./maintenance-dialog.component.scss'],
-  standalone: true,
   imports: [DialogModule, BaseDialogComponent, CdnizePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
