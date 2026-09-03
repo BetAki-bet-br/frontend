@@ -5,14 +5,14 @@
         <mat-panel-title class="section-item-container nowrap">
           <div class="section-item">
             <div class="item-title">
-              {{ limitTypeName }}
+              {{ limitTypeName() }}
             </div>
           </div>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="section-item-container mt-6">
         <div class="section-item-collapsable">
-          <div class="subscriptions-item-label" [innerHTML]="description"></div>
+          <div class="subscriptions-item-label" [innerHTML]="description()"></div>
 
           <div class="section-actions align-baseline flex-wrap flex-col--lt-sm-2">
             <!-- TIME -->
@@ -25,7 +25,7 @@
                   hideSingleSelectionIndicator
                   #selectPeriod
                 >
-                  @for (item of timePeriods; track item) {
+                  @for (item of timePeriods(); track item) {
                     <mat-option [value]="item.value" translate>
                       {{ item.label | translate }}
                     </mat-option>

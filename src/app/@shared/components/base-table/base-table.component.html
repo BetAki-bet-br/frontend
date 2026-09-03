@@ -1,11 +1,11 @@
-@if (!tableData || tableData.length === 0) {
+@if (!tableData()?.length) {
   <div translate class="no-records-text">
-    {{ noRecordsText }}
+    {{ noRecordsText() }}
   </div>
 }
-@if (tableData && tableData.length > 0) {
+@if (tableData()?.length) {
   <table mat-table [dataSource]="dataSource" matSort [multiTemplateDataRows]="EnableExpandableRows">
-    @for (column of tableColumns; track column) {
+    @for (column of tableColumns(); track column) {
       <ng-container [matColumnDef]="column.name">
         <th
           mat-header-cell
@@ -90,11 +90,11 @@
     }
   </table>
 }
-@if (displayPaginator) {
+@if (displayPaginator()) {
   <mat-paginator
     [class.hide-paginator]="!paginatorVisibility"
     aria-label="Select page"
     [hidePageSize]="true"
-    [pageSize]="pageSize"
+    [pageSize]="pageSize()"
   />
 }

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject, input } from '@angular/core';
 import { TwentyFourDateFormat } from '@app/@core/date-formats';
 
 export interface FooterMySummaryData {
@@ -20,7 +20,7 @@ export interface FooterMySummaryData {
 export class FooterMySummaryComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
-  @Input() mySummaryData: FooterMySummaryData | undefined;
+  readonly mySummaryData = input<FooterMySummaryData>();
   dateFormat = TwentyFourDateFormat;
   sessionTime: string = '';
   private sessionInterval: any;
@@ -39,7 +39,7 @@ export class FooterMySummaryComponent implements OnInit, OnDestroy {
   }
 
   updateSessionTime() {
-    let diff = Math.floor(new Date().getTime() - new Date(this.mySummaryData?.currentSessionTime ?? '').getTime());
+    let diff = Math.floor(new Date().getTime() - new Date(this.mySummaryData()?.currentSessionTime ?? '').getTime());
     const hours = Math.floor(diff / (1000 * 60 * 60));
     diff -= hours * 1000 * 60 * 60;
     const minutes = Math.floor(diff / (1000 * 60));

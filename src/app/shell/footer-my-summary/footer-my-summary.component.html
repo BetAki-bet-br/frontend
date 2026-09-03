@@ -2,7 +2,7 @@
 <div class="my-summary-container flex justify-center">
   <div class="my-summary-data-container flex">
     <div class="my-summary-data-item flex">
-      <div class="value">{{ mySummaryData?.lastOnline | date: dateFormat }}</div>
+      <div class="value">{{ mySummaryData()?.lastOnline | date: dateFormat }}</div>
     </div>
 
     <div class="desktop-divider"></div>
@@ -16,7 +16,7 @@
     <div class="my-summary-data-item flex">
       <div class="label" translate>Wallet balance</div>
       <div class="value">
-        {{ mySummaryData?.balance }}
+        {{ mySummaryData()?.balance }}
       </div>
     </div>
   </div>

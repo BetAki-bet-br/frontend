@@ -1,5 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
-import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, input } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { Logger } from '@app/@shared/logger.service';
 import { AccountResolved } from '@app/@shared/models';
@@ -24,9 +24,9 @@ export class ProfileInfoSidenavComponent implements OnDestroy {
   private googleTagManagerServiceImpl = inject(GoogleTagManagerImplementationService);
   private router = inject(Router);
 
-  @Input() playerInfo: PlayerDetails | undefined = undefined;
-  @Input() loyaltyPoints: Loyalty | null = null;
-  @Input() balance: AccountResolved | null = null;
+  readonly playerInfo = input<PlayerDetails>();
+  readonly loyaltyPoints = input<Loyalty | null>(null);
+  readonly balance = input<AccountResolved | null>(null);
 
   private profileFulfilledSub = new Subscription();
 
@@ -35,10 +35,11 @@ export class ProfileInfoSidenavComponent implements OnDestroy {
   }
 
   getVipLevelPercent() {
-    if (this.loyaltyPoints && this.loyaltyPoints.pointsNeededForNextVIPLevel && this.loyaltyPoints.vipPointsInPeriod) {
-      return this.loyaltyPoints?.vipPointsInPeriod === 0
+    const loyaltyPoints = this.loyaltyPoints();
+    if (loyaltyPoints && loyaltyPoints.pointsNeededForNextVIPLevel && loyaltyPoints.vipPointsInPeriod) {
+      return loyaltyPoints?.vipPointsInPeriod === 0
         ? 1
-        : (this.loyaltyPoints?.vipPointsInPeriod / this.loyaltyPoints.pointsNeededForNextVIPLevel) * 100;
+        : (loyaltyPoints?.vipPointsInPeriod / loyaltyPoints.pointsNeededForNextVIPLevel) * 100;
     } else {
       return 1;
     }

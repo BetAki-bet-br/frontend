@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
@@ -9,9 +9,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
   imports: [MatProgressSpinner],
 })
 export class LoaderComponent {
-  @Input() isLoading = false;
-  @Input() size = 1;
-  @Input() message: string | undefined = '';
-
-  constructor() {}
+  readonly isLoading = input(false);
+  readonly size = input(1);
+  readonly message = input<string | undefined>('');
 }

@@ -1,5 +1,5 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, input } from '@angular/core';
 import {
   HeaderPromotionDialogComponent,
   HeaderPromotionDialogData,
@@ -41,7 +41,7 @@ export class HeaderPromotionItemComponent implements OnInit {
   private deviceService = inject(DeviceDetectorService);
   private bonusesService = inject(BonusesService);
   private destroyRef = inject(DestroyRef);
-  @Input() promotions: PromotionDetailsResolved[] = [];
+  readonly promotions = input<PromotionDetailsResolved[]>([]);
 
   private bonusHistory: PlayerBonusHistory[] = [];
   private isMobile: boolean = this.deviceService.isMobile() || this.deviceService.isTablet();
@@ -76,7 +76,7 @@ export class HeaderPromotionItemComponent implements OnInit {
       HeaderPromotionDialogData,
       HeaderPromotionDialogComponent
     >(HeaderPromotionDialogComponent, {
-      data: { promotion: this.promotions.find((value) => value.promotionId == id) },
+      data: { promotion: this.promotions().find((value) => value.promotionId == id) },
     });
     // on dialog closed
     dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {

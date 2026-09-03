@@ -1,4 +1,4 @@
-<div [class.button-container]="icon" class="language-selector-container">
+<div [class.button-container]="icon()" class="language-selector-container">
   <button
     [disabled]="!languages || languages.length <= 1"
     mat-icon-button
@@ -8,15 +8,15 @@
     class="header-dropdown-select"
     [disableRipple]="true"
   >
-    <div class="flex" [class]="icon ? 'justify-center items-center' : 'full-width justify-between'">
-      <div [class]="icon ? '' : 'flex gap-2.5'" class="flag-container">
+    <div class="flex" [class]="icon() ? 'justify-center items-center' : 'full-width justify-between'">
+      <div [class]="icon() ? '' : 'flex gap-2.5'" class="flag-container">
         <img
           alt="{{ currentLanguage?.nativeName }}"
           class="flag"
           [src]="'assets/general/flags/' + currentLanguage?.flagIconName | cdnize"
         />
-        @if (!icon) {
-          <div class="hidden" [class.lang-text]="!isLogin">
+        @if (!icon()) {
+          <div class="hidden" [class.lang-text]="!isLogin()">
             {{ currentLanguage?.englishName }}
           </div>
         }
@@ -32,7 +32,7 @@
 
 <mat-menu class="language-panel" #languageMenu="matMenu" xPosition="before" yPosition="above">
   <!-- Language container -->
-  <div class="header-dropdown-container" [class.header-dropdown-container-large]="sidenav">
+  <div class="header-dropdown-container" [class.header-dropdown-container-large]="sidenav()">
     @for (language of languages; track language) {
       <div class="header-dropdown-item-box" (click)="setLanguage(language.key)">
         <img

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { PlayerBonusResolved } from '@app/@shared/models';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,5 +14,5 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [TranslateModule, MatProgressBarModule, MatButtonModule, MatIconModule],
 })
 export class BonusActiveComponent {
-  @Input() bonusList: PlayerBonusResolved[] = [];
+  readonly bonusList = input<PlayerBonusResolved[]>([]);
 }

@@ -1,4 +1,4 @@
-import { Component, Input, booleanAttribute } from '@angular/core';
+import { Component, booleanAttribute, input } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -27,18 +27,18 @@ export type ButtonShape = 'rectangle' | 'pill' | 'circle';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
   host: {
-    '[class.w-full]': 'fullWidth',
+    '[class.w-full]': 'fullWidth()',
   },
 })
 export class ButtonComponent {
-  @Input() variant: ButtonVariant = 'primary';
-  @Input() size: ButtonSize = 'md';
-  @Input() shape: ButtonShape = 'rectangle';
-  @Input() overrideClass = '';
-  @Input({ transform: booleanAttribute }) fullWidth = false;
-  @Input({ transform: booleanAttribute }) loading = false;
-  @Input({ transform: booleanAttribute }) disabled = false;
-  @Input() type: 'button' | 'submit' | 'reset' = 'button';
+  readonly variant = input<ButtonVariant>('primary');
+  readonly size = input<ButtonSize>('md');
+  readonly shape = input<ButtonShape>('rectangle');
+  readonly overrideClass = input('');
+  readonly fullWidth = input(false, { transform: booleanAttribute });
+  readonly loading = input(false, { transform: booleanAttribute });
+  readonly disabled = input(false, { transform: booleanAttribute });
+  readonly type = input<'button' | 'submit' | 'reset'>('button');
 
   get classes(): string {
     // !important utilities might be needed to override Angular Material defaults depending on ViewEncapsulation
@@ -103,17 +103,18 @@ export class ButtonComponent {
       circle: 'rounded-full !p-2 aspect-square',
     };
 
-    const width = this.fullWidth ? 'w-full' : 'w-auto';
+    const width = this.fullWidth() ? 'w-full' : 'w-auto';
     const state =
-      this.disabled || this.loading ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer';
+      this.disabled() || this.loading() ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer';
 
     // Override size padding for circle shape to ensure it remains circular and centered
-    let sizeClass = sizes[this.size];
-    if (this.shape === 'circle') {
+    let sizeClass = sizes[this.size()];
+    const shape = this.shape();
+    if (shape === 'circle') {
       // Remove horizontal padding for circle to keep aspect ratio
       sizeClass = sizeClass.replace(/!px-\d+/g, '');
     }
 
-    return `${base} ${variants[this.variant]} ${sizeClass} ${shapes[this.shape]} ${width} ${state} ${this.overrideClass}`;
+    return `${base} ${variants[this.variant()]} ${sizeClass} ${shapes[shape]} ${width} ${state} ${this.overrideClass()}`;
   }
 }

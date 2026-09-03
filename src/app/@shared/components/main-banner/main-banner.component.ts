@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CurrentBannersData } from '@app/@core';
 import { DragScrollDirective } from '@app/@shared/directives/drag-scroll.directive';
 
@@ -10,7 +10,7 @@ import { DragScrollDirective } from '@app/@shared/directives/drag-scroll.directi
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainBannerComponent {
-  @Input() bannerData: CurrentBannersData | null = {
+  readonly bannerData = input<CurrentBannersData | null>({
     currentBannersLarge: [
       { template: '', content: {} },
       { template: '', content: {} },
@@ -19,13 +19,13 @@ export class MainBannerComponent {
       { template: '', content: {} },
       { template: '', content: {} },
     ],
-  };
+  });
 
   get bannersSmall() {
-    return this.bannerData?.currentBannersSmall;
+    return this.bannerData()?.currentBannersSmall;
   }
 
   get bannersLarge() {
-    return this.bannerData?.currentBannersLarge;
+    return this.bannerData()?.currentBannersLarge;
   }
 }

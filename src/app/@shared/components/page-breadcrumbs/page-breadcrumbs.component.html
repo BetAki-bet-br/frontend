@@ -1,5 +1,5 @@
 <div class="player-profile-header-wrapper">
-  @if (showTopBar) {
+  @if (showTopBar()) {
     <div class="player-profile-header" [class.logged-out]="!isLoggedIn">
       <div class="breadcrumbs-container">
         @for (item of breadcrumbsList; track item) {

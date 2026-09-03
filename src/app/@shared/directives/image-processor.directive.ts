@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnInit, Renderer2, inject } from '@angular/core';
+import { Directive, ElementRef, OnInit, Renderer2, inject, input } from '@angular/core';
 import { AssetsService } from '../assets.service';
 import { BRAND } from '@app/@core/brand';
 
@@ -11,8 +11,10 @@ export class ImageProcessorDirective implements OnInit {
   assetsService = inject(AssetsService);
   private readonly fallbackSrc = inject(BRAND).assets.logo;
 
-  @Input('appImageProcessor') imageSrc = '';
-  @Input() public styles: { [key: string]: string } = {};
+  readonly imageSrc = input('', { alias: 'appImageProcessor' });
+  public readonly styles = input<{
+    [key: string]: string;
+  }>({});
 
   public src = '';
   public imageLoading = true;
@@ -28,15 +30,16 @@ export class ImageProcessorDirective implements OnInit {
     this.renderer.listen(imageElement, 'load', this.handleImageOnLoad);
     this.renderer.listen(imageElement, 'error', this.handleImageOnError);
 
-    if (this.imageSrc) {
-      imageElement.src = this.imageSrc;
+    const imageSrc = this.imageSrc();
+    if (imageSrc) {
+      imageElement.src = imageSrc;
     } else {
       imageElement.src = this.src;
     }
 
     // Apply styles to the image element
-    Object.keys(this.styles).forEach((style) => {
-      this.renderer.setStyle(imageElement, style, this.styles[style]);
+    Object.keys(this.styles()).forEach((style) => {
+      this.renderer.setStyle(imageElement, style, this.styles()[style]);
     });
 
     this.renderer.appendChild(this.elementRef.nativeElement, imageElement);
@@ -45,7 +48,7 @@ export class ImageProcessorDirective implements OnInit {
   private handleImageOnLoad = () => {
     if (!this.imageLoading) return;
     this.imageLoading = false;
-    this.src = this.imageSrc;
+    this.src = this.imageSrc();
   };
 
   private handleImageOnError = () => {

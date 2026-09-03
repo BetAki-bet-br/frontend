@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, EventEmitter, Output, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, Output, inject, input } from '@angular/core';
 import { I18nService, LanguageConfig } from './i18n.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule, KeyValue } from '@angular/common';
@@ -21,11 +21,11 @@ export class LanguageSelectorComponent implements OnInit {
   private i18nService = inject(I18nService);
   translateService = inject(TranslateService);
 
-  @Input() isLogin = true;
-  @Input() icon = false;
-  @Input() sidenav = false;
-  @Input() fontSize = '0.875'; // default font-size 14px
-  @Input() fontColor = '#8B92AB'; // default color gray-blue-500
+  readonly isLogin = input(true);
+  readonly icon = input(false);
+  readonly sidenav = input(false);
+  readonly fontSize = input('0.875'); // default font-size 14px
+  readonly fontColor = input('#8B92AB'); // default color gray-blue-500
 
   @Output() menuClosedEvent = new EventEmitter<void>();
 

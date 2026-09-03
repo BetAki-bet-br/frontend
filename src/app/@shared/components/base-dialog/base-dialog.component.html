@@ -1,12 +1,12 @@
 <div
   class="fixed inset-0 z-50 flex bg-black/60 transition-opacity duration-300"
-  [class.p-4]="!isMobile || !fullscreenMobile"
-  [class.p-0]="isMobile && fullscreenMobile"
-  [class.items-start]="position === 'top'"
-  [class.items-center]="position === 'center'"
-  [class.items-end]="position === 'bottom' || position === 'bottom-right'"
-  [class.justify-center]="position !== 'bottom-right'"
-  [class.justify-end]="position === 'bottom-right'"
+  [class.p-4]="!isMobile || !fullscreenMobile()"
+  [class.p-0]="isMobile && fullscreenMobile()"
+  [class.items-start]="position() === 'top'"
+  [class.items-center]="position() === 'center'"
+  [class.items-end]="position() === 'bottom' || position() === 'bottom-right'"
+  [class.justify-center]="position() !== 'bottom-right'"
+  [class.justify-end]="position() === 'bottom-right'"
   [class.animate-leave-fadeOut]="closing()"
   (animationend)="onAnimationEnd($event)"
   (click)="closeDialog()"
@@ -17,8 +17,8 @@
 >
   <div
     class="relative flex flex-col bg-white overflow-hidden shadow-xl animate-enter-slide-down rounded-[1rem]!"
-    [class]="customClass"
-    [class.rounded-lg]="!isMobile || !fullscreenMobile"
+    [class]="customClass()"
+    [class.rounded-lg]="!isMobile || !fullscreenMobile()"
     [class.md:rounded-lg]="true"
     [style.width]="dialogStyleWidth"
     [style.height]="dialogStyleHeight"
@@ -35,34 +35,36 @@
     tabindex="-1"
     role="dialog"
   >
-    @if (displayCloseButton) {
+    @if (displayCloseButton()) {
       <button class="absolute top-0 right-0 mt-4 mr-4 text-gray-500 hover:text-gray-700 z-10" (click)="closeDialog()">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
     }
-    @if (displayTopBar) {
-      <div class="flex items-center justify-between p-4 flex-shrink-0" [class.flex-col]="displayLogo && title">
-        @if (displayLogo) {
+    @if (displayTopBar()) {
+      <div class="flex items-center justify-between p-4 flex-shrink-0" [class.flex-col]="displayLogo() && title()">
+        @if (displayLogo()) {
           <img alt="logo" class="h-10 w-auto" [src]="brandLogo | cdnize" />
         }
-        @if (title) {
-          <h2 class="text-xl md:text-2xl font-bold text-center" [class.mt-6]="displayLogo && title">{{ title }}</h2>
+        @if (title()) {
+          <h2 class="text-xl md:text-2xl font-bold text-center" [class.mt-6]="displayLogo() && title()">
+            {{ title() }}
+          </h2>
         }
       </div>
-    } @else if (title) {
-      <h2 class="text-xl md:text-2xl font-bold p-4 flex-shrink-0">{{ title }}</h2>
+    } @else if (title()) {
+      <h2 class="text-xl md:text-2xl font-bold p-4 flex-shrink-0">{{ title() }}</h2>
     }
 
-    <div class="p-4 sm:p-3 2xl:p-6 flex-grow overflow-y-auto overscroll-contain" [class]="innerDialogClass">
+    <div class="p-4 sm:p-3 2xl:p-6 flex-grow overflow-y-auto overscroll-contain" [class]="innerDialogClass()">
       <div class="h-full flex flex-col">
         <div [class.flex-grow]="hasDialogContent()">
           <ng-content select="[dialogContent]" />
         </div>
 
-        @if (showButton) {
-          <div class="base-dialog-button-wrapper mt-auto flex-shrink-0" [class]="customButtonClass">
+        @if (showButton()) {
+          <div class="base-dialog-button-wrapper mt-auto flex-shrink-0" [class]="customButtonClass()">
             <ng-content select="[dialogButtons]" />
           </div>
         }

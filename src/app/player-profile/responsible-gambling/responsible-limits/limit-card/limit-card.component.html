@@ -4,24 +4,24 @@
       <div class="flex">
         <span
           >{{ 'Limit type' | translate }}
-          <span class="limit-value">{{ limit?.limitType ?? '' | translate }}</span></span
+          <span class="limit-value">{{ limit()?.limitType ?? '' | translate }}</span></span
         >
       </div>
       <div class="flex">
         <span
           >{{ 'Currency' | translate }}
-          <span class="limit-value">{{ limit?.currencyResolved ?? '' | translate }}</span></span
+          <span class="limit-value">{{ limit()?.currencyResolved ?? '' | translate }}</span></span
         >
       </div>
     </div>
 
     <div class="flex flex-col right-align">
       <div class="flex">
-        <span [class.active]="limit?.limitStatus === 'Active'">{{
-          limit?.limitStatus ?? '' | translate | uppercase
+        <span [class.active]="limit()?.limitStatus === 'Active'">{{
+          limit()?.limitStatus ?? '' | translate | uppercase
         }}</span>
       </div>
-      @if (limit?.limitStatus === 'Pending') {
+      @if (limit()?.limitStatus === 'Pending') {
         <div class="flex">
           <div class="close-icon" matRipple mat-icon-button (click)="onLimitEdit()">
             <mat-icon>edit_note</mat-icon>
@@ -36,7 +36,7 @@
         {{ 'Limit' | translate }}
       </div>
       <div class="limit-value">
-        {{ limit?.limitResolved ?? '' }}
+        {{ limit()?.limitResolved ?? '' }}
       </div>
     </div>
 
@@ -45,7 +45,7 @@
         {{ 'Time left' | translate }}
       </div>
       <div class="limit-value">
-        {{ limit?.limitResolved ?? '' }}
+        {{ limit()?.limitResolved ?? '' }}
       </div>
     </div>
   </div>

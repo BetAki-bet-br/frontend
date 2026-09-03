@@ -18,12 +18,12 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
   OnInit,
   Output,
   Renderer2,
   ViewChild,
   inject,
+  input,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SnackbarService } from '@app/@core/snackbar.service';
@@ -56,12 +56,12 @@ export class FileUploadComponent implements OnInit {
   // Emits an array of strings when csv is either dropper or uploaded via browsing
   @Output() emitItems = new EventEmitter<FileList>();
   @Output() emitFileName = new EventEmitter<string>();
-  @Input() configuration: FileUploadConfiguration = {
+  readonly configuration = input<FileUploadConfiguration>({
     fileType: ['*'],
     maxFileSizeKB: 2000,
-  };
-  @Input() inputId: string = 'file';
-  @Input() isFileLoading: boolean = false;
+  });
+  readonly inputId = input<string>('file');
+  readonly isFileLoading = input<boolean>(false);
 
   progress = 0;
   filePresent = false;
@@ -69,14 +69,15 @@ export class FileUploadComponent implements OnInit {
   acceptedFileTypes = '';
 
   get fileTypesCsv(): string {
-    return this.configuration.fileType.join(', ');
+    return this.configuration().fileType.join(', ');
   }
 
   ngOnInit(): void {
-    if (this.configuration.maxFileSizeKB == null) {
-      this.configuration.maxFileSizeKB = 2000;
+    const configuration = this.configuration();
+    if (configuration.maxFileSizeKB == null) {
+      configuration.maxFileSizeKB = 2000;
     }
-    this.acceptedFileTypes = this.configuration.fileType.map((el) => '.' + el).join(',');
+    this.acceptedFileTypes = configuration.fileType.map((el) => '.' + el).join(',');
   }
 
   /**
@@ -103,15 +104,19 @@ export class FileUploadComponent implements OnInit {
    * @param files List of files to be read
    */
   fileLoad(files: FileList) {
-    if (!files || (this.configuration.maxFileSizeKB > 0 && files[0].size / 1000 > this.configuration.maxFileSizeKB)) {
+    if (
+      !files ||
+      (this.configuration().maxFileSizeKB > 0 && files[0].size / 1000 > this.configuration().maxFileSizeKB)
+    ) {
       this.snackbarService.openCustomError(this.translateService.instant('File exceeds max file size.'));
       return;
     }
 
+    const configuration = this.configuration();
     const fileExtension =
-      this.configuration.fileType.length === 1 && this.configuration.fileType[0] === '*'
+      configuration.fileType.length === 1 && configuration.fileType[0] === '*'
         ? '.*'
-        : this.configuration.fileType.join('|');
+        : configuration.fileType.join('|');
     const regex = RegExp(`^.+\.(${fileExtension})$`, 'i');
 
     // Add this if we ever need to check the file types on client side
@@ -141,7 +146,7 @@ export class FileUploadComponent implements OnInit {
         fileOutput = files.item(0);
       }
 
-      fileOutput.inputId = this.inputId;
+      fileOutput.inputId = this.inputId();
 
       // Items are emitted to parent component.
       this.emitItems.emit(fileOutput);

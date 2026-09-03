@@ -1,6 +1,6 @@
 <div class="bonuses-container">
   <div class="bonuses-wrapper">
-    @for (bonus of bonusList; track bonus) {
+    @for (bonus of bonusList(); track bonus) {
       <div class="bonus-item" [innerHTML]="bonus.templateActiveHtml"></div>
     }
   </div>

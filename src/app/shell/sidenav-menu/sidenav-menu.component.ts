@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, inject, input } from '@angular/core';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Logger } from '@app/@shared';
@@ -46,11 +46,11 @@ export class SidenavMenuComponent implements OnInit {
   private tawkToScriptService = inject(TawkToScriptService);
   private sidenavMenuService = inject(SidenavMenuService);
 
-  @Input() hideSidenav = false;
-  @Input() isSignedIn = false;
-  @Input() playerInfo: PlayerDetails | null = null;
-  @Input() loyaltyPoints: Loyalty | null = null;
-  @Input() balance: AccountResolved | null = null;
+  readonly hideSidenav = input(false);
+  readonly isSignedIn = input(false);
+  readonly playerInfo = input<PlayerDetails | null>(null);
+  readonly loyaltyPoints = input<Loyalty | null>(null);
+  readonly balance = input<AccountResolved | null>(null);
   @Output() sidenavStateChangeEvent = new EventEmitter<SidenavState>();
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
 

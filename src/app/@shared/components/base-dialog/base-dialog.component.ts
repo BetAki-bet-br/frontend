@@ -5,7 +5,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -38,19 +37,19 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
   private cdr = inject(ChangeDetectorRef);
   protected readonly brandLogo = inject(BRAND).assets.logo;
   size = input<'sm' | 'md' | 'lg' | 'xl'>('sm');
-  @Input() position: 'top' | 'center' | 'bottom' | 'bottom-right' = 'center';
-  @Input() title!: string;
-  @Input() width!: string;
-  @Input() height!: string;
-  @Input() customClass: string = '';
-  @Input() innerDialogClass: string = '';
-  @Input() displayCloseButton: boolean = false;
-  @Input() displayLogo: boolean = true;
-  @Input() showButton: boolean = true;
-  @Input() displayTopBar: boolean = true;
-  @Input() fullscreenMobile: boolean = true;
-  @Input() widthMobile!: string;
-  @Input() customButtonClass: string = '';
+  readonly position = input<'top' | 'center' | 'bottom' | 'bottom-right'>('center');
+  readonly title = input<string>();
+  readonly width = input<string>();
+  readonly height = input<string>();
+  readonly customClass = input<string>('');
+  readonly innerDialogClass = input<string>('');
+  readonly displayCloseButton = input<boolean>(false);
+  readonly displayLogo = input<boolean>(true);
+  readonly showButton = input<boolean>(true);
+  readonly displayTopBar = input<boolean>(true);
+  readonly fullscreenMobile = input<boolean>(true);
+  readonly widthMobile = input<string>();
+  readonly customButtonClass = input<string>('');
   isMobile: boolean = false;
 
   readonly defaultWidth: string = '486px';
@@ -107,15 +106,15 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
 
   get dialogStyleWidth(): string | null {
     if (this.isMobile) {
-      return this.widthMobile ?? '100%';
+      return this.widthMobile() ?? '100%';
     }
-    return this.width || (this.size() ? null : this.defaultWidth);
+    return this.width() || (this.size() ? null : this.defaultWidth);
   }
 
   get dialogStyleHeight(): string | null {
-    if (this.isMobile && this.fullscreenMobile) {
+    if (this.isMobile && this.fullscreenMobile()) {
       return '100%';
     }
-    return this.height || null;
+    return this.height() || null;
   }
 }

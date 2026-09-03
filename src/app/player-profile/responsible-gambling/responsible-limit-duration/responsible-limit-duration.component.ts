@@ -4,13 +4,13 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input,
   OnChanges,
   OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
   inject,
+  input,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlayerLimit, TimePeriod } from '@app/@shared/models';
@@ -66,12 +66,12 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
   private playerProfileService = inject(PlayerProfileService);
   private authDialogService = inject(AuthDialogService);
 
-  @Input() isSelfExclusion = false;
-  @Input() limitTypeName = marker('No title');
-  @Input() limitTypeDuration = '';
-  @Input() limit: PlayerLimit = {};
-  @Input() description = '';
-  @Input() timePeriods: TimePeriod[] = [];
+  readonly isSelfExclusion = input(false);
+  readonly limitTypeName = input(marker('No title'));
+  readonly limitTypeDuration = input('');
+  readonly limit = input<PlayerLimit>({});
+  readonly description = input('');
+  readonly timePeriods = input<TimePeriod[]>([]);
 
   @Output() updateLimit: EventEmitter<PlayerLimit> = new EventEmitter();
   @Output() deleteLimit: EventEmitter<number> = new EventEmitter();
@@ -90,9 +90,10 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
   private dialogSubscriptions: Subscription[] = [];
 
   ngOnInit(): void {
-    if (this.limit?.amountValue) {
+    const limit = this.limit();
+    if (limit?.amountValue) {
       this.form.patchValue({
-        time: this.limit.amountValue + '',
+        time: limit.amountValue + '',
       });
     }
 
@@ -112,7 +113,7 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
     const change = changes['limit'];
 
     if (change !== undefined) {
-      if (this.limit?.amountValue) {
+      if (this.limit()?.amountValue) {
         this.form.patchValue({
           time: change.currentValue?.amountValue,
         });
@@ -142,7 +143,7 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
     }
 
     const timeValue = this.form.get('time')?.value ?? '';
-    const timeItem = this.timePeriods.find((t) => t.value === timeValue);
+    const timeItem = this.timePeriods().find((t) => t.value === timeValue);
 
     // open dialog
     const dialogRef = this.dialog.open<PausePeriodDialogResult, PausePeriodDialogData, PausePeriodDialogComponent>(
@@ -150,7 +151,7 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
       {
         data: {
           limit: timeItem?.label ?? '',
-          isSelfExclusion: this.isSelfExclusion,
+          isSelfExclusion: this.isSelfExclusion(),
         },
         autoFocus: false,
       },
@@ -178,7 +179,7 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
     const time = timeValue.length > 0 ? +timeValue : -1;
 
     const playerSessionLimit: PlayerLimit = {
-      ...this.limit,
+      ...this.limit(),
       amountValue: time > -1 ? +time : null,
       amountLeft: time > -1 ? +time : null,
       reason: 'Player changed session limit',
@@ -192,6 +193,6 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
   }
 
   deleteLimitDuration() {
-    this.deleteLimit.emit(this.limit.id);
+    this.deleteLimit.emit(this.limit().id);
   }
 }

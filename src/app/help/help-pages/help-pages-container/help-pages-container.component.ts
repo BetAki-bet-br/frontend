@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-help-pages-container',
@@ -7,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./help-pages-container.component.scss'],
 })
 export class HelpPagesContainerComponent {
-  @Input() customClassName: string = '';
+  readonly customClassName = input<string>('');
 }

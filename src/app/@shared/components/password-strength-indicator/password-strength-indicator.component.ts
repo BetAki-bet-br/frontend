@@ -3,9 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
-  Input,
   OnInit,
   inject,
+  input,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl } from '@angular/forms';
@@ -23,15 +23,15 @@ import { TranslateModule } from '@ngx-translate/core';
 export class PasswordStrengthIndicatorComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
-  @Input() matInput?: MatInput;
-  @Input() customAdditionalWidth?: number;
+  readonly matInput = input<MatInput>();
+  readonly customAdditionalWidth = input<number>();
 
   control?: FormControl;
   passwordStrengthIndex?: number;
   strengthLabel?: string;
 
   ngOnInit(): void {
-    this.control = this.matInput?.ngControl.control as FormControl;
+    this.control = this.matInput()?.ngControl.control as FormControl;
     this.control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.updateValues();
     });

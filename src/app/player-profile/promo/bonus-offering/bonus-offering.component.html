@@ -1,12 +1,12 @@
 <div class="bonuses-container">
   <div class="bonuses-wrapper">
-    @for (bonus of bonusList; track bonus) {
+    @for (bonus of bonusList(); track bonus) {
       <div class="bonus-item" [innerHTML]="bonus.templateOffersHtml"></div>
     }
-    @for (banner of bannerList; track banner) {
+    @for (banner of bannerList(); track banner) {
       <div class="bonus-item" [innerHTML]="banner.templateHtml"></div>
     }
-    @if (!bannerList?.length && !bonusList.length) {
+    @if (!bannerList()?.length && !bonusList().length) {
       @for (skeleton of skeletons; track $index) {
         <div
           class="bonus-item flex flex-col rounded-[1.5rem] border border-shark-400 h-[30.875rem] overflow-hidden animate-pulse"

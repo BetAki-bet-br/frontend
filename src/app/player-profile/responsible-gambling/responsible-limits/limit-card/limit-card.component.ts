@@ -1,5 +1,5 @@
 import { UpperCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, input } from '@angular/core';
 import { PlayerLimit } from '@app/@shared/models';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatRippleModule } from '@angular/material/core';
@@ -14,10 +14,10 @@ import { MatIcon } from '@angular/material/icon';
   imports: [TranslateModule, UpperCasePipe, MatIcon, MatButtonModule, MatRippleModule],
 })
 export class LimitCardComponent {
-  @Input() limit: PlayerLimit | undefined;
+  readonly limit = input<PlayerLimit>();
   @Output() editClicked = new EventEmitter<PlayerLimit>();
 
   onLimitEdit() {
-    this.editClicked.emit(this.limit);
+    this.editClicked.emit(this.limit());
   }
 }

@@ -4,12 +4,12 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input,
   OnDestroy,
   OnInit,
   Output,
   inject,
   DestroyRef,
+  input,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -102,7 +102,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
   private datePipe = inject(DatePipe);
   private destroyRef = inject(DestroyRef);
 
-  @Input() matTabGroup?: MatTabGroup;
+  readonly matTabGroup = input<MatTabGroup>();
   @Output() profileChanged = new EventEmitter<{ playerInfoData: PlayerDetails | null; phoneVerification: string }>();
 
   breadcrumbs: Breadcrumbs[] = [

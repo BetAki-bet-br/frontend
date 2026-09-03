@@ -4,13 +4,13 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input,
   OnChanges,
   OnDestroy,
   OnInit,
   Output,
   SimpleChanges,
   inject,
+  input,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { DataStoreService } from '@app/@core';
@@ -46,8 +46,8 @@ export class PageBreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
   private router = inject(Router);
   private location = inject(Location);
 
-  @Input() breadcrumbs: Breadcrumbs[] = [];
-  @Input() showTopBar: boolean = true;
+  readonly breadcrumbs = input<Breadcrumbs[]>([]);
+  readonly showTopBar = input<boolean>(true);
   @Output() backButtonClicked = new EventEmitter<void>();
 
   breadcrumbsList: Breadcrumbs[] = [];
@@ -79,14 +79,15 @@ export class PageBreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
     if (changes['breadcrumbs']) {
       this.breadcrumbsList = [];
 
-      for (let i = 0; i < this.breadcrumbs.length; i++) {
-        if (i === this.breadcrumbs.length - 1) {
-          this.breadcrumbs[i].last = true;
+      for (let i = 0; i < this.breadcrumbs().length; i++) {
+        const breadcrumbs = this.breadcrumbs();
+        if (i === breadcrumbs.length - 1) {
+          breadcrumbs[i].last = true;
         }
 
-        this.breadcrumbsList.push(this.breadcrumbs[i]);
+        this.breadcrumbsList.push(breadcrumbs[i]);
 
-        if (i < this.breadcrumbs.length - 1) {
+        if (i < breadcrumbs.length - 1) {
           this.breadcrumbsList.push({
             icon: 'chevron_right',
             divider: true,

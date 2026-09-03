@@ -1,4 +1,4 @@
-@for (promotion of promotions; track promotion) {
+@for (promotion of promotions(); track promotion) {
   <div class="promotion-item-container" (click)="onPromotionClickMobile($event)">
     <div [innerHTML]="promotion.templateHtml"></div>
   </div>

@@ -9,10 +9,11 @@
     </div>
     <div class="flex gap-4 w-full">
       <div class="flex gap-4 items-center">
-        <span class="email-span">{{ playerInfo?.eMail }}</span>
+        <span class="email-span">{{ playerInfo()?.eMail }}</span>
       </div>
       <span class="balance-span"
-        >{{ balance?.totalBalance | number: '1.2' : dataStoreService.defaultLanguage }} {{ balance?.currency }}</span
+        >{{ balance()?.totalBalance | number: '1.2' : dataStoreService.defaultLanguage }}
+        {{ balance()?.currency }}</span
       >
     </div>
   </div>
@@ -22,11 +23,11 @@
     <div class="level-progress flex">
       <div class="flex level-threshold">
         <span
-          >Next Level:<span class="level-span">{{ loyaltyPoints?.nextVIPlevel }}</span></span
+          >Next Level:<span class="level-span">{{ loyaltyPoints()?.nextVIPlevel }}</span></span
         >
         <span class="points-value"
-          >{{ loyaltyPoints?.vipPointsInPeriod | number: '1.0-0'
-          }}<span class="grey-points-value"> / {{ loyaltyPoints?.pointsNeededForNextVIPLevel }} SP</span>
+          >{{ loyaltyPoints()?.vipPointsInPeriod | number: '1.0-0'
+          }}<span class="grey-points-value"> / {{ loyaltyPoints()?.pointsNeededForNextVIPLevel }} SP</span>
         </span>
       </div>
       <mat-progress-bar mode="determinate" [value]="getVipLevelPercent() | number: '1.2'" />

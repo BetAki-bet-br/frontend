@@ -5,7 +5,6 @@ import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   EventEmitter,
-  Input,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -14,6 +13,7 @@ import {
   TemplateRef,
   ViewChild,
   inject,
+  input,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '@app/@core';
@@ -85,8 +85,8 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
   @ViewChild('timeLeftTemplate', { static: true }) timeLeftTemplate?: TemplateRef<any>;
   @ViewChild('statusTemplate', { static: true }) statusTemplate?: TemplateRef<any>;
 
-  @Input() limits: PlayerLimit[] = [];
-  @Input() currencyCode = '';
+  readonly limits = input<PlayerLimit[]>([]);
+  readonly currencyCode = input('');
 
   @Output() refreshLimits: EventEmitter<any> = new EventEmitter();
 
@@ -342,7 +342,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
       item.limitType as any,
     );
 
-    return isDurationType ? this.translate.instant('hours') : this.currencyCode;
+    return isDurationType ? this.translate.instant('hours') : this.currencyCode();
   }
 
   getTimeLeft(record: null | string | undefined): string {
@@ -373,11 +373,9 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   private formatCurrencyLimit(item: PlayerLimit): string {
-    if (item.limitStatus === LimitStatusEnum.Pending) return `${item.amountLeft} ${this.currencyCode}`;
+    if (item.limitStatus === LimitStatusEnum.Pending) return `${item.amountLeft} ${this.currencyCode()}`;
 
-    return `${item.amountLeft} ${this.translate.instant('of')} ${item.amountValue} ${
-      this.currencyCode
-    } ${this.translate.instant('left')}`;
+    return `${item.amountLeft} ${this.translate.instant('of')} ${item.amountValue} ${this.currencyCode()} ${this.translate.instant('left')}`;
   }
 
   private formatDurationLimit(item: PlayerLimit): string {

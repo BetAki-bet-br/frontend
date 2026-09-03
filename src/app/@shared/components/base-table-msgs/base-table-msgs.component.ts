@@ -8,12 +8,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   OnChanges,
   Output,
   SimpleChanges,
   TemplateRef,
   ViewChild,
+  input,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -37,13 +37,13 @@ import { TableColumn, TableConfig, GenericDataModel } from '../base-table/base-t
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseTableMsgsComponent<T> implements OnChanges, AfterViewInit {
-  @Input() tableColumns?: TableColumn[];
-  @Input() tableData?: T[];
-  @Input() tableConfig?: TableConfig;
-  @Input() noRecordsText: string = marker('No transactions');
-  @Input() displayPaginator?: boolean = false;
-  @Input() pageSize?: number = 2;
-  @Input() expandEnabled = true;
+  readonly tableColumns = input<TableColumn[]>();
+  readonly tableData = input<T[]>();
+  readonly tableConfig = input<TableConfig>();
+  readonly noRecordsText = input<string>(marker('No transactions'));
+  readonly displayPaginator = input<boolean | undefined>(false);
+  readonly pageSize = input<number | undefined>(2);
+  readonly expandEnabled = input(true);
 
   @Output() rowExtended = new EventEmitter<GenericDataModel<T>>();
 
@@ -60,8 +60,9 @@ export class BaseTableMsgsComponent<T> implements OnChanges, AfterViewInit {
   paginatorVisibility = false;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['tableColumns'] && this.tableColumns) {
-      for (let column of this.tableColumns) {
+    const tableColumns = this.tableColumns();
+    if (changes['tableColumns'] && tableColumns) {
+      for (let column of tableColumns) {
         this.displayedColumns.push(column.name);
       }
 
@@ -72,8 +73,9 @@ export class BaseTableMsgsComponent<T> implements OnChanges, AfterViewInit {
       }
     }
 
-    if (changes['tableData'] && this.tableData) {
-      const tableDataMapped = this.tableData.map((o) => {
+    const tableData = this.tableData();
+    if (changes['tableData'] && tableData) {
+      const tableDataMapped = tableData.map((o) => {
         return {
           isExpanded: false,
           ...o,
@@ -82,29 +84,29 @@ export class BaseTableMsgsComponent<T> implements OnChanges, AfterViewInit {
       this.dataSource.data = [...tableDataMapped];
     }
 
-    this.paginatorVisibility = this.tableData?.length ? (this.displayPaginator ?? false) : false;
+    this.paginatorVisibility = tableData?.length ? (this.displayPaginator() ?? false) : false;
   }
 
   ngAfterViewInit() {
-    if (this.displayPaginator && this.dataSource && this.paginator) {
+    if (this.displayPaginator() && this.dataSource && this.paginator) {
       this.dataSource.paginator = this.paginator;
     }
   }
 
   get HideHeader() {
-    return !!this.tableConfig?.hideHeader;
+    return !!this.tableConfig()?.hideHeader;
   }
 
   get DisableSort() {
-    return !!this.tableConfig?.disableSort;
+    return !!this.tableConfig()?.disableSort;
   }
 
   get EnableExpandableRows() {
-    return !!this.tableConfig?.enableExpandableRows;
+    return !!this.tableConfig()?.enableExpandableRows;
   }
 
   get ExpandableRowTemplate() {
-    return this.tableConfig?.expandableRowTemplate ?? null;
+    return this.tableConfig()?.expandableRowTemplate ?? null;
   }
 
   /*
@@ -120,7 +122,7 @@ export class BaseTableMsgsComponent<T> implements OnChanges, AfterViewInit {
   */
 
   expandElement(element: GenericDataModel<T>) {
-    if (!this.expandEnabled) return;
+    if (!this.expandEnabled()) return;
 
     if (element) {
       element.isExpanded = !element.isExpanded;
