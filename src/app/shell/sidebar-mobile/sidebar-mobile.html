@@ -55,17 +55,17 @@
         >
           <div class="flex items-center justify-center size-[22px] relative">
             <div id="general/collect" class="text-menu-icon size-[22px]" style="display: inline-block">
-              @if (!isImageLoaded('betaki-icon')) {
+              @if (!isImageLoaded('brand-icon')) {
               <div class="absolute inset-0 bg-shark-900 rounded-full animate-pulse z-10"></div>
               }
               <img
                 class="mb-1 transition-opacity duration-300"
-                [class.opacity-0]="!isImageLoaded('betaki-icon')"
-                ngSrc="/assets/icons/betaki-icon.svg"
+                [class.opacity-0]="!isImageLoaded('brand-icon')"
+                [ngSrc]="brandIcon"
                 alt="Ao Vivo"
                 width="211"
                 height="198"
-                (load)="onImageLoad('betaki-icon')"
+                (load)="onImageLoad('brand-icon')"
               />
             </div>
           </div></button

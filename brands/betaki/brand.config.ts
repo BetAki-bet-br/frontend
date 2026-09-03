@@ -57,10 +57,11 @@ export const BRAND_CONFIG: BrandConfig = {
   },
 
   assets: {
-    logo: '/assets/brand/logo-green.svg',
+    logo: '/assets/brand/logo.png',
     logoWhite: '/assets/brand/logo-white.svg',
     logoColor: '/assets/brand/logo-white-color.svg',
     icon: '/assets/brand/icon-green.svg',
+    logoMobile: '/assets/brand/logo-mobile.webp',
     favicon: '/assets/brand/favicon.png',
   },
 

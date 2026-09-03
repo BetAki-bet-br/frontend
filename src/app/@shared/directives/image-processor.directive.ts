@@ -1,5 +1,6 @@
 import { Directive, ElementRef, Input, OnInit, Renderer2, inject } from '@angular/core';
 import { AssetsService } from '../assets.service';
+import { BRAND } from '@app/@core/brand';
 
 @Directive({
   selector: '[appImageProcessor]',
@@ -8,6 +9,7 @@ export class ImageProcessorDirective implements OnInit {
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
   assetsService = inject(AssetsService);
+  private readonly fallbackSrc = inject(BRAND).assets.logo;
 
   @Input('appImageProcessor') imageSrc = '';
   @Input() public styles: { [key: string]: string } = {};
@@ -16,7 +18,7 @@ export class ImageProcessorDirective implements OnInit {
   public imageLoading = true;
 
   constructor() {
-    this.src = '/assets/general/logo/betaki-logo.png';
+    this.src = this.fallbackSrc;
   }
 
   ngOnInit(): void {
@@ -47,6 +49,6 @@ export class ImageProcessorDirective implements OnInit {
   };
 
   private handleImageOnError = () => {
-    this.src = '/assets/general/logo/betaki-logo.png';
+    this.src = this.fallbackSrc;
   };
 }

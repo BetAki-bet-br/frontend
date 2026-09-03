@@ -14,6 +14,7 @@ import { MenuItem } from '../mobile-menu/menu-item.model';
 import { CdnizePipe } from '../../@pipes/cdnize.pipe';
 import { MenusService } from '@app/@core/backoffice';
 import { BannersService } from '@app/@core/backoffice';
+import { BRAND } from '@app/@core/brand';
 
 @Component({
   selector: 'app-sidebar-mobile',
@@ -107,8 +108,10 @@ export class SidebarMobile {
     { initialValue: [] },
   );
 
+  private readonly brand = inject(BRAND);
   protected RegisterIcon = 'assets/icons/register-icon.svg';
-  protected BetAkiWhiteIcon = '/assets/brand/logo-white.svg';
+  protected brandLogoWhite = this.brand.assets.logoWhite;
+  protected brandIcon = this.brand.assets.icon;
 
   constructor() {
     effect(() => {

@@ -4,6 +4,7 @@ import { GameMain } from '@app/games-page/models/game.models';
 import { AssetsService } from '@app/@shared/assets.service';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { BRAND } from '@app/@core/brand';
 
 @Component({
   selector: 'app-game-card',
@@ -15,6 +16,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 export class GameCard {
   private assetsService = inject(AssetsService);
   private readonly deviceDetectorService = inject(DeviceDetectorService);
+  protected readonly brandLogo = inject(BRAND).assets.logoMobile;
   private readonly isMobileOrTablet = this.deviceDetectorService.isMobile() || this.deviceDetectorService.isTablet();
 
   game = input.required<GameMain>();

@@ -17,7 +17,7 @@
   padding: 0;
   overflow: hidden;
   background-color: #ffff;
-  background-image: url("/assets/general/logo/betaki-logo.png");
+  background-image: url(#{theme-variables.$brand-logo-url});
   background-repeat: no-repeat;
   background-position: center;
   background-size: 24rem;

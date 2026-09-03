@@ -3,6 +3,7 @@ import { GameMain } from '@app/games-page/models/game.models';
 import { AssetsService } from '@app/@shared/assets.service'; // Import AssetsService
 import { NgOptimizedImage, NgClass, DecimalPipe } from '@angular/common'; // Import NgOptimizedImage
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { BRAND } from '@app/@core/brand';
 
 @Component({
   selector: 'app-awarded-game-card',
@@ -13,6 +14,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 export class AwardedGameCard {
   private assetsService = inject(AssetsService); // Inject AssetsService
   private deviceService = inject(DeviceDetectorService);
+  protected readonly brandLogo = inject(BRAND).assets.logoMobile;
 
   game = input.required<GameMain>();
   class = input<string>('');

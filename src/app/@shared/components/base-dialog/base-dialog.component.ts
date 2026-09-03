@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { AppBreakpoints } from '@app/@shared/app-breakpoints';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
+import { BRAND } from '@app/@core/brand';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -35,6 +36,7 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
   private dialogRef = inject<DialogRef<BaseDialogComponent>>(DialogRef);
   private breakpointObserver = inject(BreakpointObserver);
   private cdr = inject(ChangeDetectorRef);
+  protected readonly brandLogo = inject(BRAND).assets.logo;
   size = input<'sm' | 'md' | 'lg' | 'xl'>('sm');
   @Input() position: 'top' | 'center' | 'bottom' | 'bottom-right' = 'center';
   @Input() title!: string;

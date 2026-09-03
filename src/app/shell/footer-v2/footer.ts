@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
+import { BRAND } from '@app/@core/brand';
 
 interface Link {
   text: string;
@@ -41,6 +42,9 @@ interface SupportOption {
 })
 export class Footer {
   private readonly tawkMessengerService = inject(TawkToScriptService);
+  private readonly brand = inject(BRAND);
+
+  readonly brandLogo = this.brand.assets.logoColor;
   linkColumns: LinkColumn[] = [
     {
       title: 'Sobre a Bet Aki',

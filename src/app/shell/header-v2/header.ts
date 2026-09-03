@@ -10,6 +10,7 @@ import { ClickOutsideDirective } from '@app/@shared/directives/click-outside.dir
 import { RoutingService } from '@app/@shared/services/routing.service';
 import { FullscreenService } from '@app/@shared/services/fullscreen.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { BRAND } from '@app/@core/brand';
 
 interface RouteWithLabel {
   path: string;
@@ -50,8 +51,9 @@ export class Header {
   isGameMode = this.routingService.isIngame;
   isFullscrreen = this.fullscreenService.isFullscreen;
 
-  betakiLogo = 'assets/brand/logo-white.svg';
-  betakiMobileLogo = '/assets/icons/logo-white.webp';
+  private readonly brand = inject(BRAND);
+  brandLogo = this.brand.assets.logoWhite;
+  brandMobileLogo = this.brand.assets.logoMobile;
 
   goBack() {
     this.location.back();

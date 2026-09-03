@@ -34,7 +34,7 @@
     </div>
     <div class="bg-shark-700 h-px mt-6 mx-10"></div>
     <div class="flex flex-col xs:flex-row justify-center items-center mt-6 gap-5">
-      <img src="/assets/brand/logo-white-color.svg" alt="BetAki logo" class="h-10 w-auto" width="120" height="45" />
+      <img [src]="brandLogo" alt="Logo" class="h-10 w-auto" width="120" height="45" />
 
       <div class="socials flex flex-row items-center justify-center gap-3">
         @for (icon of socialIcons; track icon.src) {

@@ -6,6 +6,7 @@ import { SidebarService } from '@app/@shared/services/sidebar-mobile.service';
 import { CdnizePipe } from '../../@pipes/cdnize.pipe';
 import { NgOptimizedImage } from '@angular/common';
 import { MenuItem } from './menu-item.model';
+import { BRAND } from '@app/@core/brand';
 
 @Component({
   selector: 'app-mobile-menu',
@@ -17,6 +18,7 @@ export class MobileMenu {
   private readonly sidebarService = inject(SidebarService);
   private readonly fullscreenService = inject(FullscreenService);
   routingService = inject(RoutingService);
+  private readonly brand = inject(BRAND);
 
   readonly isFullscreen = this.fullscreenService.isFullscreen;
 
@@ -39,8 +41,8 @@ export class MobileMenu {
     },
     {
       label: 'Cassino',
-      icon: '/assets/icons/logo-white.webp',
-      iconActive: '/assets/icons/betaki-icon.svg',
+      icon: this.brand.assets.logoMobile,
+      iconActive: this.brand.assets.icon,
       routerLink: '/games',
       exact: false,
     },

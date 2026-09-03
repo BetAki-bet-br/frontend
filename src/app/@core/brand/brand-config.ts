@@ -76,10 +76,16 @@ export interface BrandConfig {
 
   /** Urls of the brand artwork, served from `brands/<slug>/assets` under `/assets/brand`. */
   assets: {
+    /** Primary logo on a light surface (dialogs, maintenance page, broken-image fallback). */
     logo: string;
+    /** Monochrome logo for dark surfaces (header, mobile sidebar). */
     logoWhite: string;
+    /** Full-colour logo for dark surfaces (footer). */
     logoColor: string;
+    /** Square mark, used where the full wordmark does not fit (mobile menu, mobile sidebar). */
     icon: string;
+    /** Compact wordmark for the mobile header and game-card placeholders. */
+    logoMobile: string;
     favicon: string;
   };
 

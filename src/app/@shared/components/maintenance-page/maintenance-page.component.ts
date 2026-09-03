@@ -13,6 +13,7 @@ import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 export class MaintenancePageComponent implements OnInit {
   private readonly brand = inject(BRAND);
 
+  protected readonly brandLogo = this.brand.assets.logo;
   instagramUrl: string = '';
 
   ngOnInit(): void {
