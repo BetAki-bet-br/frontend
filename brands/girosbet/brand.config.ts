@@ -42,7 +42,7 @@ export const BRAND_CONFIG: BrandConfig = {
 
   api: {
     // TODO(girosbet): placeholder — replace with GirosBet credentials
-    backofficeApiUrl: brandEnv({ dev: 'https://api.goatech.com.br', prod: '/backoffice' }),
+    backofficeApiUrl: brandEnv({ dev: 'http://localhost:8080', prod: '/backoffice' }),
     // TODO(girosbet): placeholder — replace with GirosBet credentials
     apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
     // TODO(girosbet): placeholder — replace with GirosBet credentials

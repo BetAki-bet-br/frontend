@@ -156,6 +156,27 @@ Em `package.json`, ao lado dos de `betaki`:
 "build:<slug>": "npm run write:env -s && ng build --configuration=production,<slug>"
 ```
 
+## Rodando com o CMS local
+
+O `api.backofficeApiUrl` de desenvolvimento das marcas aponta para `http://localhost:8080`, que é o
+backoffice Laravel rodando na máquina. Para levantá-lo, no repositório do backoffice:
+
+```bash
+docker compose up -d      # sobe app + banco em http://localhost:8080
+php artisan demo:seed     # catálogo de demonstração: jogos, categorias, provedores,
+                          # lobbies, menus, banners, carrosséis, ganhadores e premiações
+```
+
+O CORS do container só libera a origem `http://localhost:4200`, então o dev-server precisa subir
+nessa porta:
+
+```bash
+npx ng serve --configuration=<slug> --proxy-config proxy.conf.js --port 4200
+```
+
+O `proxy.conf.js` continua valendo para o portal gateway (`/api/portal/v1/*`) — o backoffice é
+chamado direto na URL absoluta do `brand.config.ts`, sem passar pelo proxy.
+
 ## 8. Build e verificação
 
 ```bash
