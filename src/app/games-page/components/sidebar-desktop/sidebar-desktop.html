@@ -52,10 +52,10 @@
       <button
         class="flex items-center p-2 gap-x-2 cursor-pointer rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80"
         [class]="item.class"
-        [class.bg-tournaments]="item.label === 'Torneios' || item.label === 'Club Bet Aki'"
+        [class.bg-tournaments]="item.label === 'Torneios' || isHighlighted(item)"
         [class.bg-fresh]="item.label === 'Lançamentos'"
         [class.bg-providers]="item.label === 'Provedores'"
-        [class.mb-1]="item.label === 'Club Bet Aki'"
+        [class.mb-1]="isHighlighted(item)"
         [class.justify-start]="!isCollapsed()"
         [class.justify-center]="isCollapsed()"
         (click)="navigateTo(item)"

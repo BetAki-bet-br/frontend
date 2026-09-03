@@ -9,6 +9,7 @@ import { MenusService } from '@app/@core/backoffice';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, of, tap } from 'rxjs';
 import { RoutingService } from '@app/@shared/services/routing.service'; // Added import
+import { BRAND } from '@app/@core/brand';
 
 @Component({
   selector: 'app-sidebar-desktop',
@@ -24,6 +25,7 @@ export class SidebarDesktop {
   private readonly menusService = inject(MenusService);
   private readonly router = inject(Router);
   private readonly routingService = inject(RoutingService); // Added injection
+  private readonly highlightedMenuLabels = inject(BRAND).features.highlightedMenuLabels;
   protected readonly isAuthenticated = this.sessionService.isAuthenticated();
   protected readonly playerDetails = signal<PlayerDetails | null>(null);
 
@@ -53,6 +55,11 @@ export class SidebarDesktop {
   );
 
   isCollapsed = signal(true);
+
+  /** Menu entries the brand wants promoted in the sidebar (loyalty club, tournaments, ...). */
+  protected isHighlighted(item: MenuItem): boolean {
+    return this.highlightedMenuLabels.includes(item.label);
+  }
 
   handleProfileClick() {
     !this.isCollapsed() && this.router.navigate(['/profile']);

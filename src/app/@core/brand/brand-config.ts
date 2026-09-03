@@ -92,6 +92,12 @@ export interface BrandConfig {
   features: {
     demoPlay: boolean;
     paymentTestMode: boolean;
+    /**
+     * Backoffice menu entries the brand wants promoted in the desktop sidebar — typically its
+     * loyalty club. The backoffice `Menu` model carries no highlight flag, so the brand names the
+     * entries instead; matched against `Menu.name` exactly.
+     */
+    highlightedMenuLabels: string[];
   };
 
   i18n: {

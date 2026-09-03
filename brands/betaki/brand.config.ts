@@ -68,6 +68,7 @@ export const BRAND_CONFIG: BrandConfig = {
   features: {
     demoPlay: false,
     paymentTestMode: true,
+    highlightedMenuLabels: ['Club Bet Aki'],
   },
 
   i18n: {
