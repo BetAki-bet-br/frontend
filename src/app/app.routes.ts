@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { brandTitle } from '@app/@core/brand';
 import { ShellComponent } from './shell/shell-common/shell.component';
 import { ingamePageResolver } from './games-page/ingame-page/ingame-page.resolver';
 import { privateAuthGuard } from './auth.guard';
@@ -22,7 +23,7 @@ export const appRoutes: Routes = [
       {
         path: 'game/:id',
         loadComponent: () => import('./games-page/ingame-page/ingame-page').then((m) => m.IngamePage),
-        title: 'Jogar - Bet Aki',
+        title: brandTitle('Jogar'),
         canActivate: [privateAuthGuard, playerStatusGuard],
         resolve: { data: ingamePageResolver },
       },

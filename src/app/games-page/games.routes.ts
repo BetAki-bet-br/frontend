@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { brandText, brandTitle } from '@app/@core/brand';
 import { allProvidersResolver } from '@app/games-page/all-providers-page/all-providers.resolver';
 import { AllProvidersPage } from '@app/games-page/all-providers-page/all-providers-page';
 import { categoryResolver } from '@app/games-page/games-list-by-category-page/category.resolver';
@@ -23,7 +24,7 @@ export const GAMES_ROUTES: Routes = [
   {
     path: '', // URL: /games
     component: GamesListPage,
-    title: 'Cassino - Bet Aki',
+    title: brandTitle('Cassino'),
     resolve: {
       categories: gameListCategoriesResolver,
       providers: providersResolver,
@@ -33,18 +34,18 @@ export const GAMES_ROUTES: Routes = [
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
     path: 'search',
     loadComponent: () => import('./search/search-page/search-page').then((m) => m.SearchPage),
-    title: 'Pesquisa de jogos - Bet Aki',
+    title: brandTitle('Pesquisa de jogos'),
     resolve: { placeholder: searchPlaceholderResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
@@ -52,22 +53,22 @@ export const GAMES_ROUTES: Routes = [
     loadComponent: () =>
       import('./games-list-by-category-page/games-list-by-category-page').then((m) => m.GamesListByCategoryPage),
     resolve: { category: recentGamesResolver },
-    title: 'Jogos Recentes - Bet Aki',
+    title: brandTitle('Jogos Recentes'),
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
     path: 'category/providers',
     loadComponent: () => import('./all-providers-page/all-providers-page').then((m) => m.AllProvidersPage),
-    title: 'Todos os Provedores - Bet Aki',
+    title: brandTitle('Todos os Provedores'),
     resolve: { providers: allProvidersResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
@@ -76,7 +77,7 @@ export const GAMES_ROUTES: Routes = [
     loadComponent: () =>
       import('./games-list-by-category-page/games-list-by-category-page').then((m) => m.GamesListByCategoryPage),
     resolve: { category: softswissCategoryResolver },
-    title: 'Softswiss Games - Bet Aki',
+    title: brandTitle('Softswiss Games'),
     data: {
       robots: ['noindex', 'nofollow'],
     },
@@ -86,41 +87,41 @@ export const GAMES_ROUTES: Routes = [
     loadComponent: () =>
       import('./games-list-by-category-page/games-list-by-category-page').then((m) => m.GamesListByCategoryPage),
     resolve: { category: categoryResolver },
-    title: 'Cassino por Categoria - Bet Aki',
+    title: brandTitle('Cassino por Categoria'),
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
     path: 'provider/:id',
     loadComponent: () =>
       import('./games-list-by-provider-page/games-list-by-provider-page').then((m) => m.GamesListByProviderPage),
-    title: 'Jogos por Provedor - Bet Aki',
+    title: brandTitle('Jogos por Provedor'),
     resolve: { provider: providerListGamesResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
     path: 'provider/multi/:ids', // New route for multiple providers
     loadComponent: () =>
       import('./games-list-by-provider-page/games-list-by-provider-page').then((m) => m.GamesListByProviderPage),
-    title: 'Jogos por Múltiplos Provedores - Bet Aki',
+    title: brandTitle('Jogos por Múltiplos Provedores'),
     resolve: { provider: multiProviderGamesResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
     path: 'live',
     loadComponent: () => import('./live-games-list-page/live-games-list-page').then((m) => m.LiveGamesListPage),
-    title: 'Cassino ao Vivo - Bet Aki',
+    title: brandTitle('Cassino ao Vivo'),
     resolve: {
       categories: liveGameListCategoriesResolver,
       providers: liveProvidersResolver,
@@ -130,18 +131,18 @@ export const GAMES_ROUTES: Routes = [
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
     path: 'live/search',
     loadComponent: () => import('./search/live-search-page/live-search-page').then((m) => m.LiveSearchPage),
-    title: 'Pesquisa de jogos - Bet Aki',
+    title: brandTitle('Pesquisa de jogos'),
     resolve: { placeholder: liveSearchPlaceholderResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
@@ -150,36 +151,36 @@ export const GAMES_ROUTES: Routes = [
       import('./live-games-list-by-category-page/live-games-list-by-category-page').then(
         (m) => m.LiveGamesListByCategoryPage,
       ),
-    title: 'Jogos Recentes - Bet Aki',
+    title: brandTitle('Jogos Recentes'),
     resolve: { category: recentGamesResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
     path: 'live/provider/:id',
     component: GamesListByProviderPage,
-    title: 'Jogos por Provedor Ao Vivo - Bet Aki',
+    title: brandTitle('Jogos por Provedor Ao Vivo'),
     resolve: { provider: providerListGamesResolver },
     data: {
       levelId: 520,
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
     path: 'live/category/providers',
     component: AllProvidersPage,
-    title: 'Todos os Provedores Ao Vivo - Bet Aki',
+    title: brandTitle('Todos os Provedores Ao Vivo'),
     resolve: { providers: allProvidersResolver },
     data: {
       levelId: 520,
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
   {
@@ -188,12 +189,12 @@ export const GAMES_ROUTES: Routes = [
       import('./live-games-list-by-category-page/live-games-list-by-category-page').then(
         (m) => m.LiveGamesListByCategoryPage,
       ),
-    title: 'Cassino ao Vivo por Categoria - Bet Aki',
+    title: brandTitle('Cassino ao Vivo por Categoria'),
     resolve: { category: liveCategoryResolver },
     data: {
       robots: ['index', 'follow'],
       title: 'Cassino - Roleta, caça-níqueis, cartas e muito mais! ',
-      description: 'Aposte no cassino da BetAki com super bônus.',
+      description: brandText('Aposte no cassino da {{brand}} com super bônus.'),
     },
   },
 ];
@@ -202,7 +203,7 @@ export const GAMES_ROOT_ROUTES: Routes = [
   {
     path: '',
     component: GamesPage,
-    title: 'Cassino - Bet Aki',
+    title: brandTitle('Cassino'),
     children: GAMES_ROUTES,
   },
 ];
