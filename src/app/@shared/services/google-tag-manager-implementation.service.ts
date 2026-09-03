@@ -1,9 +1,14 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, RendererFactory2, inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
+import { BRAND } from '@app/@core/brand';
 import { Logger } from '@app/@shared/logger.service';
 import { filter } from 'rxjs';
 
 const log = new Logger('App');
+
+/** Id of the injected container script, so a second `install()` is a no-op. */
+const GTM_SCRIPT_ID = 'gtm-container';
 
 declare global {
   interface Window {
@@ -99,12 +104,53 @@ export interface WithdrawalEvent extends GtmEvent {
 })
 export class GoogleTagManagerImplementationService {
   private router = inject(Router);
+  private readonly document = inject(DOCUMENT);
+  private readonly renderer = inject(RendererFactory2).createRenderer(null, null);
+  private readonly gtmId = inject(BRAND).integrations.gtmId;
 
   constructor() {
     window.dataLayer = window.dataLayer || [];
     this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       this.trackPageView(event.urlAfterRedirects);
     });
+  }
+
+  /**
+   * Loads the brand's Google Tag Manager container.
+   *
+   * Replaces the snippet that used to be inlined in `index.html`: the container id is brand
+   * configuration, so a brand without `integrations.gtmId` simply gets no tag manager. Called once
+   * from `AppStartupService`; calling it again does nothing.
+   */
+  install(): void {
+    if (!this.gtmId) {
+      log.debug('No GTM container configured for this brand');
+      return;
+    }
+    if (this.document.getElementById(GTM_SCRIPT_ID)) {
+      return;
+    }
+
+    // Same first event the official snippet pushes, before the container script loads.
+    window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+
+    const script = this.renderer.createElement('script');
+    script.id = GTM_SCRIPT_ID;
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(this.gtmId)}`;
+    this.renderer.appendChild(this.document.head, script);
+
+    // Parity with the snippet's `<noscript>` fallback. It never renders in a browser that got this
+    // far, but crawlers and copy/paste audits expect the iframe to be part of the container.
+    const noscript = this.renderer.createElement('noscript');
+    const iframe = this.renderer.createElement('iframe');
+    iframe.src = `https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(this.gtmId)}`;
+    iframe.height = '0';
+    iframe.width = '0';
+    iframe.style.display = 'none';
+    iframe.style.visibility = 'hidden';
+    this.renderer.appendChild(noscript, iframe);
+    this.renderer.insertBefore(this.document.body, noscript, this.document.body.firstChild);
   }
 
   pushGtmTag(tag: any) {
