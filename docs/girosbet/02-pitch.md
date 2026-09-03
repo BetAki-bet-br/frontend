@@ -47,6 +47,20 @@ A GirosBet entra como a segunda marca de um mecanismo replicável: um pacote por
 - CMS Laravel com API pública e autenticada, filas, S3, permissões por papel.
 - Tudo já em produção no BetAki: não é protótipo.
 
+## 4.1 Layout: trazer a v1 para dentro da label
+
+A identidade da GirosBet fica como está. O que muda é o layout da label, hoje herdado do BetAki, para ficar mais próximo da girosbet.io v1. Análise completa em `docs/design/01-benchmark.md`.
+
+- **Header escuro** com toggle Cassino / Esportes, busca inline e "Criar Conta" em magenta; o roxo volta a ser acento, não fundo.
+- **Sidebar da v1 de volta**: banner, tiles Cupom / Promo, atalhos, populares e suporte, alimentados pelo CMS; trilho de ícones quando colapsada.
+- **Topbar de cupom** fechável, vinda do CMS.
+- **Ticker de ganhos no topo**, rolando, como na v1.
+- **Hero menor** com CTA e selos regulatórios dentro do slide; catálogo visível na primeira tela.
+- **Chips de categoria com ícone** em todas as páginas e cabeçalho de seção com ícone, setas e "Ver todos".
+- **Cards com provedor e "Jogar agora" no hover**; provedores como card escuro com logo, contagem e botão.
+- **Mobile**: header enxuto, barra inferior com 5 itens e ícone da marca, grade de 4 por linha, conta na barra.
+- **Entrada única** (idade + cookies) no layout da v1 e rodapé regulatório completo.
+
 ## 5. Escopo e fases
 
 | Fase | Entrega | Critério de pronto | Prazo [ ] |
