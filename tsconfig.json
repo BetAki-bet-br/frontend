@@ -22,6 +22,7 @@
       "@shared": ["src/app/@shared"],
       "@shared/*": ["src/app/@shared/*"],
       "@env/*": ["src/environments/*"],
+      "@brand/*": ["brands/betaki/*"],
       "ngx-atl-pp-templates-shared": ["node_modules/@icore/ngx-atl-pp-templates-shared"],
       "ngx-atl-pp-templates-shared/*": ["node_modules/@icore/ngx-atl-pp-templates-shared/*"],
       "@icore/ngx-portalgateway-api-client-atl": ["node_modules/@icore/ngx-portalgateway-api-client-atl"],
@@ -31,7 +32,7 @@
     "useDefineForClassFields": false,
     "esModuleInterop": true
   },
-  "include": ["src/**/*.ts", "node_modules/@icore/**/*.ts"],
+  "include": ["src/**/*.ts", "brands/betaki/**/*.ts", "node_modules/@icore/**/*.ts"],
   "exclude": ["./cypress.config.ts", "src/**/*.spec.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
