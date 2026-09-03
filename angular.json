@@ -68,7 +68,7 @@
             "allowedCommonJsDependencies": [],
             "browser": "src/main.ts",
             "stylePreprocessorOptions": {
-              "includePaths": [".", "node_modules", "src"]
+              "includePaths": ["brands/betaki", ".", "node_modules", "src"]
             }
           },
           "configurations": {
@@ -184,7 +184,7 @@
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": [".", "node_modules", "src"]
+              "includePaths": ["brands/betaki", ".", "node_modules", "src"]
             },
             "scripts": [],
             "styles": ["src/main.scss"],

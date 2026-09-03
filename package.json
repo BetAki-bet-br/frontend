@@ -12,7 +12,7 @@
     "build:betaki": "npm run write:env -s && ng build --configuration=production,betaki",
     "build:stats": "ng build --named-chunks --stats-json",
     "analyze": "webpack-bundle-analyzer dist/stats.json",
-    "lint": "ng lint && stylelint \"src/**/*.scss\"",
+    "lint": "ng lint && stylelint \"src/**/*.scss\" \"brands/**/*.scss\"",
     "test": "npm run write:env -s && ng test",
     "test:ci": "npm run write:env -s && npm run lint -s && ng run angular-pp:test:ci",
     "e2e": "npm run write:env -s && ng e2e",
