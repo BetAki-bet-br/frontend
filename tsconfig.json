@@ -32,7 +32,7 @@
     "esModuleInterop": true
   },
   "include": ["src/**/*.ts", "node_modules/@icore/**/*.ts"],
-  "exclude": ["./cypress.config.ts", "src/**/*.spec.ts", "src/app/app.module.ts"],
+  "exclude": ["./cypress.config.ts", "src/**/*.spec.ts"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "fullTemplateTypeCheck": true,

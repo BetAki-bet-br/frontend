@@ -35,10 +35,8 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/apple-touch-icon.png",
               "src/robots.txt",
               "src/sitemap.xml",
-              "src/deploy-config.json",
               "src/assetslocal",
               "src/assets",
               "src/assetshtml",
@@ -84,10 +82,8 @@
               "sourceMap": true,
               "namedChunks": true,
               "assets": [
-                "src/apple-touch-icon.png",
                 "src/robots.txt",
                 "src/sitemap.xml",
-                "src/deploy-config.json",
                 "src/assets",
                 "src/assetslocal",
                 "src/assetshtml",
