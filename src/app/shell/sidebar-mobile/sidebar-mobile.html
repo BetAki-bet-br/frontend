@@ -8,7 +8,7 @@
   <div class="relative h-full w-full transition-container">
     <div class="grid gap-[10px] p-3">
       @if (bannerSidebarMobileTop()?.cover_url) {
-      <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
+      <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-brand-500">
         @if (!isImageLoaded('banner-sidebar-mobile-top')) {
         <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
         }
@@ -28,7 +28,7 @@
 
       <div class="flex w-full gap-2">
         <button
-          class="bg-betaki-darker from-menu-mxain20 to-menu-main0 group flex h-[42px] flex-1 cursor-pointer flex-col flex-wrap items-center justify-center rounded-[8px] hover:bg-gradient-to-r"
+          class="bg-brand-darker from-menu-mxain20 to-menu-main0 group flex h-[42px] flex-1 cursor-pointer flex-col flex-wrap items-center justify-center rounded-[8px] hover:bg-gradient-to-r"
           (click)="navigateTo('/')"
           (keyup.enter)="navigateTo('/')"
         >
@@ -49,7 +49,7 @@
             </div>
           </div></button
         ><button
-          class="bg-betaki-darker from-menu-mxain20 to-menu-main0 group flex h-[42px] flex-1 cursor-pointer flex-col flex-wrap items-center justify-center rounded-[8px] hover:bg-gradient-to-r"
+          class="bg-brand-darker from-menu-mxain20 to-menu-main0 group flex h-[42px] flex-1 cursor-pointer flex-col flex-wrap items-center justify-center rounded-[8px] hover:bg-gradient-to-r"
           (click)="navigateTo('/games')"
           (keyup.enter)="navigateTo('/games')"
         >
@@ -70,7 +70,7 @@
             </div>
           </div></button
         ><button
-          class="bg-betaki-darker from-menu-mxain20 to-menu-main0 group flex h-[42px] flex-1 cursor-pointer flex-col flex-wrap items-center justify-center rounded-[8px] hover:bg-gradient-to-r"
+          class="bg-brand-darker from-menu-mxain20 to-menu-main0 group flex h-[42px] flex-1 cursor-pointer flex-col flex-wrap items-center justify-center rounded-[8px] hover:bg-gradient-to-r"
           (click)="navigateTo('/games/live')"
           (keyup.enter)="navigateTo('/games/live')"
         >
@@ -95,9 +95,9 @@
 
       <div class="flex flex-col items-center gap-[10px] rounded-lg">
         @if (isLoadingMenu()) { @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
-        <div class="h-[40px] w-full bg-betaki-darker rounded-[8px] animate-pulse"></div>
+        <div class="h-[40px] w-full bg-brand-darker rounded-[8px] animate-pulse"></div>
         } } @else { @for (item of menuItems(); track $index) { @if ($index === 2 && bannerSidebarMobileBottom()?.cover_url) {
-        <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-betaki-500">
+        <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-brand-500">
           @if (!isImageLoaded('banner-sidebar-mobile-bottom')) {
           <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
           }
@@ -116,7 +116,7 @@
         }
 
         <div
-          class="bg-betaki-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px] cursor-pointer"
+          class="bg-brand-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px] cursor-pointer"
           [ngClass]="item.class"
           (click)="item.action ? item.action() : navigateToMenu(item)"
           (keyup.enter)="item.action ? item.action() : navigateToMenu(item)"

@@ -11,10 +11,10 @@
         [routerLink]="item.routerLink"
         [class.is-active]="isLinkActive(item)"
         class="flex flex-col items-center justify-center h-full w-17 xs:w-full pb-1 pt-1"
-        [class.bg-betaki-500]="item.routerLink === '/'"
+        [class.bg-brand-500]="item.routerLink === '/'"
         [class.border]="item.routerLink === '/'"
         [class.rounded-e-3xl]="item.routerLink === '/'"
-        [class.border-betaki-500]="item.routerLink === '/'"
+        [class.border-brand-500]="item.routerLink === '/'"
       >
         <img [src]="item.icon" [alt]="item.label" class="w-7 h-7" />
         @if (item.label) {

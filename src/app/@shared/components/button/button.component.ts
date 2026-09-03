@@ -47,13 +47,13 @@ export class ButtonComponent {
 
     const variants: Record<ButtonVariant, string> = {
       // Primary: The brand color (Lime Greenish)
-      primary: 'bg-betaki-500 !text-white hover:opacity-90 active:opacity-100 shadow-sm border border-transparent',
+      primary: 'bg-brand-500 !text-white hover:opacity-90 active:opacity-100 shadow-sm border border-transparent',
 
       // Secondary: Dark background (Shark 900)
       secondary: 'bg-shark-900! !text-white hover:bg-shark-800 border border-transparent',
 
       // Outline: Transparent with brand border, Black text
-      outline: 'bg-transparent! border-2 border-betaki-500 !text-black hover:bg-betaki-500! hover:!text-white',
+      outline: 'bg-transparent! border-2 border-brand-500 !text-black hover:bg-brand-500! hover:!text-white',
 
       // Ghost: Transparent background, White text
       ghost: 'bg-transparent! !text-white hover:bg-white/10',
@@ -63,7 +63,7 @@ export class ButtonComponent {
 
       // White: White background, Brand text (for dark backgrounds)
 
-      white: '!bg-white !text-betaki-500 hover:bg-gray-100 border border-transparent',
+      white: '!bg-white !text-brand-500 hover:bg-gray-100 border border-transparent',
 
       // Outline White: Off-white border/text (shark-50) - Based on "Entrar" header button
 
@@ -81,7 +81,7 @@ export class ButtonComponent {
 
       // Dark: Darker brand background (for sidebar/special actions)
 
-      dark: 'bg-betaki-darker !text-white hover:opacity-80 border border-transparent',
+      dark: 'bg-brand-darker !text-white hover:opacity-80 border border-transparent',
 
       // Outline Shark: Off-white border/text (shark-50) - For dark backgrounds/Header
 

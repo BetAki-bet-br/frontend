@@ -32,7 +32,7 @@
     <span
       class="inline-flex items-center px-3.5 py-2 rounded-full text-base font-bold bg-shark-950/50 text-shark-50/80 backdrop-blur-sm mb-2"
     >
-      <p class="text-betaki-400">{{ game().rtp }}%</p>
+      <p class="text-brand-400">{{ game().rtp }}%</p>
     </span>
     }
     <h2 class="text-3xl font-bold mb-2">{{ game().name }}</h2>
@@ -41,7 +41,7 @@
       @if (game().minBet; as minBet) {
       <div class="flex justify-between items-center text-base text-white/90">
         <span>Aposta mínima:</span>
-        <span class="text-base text-betaki-400 ml-2">{{ minBet | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+        <span class="text-base text-brand-400 ml-2">{{ minBet | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
       </div>
       } @if (game().volatility; as volatility) {
       <div class="flex justify-between items-center text-base text-white/90">
@@ -50,7 +50,7 @@
           @for (i of volatilityRange; track i) {
           <img
             [src]="i > volatility ? 'assets/general/icons/flame-white.svg' : 'assets/general/icons/flame.svg'"
-            class="w-5 h-5 text-betaki-500"
+            class="w-5 h-5 text-brand-500"
             [class.opacity-30]="i > volatility"
             alt="flame"
           />
@@ -63,7 +63,7 @@
     <a
       [routerLink]="'/game/' + game().externalId"
       (click)="onClose()"
-      class="w-full block bg-betaki-500 font-bold py-3 px-4 rounded-lg text-center text-lg"
+      class="w-full block bg-brand-500 font-bold py-3 px-4 rounded-lg text-center text-lg"
     >
       Jogar
     </a>

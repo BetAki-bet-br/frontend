@@ -25,10 +25,10 @@
     />
     @if (!isImageLoaded() && !imageLoadError()) {
     <div
-      class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 animate-pulse z-10 flex items-center justify-center"
+      class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-brand-500 animate-pulse z-10 flex items-center justify-center"
     >
       <svg
-        class="w-8 h-8 text-betaki-400 animate-spin"
+        class="w-8 h-8 text-brand-400 animate-spin"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -43,7 +43,7 @@
     </div>
     } @else if (!isImageLoaded() && imageLoadError()) {
     <div
-      class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 z-10 flex items-center justify-center"
+      class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-brand-500 z-10 flex items-center justify-center"
     >
       <img src="assets/icons/logo-white.webp" alt="Logo" class="w-1/2 h-1/2 object-contain" />
     </div>
@@ -65,7 +65,7 @@
       />
       @if (imageLoadError()) {
       <div
-        class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-betaki-500 z-10 flex items-center justify-center"
+        class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-brand-500 z-10 flex items-center justify-center"
       >
         <img src="assets/icons/logo-white.webp" alt="Logo" class="w-1/2 h-1/2 object-contain" />
       </div>
@@ -89,7 +89,7 @@
           <span
             class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-shark-950/50 text-shark-50/80 backdrop-blur-sm"
           >
-            <p class="text-betaki-400">{{ game().rtp }}%</p>
+            <p class="text-brand-400">{{ game().rtp }}%</p>
           </span>
         </div>
         }
@@ -104,7 +104,7 @@
         @if (game().minBet; as minBet) {
         <div class="flex justify-between items-center text-xs text-white leading-none">
           <span class="drop-shadow-md">Aposta mínima:</span>
-          <span class="text-betaki-400 drop-shadow-md">{{ minBet | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
+          <span class="text-brand-400 drop-shadow-md">{{ minBet | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</span>
         </div>
         } @if (game().volatility; as volatility) {
         <div class="flex justify-between items-center text-xs text-white leading-none">
