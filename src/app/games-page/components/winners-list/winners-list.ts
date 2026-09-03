@@ -196,7 +196,9 @@ export class WinnersList implements OnInit, OnDestroy {
 
   private mapToWinner(topWinner: TopWinner, game?: GameMain): Winner {
     if (!this.winnerNamesCache.has(topWinner.playerId)) {
-      this.winnerNamesCache.set(topWinner.playerId, this.generateRandomName());
+      // The backoffice fallback already masks the name; the portal gateway sends the real
+      // username, which must never reach the screen.
+      this.winnerNamesCache.set(topWinner.playerId, topWinner.displayName || this.generateRandomName());
     }
 
     return {

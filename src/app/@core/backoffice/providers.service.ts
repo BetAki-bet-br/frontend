@@ -48,7 +48,12 @@ export class ProvidersService {
           providers.map((p) => ({
             id: p.id,
             name: p.name || '',
-            gameCount: 0,
+            // The CMS ships the catalogue size as `game_count`.
+            gameCount: Number(p['game_count'] ?? 0),
+            // Absolute logo url when the CMS has artwork for the provider; the components fall
+            // back to the brand `cmsAssetsBaseUrl` path when it is null.
+            logoUrl: p.logoUrl ?? p.logo_url ?? null,
+            slug: p.slug ?? null,
           })),
         ),
         shareReplay(1),

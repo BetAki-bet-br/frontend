@@ -16,10 +16,16 @@ export class ProvidersList {
 
   providers = input.required<Provider[]>();
   categoryId = input.required<string | number>();
-  providerImageUrl(name: string): string {
-    if (!this.providers) return '';
-    const formattedName = name.toLowerCase().replace(/\s+/g, '-');
-    return `${this.cmsAssetsBaseUrl}/assets/general/providers/${formattedName}.svg`;
+  /**
+   * Provider logo: the absolute `logoUrl` from the CMS when it has one, otherwise the brand's
+   * CDN path derived from the provider slug (or its slugified name).
+   */
+  providerImageUrl(provider: Provider): string {
+    if (provider.logoUrl) {
+      return provider.logoUrl;
+    }
+    const slug = provider.slug || provider.name?.toLowerCase().replace(/\s+/g, '-') || '';
+    return `${this.cmsAssetsBaseUrl}/assets/general/providers/${slug}.svg`;
   }
 
   getProviderUrl(): string {
