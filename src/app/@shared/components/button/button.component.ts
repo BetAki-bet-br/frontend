@@ -70,14 +70,14 @@ export class ButtonComponent {
       'outline-white':
         'bg-transparent border border-shark-50 !text-shark-50 hover:bg-shark-100/20! hover:!text-shark-100 !font-medium !rounded-md',
 
-      // Neutral: Transparent background, Dark text (betaki-black100 #202400) - For Dialog actions
+      // Neutral: Transparent background, dark brand text (`--color-brand-ink`) - For Dialog actions
 
-      neutral: 'bg-transparent !text-[#202400] hover:bg-gray-100',
+      neutral: 'bg-transparent !text-brand-ink hover:bg-gray-100',
 
       // Outline Neutral: Transparent background, Dark border, Dark text - For Dialog actions
 
       'outline-neutral':
-        'bg-transparent border border-[#202400]/20 !text-[#202400] hover:bg-[#202400]/5 hover:border-[#202400]/40',
+        'bg-transparent border border-brand-ink/20 !text-brand-ink hover:bg-brand-ink/5 hover:border-brand-ink/40',
 
       // Dark: Darker brand background (for sidebar/special actions)
 

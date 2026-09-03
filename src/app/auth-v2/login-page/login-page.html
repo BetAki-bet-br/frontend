@@ -2,7 +2,7 @@
   <div class="w-1/2 flex flex-col bg-shark-900 rounded-l-[1rem] hidden lg:flex relative overflow-hidden">
     @if (!isBannerLoaded()) {
     <div
-      class="absolute inset-0 bg-[#272a31] border rounded-lg border-brand-500 animate-pulse z-10 flex items-center justify-center"
+      class="absolute inset-0 bg-surface-skeleton border rounded-lg border-brand-500 animate-pulse z-10 flex items-center justify-center"
     >
       <svg
         class="w-10 h-10 text-brand-400 animate-spin"
@@ -80,7 +80,7 @@
         <div class="relative">
           <input
             placeholder="E-mail ou CPF"
-            class="bg-[#EFF1F2]! p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+            class="bg-surface-auth! p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
             [class.border-red-500!]="
               form.get('username')?.invalid &&
               (form.get('username')?.touched || form.get('username')?.dirty)
@@ -117,7 +117,7 @@
           <input
             placeholder="Insira sua senha"
             autocomplete="current-password"
-            class="bg-[#EFF1F2]! p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+            class="bg-surface-auth! p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
             [class.border-red-500!]="
               form.get('password')?.invalid &&
               (form.get('password')?.touched || form.get('password')?.dirty)

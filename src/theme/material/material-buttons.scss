@@ -13,7 +13,7 @@
 
 // General mat button settings
 .mdc-button.mat-mdc-button-base {
-  font-family: Roboto, sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.6875rem;
   letter-spacing: 0.0563rem;
   line-height: 1.25rem;

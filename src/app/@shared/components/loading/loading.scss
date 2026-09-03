@@ -1,11 +1,13 @@
 .logo {
+  // The SVG paths inherit this through `currentColor`.
+  color: var(--color-brand-spinner);
   width: 100%;
   max-width: 256px;
   margin-bottom: 1rem;
 
   path {
     fill: transparent;
-    stroke: #bcd200;
+    stroke: currentcolor;
     stroke-width: 2;
     stroke-dasharray: 1000;
     stroke-dashoffset: 1000;
@@ -16,6 +18,6 @@
 @keyframes draw {
   to {
     stroke-dashoffset: 0;
-    fill: #bcd200;
+    fill: currentcolor;
   }
 }

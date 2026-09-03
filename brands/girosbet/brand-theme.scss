@@ -79,15 +79,38 @@
 
   // The GirosBet CTA radius is 12px.
   --custom-radius: 0.75rem;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-7, replacing hexes that used to be hardcoded in `src/`.
+  // -----------------------------------------------------------------------------------------
+
+  // Dark brand foreground on light surfaces: dialog action buttons, hairline dividers.
+  // BetAki paints these with its near-black olive; GirosBet uses a near-black purple.
+  --color-brand-ink: #120026;
+
+  // Dark brand fill sitting behind brand-coloured text (the withdrawal action panel):
+  // `--color-brand-400` magenta has to stay legible on it.
+  --color-brand-900: #2c0a4e;
+
+  // Darkest fill of the ramp: the "Depósito" call to action sitting on the brand header.
+  // It has to read as a distinct block on top of `--color-brand-500`.
+  --color-brand-950: #1d0435;
+
+  // Light surface behind the auth pages, the profile shell and form inputs. Tinted towards the
+  // brand purple so the light half of the app is not neutral grey.
+  --color-surface-auth: #f6f8ff;
+
+  // Placeholder block shown while a game thumbnail / panel is still loading. Matches the
+  // footer/card background so skeletons dissolve into the page.
+  --color-surface-skeleton: #120a26;
 }
 
 /*
- * `src/theme/theme.scss` hardcodes `font-family: Roboto, sans-serif` on `html, body`, so
- * `--font-sans` never actually reaches the page for any brand (BetAki's "Heveltica Neue" does not
- * apply either). Until that is fixed in `src/`, re-apply the brand family here: `src/main.scss`
- * loads `brand-theme` after `theme/theme`, so this rule wins at equal specificity.
+ * Tokens consumed only by hand-written CSS (`src/theme/*.scss`, component stylesheets) and never
+ * by a utility class. Tailwind tree-shakes `@theme` variables that no utility references, so these
+ * live in a `static` block to guarantee they reach `:root`.
  */
-html,
-body {
-  font-family: var(--font-sans);
+@theme static {
+  // Brand colour of the full-page loader and of the inline loading bar.
+  --color-brand-spinner: #e145ff;
 }

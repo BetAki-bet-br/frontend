@@ -25,7 +25,7 @@
     />
     @if (!isImageLoaded() && !imageLoadError()) {
     <div
-      class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-brand-500 animate-pulse z-10 flex items-center justify-center"
+      class="absolute inset-0 bg-surface-skeleton border-2 rounded-lg border-brand-500 animate-pulse z-10 flex items-center justify-center"
     >
       <svg
         class="w-8 h-8 text-brand-400 animate-spin"
@@ -43,7 +43,7 @@
     </div>
     } @else if (!isImageLoaded() && imageLoadError()) {
     <div
-      class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-brand-500 z-10 flex items-center justify-center"
+      class="absolute inset-0 bg-surface-skeleton border-2 rounded-lg border-brand-500 z-10 flex items-center justify-center"
     >
       <img [src]="brandLogo" alt="Logo" class="w-1/2 h-1/2 object-contain" />
     </div>
@@ -65,7 +65,7 @@
       />
       @if (imageLoadError()) {
       <div
-        class="absolute inset-0 bg-[#272a31] border-2 rounded-lg border-brand-500 z-10 flex items-center justify-center"
+        class="absolute inset-0 bg-surface-skeleton border-2 rounded-lg border-brand-500 z-10 flex items-center justify-center"
       >
         <img [src]="brandLogo" alt="Logo" class="w-1/2 h-1/2 object-contain" />
       </div>

@@ -94,4 +94,36 @@
 
   // Corner radius shared by the custom (non-Material) components.
   --custom-radius: 1rem;
+
+  // ---------------------------------------------------------------------------------------------
+  // Semantic surfaces and foregrounds.
+  // ---------------------------------------------------------------------------------------------
+
+  // Dark brand foreground on light surfaces: the `neutral` / `outline-neutral` button variants
+  // and the hairline divider in the profile modal. Keep it readable on white.
+  --color-brand-ink: #a21caf;
+
+  // Dark brand fill sitting behind brand-coloured text (the withdrawal action panel).
+  --color-brand-900: #a21caf;
+
+  // Darkest fill of the ramp: the "Depósito" call to action sitting on the brand header. It must
+  // stay legible against `--color-brand-500`.
+  --color-brand-950: #a21caf;
+
+  // Light surface behind the auth pages (`/auth/login`, `/auth/register`), the profile shell and
+  // the form inputs inside them.
+  --color-surface-auth: #a21caf;
+
+  // Placeholder block shown while a game thumbnail, carousel slide or panel is loading.
+  --color-surface-skeleton: #a21caf;
+}
+
+/*
+ * Tokens consumed only by hand-written CSS (`src/theme/*.scss` and component stylesheets), never
+ * by a utility class. Tailwind tree-shakes `@theme` variables that no utility references, so these
+ * have to live in a `static` block to be guaranteed to reach `:root`.
+ */
+@theme static {
+  // Brand colour of the full-page loader (`app-loading`) and of the inline loading bar.
+  --color-brand-spinner: #a21caf;
 }

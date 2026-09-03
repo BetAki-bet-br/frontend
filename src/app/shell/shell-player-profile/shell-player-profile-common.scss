@@ -48,7 +48,7 @@
   .profile-info-name {
     min-height: 1.5rem;
     font-size: 1rem;
-    font-family: Roboto, Arial, sans-serif;
+    font-family: var(--font-sans);
     line-height: 1.5rem;
     font-weight: bold;
     letter-spacing: -0.0156rem;
@@ -84,7 +84,7 @@
 
   .profile-account-balance-main {
     color: map.get(theme-variables.$app-custom-colors, "neutral-white");
-    font-family: Roboto, Arial, sans-serif;
+    font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 600;
     text-overflow: ellipsis;
@@ -92,7 +92,7 @@
 
   .profile-account-balance-currency {
     color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.5);
-    font-family: Roboto, Arial, sans-serif;
+    font-family: var(--font-sans);
     font-size: 1rem;
     letter-spacing: 0;
     line-height: 1.5rem;
@@ -128,7 +128,7 @@
     text-align: right;
     height: 1.8rem;
     color: map.get(theme-variables.$app-custom-colors, "neutral-white");
-    font-family: Roboto, Arial, sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: bold;
     letter-spacing: 0;
@@ -146,7 +146,7 @@
   .profile-account-balance-details-info {
     height: 1.8rem;
     color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-white"), $alpha: -0.5);
-    font-family: Roboto, Arial, sans-serif;
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     letter-spacing: 0;
     line-height: 1.125rem;

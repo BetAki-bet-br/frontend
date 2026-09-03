@@ -10,7 +10,7 @@
       @if (bannerSidebarMobileTop()?.cover_url) {
       <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-brand-500">
         @if (!isImageLoaded('banner-sidebar-mobile-top')) {
-        <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
+        <div class="absolute inset-0 bg-surface-skeleton animate-pulse z-10"></div>
         }
         <a [href]="bannerSidebarMobileTop()?.link_url" rel="noopener noreferrer">
           <img
@@ -99,7 +99,7 @@
         } } @else { @for (item of menuItems(); track $index) { @if ($index === 2 && bannerSidebarMobileBottom()?.cover_url) {
         <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-brand-500">
           @if (!isImageLoaded('banner-sidebar-mobile-bottom')) {
-          <div class="absolute inset-0 bg-[#272a31] animate-pulse z-10"></div>
+          <div class="absolute inset-0 bg-surface-skeleton animate-pulse z-10"></div>
           }
           <a [href]="bannerSidebarMobileBottom()?.link_url" rel="noopener noreferrer">
             <img

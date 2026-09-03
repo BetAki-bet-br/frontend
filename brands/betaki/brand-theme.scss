@@ -8,7 +8,9 @@
 
 @theme {
   --breakpoint-xs: 30rem;
-  --font-sans: "Heveltica Neue", sans-serif;
+
+  // BetAki loads Roboto from Google Fonts in `index.html`; this is what the page renders.
+  --font-sans: "Roboto", sans-serif;
   --font-display: "Heveltica Neue", sans-serif;
   --font-alt: "Inter", sans-serif;
   --color-accent-highlight: #e8fb20;
@@ -42,4 +44,33 @@
   --header-height-mobile: 55px;
   --winer-card-background: linear-gradient(135deg, var(--color-shark-950) 0%, var(--color-shark-900) 100%);
   --custom-radius: 1rem;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-7, replacing hexes that used to be hardcoded in `src/`.
+  // -----------------------------------------------------------------------------------------
+
+  // Dark brand foreground on light surfaces: dialog action buttons, hairline dividers.
+  --color-brand-ink: #202400;
+
+  // Dark brand fill sitting behind brand-coloured text (the withdrawal action panel).
+  --color-brand-900: #373a18;
+
+  // Darkest fill of the ramp: the "Depósito" call to action sitting on the brand header.
+  --color-brand-950: #353817;
+
+  // Light surface behind the auth pages, the profile shell and form inputs.
+  --color-surface-auth: #eff1f2;
+
+  // Placeholder block shown while a game thumbnail / panel is still loading.
+  --color-surface-skeleton: #272a31;
+}
+
+/*
+ * Tokens consumed only by hand-written CSS (`src/theme/*.scss`, component stylesheets) and never
+ * by a utility class. Tailwind tree-shakes `@theme` variables that no utility references, so these
+ * live in a `static` block to guarantee they reach `:root`.
+ */
+@theme static {
+  // Brand colour of the full-page loader and of the inline loading bar.
+  --color-brand-spinner: #bcd200;
 }

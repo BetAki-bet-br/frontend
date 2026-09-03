@@ -270,7 +270,7 @@
 }
 
 .form-input {
-  font-family: Roboto, sans-serif;
+  font-family: var(--font-sans);
 
   .mat-mdc-text-field-wrapper {
     background-color: map.get(vars.$app-custom-colors, neutral-100);
@@ -298,7 +298,7 @@
 
 .form-input-search {
   height: 3rem;
-  font-family: Roboto, sans-serif;
+  font-family: var(--font-sans);
 
   .mdc-text-field--outlined {
     border-radius: 0.375rem;
@@ -317,7 +317,7 @@
     .mat-mdc-form-field-infix {
       padding: 0.25rem 0;
       min-height: unset;
-      font-family: Roboto, sans-serif;
+      font-family: var(--font-sans);
     }
 
     .mdc-notched-outline__leading {
@@ -397,7 +397,7 @@
 
 .limit-input-suffix {
   color: color.adjust(map.get(vars.$app-custom-colors, "neutral-black"), $alpha: -0.51);
-  font-family: Roboto, sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.75rem;
 
   .mat-mdc-select {
@@ -742,7 +742,7 @@
     }
 
     &.error-border {
-      --mat-theme-error: #fd3f3f;
+      --mat-theme-error: #{map.get(vars.$app-custom-colors, "Betaki_error300")};
 
       .mdc-text-field--outlined .mdc-notched-outline .mdc-notched-outline__leading {
         border-radius: 0.4688rem 0 0 0.4688rem;
@@ -878,7 +878,7 @@
   }
 
   &.error-border {
-    --mat-theme-error: #fd3f3f;
+    --mat-theme-error: #{map.get(vars.$app-custom-colors, "Betaki_error300")};
 
     .mat-mdc-text-field-wrapper:not(.mdc-text-field--invalid) {
       .mdc-notched-outline__leading {

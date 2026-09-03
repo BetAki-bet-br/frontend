@@ -67,7 +67,7 @@
 
 .vip-program-description {
   .description-title-the {
-    font-family: Roboto, sans-serif;
+    font-family: var(--font-sans);
     color: map.get(theme-variables.$app-custom-colors, "neutral-10");
     font-size: 0.625rem;
     font-weight: 500;
@@ -75,7 +75,7 @@
   }
 
   .description-title {
-    font-family: Roboto, sans-serif;
+    font-family: var(--font-sans);
     font-size: 1.75rem;
     color: map.get(theme-variables.$app-custom-colors, "neutral-10");
     line-height: 2.25rem;
@@ -83,7 +83,7 @@
 
   .description-points {
     font-size: 0.875rem;
-    font-family: Roboto, sans-serif;
+    font-family: var(--font-sans);
     color: map.get(theme-variables.$app-custom-colors, "neutral-black");
     letter-spacing: -0.3px;
     line-height: 1.25rem;
@@ -127,7 +127,7 @@
 
   .cashback-container {
     font-size: 1.25rem;
-    font-family: Roboto, sans-serif;
+    font-family: var(--font-sans);
     letter-spacing: -0.24px;
     line-height: 1.8125rem;
 
@@ -157,7 +157,7 @@
   }
 
   .free-spin-prize {
-    font-family: Roboto, sans-serif;
+    font-family: var(--font-sans);
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.8125rem;

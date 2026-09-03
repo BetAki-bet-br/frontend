@@ -4,7 +4,7 @@
   width: 100%;
   height: 100%;
   background: radial-gradient(50% 50% at 50% 50%, rgb(255 255 255 / 5%) 0%, rgb(255 255 255 / 0%) 100%), #00141d;
-  font-family: Roboto, sans-serif;
+  font-family: var(--font-sans);
   display: flex;
   flex-direction: column;
   align-items: center;

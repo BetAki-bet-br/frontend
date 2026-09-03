@@ -84,7 +84,7 @@
               <div class="relative">
                 <input
                   placeholder="CPF"
-                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  class="bg-surface-auth p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
                   [class.border-red-500!]="
                     form.get('cpf')?.invalid && (form.get('cpf')?.touched || form.get('cpf')?.dirty)
                   "
@@ -136,7 +136,7 @@
               <div class="relative">
                 <input
                   placeholder="E-mail"
-                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  class="bg-surface-auth p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
                   [class.border-red-500!]="
                     form.get('email')?.invalid &&
                     (form.get('email')?.touched || form.get('email')?.dirty)
@@ -189,7 +189,7 @@
               <div class="relative">
                 <input
                   placeholder="Telefone"
-                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  class="bg-surface-auth p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
                   [class.border-red-500!]="
                     form.get('phone')?.invalid &&
                     (form.get('phone')?.touched || form.get('phone')?.dirty)
@@ -225,7 +225,7 @@
               <div class="relative">
                 <input
                   placeholder="Data de Nascimento (DD/MM/AAAA)"
-                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  class="bg-surface-auth p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
                   [class.border-red-500!]="
                     form.get('dateOfBirth')?.invalid &&
                     (form.get('dateOfBirth')?.touched || form.get('dateOfBirth')?.dirty)
@@ -268,7 +268,7 @@
               <div class="relative">
                 <input
                   placeholder="Senha"
-                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  class="bg-surface-auth p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
                   [class.border-red-500!]="
                     form.get('password')?.invalid &&
                     (form.get('password')?.touched || form.get('password')?.dirty)
@@ -311,7 +311,7 @@
               <div class="relative">
                 <input
                   placeholder="Confirme sua senha"
-                  class="bg-[#EFF1F2] p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
+                  class="bg-surface-auth p-3 rounded-lg w-full border border-transparent placeholder:text-gray-400"
                   [class.border-red-500!]="
                     form.hasError('passwordsMismatch') &&
                     (form.get('confirm-password')?.touched ||

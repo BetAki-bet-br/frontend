@@ -35,7 +35,7 @@
   letter-spacing: -0.3px;
 
   .browse-upload {
-    font-family: Roboto, sans-serif;
+    font-family: var(--font-sans);
     cursor: pointer;
     color: map.get(theme-variables.$app-custom-colors, "neutral-10");
     line-height: 1.25rem;

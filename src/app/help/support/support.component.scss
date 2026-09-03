@@ -100,7 +100,7 @@
     }
 
     & .contact-link {
-      font-family: Roboto, sans-serif;
+      font-family: var(--font-sans);
       color: map.get(theme-variables.$app-custom-colors, primary-300);
       font-size: 0.8125rem;
       font-weight: 500;

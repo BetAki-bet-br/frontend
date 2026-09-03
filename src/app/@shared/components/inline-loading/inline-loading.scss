@@ -9,7 +9,7 @@
 
 .loading-bar {
   height: 4px;
-  background-color: #bcd200;
+  background-color: var(--color-brand-spinner);
   animation: loading-animation 1.5s infinite;
 }
 

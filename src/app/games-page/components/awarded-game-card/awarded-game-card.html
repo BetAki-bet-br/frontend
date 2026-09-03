@@ -22,7 +22,7 @@
           (error)="imageLoadError.set(true)"
         />
         @if (imageLoadError()) {
-        <div class="absolute inset-0 bg-[#272a31] rounded-lg z-10 flex items-center justify-center">
+        <div class="absolute inset-0 bg-surface-skeleton rounded-lg z-10 flex items-center justify-center">
           <img [src]="brandLogo" alt="Logo" class="w-1/2 h-1/2 object-contain" />
         </div>
         }
@@ -65,7 +65,7 @@
           (error)="imageLoadError.set(true)"
         />
         @if (imageLoadError()) {
-        <div class="absolute inset-0 bg-[#272a31] rounded-lg z-10 flex items-center justify-center">
+        <div class="absolute inset-0 bg-surface-skeleton rounded-lg z-10 flex items-center justify-center">
           <img [src]="brandLogo" alt="Logo" class="w-1/2 h-1/2 object-contain" />
         </div>
         }
