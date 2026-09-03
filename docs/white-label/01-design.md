@@ -146,8 +146,9 @@ Uma instância Laravel por marca; `BRAND.api.backofficeApiUrl` por ambiente. Sem
 | WL-4 | Strings, logos, GTM, CDN, traduções via `BRAND` | `git grep -i "bet ?aki" src/app` só em comentários | ✅ feito |
 | WL-5 | `brands/_template` + `docs/white-label/02-como-criar-marca.md` (checklist de 1 página) | criar marca `demo` seguindo o doc leva minutos | ✅ feito |
 | WL-6 | `brands/girosbet` com paleta, fontes, logo placeholder, index, config com placeholders | `npm run build:girosbet` verde; screenshots das mesmas telas | ✅ feito |
+| WL-7 | Tirar de `src/` as cores e a fonte da BetAki que ainda estavam fixas: 6 tokens novos (`--color-brand-ink/900/950`, `--color-surface-auth/-skeleton`, `--color-brand-spinner`), `--font-sans` no lugar dos 23 `font-family: Roboto`, e o selo +18 virou `assets.ageBadge` da marca | PNGs da betaki (`/auth/login`, `/auth/register`, `/terms-and-conditions`) idênticos byte a byte antes/depois; `#869502`/`#bcd200`/`#202400`/`#0d0f03` zerados no CSS da girosbet | ✅ feito |
 
-Ordem: WL-0 → WL-1 → WL-2 → WL-3 → WL-4 → WL-5 → WL-6. Cada tarefa é um ou poucos commits na branch `white-label`.
+Ordem: WL-0 → WL-1 → WL-2 → WL-3 → WL-4 → WL-5 → WL-6 → WL-7. Cada tarefa é um ou poucos commits na branch `white-label`.
 
 ### O que WL-4 mudou além do previsto
 
@@ -162,12 +163,35 @@ Ordem: WL-0 → WL-1 → WL-2 → WL-3 → WL-4 → WL-5 → WL-6. Cada tarefa �
   `icons/betaki-icon.svg`) foram para `brands/betaki/assets`. O `sportsbook.component.scss` lê o
   caminho pelo `$brand-logo-url` de `brand-variables.scss`, porque SCSS não enxerga o config.
 
+### O que WL-7 mudou
+
+- **Tokens novos**, declarados pelas três marcas (betaki / girosbet): `--color-brand-ink`
+  (`#202400` / `#120026`), `--color-brand-900` (`#373a18` / `#2c0a4e`), `--color-brand-950`
+  (`#353817` / `#1d0435`), `--color-surface-auth` (`#eff1f2` / `#f6f8ff`),
+  `--color-surface-skeleton` (`#272a31` / `#120a26`) e `--color-brand-spinner`
+  (`#bcd200` / `#e145ff`).
+- `--color-brand-spinner` fica num bloco `@theme static`: ele só é lido por SCSS de componente,
+  que o Tailwind não escaneia, então sem `static` ele seria removido do `:root` por tree-shaking.
+- **Fonte**: `--font-sans` da betaki era a "Heveltica Neue" (fonte que não existe — caía na sans do
+  sistema), e o `src/theme/theme.scss` fixava `Roboto` em `html, body` de qualquer jeito. O token
+  agora diz `"Roboto", sans-serif` (o que de fato renderiza) e os 23 `font-family: Roboto` de
+  `src/theme` e dos SCSS de componente leem `var(--font-sans)`. A regra `html, body` que a girosbet
+  tinha no fim do `brand-theme.scss` saiu.
+- **Selo +18**: `src/assets/icons/agecap.svg` era lima e virou `brands/<slug>/assets/agecap.svg`,
+  endereçado por `assets.ageBadge`. `assets.logoSize` entrou junto, para o `NgOptimizedImage` do
+  header parar de avisar quando o logo da marca tem outra proporção.
+
 ### O que ainda não é por marca
 
 `src/translations/json/*.json` (par único, com `{{brand}}`), o `registerLocaleData` pt-BR de
 `src/main.ts`, os selos/patrocinadores em `src/assets/footer` e no `footer.html`, os ícones de
 categoria em `src/assets/general/icons` (têm `[BETAKI]` no `id` do SVG) e `src/static-pages/`
 (templates de e-mail e páginas estáticas, fora do build).
+
+Fora de `src/`, o pacote de terceiros `@icore/ngx-atl-pp-templates-shared` (usado pelo
+`src/theme/theme.scss`) traz os templates de CMS `.bki` com `#bcd200`, `#202400` e `#090b01`
+fixos — são as 8 últimas ocorrências de cor da BetAki no CSS de qualquer marca. Só some
+publicando uma versão nova da lib.
 
 ## 4. Critérios de aceite globais
 

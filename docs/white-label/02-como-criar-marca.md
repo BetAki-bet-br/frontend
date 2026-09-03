@@ -50,11 +50,13 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
   - `Betaki_lima-radiante`, `Betaki_success*` e `betaki-green*` são a cor primária da betaki com
     outro nome. Os nomes das chaves têm de ficar como estão (há ~25 `map.get` em `src/`), só os
     valores mudam.
-- `src/theme/theme.scss` fixa `font-family: Roboto, sans-serif` em `html, body`, então
-  `--font-sans` da marca **não** chega à página sozinho (a betaki também roda em Roboto, não na
-  "Heveltica Neue" que declara). Enquanto isso não for corrigido em `src/`, feche o buraco no
-  próprio pacote: `src/main.scss` carrega `brand-theme` depois de `theme/theme`, então uma regra
-  `html, body { font-family: var(--font-sans); }` no fim do `brand-theme.scss` ganha.
+- `--font-sans` chega sozinho à página: desde a WL-7 o `src/theme/theme.scss` aplica
+  `font-family: var(--font-sans)` em `html, body`. Declare a família no `@theme` e carregue a
+  webfont pelo `index.html` da marca — não repita a regra `html, body` no `brand-theme.scss`.
+- O bloco `@theme static` do fim do arquivo existe porque o Tailwind faz tree-shaking das
+  variáveis de `@theme` que nenhuma classe utilitária usa. `--color-brand-spinner` só é lido por
+  SCSS de componente (que o Tailwind não escaneia), então precisa ficar lá para chegar ao `:root`.
+  Qualquer token novo nessa situação vai no mesmo bloco.
 - `material-variables.scss` — paletas do Angular Material. Troque pelo menos o `500` de
   `$pp-palette` (deve casar com `--color-brand-500`) e a tabela `contrast`.
 - `$brand-logo-url` (em `brand-variables.scss`) precisa apontar para o mesmo arquivo de
@@ -67,9 +69,12 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
   (`logo-color.svg`, `icon.svg`), mas o que existe de verdade em `brands/betaki` é
   `logo-white-color.svg` e `icon-green.svg`. O nome do arquivo é livre — o que vale é o caminho em
   `assets.*` no `brand.config.ts`; copie o mapeamento da betaki se quiser as duas coisas casadas.
-- O `<img>` do header (`src/app/shell/header-v2/header.html`) declara `width="243" height="91"`
-  para o `NgOptimizedImage`. Um logo com outra proporção funciona (`h-8 w-auto` manda no tamanho
-  final), mas o Angular loga um aviso de aspect ratio em dev.
+- Desde a WL-7 o selo `agecap.svg` (+18) também é da marca (`assets.ageBadge`): recolora os três
+  `#BCD200` da cópia da betaki para a cor da marca — ele fica sobre `--color-surface-auth`, então
+  tem que ler em fundo claro.
+- O `<img>` do header usa `NgOptimizedImage` e lê o tamanho de `assets.logoSize` no
+  `brand.config.ts`. Copie o `width`/`height` reais do seu `logo-white.svg`: se a proporção
+  declarada não bater com o arquivo, o Angular loga um aviso de aspect ratio em dev.
 - `brands/<slug>/legal/` → servido em `/assetshtml`. São 8 fragmentos HTML; os nomes fazem parte do
   contrato com `src/app/help/help-pages/static-file-paths.ts`.
 - `brands/<slug>/index.html` — título, `<meta name="description">`, preconnects e a webfont da marca.
@@ -169,11 +174,10 @@ Checklist antes de considerar a marca pronta:
       compilado, não o de outra marca.
 - [ ] Nenhum magenta `#a21caf` sobrou no CSS: se sobrou, `brand-theme.scss` ficou com placeholder.
 - [ ] `grep -oi "#869502\|#bcd200\|#202400\|#0d0f03" dist/<slug>/browser/styles-*.css | sort | uniq -c` —
-      o que ainda aparecer é verde/oliva da betaki **fixado em `src/`**, não no seu pacote. Hoje
-      sobram: `#869502` ×3 (`src/theme/theme.scss` 528, 1197, 1218), `#bcd200` ×4
-      (`@shared/components/loading` e `inline-loading`) e `#202400` ×12
-      (`@shared/components/button/button.component.ts`, `header-v2/profile-modal`). Isso é dívida
-      de `src/`, não bloqueia a marca — mas anote.
+      desde a WL-7 `src/` não fixa mais nenhuma cor da betaki, então o esperado são só as 8
+      ocorrências que vêm do pacote de terceiros `@icore/ngx-atl-pp-templates-shared` (`#bcd200` ×4,
+      `#202400` ×2, `#090b01` ×2, nos templates de CMS `.bki`). Qualquer coisa além disso é cor da
+      betaki que voltou para `src/` — abra um bug.
 - [ ] `npm run start:<slug>` e conferir na tela: home, lobby ao vivo, login, cadastro, perfil e
       rodapé. Compare os screenshots com os da `betaki` — a estrutura tem que ser idêntica, só as
       cores e os logos mudam.
@@ -183,7 +187,8 @@ Checklist antes de considerar a marca pronta:
       servido continua com o valor antigo — dá pra confirmar com
       `curl -s localhost:<porta>/styles.css | grep <hex antigo>`).
 - [ ] Fontes: `getComputedStyle(document.body).fontFamily` no DevTools tem que ser a `--font-sans`
-      da marca. Se vier `Roboto`, falta a regra descrita no passo 3.
+      da marca. Se vier a família de outra marca, o `includePaths` do `angular.json` está na ordem
+      errada.
 - [ ] Páginas legais abrem em `/terms-and-conditions`, `/privacy-policy`, `/aml-policy`, `/rgl` e
       `/customer-support`.
 - [ ] Se a marca tem `gtmId`: abrir o DevTools e confirmar a requisição para
