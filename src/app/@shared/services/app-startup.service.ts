@@ -107,11 +107,7 @@ export class AppStartupService {
         if (description) {
           this.metaService.updateTag({ name: 'description', content: description });
         } else {
-          this.metaService.updateTag({
-            name: 'description',
-            content:
-              'A BetAki é uma casa de apostas esportivas regulamentada pelo Governo Federal. Aqui você encontra diversão com futebol, cassino e muito mais. Aposte com segurança e aproveite bônus exclusivos!',
-          });
+          this.metaService.updateTag({ name: 'description', content: this.brand.seo.description });
         }
       });
 

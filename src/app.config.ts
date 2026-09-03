@@ -4,6 +4,7 @@ import { provideRouter, withPreloading, PreloadAllModules } from '@angular/route
 import { appRoutes } from '@app/app.routes';
 import { provideTranslateService } from '@ngx-translate/core';
 import { environment } from '@env/environment';
+import { BRAND_CONFIG } from '@app/@core/brand';
 import { provideApi } from '@icore/ngx-portalgateway-api-client-atl';
 import { apiKeyInterceptor } from '@app/@shared/http/api-key.interceptor';
 import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angular/material/checkbox';
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
     provideTranslateService({
-      defaultLanguage: 'pt-BR',
+      defaultLanguage: BRAND_CONFIG.i18n.defaultLanguage,
     }),
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: materialFormDefaultOptions },
     { provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: materialCheckboxDefaultOptions },

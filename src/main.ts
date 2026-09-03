@@ -13,6 +13,8 @@ if (environment.production) {
   enableProdMode();
 }
 
+// Only pt-BR locale data is bundled: every brand shipped so far is Brazilian. A brand with a
+// different `i18n.defaultLanguage` has to register its own locale data here as well.
 registerLocaleData(localePt, 'pt-BR', localePtExtra);
 
 bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));
