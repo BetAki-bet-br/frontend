@@ -23,16 +23,16 @@
 
   <ng-container dialogButtons>
     <div class="flex w-full justify-end gap-4 mt-6">
-      <button type="submit" mat-stroked-button class="button-text-small label-dark flex-grow" (click)="onClose(false)">
+      <app-button class="flex-grow" variant="outline" fullWidth type="submit" (click)="onClose(false)">
         {{ 'Cancel' | translate }}
-      </button>
-      <button type="submit" mat-button class="button-text-small label-dark flex-grow" (click)="onClose(true)">
+      </app-button>
+      <app-button class="flex-grow" variant="primary" fullWidth type="submit" (click)="onClose(true)">
         @if (data.isSelfExclusion) {
           <span>{{ 'Authenticate' | translate }}</span>
         } @else {
           {{ 'Confirm' | translate }}
         }
-      </button>
+      </app-button>
     </div>
   </ng-container>
   <!-- <ng-container dialogButtons>

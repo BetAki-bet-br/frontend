@@ -1,8 +1,8 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DialogRef } from '@angular/cdk/dialog';
 import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
 
 export interface PlayerActivationDialogResult {
   closeEvent: 'signIn' | 'closeDialog';
@@ -14,7 +14,7 @@ export interface PlayerActivationDialogResult {
   templateUrl: './player-activation-dialog.component.html',
   styleUrls: ['./player-activation-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, TranslateModule, MatButtonModule],
+  imports: [BaseDialogComponent, TranslateModule, ButtonComponent],
 })
 export class PlayerActivationDialogComponent {
   dialogRef = inject<DialogRef<PlayerActivationDialogResult>>(DialogRef);

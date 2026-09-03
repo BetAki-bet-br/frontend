@@ -103,16 +103,18 @@
     </form>
   }
   @if (resetStep === 1) {
-    <button
-      [disabled]="registerForm.invalid"
-      mat-button
+    <app-button
+      class="confirm-button flex-grow"
+      variant="primary"
+      size="lg"
+      fullWidth
       type="submit"
-      class="button-text-xx-large label-dark flex flex-grow confirm-button"
+      [disabled]="registerForm.invalid"
       (click)="changePassword()"
     >
       {{ 'Create new password' | translate }}
       <app-loader class="loader" [isLoading]="isLoading" [size]="0.5" />
-    </button>
+    </app-button>
   }
   @if (resetStep === 2) {
     <div class="flex flex-col form-container items-center gap-8">
@@ -128,9 +130,9 @@
         }}</span
       >
       <span class="success-message">{{ 'Are you ready to have some fun?' | translate }}</span>
-      <button mat-button class="button-text-xx-large confirm-button label-dark flex flex-grow" routerLink="/sign-in">
+      <app-button class="confirm-button flex-grow" variant="primary" size="lg" fullWidth routerLink="/sign-in">
         <span translate>To login</span>
-      </button>
+      </app-button>
     </div>
   }
 

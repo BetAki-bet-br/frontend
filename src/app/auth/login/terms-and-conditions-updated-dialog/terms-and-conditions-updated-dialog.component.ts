@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { HelpService } from '@app/help/help.service';
@@ -16,7 +17,7 @@ export interface TermsAndConditionsUpdatedDialogResult {
   templateUrl: './terms-and-conditions-updated-dialog.component.html',
   styleUrls: ['./terms-and-conditions-updated-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, MatProgressSpinner, TranslateModule],
+  imports: [BaseDialogComponent, MatProgressSpinner, TranslateModule, ButtonComponent],
 })
 export class TermsAndConditionsUpdatedDialogComponent implements OnInit {
   private dialogRef = inject<DialogRef<TermsAndConditionsUpdatedDialogResult>>(DialogRef);

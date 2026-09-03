@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { PromotionTypeDtoEnum } from '@icore/ngx-portalgateway-api-client-atl';
@@ -21,7 +21,7 @@ export interface PromotionConfirmationDialogResult {
   selector: 'app-promotion-confirmation-dialog',
   templateUrl: './promotion-confirmation-dialog.component.html',
   styleUrls: ['./promotion-confirmation-dialog.component.scss'],
-  imports: [MatButtonModule, TranslateModule, UpperCasePipe, BaseDialogComponent],
+  imports: [TranslateModule, UpperCasePipe, BaseDialogComponent, ButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromotionConfirmationDialogComponent implements OnInit {

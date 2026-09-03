@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { DialogRef, DialogModule } from '@angular/cdk/dialog'; // Added DialogModule
 // Added CommonModule
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
@@ -9,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
   selector: 'app-adblocker-dialog',
   templateUrl: './adblocker-dialog.component.html',
   styleUrls: ['./adblocker-dialog.component.scss'],
-  imports: [DialogModule, MatButtonModule, TranslateModule, BaseDialogComponent],
+  imports: [DialogModule, TranslateModule, BaseDialogComponent, ButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdblockerDialogComponent {

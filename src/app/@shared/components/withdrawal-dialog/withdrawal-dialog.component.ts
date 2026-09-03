@@ -1,17 +1,17 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 import { MatIcon } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-withdrawal-dialog',
   templateUrl: './withdrawal-dialog.component.html',
   styleUrls: ['./withdrawal-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, MatIcon, TranslateModule, MatButtonModule],
+  imports: [BaseDialogComponent, MatIcon, TranslateModule, ButtonComponent],
 })
 export class WithdrawalDialogComponent implements OnInit {
   private dialogRef = inject<DialogRef<WithdrawalDialogComponent>>(DialogRef);

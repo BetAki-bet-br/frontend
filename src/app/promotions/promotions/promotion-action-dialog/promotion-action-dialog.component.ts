@@ -1,4 +1,4 @@
-import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { ActionType } from '../../promotions.models';
@@ -20,7 +20,7 @@ export interface PromotionActionDialogData {
   templateUrl: './promotion-action-dialog.component.html',
   styleUrls: ['./promotion-action-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BaseDialogComponent, MatIcon, MatButtonModule, TranslateModule, UpperCasePipe],
+  imports: [BaseDialogComponent, MatIcon, TranslateModule, UpperCasePipe, ButtonComponent],
 })
 export class PromotionActionDialogComponent implements OnInit {
   private dialogRef = inject<DialogRef<PromotionActionDialogComponent>>(DialogRef);

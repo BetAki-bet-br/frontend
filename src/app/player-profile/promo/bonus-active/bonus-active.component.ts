@@ -3,7 +3,6 @@ import { PlayerBonusResolved } from '@app/@shared/models';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -11,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './bonus-active.component.html',
   styleUrls: ['./bonus-active.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslateModule, MatProgressBarModule, MatButtonModule, MatIconModule],
+  imports: [TranslateModule, MatProgressBarModule, MatIconModule],
 })
 export class BonusActiveComponent {
   readonly bonusList = input<PlayerBonusResolved[]>([]);

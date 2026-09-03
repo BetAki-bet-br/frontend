@@ -26,22 +26,22 @@
   <div dialogButtons>
     @if (data.success || data.withdrawalDisabled) {
       <div class="flex items-center w-full justify-center gap-4">
-        <button mat-button class="button-text-small label-dark" (click)="toSportsbook()">
+        <app-button variant="primary" (click)="toSportsbook()">
           {{ 'To Esports' | translate }}
-        </button>
-        <button mat-stroked-button class="button-text-small label-dark" (click)="toGames()">
+        </app-button>
+        <app-button variant="outline" (click)="toGames()">
           {{ 'To Casino' | translate }}
-        </button>
+        </app-button>
       </div>
     }
     @if (!data.success && !data.withdrawalDisabled) {
       <div class="flex items-center w-full justify-center gap-4">
-        <button mat-button class="button-text-small label-dark" (click)="confirm()">
+        <app-button variant="primary" (click)="confirm()">
           {{ 'Make a new withdrawal' | translate }}
-        </button>
-        <button mat-stroked-button class="button-text-small label-dark" (click)="toProfile()">
+        </app-button>
+        <app-button variant="outline" (click)="toProfile()">
           {{ 'Cancel' | translate }}
-        </button>
+        </app-button>
       </div>
     }
   </div>

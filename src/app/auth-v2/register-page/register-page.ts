@@ -15,7 +15,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { UsernameOrEmailTakenValidator } from '@app/@shared/validators/username-or-email-taken.validator';
@@ -54,7 +53,6 @@ interface NavigatorWithDeviceMemory extends Navigator {
     NgxMaskDirective,
     CdnizePipe,
     TranslateModule,
-    MatButtonModule,
     NgOptimizedImage,
     ButtonComponent,
   ],
@@ -80,7 +78,6 @@ export class RegisterPage {
   registerError = signal<string | null>(null);
   isBannerLoaded = signal(false);
   isInnerBannerLoaded = signal(false);
-
 
   registerBannerDesktop = toSignal(
     this.bannerService.getBanners({ q: 'banner-registro' }).pipe(

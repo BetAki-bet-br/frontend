@@ -25,7 +25,6 @@ import { LoaderComponent } from '@app/@shared/loader/loader.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import {
   Breadcrumbs,
   PageBreadcrumbsComponent,
@@ -64,7 +63,6 @@ const log = new Logger('LoginPageComponent');
     MatInputModule,
     NgxMaskDirective,
     MatIconModule,
-    MatButtonModule,
     NgOptimizedImage,
     ButtonComponent,
   ],

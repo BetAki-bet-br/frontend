@@ -136,10 +136,10 @@
 
       <!-- Submit button -->
       <div class="form-buttons-wrapper">
-        <button mat-button type="submit" class="submit-form-button button-text-small label-dark flex-grow" translate>
-          SUBMIT
+        <app-button class="submit-form-button flex-grow" variant="primary" fullWidth type="submit">
+          <span translate>SUBMIT</span>
           <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
-        </button>
+        </app-button>
       </div>
       <!-- <button mat-button  class="button-larger-text login-button area-container mt-16">
               <span *ngIf="!isDataLoading" class="login-button-text mr-8" translate>SUBMIT</span>

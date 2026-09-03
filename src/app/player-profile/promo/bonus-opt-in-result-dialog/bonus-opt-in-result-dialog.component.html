@@ -29,13 +29,13 @@
     }
   </div>
   <div dialogButtons class="button-container">
-    <button mat-button class="button-text-small label-dark flex-grow" [disabled]="isLoading" (click)="onOkClick()">
+    <app-button class="flex-grow" variant="primary" fullWidth [disabled]="isLoading" (click)="onOkClick()">
       @if (isLoading) {
         <mat-spinner diameter="24" />
       }
       @if (!isLoading) {
         <span translate>OK</span>
       }
-    </button>
+    </app-button>
   </div>
 </app-base-dialog>

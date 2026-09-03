@@ -7,12 +7,12 @@
 
   <ng-container dialogButtons>
     <div class="flex items-center w-full justify-center gap-4">
-      <button mat-stroked-button class="button-text-small label-dark" (click)="cancel()">
+      <app-button variant="outline" (click)="cancel()">
         {{ 'Cancel' | translate }}
-      </button>
-      <button mat-button class="button-text-small label-dark" (click)="confirm()">
+      </app-button>
+      <app-button variant="primary" (click)="confirm()">
         {{ 'Authenticate' | translate }}
-      </button>
+      </app-button>
     </div>
   </ng-container>
 </app-base-dialog>

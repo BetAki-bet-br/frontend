@@ -27,7 +27,6 @@ import { SnackbarService } from '@app/@core/snackbar.service';
 import { MatTabGroup, MatTab, MatTabsModule } from '@angular/material/tabs';
 import { ResponsibleLimitsComponent } from './responsible-limits/responsible-limits.component';
 import { ResponsibleLimitDurationComponent } from './responsible-limit-duration/responsible-limit-duration.component';
-import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
 const log = new Logger('ResponsibleGamblingComponent');
@@ -39,7 +38,6 @@ const log = new Logger('ResponsibleGamblingComponent');
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatTabsModule,
-    MatButtonModule,
     MatInputModule,
     PageBreadcrumbsComponent,
     ResponsibleLimitsComponent,

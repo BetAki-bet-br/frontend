@@ -9,13 +9,13 @@
 
   <ng-container dialogButtons>
     <div class="flex gap-4">
-      <button mat-stroked-button class="button-text-small label-dark flex-grow" (click)="cancel()">
+      <app-button class="flex-grow" variant="outline" fullWidth (click)="cancel()">
         <span translate>Cancel</span>
-      </button>
+      </app-button>
 
-      <button mat-button class="button-text-small label-dark flex-grow" (click)="confirm()">
+      <app-button class="flex-grow" variant="primary" fullWidth (click)="confirm()">
         <span translate>Close Account</span>
-      </button>
+      </app-button>
     </div>
   </ng-container>
 </app-base-dialog>

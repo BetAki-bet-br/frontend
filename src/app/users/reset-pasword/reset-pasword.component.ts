@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { ChangeDetectorRef, inject } from '@angular/core';
 import { OnInit } from '@angular/core';
@@ -41,6 +42,7 @@ const log = new Logger('ResetPasswordComponent');
     LoaderComponent,
     PageBreadcrumbsComponent,
     ReactiveFormsModule,
+    ButtonComponent,
   ],
   styleUrls: ['./reset-pasword.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

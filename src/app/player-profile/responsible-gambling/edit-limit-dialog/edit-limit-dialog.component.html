@@ -33,15 +33,15 @@
       </div>
       <div class="button-row flex gap-1">
         <!-- Delete button -->
-        <button type="submit" mat-stroked-button class="button-text-small label-dark flex-grow" (click)="onDelete()">
+        <app-button class="flex-grow" variant="outline" fullWidth type="submit" (click)="onDelete()">
           {{ 'Delete limit' | translate | uppercase }}
           <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
-        </button>
+        </app-button>
         <!-- Update button -->
-        <button type="submit" mat-button class="button-text-small label-dark flex-grow" (click)="onUpdate()">
+        <app-button class="flex-grow" variant="primary" fullWidth type="submit" (click)="onUpdate()">
           {{ 'Update' | translate | uppercase }}
           <app-loader class="loader" [isLoading]="isDataLoading" [size]="0.5" />
-        </button>
+        </app-button>
       </div>
     </form>
   </div>

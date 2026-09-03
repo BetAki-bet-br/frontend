@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { DIALOG_DATA, DialogRef, DialogModule } from '@angular/cdk/dialog'; // Added DialogModule
 import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout'; // Added LayoutModule
 // Added CommonModule
@@ -15,7 +16,7 @@ import { Subscription } from 'rxjs';
   selector: 'app-popup-message-dialog',
   templateUrl: './popup-message-dialog.component.html',
   styleUrls: ['./popup-message-dialog.component.scss'],
-  imports: [DialogModule, LayoutModule, MatButtonModule, TranslateModule, BaseDialogComponent],
+  imports: [DialogModule, LayoutModule, TranslateModule, BaseDialogComponent, ButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PopupMessageDialogComponent implements OnInit, OnDestroy {

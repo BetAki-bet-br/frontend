@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -45,11 +46,12 @@ type FillInfoStatus = 'Fulfilled' | 'Partial' | 'Failed';
     MatOptionModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    TranslateModule, // Assuming translate pipe comes from here
+    TranslateModule,
     BaseDialogComponent,
     LoaderComponent,
     CdnizePipe,
     LowerCasePipe,
+    ButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

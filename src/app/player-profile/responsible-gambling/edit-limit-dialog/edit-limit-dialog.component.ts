@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
@@ -18,7 +19,6 @@ import { LoaderComponent } from '@app/@shared/loader/loader.component';
 import { UpperCasePipe } from '@angular/common';
 
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 
 const log = new Logger('EditLimitDialogComponent');
 
@@ -43,8 +43,8 @@ export interface EditLimitDialogData {
     TranslateModule,
     ReactiveFormsModule,
     UpperCasePipe,
-    MatButtonModule,
     MatInputModule,
+    ButtonComponent,
   ],
 })
 export class EditLimitDialogComponent implements OnInit {

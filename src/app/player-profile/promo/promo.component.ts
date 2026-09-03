@@ -33,7 +33,6 @@ import { PlayerStatusService } from '@app/@shared/services/player.status.service
 import { DataStoreService } from '@app/@core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslateModule } from '@ngx-translate/core';
@@ -54,7 +53,6 @@ const log = new Logger('PromoComponent');
     CommonModule,
     TranslateModule,
     MatIconModule,
-    MatButtonModule,
     MatTabsModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,

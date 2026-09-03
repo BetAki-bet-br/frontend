@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { ChangeDetectionStrategy, Component, OnDestroy, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -42,6 +43,7 @@ interface ForgotPasswordForm {
     MatButtonModule,
     TranslateModule,
     ReactiveFormsModule,
+    ButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

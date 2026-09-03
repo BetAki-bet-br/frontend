@@ -13,13 +13,9 @@
   <ng-container dialogButtons>
     <div class="flex gap-4">
       @for (action of data.actions; track action) {
-        <button
-          mat-button
-          class="button-text-small label-dark flex-grow text-white!"
-          (click)="confirm(action.id ?? null)"
-        >
+        <app-button class="flex-grow" variant="primary" fullWidth (click)="confirm(action.id ?? null)">
           <span translate>{{ action.name }}</span>
-        </button>
+        </app-button>
       }
     </div>
   </ng-container>

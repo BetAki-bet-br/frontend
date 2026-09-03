@@ -31,7 +31,6 @@ import { PlayerProfileService } from '../player-profile.service';
 import { getTableColumns } from './table.config';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TableColumn, TableConfig } from '@app/@shared/components/base-table/base-table.component';
@@ -52,7 +51,6 @@ import { TableColumn, TableConfig } from '@app/@shared/components/base-table/bas
     CommonModule,
     TranslateModule,
     MatIconModule,
-    MatButtonModule,
     MatCheckboxModule,
     MatPaginatorModule,
     MatDialogModule,

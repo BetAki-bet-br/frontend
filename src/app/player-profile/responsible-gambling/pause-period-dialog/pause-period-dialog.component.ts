@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { Logger } from '@app/@shared/logger.service';
@@ -21,7 +22,7 @@ const log = new Logger('PausePeriodDialogComponent');
 @Component({
   selector: 'app-pause-period-dialog',
   templateUrl: './pause-period-dialog.component.html',
-  imports: [TranslateModule, BaseDialogComponent, MatButtonModule, A11yModule],
+  imports: [TranslateModule, BaseDialogComponent, MatButtonModule, A11yModule, ButtonComponent],
   styleUrls: ['./pause-period-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

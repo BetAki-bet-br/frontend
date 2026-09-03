@@ -1,3 +1,4 @@
+import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -20,7 +21,6 @@ import { MatFormField } from '@angular/material/form-field';
 import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 import { MatSelect, MatOption } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -36,7 +36,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     ReactiveFormsModule,
     TranslateModule,
     MatInputModule,
-    MatButtonModule,
+    ButtonComponent,
   ],
 })
 export class AnnualVerificationDialogComponent implements OnInit {
