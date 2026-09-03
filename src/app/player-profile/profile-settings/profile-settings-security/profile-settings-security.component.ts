@@ -23,8 +23,8 @@ import {
   OnDestroy,
   inject,
   ChangeDetectorRef,
-  ViewChild,
   TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -97,10 +97,10 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private paginatorIntl = inject(MatPaginatorIntl);
 
-  @ViewChild('userAgentTemplate', { static: true }) userAgentTemplate?: TemplateRef<any>;
-  @ViewChild('statusTemplate', { static: true }) statusTemplate?: TemplateRef<any>;
-  @ViewChild('dateTemplate', { static: true }) dateTemplate?: TemplateRef<any>;
-  @ViewChild('dateEndTemplate', { static: true }) dateEndTemplate?: TemplateRef<any>;
+  readonly userAgentTemplate = viewChild<TemplateRef<any>>('userAgentTemplate');
+  readonly statusTemplate = viewChild<TemplateRef<any>>('statusTemplate');
+  readonly dateTemplate = viewChild<TemplateRef<any>>('dateTemplate');
+  readonly dateEndTemplate = viewChild<TemplateRef<any>>('dateEndTemplate');
 
   breadcrumbs: Breadcrumbs[] = [
     {

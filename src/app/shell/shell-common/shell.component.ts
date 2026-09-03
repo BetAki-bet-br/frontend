@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewChild, inject, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { RouterOutlet } from '@angular/router';
@@ -7,7 +7,6 @@ import { PlayerStatusService } from '@app/@shared/services/player.status.service
 import { CredentialsService } from '@app/auth';
 import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { forkJoin } from 'rxjs';
-import { SidenavMenuComponent } from '../sidenav-menu/sidenav-menu.component';
 
 import { Header } from '../header-v2/header';
 import { Footer } from '../footer-v2/footer';
@@ -32,7 +31,6 @@ export class ShellComponent {
   routingService = inject(RoutingService);
   private destroyRef = inject(DestroyRef);
   readonly loadingService = inject(LoadingService);
-  @ViewChild(SidenavMenuComponent, { static: false }) sidenavMenu!: SidenavMenuComponent;
 
   isSignedIn$ = this.credentialsService.isAuthenticated$;
   playerInfo: PlayerDetails | null = null;

@@ -5,9 +5,9 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -107,7 +107,7 @@ export class LoginPage implements OnDestroy {
     { initialValue: null },
   );
 
-  @ViewChild('usernameInput', { static: true }) usernameInput!: ElementRef<HTMLElement>;
+  readonly usernameInput = viewChild<ElementRef<HTMLElement>>('usernameInput');
 
   form = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -162,7 +162,7 @@ export class LoginPage implements OnDestroy {
 
     // If form is invalid
     if (this.form.invalid) {
-      this.usernameInput.nativeElement.focus();
+      this.usernameInput()?.nativeElement.focus();
       return;
     }
 

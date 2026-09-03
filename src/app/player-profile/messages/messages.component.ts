@@ -5,9 +5,9 @@ import {
   Component,
   OnInit,
   TemplateRef,
-  ViewChild,
   inject,
   DestroyRef,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -69,8 +69,8 @@ export class MessagesComponent implements OnInit {
   private paginatorIntl = inject(MatPaginatorIntl);
   private destroyRef = inject(DestroyRef);
 
-  @ViewChild('arrowTemplate', { static: true }) arrowTemplate?: TemplateRef<any>;
-  @ViewChild('expandableRowTemplate', { static: true }) expandableRowTemplate?: TemplateRef<any>;
+  readonly arrowTemplate = viewChild<TemplateRef<any>>('arrowTemplate');
+  readonly expandableRowTemplate = viewChild<TemplateRef<any>>('expandableRowTemplate');
 
   breadcrumbs: Breadcrumbs[] = [
     {
@@ -108,7 +108,7 @@ export class MessagesComponent implements OnInit {
 
   tableConfig: TableConfig = {
     hideHeader: true,
-    expandableRowTemplate: this.expandableRowTemplate,
+    expandableRowTemplate: this.expandableRowTemplate(),
   };
 
   selectAll = false;
@@ -117,7 +117,7 @@ export class MessagesComponent implements OnInit {
   PopupStateEnum = PopupStateEnum;
 
   ngOnInit(): void {
-    this.tableColumns = getTableColumns(this.arrowTemplate);
+    this.tableColumns = getTableColumns(this.arrowTemplate());
     this.messageService.messages$?.subscribe((data) => {
       if (data) {
         if (this.tableData.length === 0) {

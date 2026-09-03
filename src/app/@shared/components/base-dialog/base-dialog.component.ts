@@ -8,14 +8,13 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  QueryList,
   AfterContentChecked,
   ElementRef,
-  ContentChildren,
   SimpleChanges,
   inject,
   input,
   signal,
+  contentChildren,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
@@ -56,8 +55,7 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
 
   private subscriptions: Subscription[] = [];
 
-  @ContentChildren('dialogContent', { read: ElementRef })
-  private dialogContentElements!: QueryList<ElementRef>;
+  private readonly dialogContentElements = contentChildren('dialogContent', { read: ElementRef });
 
   hasDialogContent = signal(false);
   closing = signal(false);
@@ -83,7 +81,8 @@ export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterC
   }
 
   ngAfterContentChecked(): void {
-    const newHasContent = this.dialogContentElements && this.dialogContentElements.length > 0;
+    const dialogContentElements = this.dialogContentElements();
+    const newHasContent = dialogContentElements && dialogContentElements.length > 0;
     if (newHasContent !== this.hasDialogContent()) {
       this.hasDialogContent.set(newHasContent);
       this.cdr.markForCheck();

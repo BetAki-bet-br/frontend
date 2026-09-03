@@ -3,9 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
-  ViewChild,
   inject,
   DestroyRef,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTabChangeEvent, MatTabGroup, MatTabsModule } from '@angular/material/tabs';
@@ -81,7 +81,7 @@ export class PromoComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   dataStoreService = inject(DataStoreService);
 
-  @ViewChild(MatTabGroup) tabGroup?: MatTabGroup;
+  readonly tabGroup = viewChild(MatTabGroup);
 
   selectedIndex = 0;
 

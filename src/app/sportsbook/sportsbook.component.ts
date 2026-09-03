@@ -7,9 +7,9 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  ViewChild,
   inject,
   signal,
+  viewChild,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -48,7 +48,7 @@ export class SportsbookComponent implements AfterViewInit, OnDestroy {
 
   private unlisten!: () => void;
 
-  @ViewChild('sportsbookIframe') iframeRef!: ElementRef;
+  readonly iframeRef = viewChild.required<ElementRef>('sportsbookIframe');
 
   footerURL = `${window.location.origin}/static/footer.html`;
   casinoLobby = '/games';
@@ -186,8 +186,9 @@ export class SportsbookComponent implements AfterViewInit, OnDestroy {
         value: this.footerURL,
       },
     };
-    if (this.iframeRef?.nativeElement?.contentWindow) {
-      this.iframeRef.nativeElement.contentWindow.postMessage(JSON.stringify(message), '*');
+    const iframeRef = this.iframeRef();
+    if (iframeRef?.nativeElement?.contentWindow) {
+      iframeRef.nativeElement.contentWindow.postMessage(JSON.stringify(message), '*');
     }
   }
 

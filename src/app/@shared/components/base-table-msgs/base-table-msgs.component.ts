@@ -13,6 +13,7 @@ import {
   ViewChild,
   input,
   output,
+  viewChild,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -51,7 +52,7 @@ export class BaseTableMsgsComponent<T> implements OnChanges, AfterViewInit {
     //this.dataSource.sortingDataAccessor = this.customSortingDataAccessor;
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
+  readonly paginator = viewChild(MatPaginator);
 
   displayedColumns: string[] = [];
   columnsToDisplayWithExpand = [...this.displayedColumns];
@@ -87,8 +88,9 @@ export class BaseTableMsgsComponent<T> implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.displayPaginator() && this.dataSource && this.paginator) {
-      this.dataSource.paginator = this.paginator;
+    const paginator = this.paginator();
+    if (this.displayPaginator() && this.dataSource && paginator) {
+      this.dataSource.paginator = paginator;
     }
   }
 

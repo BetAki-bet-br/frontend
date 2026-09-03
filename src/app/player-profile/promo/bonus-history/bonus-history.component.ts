@@ -3,11 +3,11 @@ import {
   Component,
   OnInit,
   ChangeDetectorRef,
-  ViewChild,
   TemplateRef,
   OnDestroy,
   inject,
   DestroyRef,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -88,7 +88,7 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
   dataStoreService = inject(DataStoreService);
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  readonly paginator = viewChild.required(MatPaginator);
 
   bonusHistoryData: PlayerBonusResolved[] = [];
   pagedData: PlayerBonusResolved[] = [];

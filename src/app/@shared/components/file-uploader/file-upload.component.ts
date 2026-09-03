@@ -14,7 +14,7 @@
  * you may have.
  */
 
-import { Component, ElementRef, OnInit, Renderer2, ViewChild, inject, input, output } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, inject, input, output, viewChild } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -42,7 +42,7 @@ export class FileUploadComponent implements OnInit {
   private renderer = inject(Renderer2);
   private translateService = inject(TranslateService);
 
-  @ViewChild('uploadInput', { static: true }) uploadInput?: ElementRef;
+  readonly uploadInput = viewChild<ElementRef>('uploadInput');
   // Emits an array of strings when csv is either dropper or uploaded via browsing
   readonly emitItems = output<FileList>();
   readonly emitFileName = output<string | undefined>();
@@ -141,7 +141,7 @@ export class FileUploadComponent implements OnInit {
       // Items are emitted to parent component.
       this.emitItems.emit(fileOutput);
       // Value of browse is set to null to be able to upload the same file one after the other.
-      this.renderer.setProperty(this.uploadInput?.nativeElement, 'value', null);
+      this.renderer.setProperty(this.uploadInput()?.nativeElement, 'value', null);
     };
 
     // Progress bar value calculation

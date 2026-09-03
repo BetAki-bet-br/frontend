@@ -9,10 +9,10 @@ import {
   OnInit,
   SimpleChanges,
   TemplateRef,
-  ViewChild,
   inject,
   input,
   output,
+  viewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '@app/@core';
@@ -81,8 +81,8 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
   private dataStoreService = inject(DataStoreService);
   private cdr = inject(ChangeDetectorRef);
 
-  @ViewChild('timeLeftTemplate', { static: true }) timeLeftTemplate?: TemplateRef<any>;
-  @ViewChild('statusTemplate', { static: true }) statusTemplate?: TemplateRef<any>;
+  readonly timeLeftTemplate = viewChild<TemplateRef<any>>('timeLeftTemplate');
+  readonly statusTemplate = viewChild<TemplateRef<any>>('statusTemplate');
 
   readonly limits = input<PlayerLimit[]>([]);
   readonly currencyCode = input('');

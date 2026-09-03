@@ -3,9 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
-  ViewChild,
   inject,
   DestroyRef,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTabChangeEvent, MatTabGroup, MatTab, MatTabsModule } from '@angular/material/tabs';
@@ -41,7 +41,7 @@ export class WalletComponent implements OnInit {
   private deviceService = inject(DeviceDetectorService);
   private destroyRef = inject(DestroyRef);
 
-  @ViewChild(MatTabGroup) tabGroup?: MatTabGroup;
+  readonly tabGroup = viewChild(MatTabGroup);
 
   selectedIndex = 0;
   tabChanged = false;

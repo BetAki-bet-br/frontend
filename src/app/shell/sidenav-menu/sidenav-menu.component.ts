@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit, ViewChild, inject, input, output } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject, input, output, viewChild } from '@angular/core';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Logger } from '@app/@shared';
@@ -52,7 +52,7 @@ export class SidenavMenuComponent implements OnInit {
   readonly loyaltyPoints = input<Loyalty | null>(null);
   readonly balance = input<AccountResolved | null>(null);
   readonly sidenavStateChangeEvent = output<SidenavState>();
-  @ViewChild(MatSidenav) sidenav!: MatSidenav;
+  readonly sidenav = viewChild.required(MatSidenav);
 
   isSportsCollapsed = false;
   isCasinoCollapsed = false;
@@ -111,7 +111,7 @@ export class SidenavMenuComponent implements OnInit {
   }
 
   onLogin() {
-    this.sidenav.toggle();
+    this.sidenav().toggle();
     // this.authDialog
     //   .loginDialog()
     //   .pipe(untilDestroyed(this))
@@ -128,7 +128,7 @@ export class SidenavMenuComponent implements OnInit {
   onSignOut() {
     this.authenticationService.logout().subscribe(async () => {
       log.debug('logout');
-      await this.sidenav.close();
+      await this.sidenav().close();
     });
   }
 
@@ -152,7 +152,7 @@ export class SidenavMenuComponent implements OnInit {
 
   onSidenavMenuLinkClick() {
     if (this.isMobile) {
-      this.sidenav.close();
+      this.sidenav().close();
     }
     // Scroll to top
     const htmlElement = document.documentElement;
@@ -165,11 +165,11 @@ export class SidenavMenuComponent implements OnInit {
 
   toggleSidenavMenu() {
     if (this.isMobile) {
-      this.sidenav.toggle();
+      this.sidenav().toggle();
       // On mobile, the menu can never be collapsed
       this.sidenavStateSubject.next({
         ...this.sidenavState,
-        opened: this.sidenav.opened,
+        opened: this.sidenav().opened,
         collapsed: false,
       });
     }
@@ -177,7 +177,7 @@ export class SidenavMenuComponent implements OnInit {
 
   closeSidenavIfOpened() {
     if (this.sidenavState && this.sidenavState.opened) {
-      this.sidenav?.close();
+      this.sidenav()?.close();
     }
   }
 

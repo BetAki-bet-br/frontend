@@ -3,9 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
-  ViewChild,
   inject,
   DestroyRef,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterOutlet } from '@angular/router';
@@ -27,7 +27,7 @@ export class ProfileLayoutComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   private destroyRef = inject(DestroyRef);
 
-  @ViewChild(SidenavMenuComponent, { static: false }) sidenavMenu!: SidenavMenuComponent;
+  readonly sidenavMenu = viewChild.required(SidenavMenuComponent);
 
   isSmallScreen = false;
 
