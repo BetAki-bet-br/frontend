@@ -97,7 +97,11 @@ export const BRAND_CONFIG: BrandConfig = {
     logoColor: '/assets/brand/logo-color.svg',
     icon: '/assets/brand/icon.svg',
     logoMobile: '/assets/brand/logo-mobile.webp',
+    /** "+18" responsible-gaming badge, painted in the brand colour. */
+    ageBadge: '/assets/brand/agecap.svg',
     favicon: '/assets/brand/favicon.png',
+    /** Intrinsic size of `logoWhite`; `NgOptimizedImage` warns when it does not match the file. */
+    logoSize: { width: 303, height: 114 },
   },
 
   features: {

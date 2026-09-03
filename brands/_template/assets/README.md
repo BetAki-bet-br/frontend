@@ -17,6 +17,7 @@ Delete this README in the real brand directory; it exists only to document the e
 | `logo-color.svg`   | `assets.logoColor`| SVG, ~2.7:1     | 303×114        | footer                                                                    |
 | `icon.svg`         | `assets.icon`     | SVG, ~1:1       | 211×198        | mobile bottom menu (active state), mobile sidebar                         |
 | `logo-mobile.webp` | `assets.logoMobile`| WebP, wordmark | ≤ 4 KB         | mobile header, game-card placeholder while the thumbnail loads            |
+| `agecap.svg`       | `assets.ageBadge` | SVG, 1:1        | 68×68          | "+18" badge on the auth pages, wallet deposit/withdrawal, e-mail confirmation |
 
 Notes:
 
@@ -24,6 +25,12 @@ Notes:
   `brand-variables.scss` (the sportsbook preload background), which stylesheets cannot read from
   the TypeScript config — keep the two in sync.
 - `logo-mobile.webp` is loaded on every game card, so keep it small.
+- `logo-white.svg` also needs its intrinsic size in `assets.logoSize` (`{ width, height }`): the
+  header renders it through `NgOptimizedImage`, which warns when the declared aspect ratio does not
+  match the file. Copy the numbers off the SVG's own `width`/`height`.
+- `agecap.svg` is the responsible-gaming badge. Recolour the three lime `#BCD200` fills in the
+  betaki copy to the brand's own accent — it sits on `--color-surface-auth`, so it must read on a
+  light background.
 - The white and the colour logo are rendered on dark surfaces; make sure they stay legible on
   `--color-shark-950`.
 - SVGs are served as-is (no sanitising step), so strip editor metadata and any `id` that names the

@@ -107,6 +107,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   private configurationService = inject(ConfigurationService);
   private destroyRef = inject(DestroyRef);
   private readonly brand = inject(BRAND);
+  protected readonly ageBadge = this.brand.assets.ageBadge;
 
   balance = 0;
   balanceCurrency = '';

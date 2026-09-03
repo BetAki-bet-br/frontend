@@ -11,6 +11,7 @@ import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, inject, ChangeDe
 import { ReactiveFormsModule, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SnackbarService } from '@app/@core/snackbar.service';
+import { BRAND } from '@app/@core/brand';
 import { Logger } from '@app/@shared';
 
 const log = new Logger('EmailConfirmationComponent');
@@ -32,6 +33,7 @@ const log = new Logger('EmailConfirmationComponent');
 })
 export class EmailConfirmationComponent implements OnInit, OnDestroy {
   private playerProfileService = inject(PlayerProfileService);
+  protected readonly ageBadge = inject(BRAND).assets.ageBadge;
   private snackbarService = inject(SnackbarService);
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);

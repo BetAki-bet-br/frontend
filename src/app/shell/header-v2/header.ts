@@ -54,6 +54,7 @@ export class Header {
   private readonly brand = inject(BRAND);
   brandLogo = this.brand.assets.logoWhite;
   brandMobileLogo = this.brand.assets.logoMobile;
+  brandLogoSize = this.brand.assets.logoSize;
 
   goBack() {
     this.location.back();

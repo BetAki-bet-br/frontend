@@ -8,7 +8,14 @@
     class="h-full w-full max-w-8xl xl:px-6 flex flex-row items-center justify-between px-1.5 relative transition-opacity duration-300"
   >
     <a class="hidden md:block cursor-pointer" routerLink="/">
-      <img [ngSrc]="brandLogo" priority alt="Logo" width="243" height="91" class="h-8 w-auto" />
+      <img
+        [ngSrc]="brandLogo"
+        priority
+        alt="Logo"
+        [width]="brandLogoSize.width"
+        [height]="brandLogoSize.height"
+        class="h-8 w-auto"
+      />
     </a>
 
     <a class="cursor-pointer md:hidden" routerLink="/">

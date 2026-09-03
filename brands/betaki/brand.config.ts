@@ -77,6 +77,8 @@ export const BRAND_CONFIG: BrandConfig = {
     icon: '/assets/brand/icon-green.svg',
     logoMobile: '/assets/brand/logo-mobile.webp',
     favicon: '/assets/brand/favicon.png',
+    ageBadge: '/assets/brand/agecap.svg',
+    logoSize: { width: 243, height: 91 },
   },
 
   features: {

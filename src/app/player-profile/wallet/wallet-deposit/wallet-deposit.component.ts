@@ -71,6 +71,7 @@ export class WalletDepositComponent implements OnInit {
   private authDialogService = inject(AuthDialogService);
   private destroyRef = inject(DestroyRef);
   private readonly brand = inject(BRAND);
+  protected readonly ageBadge = this.brand.assets.ageBadge;
 
   balance = 0;
   balanceCurrency = '';

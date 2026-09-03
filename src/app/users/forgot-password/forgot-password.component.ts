@@ -17,6 +17,7 @@ import {
   PageBreadcrumbsComponent,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
+import { BRAND } from '@app/@core/brand';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { LoaderComponent } from '@app/@shared/loader/loader.component';
@@ -45,6 +46,7 @@ interface ForgotPasswordForm {
 })
 export class ForgotPasswordComponent implements OnDestroy {
   private router = inject(Router);
+  protected readonly ageBadge = inject(BRAND).assets.ageBadge;
   private cdr = inject(ChangeDetectorRef);
   private authenticationService = inject(AuthenticationService);
   private snackbarService = inject(SnackbarService);

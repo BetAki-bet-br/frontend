@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
+import { BRAND } from '@app/@core/brand';
 
 @Component({
   selector: 'app-auth-layout-page',
@@ -10,6 +11,7 @@ import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service
 })
 export class AuthLayoutPage {
   private readonly tawkMessengerService = inject(TawkToScriptService);
+  protected readonly ageBadge = inject(BRAND).assets.ageBadge;
 
   openSupportChat() {
     this.tawkMessengerService.maximize();

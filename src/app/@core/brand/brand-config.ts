@@ -95,6 +95,16 @@ export interface BrandConfig {
     /** Compact wordmark for the mobile header and game-card placeholders. */
     logoMobile: string;
     favicon: string;
+    /**
+     * "+18" responsible-gaming badge shown on the auth pages, the wallet screens and the
+     * e-mail confirmation step. Brand-owned because it is painted in the brand colour.
+     */
+    ageBadge: string;
+    /**
+     * Intrinsic size of `logoWhite`, in pixels. `NgOptimizedImage` needs the real aspect ratio
+     * of the header logo up front, and it warns when the declared ratio does not match the file.
+     */
+    logoSize: { width: number; height: number };
   };
 
   features: {
