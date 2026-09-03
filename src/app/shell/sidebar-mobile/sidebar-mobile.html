@@ -117,7 +117,7 @@
 
         <div
           class="bg-brand-darker flex h-[40px] w-full items-center justify-between gap-[10px] rounded-[8px] px-[10px] cursor-pointer"
-          [ngClass]="item.class"
+          [class]="item.class"
           (click)="item.action ? item.action() : navigateToMenu(item)"
           (keyup.enter)="item.action ? item.action() : navigateToMenu(item)"
         >

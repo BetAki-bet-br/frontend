@@ -1,5 +1,5 @@
 import { Component, inject, signal, computed, afterNextRender } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { switchMap, debounceTime, distinctUntilChanged, tap, finalize, of, map } from 'rxjs';
@@ -11,7 +11,7 @@ import { GameMain, SubLevel } from '@app/games-page/models/game.models';
 
 @Component({
   selector: 'app-search-page',
-  imports: [CommonModule, GameCard, FormsModule, GameDetailModal, NgOptimizedImage],
+  imports: [GameCard, FormsModule, GameDetailModal, NgOptimizedImage],
   templateUrl: './search-page.html',
   styleUrl: './search-page.scss',
 })

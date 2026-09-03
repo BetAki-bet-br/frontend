@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, inject, signal, Renderer2 } from '@angular/core';
-import { DOCUMENT, NgOptimizedImage, NgClass } from '@angular/common';
+import { DOCUMENT, NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -21,7 +21,7 @@ import { BRAND } from '@app/@core/brand';
   templateUrl: './sidebar-mobile.html',
   styleUrl: './sidebar-mobile.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage, CdnizePipe, NgClass],
+  imports: [NgOptimizedImage, CdnizePipe],
 })
 export class SidebarMobile {
   protected readonly sidebarService: SidebarService = inject(SidebarService);

@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { GameEnum } from '@app/@shared/enums/gameEnum';
 import { ProvidersList } from '../components/providers-list/providers-list';
 import { Provider } from '../models/game.models';
@@ -9,7 +9,7 @@ import { map } from 'rxjs';
 
 @Component({
   selector: 'app-all-providers-page',
-  imports: [CommonModule, ProvidersList],
+  imports: [ProvidersList],
   templateUrl: './all-providers-page.html',
   styleUrl: './all-providers-page.scss',
 })

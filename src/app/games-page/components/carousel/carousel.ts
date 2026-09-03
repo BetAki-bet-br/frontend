@@ -1,4 +1,4 @@
-import { NgOptimizedImage, NgStyle, isPlatformBrowser } from '@angular/common';
+import { NgOptimizedImage, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +26,7 @@ export interface CarouselSlide {
   templateUrl: './carousel.html',
   styleUrl: './carousel.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgOptimizedImage, CdnizePipe, NgStyle],
+  imports: [NgOptimizedImage, CdnizePipe],
   host: {
     '(window:resize)': 'onResize()',
     '(mouseenter)': 'pauseAutoPlay()',

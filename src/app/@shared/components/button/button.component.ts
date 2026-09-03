@@ -1,5 +1,5 @@
 import { Component, Input, booleanAttribute } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -23,7 +23,7 @@ export type ButtonShape = 'rectangle' | 'pill' | 'circle';
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatProgressSpinnerModule],
+  imports: [MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
   host: {

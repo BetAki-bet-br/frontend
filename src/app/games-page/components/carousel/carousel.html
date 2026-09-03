@@ -7,7 +7,7 @@
     @for (slide of slides(); track slide.imageUrl; let i = $index) {
     <div
       class="absolute inset-0 w-full h-full will-change-transform"
-      [ngStyle]="slideStyles()[i]"
+      [style]="slideStyles()[i]"
       [attr.aria-hidden]="i !== currentIndex()"
     >
       <a
@@ -58,7 +58,7 @@
       <button
         type="button"
         class="h-3 rounded-full cursor-pointer transition-all duration-300 border-none focus:outline-none focus:ring-2 focus:ring-white"
-        [ngStyle]="dotStyles()[i]"
+        [style]="dotStyles()[i]"
         (click)="goToSlide(i)"
         [attr.aria-label]="'Ir para o slide ' + (i + 1)"
         [attr.aria-current]="i === currentIndex()"

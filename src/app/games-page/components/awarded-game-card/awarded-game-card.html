@@ -2,7 +2,7 @@
   class="shrink-0 h-48 w-32 sm:w-[150px] sm:h-56 lg:h-[280px] lg:w-[165px] aspect-[3/4] rounded-lg relative {{
     class()
   }}"
-  [ngClass]="{ 'z-50': isHovering() }"
+  [class.z-50]="isHovering()"
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
 >

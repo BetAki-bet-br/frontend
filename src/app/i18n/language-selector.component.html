@@ -1,4 +1,4 @@
-<div [ngClass]="icon ? 'button-container' : ''" class="language-selector-container">
+<div [class.button-container]="icon" class="language-selector-container">
   <button
     [disabled]="!languages || languages.length <= 1"
     mat-icon-button
@@ -8,8 +8,8 @@
     class="header-dropdown-select"
     [disableRipple]="true"
   >
-    <div class="flex" [ngClass]="icon ? 'justify-center items-center' : 'full-width justify-between'">
-      <div [ngClass]="icon ? '' : 'flex gap-2.5'" class="flag-container">
+    <div class="flex" [class]="icon ? 'justify-center items-center' : 'full-width justify-between'">
+      <div [class]="icon ? '' : 'flex gap-2.5'" class="flag-container">
         <img
           alt="{{ currentLanguage?.nativeName }}"
           class="flag"
@@ -23,7 +23,7 @@
       </div>
       @if (languages && languages.length > 1) {
         <div class="expand-icon-container">
-          <mat-icon [ngClass]="isMenuClosed ? 'expanded' : ''">arrow_drop_up</mat-icon>
+          <mat-icon [class.expanded]="isMenuClosed">arrow_drop_up</mat-icon>
         </div>
       }
     </div>

@@ -2,11 +2,11 @@
   id="{{ 'game-card-' + game().id }}"
   class="relative overflow-visible {{ class() }}"
   tabindex="0"
-  [ngClass]="{
-    'w-full': layout() === 'responsive',
-    'w-32 sm:w-[150px] lg:w-[165px]': layout() === 'fixed',
-    'z-[100]': isHovering()
-  }"
+  [class.w-full]="layout() === 'responsive'"
+  [class.w-32]="layout() === 'fixed'"
+  [class.sm:w-[150px]]="layout() === 'fixed'"
+  [class.lg:w-[165px]]="layout() === 'fixed'"
+  [class.z-[100]]="isHovering()"
   (mouseenter)="onMouseEnter()"
   (mouseleave)="onMouseLeave()"
 >

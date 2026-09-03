@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, input, output, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Provider } from '@app/games-page/models/game.models';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-game-filter-modal',
-  imports: [CommonModule, MatCheckboxModule],
+  imports: [MatCheckboxModule],
   templateUrl: './game-filter-modal.html',
   styleUrls: ['./game-filter-modal.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

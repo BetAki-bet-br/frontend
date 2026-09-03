@@ -1,5 +1,5 @@
 import { Component, inject, Signal, signal, computed, afterNextRender } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { switchMap, debounceTime, distinctUntilChanged, tap, finalize, of, map } from 'rxjs';
@@ -11,7 +11,7 @@ import { GameCard } from '@app/games-page/components/game-card/game-card';
 
 @Component({
   selector: 'app-live-search-page',
-  imports: [CommonModule, FormsModule, GameDetailModal, GameCard, NgOptimizedImage],
+  imports: [FormsModule, GameDetailModal, GameCard, NgOptimizedImage],
   templateUrl: './live-search-page.html',
   styleUrl: './live-search-page.scss',
 })

@@ -92,7 +92,7 @@
 }
 @if (displayPaginator) {
   <mat-paginator
-    [ngClass]="!paginatorVisibility ? 'hide-paginator' : ''"
+    [class.hide-paginator]="!paginatorVisibility"
     aria-label="Select page"
     [hidePageSize]="true"
     [pageSize]="pageSize"

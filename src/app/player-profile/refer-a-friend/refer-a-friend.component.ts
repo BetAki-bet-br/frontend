@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReferAFriendService } from './refer-a-friend.service';
@@ -25,15 +25,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
   selector: 'app-refer-a-friend',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     TranslateModule,
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    PageBreadcrumbsComponent,
-  ],
+    PageBreadcrumbsComponent
+],
   templateUrl: './refer-a-friend.component.html',
   styleUrls: ['./refer-a-friend.component.scss'],
 })
