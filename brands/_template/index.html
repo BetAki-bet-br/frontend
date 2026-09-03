@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <!--
+      Google Tag Manager is NOT inlined here. It is injected at startup from
+      `BRAND.integrations.gtmId`; leave that field out and the brand ships without a tag manager.
+    -->
+    <!-- needs to be right at the top to prevent Chrome from reloading favicon on every route change -->
+    <link id="fav-icon" rel="icon" type="image/x-icon" href="/assets/brand/favicon.png" />
+    <title>{{BRAND}}</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <!-- Keep in sync with `seo.description` in brand.config.ts: this one is what crawlers read first. -->
+    <meta name="description" content="{{BRAND}} — TODO description" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/favicon.png" />
+
+    <!-- TODO: preconnect to the brand's CDN(s), one line per origin. -->
+    <link rel="preconnect" href="https://TODO-cdn.example.com" />
+
+    <!-- TODO: the brand webfont. Must match `--font-sans` / `--font-display` in brand-theme.scss. -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+
+    <!-- Softswiss connector.js - mandatory for correct game loading across all providers -->
+    <script src="https://s3.eu-central-1.amazonaws.com/ignition.button/round-1/connector.js" defer></script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

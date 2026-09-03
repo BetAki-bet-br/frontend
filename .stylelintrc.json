@@ -4,7 +4,7 @@
     "scss/at-rule-no-unknown": [
       true,
       {
-        "ignoreAtRules": ["theme", "tailwind"]
+        "ignoreAtRules": ["theme", "tailwind", "source"]
       }
     ],
     "selector-class-pattern": null,

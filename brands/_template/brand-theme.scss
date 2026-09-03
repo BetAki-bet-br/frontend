@@ -1,0 +1,97 @@
+/*
+ * Template design tokens (Tailwind v4 `@theme`).
+ *
+ * Copy this directory to `brands/<slug>/` and replace every colour below. `src/main.scss` loads
+ * `brand-theme` through `stylePreprocessorOptions.includePaths`, so the file that gets compiled is
+ * always the one belonging to the brand being built.
+ *
+ * The brand ramp below ships as a loud magenta on purpose: a brand that forgot to theme itself
+ * is obvious on the first screenshot. The neutral ("shark") ramp is usable as delivered.
+ *
+ * Every token here becomes a Tailwind utility family: `--color-brand-500` gives `bg-brand-500`,
+ * `text-brand-500`, `border-brand-500`, `ring-brand-500`, `from-brand-500`, ... Keep the names —
+ * `src/` is full of `*-brand-*` and `*-shark-*` classes and renaming a token silently drops the
+ * rule from the built stylesheet.
+ */
+
+@theme {
+  // Extra breakpoint below Tailwind's `sm`, used by the header and the footer.
+  --breakpoint-xs: 30rem;
+
+  // Typography. `--font-sans` is the body font; `--font-display` is for headings and hero copy;
+  // `--font-alt` is a secondary family (`font-alt`, 2 usages). Declare the @font-face rules in
+  // `brand-variables.scss` or load the webfont from `index.html`.
+  --font-sans: "TODO Sans", sans-serif;
+  --font-display: "TODO Display", sans-serif;
+  --font-alt: "TODO Alt", sans-serif;
+
+  // ---------------------------------------------------------------------------------------------
+  // Brand ramp. This is the identity: change these five and the whole product changes colour.
+  // ---------------------------------------------------------------------------------------------
+
+  // Lightest tint. Currently unused by `src/`, kept for brands that need a soft background.
+  --color-brand-200: #f5d0fe;
+
+  // Bright accent on dark surfaces: link and icon colour (`text-brand-400`, 19 usages), loading
+  // spinners, active sidebar entries, and the 20%-opacity highlight `bg-brand-400/20`.
+  --color-brand-400: #e879f9;
+
+  // The primary. Header background, primary buttons, focus rings, selected chips and tabs
+  // (`bg-brand-500` 21, `text-brand-500` 18, `border-brand-500` 12 usages). Must have enough
+  // contrast against `--color-shark-950` and against white.
+  --color-brand-500: #a21caf;
+
+  // Hover/pressed state of everything painted with `brand-500`.
+  --color-brand-600: #86198f;
+
+  // Darkest shade of the ramp. Unused by `src/` today; keep it in step with the others.
+  --color-brand-800: #581c87;
+
+  // Muted brand tone for filled surfaces that must not shout: mobile sidebar buttons
+  // (`bg-brand-darker`, 7 usages).
+  --color-brand-darker: #3b0764;
+
+  // ---------------------------------------------------------------------------------------------
+  // Accent. A second, usually more saturated colour: section borders (`border-accent`, 6),
+  // highlighted labels (`text-accent`, 5) and the promo border `border-accent-highlight`.
+  // ---------------------------------------------------------------------------------------------
+  --color-accent: #f0abfc;
+  --color-accent-highlight: #e879f9;
+
+  // ---------------------------------------------------------------------------------------------
+  // Neutral ramp ("shark"). Every surface, border and body text in the app. 50 is the lightest
+  // (used as the on-dark text colour), 950 the darkest (page background). A dark brand keeps this
+  // order; a light brand still keeps it, and flips the usage in the components.
+  // ---------------------------------------------------------------------------------------------
+  --color-shark-50: #fff; // on-dark text, 28 usages
+  --color-shark-100: #f1f1f1;
+  --color-shark-200: #e2e2e2;
+  --color-shark-300: #c4c4c4;
+  --color-shark-400: #8e8e8e; // secondary/disabled text, 14 usages
+  --color-shark-500: #727272;
+  --color-shark-600: #595959;
+  --color-shark-700: #424242; // hairline separators
+  --color-shark-800: #2a2a2a; // footer and card background
+  --color-shark-900: #151515; // raised surfaces, hover states
+  --color-shark-950: #070707; // page background
+
+  // Neutrals outside the ramp.
+  --color-black: #1e1e1e;
+  --color-alt-light: #e0e0e0;
+  --color-auth-placeholder: #0000004d; // placeholder text in the auth forms
+
+  // ---------------------------------------------------------------------------------------------
+  // Layout and effects.
+  // ---------------------------------------------------------------------------------------------
+
+  // The shell reads these with `h-(--header-height-mobile)` / `h-(--header-height-desktop)`;
+  // the sticky sidebar and the fullscreen game view offset against them.
+  --header-height-desktop: 64px;
+  --header-height-mobile: 55px;
+
+  // Background of the "big winner" cards.
+  --winer-card-background: linear-gradient(135deg, var(--color-shark-950) 0%, var(--color-shark-900) 100%);
+
+  // Corner radius shared by the custom (non-Material) components.
+  --custom-radius: 1rem;
+}

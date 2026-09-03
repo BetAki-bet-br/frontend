@@ -6,6 +6,9 @@
    Keep them out of the Tailwind source scan so their markup cannot inflate the utility layer. */
 @source not "../brands/*/legal";
 
+/* `brands/_template` is scaffolding, never built. Keep its placeholder markup out too. */
+@source not "../brands/_template";
+
 body.sidebar-open {
   overflow: hidden;
 }
