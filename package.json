@@ -10,6 +10,8 @@
     "start:prod": "npm run start -- --configuration=production",
     "start:betaki": "npm run write:env -s && ng serve --configuration=betaki --proxy-config proxy.conf.js --host 0.0.0.0",
     "build:betaki": "npm run write:env -s && ng build --configuration=production,betaki",
+    "start:girosbet": "npm run write:env -s && ng serve --configuration=girosbet --proxy-config proxy.conf.js --host 0.0.0.0",
+    "build:girosbet": "npm run write:env -s && ng build --configuration=production,girosbet",
     "build:stats": "ng build --named-chunks --stats-json",
     "analyze": "webpack-bundle-analyzer dist/stats.json",
     "lint": "ng lint && stylelint \"src/**/*.scss\" \"brands/**/*.scss\"",

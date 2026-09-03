@@ -140,6 +140,45 @@
                   "output": "/"
                 }
               ]
+            },
+            "girosbet": {
+              "tsConfig": "tsconfig.brand-girosbet.json",
+              "index": "brands/girosbet/index.html",
+              "outputPath": {
+                "base": "dist/girosbet"
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["brands/girosbet", ".", "node_modules", "src"]
+              },
+              "assets": [
+                "src/assetslocal",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "static",
+                  "output": "/static/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/girosbet/assets",
+                  "output": "/assets/brand"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/girosbet/legal",
+                  "output": "/assetshtml"
+                },
+                {
+                  "glob": "robots.txt",
+                  "input": "brands/girosbet",
+                  "output": "/"
+                },
+                {
+                  "glob": "sitemap.xml",
+                  "input": "brands/girosbet",
+                  "output": "/"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -158,6 +197,9 @@
             },
             "betaki": {
               "buildTarget": "angular-pp:build:development,betaki"
+            },
+            "girosbet": {
+              "buildTarget": "angular-pp:build:development,girosbet"
             },
             "development-ssl": {
               "ssl": true,

@@ -1,0 +1,22 @@
+/* Brand build for `girosbet`. Used by the `girosbet` build configuration in angular.json.
+   `paths` fully replaces the map inherited from tsconfig.json, so every alias is repeated here;
+   only `@brand/*` is brand specific. A new brand copies this file and changes `girosbet` to its slug. */
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@shared": ["src/app/@shared"],
+      "@shared/*": ["src/app/@shared/*"],
+      "@env/*": ["src/environments/*"],
+      "@brand/*": ["brands/girosbet/*"],
+      "ngx-atl-pp-templates-shared": ["node_modules/@icore/ngx-atl-pp-templates-shared"],
+      "ngx-atl-pp-templates-shared/*": ["node_modules/@icore/ngx-atl-pp-templates-shared/*"],
+      "@icore/ngx-portalgateway-api-client-atl": ["node_modules/@icore/ngx-portalgateway-api-client-atl"],
+      "@icore/ngx-portalgateway-api-client-atl/*": ["node_modules/@icore/ngx-portalgateway-api-client-atl/*"],
+      "theme/*": ["src/theme/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "brands/girosbet/**/*.ts", "node_modules/@icore/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts", "cypress.config.ts"]
+}
