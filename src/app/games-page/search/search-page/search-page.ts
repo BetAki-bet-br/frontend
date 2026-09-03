@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, afterNextRender } from '@angular/core';
+import { ChangeDetectionStrategy, Component, afterNextRender, computed, inject, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -14,6 +14,7 @@ import { GameMain, SubLevel } from '@app/games-page/models/game.models';
   imports: [GameCard, FormsModule, GameDetailModal, NgOptimizedImage],
   templateUrl: './search-page.html',
   styleUrl: './search-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchPage {
   private slotsService = inject(SlotsService);

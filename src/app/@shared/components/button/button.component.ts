@@ -1,4 +1,4 @@
-import { Component, booleanAttribute, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -28,6 +28,7 @@ export type ButtonShape = 'rectangle' | 'pill' | 'circle';
   host: {
     '[class.w-full]': 'fullWidth()',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
   readonly variant = input<ButtonVariant>('primary');

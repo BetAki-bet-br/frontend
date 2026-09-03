@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { BRAND } from '@app/@core/brand';
@@ -39,6 +39,7 @@ interface SupportOption {
   imports: [RouterLink],
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Footer {
   private readonly tawkMessengerService = inject(TawkToScriptService);

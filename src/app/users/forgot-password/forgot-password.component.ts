@@ -1,5 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
-import { Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../auth/authentication.service';
@@ -43,6 +43,7 @@ interface ForgotPasswordForm {
     TranslateModule,
     ReactiveFormsModule,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordComponent implements OnDestroy {
   private router = inject(Router);
@@ -66,7 +67,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   providerId: string | null | undefined;
   safeUrl: SafeResourceUrl | undefined;
 
-  isLoading: boolean = false;
+  readonly isLoading = signal(false);
   title = this.translate.instant('Did you forget your password?');
   descriptionMessage = this.translate.instant(
     'Please fill in your personal information so we can locate your account in our system.',
@@ -82,7 +83,7 @@ export class ForgotPasswordComponent implements OnDestroy {
     },
   ];
 
-  public errorMessage = '';
+  readonly errorMessage = signal('');
 
   constructor() {
     if (this.router?.url.endsWith('unlock-account')) {
@@ -102,13 +103,13 @@ export class ForgotPasswordComponent implements OnDestroy {
     log.debug('Reset was clicked!');
 
     if (!this.registerForm.valid) return;
-    this.isLoading = true;
-    this.errorMessage = '';
+    this.isLoading.set(true);
+    this.errorMessage.set('');
     this.authenticationService
       .forgotPassword(cpf)
       .pipe(
         finalize(() => {
-          this.isLoading = false;
+          this.isLoading.set(false);
           this.cdr.markForCheck();
         }),
         switchMap((response) => {
@@ -135,11 +136,11 @@ export class ForgotPasswordComponent implements OnDestroy {
           if (error && error.error && error.error.errorMessage) {
             switch (error.error.errorMessage) {
               case 'PlayerDataNotCorrect': {
-                this.errorMessage = error.error.errorMessage;
+                this.errorMessage.set(error.error.errorMessage);
                 break;
               }
               default: {
-                this.errorMessage = 'InternalServerError';
+                this.errorMessage.set('InternalServerError');
                 break;
               }
             }
@@ -176,7 +177,7 @@ export class ForgotPasswordComponent implements OnDestroy {
   //         const actionName = event?.data?.name;
   //         const responseCode = event?.data?.status;
   //         if (actionName === 'faceindex' && responseCode === 'success' && this.providerId) {
-  //           this.isLoading = true;
+  //           this.isLoading.set(true);
   //           this.cdr.markForCheck();
   //           this.authenticationService.getFaceAuthenticationStatus(this.providerId).subscribe({
   //             next: (result) => {

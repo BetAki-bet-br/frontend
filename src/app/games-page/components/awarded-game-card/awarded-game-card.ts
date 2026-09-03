@@ -1,4 +1,4 @@
-import { Component, input, signal, inject, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { GameMain } from '@app/games-page/models/game.models';
 import { AssetsService } from '@app/@shared/assets.service'; // Import AssetsService
 import { NgOptimizedImage, DecimalPipe } from '@angular/common'; // Import NgOptimizedImage
@@ -9,7 +9,8 @@ import { BRAND } from '@app/@core/brand';
   selector: 'app-awarded-game-card',
   templateUrl: './awarded-game-card.html',
   styleUrl: './awarded-game-card.scss',
-  imports: [NgOptimizedImage, DecimalPipe], // Add NgOptimizedImage to imports
+  imports: [NgOptimizedImage, DecimalPipe], // Add NgOptimizedImage to imports,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AwardedGameCard {
   private assetsService = inject(AssetsService); // Inject AssetsService

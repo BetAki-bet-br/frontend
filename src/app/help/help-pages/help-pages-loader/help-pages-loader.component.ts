@@ -1,5 +1,5 @@
 import { HttpBackend, HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Logger } from '@app/@shared';
@@ -30,32 +30,32 @@ const log = new Logger('HelpPagesLoaderComponent');
     BasicPageContainerComponent,
     HelpPagesContainerComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HelpPagesLoaderComponent implements OnInit, OnDestroy {
   private _assetsService = inject(AssetsService);
   private _sanitizer = inject(DomSanitizer);
   private activatedRoute = inject(ActivatedRoute);
-  private cdr = inject(ChangeDetectorRef);
   private translateService = inject(TranslateService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private readonly brand = inject(BRAND);
 
-  public htmlContent: SafeHtml = '';
-  public outerHtmlContent: SafeHtml = '';
-  public customClassName: string = '';
+  readonly htmlContent = signal<SafeHtml>('');
+  readonly outerHtmlContent = signal<SafeHtml>('');
+  readonly customClassName = signal('');
 
   private httpClient: HttpClient;
   private langChangeSubscription!: Subscription;
   private routerSubscription!: Subscription;
   private langCode = '';
 
-  breadcrumbs: Breadcrumbs[] = [
+  readonly breadcrumbs = signal<Breadcrumbs[]>([
     {
       svgIcon: 'essentials-home',
       url: '/',
     },
-  ];
+  ]);
 
   constructor() {
     const handler = inject(HttpBackend);
@@ -102,7 +102,7 @@ export class HelpPagesLoaderComponent implements OnInit, OnDestroy {
     try {
       const { staticHtmlPath, customClassName, title } = this.data ?? {};
 
-      this.breadcrumbs = [
+      this.breadcrumbs.set([
         {
           svgIcon: 'essentials-home',
           url: '/',
@@ -110,9 +110,9 @@ export class HelpPagesLoaderComponent implements OnInit, OnDestroy {
         {
           text: title,
         },
-      ];
+      ]);
 
-      this.customClassName = customClassName || '';
+      this.customClassName.set(customClassName || '');
 
       const url = this._assetsService.cdnizeUrl(staticHtmlPath ?? this.activatedRoute.snapshot.data['staticHtmlPath']);
       this.httpClient.get(url, { responseType: 'text' }).subscribe({
@@ -126,14 +126,12 @@ export class HelpPagesLoaderComponent implements OnInit, OnDestroy {
           const sectionBreak = '<!-- SECTION_BREAK -->';
           if (renderedResult.includes(sectionBreak)) {
             const parts = renderedResult.split(sectionBreak);
-            this.htmlContent = this._sanitizer.bypassSecurityTrustHtml(parts[0]);
-            this.outerHtmlContent = this._sanitizer.bypassSecurityTrustHtml(parts[1]);
+            this.htmlContent.set(this._sanitizer.bypassSecurityTrustHtml(parts[0]));
+            this.outerHtmlContent.set(this._sanitizer.bypassSecurityTrustHtml(parts[1]));
           } else {
-            this.htmlContent = this._sanitizer.bypassSecurityTrustHtml(renderedResult);
-            this.outerHtmlContent = '';
+            this.htmlContent.set(this._sanitizer.bypassSecurityTrustHtml(renderedResult));
+            this.outerHtmlContent.set('');
           }
-
-          this.cdr.markForCheck();
         },
         error: (err) => {
           log.error('html content failed to load: ', err);

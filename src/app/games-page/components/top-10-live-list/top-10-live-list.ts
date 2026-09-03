@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { GameList } from '../game-list/game-list';
 import { GameCard } from '../game-card/game-card';
 
@@ -10,6 +10,7 @@ import { GameMain } from '@app/games-page/models/game.models';
   imports: [GameList, DragScrollDirective, GameCard],
   templateUrl: './top-10-live-list.html',
   styleUrl: './top-10-live-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Top10LiveList {
   games = input<GameMain[]>([]);

@@ -1,4 +1,4 @@
-import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, afterNextRender, computed, inject, signal } from '@angular/core';
 import { GameDetailModal } from './game-detail-modal/game-detail-modal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -39,6 +39,7 @@ import { GameEnum } from '@app/@shared/enums/gameEnum';
   host: {
     '(window:resize)': 'onResize()',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamesListPage {
   private route = inject(ActivatedRoute);

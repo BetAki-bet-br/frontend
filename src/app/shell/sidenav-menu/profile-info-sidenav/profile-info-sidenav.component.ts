@@ -1,5 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
-import { Component, OnDestroy, OnInit, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, input } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { Logger } from '@app/@shared/logger.service';
 import { AccountResolved } from '@app/@shared/models';
@@ -17,6 +17,7 @@ const log = new Logger('ProfileInfoHeaderComponent');
   selector: 'app-profile-info-sidenav',
   templateUrl: './profile-info-sidenav.component.html',
   styleUrls: ['./profile-info-sidenav.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileInfoSidenavComponent implements OnDestroy {
   dataStoreService = inject(DataStoreService);

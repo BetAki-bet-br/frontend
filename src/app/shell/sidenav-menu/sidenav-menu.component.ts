@@ -1,5 +1,15 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnInit, inject, input, output, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Logger } from '@app/@shared';
@@ -34,6 +44,7 @@ export interface SidenavState {
   templateUrl: './sidenav-menu.component.html',
   styleUrls: ['./sidenav-menu.component.scss'],
   imports: [MatSidenavContainer, MatSidenav, ProfileMenuComponent, MatSidenavContent, MatIcon],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidenavMenuComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
@@ -60,9 +71,9 @@ export class SidenavMenuComponent implements OnInit {
   sideMenuItemsCasino: SideMenuItem[] = SideNavMenuMockCasino;
   sideMenuItemsSports: SideMenuItem[] = SideNavMenuMockSportsbook;
   isSmallScreen: Observable<boolean> = of(false);
-  isMobile: boolean = true;
+  readonly isMobile = signal(true);
   private sidenavStateSubject = new BehaviorSubject<SidenavState>({
-    opened: this.isMobile ? false : true,
+    opened: this.isMobile() ? false : true,
     collapsed: false,
   });
 
@@ -88,9 +99,9 @@ export class SidenavMenuComponent implements OnInit {
     // toggle isMobile variable to determine sidenav mode (expandable or slide-out)
     this.observer.observe(['(max-width: 960px)']).subscribe((screenSize) => {
       if (screenSize.matches) {
-        this.isMobile = true;
+        this.isMobile.set(true);
       } else {
-        this.isMobile = false;
+        this.isMobile.set(false);
       }
     });
 
@@ -151,7 +162,7 @@ export class SidenavMenuComponent implements OnInit {
   }
 
   onSidenavMenuLinkClick() {
-    if (this.isMobile) {
+    if (this.isMobile()) {
       this.sidenav().close();
     }
     // Scroll to top
@@ -164,7 +175,7 @@ export class SidenavMenuComponent implements OnInit {
   }
 
   toggleSidenavMenu() {
-    if (this.isMobile) {
+    if (this.isMobile()) {
       this.sidenav().toggle();
       // On mobile, the menu can never be collapsed
       this.sidenavStateSubject.next({

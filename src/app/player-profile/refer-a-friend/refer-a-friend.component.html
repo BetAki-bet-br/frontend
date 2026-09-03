@@ -168,17 +168,17 @@
 
               <button
                 type="submit"
-                [disabled]="referForm.invalid || isLoading"
+                [disabled]="referForm.invalid || isLoading()"
                 class="w-full sm:w-auto px-8 py-3 font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
-                [class.bg-brand-500]="!referForm.invalid && !isLoading"
-                [class.text-white]="!referForm.invalid && !isLoading"
-                [class.hover:opacity-80]="!referForm.invalid && !isLoading"
-                [class.shadow-lg]="!referForm.invalid && !isLoading"
-                [class.bg-gray-200]="referForm.invalid || isLoading"
-                [class.text-gray-400]="referForm.invalid || isLoading"
-                [class.cursor-not-allowed]="referForm.invalid || isLoading"
+                [class.bg-brand-500]="!referForm.invalid && !isLoading()"
+                [class.text-white]="!referForm.invalid && !isLoading()"
+                [class.hover:opacity-80]="!referForm.invalid && !isLoading()"
+                [class.shadow-lg]="!referForm.invalid && !isLoading()"
+                [class.bg-gray-200]="referForm.invalid || isLoading()"
+                [class.text-gray-400]="referForm.invalid || isLoading()"
+                [class.cursor-not-allowed]="referForm.invalid || isLoading()"
               >
-                @if (isLoading) {
+                @if (isLoading()) {
                   <mat-icon class="animate-spin text-sm">refresh</mat-icon>
                   {{ 'Sending...' | translate }}
                 } @else {
@@ -213,7 +213,7 @@
                   (click)="copyLink()"
                   class="bg-white text-brand-500 px-6 py-2 rounded-lg text-sm font-bold hover:bg-gray-100 transition-colors shadow-sm flex items-center gap-2 min-w-[100px] justify-center"
                 >
-                  @if (copied) {
+                  @if (copied()) {
                     <mat-icon class="text-base !w-[16px] !h-[16px] !text-[16px]">check</mat-icon>
                     {{ 'Copied' | translate }}
                   } @else {

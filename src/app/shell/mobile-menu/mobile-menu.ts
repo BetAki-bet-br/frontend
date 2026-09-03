@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FullscreenService } from '@app/@shared/services/fullscreen.service';
 import { RoutingService } from '@app/@shared/services/routing.service';
@@ -13,6 +13,7 @@ import { BRAND } from '@app/@core/brand';
   imports: [RouterLink, NgOptimizedImage],
   templateUrl: './mobile-menu.html',
   styleUrl: './mobile-menu.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MobileMenu {
   private readonly sidebarService = inject(SidebarService);

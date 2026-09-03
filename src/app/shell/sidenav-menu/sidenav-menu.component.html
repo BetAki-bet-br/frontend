@@ -1,6 +1,6 @@
 <mat-sidenav-container autosize>
   <mat-sidenav
-    [class]="{ expanded: !sidenavState.collapsed, mobile: isMobile }"
+    [class]="{ expanded: !sidenavState.collapsed, mobile: isMobile() }"
     [mode]="'over'"
     [opened]="false"
     (openedChange)="onOpenedChange($event)"

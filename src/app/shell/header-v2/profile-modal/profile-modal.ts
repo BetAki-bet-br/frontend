@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -20,6 +20,7 @@ import { take } from 'rxjs';
   host: {
     '[class.is-open]': 'isOpen()',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileModal {
   private authService = inject(AuthenticationService);

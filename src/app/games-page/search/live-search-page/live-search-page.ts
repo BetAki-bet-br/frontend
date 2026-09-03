@@ -1,4 +1,4 @@
-import { Component, inject, Signal, signal, computed, afterNextRender } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, afterNextRender, computed, inject, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -14,6 +14,7 @@ import { GameCard } from '@app/games-page/components/game-card/game-card';
   imports: [FormsModule, GameDetailModal, GameCard, NgOptimizedImage],
   templateUrl: './live-search-page.html',
   styleUrl: './live-search-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiveSearchPage {
   private slotsService = inject(SlotsService);

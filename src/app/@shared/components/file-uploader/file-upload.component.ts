@@ -14,7 +14,18 @@
  * you may have.
  */
 
-import { Component, ElementRef, OnInit, Renderer2, inject, input, output, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  inject,
+  input,
+  output,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -36,6 +47,7 @@ export interface FileUploadConfiguration {
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss'],
   imports: [MatProgressBar, TranslateModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileUploadComponent implements OnInit {
   private snackbarService = inject(SnackbarService);
@@ -53,9 +65,9 @@ export class FileUploadComponent implements OnInit {
   readonly inputId = input<string>('file');
   readonly isFileLoading = input<boolean>(false);
 
-  progress = 0;
-  filePresent = false;
-  fileName = '';
+  readonly progress = signal(0);
+  readonly filePresent = signal(false);
+  readonly fileName = signal('');
   acceptedFileTypes = '';
 
   get fileTypesCsv(): string {
@@ -120,8 +132,8 @@ export class FileUploadComponent implements OnInit {
     // }
 
     const fileReader = new FileReader();
-    this.progress = 0;
-    this.filePresent = true;
+    this.progress.set(0);
+    this.filePresent.set(true);
 
     const isCsv = /^.+\.(csv)$/i.test(files.item(0)?.name ?? '');
 
@@ -147,13 +159,13 @@ export class FileUploadComponent implements OnInit {
     // Progress bar value calculation
     fileReader.onprogress = (data) => {
       if (data.lengthComputable) {
-        this.progress = Math.round((data.loaded / data.total) * 100);
+        this.progress.set(Math.round((data.loaded / data.total) * 100));
       }
     };
 
     if (files.item(0)) {
       const file = files ? files.item(0) : null;
-      this.fileName = file ? file.name : '';
+      this.fileName.set(file ? file.name : '');
       // Triggers reading of file. If file is csv, it is read as text, otherwise it is just
       if (isCsv) {
         if (file) fileReader.readAsText(file);

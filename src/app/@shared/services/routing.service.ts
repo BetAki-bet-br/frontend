@@ -21,9 +21,17 @@ export class RoutingService {
   isPromotions = signal(false);
   isSearch = signal(false);
 
+  /**
+   * Bumped on every `NavigationEnd`. `isLinkActive` reads it so that OnPush
+   * components binding to it (header, mobile menu) are re-checked on navigation
+   * — `Router.isActive` on its own is not reactive.
+   */
+  private readonly currentUrl = signal(this.router.url);
+
   constructor() {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        this.currentUrl.set(event.urlAfterRedirects);
         const sportsbookRoutes = ['/', '/sportsbook-live'];
         this.isSportsbook.set(sportsbookRoutes.includes(event.urlAfterRedirects));
         this.isInCassino.set(
@@ -52,6 +60,9 @@ export class RoutingService {
   }
 
   isLinkActive(path: string, exact: boolean): boolean {
+    // Establishes the reactive dependency; the answer itself comes from the router.
+    this.currentUrl();
+
     const subsetOptions = {
       paths: 'subset',
       queryParams: 'ignored',

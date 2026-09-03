@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -13,6 +13,7 @@ import { SubLevel, GameMain } from '../models/game.models';
   imports: [GameList, GameCard, GameDetailModal],
   templateUrl: './games-list-by-provider-page.html',
   styleUrl: './games-list-by-provider-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamesListByProviderPage {
   private route = inject(ActivatedRoute);

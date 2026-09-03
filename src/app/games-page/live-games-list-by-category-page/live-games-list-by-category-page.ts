@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -15,6 +15,7 @@ import { GameCard } from '../components/game-card/game-card';
   host: {
     '(window:resize)': 'onResize()',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiveGamesListByCategoryPage {
   private route = inject(ActivatedRoute);

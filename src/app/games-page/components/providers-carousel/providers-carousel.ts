@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { GameList } from '../game-list/game-list';
 import { RouterLink } from '@angular/router';
 import { Provider } from '@app/games-page/models/game.models';
@@ -9,6 +9,7 @@ import { BRAND } from '@app/@core/brand';
   imports: [GameList, RouterLink],
   templateUrl: './providers-carousel.html',
   styleUrl: './providers-carousel.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProvidersCarousel {
   private readonly cmsAssetsBaseUrl = inject(BRAND).api.cmsAssetsBaseUrl;

@@ -1,4 +1,13 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject, signal, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 
 declare const GameLauncher: any;
 
@@ -42,6 +51,7 @@ interface SoftSwissLaunchData {
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SoftswissGameLauncherComponent implements OnInit, OnDestroy {
   readonly launchData = input<SoftSwissLaunchData | null>(null);

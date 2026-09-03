@@ -1,11 +1,11 @@
 <app-basic-page-container help="help">
   <div class="breadcrumbs-container">
-    <app-page-breadcrumbs [breadcrumbs]="breadcrumbs" />
+    <app-page-breadcrumbs [breadcrumbs]="breadcrumbs()" />
   </div>
-  <app-help-pages-container class="help-pages-loader" [customClassName]="customClassName">
-    <div [class]="customClassName" [innerHTML]="htmlContent"></div>
-    @if (outerHtmlContent) {
-      <div outerContent [class]="customClassName" [innerHTML]="outerHtmlContent"></div>
+  <app-help-pages-container class="help-pages-loader" [customClassName]="customClassName()">
+    <div [class]="customClassName()" [innerHTML]="htmlContent()"></div>
+    @if (outerHtmlContent()) {
+      <div outerContent [class]="customClassName()" [innerHTML]="outerHtmlContent()"></div>
     }
   </app-help-pages-container>
 </app-basic-page-container>

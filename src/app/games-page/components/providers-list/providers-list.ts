@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { GameList } from '../game-list/game-list';
 import { RouterLink } from '@angular/router';
 import { Provider } from '@app/games-page/models/game.models';
@@ -10,6 +10,7 @@ import { GameEnum } from '@app/@shared/enums/gameEnum';
   imports: [GameList, RouterLink],
   templateUrl: './providers-list.html',
   styleUrl: './providers-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProvidersList {
   private readonly cmsAssetsBaseUrl = inject(BRAND).api.cmsAssetsBaseUrl;

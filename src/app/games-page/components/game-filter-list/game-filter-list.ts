@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { DragScrollDirective } from '@app/@shared/directives/drag-scroll.directive';
 import { GameCategory } from '@app/games-page/models/game.models';
 
@@ -7,6 +7,7 @@ import { GameCategory } from '@app/games-page/models/game.models';
   imports: [DragScrollDirective],
   templateUrl: './game-filter-list.html',
   styleUrl: './game-filter-list.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GameFilterList {
   filters = input<GameCategory[]>([]);

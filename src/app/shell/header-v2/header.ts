@@ -1,5 +1,5 @@
 import { CurrencyPipe, NgOptimizedImage, Location } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { CredentialsService } from '@app/auth';
@@ -23,6 +23,7 @@ interface RouteWithLabel {
   imports: [RouterLink, NgOptimizedImage, CurrencyPipe, ProfileModal, ClickOutsideDirective, TranslateModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
   private location = inject(Location);

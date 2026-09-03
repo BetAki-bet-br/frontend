@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { forkJoin, map, tap } from 'rxjs';
@@ -54,6 +54,7 @@ export interface PageSection {
   host: {
     '(window:resize)': 'onResize()',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiveGamesListPage {
   private route = inject(ActivatedRoute);

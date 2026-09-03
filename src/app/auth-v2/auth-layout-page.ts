@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { BRAND } from '@app/@core/brand';
@@ -8,6 +8,7 @@ import { BRAND } from '@app/@core/brand';
   imports: [RouterOutlet],
   templateUrl: './auth-layout-page.html',
   styleUrl: './auth-layout-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthLayoutPage {
   private readonly tawkMessengerService = inject(TawkToScriptService);

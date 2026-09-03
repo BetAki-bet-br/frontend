@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -30,10 +30,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    PageBreadcrumbsComponent
-],
+    PageBreadcrumbsComponent,
+  ],
   templateUrl: './refer-a-friend.component.html',
   styleUrls: ['./refer-a-friend.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReferAFriendComponent implements OnInit {
   private referAFriendService = inject(ReferAFriendService);
@@ -46,10 +47,10 @@ export class ReferAFriendComponent implements OnInit {
     initialValue: null,
   });
   referForm: FormGroup;
-  isLoading = false;
+  readonly isLoading = signal(false);
   // Placeholder as per design; the real referral code still has to come from the backoffice.
   referralLink = `${this.brand.seo.hostname.replace(/^https?:[/][/]/, '').replace(/[/]$/, '')}/ref/vini123`;
-  copied = false;
+  readonly copied = signal(false);
 
   breadcrumbs: Breadcrumbs[] = [
     {
@@ -93,16 +94,16 @@ export class ReferAFriendComponent implements OnInit {
 
   copyLink() {
     navigator.clipboard.writeText(this.referralLink);
-    this.copied = true;
+    this.copied.set(true);
     setTimeout(() => {
-      this.copied = false;
+      this.copied.set(false);
     }, 2000);
   }
 
   onSubmit() {
     if (this.referForm.invalid) return;
 
-    this.isLoading = true;
+    this.isLoading.set(true);
     const formValue = this.referForm.value;
 
     const request: ReferAFriendRequest = {
@@ -115,7 +116,7 @@ export class ReferAFriendComponent implements OnInit {
 
     this.referAFriendService.referAFriend(request).subscribe({
       next: (res) => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         if (res.rafRequestValid) {
           this.snackBar.open(this.translateService.instant(marker('Invitations sent successfully!')), 'OK', {
             duration: 3000,
@@ -133,7 +134,7 @@ export class ReferAFriendComponent implements OnInit {
         }
       },
       error: (err) => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         this.snackBar.open(this.translateService.instant(marker('Error sending invitations.')), 'OK', {
           duration: 3000,
         });

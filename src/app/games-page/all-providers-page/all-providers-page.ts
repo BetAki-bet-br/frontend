@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { GameEnum } from '@app/@shared/enums/gameEnum';
@@ -12,6 +12,7 @@ import { map } from 'rxjs';
   imports: [ProvidersList],
   templateUrl: './all-providers-page.html',
   styleUrl: './all-providers-page.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AllProvidersPage {
   private route = inject(ActivatedRoute);

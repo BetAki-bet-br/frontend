@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withPreloading, PreloadAllModules } from '@angular/router';
 import { appRoutes } from '@app/app.routes';
 import { provideTranslateService } from '@ngx-translate/core';
 import { environment } from '@env/environment';
@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([apiKeyInterceptor, authInterceptor])),
     provideBrowserGlobalErrorListeners(),
     provideNgxMask(),
-    provideRouter(appRoutes, withPreloading(PreloadAllModules)),
+    provideRouter(appRoutes, withPreloading(PreloadAllModules), withComponentInputBinding()),
     provideApi({
       basePath: environment.API_BASE_PATH,
     }),

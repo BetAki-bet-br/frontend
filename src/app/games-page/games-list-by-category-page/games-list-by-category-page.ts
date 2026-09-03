@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -16,6 +16,7 @@ import { SubLevel, GameMain } from '../models/game.models';
   host: {
     '(window:resize)': 'onResize()',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamesListByCategoryPage {
   private route = inject(ActivatedRoute);
