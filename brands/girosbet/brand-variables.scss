@@ -39,9 +39,11 @@ $app-custom-colors: (
   "neutral-black": #000,
   "neutral-dark": #1e1e1e,
   "neutral-white": #fff,
-  "neutral-10": #0d0f03,
-  "neutral-10-35": #0d0f0359,
-  "neutral-10-50": #0d0f0380,
+  // Despite the "neutral" name this is the page background (`body` in `src/theme/theme.scss`) and
+  // the tint behind dialogs, so it carries the brand: BetAki's value is an olive black.
+  "neutral-10": #03000b,
+  "neutral-10-35": #03000b59,
+  "neutral-10-50": #03000b80,
   "neutral-20": #15262d,
   "neutral-30": #182e39,
   "neutral-32": #313631,

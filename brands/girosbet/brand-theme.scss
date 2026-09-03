@@ -80,3 +80,14 @@
   // The GirosBet CTA radius is 12px.
   --custom-radius: 0.75rem;
 }
+
+/*
+ * `src/theme/theme.scss` hardcodes `font-family: Roboto, sans-serif` on `html, body`, so
+ * `--font-sans` never actually reaches the page for any brand (BetAki's "Heveltica Neue" does not
+ * apply either). Until that is fixed in `src/`, re-apply the brand family here: `src/main.scss`
+ * loads `brand-theme` after `theme/theme`, so this rule wins at equal specificity.
+ */
+html,
+body {
+  font-family: var(--font-sans);
+}
