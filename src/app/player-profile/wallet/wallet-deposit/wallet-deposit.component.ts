@@ -1,7 +1,7 @@
 import { ChatService } from '@app/@shared/services/chat.service';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { CreatePaymentResponse, PaymentRequest } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of, switchMap } from 'rxjs';
@@ -69,6 +69,7 @@ export class WalletDepositComponent implements OnInit {
   private router = inject(Router);
   private authDialogService = inject(AuthDialogService);
   private destroyRef = inject(DestroyRef);
+  private readonly brand = inject(BRAND);
 
   balance = 0;
   balanceCurrency = '';
@@ -143,7 +144,7 @@ export class WalletDepositComponent implements OnInit {
       this.balanceString = this.dataStoreService.getNumberInLocalFormat(balance?.totalBalance ?? 0, 2);
     });
 
-    let paymentTestModeEnabled: any = environment.deployConfig.paymentTestModeEnabled;
+    let paymentTestModeEnabled: any = this.brand.features.paymentTestMode;
     if (typeof paymentTestModeEnabled === 'string') {
       paymentTestModeEnabled = paymentTestModeEnabled.toLowerCase() === 'true';
     }

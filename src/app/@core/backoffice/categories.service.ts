@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { Category } from './models';
 
 @Injectable({
@@ -9,7 +9,8 @@ import { Category } from './models';
 })
 export class CategoriesService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/categories`;
+  private readonly brand = inject(BRAND);
+  private readonly baseUrl = `${this.brand.api.backofficeApiUrl}/api/v1/categories`;
 
   private categoriesCache: Record<string, Observable<any>> = {};
   private slotsCategoriesCache: Observable<any> | null = null;

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { TopWinner } from './models';
 
 @Injectable({
@@ -9,7 +9,8 @@ import { TopWinner } from './models';
 })
 export class TopWinnersService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/winners/batches`;
+  private readonly brand = inject(BRAND);
+  private readonly baseUrl = `${this.brand.api.backofficeApiUrl}/api/v1/winners/batches`;
 
   getBatches(): Observable<any> {
     return this.http.get(this.baseUrl);

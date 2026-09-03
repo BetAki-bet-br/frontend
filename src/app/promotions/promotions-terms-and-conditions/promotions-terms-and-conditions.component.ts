@@ -9,7 +9,7 @@ import {
   PageBreadcrumbsComponent,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { TranslateService } from '@ngx-translate/core';
 import mustache from 'mustache';
 import { take } from 'rxjs';
@@ -30,6 +30,7 @@ export class PromotionsTermsAndConditionsComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
   private translateService = inject(TranslateService);
+  private readonly brand = inject(BRAND);
 
   public htmlContent: SafeHtml = '';
 
@@ -75,7 +76,7 @@ export class PromotionsTermsAndConditionsComponent implements OnInit {
           text: marker('Promotion details'),
         },
       ];
-      const url = `${environment.deployConfig.comtradeAssetsBaseUrl}/assetshtml/promotions/${this.title}.html`;
+      const url = `${this.brand.api.cmsAssetsBaseUrl}/assetshtml/promotions/${this.title}.html`;
 
       // const url = this._assetsService.cdnizeUrl('assetshtml/promotions/' + this.title + '.html');
       console.log('sending reqs');
@@ -83,7 +84,7 @@ export class PromotionsTermsAndConditionsComponent implements OnInit {
         next: (result) => {
           this.htmlContent = this._sanitizer.bypassSecurityTrustHtml(
             mustache.render(result, {
-              cdnBaseUrl: environment.deployConfig.assetsBaseUrl,
+              cdnBaseUrl: this.brand.api.assetsBaseUrl,
             }),
           );
           console.log('Loaded promotion terms and conditions html from url: ' + url);

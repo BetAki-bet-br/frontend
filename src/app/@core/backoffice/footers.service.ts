@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { Footer, FooterIndex, FooterLink } from './models';
 
 @Injectable({
@@ -9,7 +9,8 @@ import { Footer, FooterIndex, FooterLink } from './models';
 })
 export class FootersService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/footers`;
+  private readonly brand = inject(BRAND);
+  private readonly baseUrl = `${this.brand.api.backofficeApiUrl}/api/v1/footers`;
 
   getFooters(params?: { q?: string; status?: string; country?: string }): Observable<FooterIndex> {
     return this.http.get<FooterIndex>(this.baseUrl, { params });

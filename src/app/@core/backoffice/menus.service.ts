@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, shareReplay } from 'rxjs';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { Menu } from './models';
 import { MenuApi } from '@app/@shared/models/menu-api.model';
 
@@ -14,7 +14,8 @@ interface GetMenusResponse {
 })
 export class MenusService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/menus`;
+  private readonly brand = inject(BRAND);
+  private readonly baseUrl = `${this.brand.api.backofficeApiUrl}/api/v1/menus`;
   private _menus$: Observable<MenuApi[]> | undefined;
 
   getMenus(): Observable<MenuApi[]> {

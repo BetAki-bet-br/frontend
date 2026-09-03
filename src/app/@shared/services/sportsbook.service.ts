@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Logger } from '@app/@shared/logger.service';
 import { CredentialsService } from '@app/auth';
 import { AuthDialogService } from '@app/auth/auth-dialog.service';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { I18nService } from '@app/i18n';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { catchError, map, Observable, Subscription } from 'rxjs';
@@ -28,6 +28,7 @@ export class SportsbookService {
   private prodGameService = inject(ProdGameService);
   private dataStoreService = inject(DataStoreService);
   private destroyRef = inject(DestroyRef);
+  private readonly brand = inject(BRAND);
   private _isSDKActive = false;
   private langChangeSubscription!: Subscription;
 
@@ -68,7 +69,7 @@ export class SportsbookService {
     const userSessionKey = this.credentialsService.credentials?.sessionKey ?? '';
     if (altenarWSDK) {
       const config = {
-        integration: environment.deployConfig.sportsbookIntegration,
+        integration: this.brand.integrations.sportsbook?.integration ?? '',
         culture: this.i18nService.language,
         token: userSessionKey,
       };
@@ -133,7 +134,7 @@ export class SportsbookService {
     const userSessionKey = this.credentialsService.credentials?.sessionKey ?? '';
     if (altenarWSDK) {
       const config = {
-        integration: environment.deployConfig.sportsbookIntegration,
+        integration: this.brand.integrations.sportsbook?.integration ?? '',
         culture: this.i18nService.language,
         token: userSessionKey,
       };

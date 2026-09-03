@@ -14,7 +14,7 @@ import {
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { Logger } from '@app/@shared/logger.service';
 import { I18nService } from '@app/i18n';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { CredentialsService } from '@app/auth';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { AssetsService } from '@app/@shared/assets.service';
@@ -51,6 +51,7 @@ export class PromotionsService {
 
   private gamesService = inject(SlotsService);
   private templateService = inject(TemplateService);
+  private readonly brand = inject(BRAND);
 
   /**
    * Finds and returns the "First deposit" promotion in the `promotions` array that the player can opt-in.
@@ -97,12 +98,12 @@ export class PromotionsService {
     const getBonusPromotions$ = this.credentialsService.isAuthenticated()
       ? this.bonusService.apiPortalV1BonusPlayerPromotionsGet(
           this.languageService.language,
-          environment.defaultBrandId,
+          this.brand.ids.defaultBrandId,
           true,
           status,
         )
       : this.bonusService.apiPortalV1BonusPromotionsGet(
-          environment.defaultBrandId,
+          this.brand.ids.defaultBrandId,
           this.languageService.language,
           true,
         );
@@ -164,7 +165,7 @@ export class PromotionsService {
               ],
               // not a good solution by api (ids)
               data.promotionIds,
-              environment.defaultLanguage,
+              this.brand.i18n.defaultLanguage,
             )
           : this.promotionService.apiPortalV1CmsPromotionsGet(
               [
@@ -174,7 +175,7 @@ export class PromotionsService {
               ],
               // not a good solution by api (ids)
               data.promotionIds,
-              environment.defaultLanguage,
+              this.brand.i18n.defaultLanguage,
             );
 
         const getTemplatesList$ = this.templateService.getTemplatesList();

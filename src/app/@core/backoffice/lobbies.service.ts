@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { LobbyResponse } from '@app/games-page/models/game.models';
 
 @Injectable({
@@ -9,7 +9,8 @@ import { LobbyResponse } from '@app/games-page/models/game.models';
 })
 export class LobbiesService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/lobbies`;
+  private readonly brand = inject(BRAND);
+  private readonly baseUrl = `${this.brand.api.backofficeApiUrl}/api/v1/lobbies`;
 
   private casinoLobbyCache: Observable<LobbyResponse> | null = null;
   private liveLobbyCache: Observable<LobbyResponse> | null = null;

@@ -26,7 +26,7 @@ import { SlotsService } from '@app/@core/backoffice/slots.service';
 
 // Components
 import { WinnerCard } from '../winner-card/winner-card';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 
 // Constants
 const REFRESH_INTERVAL = 30000;
@@ -47,6 +47,7 @@ export class WinnersList implements OnInit, OnDestroy {
   private readonly slotsService = inject(SlotsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
+  private readonly brand = inject(BRAND);
 
   loading = signal(true);
   displayedWinners = signal<Winner[]>([]);
@@ -203,7 +204,7 @@ export class WinnersList implements OnInit, OnDestroy {
       prize: topWinner.amount,
       gameName: topWinner.gameName,
 
-      gameImageUrl: `${environment.deployConfig.gamesThumbsBaseUrl}/${topWinner.gameExternalId}.webp`,
+      gameImageUrl: `${this.brand.api.gamesThumbsBaseUrl}/${topWinner.gameExternalId}.webp`,
       winnerName: this.winnerNamesCache.get(topWinner.playerId)!,
       userIcon: '/assets/icons/user-icon.svg',
       gameAlt: topWinner.gameName,

@@ -1,16 +1,14 @@
-import { Injectable } from '@angular/core';
-import { environment } from '@env/environment';
+import { Injectable, inject } from '@angular/core';
+import { BRAND } from '@app/@core/brand';
 import { CategoryKeyEnum } from '../models/template.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CmsSlugService {
-  constructor() {}
+  private readonly brand = inject(BRAND);
 
   getCmsSlug(categoryKey: CategoryKeyEnum): string {
-    return environment.deployConfig.cmsSlugPostfix
-      ? `${categoryKey}-${environment.deployConfig.cmsSlugPostfix}`
-      : categoryKey;
+    return this.brand.ids.cmsSlugPostfix ? `${categoryKey}-${this.brand.ids.cmsSlugPostfix}` : categoryKey;
   }
 }

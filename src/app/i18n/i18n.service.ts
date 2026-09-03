@@ -7,7 +7,7 @@ import { Logger } from '@app/@shared/logger.service';
 import langsConfig from '../../translations/languages-config.json';
 import enUS from '../../translations/json/en-US.json';
 import ptBR from '../../translations/json/pt-BR.json';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 
 const log = new Logger('I18nService');
 const languageKey = 'language';
@@ -22,6 +22,7 @@ export interface LanguageConfig {
 })
 export class I18nService {
   private translateService = inject(TranslateService);
+  private readonly brand = inject(BRAND);
 
   defaultLanguage!: string;
   supportedLanguages!: string[];
@@ -91,7 +92,7 @@ export class I18nService {
    * @param language The IETF language code to set.
    */
   set language(language: string) {
-    let newLanguage = language || localStorage.getItem(languageKey) || environment.deployConfig.defaultLanguage || '';
+    let newLanguage = language || localStorage.getItem(languageKey) || this.brand.i18n.defaultLanguage || '';
     let isSupportedLanguage = this.supportedLanguages.includes(newLanguage);
 
     // If no exact match is found, search without the region

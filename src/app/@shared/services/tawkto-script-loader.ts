@@ -1,12 +1,12 @@
 import { Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TawktoScriptLoader {
-  private readonly scriptSrc = environment.deployConfig.tawkToSDK;
+  private readonly scriptSrc = inject(BRAND).integrations.tawkToSDK ?? '';
   private readonly document = inject(DOCUMENT);
   private renderer: Renderer2;
 

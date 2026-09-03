@@ -1,7 +1,7 @@
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
 import { MatIcon } from '@angular/material/icon';
@@ -19,7 +19,7 @@ export class AgeConfirmationDialogComponent {
 
   isUnderage = false;
 
-  brandName: string = environment?.deployConfig?.brandName ?? '';
+  brandName: string = inject(BRAND).name;
 
   onConfirm() {
     this.dialogRef.close(true);

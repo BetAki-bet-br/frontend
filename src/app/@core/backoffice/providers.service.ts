@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, shareReplay, of } from 'rxjs';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { Provider as GameProvider, SubLevel, GameMain } from '@app/games-page/models/game.models';
 import { Provider } from './models';
 import { GameEnum } from '@app/@shared/enums/gameEnum';
@@ -11,7 +11,8 @@ import { GameEnum } from '@app/@shared/enums/gameEnum';
 })
 export class ProvidersService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/providers`;
+  private readonly brand = inject(BRAND);
+  private readonly baseUrl = `${this.brand.api.backofficeApiUrl}/api/v1/providers`;
 
   private providersCache: Record<string, Observable<Provider[]>> = {};
   private providerDetailCache: Record<number, Observable<Provider>> = {};

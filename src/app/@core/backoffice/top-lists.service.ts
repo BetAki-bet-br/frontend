@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { TopList } from './models';
 
 @Injectable({
@@ -9,7 +9,8 @@ import { TopList } from './models';
 })
 export class TopListsService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/top-lists`;
+  private readonly brand = inject(BRAND);
+  private readonly baseUrl = `${this.brand.api.backofficeApiUrl}/api/v1/top-lists`;
 
   getTopLists(params?: { q?: string; status?: string; vertical?: string }): Observable<any> {
     return this.http.get(this.baseUrl, { params });

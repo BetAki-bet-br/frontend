@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { Observable, filter, map, take } from 'rxjs';
 import { AffiliateData } from '../models';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { Logger } from '@app/@shared/logger.service';
 
 const log = new Logger('AffiliatesService');
@@ -13,6 +13,7 @@ const log = new Logger('AffiliatesService');
 export class AffiliatesService {
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
+  private readonly brand = inject(BRAND);
 
   /**
    * Handle affiliates links. Saves affiliates query parameters to Local storage.
@@ -28,7 +29,7 @@ export class AffiliatesService {
         const affiliateId: string = params['affiliateId'] ? params['affiliateId'] : 'Unknown';
         const token: string = params['token'];
 
-        const affiliateDataExpiryOffset = environment.deployConfig.affiliateDataExpiryOffset;
+        const affiliateDataExpiryOffset = this.brand.integrations.affiliateDataExpiryOffset;
         const currentDate = new Date();
         const expiryDate = currentDate.setHours(currentDate.getHours() + affiliateDataExpiryOffset);
 

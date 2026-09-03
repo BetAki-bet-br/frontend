@@ -1,6 +1,6 @@
 import { ChatService } from '@app/@shared/services/chat.service';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { PaymentRequest, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { catchError, map, of, Subscription, switchMap, throwError } from 'rxjs';
@@ -106,6 +106,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   private paymentService = inject(PaymentsService);
   private configurationService = inject(ConfigurationService);
   private destroyRef = inject(DestroyRef);
+  private readonly brand = inject(BRAND);
 
   balance = 0;
   balanceCurrency = '';
@@ -195,7 +196,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
       this.balanceString = this.dataStoreService.getNumberInLocalFormat(balance?.withdrawableBalance ?? 0, 2);
     });
 
-    let paymentTestModeEnabled: any = environment.deployConfig.paymentTestModeEnabled;
+    let paymentTestModeEnabled: any = this.brand.features.paymentTestMode;
     if (typeof paymentTestModeEnabled === 'string') {
       paymentTestModeEnabled = paymentTestModeEnabled.toLowerCase() === 'true';
     }

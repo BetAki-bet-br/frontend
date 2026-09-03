@@ -5,6 +5,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 import { merge, of } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { Logger } from '@app/@shared/logger.service';
 import { SeoService } from './seo.service';
 import { I18nService } from '@app/i18n';
@@ -51,6 +52,7 @@ export class AppStartupService {
   private breakpointObserver = inject(BreakpointObserver);
   private playerStatusService = inject(PlayerStatusService);
   private messageService = inject(MessageService);
+  private readonly brand = inject(BRAND);
 
   init() {
     log.debug('Initializing AppStartupService');
@@ -64,7 +66,7 @@ export class AppStartupService {
   }
 
   private setAppVersion() {
-    const appVersion = environment.deployConfig.longVersion.toString() || environment.version.toString() || '';
+    const appVersion = environment.version.toString() || '';
     document.querySelector('html')?.setAttribute('version', appVersion);
   }
 
@@ -75,7 +77,7 @@ export class AppStartupService {
   }
 
   private initI18n() {
-    this.i18nService.init(environment.deployConfig.defaultLanguage, environment.supportedLanguages);
+    this.i18nService.init(this.brand.i18n.defaultLanguage, this.brand.i18n.supportedLanguages);
   }
 
   private setupNavigationEvents() {
@@ -99,7 +101,7 @@ export class AppStartupService {
         if (title) {
           this.titleService.setTitle(this.translateService.instant(title));
         } else {
-          this.titleService.setTitle(environment.indexPageTitle);
+          this.titleService.setTitle(this.brand.seo.title);
         }
         const description = event['description'];
         if (description) {
@@ -121,7 +123,7 @@ export class AppStartupService {
         route = route.firstChild;
       }
 
-      const seoHostname = environment.deployConfig.seoHostname;
+      const seoHostname = this.brand.seo.hostname;
       if (seoHostname) {
         const canonicalPath = route.snapshot.data['canonical'] || this.router.url;
         const canonicalUrl = seoHostname + canonicalPath;
@@ -159,7 +161,7 @@ export class AppStartupService {
       .subscribe(() => {
         this.legitimuzGeolocationService.initialize(
           LegitimuzGeolocationAction.Check,
-          environment.deployConfig.legitimuzSDKToken,
+          this.brand.integrations.legitimuzSDKToken ?? '',
         );
         log.debug('Legitimuz Geolocation initialized after SDK loaded');
         this.startGeolocationCheck();

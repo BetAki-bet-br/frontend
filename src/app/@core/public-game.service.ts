@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { GameMain, Provider } from '@app/games-page/models/game.models';
 
 @Injectable({
@@ -10,7 +10,8 @@ import { GameMain, Provider } from '@app/games-page/models/game.models';
 export class PublicGameService {
   private http = inject(HttpClient);
 
-  private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/public/portal-games`;
+  private readonly brand = inject(BRAND);
+  private readonly baseUrl = `${this.brand.api.backofficeApiUrl}/api/v1/public/portal-games`;
 
   getProviders(portalId: number): Observable<Provider[]> {
     return this.http.get<Provider[]>(`${this.baseUrl}/providers`, {

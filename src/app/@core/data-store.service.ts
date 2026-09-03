@@ -15,12 +15,12 @@
  */
 
 import { Injectable, inject } from '@angular/core';
+import { BRAND } from '@app/@core/brand';
 import { Logger } from '@app/@shared/logger.service';
 import { Banner } from '@app/@shared/models';
 import { GameMenuCategoryModel, GameProviderData, GameTile } from '@app/@shared/models/game.model';
 import { Credentials } from '@app/auth';
 import { I18nService } from '@app/i18n';
-import { environment } from '@env/environment';
 import {
   Country,
   Currency,
@@ -97,14 +97,15 @@ export interface CurrentBannersData {
 export class DataStoreService {
   private deviceService = inject(DeviceDetectorService);
   private i18nService = inject(I18nService);
+  private readonly brand = inject(BRAND);
 
   public credentials: Credentials | null = null;
 
   readonly DECIMAL_SEPARATOR = '.';
 
   // default language
-  defaultLanguage = environment.deployConfig.defaultLanguage;
-  fallbackLanguage = environment.deployConfig.defaultLanguage;
+  defaultLanguage = this.brand.i18n.defaultLanguage;
+  fallbackLanguage = this.brand.i18n.defaultLanguage;
 
   // default country
   defaultCountryCode = 'BR';
@@ -115,11 +116,11 @@ export class DataStoreService {
   // game lobby language: is en-US because is used in links
   gameLobbyLanguage = 'en-US';
 
-  defaultPortalId = +environment.deployConfig.desktopPortalId;
+  defaultPortalId = this.brand.ids.desktopPortalId;
   // desktop portal id
-  desktopPortalId = +environment.deployConfig.desktopPortalId;
+  desktopPortalId = this.brand.ids.desktopPortalId;
   // mobile portal id
-  mobilePortalId = +environment.deployConfig.mobilePortalId;
+  mobilePortalId = this.brand.ids.mobilePortalId;
 
   cacheLifeSpan = 1800000; // lifespan of the cached item in ms (1800000ms = 30min)
 

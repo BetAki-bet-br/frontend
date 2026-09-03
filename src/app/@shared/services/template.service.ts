@@ -8,6 +8,7 @@ import {
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { DataStoreService } from '@app/@core';
 import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { TemplateAction, TemplateCustomEventData } from '../models/template.model';
 import { TEMPLATES } from './cms-templates-data';
 import { Router } from '@angular/router';
@@ -21,6 +22,7 @@ export class TemplateService {
   private dataStoreService = inject(DataStoreService);
   private templateService = inject(TemplateServiceApi);
   private router = inject(Router);
+  private readonly brand = inject(BRAND);
 
   private templateActionSub = new Subject<TemplateAction | null>();
 
@@ -92,7 +94,7 @@ export class TemplateService {
       }
 
       // otherwise, get them from api
-      return this.templateService.apiPortalV1CmsTemplatesGet(environment.deployConfig.brandId).pipe(
+      return this.templateService.apiPortalV1CmsTemplatesGet(this.brand.ids.brandId).pipe(
         map((response) => {
           this.dataStoreService.templatesList = response;
           return this.dataStoreService.templatesList;

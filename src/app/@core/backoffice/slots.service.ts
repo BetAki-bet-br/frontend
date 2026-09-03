@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, shareReplay } from 'rxjs';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { Slot } from './models';
 
 @Injectable({
@@ -9,7 +9,8 @@ import { Slot } from './models';
 })
 export class SlotsService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.backofficeApiUrl}/api/v1/slots`;
+  private readonly brand = inject(BRAND);
+  private readonly baseUrl = `${this.brand.api.backofficeApiUrl}/api/v1/slots`;
 
   private slotsByIdsCache: Record<string, Observable<Slot[]>> = {};
 

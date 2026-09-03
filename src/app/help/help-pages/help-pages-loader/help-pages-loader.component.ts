@@ -10,7 +10,7 @@ import {
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { BasicPageContainerComponent } from '@app/@shared/components/basic-page-container/basic-page-container.component';
 import { HelpPagesContainerComponent } from '../help-pages-container/help-pages-container.component';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -39,6 +39,7 @@ export class HelpPagesLoaderComponent implements OnInit, OnDestroy {
   private translateService = inject(TranslateService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private readonly brand = inject(BRAND);
 
   public htmlContent: SafeHtml = '';
   public outerHtmlContent: SafeHtml = '';
@@ -117,7 +118,7 @@ export class HelpPagesLoaderComponent implements OnInit, OnDestroy {
       this.httpClient.get(url, { responseType: 'text' }).subscribe({
         next: (result) => {
           const renderedResult = mustache.render(result, {
-            cdnBaseUrl: environment.deployConfig.assetsBaseUrl,
+            cdnBaseUrl: this.brand.api.assetsBaseUrl,
             langCode: this.langCode || 'en',
             lang: this.langCode || 'en',
           });

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { environment } from '@env/environment';
+import { BRAND } from '@app/@core/brand';
 import { Logger } from '@app/@shared/logger.service';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -14,6 +14,7 @@ export class AssetsService {
   private iconService = inject(MatIconRegistry);
   private sanitizer = inject(DomSanitizer);
   private translateService = inject(TranslateService);
+  private readonly brand = inject(BRAND);
 
   gameTileImageFormat = 'jpg';
   gameBackgroundImageFormat = 'jpg';
@@ -47,9 +48,7 @@ export class AssetsService {
   getGameImageUrl(externalGameId: string): string {
     //return this.cdnizeUrl(`assets/gametiles/${this.langCode}/${externalGameId}.${this.gameTileImageFormat}`);
     // games thumbnails are loaded from different location
-    const url =
-      `${environment.deployConfig.gamesThumbsBaseUrl}/${externalGameId}.webp` +
-      environment.deployConfig.gamesThumbsUrlSuffix;
+    const url = `${this.brand.api.gamesThumbsBaseUrl}/${externalGameId}.webp` + this.brand.api.gamesThumbsUrlSuffix;
     return url;
   }
 
@@ -116,15 +115,15 @@ export class AssetsService {
     const localizedPath = path.replace('${lang}', this.langCode);
 
     // add assets base url
-    const assetsUrl = `${environment.deployConfig.assetsBaseUrl}/${environment.deployConfig.assetsPath}`;
-    let fullPath = environment.deployConfig.assetsBaseUrl ? `${assetsUrl}/${localizedPath}` : localizedPath;
+    const assetsUrl = `${this.brand.api.assetsBaseUrl}/${this.brand.api.assetsPath}`;
+    let fullPath = this.brand.api.assetsBaseUrl ? `${assetsUrl}/${localizedPath}` : localizedPath;
 
     // if we need to add query string, first check if we already have one
-    if (environment.deployConfig.assetsQueryString) {
+    if (this.brand.api.assetsQueryString) {
       fullPath =
         fullPath.indexOf('?') !== -1
-          ? `${fullPath}&${environment.deployConfig.assetsQueryString}`
-          : `${fullPath}?${environment.deployConfig.assetsQueryString}`;
+          ? `${fullPath}&${this.brand.api.assetsQueryString}`
+          : `${fullPath}?${this.brand.api.assetsQueryString}`;
     }
     fullPath = this.cleanUrl(fullPath);
 
