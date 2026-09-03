@@ -136,13 +136,16 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": ["src/polyfills.ts"],
+            "polyfills": ["@angular/localize/init"],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": [".", "node_modules", "src"]
+            },
             "scripts": [],
             "styles": ["src/main.scss"],
-            "assets": ["src/apple-touch-icon.png", "src/robots.txt", "src/sitemap.xml", "src/assets", "src/assetslocal"]
+            "assets": ["src/robots.txt", "src/sitemap.xml", "src/assets", "src/assetslocal"]
           },
           "configurations": {
             "ci": {
