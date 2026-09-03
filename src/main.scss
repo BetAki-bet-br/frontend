@@ -2,6 +2,10 @@
 @use "tailwindcss";
 @use "brand-theme";
 
+/* The brands' legal pages are plain CMS html served as static assets, not app templates.
+   Keep them out of the Tailwind source scan so their markup cannot inflate the utility layer. */
+@source not "../brands/*/legal";
+
 body.sidebar-open {
   overflow: hidden;
 }
