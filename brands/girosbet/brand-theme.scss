@@ -1,0 +1,82 @@
+/*
+ * GirosBet design tokens (Tailwind v4 `@theme`).
+ *
+ * Source of truth for the palette: `docs/girosbet/01-levantamento-marca.md` (tokens captured from
+ * https://www.girosbet.io/). The brand has two purples — `#901bf7` is the shadcn `--primary` of the
+ * live site, `#e145ff` is the magenta the "Criar Conta" CTA and the promo topbar are painted with.
+ * They are mapped here onto the slots this front end already uses.
+ *
+ * Loaded by `src/main.scss` through the brand include path, after `@use "tailwindcss"`.
+ */
+
+@theme {
+  --breakpoint-xs: 30rem;
+
+  // Body copy is Inter (the live site loads 100..900); banner headlines are Bebas Neue.
+  // Both are pulled from Google Fonts by `brands/girosbet/index.html`.
+  --font-sans: "Inter", sans-serif;
+  --font-alt: "Inter", sans-serif;
+  --font-display: "Bebas Neue", "Inter", sans-serif;
+
+  // ---------------------------------------------------------------------------------------------
+  // Brand ramp.
+  // ---------------------------------------------------------------------------------------------
+
+  // Lightest tint, unused by `src/` today.
+  --color-brand-200: #f3c9ff;
+
+  // Bright text/icon colour on dark surfaces (`text-brand-400`, spinners, active sidebar entries,
+  // `bg-brand-400/20`). This is the GirosBet CTA magenta.
+  --color-brand-400: #e145ff;
+
+  // The primary: header background, primary buttons, focus rings, selected chips and tabs.
+  // `--primary` / `--ring` / `--accent` of the live site.
+  --color-brand-500: #901bf7;
+
+  // Hover/pressed state of everything painted with `brand-500`.
+  --color-brand-600: #a855f7;
+
+  // Darkest shade of the ramp.
+  --color-brand-800: #5c11a0;
+
+  // Muted brand tone for filled surfaces that must not shout (mobile sidebar buttons).
+  // `--secondary` / `--border` / `--input` of the live site.
+  --color-brand-darker: #3c086b;
+
+  // ---------------------------------------------------------------------------------------------
+  // Accent: section borders, highlighted labels, promo borders.
+  // ---------------------------------------------------------------------------------------------
+  --color-accent: #e145ff;
+  --color-accent-highlight: #f07bff;
+
+  // ---------------------------------------------------------------------------------------------
+  // Neutral ramp ("shark"). 50..600 are the shared greys; the dark end is tinted towards the
+  // GirosBet purple-black so surfaces read as the brand and not as generic charcoal.
+  // ---------------------------------------------------------------------------------------------
+  --color-shark-50: #fff;
+  --color-shark-100: #f1f1f1;
+  --color-shark-200: #e2e2e2;
+  --color-shark-300: #c4c4c4;
+  --color-shark-400: #8e8e8e;
+  --color-shark-500: #727272;
+  --color-shark-600: #595959;
+  --color-shark-700: #1f1138; // hairline separators
+  --color-shark-800: #120a26; // footer and card background
+  --color-shark-900: #050013; // raised surfaces, hover states (`--card` / `--popover`)
+  --color-shark-950: #03000b; // page background (`--background`)
+
+  // Neutrals outside the ramp.
+  --color-black: #03000b;
+  --color-alt-light: #e0e0e0;
+  --color-auth-placeholder: #03000b4d;
+
+  // ---------------------------------------------------------------------------------------------
+  // Layout and effects.
+  // ---------------------------------------------------------------------------------------------
+  --header-height-desktop: 64px;
+  --header-height-mobile: 55px;
+  --winer-card-background: linear-gradient(135deg, var(--color-shark-950) 0%, var(--color-shark-900) 100%);
+
+  // The GirosBet CTA radius is 12px.
+  --custom-radius: 0.75rem;
+}

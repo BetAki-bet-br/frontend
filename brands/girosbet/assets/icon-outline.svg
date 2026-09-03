@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="GirosBet">
+  <title>GirosBet</title>
+  <path
+    fill="none"
+    stroke="#E145FF"
+    stroke-width="5.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M 46.67 17.33 A 20.75 20.75 0 1 0 52.67 33.81 L 41 33.81"
+  />
+</svg>

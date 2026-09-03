@@ -1,0 +1,139 @@
+/*
+ * GirosBet SCSS variables.
+ *
+ * The other half of the theme: the Tailwind tokens live in `brand-theme.scss`, and the
+ * `$app-custom-colors` map below feeds the hand-written SCSS under `src/theme/` and the ~20
+ * component stylesheets that do `@use "theme/theme-variables"`. `src/theme/theme-variables.scss`
+ * is a one-line forwarder, so whichever brand directory is first on the include path wins.
+ *
+ * The keys keep their historical `Betaki_*` / `betaki-*` names on purpose — ~25 consumers in `src/`
+ * do `map.get($app-custom-colors, "Betaki_...")`, and renaming one silently drops the declaration.
+ * Only the *values* are GirosBet's: the lime/olive family became the brand purples
+ * (`#901bf7` primary, `#a855f7` light, `#3c086b`/`#1f1138`/`#120a26` dark surfaces, `#03000b` black),
+ * while the neutral, error, yellow, orange and light-blue entries are untouched.
+ * Phase 2 of the white-label work renames the keys to `brand_*` across all consumers.
+ */
+
+@use "sass:map" as map;
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+
+// Plus imports for other components in your app.
+
+// Material theme and palettes
+@forward "material-variables" show $app-primary, $app-accent, $app-warn, $app-theme,
+  $material-design-icons-font-directory-path, $custom-typography;
+
+// Brand artwork referenced from SCSS. Keep in sync with `assets.logo` in `brand.config.ts`;
+// stylesheets cannot read the TypeScript config.
+$brand-logo-url: "/assets/brand/logo.png";
+$app-custom-colors: (
+  // Base colors
+  // Accent colors: emphasize actions and highlighted information
+  // Semantic colors: success, error, warning, information, etc
+  // "semantic-100": #fff,
+  // Neutral colors: text, borders, icons, etc
+  "neutral-black-overlay": #111,
+  "neutral-black": #000,
+  "neutral-dark": #1e1e1e,
+  "neutral-white": #fff,
+  "neutral-10": #0d0f03,
+  "neutral-10-35": #0d0f0359,
+  "neutral-10-50": #0d0f0380,
+  "neutral-20": #15262d,
+  "neutral-30": #182e39,
+  "neutral-32": #313631,
+  "neutral-33": #757575,
+  "neutral-35": #80898e,
+  "neutral-40": #8c9099,
+  "neutral-45": #848585,
+  "neutral-47": #9e9e9e,
+  "neutral-50": #a7a9b0,
+  "neutral-100": #d3d4d7,
+  "neutral-150": #dddfe4,
+  "neutral-200": #f5f5f5,
+  "neutral-300": #eff1f2,
+  "neutral-400": #e0e0e0,
+
+  "Betaki_black": #03000b,
+  "Betaki_black_30": #03000b4d,
+  "Betaki_black_40": #02000a,
+
+  "ATL_white10": #d3d4d7,
+  "ATL_white75": #d3d4d7,
+
+  "Betaki_ebano_profundo": #050013,
+  "Betaki_ebano_profundo_75": #050013bf,
+  "Betaki_ebano_profundo_35": #05001359,
+
+  "Betaki_lima-radiante": #901bf7,
+  "Betaiki_lima-radiante_35": #901bf759,
+  "Betaiki_lima-radiante_10": #901bf71a,
+
+  "Betaki_olivia_noturna": #1f1138,
+  "Betaki_olivia": #120a26,
+
+  "Betaki_branco_neve": #fff,
+  "Betaki_branco_neve_100": #eff1f2,
+  "Betaki_branco_neve_75": #ffffffbf,
+  "Betaki_branco_neve_50": #ffffff80,
+  "Betaki_branco_neve_35": #ffffff59,
+  "Betaki_branco_neve_25": #ffffff40,
+  "Betaki_branco_neve_15": #ffffff26,
+  "Betaki_branco_neve_10": #ffffff1a,
+
+  "Betaki_grey500": #1b1b1b,
+  "Betaki_grey100": #313131,
+  "Betaki_grey80": #d0d0d0,
+  "Betaki_grey50": #9e9e9e,
+  "Betaki_grey30": #eff1f2,
+  "Betaki_grey_20": #120a2633,
+  "Betaki_grey_10": #f6f8f9,
+  "Betaki_grey200": #2a1b45,
+
+  "Betaki_error": #f06143,
+  "Betaki_error300": #fd3f3f,
+
+  "Betaki_success": #901bf7,
+  "Betaki_success30": #901bf74d,
+  "Betaki_success50": #a855f7,
+  "Betaki_success75": #901bf7bf,
+  "Betaki_success100": #a855f7,
+
+  "Betaki_yellow": #f0cd43,
+
+  "Betaki_orange": #ffc107,
+
+  "Betaki_lightblue": #43d0f0,
+
+  "Betaki_sponsorship_light": #241a3a,
+  "Betaki_sponsorship_dark": #170e2b,
+
+  // colors from palette
+  "betaki-white100": #fff,
+  "betaki-white50": #f4f4f4,
+  "betaki-grey30": #eff1f2,
+  "betaki-grey80": #d0d0d0,
+  "betaki-grey100": #8f8f8f,
+  "betaki-black10": #120a261a,
+  "betaki-black30": #120a264d,
+  "betaki-black100": #120a26,
+  "betaki-green30": #901bf74d,
+  "betaki-green50": #901bf780,
+  "betaki-green100": #901bf7,
+  "betaki-success": #a855f7,
+  "betaki-error": #fd3f3f
+);
+
+// $action-gradient: linear-gradient(
+//   to right,
+//   map.get(theme-variables.$app-custom-colors, "blue-50"),
+//   map.get(theme-variables.$app-custom-colors, "purple")
+// );
+
+// max width of the main content (on the home page only?)
+$home-content-max-width: 1218px;
+$home-category-card-content-padding: 1.25rem;
+$home-category-card-content-padding-mobile: 1.6rem 1.25rem;
