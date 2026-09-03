@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take } from 'rxjs/operators';
 import { merge, of } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '@env/environment';
@@ -131,11 +131,30 @@ export class AppStartupService {
       this.seoService.updateRobotsMetaTags(route.snapshot.data['robots']);
     });
 
-    // Update player balance and messages on navigation
+    // Update player balance and messages on navigation.
+    // Both hit the Comtrade portal gateway, which can be unreachable (dead host, offline
+    // backend). A failure here must never stop navigation or flood the console: swallow it and
+    // log at debug. The next NavigationEnd retries anyway.
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.playerStatusService.updatePlayerBalance().subscribe();
-        this.messageService.updateUnreadCount().subscribe();
+        this.playerStatusService
+          .updatePlayerBalance()
+          .pipe(
+            catchError((err) => {
+              log.debug('updatePlayerBalance failed on navigation:', err);
+              return of(null);
+            }),
+          )
+          .subscribe();
+        this.messageService
+          .updateUnreadCount()
+          .pipe(
+            catchError((err) => {
+              log.debug('updateUnreadCount failed on navigation:', err);
+              return of(null);
+            }),
+          )
+          .subscribe();
       }
     });
   }

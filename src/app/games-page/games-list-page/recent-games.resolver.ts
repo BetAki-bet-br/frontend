@@ -2,11 +2,14 @@ import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { GameService } from '@app/@shared/services/game.service';
 import { PortalService } from '@app/@shared/services/portal.service';
-import { Observable, map, switchMap, of } from 'rxjs';
+import { Observable, catchError, map, switchMap, of } from 'rxjs';
+import { Logger } from '@app/@shared/logger.service';
 import { CredentialsService } from '@app/auth';
 import { GameMain, SubLevel } from '../models/game.models';
 import { SlotsService } from '@app/@core/backoffice/slots.service';
 import { Slot } from '@app/@core/backoffice/models';
+
+const log = new Logger('recentGamesResolver');
 
 export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (
   route: ActivatedRouteSnapshot,
@@ -62,6 +65,13 @@ export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (
         levelType: 'Category',
         parentId: undefined,
       };
+    }),
+    // The recent-games list comes from the Comtrade portal gateway, which can be unreachable.
+    // A resolver that errors cancels the navigation and leaves the lobby blank, so degrade to
+    // "no recent games" instead.
+    catchError((err) => {
+      log.debug('Recent games unavailable:', err);
+      return of(undefined);
     }),
   );
 };
