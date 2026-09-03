@@ -96,6 +96,8 @@ export interface Slot {
   id: number;
   title: string;
   cover_url: string;
+  /** camelCase alias the lobby/category/by-ids payloads use for `cover_url`. */
+  coverUrl?: string | null;
   status: string;
   provider: string;
   provider_game_id: string;
@@ -141,8 +143,12 @@ export interface Setting {
 export interface Provider {
   id: number;
   name?: string;
+  slug?: string;
   status?: 'active' | 'inactive';
   external_id?: string;
+  /** Absolute logo url from the CMS. The API ships both spellings; either may be null. */
+  logoUrl?: string | null;
+  logo_url?: string | null;
   games?: any[];
   [key: string]: any;
 }

@@ -27,7 +27,7 @@ export class AwardedGameCard {
 
   get gameImageUrl(): string {
     if (!this.game()) return '';
-    return this.assetsService.getGameImageUrl(this.game().externalId); // Use AssetsService
+    return this.assetsService.getGameCoverUrl(this.game()); // Use AssetsService
   }
 
   onImageLoad() {

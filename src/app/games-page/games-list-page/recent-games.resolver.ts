@@ -50,6 +50,7 @@ export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (
         rtp: slot['rtp'],
         volatility: slot['volatility'],
         minBet: slot['min_bet'] as string,
+        coverUrl: slot.coverUrl ?? slot['cover_url'] ?? null,
       }));
 
       return {

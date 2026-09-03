@@ -7,6 +7,12 @@ import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { GameTile } from './models';
 
+/** Minimal shape `getGameCoverUrl` needs: a `GameMain`, a `Slot` adapter, or a winner row. */
+export interface GameCover {
+  externalId?: string | null;
+  coverUrl?: string | null;
+}
+
 const log = new Logger('AssetsService');
 
 @Injectable({ providedIn: 'root' })
@@ -50,6 +56,24 @@ export class AssetsService {
     // games thumbnails are loaded from different location
     const url = `${this.brand.api.gamesThumbsBaseUrl}/${externalGameId}.webp` + this.brand.api.gamesThumbsUrlSuffix;
     return url;
+  }
+
+  /**
+   * Thumbnail for a game, preferring the artwork the CMS ships with the game itself.
+   *
+   * The backoffice returns an absolute `coverUrl` on every game of `GET /api/v1/lobbies/*`,
+   * `GET /api/v1/categories/{id}` and `POST /api/v1/slots/by-ids`. When it is missing (older
+   * payloads, games with no artwork) we fall back to the brand thumbnail CDN keyed by external
+   * game id, which is what the app used before the CMS carried covers.
+   *
+   * Both branches return an absolute url, so the result is safe to bind to `ngSrc`.
+   */
+  getGameCoverUrl(game: GameCover | null | undefined): string {
+    const cover = game?.coverUrl;
+    if (cover) {
+      return cover;
+    }
+    return this.getGameImageUrl(game?.externalId ?? '');
   }
 
   getGameBackgroundImageUrl(externalGameId: string): string {

@@ -27,6 +27,13 @@ export interface GameMain {
   minBet?: string;
   rtp?: string;
   awarded?: AwardedData;
+  /**
+   * Absolute thumbnail url served by the backoffice CMS (`coverUrl` on every game of
+   * `GET /api/v1/lobbies/*`, `GET /api/v1/categories/{id}` and `POST /api/v1/slots/by-ids`).
+   * Null/absent when the CMS has no artwork for the game — callers then fall back to the
+   * brand thumbnail CDN via `AssetsService.getGameCoverUrl`.
+   */
+  coverUrl?: string | null;
 }
 
 export interface SubLevel {
@@ -54,6 +61,10 @@ export interface Provider {
   id: number;
   name: string;
   gameCount: number;
+  /** Absolute logo url from the CMS (`logoUrl`/`logo_url`); falls back to `cmsAssetsBaseUrl`. */
+  logoUrl?: string | null;
+  /** CMS slug, used as the logo file name in the `cmsAssetsBaseUrl` fallback. */
+  slug?: string | null;
 }
 
 export interface PostGameResponse {

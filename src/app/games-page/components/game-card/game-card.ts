@@ -44,7 +44,7 @@ export class GameCard {
 
   get gameImageUrl(): string {
     if (!this.game()) return '';
-    return this.assetsService.getGameImageUrl(this.game().externalId);
+    return this.assetsService.getGameCoverUrl(this.game());
   }
 
   onImageLoad() {

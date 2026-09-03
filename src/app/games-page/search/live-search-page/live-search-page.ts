@@ -71,6 +71,7 @@ export class LiveSearchPage {
                   rtp: slot['rtp'],
                   volatility: slot['volatility'],
                   minBet: slot['minBet'],
+                  coverUrl: slot['coverUrl'] ?? slot['cover_url'] ?? null,
                 }) as GameMain,
             );
           }),

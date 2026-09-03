@@ -23,10 +23,10 @@ import { Slot } from '@app/@core/backoffice/models';
 // Services
 import { WinnersService } from '@app/@shared/services/winners.service';
 import { SlotsService } from '@app/@core/backoffice/slots.service';
+import { AssetsService } from '@app/@shared/assets.service';
 
 // Components
 import { WinnerCard } from '../winner-card/winner-card';
-import { BRAND } from '@app/@core/brand';
 
 // Constants
 const REFRESH_INTERVAL = 30000;
@@ -47,7 +47,7 @@ export class WinnersList implements OnInit, OnDestroy {
   private readonly slotsService = inject(SlotsService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly breakpointObserver = inject(BreakpointObserver);
-  private readonly brand = inject(BRAND);
+  private readonly assetsService = inject(AssetsService);
 
   loading = signal(true);
   displayedWinners = signal<Winner[]>([]);
@@ -204,7 +204,9 @@ export class WinnersList implements OnInit, OnDestroy {
       prize: topWinner.amount,
       gameName: topWinner.gameName,
 
-      gameImageUrl: `${this.brand.api.gamesThumbsBaseUrl}/${topWinner.gameExternalId}.webp`,
+      gameImageUrl: this.assetsService.getGameCoverUrl(
+        game ?? { externalId: topWinner.gameExternalId, coverUrl: null },
+      ),
       winnerName: this.winnerNamesCache.get(topWinner.playerId)!,
       userIcon: '/assets/icons/user-icon.svg',
       gameAlt: topWinner.gameName,
@@ -238,6 +240,7 @@ export class WinnersList implements OnInit, OnDestroy {
       rtp: s.rtp,
       volatility: s.volatility,
       minBet: String(s.min_bet),
+      coverUrl: s.coverUrl ?? s.cover_url ?? null,
     };
   }
 

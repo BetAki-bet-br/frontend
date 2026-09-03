@@ -7,11 +7,7 @@
 >
   <div
     class="absolute inset-0 bg-cover bg-center"
-    [style.background-image]="
-      'url(https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails/' +
-      game().externalId +
-      '.webp)'
-    "
+    [style.background-image]="'url(' + gameImageUrl + ')'"
   >
     <!-- Gradient overlay -->
     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
