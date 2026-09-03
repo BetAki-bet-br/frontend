@@ -3,14 +3,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   SimpleChanges,
   inject,
   input,
+  output,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { DataStoreService } from '@app/@core';
@@ -48,7 +47,7 @@ export class PageBreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
 
   readonly breadcrumbs = input<Breadcrumbs[]>([]);
   readonly showTopBar = input<boolean>(true);
-  @Output() backButtonClicked = new EventEmitter<void>();
+  readonly backButtonClicked = output<void>();
 
   breadcrumbsList: Breadcrumbs[] = [];
 
@@ -123,6 +122,7 @@ export class PageBreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
       .reverse()
       .find((breadcrumb) => !!breadcrumb.url);
 
+    // TODO: The 'emit' function requires a mandatory void argument
     this.backButtonClicked.emit();
     if (this.isOnProfilePage()) {
       // Navigate to the previous page in the breadcrumbs array. If there are none, navigate to the general profile page

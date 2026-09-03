@@ -14,7 +14,7 @@
  * you may have.
  */
 
-import { Directive, EventEmitter, HostBinding, HostListener, Output, inject } from '@angular/core';
+import { Directive, HostBinding, HostListener, inject, output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -25,7 +25,7 @@ export class FileUploadDirective {
   snackbar = inject(MatSnackBar);
   private translateService = inject(TranslateService);
 
-  @Output() emitItems = new EventEmitter<FileList>();
+  readonly emitItems = output<FileList>();
   // Used for setting the class when user is using drag'n'drop
   @HostBinding('class.fileover') fileover?: boolean;
 

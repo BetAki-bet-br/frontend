@@ -2,11 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
   inject,
+  output,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Logger } from '@app/@shared/logger.service';
@@ -33,7 +32,7 @@ export class ProfileMenuComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private sidenavService = inject(SidenavMenuService);
 
-  @Output() linkClicked = new EventEmitter<void>();
+  readonly linkClicked = output<void>();
 
   displayNumberOfMessages = false;
 

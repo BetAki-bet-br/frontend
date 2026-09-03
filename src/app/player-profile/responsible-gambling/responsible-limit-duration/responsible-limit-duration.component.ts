@@ -3,14 +3,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   SimpleChanges,
   inject,
   input,
+  output,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlayerLimit, TimePeriod } from '@app/@shared/models';
@@ -73,8 +72,8 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
   readonly description = input('');
   readonly timePeriods = input<TimePeriod[]>([]);
 
-  @Output() updateLimit: EventEmitter<PlayerLimit> = new EventEmitter();
-  @Output() deleteLimit: EventEmitter<number> = new EventEmitter();
+  readonly updateLimit = output<PlayerLimit>();
+  readonly deleteLimit = output<number | undefined>();
 
   limitStatusEnum = LimitStatusEnum;
 

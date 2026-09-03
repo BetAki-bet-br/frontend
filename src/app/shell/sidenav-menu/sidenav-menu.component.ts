@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, inject, input } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, inject, input, output } from '@angular/core';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Logger } from '@app/@shared';
@@ -51,7 +51,7 @@ export class SidenavMenuComponent implements OnInit {
   readonly playerInfo = input<PlayerDetails | null>(null);
   readonly loyaltyPoints = input<Loyalty | null>(null);
   readonly balance = input<AccountResolved | null>(null);
-  @Output() sidenavStateChangeEvent = new EventEmitter<SidenavState>();
+  readonly sidenavStateChangeEvent = output<SidenavState>();
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
 
   isSportsCollapsed = false;

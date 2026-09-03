@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, EventEmitter, Output, inject, input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, input, output } from '@angular/core';
 import { I18nService, LanguageConfig } from './i18n.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule, KeyValue } from '@angular/common';
@@ -27,7 +27,7 @@ export class LanguageSelectorComponent implements OnInit {
   readonly fontSize = input('0.875'); // default font-size 14px
   readonly fontColor = input('#8B92AB'); // default color gray-blue-500
 
-  @Output() menuClosedEvent = new EventEmitter<void>();
+  readonly menuClosedEvent = output<void>();
 
   isMenuClosed = true;
 
@@ -45,6 +45,7 @@ export class LanguageSelectorComponent implements OnInit {
 
   menuClosed() {
     this.isMenuClosed = true;
+    // TODO: The 'emit' function requires a mandatory void argument
     this.menuClosedEvent.emit();
   }
 

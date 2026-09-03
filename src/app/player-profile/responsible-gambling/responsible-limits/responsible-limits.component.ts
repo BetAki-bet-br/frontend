@@ -4,16 +4,15 @@ import {
   ChangeDetectorRef,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
-  EventEmitter,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   SimpleChanges,
   TemplateRef,
   ViewChild,
   inject,
   input,
+  output,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataStoreService } from '@app/@core';
@@ -88,7 +87,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
   readonly limits = input<PlayerLimit[]>([]);
   readonly currencyCode = input('');
 
-  @Output() refreshLimits: EventEmitter<any> = new EventEmitter();
+  readonly refreshLimits = output<void>();
 
   limitStatusEnum = LimitStatusEnum;
 

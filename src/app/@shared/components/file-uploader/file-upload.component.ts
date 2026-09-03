@@ -14,17 +14,7 @@
  * you may have.
  */
 
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  Output,
-  Renderer2,
-  ViewChild,
-  inject,
-  input,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild, inject, input, output } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { MatProgressBar } from '@angular/material/progress-bar';
@@ -54,8 +44,8 @@ export class FileUploadComponent implements OnInit {
 
   @ViewChild('uploadInput', { static: true }) uploadInput?: ElementRef;
   // Emits an array of strings when csv is either dropper or uploaded via browsing
-  @Output() emitItems = new EventEmitter<FileList>();
-  @Output() emitFileName = new EventEmitter<string>();
+  readonly emitItems = output<FileList>();
+  readonly emitFileName = output<string | undefined>();
   readonly configuration = input<FileUploadConfiguration>({
     fileType: ['*'],
     maxFileSizeKB: 2000,

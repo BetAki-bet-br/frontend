@@ -8,13 +8,12 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   OnChanges,
-  Output,
   SimpleChanges,
   TemplateRef,
   ViewChild,
   input,
+  output,
 } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -63,7 +62,7 @@ export class BaseTableComponent<T> implements OnChanges, AfterViewInit {
   readonly pageSize = input<number | undefined>(2);
   readonly expandEnabled = input(true);
 
-  @Output() rowExtended = new EventEmitter<GenericDataModel<T>>();
+  readonly rowExtended = output<GenericDataModel<T>>();
 
   @ViewChild(MatSort, { static: false }) set content(sort: MatSort) {
     this.dataSource.sort = sort;
