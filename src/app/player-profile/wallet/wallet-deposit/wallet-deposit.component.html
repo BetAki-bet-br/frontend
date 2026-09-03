@@ -90,11 +90,15 @@
         </div>
         <span class="message-span">
           <b>{{ '*Important:' | translate }} </b
-          >{{
-            'The money will be sent to the bank account linked to your CPF, which will be used as the PIX ' +
-              'key and registered to your Betaki account. Please confirm that your CPF is registered as a PIX key with your ' +
-              'bank. If the PIX key is incorrect, please contact Support.' | translate
-          }}</span
+          ><span
+            [translate]="
+              'The money will be sent to the bank account linked to your CPF, which will be used as the PIX ' +
+              'key and registered to your {{brand}} account. Please confirm that your CPF is registered as a PIX key with your ' +
+              'bank. If the PIX key is incorrect, please contact Support.'
+            "
+            [translateParams]="brandParams"
+          ></span
+        ></span
         >
       </div>
     }

@@ -2,7 +2,7 @@ export { BRAND } from './brand-config';
 export type { BrandConfig } from './brand-config';
 export { brandEnv } from './brand-env';
 export type { BrandEnvValue } from './brand-env';
-export { brandText, brandTitle } from './brand-text';
+export { BRAND_PARAMS, brandText, brandTitle } from './brand-text';
 
 /** The active brand, for the rare consumer that runs outside an injection context. */
 export { BRAND_CONFIG } from '@brand/brand.config';

@@ -50,6 +50,18 @@ export const BRAND_CONFIG: BrandConfig = {
     affiliateDataExpiryOffset: 168,
   },
 
+  legal: {
+    disclaimer:
+      'A BetAki.bet.br é uma plataforma de entretenimento online operada pela Vanguard Entretenimento Brasil LTDA ' +
+      'inscrita sob CNPJ nº 56.885.537/0001-30, com sede no endereço Rua do Brum, n. 455, Recife, PE, CEP 50.030-260, ' +
+      'e-mail suporte@betaki.bet.br, devidamente autorizada pelo Governo Brasileiro através da Secretaria de Prêmios e ' +
+      'Apostas (Ministério da Fazenda), conforme Portaria SPA/MF nº 693 de 1 de abril de 2025. A BetAki oferece aos seus ' +
+      'usuários uma experiência inovadora em apostas de quota fixa, em total conformidade com as regulamentações ' +
+      'brasileiras. A plataforma conta com a certificação GLI Brasil, emitida pela Gaming Laboratories International ' +
+      '(GLI), assegurando os mais altos padrões de integridade e segurança no setor.',
+    supportEmail: 'atendimento@betaki.bet.br',
+  },
+
   social: {
     instagram: 'https://www.instagram.com/betakioficial',
     tiktok: 'https://www.tiktok.com/@betakioficial?_t=ZM-8tTSPMU6MMg&_r=1',

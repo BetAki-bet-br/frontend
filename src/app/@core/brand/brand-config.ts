@@ -66,6 +66,14 @@ export interface BrandConfig {
     affiliateDataExpiryOffset: number;
   };
 
+  /** Copy only the brand's lawyers can write. */
+  legal: {
+    /** Regulatory paragraph rendered at the bottom of the footer. Plain text, no markup. */
+    disclaimer: string;
+    /** Player-facing mailbox quoted in the privacy/data-portability copy. */
+    supportEmail: string;
+  };
+
   social: {
     instagram?: string;
     tiktok?: string;

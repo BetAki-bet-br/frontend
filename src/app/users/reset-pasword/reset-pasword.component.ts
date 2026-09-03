@@ -21,6 +21,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { LoaderComponent } from '@app/@shared/loader/loader.component';
+import { BRAND_PARAMS } from '@app/@core/brand';
 
 interface ForgotPasswordForm {
   password: FormControl<string | null>;
@@ -45,6 +46,8 @@ const log = new Logger('ResetPasswordComponent');
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResetPaswordComponent implements OnInit {
+  protected readonly brandParams = BRAND_PARAMS;
+
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private route = inject(ActivatedRoute);

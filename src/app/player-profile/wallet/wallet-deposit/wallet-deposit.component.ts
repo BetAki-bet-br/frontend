@@ -1,7 +1,7 @@
 import { ChatService } from '@app/@shared/services/chat.service';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { BRAND } from '@app/@core/brand';
+import { BRAND, BRAND_PARAMS } from '@app/@core/brand';
 import { CreatePaymentResponse, PaymentRequest } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of, switchMap } from 'rxjs';
@@ -55,6 +55,7 @@ interface DepositForm {
   ],
 })
 export class WalletDepositComponent implements OnInit {
+  protected readonly brandParams = BRAND_PARAMS;
   private paymentsService = inject(PaymentsService);
   private cdr = inject(ChangeDetectorRef);
   private clipboard = inject(Clipboard);

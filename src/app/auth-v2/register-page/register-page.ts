@@ -38,6 +38,7 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { NgOptimizedImage } from '@angular/common';
 import { ButtonComponent } from '@app/@shared/components/button/button.component';
 import { BannersService } from '@app/@core/backoffice';
+import { BRAND_PARAMS } from '@app/@core/brand';
 
 interface NavigatorWithDeviceMemory extends Navigator {
   readonly deviceMemory?: number;
@@ -70,6 +71,8 @@ export class RegisterPage {
   private readonly legitimuzGeoService = inject(LegitimuzGeolocationService);
   private readonly affiliateService = inject(AffiliatesService);
   private readonly bannerService = inject(BannersService);
+
+  protected readonly brandParams = BRAND_PARAMS;
 
   submitLoading = signal(false);
   showPassword = signal(false);

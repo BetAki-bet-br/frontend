@@ -14,6 +14,7 @@ import {
   UpdatePlayerContactPrefRequest,
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { BRAND_PARAMS } from '@app/@core/brand';
 
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -43,6 +44,8 @@ const log = new Logger('ProfileSettingsSubscriptionsComponent');
   ],
 })
 export class ProfileSettingsSubscriptionsComponent implements OnInit {
+  protected readonly brandParams = BRAND_PARAMS;
+
   private fb = inject(FormBuilder);
   private playerProfileService = inject(PlayerProfileService);
   private snackbarService = inject(SnackbarService);

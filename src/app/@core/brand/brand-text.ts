@@ -28,3 +28,16 @@ export function brandTitle(title: string): string {
   const suffix = BRAND_CONFIG.seo.titleSuffix;
   return suffix ? `${title} - ${suffix}` : title;
 }
+
+/**
+ * Interpolation parameters for the translation keys that name the brand.
+ *
+ * Those keys carry `{{brand}}` / `{{supportEmail}}` placeholders instead of a hard-coded name, so
+ * every usage site has to pass this object as `translateParams` (directive) or as the pipe
+ * argument. Bind it through a component field: `protected readonly brandParams = BRAND_PARAMS;`.
+ */
+export const BRAND_PARAMS: Readonly<Record<string, string>> = {
+  brand: BRAND_CONFIG.name,
+  brandLegal: BRAND_CONFIG.legalName ?? BRAND_CONFIG.name,
+  supportEmail: BRAND_CONFIG.legal.supportEmail,
+};

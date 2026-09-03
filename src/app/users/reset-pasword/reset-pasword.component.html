@@ -9,9 +9,11 @@
     <span class="title hide-mobile"> {{ 'Password reset' | translate }}</span>
   }
   @if (resetStep === 1) {
-    <div class="description">
-      {{ 'Now just enter your new password so you can get back to having fun on Betaki' | translate }}
-    </div>
+    <div
+      class="description"
+      [translate]="'Now just enter your new password so you can get back to having fun on {{brand}}'"
+      [translateParams]="brandParams"
+    ></div>
   }
   @if (resetStep === 1) {
     <form [formGroup]="registerForm" class="flex flex-col form-container">
