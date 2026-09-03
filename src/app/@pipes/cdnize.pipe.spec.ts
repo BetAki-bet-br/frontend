@@ -1,9 +1,14 @@
+import { TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { CdnizePipe } from './cdnize.pipe';
-import { AssetsService } from '@app/@shared/assets.service';
 
 describe('CdnizePipe', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({ imports: [TranslateModule.forRoot()] });
+  });
+
   it('create an instance', () => {
-    const pipe = new CdnizePipe({} as AssetsService);
+    const pipe = TestBed.runInInjectionContext(() => new CdnizePipe());
     expect(pipe).toBeTruthy();
   });
 });

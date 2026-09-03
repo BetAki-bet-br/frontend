@@ -12,7 +12,7 @@ describe('PromotionActionDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), PromotionActionDialogComponent],
       providers: [
-        { provide: DialogRef, useValue: {} },
+        { provide: DialogRef, useValue: { updateSize: () => {}, close: () => {} } },
         { provide: DIALOG_DATA, useValue: {} },
       ],
     }).compileComponents();

@@ -1,20 +1,15 @@
-import { Injectable, inject } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
 import { CredentialsService } from '@app/auth';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class PromotionsGuard implements CanActivate {
-  private credentialsService = inject(CredentialsService);
-  private router = inject(Router);
+/** Signed-in players get the profile version of the promotions page instead. */
+export const promotionsGuard: CanActivateFn = () => {
+  const credentialsService = inject(CredentialsService);
+  const router = inject(Router);
 
-  canActivate(): boolean {
-    if (this.credentialsService.isAuthenticated()) {
-      // Redirect authenticated user to Player profile Promotions page
-      this.router.navigate(['/profile/promo']);
-      return false;
-    }
-    return true;
+  if (credentialsService.isAuthenticated()) {
+    router.navigate(['/profile/promo']);
+    return false;
   }
-}
+  return true;
+};

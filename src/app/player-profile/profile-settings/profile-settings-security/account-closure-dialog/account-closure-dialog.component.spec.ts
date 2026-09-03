@@ -11,7 +11,7 @@ describe('AccountClosureDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), AccountClosureDialogComponent],
-      providers: [{ provide: DialogRef, useValue: {} }],
+      providers: [{ provide: DialogRef, useValue: { updateSize: () => {}, close: () => {} } }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AccountClosureDialogComponent);

@@ -14,13 +14,18 @@
  * you may have.
  */
 
+import { TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadDirective } from './file-upload.directive';
 
 describe('ICBOFileUploadDirective', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({ imports: [MatSnackBarModule, TranslateModule.forRoot()] });
+  });
+
   it('should create an instance', () => {
-    const snackbar = Object();
-    const translateService = Object();
-    const directive = new FileUploadDirective(snackbar, translateService);
+    const directive = TestBed.runInInjectionContext(() => new FileUploadDirective());
     expect(directive).toBeTruthy();
   });
 });

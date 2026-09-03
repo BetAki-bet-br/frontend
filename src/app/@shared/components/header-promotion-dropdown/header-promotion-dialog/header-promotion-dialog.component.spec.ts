@@ -18,7 +18,7 @@ describe('HeaderPromotionDialogComponent', () => {
       imports: [DialogModule, TranslateModule.forRoot(), HeaderPromotionDialogComponent, RenderTemplatePipe],
       providers: [
         { provide: DIALOG_DATA, useValue: { promotion: 'test' } },
-        { provide: DialogRef, useValue: {} },
+        { provide: DialogRef, useValue: { updateSize: () => {}, close: () => {} } },
         { provide: GamesService, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
         { provide: TemplateService, useClass: MockTemplateService },

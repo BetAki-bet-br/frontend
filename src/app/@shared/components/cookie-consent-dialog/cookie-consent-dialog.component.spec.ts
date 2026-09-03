@@ -11,7 +11,7 @@ describe('CookieConsentDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), CookieConsentDialogComponent, BaseDialogComponent],
-      providers: [{ provide: DialogRef, useValue: {} }],
+      providers: [{ provide: DialogRef, useValue: { updateSize: () => {}, close: () => {} } }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CookieConsentDialogComponent);

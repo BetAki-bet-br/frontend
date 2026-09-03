@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { PromotionsGuard } from './promotions.guard';
+import { promotionsGuard } from './promotions.guard';
 
 export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
       import('./banner-promotions/banner-promotions.component').then((m) => m.BannerPromotionsComponent),
-    canActivate: [PromotionsGuard],
+    canActivate: [promotionsGuard],
     data: {
       title: '',
       robots: ['index', 'follow'],

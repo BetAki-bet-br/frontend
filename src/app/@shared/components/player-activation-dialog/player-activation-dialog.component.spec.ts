@@ -10,7 +10,7 @@ describe('PlayerActivationDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PlayerActivationDialogComponent],
-      providers: [{ provide: DialogRef, useValue: {} }],
+      providers: [{ provide: DialogRef, useValue: { updateSize: () => {}, close: () => {} } }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PlayerActivationDialogComponent);

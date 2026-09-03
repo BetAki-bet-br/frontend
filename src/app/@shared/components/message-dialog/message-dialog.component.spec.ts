@@ -13,7 +13,7 @@ describe('MessageDialogComponent', () => {
       imports: [MatDialogModule, MessageDialogComponent],
       providers: [
         { provide: MatDialogRef, useValue: {} },
-        { provide: DialogRef, useValue: {} },
+        { provide: DialogRef, useValue: { updateSize: () => {}, close: () => {} } },
         { provide: DIALOG_DATA, useValue: {} },
         { provide: MatDialog, useValue: {} },
       ],
