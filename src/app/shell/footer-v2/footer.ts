@@ -45,9 +45,12 @@ export class Footer {
   private readonly brand = inject(BRAND);
 
   readonly brandLogo = this.brand.assets.logoColor;
+  readonly sponsorHeading = `A ${this.brand.name} tem orgulho em patrocinar:`;
+  readonly legalDisclaimer = this.brand.legal.disclaimer;
+
   linkColumns: LinkColumn[] = [
     {
-      title: 'Sobre a Bet Aki',
+      title: `Sobre a ${this.brand.name}`,
       links: [
         { text: 'Termos e Condições', url: '/terms-and-conditions' },
         { text: 'Jogo Responsável', url: '/rgl' },
@@ -73,44 +76,47 @@ export class Footer {
     },
   ];
 
-  socialIcons: SocialIcon[] = [
-    // src\assets\general\icons\instagram-color.svg
-    {
-      alt: 'Instagram',
-      src: '/assets/general/icons/instagram-color.svg',
-      url: 'https://www.instagram.com/betakioficial?igsh=em90NDYyZHY2bWs=',
-      width: 18,
-      height: 18,
-    },
-    {
-      alt: 'Telegram',
-      src: '/assets/icons/telegram-color.svg',
-      url: 'https://t.me/+ipUxRRqh3dEyNTUx',
-      width: 18,
-      height: 16,
-    },
-    {
-      alt: 'TikTok',
-      src: '/assets/icons/tiktok-icon.svg',
-      url: 'https://www.tiktok.com/@betaki.bet.br?_r=1&_t=ZS-93akTPrMQey',
-      width: 18,
-      height: 20,
-    },
-    {
-      alt: 'Facebook',
-      src: '/assets/icons/facebook-color.svg',
-      url: 'https://www.facebook.com/share/1K4P5ZL18Q/?mibextid=wwXIfr',
-      width: 18,
-      height: 34,
-    },
-    {
-      alt: 'X (Twitter)',
-      src: '/assets/icons/x-icon.svg',
-      url: 'https://x.com/oficialbetaki?s=21',
-      width: 18,
-      height: 34,
-    },
-  ];
+  /** One entry per network the brand declares; networks absent from `BRAND.social` are dropped. */
+  socialIcons: SocialIcon[] = (
+    [
+      // src\assets\general\icons\instagram-color.svg
+      {
+        alt: 'Instagram',
+        src: '/assets/general/icons/instagram-color.svg',
+        url: this.brand.social.instagram,
+        width: 18,
+        height: 18,
+      },
+      {
+        alt: 'Telegram',
+        src: '/assets/icons/telegram-color.svg',
+        url: this.brand.social.telegram,
+        width: 18,
+        height: 16,
+      },
+      {
+        alt: 'TikTok',
+        src: '/assets/icons/tiktok-icon.svg',
+        url: this.brand.social.tiktok,
+        width: 18,
+        height: 20,
+      },
+      {
+        alt: 'Facebook',
+        src: '/assets/icons/facebook-color.svg',
+        url: this.brand.social.facebook,
+        width: 18,
+        height: 34,
+      },
+      {
+        alt: 'X (Twitter)',
+        src: '/assets/icons/x-icon.svg',
+        url: this.brand.social.twitter,
+        width: 18,
+        height: 34,
+      },
+    ] as (Omit<SocialIcon, 'url'> & { url?: string })[]
+  ).filter((icon): icon is SocialIcon => !!icon.url);
 
   certificationImages: CertificationImage[] = [
     {

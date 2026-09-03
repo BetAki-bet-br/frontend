@@ -9,6 +9,7 @@ import {
   RequestTypeEnum,
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
+import { BRAND } from '@app/@core/brand';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,13 +42,15 @@ export class ReferAFriendComponent implements OnInit {
   private fb = inject(FormBuilder);
   private translateService = inject(TranslateService);
   private snackBar = inject(MatSnackBar);
+  private readonly brand = inject(BRAND);
 
   statistics = toSignal<ReferAFriendStatisticsResponse | null>(this.referAFriendService.getReferAFriendStatistics(), {
     initialValue: null,
   });
   referForm: FormGroup;
   isLoading = false;
-  referralLink = 'betaki.com/ref/vini123'; // Placeholder as per design
+  // Placeholder as per design; the real referral code still has to come from the backoffice.
+  referralLink = `${this.brand.seo.hostname.replace(/^https?:[/][/]/, '').replace(/[/]$/, '')}/ref/vini123`;
   copied = false;
 
   breadcrumbs: Breadcrumbs[] = [

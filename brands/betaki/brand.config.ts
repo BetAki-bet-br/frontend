@@ -63,9 +63,11 @@ export const BRAND_CONFIG: BrandConfig = {
   },
 
   social: {
-    instagram: 'https://www.instagram.com/betakioficial',
-    tiktok: 'https://www.tiktok.com/@betakioficial?_t=ZM-8tTSPMU6MMg&_r=1',
-    twitter: 'https://x.com/oficialbetaki?s=11',
+    instagram: 'https://www.instagram.com/betakioficial?igsh=em90NDYyZHY2bWs=',
+    tiktok: 'https://www.tiktok.com/@betaki.bet.br?_r=1&_t=ZS-93akTPrMQey',
+    twitter: 'https://x.com/oficialbetaki?s=21',
+    telegram: 'https://t.me/+ipUxRRqh3dEyNTUx',
+    facebook: 'https://www.facebook.com/share/1K4P5ZL18Q/?mibextid=wwXIfr',
   },
 
   assets: {
