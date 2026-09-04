@@ -246,6 +246,12 @@ delas:
   ainda não têm mecanismo de override.
 - `src/main.ts` só registra o locale `pt-BR`. Uma marca com outro `i18n.defaultLanguage` precisa
   registrar o locale dela ali.
+- Os ícones dos menus da sidebar vêm do backoffice (`Menu.meta.icon`), não do código. O seed de
+  demonstração aponta para os caminhos compartilhados antigos, e três deles saíram de
+  `src/assets/icons` na WL-8d: `Jogos ao vivo` → `assets/icons/live-icon.svg`, `Roletas` →
+  `assets/icons/ball-icon.svg` e `Club Bet Aki` → `assets/icons/bet-coin.svg` dão 404 hoje. O
+  conserto é no backoffice: trocar o valor por `/assets/brand/icons/<arquivo>.svg`, que resolve
+  para a cópia de cada marca sem mudar nada aqui.
 - `src/assets/general/icons/` — 26 ícones de perfil/carteira/auth com a lima escura `#869502`
   fixa no arquivo (21 deles chegam à tela via `mat-icon`), mais
   `src/assets/general/images/success-badge.svg`. Continuam da BetAki; a WL-8d só tirou de `src/` os
