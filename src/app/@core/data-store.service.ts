@@ -183,7 +183,7 @@ export class DataStoreService {
 
   private _latestWinnersIndex = null as number | null;
 
-  balanceVisibilityChange = new Subject();
+  balanceVisibilityChange = new Subject<boolean>();
   private _balanceVisible = true;
   public get balanceVisible() {
     return this._balanceVisible;

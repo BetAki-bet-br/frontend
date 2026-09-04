@@ -1,0 +1,163 @@
+<nav
+  animate.enter="animate-enter-slide-down"
+  animate.leave="animate-leave-slide-up"
+  class="relative flex h-full w-full max-w-8xl flex-row items-center gap-2 px-3 transition-opacity duration-300 lg:gap-3 xl:px-6"
+>
+  <a class="hidden shrink-0 cursor-pointer md:block" routerLink="/">
+    <img
+      [ngSrc]="brandLogo"
+      priority
+      alt="Logo"
+      [width]="brandLogoSize.width"
+      [height]="brandLogoSize.height"
+      class="h-8 w-auto"
+    />
+  </a>
+
+  <a class="shrink-0 cursor-pointer md:hidden" routerLink="/">
+    <img [ngSrc]="brandMobileLogo" alt="Logo" width="48" height="48" class="h-10 w-auto" />
+  </a>
+
+  @if (hasDesktopSidebar) {
+  <button
+    type="button"
+    aria-label="Alternar o menu lateral"
+    class="hidden h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg text-shark-400 transition-colors hover:bg-white/5 hover:text-white lg:flex"
+    (click)="toggleDesktopSidebar()"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="h-[18px] w-[18px]"
+      aria-hidden="true"
+    >
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M9 4v16" />
+    </svg>
+  </button>
+  }
+
+  <div
+    class="hidden h-10 shrink-0 items-center gap-0.5 rounded-xl border border-white/5 bg-[rgb(38_38_38/0.3)] p-0.5 md:inline-flex"
+  >
+    @for (item of toggleItems; track item.path) {
+    <a
+      [routerLink]="item.path"
+      class="inline-flex h-[34px] items-center gap-2 rounded-[9px] px-4 text-xs font-bold transition-colors"
+      [class]="item.active() ? activeToggleClass : inactiveToggleClass"
+    >
+      @switch (item.icon) { @case ('casino') {
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linejoin="round"
+        class="h-3.5 w-3.5"
+        aria-hidden="true"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="4" />
+        <circle cx="8.5" cy="8.5" r="1.3" fill="currentColor" stroke="none" />
+        <circle cx="15.5" cy="8.5" r="1.3" fill="currentColor" stroke="none" />
+        <circle cx="8.5" cy="15.5" r="1.3" fill="currentColor" stroke="none" />
+        <circle cx="15.5" cy="15.5" r="1.3" fill="currentColor" stroke="none" />
+      </svg>
+      } @case ('live') {
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linejoin="round"
+        class="h-3.5 w-3.5"
+        aria-hidden="true"
+      >
+        <rect x="2.5" y="4.5" width="19" height="15" rx="3" />
+        <path d="M10.5 9.4 15 12l-4.5 2.6z" fill="currentColor" stroke="none" />
+      </svg>
+      } @case ('sports') {
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-3.5 w-3.5"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="9" />
+        <path d="m12 7.2 4.3 3.1-1.6 5.1H9.3l-1.6-5.1z" />
+        <path d="M12 3.1v4.1M4.2 9.6l3.5.7M19.8 9.6l-3.5.7M7.4 19.9l1.9-4.5M16.6 19.9l-1.9-4.5" />
+      </svg>
+      } } {{ item.label }}
+    </a>
+    }
+  </div>
+
+  <div class="flex flex-1 justify-end lg:justify-center">
+    <button
+      type="button"
+      aria-label="Buscar jogos ou provedores"
+      [routerLink]="searchLink()"
+      class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-shark-400 transition-colors hover:bg-white/5 hover:text-white lg:h-10 lg:w-[352px] lg:justify-start lg:gap-2.5 lg:rounded-xl lg:border lg:border-white/10 lg:bg-[rgb(26_26_26/0.2)] lg:px-3 lg:text-sm lg:hover:border-white/20 lg:hover:bg-[rgb(26_26_26/0.2)] lg:hover:text-shark-400"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-4 w-4 shrink-0"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.6-3.6" />
+      </svg>
+      <span class="hidden lg:inline">Buscar jogos ou provedores...</span>
+    </button>
+  </div>
+
+  <div class="flex shrink-0 flex-row items-center gap-1 text-white sm:gap-2">
+    @if (!isLoggedIn()) {
+    <div class="hidden items-center gap-2 sm:flex">
+      <app-button variant="secondary" size="md" (click)="navigateTo('/auth/login')">Entrar</app-button>
+      <app-button variant="primary" size="md" (click)="navigateTo('/auth/register')">Criar conta</app-button>
+    </div>
+
+    <div class="flex items-center gap-1 sm:hidden">
+      <app-button variant="ghost" size="sm" (click)="navigateTo('/auth/login')">Entrar</app-button>
+      <app-button variant="primary" size="sm" (click)="navigateTo('/auth/register')">Criar conta</app-button>
+    </div>
+    } @else {
+    <button
+      type="button"
+      aria-label="Abrir o menu da conta"
+      class="w-auto cursor-pointer items-center justify-center rounded-button border-2 border-transparent bg-transparent p-1 text-sm font-medium transition-colors hover:bg-shark-50/20 focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+      (click)="profileClick.emit(); $event.stopPropagation()"
+    >
+      <img ngSrc="/assets/icons/user-icon.svg" width="20" height="20" priority alt="Ícone de usuário" class="h-7 w-7" />
+    </button>
+
+    <div class="flex items-center rounded-lg bg-white p-0.75 sm:px-1">
+      @if (isBalanceVisible()) {
+      <span class="text-sm font-semibold text-nowrap text-black">R$ {{ (amount() | currency: 'BRL')?.slice(2) }}</span>
+      } @else {
+      <span class="text-sm font-semibold text-black">R$ *****</span>
+      }
+
+      <button
+        class="ml-2 cursor-pointer rounded-button bg-action px-2 py-2 text-sm font-bold text-action-foreground transition-opacity duration-200 ease-in-out hover:opacity-80 md:px-2 md:py-2"
+        routerLink="/profile/wallet/deposit"
+      >
+        Depósito
+      </button>
+    </div>
+    }
+  </div>
+</nav>

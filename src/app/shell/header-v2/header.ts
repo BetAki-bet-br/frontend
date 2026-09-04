@@ -11,6 +11,7 @@ import { RoutingService } from '@app/@shared/services/routing.service';
 import { FullscreenService } from '@app/@shared/services/fullscreen.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { BRAND } from '@app/@core/brand';
+import { HeaderDark } from './header-dark/header-dark';
 
 interface RouteWithLabel {
   path: string;
@@ -20,7 +21,15 @@ interface RouteWithLabel {
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, NgOptimizedImage, CurrencyPipe, ProfileModal, ClickOutsideDirective, TranslateModule],
+  imports: [
+    RouterLink,
+    NgOptimizedImage,
+    CurrencyPipe,
+    ProfileModal,
+    ClickOutsideDirective,
+    TranslateModule,
+    HeaderDark,
+  ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,6 +65,23 @@ export class Header {
   brandLogo = this.brand.assets.logoWhite;
   brandMobileLogo = this.brand.assets.logoMobile;
   brandLogoSize = this.brand.assets.logoSize;
+
+  /** Which non-game nav the brand ships. Structure only: the colours come from the theme tokens. */
+  readonly isDarkHeader = this.brand.layout.header === 'dark';
+
+  /**
+   * Classes of the bar itself. The two layouts share the geometry and `--color-surface-header`;
+   * only the dark layout trades the translucent blur for a hairline bottom border, and only
+   * outside game mode, whose nav is shared by both layouts.
+   */
+  readonly headerClasses = computed(() => {
+    const base =
+      'fixed header-wrapper h-(--header-height-mobile) md:h-(--header-height-desktop) w-full flex justify-center z-40 bg-surface-header';
+
+    return this.isDarkHeader && !this.isGameMode()
+      ? `${base} border-b border-white/10`
+      : `${base} backdrop-blur-3xl bg-opacity-90`;
+  });
 
   goBack() {
     this.location.back();

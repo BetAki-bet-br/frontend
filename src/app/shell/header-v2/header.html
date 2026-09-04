@@ -1,7 +1,12 @@
-<header
-  class="fixed header-wrapper h-(--header-height-mobile) md:h-(--header-height-desktop) w-full flex justify-center z-40 backdrop-blur-3xl bg-opacity-90 bg-brand-500"
->
-  @if (!isGameMode()) {
+<header [class]="headerClasses()">
+  @if (!isGameMode() && isDarkHeader) {
+  <app-header-dark
+    [isLoggedIn]="isLoggedIn()"
+    [amount]="amount()"
+    [isBalanceVisible]="isBalanceVisible()"
+    (profileClick)="toggleProfileModal()"
+  />
+  } @if (!isGameMode() && !isDarkHeader) {
   <nav
     animate.enter="animate-enter-slide-down"
     animate.leave="animate-leave-slide-up"
@@ -30,9 +35,7 @@
         [class.border-b-shark-50!]="isLinkActive(item.path, item.exact)"
         [class.text-shark-50!]="isLinkActive(item.path, item.exact)"
       >
-        <a
-          [routerLink]="item.path"
-          class="h-full flex text-sm lg:text-base items-center text-nowrap"
+        <a [routerLink]="item.path" class="h-full flex text-sm lg:text-base items-center text-nowrap"
           >{{ item.label | translate }}</a
         >
       </li>
@@ -108,7 +111,7 @@
         }
 
         <button
-          class="ml-2 bg-brand-500 text-white text-sm px-2 py-2 md:px-2 md:py-2 rounded-md transition-opacity duration-200 ease-in-out hover:opacity-80 font-bold cursor-pointer"
+          class="ml-2 bg-action text-action-foreground text-sm px-2 py-2 md:px-2 md:py-2 rounded-button transition-opacity duration-200 ease-in-out hover:opacity-80 font-bold cursor-pointer"
           routerLink="/profile/wallet/deposit"
         >
           Depósito
