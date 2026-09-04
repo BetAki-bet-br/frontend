@@ -147,8 +147,11 @@ Uma instância Laravel por marca; `BRAND.api.backofficeApiUrl` por ambiente. Sem
 | WL-5 | `brands/_template` + `docs/white-label/02-como-criar-marca.md` (checklist de 1 página) | criar marca `demo` seguindo o doc leva minutos | ✅ feito |
 | WL-6 | `brands/girosbet` com paleta, fontes, logo placeholder, index, config com placeholders | `npm run build:girosbet` verde; screenshots das mesmas telas | ✅ feito |
 | WL-7 | Tirar de `src/` as cores e a fonte da BetAki que ainda estavam fixas: 6 tokens novos (`--color-brand-ink/900/950`, `--color-surface-auth/-skeleton`, `--color-brand-spinner`), `--font-sans` no lugar dos 23 `font-family: Roboto`, e o selo +18 virou `assets.ageBadge` da marca | PNGs da betaki (`/auth/login`, `/auth/register`, `/terms-and-conditions`) idênticos byte a byte antes/depois; `#869502`/`#bcd200`/`#202400`/`#0d0f03` zerados no CSS da girosbet | ✅ feito |
+| WL-8a | Fundação do layout por marca: `BrandConfig.layout { header: 'brand-bar' \| 'dark'; desktopSidebar }`, `ShellService.desktopSidebarCollapsed`, tokens semânticos (`--color-action*`, `--color-surface-header`, `--color-button-secondary*`, `--color-button-outline-text`, `--color-danger`, `--radius-button`) nas três marcas, `<app-button>` pintado com eles | diff do CSS da betaki: 8 custom properties novas, 5 utilitários renomeados com valor idêntico, 0 declarações alteradas | ✅ feito |
+| WL-8b | Header escuro (L1) para `layout.header = 'dark'`: `shell/header-v2/header-dark` com toggle Cassino/Ao vivo, busca inline, botão da sidebar, Entrar (`secondary`) e Criar conta (`primary`); a barra da betaki continua inline e intacta | faixa de 64 px do `/games` da betaki byte a byte igual ao `betaki-home.png` (0 de 92 160 pixels); CSS: 42 utilitários novos, 0 alterados | ✅ feito |
+| WL-8c | Sidebar desktop (L2) para `layout.desktopSidebar`: banner `banner-sidebar-top`, tiles Cupom/Promo, grupos de menu por `meta.group` (`atalhos`/`populares`/`ajuda`), trilho colapsado persistido; seeder do backoffice (`demo-seed`) com os grupos, 5 populares e o banner | CSS da betaki: 20 utilitários novos, 8 removidos (só do markup morto da sidebar antiga), 0 alterados; `desktopSidebar:!1` no bundle da betaki | ✅ feito |
 
-Ordem: WL-0 → WL-1 → WL-2 → WL-3 → WL-4 → WL-5 → WL-6 → WL-7. Cada tarefa é um ou poucos commits na branch `white-label`.
+Ordem: WL-0 → WL-1 → WL-2 → WL-3 → WL-4 → WL-5 → WL-6 → WL-7 → WL-8a → WL-8b/WL-8c. Cada tarefa é um ou poucos commits na branch `white-label`.
 
 ### O que WL-4 mudou além do previsto
 
@@ -192,6 +195,25 @@ Fora de `src/`, o pacote de terceiros `@icore/ngx-atl-pp-templates-shared` (usad
 `src/theme/theme.scss`) traz os templates de CMS `.bki` com `#bcd200`, `#202400` e `#090b01`
 fixos — são as 8 últimas ocorrências de cor da BetAki no CSS de qualquer marca. Só some
 publicando uma versão nova da lib.
+
+### O que WL-8 mudou
+
+- O layout passou a ser decisão da marca (`BrandConfig.layout`), não do código: a betaki mantém a barra
+  colorida e nenhuma sidebar; a girosbet liga o header escuro e a sidebar de blocos. O critério de aceite
+  continua o mesmo: CSS e DOM da betaki idênticos (provado por diff normalizado do `styles-*.css` e por
+  comparação de pixels do header).
+- Os componentes deixaram de citar cores de marca: `<app-button>`, o header e a sidebar usam só os tokens
+  semânticos (`action`, `surface-header`, `button-secondary`, `button-outline-text`, `danger`, `radius-button`).
+  Para a betaki cada token resolve exatamente no valor antigo.
+- O CMS ganhou responsabilidade de layout: `Menu.meta.group` decide em que bloco da sidebar o item entra, e
+  `meta.routerLink = 'support'` abre o chat em vez de navegar (tratado em `RoutingService.navigateToMenuItem`,
+  então vale para a sidebar mobile também).
+- Ficou de fora, para a fase seguinte: a anatomia de altura fixa dos botões da v1 (hoje o tamanho ainda é por
+  padding), o `hover` do `primary` (continua `opacity .9`; `--color-action-hover` existe mas nenhum utilitário
+  o usa), o posicionamento do `profile-modal` sob o header escuro (estado logado não foi verificado) e a rota
+  `/sportsbook` do segmento "Esportes" (só renderiza quando a marca declara `integrations.sportsbook`).
+- Pendências do ambiente, não do código: `assets/icons/play-icon.svg` ("Crash Games") é preto e some no fundo
+  escuro; o CORS do backoffice local só aceita as origens 4200/8080.
 
 ## 4. Critérios de aceite globais
 

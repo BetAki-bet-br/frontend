@@ -41,21 +41,23 @@
 
 ## 4. Backlog de layout (ordem sugerida, depois da trilha A)
 
-| # | Item | Componentes | Depende do CMS? |
-|---|---|---|---|
-| L1 | Header escuro com toggle Cassino/Esportes, busca inline, CTA magenta; roxo só como acento | `shell/header-v2`, tokens `--color-surface-header` | não |
-| L2 | Sidebar desktop com banner, tiles de promo, atalhos, populares, ajuda; trilho colapsado | `games-page/components/sidebar-desktop`, `sidenav-menu` | sim: menus `atalhos`, `populares`, `ajuda`; banner `sidebar-top` |
-| L3 | Topbar de cupom fechável | novo `promo-topbar` | sim: banner `topbar` |
-| L4 | Ticker no topo, rolagem contínua | `winners-list` | não |
-| L5 | Hero menor, 1 slide, CTA e selos no template | `carousel`, template de slide | sim: campos `title`, `subtitle`, `cta` no slide |
-| L6 | Chips com ícone em todas as páginas de lobby; cabeçalho de seção com ícone, setas e "Ver todos" | `game-filter-list`, `game-list` | sim: `meta.icon` nas categorias |
-| L7 | Card com provedor e "Jogar agora" no hover; provedores como card escuro com logo, contagem e botão | `game-card`, `providers-carousel`, `providers-list` | não |
-| L8 | Páginas internas sem hero; título à esquerda | `games-list-page`, `*-category-page` | não |
-| L9 | Mobile: header enxuto, CTA de conta na barra inferior, 5 itens, ícone da marca, grade 4 por linha | `shell/mobile-menu`, `sidebar-mobile`, `game-list` | não |
-| L10 | Diálogo único de entrada (idade + cookies) no layout da v1 | `age-confirmation-dialog`, `cookie-consent-dialog` | não |
-| L11 | Rodapé regulatório completo via `BRAND.legal` e footer do CMS | `shell/footer-v2`, `BrandConfig.legal` | sim: footer com grupos |
+| # | Item | Componentes | Depende do CMS? | Status |
+|---|---|---|---|---|
+| L1 | Header escuro com toggle Cassino/Esportes, busca inline, CTA magenta; roxo só como acento | `shell/header-v2`, tokens `--color-surface-header` | não | ✅ feito (WL-8b, `header-dark`; roxo `#901bf7` só como acento, magenta `#e145ff` como ação) |
+| L2 | Sidebar desktop com banner, tiles de promo, atalhos, populares, ajuda; trilho colapsado | `games-page/components/sidebar-desktop`, `sidenav-menu` | sim: menus `atalhos`, `populares`, `ajuda`; banner `sidebar-top` | ✅ feito (WL-8c; grupos por `meta.group`, banner `banner-sidebar-top`) |
+| L3 | Topbar de cupom fechável | novo `promo-topbar` | sim: banner `topbar` | pendente |
+| L4 | Ticker no topo, rolagem contínua | `winners-list` | não | pendente |
+| L5 | Hero menor, 1 slide, CTA e selos no template | `carousel`, template de slide | sim: campos `title`, `subtitle`, `cta` no slide | pendente |
+| L6 | Chips com ícone em todas as páginas de lobby; cabeçalho de seção com ícone, setas e "Ver todos" | `game-filter-list`, `game-list` | sim: `meta.icon` nas categorias | pendente |
+| L7 | Card com provedor e "Jogar agora" no hover; provedores como card escuro com logo, contagem e botão | `game-card`, `providers-carousel`, `providers-list` | não | pendente |
+| L8 | Páginas internas sem hero; título à esquerda | `games-list-page`, `*-category-page` | não | pendente |
+| L9 | Mobile: header enxuto, CTA de conta na barra inferior, 5 itens, ícone da marca, grade 4 por linha | `shell/mobile-menu`, `sidebar-mobile`, `game-list` | não | pendente |
+| L10 | Diálogo único de entrada (idade + cookies) no layout da v1 | `age-confirmation-dialog`, `cookie-consent-dialog` | não | pendente |
+| L11 | Rodapé regulatório completo via `BRAND.legal` e footer do CMS | `shell/footer-v2`, `BrandConfig.legal` | sim: footer com grupos | pendente |
 
 Critério de pronto de cada item: screenshot da label GirosBet ao lado do screenshot correspondente da v1 nas duas larguras, e o build do BetAki inalterado (o BetAki continua com o layout atual através dos seus próprios tokens e menus).
+
+Decisão de 2026-09-03 (Vinícius): as superfícies ficam com os tokens roxo-preto do nosso tema (`roxo`), não com os neutros que a girosbet.io passou a pintar depois do levantamento; o canvas de design com as duas opções está em https://claude.ai/code/artifact/bb0dd5cd-e94b-405d-b2cc-df998a5c5fc6.
 
 ## 5. Fontes
 
