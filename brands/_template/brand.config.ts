@@ -88,6 +88,9 @@ export const BRAND_CONFIG: BrandConfig = {
   },
 
   /** Every network listed here gets an icon in the footer; the ones left out are dropped. */
+  /** Footer "tem orgulho em patrocinar" logos. Leave empty to hide the block. */
+  sponsors: [],
+
   social: {
     instagram: undefined,
     tiktok: undefined,

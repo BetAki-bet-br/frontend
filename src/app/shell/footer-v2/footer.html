@@ -57,22 +57,20 @@
         }
       </div>
     </div>
+    @if (sponsors.length > 0) {
     <div class="bg-shark-700 h-px mt-6 mx-10"></div>
     <div class="flex flex-col justify-center items-center mt-6 gap-2">
       <h5 class="text-xl md:text-2xl leading-normal text-center">{{ sponsorHeading }}</h5>
 
       <div class="flex flex-row flex-wrap items-center justify-center gap-4 sm:gap-10 mt-2">
-        <a href="https://www.instagram.com/sampaiocorrea" target="_blank">
-          <img src="/assets/footer/scfc.png" alt="SCFC logo" class="h-18 h-18 w-auto" />
+        @for (sponsor of sponsors; track sponsor.url) {
+        <a [href]="sponsor.url" target="_blank">
+          <img [src]="sponsor.logo" [alt]="sponsor.name" [class]="sponsor.class" />
         </a>
-        <a href="https://www.instagram.com/uberlandiaesporteclube" target="_blank">
-          <img src="/assets/footer/escudo_uec.png" alt="UEC brand" class="h-21 w-auto mb-2" />
-        </a>
-        <a href="https://www.instagram.com/forroemulherfestival" target="_blank">
-          <img src="/assets/footer/forro-e-mulher.png" alt="Forró e Mulher logo" class="h-15 h-20 w-auto" />
-        </a>
+        }
       </div>
     </div>
+    }
     <div class="bg-shark-700 h-px my-6 mx-10"></div>
 
     <div class="flex flex-wrap items-center justify-center gap-5">

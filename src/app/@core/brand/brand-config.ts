@@ -9,6 +9,18 @@ import { BRAND_CONFIG } from '@brand/brand.config';
  * Nothing here is environment configuration: `src/environments/environment*.ts` keeps only the
  * handful of keys that describe *where* the app runs, not *who* it runs as.
  */
+/** One logo in the footer's sponsorship block. */
+export interface BrandSponsor {
+  /** Accessible name of the sponsored party. */
+  name: string;
+  /** Where the logo links to (social profile or site). */
+  url: string;
+  /** Logo url, usually under `/assets/footer`. */
+  logo: string;
+  /** Tailwind sizing classes for the logo; artwork differs in aspect ratio, so each entry sizes itself. */
+  class: string;
+}
+
 export interface BrandConfig {
   /** Directory name of the brand package under `brands/`. */
   slug: string;
@@ -73,6 +85,12 @@ export interface BrandConfig {
     /** Player-facing mailbox quoted in the privacy/data-portability copy. */
     supportEmail: string;
   };
+
+  /**
+   * Teams, events or institutions the brand sponsors, listed under "tem orgulho em patrocinar"
+   * in the footer. An empty list hides the whole block.
+   */
+  sponsors: BrandSponsor[];
 
   social: {
     instagram?: string;

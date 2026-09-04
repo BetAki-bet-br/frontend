@@ -86,6 +86,9 @@ export const BRAND_CONFIG: BrandConfig = {
 
   // TODO(girosbet): the brand's social profiles are unknown; every network left undefined is
   // dropped from the footer.
+  // No sponsorships announced yet: the footer block stays hidden until the brand lists some.
+  sponsors: [],
+
   social: {
     instagram: undefined,
     tiktok: undefined,

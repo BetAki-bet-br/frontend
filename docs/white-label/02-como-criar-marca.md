@@ -35,6 +35,7 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
 - `api.backofficeApiUrl` — use `brandEnv({ dev, prod })`; em produção o proxy serve `/backoffice`.
 - `integrations.gtmId` — se ficar de fora, nenhum script de GTM é injetado (é opcional de verdade).
 - `legal.disclaimer` — parágrafo regulatório do rodapé, escrito pelo jurídico da marca.
+- `sponsors` — logos do bloco "tem orgulho em patrocinar" do rodapé (`name`, `url`, `logo`, `class`). Lista vazia esconde o bloco inteiro; a betaki mantém os três patrocinados dela, a girosbet não tem nenhum por enquanto.
 - `features.highlightedMenuLabels` — nomes dos itens de menu do backoffice que ganham destaque na
   sidebar (normalmente o clube de fidelidade).
 - `layout` — que chrome a marca usa. `header: 'brand-bar'` é a barra colorida com links de texto

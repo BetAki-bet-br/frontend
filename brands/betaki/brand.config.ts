@@ -62,6 +62,27 @@ export const BRAND_CONFIG: BrandConfig = {
     supportEmail: 'atendimento@betaki.bet.br',
   },
 
+  sponsors: [
+    {
+      name: 'Sampaio Corrêa FC',
+      url: 'https://www.instagram.com/sampaiocorrea',
+      logo: '/assets/footer/scfc.png',
+      class: 'h-18 h-18 w-auto',
+    },
+    {
+      name: 'Uberlândia Esporte Clube',
+      url: 'https://www.instagram.com/uberlandiaesporteclube',
+      logo: '/assets/footer/escudo_uec.png',
+      class: 'h-21 w-auto mb-2',
+    },
+    {
+      name: 'Forró e Mulher',
+      url: 'https://www.instagram.com/forroemulherfestival',
+      logo: '/assets/footer/forro-e-mulher.png',
+      class: 'h-15 h-20 w-auto',
+    },
+  ],
+
   social: {
     instagram: 'https://www.instagram.com/betakioficial?igsh=em90NDYyZHY2bWs=',
     tiktok: 'https://www.tiktok.com/@betaki.bet.br?_r=1&_t=ZS-93akTPrMQey',
