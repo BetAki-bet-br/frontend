@@ -103,6 +103,38 @@
   // Placeholder block shown while a game thumbnail / panel is still loading. Matches the
   // footer/card background so skeletons dissolve into the page.
   --color-surface-skeleton: #120a26;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-8a: what <app-button> and the shell chrome paint with.
+  // The values come from the button anatomy of girosbet.io.
+  // -----------------------------------------------------------------------------------------
+
+  // Fill of the primary call to action (`bg-action`): the GirosBet magenta, not the purple.
+  --color-action: #e145ff;
+
+  // Hover/pressed fill of the call to action: the lighter magenta of the live site.
+  --color-action-hover: #f07bff;
+
+  // Label and icon colour sitting on top of `--color-action`.
+  --color-action-foreground: #fff;
+
+  // Background of the application header (`bg-surface-header`): the purple-black bar.
+  --color-surface-header: #050013;
+
+  // Fill of the `secondary` button ("Entrar"): a translucent dark block over the header.
+  --color-button-secondary: rgb(38 38 38 / 30%);
+
+  // Hairline around the `secondary` button: a 10% white edge.
+  --color-button-secondary-border: rgb(255 255 255 / 10%);
+
+  // Label of the `outline` button at rest: magenta text inside a magenta border.
+  --color-button-outline-text: #e145ff;
+
+  // Destructive actions (`bg-danger`): the GirosBet red.
+  --color-danger: #f1113e;
+
+  // Corner radius of <app-button> in its `rectangle` shape: girosbet.io buttons are 12px.
+  --radius-button: 0.75rem;
 }
 
 /*

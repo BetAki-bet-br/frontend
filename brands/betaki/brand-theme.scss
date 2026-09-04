@@ -63,6 +63,38 @@
 
   // Placeholder block shown while a game thumbnail / panel is still loading.
   --color-surface-skeleton: #272a31;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-8a: what <app-button> and the shell chrome paint with.
+  // Both brands answer the same questions, so `src/` never names a brand colour again.
+  // -----------------------------------------------------------------------------------------
+
+  // Fill of the primary call to action (`bg-action`). BetAki: the brand lime.
+  --color-action: #869502;
+
+  // Hover/pressed fill of the call to action.
+  --color-action-hover: #9db500;
+
+  // Label and icon colour sitting on top of `--color-action`.
+  --color-action-foreground: #fff;
+
+  // Background of the application header (`bg-surface-header`).
+  --color-surface-header: #869502;
+
+  // Fill of the `secondary` button ("Entrar"): a quiet block, never the brand colour.
+  --color-button-secondary: #151515;
+
+  // Hairline around the `secondary` button. `transparent` means BetAki draws none.
+  --color-button-secondary-border: transparent;
+
+  // Label of the `outline` button at rest (it flips to `--color-action-foreground` on hover).
+  --color-button-outline-text: #1e1e1e;
+
+  // Destructive actions (`bg-danger`).
+  --color-danger: #dc2626;
+
+  // Corner radius of <app-button> in its `rectangle` shape (`rounded-button`).
+  --radius-button: 0.375rem;
 }
 
 /*

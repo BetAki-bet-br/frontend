@@ -116,6 +116,39 @@
 
   // Placeholder block shown while a game thumbnail, carousel slide or panel is loading.
   --color-surface-skeleton: #a21caf;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens: what <app-button> and the shell chrome paint with. Answer these and the
+  // buttons and the header follow the brand without a single class change in `src/`.
+  // -----------------------------------------------------------------------------------------
+
+  // Fill of the primary call to action (`bg-action`). Usually `--color-brand-500`.
+  --color-action: #a21caf;
+
+  // Hover/pressed fill of the call to action. Usually `--color-brand-600`.
+  --color-action-hover: #86198f;
+
+  // Label and icon colour sitting on top of `--color-action`. Must pass contrast against it.
+  --color-action-foreground: #fff;
+
+  // Background of the application header (`bg-surface-header`). A `layout.header: 'dark'` brand
+  // makes this a near-black; a `brand-bar` brand repeats `--color-action`.
+  --color-surface-header: #a21caf;
+
+  // Fill of the `secondary` button ("Entrar"): a quiet block, never the brand colour.
+  --color-button-secondary: #151515;
+
+  // Hairline around the `secondary` button. Use `transparent` for a borderless button.
+  --color-button-secondary-border: transparent;
+
+  // Label of the `outline` button at rest (it flips to `--color-action-foreground` on hover).
+  --color-button-outline-text: #1e1e1e;
+
+  // Destructive actions (`bg-danger`).
+  --color-danger: #dc2626;
+
+  // Corner radius of <app-button> in its `rectangle` shape (`rounded-button`).
+  --radius-button: 0.375rem;
 }
 
 /*
