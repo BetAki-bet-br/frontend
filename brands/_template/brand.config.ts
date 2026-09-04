@@ -119,6 +119,13 @@ export const BRAND_CONFIG: BrandConfig = {
     highlightedMenuLabels: [],
   },
 
+  layout: {
+    /** `brand-bar` is the plain coloured header bar; `dark` is the dark header with the toggle. */
+    header: 'brand-bar',
+    /** Turn on to get the desktop sidebar with the CMS blocks next to the lobby. */
+    desktopSidebar: false,
+  },
+
   i18n: {
     defaultLanguage: 'pt-BR',
     supportedLanguages: ['en-US', 'pt-BR'],

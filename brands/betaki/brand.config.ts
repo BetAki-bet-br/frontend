@@ -87,6 +87,12 @@ export const BRAND_CONFIG: BrandConfig = {
     highlightedMenuLabels: ['Club Bet Aki'],
   },
 
+  layout: {
+    // The classic BetAki chrome: a lime header bar with text links, no desktop sidebar.
+    header: 'brand-bar',
+    desktopSidebar: false,
+  },
+
   i18n: {
     defaultLanguage: 'pt-BR',
     supportedLanguages: ['en-US', 'pt-BR'],

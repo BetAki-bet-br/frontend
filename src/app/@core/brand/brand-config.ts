@@ -118,6 +118,17 @@ export interface BrandConfig {
     highlightedMenuLabels: string[];
   };
 
+  /** Which shell chrome the brand ships. Structure, not colour: colour is a `@theme` token. */
+  layout: {
+    /**
+     * `brand-bar`: full-colour header bar with text links (BetAki).
+     * `dark`: dark header with a Cassino/Ao vivo toggle, inline search and CTA (GirosBet).
+     */
+    header: 'brand-bar' | 'dark';
+    /** Desktop sidebar with CMS-driven blocks (banner, promo tiles, shortcut/popular/help menus). */
+    desktopSidebar: boolean;
+  };
+
   i18n: {
     defaultLanguage: string;
     supportedLanguages: string[];

@@ -112,6 +112,13 @@ export const BRAND_CONFIG: BrandConfig = {
     highlightedMenuLabels: [],
   },
 
+  layout: {
+    // GirosBet ships the girosbet.io chrome: dark header with a Cassino/Ao vivo toggle and an
+    // inline search, plus the desktop sidebar with the CMS blocks.
+    header: 'dark',
+    desktopSidebar: true,
+  },
+
   i18n: {
     defaultLanguage: 'pt-BR',
     supportedLanguages: ['en-US', 'pt-BR'],
