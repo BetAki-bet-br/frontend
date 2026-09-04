@@ -99,10 +99,10 @@ export const BRAND_CONFIG: BrandConfig = {
 
   assets: {
     logo: '/assets/brand/logo.png',
-    logoWhite: '/assets/brand/logo-white.svg',
-    logoColor: '/assets/brand/logo-white-color.svg',
+    logoWhite: '/assets/brand/logo-white.png',
+    logoColor: '/assets/brand/logo-color.png',
     icon: '/assets/brand/icon-green.svg',
-    logoMobile: '/assets/brand/logo-mobile.webp',
+    logoMobile: '/assets/brand/logo-mobile.png',
     favicon: '/assets/brand/favicon.png',
     ageBadge: '/assets/brand/agecap.svg',
     icons: {
@@ -115,7 +115,7 @@ export const BRAND_CONFIG: BrandConfig = {
       arrowLeft: '/assets/brand/icons/arrow-left.svg',
       arrowRight: '/assets/brand/icons/arrow-right.svg',
     },
-    logoSize: { width: 240, height: 64 },
+    logoSize: { width: 500, height: 148 },
   },
 
   features: {
