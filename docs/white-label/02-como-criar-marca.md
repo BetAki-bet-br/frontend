@@ -15,7 +15,8 @@ rm brands/<slug>/assets/README.md brands/<slug>/legal/README.md
 ```
 
 Leia os dois README antes de apagá-los: eles listam exatamente os arquivos esperados. Depois do `rm`
-os diretórios `assets/` e `legal/` ficam vazios — o git não versiona diretório vazio, então eles só
+o diretório `legal/` fica vazio e `assets/` fica só com `icons/` (os oito ícones de chrome, que o
+template já traz em magenta de placeholder) — o git não versiona diretório vazio, então eles só
 aparecem no commit depois que você colocar os arquivos da marca lá dentro (passo 4).
 
 Tudo que sobrar em `assets/` e em `legal/` é copiado literalmente para `dist/<slug>/browser`. Se a
@@ -80,6 +81,15 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
 - Desde a WL-7 o selo `agecap.svg` (+18) também é da marca (`assets.ageBadge`): recolora os três
   `#BCD200` da cópia da betaki para a cor da marca — ele fica sobre `--color-surface-auth`, então
   tem que ler em fundo claro.
+- Desde a WL-8d o mesmo vale para os oito ícones de chrome em `assets/icons/`
+  (`assets.icons.*`): `ball-icon.svg`, `bet-coin.svg` e `deposit-icon.svg` (menu inferior mobile e
+  sidebar mobile), `live-icon.svg` (selo "ao vivo" dos cards), `chat-icon.svg` (botão
+  "Contate-nos" do rodapé), `search-icon.svg` (páginas de busca) e `arrow-left.svg` /
+  `arrow-right.svg` (as setas das prateleiras do lobby). O template traz os oito em magenta de
+  placeholder; enquanto estiverem magenta a marca não foi tematizada. A tabela e o mapa de cores
+  estão no `assets/README.md` do template. As variantes brancas dos mesmos ícones
+  (`bet-icon-white.svg`, `deposit-icon-white.svg`, ...) continuam compartilhadas em
+  `src/assets/icons` — não têm cor de marca.
 - O `<img>` do header usa `NgOptimizedImage` e lê o tamanho de `assets.logoSize` no
   `brand.config.ts`. Copie o `width`/`height` reais do seu `logo-white.svg`: se a proporção
   declarada não bater com o arquivo, o Angular loga um aviso de aspect ratio em dev.
@@ -196,8 +206,11 @@ Checklist antes de considerar a marca pronta:
 
 - [ ] `dist/<slug>/browser/index.html` tem o título, a description e o favicon da marca, e **não**
       tem snippet de GTM inline (ele é injetado em runtime).
-- [ ] `dist/<slug>/browser/assets/brand/` tem os 6 arquivos de `assets.*`, e
-      `dist/<slug>/browser/assetshtml/` tem as 8 páginas legais.
+- [ ] `dist/<slug>/browser/assets/brand/` tem os 7 arquivos de `assets.*` mais os 8 de
+      `assets.icons.*` em `assets/brand/icons/`, e `dist/<slug>/browser/assetshtml/` tem as 8
+      páginas legais.
+- [ ] `grep -ril "bcd200\|c6d42d\|a6b224\|8fa000\|697505" dist/<slug>/browser/assets/brand` não
+      retorna nada — nenhum ícone da marca ficou com a lima da betaki.
 - [ ] `robots.txt` e `sitemap.xml` na raiz do `dist`, apontando para o domínio da marca.
 - [ ] `grep -c "<hex da cor primária>" dist/<slug>/browser/styles-*.css` > 0 — o tema da marca foi o
       compilado, não o de outra marca.
@@ -233,7 +246,13 @@ delas:
   ainda não têm mecanismo de override.
 - `src/main.ts` só registra o locale `pt-BR`. Uma marca com outro `i18n.defaultLanguage` precisa
   registrar o locale dela ali.
+- `src/assets/general/icons/` — 26 ícones de perfil/carteira/auth com a lima escura `#869502`
+  fixa no arquivo (21 deles chegam à tela via `mat-icon`), mais
+  `src/assets/general/images/success-badge.svg`. Continuam da BetAki; a WL-8d só tirou de `src/` os
+  oito ícones de chrome de `src/assets/icons`.
 - `src/assets/` (ícones de categoria, selos do rodapé, mascote) e os patrocinadores no
-  `footer.html` são da BetAki.
+  `footer.html` são da BetAki. `static/footer.html` (o rodapé injetado no iframe do sportsbook)
+  também: a paleta dele está fixa no `<style>` da própria página. Só renderiza para marcas que
+  declaram `integrations.sportsbook`.
 - `src/static-pages/` (templates de e-mail, páginas de manutenção) não entra no build e continua com
   o conteúdo da BetAki.
