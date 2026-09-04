@@ -102,6 +102,16 @@ export const BRAND_CONFIG: BrandConfig = {
     logoMobile: '/assets/brand/logo-mobile.webp',
     favicon: '/assets/brand/favicon.png',
     ageBadge: '/assets/brand/agecap.svg',
+    icons: {
+      navHome: '/assets/brand/icons/ball-icon.svg',
+      navLiveActive: '/assets/brand/icons/bet-coin.svg',
+      navDepositActive: '/assets/brand/icons/deposit-icon.svg',
+      liveBadge: '/assets/brand/icons/live-icon.svg',
+      support: '/assets/brand/icons/chat-icon.svg',
+      search: '/assets/brand/icons/search-icon.svg',
+      arrowLeft: '/assets/brand/icons/arrow-left.svg',
+      arrowRight: '/assets/brand/icons/arrow-right.svg',
+    },
     logoSize: { width: 240, height: 64 },
   },
 

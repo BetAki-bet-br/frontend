@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GameMain } from '@app/games-page/models/game.models';
 import { AssetsService } from '@app/@shared/assets.service';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
+import { BRAND } from '@app/@core/brand';
 
 @Component({
   selector: 'app-live-game-card',
@@ -13,6 +14,9 @@ import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 })
 export class LiveGameCard {
   private readonly assetsService = inject(AssetsService);
+  private readonly brand = inject(BRAND);
+
+  protected readonly brandLiveBadge = this.brand.assets.icons.liveBadge;
 
   game = input.required<GameMain>();
   class = input<string>('');

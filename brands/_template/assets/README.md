@@ -19,6 +19,34 @@ Delete this README in the real brand directory; it exists only to document the e
 | `logo-mobile.webp` | `assets.logoMobile`| WebP, wordmark | ≤ 4 KB         | mobile header, game-card placeholder while the thumbnail loads            |
 | `agecap.svg`       | `assets.ageBadge` | SVG, 1:1        | 68×68          | "+18" badge on the auth pages, wallet deposit/withdrawal, e-mail confirmation |
 
+### `icons/` — chrome painted in the brand accent
+
+The eight files in `icons/` are the small pieces of chrome whose accent colour is baked into the
+file itself. They are addressed by `assets.icons.*` and served from `/assets/brand/icons/`.
+
+| File                | `brand.config.ts`               | Used by                                                     |
+| ------------------- | ------------------------------- | ----------------------------------------------------------- |
+| `ball-icon.svg`     | `assets.icons.navHome`          | mobile bottom nav (home pill), mobile sidebar                |
+| `bet-coin.svg`      | `assets.icons.navLiveActive`    | mobile bottom nav "Ao Vivo" (active), mobile sidebar         |
+| `deposit-icon.svg`  | `assets.icons.navDepositActive` | mobile bottom nav "Depositar" (active)                       |
+| `live-icon.svg`     | `assets.icons.liveBadge`        | "Ao vivo" badge on live game cards                           |
+| `chat-icon.svg`     | `assets.icons.support`          | footer "Contate-nos" button, and `static/footer.html`        |
+| `search-icon.svg`   | `assets.icons.search`           | casino and live search pages                                 |
+| `arrow-left.svg`    | `assets.icons.arrowLeft`        | "Voltar" chevron on the lobby's game rows                    |
+| `arrow-right.svg`   | `assets.icons.arrowRight`       | "Ver todos" chevron on the lobby's game rows                 |
+
+The copies shipped in this template have the same geometry as the betaki originals but are painted
+in the placeholder magenta `#A21CAF` (and its shades `#831693` / `#5C0F68`), the same convention as
+the `--color-brand-*` ramp of `brand-theme.scss`: **while these icons are magenta the brand has not
+been themed.** Recolour them to the brand accent — the lime family in the betaki copies maps as
+`#BCD200`/`#C6D42D` → accent, `#A6B224` and `#8FA000` → one step darker, `#697505` → the darkest
+gradient stop. Leave the greys (`#EAEAEA`, `#E1E1E4`, `#F1F1F1`, `#17171A`, `#3C3A41`, `#CCCCCC`)
+alone: they are the roulette wheel and the coin, not brand colour.
+
+The white/neutral variants of the same icons (`bet-icon-white.svg`, `deposit-icon-white.svg`,
+`ball-icon-white.svg`, `menu-icon.svg`, …) stay shared in `src/assets/icons` — they carry no brand
+colour.
+
 Notes:
 
 - `logo.png` is the only raster logo. It also backs the SCSS variable `$brand-logo-url` in

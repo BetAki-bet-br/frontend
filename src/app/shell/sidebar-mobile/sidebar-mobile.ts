@@ -112,6 +112,8 @@ export class SidebarMobile {
   protected RegisterIcon = 'assets/icons/register-icon.svg';
   protected brandLogoWhite = this.brand.assets.logoWhite;
   protected brandIcon = this.brand.assets.icon;
+  protected brandNavHome = this.brand.assets.icons.navHome;
+  protected brandNavLive = this.brand.assets.icons.navLiveActive;
 
   constructor() {
     effect(() => {

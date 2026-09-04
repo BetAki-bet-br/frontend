@@ -40,7 +40,7 @@
               <img
                 class="size-full mb-1 transition-opacity duration-300"
                 [class.opacity-0]="!isImageLoaded('ball-icon')"
-                ngSrc="/assets/icons/ball-icon.svg"
+                [ngSrc]="brandNavHome"
                 alt="Ao Vivo"
                 width="24"
                 height="24"
@@ -82,7 +82,7 @@
               <img
                 class="size-full mb-1 transition-opacity duration-300"
                 [class.opacity-0]="!isImageLoaded('bet-coin')"
-                ngSrc="/assets/icons/bet-coin.svg"
+                [ngSrc]="brandNavLive"
                 alt="Ao Vivo"
                 width="24"
                 height="24"
@@ -96,7 +96,8 @@
       <div class="flex flex-col items-center gap-[10px] rounded-lg">
         @if (isLoadingMenu()) { @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
         <div class="h-[40px] w-full bg-brand-darker rounded-[8px] animate-pulse"></div>
-        } } @else { @for (item of menuItems(); track $index) { @if ($index === 2 && bannerSidebarMobileBottom()?.cover_url) {
+        } } @else { @for (item of menuItems(); track $index) { @if ($index === 2 &&
+        bannerSidebarMobileBottom()?.cover_url) {
         <div class="relative h-[120px] w-full overflow-hidden rounded-lg bg-brand-500">
           @if (!isImageLoaded('banner-sidebar-mobile-bottom')) {
           <div class="absolute inset-0 bg-surface-skeleton animate-pulse z-10"></div>

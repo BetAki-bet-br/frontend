@@ -106,6 +106,17 @@ export const BRAND_CONFIG: BrandConfig = {
     /** "+18" responsible-gaming badge, painted in the brand colour. */
     ageBadge: '/assets/brand/agecap.svg',
     favicon: '/assets/brand/favicon.png',
+    /** Chrome icons painted in the brand accent. See `assets/README.md`. */
+    icons: {
+      navHome: '/assets/brand/icons/ball-icon.svg',
+      navLiveActive: '/assets/brand/icons/bet-coin.svg',
+      navDepositActive: '/assets/brand/icons/deposit-icon.svg',
+      liveBadge: '/assets/brand/icons/live-icon.svg',
+      support: '/assets/brand/icons/chat-icon.svg',
+      search: '/assets/brand/icons/search-icon.svg',
+      arrowLeft: '/assets/brand/icons/arrow-left.svg',
+      arrowRight: '/assets/brand/icons/arrow-right.svg',
+    },
     /** Intrinsic size of `logoWhite`; `NgOptimizedImage` warns when it does not match the file. */
     logoSize: { width: 303, height: 114 },
   },

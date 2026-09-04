@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
+import { BRAND } from '@app/@core/brand';
 @Component({
   selector: 'app-game-list',
   imports: [RouterLink],
@@ -20,6 +21,10 @@ export class GameList {
   viewAllPath = input<string | null>(null);
   listTypeLabel = input<string>('jogos');
   location = inject(Location);
+  private readonly brand = inject(BRAND);
+
+  protected readonly brandArrowLeft = this.brand.assets.icons.arrowLeft;
+  protected readonly brandArrowRight = this.brand.assets.icons.arrowRight;
 
   navigateBack() {
     this.location.back();

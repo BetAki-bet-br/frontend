@@ -101,6 +101,30 @@ export interface BrandConfig {
      */
     ageBadge: string;
     /**
+     * Chrome artwork painted in the brand's accent colour. Brand-owned for the same reason as
+     * `ageBadge`: the accent is baked into the file, so a copy shared from `src/assets` would
+     * ship one brand's colour to every other brand. The white/neutral variants of the same
+     * icons stay in `src/assets/icons`.
+     */
+    icons: {
+      /** Mobile bottom-nav "home" pill, and the same mark in the mobile sidebar. */
+      navHome: string;
+      /** Mobile bottom-nav "Ao Vivo" in its active state, and the mobile sidebar's live entry. */
+      navLiveActive: string;
+      /** Mobile bottom-nav "Depositar" in its active state. */
+      navDepositActive: string;
+      /** "Ao vivo" badge stamped on live game cards. */
+      liveBadge: string;
+      /** Speech bubble on the footer's "Contate-nos" button. */
+      support: string;
+      /** Magnifier on the casino and live search pages. */
+      search: string;
+      /** "Voltar" chevron on the lobby's game rows. */
+      arrowLeft: string;
+      /** "Ver todos" chevron on the lobby's game rows. */
+      arrowRight: string;
+    };
+    /**
      * Intrinsic size of `logoWhite`, in pixels. `NgOptimizedImage` needs the real aspect ratio
      * of the header logo up front, and it warns when the declared ratio does not match the file.
      */

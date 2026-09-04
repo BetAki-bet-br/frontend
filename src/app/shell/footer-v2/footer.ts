@@ -46,6 +46,7 @@ export class Footer {
   private readonly brand = inject(BRAND);
 
   readonly brandLogo = this.brand.assets.logoColor;
+  readonly brandSupportIcon = this.brand.assets.icons.support;
   readonly sponsorHeading = `A ${this.brand.name} tem orgulho em patrocinar:`;
   readonly legalDisclaimer = this.brand.legal.disclaimer;
 

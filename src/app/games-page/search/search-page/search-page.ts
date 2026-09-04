@@ -8,6 +8,7 @@ import { SlotsService } from '@app/@core/backoffice/slots.service';
 import { GameCard } from '@app/games-page/components/game-card/game-card';
 import { GameDetailModal } from '@app/games-page/games-list-page/game-detail-modal/game-detail-modal';
 import { GameMain, SubLevel } from '@app/games-page/models/game.models';
+import { BRAND } from '@app/@core/brand';
 
 @Component({
   selector: 'app-search-page',
@@ -21,6 +22,9 @@ export class SearchPage {
   private route = inject(ActivatedRoute);
   screenWidth = signal(window.innerWidth);
   private router = inject(Router);
+  private readonly brand = inject(BRAND);
+
+  protected readonly brandSearchIcon = this.brand.assets.icons.search;
 
   searchTerm = signal('');
   selectedGame = signal<GameMain | undefined>(undefined);

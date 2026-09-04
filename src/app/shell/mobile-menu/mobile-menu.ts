@@ -24,18 +24,18 @@ export class MobileMenu {
   readonly isFullscreen = this.fullscreenService.isFullscreen;
 
   menuItems: MenuItem[] = [
-    { label: '', icon: '/assets/icons/ball-icon.svg', routerLink: '/', exact: true },
+    { label: '', icon: this.brand.assets.icons.navHome, routerLink: '/', exact: true },
     {
       label: 'Ao Vivo',
       icon: '/assets/icons/bet-icon-white.svg',
-      iconActive: '/assets/icons/bet-coin.svg',
+      iconActive: this.brand.assets.icons.navLiveActive,
       routerLink: '/games/live',
       exact: false,
     },
     {
       label: 'Depositar',
       icon: '/assets/icons/deposit-icon-white.svg',
-      iconActive: '/assets/icons/deposit-icon.svg',
+      iconActive: this.brand.assets.icons.navDepositActive,
       routerLink: '/profile/wallet/deposit',
       isSpecial: true,
       exact: false,
