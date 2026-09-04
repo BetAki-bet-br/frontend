@@ -3,6 +3,13 @@ import { Router, NavigationEnd } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { SidebarService } from './sidebar-mobile.service';
 import { ChatService } from './chat.service';
+import { TawkToScriptService } from './tawkto-script.service';
+
+/**
+ * `Menu.meta.routerLink` of the backoffice entry that opens the live-chat widget instead of
+ * navigating ("Suporte ao vivo"). It is not a route: no `/` prefix, on purpose.
+ */
+export const SUPPORT_MENU_LINK = 'support';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +19,7 @@ export class RoutingService {
   private readonly viewportScroller = inject(ViewportScroller);
   private readonly sidebarService = inject(SidebarService);
   private readonly chatService = inject(ChatService);
+  private readonly tawkToScriptService = inject(TawkToScriptService);
   isNavigating = computed(() => !!this.router.currentNavigation());
   isInCassino = signal(false);
   isLiveCasino = signal(false);
@@ -86,6 +94,12 @@ export class RoutingService {
 
   navigateToMenuItem(item: { routerLink?: string; categoryId?: string | number; label: string }): void {
     let path = item.routerLink;
+
+    // The backoffice "help" menu points at the live-chat widget, not at a route.
+    if (path === SUPPORT_MENU_LINK) {
+      this.tawkToScriptService.maximize();
+      return;
+    }
 
     if (item.label === 'Provedores') {
       if (this.router.url.startsWith('/games/live')) {
