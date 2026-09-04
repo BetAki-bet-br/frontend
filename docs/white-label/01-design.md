@@ -187,9 +187,13 @@ Ordem: WL-0 → WL-1 → WL-2 → WL-3 → WL-4 → WL-5 → WL-6 → WL-7 → W
 ### O que ainda não é por marca
 
 `src/translations/json/*.json` (par único, com `{{brand}}`), o `registerLocaleData` pt-BR de
-`src/main.ts`, os selos/patrocinadores em `src/assets/footer` e no `footer.html`, os ícones de
-categoria em `src/assets/general/icons` (têm `[BETAKI]` no `id` do SVG) e `src/static-pages/`
-(templates de e-mail e páginas estáticas, fora do build).
+`src/main.ts`, os selos/patrocinadores em `src/assets/footer` e no `footer.html`, e
+`src/static-pages/` (templates de e-mail e páginas estáticas, fora do build). Os 43 ícones de
+`src/assets` que traziam o lima/oliva da BetAki no próprio arquivo (perfil, auth, `essentials-*`,
+`finance-*`, `flame`, `success-check`, `18-plus`...) foram para `brands/<slug>/assets/icons/`,
+gerados por `scripts/recolor-brand-icons.js` a partir de `brands/<slug>/icon-colors.json`; os
+ícones de categoria `ICON_*.svg` continuam compartilhados (são neutros) e perderam o `[BETAKI]`
+do `id`. Sobrou `src/assets/rgl/18-plus.svg` com o preto-oliva `#090B01` (indistinguível de preto).
 
 Fora de `src/`, o pacote de terceiros `@icore/ngx-atl-pp-templates-shared` (usado pelo
 `src/theme/theme.scss`) traz os templates de CMS `.bki` com `#bcd200`, `#202400` e `#090b01`

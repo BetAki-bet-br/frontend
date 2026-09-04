@@ -1,0 +1,14 @@
+{
+  "_comment": "betaki lime/olive -> placeholder magenta of brand-theme.scss (#a21caf ramp); while the icons are magenta the brand has not been themed",
+  "#c6d42d": "#a21caf",
+  "#bcd200": "#a21caf",
+  "#bccf13": "#a21caf",
+  "#b2d235": "#a21caf",
+  "#a6b224": "#831693",
+  "#8fa000": "#831693",
+  "#869502": "#a21caf",
+  "#697505": "#5c0f68",
+  "#202400": "#1e1e1e",
+  "#20210e": "#1e1e1e",
+  "#090b01": "#070707"
+}

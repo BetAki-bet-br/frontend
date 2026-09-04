@@ -96,23 +96,23 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'essentials-arrows-horizontal',
-    url: 'assets/general/icons/essentials-arrows-horizontal.svg',
+    url: 'assets/brand/icons/essentials-arrows-horizontal.svg',
   },
   {
     name: 'finance-extract',
-    url: 'assets/general/icons/finance-extract.svg',
+    url: 'assets/brand/icons/finance-extract.svg',
   },
   {
     name: 'essentials-user',
-    url: 'assets/general/icons/essentials-user.svg',
+    url: 'assets/brand/icons/essentials-user.svg',
   },
   {
     name: 'essentials-user-black',
-    url: 'assets/general/icons/essentials-user-black.svg',
+    url: 'assets/brand/icons/essentials-user-black.svg',
   },
   {
     name: 'essentials-user-black-outlined',
-    url: 'assets/general/icons/essentials-user-black-outlined.svg',
+    url: 'assets/brand/icons/essentials-user-black-outlined.svg',
   },
   {
     name: 'essentials-user-white',
@@ -124,7 +124,7 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'essentials-mail-2',
-    url: 'assets/general/icons/essentials-mail-2.svg',
+    url: 'assets/brand/icons/essentials-mail-2.svg',
   },
   {
     name: 'essentials-headset',
@@ -132,11 +132,11 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'essentials-headset-2',
-    url: 'assets/general/icons/essentials-headset-2.svg',
+    url: 'assets/brand/icons/essentials-headset-2.svg',
   },
   {
     name: 'essentials-close',
-    url: 'assets/general/icons/essentials-close.svg',
+    url: 'assets/brand/icons/essentials-close.svg',
   },
   {
     name: 'essentials-home',
@@ -144,47 +144,47 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'essentials-risk-management',
-    url: 'assets/general/icons/essentials-risk-management.svg',
+    url: 'assets/brand/icons/essentials-risk-management.svg',
   },
   {
     name: 'essentials-account-box',
-    url: 'assets/general/icons/essentials-account-box.svg',
+    url: 'assets/brand/icons/essentials-account-box.svg',
   },
   {
     name: 'essentials-phone',
-    url: 'assets/general/icons/essentials-phone.svg',
+    url: 'assets/brand/icons/essentials-phone.svg',
   },
   {
     name: 'essentials-star',
-    url: 'assets/general/icons/essentials-star.svg',
+    url: 'assets/brand/icons/essentials-star.svg',
   },
   {
     name: 'essentials-security',
-    url: 'assets/general/icons/essentials-security.svg',
+    url: 'assets/brand/icons/essentials-security.svg',
   },
   {
     name: 'profile-full-name',
-    url: 'assets/general/icons/profile-full-name.svg',
+    url: 'assets/brand/icons/profile-full-name.svg',
   },
   {
     name: 'profile-cpf',
-    url: 'assets/general/icons/profile-cpf.svg',
+    url: 'assets/brand/icons/profile-cpf.svg',
   },
   {
     name: 'profile-dob',
-    url: 'assets/general/icons/profile-dob.svg',
+    url: 'assets/brand/icons/profile-dob.svg',
   },
   {
     name: 'profile-location',
-    url: 'assets/general/icons/profile-location.svg',
+    url: 'assets/brand/icons/profile-location.svg',
   },
   {
     name: 'profile-phonenumber',
-    url: 'assets/general/icons/profile-phonenumber.svg',
+    url: 'assets/brand/icons/profile-phonenumber.svg',
   },
   {
     name: 'profile-email',
-    url: 'assets/general/icons/profile-email.svg',
+    url: 'assets/brand/icons/profile-email.svg',
   },
   {
     name: 'chave-pix',
@@ -192,15 +192,15 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'finance-pix',
-    url: 'assets/general/icons/finance-pix.svg',
+    url: 'assets/brand/icons/finance-pix.svg',
   },
   {
     name: 'actions-filter',
-    url: 'assets/general/icons/actions-filter.svg',
+    url: 'assets/brand/icons/actions-filter.svg',
   },
   {
     name: 'providers',
-    url: 'assets/general/icons/ICON_PROVEDORES.svg',
+    url: 'assets/brand/icons/ICON_PROVEDORES.svg',
   },
   {
     name: 'lotteries',
@@ -212,7 +212,7 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'settings',
-    url: 'assets/general/icons/settings.svg',
+    url: 'assets/brand/icons/settings.svg',
   },
   {
     name: 'slots',
@@ -228,31 +228,31 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'view-details',
-    url: 'assets/general/icons/view-details.svg',
+    url: 'assets/brand/icons/view-details.svg',
   },
   {
     name: 'selfie',
-    url: 'assets/general/icons/selfie.svg',
+    url: 'assets/brand/icons/selfie.svg',
   },
   {
     name: 'list',
-    url: 'assets/general/icons/list.svg',
+    url: 'assets/brand/icons/list.svg',
   },
   {
     name: 'close',
-    url: 'assets/general/icons/close.svg',
+    url: 'assets/brand/icons/close.svg',
   },
   {
     name: 'close-icon',
-    url: 'assets/general/icons/close-icon.svg',
+    url: 'assets/brand/icons/close-icon.svg',
   },
   {
     name: 'profile-sportsbook',
-    url: 'assets/general/icons/profile-sportsbook.svg',
+    url: 'assets/brand/icons/profile-sportsbook.svg',
   },
   {
     name: 'profile-casino',
-    url: 'assets/general/icons/profile-casino.svg',
+    url: 'assets/brand/icons/profile-casino.svg',
   },
   {
     name: 'profile-close-account',
@@ -268,11 +268,11 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'session-history',
-    url: 'assets/general/icons/session-history.svg',
+    url: 'assets/brand/icons/session-history.svg',
   },
   {
     name: 'linkedin',
-    url: 'assets/general/icons/linkedin.svg',
+    url: 'assets/brand/icons/linkedin.svg',
   },
   {
     name: 'id',
@@ -280,7 +280,7 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'annual-report',
-    url: 'assets/general/icons/annual-report.svg',
+    url: 'assets/brand/icons/annual-report.svg',
   },
   {
     name: 'essentials-logout',
@@ -288,7 +288,7 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'ellipse',
-    url: 'assets/general/icons/ellipse.svg',
+    url: 'assets/brand/icons/ellipse.svg',
   },
   {
     name: 'help-chat-icon',
@@ -296,7 +296,7 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'exit-door',
-    url: 'assets/general/icons/exit-door.svg',
+    url: 'assets/brand/icons/exit-door.svg',
   },
   {
     name: 'person',
@@ -312,7 +312,7 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'success-check',
-    url: 'assets/general/icons/success-check.svg',
+    url: 'assets/brand/icons/success-check.svg',
   },
   {
     name: 'fail',
@@ -320,6 +320,6 @@ export const IconsList: AssetItem[] = [
   },
   {
     name: 'flame',
-    url: 'assets/general/icons/flame.svg',
+    url: 'assets/brand/icons/flame.svg',
   },
 ];

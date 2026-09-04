@@ -40,5 +40,9 @@ so brand-level notes belong here, at the package root, which the build does not 
   site's own `<link rel="icon">` files.
 - `logo.png`: derived from the wordmark for light surfaces (dialogs, maintenance page): every
   non-magenta pixel above the badge painted `#120026`. Replace with the vector kit's dark version.
+- `icons/*.svg` beyond the eight chrome icons: generated from the betaki copies by
+  `node scripts/recolor-brand-icons.js betaki girosbet` with the map in `icon-colors.json`
+  (lime → `#e145ff` CTA magenta, green `#869502` → `#901bf7` primary, olive black → `#120026` ink).
+  Re-run after adding an icon to `brands/betaki/assets/icons`; use `--force` to regenerate all.
 - `icon-green.svg` / `agecap.svg`: still hand-drawn placeholders. Keep `assets.logo` in
   `brand.config.ts` and `$brand-logo-url` in `brand-variables.scss` pointing at the same file.

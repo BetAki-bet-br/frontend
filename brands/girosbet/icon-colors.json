@@ -1,0 +1,14 @@
+{
+  "_comment": "betaki lime/olive -> GirosBet purples, consumed by scripts/recolor-brand-icons.js betaki girosbet",
+  "#c6d42d": "#e145ff",
+  "#bcd200": "#e145ff",
+  "#bccf13": "#e145ff",
+  "#b2d235": "#e145ff",
+  "#a6b224": "#b21fd0",
+  "#8fa000": "#901bf7",
+  "#869502": "#901bf7",
+  "#697505": "#5c11a0",
+  "#202400": "#120026",
+  "#20210e": "#120026",
+  "#090b01": "#03000b"
+}

@@ -47,6 +47,25 @@ The white/neutral variants of the same icons (`bet-icon-white.svg`, `deposit-ico
 `ball-icon-white.svg`, `menu-icon.svg`, …) stay shared in `src/assets/icons` — they carry no brand
 colour.
 
+### `icons/` — the 43 palette icons (generated)
+
+The remaining 43 files in `icons/` are the shared UI icons that used to live in
+`src/assets/general/icons`, `src/assets/icons` and `src/assets/general/images` with the betaki lime
+(`#869502`, `#BCD200`, `#BCCF13`) and olive black (`#202400`) baked in: the profile-form glyphs
+(`profile-*.svg`, `user-form.svg`, `email-form.svg`, `phone-form.svg`, `hide-pass.svg`), the
+`essentials-*` set, `finance-*`, `flame.svg` (volatility), `success-check.svg` / `success-badge.svg`,
+`18-plus.svg`, `close*.svg`, `settings.svg`, `exit-door.svg`, `list.svg`, `selfie.svg`,
+`session-history.svg`, `view-details.svg`, `annual-report.svg`, `ellipse.svg`, `linkedin.svg`,
+`ICON_PROVEDORES.svg`. They are not addressed by `brand.config.ts`: `src/app/icons-list.ts`
+(the `MatIconRegistry` list) and the templates reference them by path as
+`assets/brand/icons/<name>.svg`, so the file names are the contract.
+
+Do not paint these by hand. `brands/<slug>/icon-colors.json` maps every betaki hex to the brand's
+own and `node scripts/recolor-brand-icons.js betaki <slug>` regenerates them from the betaki copies
+(files already present in the target are kept unless `--force`; ids that name the source brand are
+scrubbed). The script exits with status 2 and lists the file when a colour of the lime family is
+left unmapped. The template's map paints them in the same placeholder magenta as the chrome icons.
+
 Notes:
 
 - `logo.png` is the only raster logo. It also backs the SCSS variable `$brand-logo-url` in

@@ -15,8 +15,8 @@ rm brands/<slug>/assets/README.md brands/<slug>/legal/README.md
 ```
 
 Leia os dois README antes de apagá-los: eles listam exatamente os arquivos esperados. Depois do `rm`
-o diretório `legal/` fica vazio e `assets/` fica só com `icons/` (os oito ícones de chrome, que o
-template já traz em magenta de placeholder) — o git não versiona diretório vazio, então eles só
+o diretório `legal/` fica vazio e `assets/` fica só com `icons/` (os oito ícones de chrome e os 43
+ícones de paleta, que o template já traz em magenta de placeholder) — o git não versiona diretório vazio, então eles só
 aparecem no commit depois que você colocar os arquivos da marca lá dentro (passo 4).
 
 Tudo que sobrar em `assets/` e em `legal/` é copiado literalmente para `dist/<slug>/browser`. Se a
@@ -91,6 +91,13 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
   estão no `assets/README.md` do template. As variantes brancas dos mesmos ícones
   (`bet-icon-white.svg`, `deposit-icon-white.svg`, ...) continuam compartilhadas em
   `src/assets/icons` — não têm cor de marca.
+- Os outros 43 ícones de `assets/icons/` (glifos dos formulários de perfil e de auth, conjunto
+  `essentials-*`, `finance-*`, `flame.svg`, `success-check.svg`, `18-plus.svg`, `close*.svg` etc.)
+  eram compartilhados em `src/assets` com o lima/oliva da BetAki dentro do arquivo e agora são da
+  marca, referenciados por caminho (`assets/brand/icons/<nome>.svg` no `icons-list.ts` e nos
+  templates). Não pinte à mão: preencha `brands/<slug>/icon-colors.json` (hex da betaki → hex da
+  marca) e rode `node scripts/recolor-brand-icons.js betaki <slug>`; o script só escreve arquivos
+  que ainda não existem (`--force` regenera) e avisa, com exit 2, se sobrar cor da família lima.
 - O `<img>` do header usa `NgOptimizedImage` e lê o tamanho de `assets.logoSize` no
   `brand.config.ts`. Copie o `width`/`height` reais do seu `logo-white.svg`: se a proporção
   declarada não bater com o arquivo, o Angular loga um aviso de aspect ratio em dev.
