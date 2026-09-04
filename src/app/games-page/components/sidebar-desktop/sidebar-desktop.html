@@ -1,91 +1,128 @@
-<div
-  class="hidden lg:flex sticky top-[64px] flex-col 2xl:ms-0 text-white h-[calc(100vh-64px)] space-y-2 transition-all duration-300"
-  [class.w-64]="!isCollapsed()"
-  [class.w-20]="isCollapsed()"
+<aside
+  class="hidden lg:flex sticky top-[64px] h-[calc(100vh-64px)] shrink-0 flex-col gap-4 overflow-y-auto border-r border-shark-700 bg-shark-900 p-3 transition-all duration-300"
+  [class.w-60]="!isCollapsed()"
+  [class.w-16]="isCollapsed()"
 >
-  <nav class="flex flex-col h-full p-3 space-y-2 overflow-y-auto bg-shark-950/30">
-    <div class="flex pb-2" [class.justify-end]="!isCollapsed()" [class.justify-center]="isCollapsed()">
-      <button (click)="toggleCollapse()" class="p-2 rounded-lg hover:bg-shark-900">
-        <img
-          [src]="'/assets/icons/arrow-left-white.svg' | cdnize"
-          alt="Toggle sidebar"
-          class="w-6 h-6 transition-transform duration-300"
-          [class.rotate-180]="isCollapsed()"
-        />
-      </button>
-    </div>
-    <!-- @if(isAuthenticated){ -->
-    <!-- <div
-      class="flex items-center gap-3 px-1 py-2 rounded-lg transition-colors group hover:opacity-80 cursor-pointer"
-      [class.justify-center]="isCollapsed()"
-      (click)="handleProfileClick()"
-    >
-      <img src="/assets/icons/user-icon.svg" alt="User Photo" class="object-cover w-10 h-10 rounded-full shrink-0" />
-      @if (playerDetails(); as details) {
-      <div class="flex flex-col" [class.hidden]="isCollapsed()">
-        <span class="text-base font-medium">{{ details.firstName }} {{ details.lastName }}</span>
-        <span class="text-sm font-light">ID: {{ details.id }}</span>
-      </div>
-      }
-    </div> -->
-    <!-- } -->
+  <!-- 1. Banner do CMS (slug `banner-sidebar-top`), escondido no trilho colapsado. -->
+  @if (!isCollapsed() && banner(); as sidebarBanner) {
+  <a
+    class="relative block h-[60px] w-full shrink-0 overflow-hidden rounded-xl bg-surface-skeleton"
+    [href]="sidebarBanner.link_url"
+    rel="noopener noreferrer"
+  >
+    @if (!isImageLoaded('banner-sidebar-top')) {
+    <div class="absolute inset-0 z-10 animate-pulse bg-surface-skeleton"></div>
+    }
+    <img
+      [src]="bannerImage(sidebarBanner)"
+      alt="Banner Sidebar Top"
+      class="h-full w-full object-cover transition-opacity duration-500"
+      [class.opacity-0]="!isImageLoaded('banner-sidebar-top')"
+      (load)="onImageLoad('banner-sidebar-top')"
+    />
+  </a>
+  }
 
-    <!-- Menu Items Iteration -->
-    <div class="flex flex-col mt-1 gap-y-2">
-      @if (isLoading()) {
-      <div class="flex items-center justify-center py-8">
-        <svg
-          class="w-8 h-8 text-brand-400 animate-spin"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-      </div>
-      } @else { @for (item of menuItems(); track item.label) {
-      <button
-        class="flex items-center p-2 gap-x-2 cursor-pointer rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80"
-        [class]="item.class"
-        [class.bg-tournaments]="item.label === 'Torneios' || isHighlighted(item)"
-        [class.bg-fresh]="item.label === 'Lançamentos'"
-        [class.bg-providers]="item.label === 'Provedores'"
-        [class.mb-1]="isHighlighted(item)"
-        [class.justify-start]="!isCollapsed()"
-        [class.justify-center]="isCollapsed()"
-        (click)="navigateTo(item)"
+  <!-- 2. Tiles de promoção. -->
+  <div class="grid shrink-0 gap-2" [class.grid-cols-2]="!isCollapsed()" [class.grid-cols-1]="isCollapsed()">
+    <a
+      routerLink="/promotions"
+      class="flex h-[46px] flex-col items-center justify-center gap-1 rounded-xl border border-shark-700 bg-shark-800 text-[11px] font-extrabold tracking-wide text-white transition-colors hover:border-shark-600"
+      [attr.title]="isCollapsed() ? 'Cupom' : null"
+    >
+      <svg
+        class="text-action"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
       >
-        <img [src]="item.icon | cdnize" [alt]="item.label" class="w-6 h-6 shrink-0" />
-        <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">{{ item.label }}</span>
-      </button>
-      } }
-    </div>
+        <path
+          d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 6v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-6Z"
+        />
+        <path d="M13 5v2" />
+        <path d="M13 11v2" />
+        <path d="M13 17v2" />
+      </svg>
+      @if (!isCollapsed()) {
+      <span>CUPOM</span>
+      }
+    </a>
 
-    @if (isAuthenticated) {
-    <button
-      (click)="logout()"
-      class="flex items-center p-2 gap-x-2 cursor-pointer rounded-xl mt-auto w-full transition-opacity duration-200 ease-in-out hover:opacity-80"
-      [class.justify-start]="!isCollapsed()"
-      [class.justify-center]="isCollapsed()"
+    <a
+      routerLink="/promotions"
+      class="flex h-[46px] flex-col items-center justify-center gap-1 rounded-xl border border-shark-700 bg-shark-800 text-[11px] font-extrabold tracking-wide text-white transition-colors hover:border-shark-600"
+      [attr.title]="isCollapsed() ? 'Promo' : null"
     >
-      <img [src]="'/assets/icons/logout-icon-color.svg' | cdnize" alt="Casino" class="w-6 h-6 shrink-0" />
-      <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Sair</span>
+      <svg
+        class="text-action"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M20 12v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8" />
+        <path d="M2 8h20v4H2z" />
+        <path d="M12 8v13" />
+        <path d="M12 8H7.5a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8Z" />
+        <path d="M12 8h4.5a2.5 2.5 0 0 0 0-5C13 3 12 8 12 8Z" />
+      </svg>
+      @if (!isCollapsed()) {
+      <span>PROMO</span>
+      }
+    </a>
+  </div>
+
+  <!-- 3. Menus do backoffice, agrupados por `meta.group`. -->
+  @if (isLoading()) {
+  <div class="flex items-center justify-center py-8">
+    <svg class="w-8 h-8 text-brand-400 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+  </div>
+  } @else { @for (block of blocks(); track block.key) {
+  <nav class="flex shrink-0 flex-col gap-1" [attr.aria-label]="block.title">
+    @if (!isCollapsed()) {
+    <h2 class="px-3 text-[10px] font-bold uppercase tracking-[0.06em] text-white/70">{{ block.title }}</h2>
+    } @for (item of block.items; track item.label) {
+    <button
+      type="button"
+      class="flex h-9 cursor-pointer items-center gap-3 rounded-xl text-sm text-white transition-colors hover:bg-shark-800"
+      [class]="
+        (isActive(item) ? 'bg-brand-500/20 ring-1 ring-inset ring-brand-500/40 ' : '') +
+        (block.key === 'atalhos' && isHighlighted(item) ? 'bg-tournaments mb-1' : '')
+      "
+      [class.px-3]="!isCollapsed()"
+      [class.justify-center]="isCollapsed()"
+      [attr.title]="isCollapsed() ? item.label : null"
+      (click)="activate(item)"
+    >
+      <img
+        [src]="item.icon | cdnize"
+        [alt]="item.label"
+        class="size-5 shrink-0 rounded"
+        [class.object-cover]="block.key === 'populares'"
+      />
+      @if (!isCollapsed()) {
+      <span class="truncate">{{ item.label }}</span>
+      }
     </button>
     }
-
-    <button
-      class="flex items-center justify-center p-2 gap-x-2 cursor-pointer rounded-xl transition-opacity duration-200 ease-in-out hover:opacity-80"
-      (click)="openSupportChat()"
-      [class.justify-start]="!isCollapsed()"
-      [class.justify-center]="isCollapsed()"
-    >
-      <img [src]="'/assets/icons/support-icon-color.svg' | cdnize" alt="Casino" class="w-6 h-6 shrink-0" />
-      <span class="text-[#E4EAF2]!" [class.hidden]="isCollapsed()">Precisa de ajuda?</span>
-    </button>
   </nav>
-</div>
+  } }
+</aside>
