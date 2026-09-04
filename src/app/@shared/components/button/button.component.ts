@@ -46,24 +46,26 @@ export class ButtonComponent {
       'relative font-bold transition-all duration-200 flex items-center justify-center gap-2 !leading-normal tracking-wide';
 
     const variants: Record<ButtonVariant, string> = {
-      // Primary: The brand color (Lime Greenish)
-      primary: 'bg-brand-500 !text-white hover:opacity-90 active:opacity-100 shadow-sm border border-transparent',
+      // Primary: the brand's call to action (`--color-action`)
+      primary:
+        'bg-action !text-action-foreground hover:opacity-90 active:opacity-100 shadow-sm border border-transparent',
 
-      // Secondary: Dark background (Shark 900)
-      secondary: 'bg-shark-900! !text-white hover:bg-shark-800 border border-transparent',
+      // Secondary: quiet filled block with an optional hairline (`--color-button-secondary*`)
+      secondary: 'bg-button-secondary! !text-white hover:bg-shark-800 border border-button-secondary-border',
 
-      // Outline: Transparent with brand border, Black text
-      outline: 'bg-transparent! border-2 border-brand-500 !text-black hover:bg-brand-500! hover:!text-white',
+      // Outline: transparent with an action-coloured border, filling with the action on hover
+      outline:
+        'bg-transparent! border-2 border-action !text-button-outline-text hover:bg-action! hover:!text-action-foreground',
 
       // Ghost: Transparent background, White text
       ghost: 'bg-transparent! !text-white hover:bg-white/10',
 
       // Danger
-      danger: 'bg-red-600 !text-white hover:bg-red-700',
+      danger: 'bg-danger !text-white hover:opacity-90',
 
       // White: White background, Brand text (for dark backgrounds)
 
-      white: '!bg-white !text-brand-500 hover:bg-gray-100 border border-transparent',
+      white: '!bg-white !text-action hover:bg-gray-100 border border-transparent',
 
       // Outline White: Off-white border/text (shark-50) - Based on "Entrar" header button
 
@@ -98,7 +100,7 @@ export class ButtonComponent {
     };
 
     const shapes: Record<ButtonShape, string> = {
-      rectangle: 'rounded-md!',
+      rectangle: 'rounded-button!',
       pill: 'rounded-full',
       circle: 'rounded-full !p-2 aspect-square',
     };
