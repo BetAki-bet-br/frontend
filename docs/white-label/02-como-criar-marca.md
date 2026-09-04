@@ -36,6 +36,10 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
 - `legal.disclaimer` — parágrafo regulatório do rodapé, escrito pelo jurídico da marca.
 - `features.highlightedMenuLabels` — nomes dos itens de menu do backoffice que ganham destaque na
   sidebar (normalmente o clube de fidelidade).
+- `layout` — que chrome a marca usa. `header: 'brand-bar'` é a barra colorida com links de texto
+  (BetAki); `header: 'dark'` é o header escuro com o alternador Cassino/Ao vivo, busca embutida e
+  CTA (GirosBet). `desktopSidebar: true` liga a sidebar de desktop com os blocos do CMS. É
+  estrutura, não cor — a cor vem dos tokens do `brand-theme.scss`.
 
 ## 3. Tema
 
@@ -53,6 +57,10 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
 - `--font-sans` chega sozinho à página: desde a WL-7 o `src/theme/theme.scss` aplica
   `font-family: var(--font-sans)` em `html, body`. Declare a família no `@theme` e carregue a
   webfont pelo `index.html` da marca — não repita a regra `html, body` no `brand-theme.scss`.
+- Os tokens semânticos do fim do bloco `@theme` (`--color-action*`, `--color-surface-header`,
+  `--color-button-secondary*`, `--color-button-outline-text`, `--color-danger`, `--radius-button`)
+  são o que `<app-button>` e o header pintam. Responda a eles e os botões da marca ficam certos sem
+  tocar em nenhuma classe de `src/`.
 - O bloco `@theme static` do fim do arquivo existe porque o Tailwind faz tree-shaking das
   variáveis de `@theme` que nenhuma classe utilitária usa. `--color-brand-spinner` só é lido por
   SCSS de componente (que o Tailwind não escaneia), então precisa ficar lá para chegar ao `:root`.
