@@ -1,7 +1,0 @@
-<app-main-banner [bannerData]="promotionBannerBonus$ | async" />
-
-<div class="bonus-container">
-  @for (bonus of bonusList; track bonus) {
-    <div [innerHTML]="bonus.templateHtml"></div>
-  }
-</div>

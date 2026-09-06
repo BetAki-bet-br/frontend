@@ -19,7 +19,7 @@ import {
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { Observable, Subject, of } from 'rxjs';
 import { COUNTRY_LIST } from './profile-settings/profile-settings-info/profile-settings-info.mock';
-import { COUNTRY_CODES } from './profile-settings/profile-settings-verification/profile-settings-verification.mock';
+import { COUNTRY_CODES } from './country-codes';
 import { IdLabel } from './wallet/wallet-history/wallet-history.component';
 import { SportsbookBetHistoryModelResolved, TransactionDetailsResolved } from '@app/@shared/models/sportsbook.model';
 

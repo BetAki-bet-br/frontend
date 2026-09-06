@@ -6,7 +6,6 @@ import { forkJoin, map, of, tap } from 'rxjs';
 import { DragScrollDirective } from '@app/@shared/directives/drag-scroll.directive';
 import { AwardedGameCard } from '../components/awarded-game-card/awarded-game-card';
 import { GameCard } from '../components/game-card/game-card';
-import { GameFilterList } from '../components/game-filter-list/game-filter-list';
 import { GameFilterModal } from '../components/game-filter-modal/game-filter-modal';
 import { GameList } from '../components/game-list/game-list';
 import { ProvidersCarousel } from '../components/providers-carousel/providers-carousel';
@@ -27,7 +26,6 @@ import { GameEnum } from '@app/@shared/enums/gameEnum';
     GameCard,
     DragScrollDirective,
     AwardedGameCard,
-    GameFilterList,
     WinnersList,
     ProvidersCarousel,
     Top10List,
