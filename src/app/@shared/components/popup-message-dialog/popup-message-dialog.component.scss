@@ -20,12 +20,12 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: map.get(theme-variables.$app-custom-colors, "ATL_white35");
+  background: map.get(theme-variables.$app-custom-colors, "neutral-white-35");
   border-radius: 0.75rem;
   margin: 0;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: map.get(theme-variables.$app-custom-colors, "ATL_white35");
+  background: map.get(theme-variables.$app-custom-colors, "neutral-white-35");
 }

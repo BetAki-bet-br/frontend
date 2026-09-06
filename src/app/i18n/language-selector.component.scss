@@ -27,7 +27,7 @@
   line-height: 20px;
 
   /* stylelint-disable-next-line declaration-no-important */
-  --mat-icon-button-disabled-icon-color: map.get(theme-variables.$app-custom-colors, "neutral-white") !important;
+  --mat-icon-button-disabled-icon-color: #{map.get(theme-variables.$app-custom-colors, "neutral-white")} !important;
 
   .lang-text {
     color: map.get(theme-variables.$app-custom-colors, "neutral-white");

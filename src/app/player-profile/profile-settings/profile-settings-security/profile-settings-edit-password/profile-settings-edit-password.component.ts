@@ -22,7 +22,6 @@ import {
   PageBreadcrumbsComponent,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { defaultPasswordValidators } from '@app/@shared/form-utils';
-import { PasswordStrengthIndicatorComponent } from '@app/@shared/components/password-strength-indicator/password-strength-indicator.component';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { PortalGatewayErrorResponse } from '@icore/ngx-portalgateway-api-client-atl';

@@ -444,7 +444,7 @@ app-sidenav-menu {
   mat-progress-bar {
     .mdc-linear-progress__buffer {
       .mdc-linear-progress__buffer-bar {
-        background-color: map.get(theme-variables.$app-custom-colors, "primary-300");
+        background-color: map.get(theme-variables.$app-custom-colors, "brand-accent-30");
       }
     }
 
@@ -641,18 +641,18 @@ app-loader .mat-mdc-progress-spinner {
 
     /* Track */
     &::-webkit-scrollbar-track {
-      background: map.get(theme-variables.$app-custom-colors, "grey-200");
+      background: map.get(theme-variables.$app-custom-colors, "neutral-200");
     }
 
     /* Handle */
     &::-webkit-scrollbar-thumb {
-      background: map.get(theme-variables.$app-custom-colors, "grey-400");
+      background: map.get(theme-variables.$app-custom-colors, "neutral-90");
       border-radius: 0.25rem;
     }
 
     /* Handle on hover */
     &::-webkit-scrollbar-thumb:hover {
-      background: map.get(theme-variables.$app-custom-colors, "grey-700");
+      background: map.get(theme-variables.$app-custom-colors, "neutral-60");
     }
 
     &::-webkit-scrollbar-button {
@@ -1384,7 +1384,7 @@ app-popup-message-dialog {
 
   .date-filter-divider {
     min-width: 1.5rem;
-    color: map.get(theme-variables.$app-custom-colors, "gray-500");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-60");
     text-align-last: center;
   }
 }
@@ -1791,20 +1791,20 @@ app-shell-player-profile {
 
   /* stylelint-disable-next-line no-descending-specificity */
   ::-webkit-scrollbar-track {
-    background: map.get(theme-variables.$app-custom-colors, "grey-200");
+    background: map.get(theme-variables.$app-custom-colors, "neutral-200");
     border-radius: 0.75rem;
   }
 
   /* stylelint-disable-next-line no-descending-specificity */
   ::-webkit-scrollbar-thumb {
-    background: map.get(theme-variables.$app-custom-colors, "grey-400");
+    background: map.get(theme-variables.$app-custom-colors, "neutral-90");
     border-radius: 0.75rem;
     margin: 0;
   }
 
   /* stylelint-disable-next-line no-descending-specificity */
   ::-webkit-scrollbar-thumb:hover {
-    background: map.get(theme-variables.$app-custom-colors, "grey-700");
+    background: map.get(theme-variables.$app-custom-colors, "neutral-60");
   }
 }
 

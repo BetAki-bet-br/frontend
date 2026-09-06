@@ -25,7 +25,7 @@
 }
 
 .approved {
-  color: map.get(theme-variables.$app-custom-colors, "ATL_success");
+  color: map.get(theme-variables.$app-custom-colors, "brand-success");
 }
 
 .declined {
@@ -45,7 +45,7 @@
 }
 
 .header-divider {
-  border-bottom: 1px solid map.get(theme-variables.$app-custom-colors, "ATL_white20");
+  border-bottom: 1px solid map.get(theme-variables.$app-custom-colors, "neutral-white-20");
   margin-top: 0.5rem;
   margin-left: -1.5rem;
   margin-right: -1.5rem;

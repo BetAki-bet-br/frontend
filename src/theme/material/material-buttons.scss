@@ -155,7 +155,7 @@
     &:not(:disabled) {
       color: map.get(vars.$app-custom-colors, "brand-surface-30");
 
-      // color: map.get(vars.$app-custom-colors, "primary-200");
+      // color: map.get(vars.$app-custom-colors, "brand-accent");
     }
 
     &:hover {
@@ -169,7 +169,7 @@
   }
 
   &.secondary {
-    background-color: map.get(vars.$app-custom-colors, "Betaki_success10");
+    background-color: map.get(vars.$app-custom-colors, "brand-accent-10");
     border: 1px solid map.get(vars.$app-custom-colors, "brand-accent");
 
     &:not(:disabled) {
@@ -259,7 +259,7 @@
 .nav-link-button {
   &.mat-mdc-button {
     &.mat-unthemed {
-      --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
+      --mat-button-text-label-text-color: #{map.get(vars.$app-custom-colors, "neutral-white")};
 
       background-color: color.adjust(map.get(vars.$app-custom-colors, "brand-background"), $alpha: -0.7);
       color: white;
@@ -282,7 +282,7 @@
     }
 
     &:not(:disabled) {
-      --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
+      --mat-button-text-label-text-color: #{map.get(vars.$app-custom-colors, "neutral-white")};
     }
   }
 }
@@ -292,7 +292,7 @@
 
   &.mat-unthemed {
     /* stylelint-disable-next-line declaration-no-important */
-    --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white") !important;
+    --mat-button-text-label-text-color: #{map.get(vars.$app-custom-colors, "neutral-white")} !important;
 
     color: map.get(vars.$app-custom-colors, "neutral-white");
   }
@@ -304,11 +304,11 @@
 }
 
 .mat-mdc-button:not(:disabled) {
-  --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
+  --mat-button-text-label-text-color: #{map.get(vars.$app-custom-colors, "neutral-white")};
 }
 
 .mat-mdc-outlined-button[disabled][disabled] {
-  --mat-button-outlined-outline-color: color.adjust(map.get(vars.$app-custom-colors, "semantic-error"), $alpha: -0.75);
+  --mat-button-outlined-outline-color: #{color.adjust(map.get(vars.$app-custom-colors, "semantic-error"), $alpha: -0.75)};
 }
 
 app-payments-table {

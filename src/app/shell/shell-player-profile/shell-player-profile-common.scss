@@ -9,7 +9,7 @@
 .profile-account-info {
   position: relative;
   background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "semantic-error"), $alpha: -0.9);
-  color: map.get(theme-variables.$app-custom-colors, "natural-white");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   border-radius: 0.375rem;
   display: flex;
   flex-flow: column;

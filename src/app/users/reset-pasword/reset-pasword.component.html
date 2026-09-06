@@ -38,7 +38,6 @@
             >
               <mat-icon fontSet="material-icons-outlined">{{ hideNew ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <!-- <app-password-strength-indicator [matInput]="passwordInput"></app-password-strength-indicator> -->
             @if (registerForm.controls.password.hasError('required') && registerForm.controls.password.touched) {
               <ng-container>
                 <mat-error class="error-msg" translate> Required</mat-error>

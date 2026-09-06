@@ -79,7 +79,7 @@ tr.detail-row {
   -webkit-tap-highlight-color: transparent;
 
   &:hover {
-    background-color: map.get(theme-variables.$app-custom-colors, "grey-150");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-150");
     border-radius: 0.75rem;
   }
 

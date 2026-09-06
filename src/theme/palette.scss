@@ -30,7 +30,12 @@ $shared-colors: (
   "neutral-350": #f6f8f9,
   "neutral-white": #fff,
 
+  // White at low alpha: dividers and tints over a brand surface
+  "neutral-white-20": #fff3,
+  "neutral-white-35": #ffffff59,
+
   // Semantic states
   "semantic-error": #f06143,
-  "semantic-error-strong": #fd3f3f
+  "semantic-error-strong": #fd3f3f,
+  "semantic-warning": #f0cd43
 );

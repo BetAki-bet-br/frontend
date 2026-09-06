@@ -85,12 +85,12 @@
       flex-direction: row;
 
       .warning-icon {
-        color: map.get(vars.$app-custom-colors, "red-75");
+        color: map.get(vars.$app-custom-colors, "semantic-error");
       }
 
       .success-icon {
         display: none;
-        color: map.get(vars.$app-custom-colors, "greenblue-300");
+        color: map.get(vars.$app-custom-colors, "brand-success");
       }
     }
   }
