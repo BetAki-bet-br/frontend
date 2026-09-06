@@ -16,7 +16,6 @@ import {
   signal,
   contentChildren,
 } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { AppBreakpoints } from '@app/@shared/app-breakpoints';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
@@ -28,7 +27,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './base-dialog.component.html',
   styleUrls: ['./base-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, MatRippleModule, CdnizePipe],
+  imports: [MatRippleModule, CdnizePipe],
 })
 export class BaseDialogComponent implements OnInit, OnDestroy, OnChanges, AfterContentChecked {
   private dialogRef = inject<DialogRef<BaseDialogComponent>>(DialogRef);

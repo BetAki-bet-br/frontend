@@ -22,9 +22,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Banner } from '@app/@shared/models';
 import { CategoryKeyEnum } from '@app/@shared/models/template.model';
 import { LoaderComponent } from '@app/@shared/loader/loader.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
 import {
   Breadcrumbs,
   PageBreadcrumbsComponent,
@@ -55,17 +52,7 @@ const log = new Logger('LoginPageComponent');
   selector: 'app-login-page',
   templateUrl: './login-page.html',
   styleUrls: ['./login-page.scss'],
-  imports: [
-    RouterLink,
-    ReactiveFormsModule,
-    TranslateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    NgxMaskDirective,
-    MatIconModule,
-    NgOptimizedImage,
-    ButtonComponent,
-  ],
+  imports: [RouterLink, ReactiveFormsModule, TranslateModule, NgxMaskDirective, NgOptimizedImage, ButtonComponent],
   providers: [NgxMaskDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

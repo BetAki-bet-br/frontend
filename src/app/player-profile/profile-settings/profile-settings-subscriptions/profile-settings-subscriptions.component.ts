@@ -17,7 +17,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BRAND_PARAMS } from '@app/@core/brand';
 
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -34,7 +33,6 @@ const log = new Logger('ProfileSettingsSubscriptionsComponent');
   imports: [
     ReactiveFormsModule,
     TranslateModule,
-    MatIconModule,
     MatButtonModule,
     MatSlideToggleModule,
     MatExpansionModule,

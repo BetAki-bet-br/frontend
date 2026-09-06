@@ -13,7 +13,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatTabGroup } from '@angular/material/tabs';
-import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule } from '@angular/material/tooltip';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions } from '@angular/material/tooltip';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
@@ -47,7 +47,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule, MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { MatDividerModule } from '@angular/material/divider';
 import { TextFieldModule } from '@angular/cdk/text-field';
@@ -79,9 +78,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
-    MatDatepickerModule,
     MatNativeDateModule,
-    MatTooltipModule,
     PageBreadcrumbsComponent,
     MatDividerModule,
     TextFieldModule,

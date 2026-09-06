@@ -10,8 +10,6 @@ import {
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { BRAND } from '@app/@core/brand';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
@@ -22,14 +20,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-refer-a-friend',
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-    PageBreadcrumbsComponent,
-  ],
+  imports: [ReactiveFormsModule, TranslateModule, MatIconModule, PageBreadcrumbsComponent],
   templateUrl: './refer-a-friend.component.html',
   styleUrls: ['./refer-a-friend.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

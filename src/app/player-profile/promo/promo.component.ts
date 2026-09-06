@@ -32,9 +32,6 @@ import { CmsService } from '@app/@shared/services/cms.service';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { DataStoreService } from '@app/@core';
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslateModule } from '@ngx-translate/core';
 import { BonusOfferingComponent } from './bonus-offering/bonus-offering.component';
 import { BonusOngoingComponent } from './bonus-ongoing/bonus-ongoing.component';
@@ -52,10 +49,7 @@ const log = new Logger('PromoComponent');
   imports: [
     CommonModule,
     TranslateModule,
-    MatIconModule,
     MatTabsModule,
-    MatProgressSpinnerModule,
-    MatProgressBarModule,
     PageBreadcrumbsComponent,
     BonusOfferingComponent,
     BonusOngoingComponent,

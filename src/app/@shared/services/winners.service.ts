@@ -94,9 +94,9 @@ export class WinnersService {
           log.debug('No published winner batch in the backoffice');
           return of([] as TopWinner[]);
         }
-        return this.topWinnersService.getBatch(batch.id).pipe(
-          map((detail: BackofficeBatch) => this.mapBatchToTopWinners(detail)),
-        );
+        return this.topWinnersService
+          .getBatch(batch.id)
+          .pipe(map((detail: BackofficeBatch) => this.mapBatchToTopWinners(detail)));
       }),
       catchError((err) => {
         log.debug('Backoffice winner batch failed:', err);

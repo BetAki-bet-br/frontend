@@ -2,9 +2,7 @@ import { ChatService } from '@app/@shared/services/chat.service';
 import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe';
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
@@ -21,15 +19,7 @@ const log = new Logger('EmailConfirmationComponent');
   templateUrl: './email-confirmation.component.html',
   styleUrls: ['./email-confirmation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    ReactiveFormsModule,
-    TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    CdnizePipe,
-  ],
+  imports: [ReactiveFormsModule, TranslateModule, MatButtonModule, MatFormFieldModule, CdnizePipe],
 })
 export class EmailConfirmationComponent implements OnInit, OnDestroy {
   private playerProfileService = inject(PlayerProfileService);

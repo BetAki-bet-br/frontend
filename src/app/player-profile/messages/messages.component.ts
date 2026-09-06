@@ -10,7 +10,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginatorIntl, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import {
   BaseConfirmationDialogData,
@@ -53,7 +53,6 @@ import { TableColumn, TableConfig } from '@app/@shared/components/base-table/bas
     MatIconModule,
     MatCheckboxModule,
     MatPaginatorModule,
-    MatDialogModule,
     MatExpansionModule,
     PageBreadcrumbsComponent,
   ],

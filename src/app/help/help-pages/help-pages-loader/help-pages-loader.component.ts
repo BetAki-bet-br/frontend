@@ -13,7 +13,6 @@ import { HelpPagesContainerComponent } from '../help-pages-container/help-pages-
 import { BRAND } from '@app/@core/brand';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { MatIconModule } from '@angular/material/icon';
 import mustache from 'mustache';
 import { filter, Subscription } from 'rxjs';
 
@@ -23,13 +22,7 @@ const log = new Logger('HelpPagesLoaderComponent');
   selector: 'app-help-pages-loader',
   templateUrl: './help-pages-loader.component.html',
   styleUrls: ['./help-pages-loader.component.scss', '../help-pages-container-content.scss'],
-  imports: [
-    TranslateModule,
-    MatIconModule,
-    PageBreadcrumbsComponent,
-    BasicPageContainerComponent,
-    HelpPagesContainerComponent,
-  ],
+  imports: [TranslateModule, PageBreadcrumbsComponent, BasicPageContainerComponent, HelpPagesContainerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HelpPagesLoaderComponent implements OnInit, OnDestroy {

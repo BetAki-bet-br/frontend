@@ -24,10 +24,9 @@ import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-transla
 import { forkJoin, of, Subscription, switchMap } from 'rxjs';
 import { PlayerProfileService } from '../player-profile.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import { MatTabGroup, MatTab, MatTabsModule } from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ResponsibleLimitsComponent } from './responsible-limits/responsible-limits.component';
 import { ResponsibleLimitDurationComponent } from './responsible-limit-duration/responsible-limit-duration.component';
-import { MatInputModule } from '@angular/material/input';
 
 const log = new Logger('ResponsibleGamblingComponent');
 
@@ -38,7 +37,6 @@ const log = new Logger('ResponsibleGamblingComponent');
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatTabsModule,
-    MatInputModule,
     PageBreadcrumbsComponent,
     ResponsibleLimitsComponent,
     ReactiveFormsModule,
