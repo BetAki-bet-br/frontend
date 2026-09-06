@@ -10,7 +10,7 @@
 .subscriptions-item-label {
   min-width: 10rem;
   font-size: 0.875rem;
-  color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-60");
 }
 
 .subscriptions-container {
@@ -43,14 +43,14 @@
       flex-direction: row;
       align-items: center;
       font-size: 0.75rem;
-      color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_error"), $alpha: -0.65);
+      color: color.adjust(map.get(theme-variables.$app-custom-colors, "semantic-error"), $alpha: -0.65);
       padding-top: 0.1875rem;
       width: 2rem;
     }
 
     &.active {
       .active-label {
-        color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+        color: map.get(theme-variables.$app-custom-colors, "semantic-error");
       }
     }
   }

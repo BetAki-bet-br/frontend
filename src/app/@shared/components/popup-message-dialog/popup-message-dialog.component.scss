@@ -14,7 +14,7 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: map.get(theme-variables.$app-custom-colors, "ATL_white10");
+  background: map.get(theme-variables.$app-custom-colors, "neutral-100");
   border-radius: 0.75rem;
 }
 

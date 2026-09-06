@@ -52,7 +52,7 @@ body {
   flex-direction: column;
   margin: 0;
   height: 100dvh;
-  background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  background-color: map.get(theme-variables.$app-custom-colors, "brand-background");
   font-family: var(--font-sans);
   color: map.get(theme-variables.$app-custom-colors, "neutral-dark");
 
@@ -122,7 +122,7 @@ p {
 
     a {
       font-family: var(--font-sans);
-      color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+      color: map.get(theme-variables.$app-custom-colors, "brand-background");
       text-decoration: none;
       cursor: pointer;
     }
@@ -181,7 +181,7 @@ p {
   width: 100%;
   font-size: 0.75rem;
   text-align: left;
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  color: map.get(theme-variables.$app-custom-colors, "semantic-error");
   line-height: 1.2;
   font-weight: 700;
 
@@ -209,7 +209,7 @@ a.nostyle {
 }
 
 .read-more {
-  color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+  color: map.get(theme-variables.$app-custom-colors, "brand-background");
   text-decoration: none;
   font-size: 0.875rem;
   cursor: pointer;
@@ -241,7 +241,7 @@ a.nostyle {
 // .title::after {
 //   content: " ";
 //   display: block;
-//   border-bottom: 2px solid map.get(theme-variables.$app-custom-colors, "Betaki_error");
+//   border-bottom: 2px solid map.get(theme-variables.$app-custom-colors, "semantic-error");
 //   width: 1.5rem;
 //   padding-top: 0.375rem;
 // }
@@ -258,7 +258,7 @@ a.nostyle {
 .subtitle-gray-s::after {
   content: " ";
   display: block;
-  border-bottom: 2px solid map.get(theme-variables.$app-custom-colors, "Betaki_error");
+  border-bottom: 2px solid map.get(theme-variables.$app-custom-colors, "semantic-error");
   width: 1.5rem;
   padding-top: 0.375rem;
 }
@@ -315,18 +315,18 @@ a.nostyle {
     }
 
     ::-webkit-scrollbar-track {
-      background: map.get(theme-variables.$app-custom-colors, "neutral-10");
+      background: map.get(theme-variables.$app-custom-colors, "brand-background");
     }
 
     ::-webkit-scrollbar-thumb {
-      background: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+      background: map.get(theme-variables.$app-custom-colors, "semantic-error");
       border-radius: 0.125rem;
       margin: 0;
     }
   }
 
   .mat-mdc-menu-panel.language-panel {
-    background-color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+    background-color: map.get(theme-variables.$app-custom-colors, "brand-background");
 
     .mat-mdc-menu-content {
       padding: 0;
@@ -376,11 +376,11 @@ app-sidenav-menu {
   }
 
   .mat-sidenav-transition .mat-sidenav-backdrop.mat-sidenav-shown {
-    background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.15);
+    background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "brand-background"), $alpha: -0.15);
   }
 
   .mat-drawer-backdrop.mat-drawer-shown {
-    background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.15);
+    background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "brand-background"), $alpha: -0.15);
     transition: opacity 0.3s ease;
   }
 }
@@ -411,7 +411,7 @@ app-sidenav-menu {
 
 .level-progress {
   width: 100%;
-  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "neutral-10"), $alpha: -0.5);
+  background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "brand-background"), $alpha: -0.5);
   padding: 0.5rem 0.75rem;
   border-radius: 0.25rem;
   margin-bottom: 0.25rem;
@@ -444,14 +444,14 @@ app-sidenav-menu {
   mat-progress-bar {
     .mdc-linear-progress__buffer {
       .mdc-linear-progress__buffer-bar {
-        background-color: map.get(theme-variables.$app-custom-colors, primary-300);
+        background-color: map.get(theme-variables.$app-custom-colors, "primary-300");
       }
     }
 
     .mdc-linear-progress__bar {
       .mdc-linear-progress__bar-inner {
-        background-color: map.get(theme-variables.$app-custom-colors, Betaki_error);
-        border-color: map.get(theme-variables.$app-custom-colors, Betaki_error);
+        background-color: map.get(theme-variables.$app-custom-colors, "semantic-error");
+        border-color: map.get(theme-variables.$app-custom-colors, "semantic-error");
       }
     }
 
@@ -473,7 +473,7 @@ app-sidenav-menu {
 
   p {
     overflow: hidden;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     text-align: center;
     font-size: 0.875rem;
     font-style: normal;
@@ -515,7 +515,7 @@ app-sidenav-menu {
         a {
           border-radius: 0.63rem;
           padding: 0.44rem 1.5rem;
-          border: 1px solid map.get(theme-variables.$app-custom-colors, "Betaki_success");
+          border: 1px solid map.get(theme-variables.$app-custom-colors, "brand-accent");
           font-size: 0.875rem;
           font-style: normal;
           font-weight: 700;
@@ -524,18 +524,18 @@ app-sidenav-menu {
 
           /* stylelint-disable-next-line selector-max-specificity */
           &.cc-allow:hover {
-            background-color: map.get(theme-variables.$app-custom-colors, "betaki-green50");
-            border: 1px solid map.get(theme-variables.$app-custom-colors, "Betaki_success");
+            background-color: map.get(theme-variables.$app-custom-colors, "brand-accent-50");
+            border: 1px solid map.get(theme-variables.$app-custom-colors, "brand-accent");
           }
 
           &.cc-deny {
             background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
-            border-color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+            border-color: map.get(theme-variables.$app-custom-colors, "brand-accent");
 
             /* stylelint-disable-next-line selector-max-specificity */
             &:hover {
-              background-color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
-              border-color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+              background-color: map.get(theme-variables.$app-custom-colors, "brand-accent");
+              border-color: map.get(theme-variables.$app-custom-colors, "brand-accent");
             }
           }
         }
@@ -566,7 +566,7 @@ app-loader .mat-mdc-progress-spinner {
 
   circle,
   .mat-spinner circle {
-    stroke: map.get(theme-variables.$app-custom-colors, "neutral-10");
+    stroke: map.get(theme-variables.$app-custom-colors, "brand-background");
   }
 }
 
@@ -857,7 +857,7 @@ app-games-tiles {
   position: relative;
   background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
   height: 100%;
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
+  color: map.get(theme-variables.$app-custom-colors, "brand-ink");
   border-radius: 1rem;
   overflow: hidden;
   padding: 1.5rem 2rem;
@@ -897,7 +897,7 @@ app-games-tiles {
     cursor: pointer;
 
     &:hover {
-      color: color.adjust(map.get(theme-variables.$app-custom-colors, "betaki-black100"), $alpha: -0.4);
+      color: color.adjust(map.get(theme-variables.$app-custom-colors, "brand-surface"), $alpha: -0.4);
     }
   }
 
@@ -962,7 +962,7 @@ app-popup-message-dialog {
       text-align: center;
       font-weight: 700;
       width: 100%;
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
 
       @include utils.media("lt-sm-2") {
         font-size: 0.75rem;
@@ -971,7 +971,7 @@ app-popup-message-dialog {
   }
 
   .page-section {
-    background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
     border-radius: 1rem;
     padding: 1.5rem;
     min-width: 17.8125rem;
@@ -1001,7 +1001,7 @@ app-popup-message-dialog {
   }
 
   .page-section-multiple {
-    background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
     border-radius: 1rem;
     padding: 0.5rem 1.5rem;
     flex-direction: column;
@@ -1054,7 +1054,7 @@ app-popup-message-dialog {
     .item-icon {
       width: 1.5rem;
       height: 1.5rem;
-      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-accent");
       align-self: center;
       flex-shrink: 0;
     }
@@ -1062,20 +1062,20 @@ app-popup-message-dialog {
     .item-icon-2 {
       width: 2rem;
       height: 2rem;
-      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-accent");
       align-self: center;
       flex-shrink: 0;
     }
 
     .item-label {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
       font-size: 0.75rem;
       font-weight: 500;
       line-height: 1rem;
     }
 
     .item-value {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
       font-size: 1rem;
       letter-spacing: -0.64px;
       font-weight: 800;
@@ -1086,14 +1086,14 @@ app-popup-message-dialog {
       gap: 0.5rem;
 
       .prefix {
-        color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+        color: map.get(theme-variables.$app-custom-colors, "brand-surface");
         font-size: 1rem;
         letter-spacing: -0.64px;
         line-height: 1.5rem;
       }
 
       .amount {
-        color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+        color: map.get(theme-variables.$app-custom-colors, "brand-surface");
         font-size: 1rem;
         letter-spacing: -0.64px;
         line-height: 1.5rem;
@@ -1101,7 +1101,7 @@ app-popup-message-dialog {
     }
 
     .item-value-transactions {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
       font-size: 1rem;
       font-weight: 600;
       line-height: 1.5rem;
@@ -1126,21 +1126,21 @@ app-popup-message-dialog {
     }
 
     .item-title {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
       font-size: 1rem;
       font-weight: 600;
       line-height: 1.5rem;
     }
 
     .item-description {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-accent");
       font-size: 0.875rem;
       font-weight: 400;
       line-height: 1.3125rem;
     }
 
     .item-description-text {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
       font-size: 0.875rem;
       font-weight: 400;
       line-height: 1.3125rem;
@@ -1194,7 +1194,7 @@ app-popup-message-dialog {
       font-weight: 700;
       letter-spacing: 0.773px;
       line-height: 1.125rem;
-      border: 1px solid map.get(theme-variables.$app-custom-colors, "Betaki_success");
+      border: 1px solid map.get(theme-variables.$app-custom-colors, "brand-accent");
       padding: 0.69rem 1.5rem;
 
       &.button {
@@ -1208,14 +1208,14 @@ app-popup-message-dialog {
     }
 
     .section-action-2 {
-      background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
       border-radius: 0.625rem;
       font-size: 0.875rem;
       font-weight: 700;
       letter-spacing: 0.773px;
       line-height: 1.125rem;
-      border: 1px solid map.get(theme-variables.$app-custom-colors, "Betaki_success");
+      border: 1px solid map.get(theme-variables.$app-custom-colors, "brand-accent");
       padding: 0.44rem 1.5rem;
 
       @include utils.media("lt-sm-2") {
@@ -1224,13 +1224,13 @@ app-popup-message-dialog {
 
       &.withdrawal-action {
         background-color: var(--color-brand-900);
-        color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+        color: map.get(theme-variables.$app-custom-colors, "brand-accent");
         border: unset;
       }
     }
 
     .section-action-edit {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-accent");
       font-size: 1rem;
       font-weight: 400;
       line-height: 1.125rem;
@@ -1249,7 +1249,7 @@ app-popup-message-dialog {
     }
 
     .section-action-edit-disabled {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-green30");
+      color: map.get(theme-variables.$app-custom-colors, "brand-accent-30");
       font-size: 1rem;
       font-weight: 400;
       line-height: 1.125rem;
@@ -1266,7 +1266,7 @@ app-popup-message-dialog {
     font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.3125rem;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     display: flex;
     align-self: center;
     white-space: nowrap;
@@ -1277,7 +1277,7 @@ app-popup-message-dialog {
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.3125rem;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-60");
     display: flex;
     align-self: center;
     white-space: nowrap;
@@ -1301,7 +1301,7 @@ app-popup-message-dialog {
     width: 1rem;
     height: 1rem;
     font-size: 1rem;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     align-self: center;
   }
 
@@ -1309,7 +1309,7 @@ app-popup-message-dialog {
     width: 1.25rem;
     height: 1.25rem;
     font-size: 1.25rem;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     align-self: center;
   }
 
@@ -1317,7 +1317,7 @@ app-popup-message-dialog {
     width: 1.5rem;
     height: 1.5rem;
     font-size: 1.5rem;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     align-self: center;
   }
 }
@@ -1640,7 +1640,7 @@ app-popup-message-dialog {
 
 .banner-background-illustration > .banner-container {
   .content-container .title {
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+    color: map.get(theme-variables.$app-custom-colors, "semantic-error");
   }
 
   .cta-container .cta-button {
@@ -1648,7 +1648,7 @@ app-popup-message-dialog {
 
     /* stylelint-disable-next-line selector-max-specificity */
     &:hover {
-      background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_error"), $lightness: 10%);
+      background-color: color.adjust(map.get(theme-variables.$app-custom-colors, "semantic-error"), $lightness: 10%);
       transition: background-color 0.3s ease;
     }
   }
@@ -1656,7 +1656,7 @@ app-popup-message-dialog {
   .cta-container .cta-text {
     /* stylelint-disable-next-line selector-max-specificity */
     &:hover {
-      color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+      color: map.get(theme-variables.$app-custom-colors, "semantic-error");
       transition: color 0.3s ease;
     }
   }
@@ -1766,8 +1766,8 @@ app-shell-player-profile {
 .promotion-banner-template.bki .cta-container .cta-button {
   /* stylelint-disable-next-line selector-max-specificity */
   &:hover {
-    background-color: map.get(theme-variables.$app-custom-colors, "betaki-green50");
-    border: 1px solid map.get(theme-variables.$app-custom-colors, "betaki-green100");
+    background-color: map.get(theme-variables.$app-custom-colors, "brand-accent-50");
+    border: 1px solid map.get(theme-variables.$app-custom-colors, "brand-accent");
   }
 }
 

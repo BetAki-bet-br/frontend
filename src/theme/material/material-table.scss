@@ -63,23 +63,23 @@
 .mat-mdc-paginator,
 .mat-mdc-paginator-outer-container {
   background-color: transparent;
-  color: map.get(vars.$app-custom-colors, "betaki-black100");
+  color: map.get(vars.$app-custom-colors, "brand-surface");
 
   .mat-mdc-icon-button[disabled][disabled] {
-    --mat-icon-button-icon-color: #{color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.75)};
+    --mat-icon-button-icon-color: #{color.adjust(map.get(vars.$app-custom-colors, "brand-surface"), $alpha: -0.75)};
     --mat-icon-button-disabled-icon-color: #{color.adjust(
-        map.get(vars.$app-custom-colors, "betaki-black100"),
+        map.get(vars.$app-custom-colors, "brand-surface"),
         $alpha: -0.75
       )};
   }
 
   .mat-mdc-icon-button[disabled] .mat-mdc-paginator-icon {
-    fill: #{color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.75)};
+    fill: #{color.adjust(map.get(vars.$app-custom-colors, "brand-surface"), $alpha: -0.75)};
   }
 
   /* stylelint-disable-next-line no-descending-specificity */
   .mat-mdc-icon-button .mat-mdc-paginator-icon {
-    fill: #{map.get(vars.$app-custom-colors, "betaki-black100")};
+    fill: #{map.get(vars.$app-custom-colors, "brand-surface")};
   }
 
   .mat-mdc-paginator-page-size {

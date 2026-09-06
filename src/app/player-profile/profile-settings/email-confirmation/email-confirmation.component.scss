@@ -8,7 +8,7 @@
 }
 
 .player-profile-page-container {
-  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+  color: map.get(theme-variables.$app-custom-colors, "brand-surface");
 }
 
 .code-container {
@@ -30,7 +30,7 @@
     width: 3.5rem;
     height: 3.5rem;
     border: none;
-    background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+    background-color: map.get(theme-variables.$app-custom-colors, "neutral-300");
     border-radius: 1rem;
     font-size: 2rem;
     line-height: 100%;
@@ -63,7 +63,7 @@
   }
 
   span {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     font-weight: 700;
     font-size: 1rem;
     line-height: 1.125rem;
@@ -132,7 +132,7 @@
       letter-spacing: 0.77px;
       text-align: center;
       vertical-align: middle;
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
 
       @include utils.media("lt-sm-2") {
         font-size: 0.875rem;

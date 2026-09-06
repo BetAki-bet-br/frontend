@@ -54,7 +54,7 @@
   .close-icon-container {
     position: absolute;
     text-align: right;
-    color: map.get(vars.$app-custom-colors, "betaki-white100");
+    color: map.get(vars.$app-custom-colors, "neutral-white");
     right: 0.625rem;
 
     @include utils.media("lt-sm-2") {
@@ -101,10 +101,10 @@
     }
 
     .mdc-snackbar__surface {
-      background: map.get(vars.$app-custom-colors, "betaki-success");
+      background: map.get(vars.$app-custom-colors, "brand-success");
 
       .mdc-snackbar__label {
-        color: map.get(vars.$app-custom-colors, "betaki-white100");
+        color: map.get(vars.$app-custom-colors, "neutral-white");
       }
     }
   }
@@ -117,10 +117,10 @@
     margin-bottom: 1.875rem;
 
     .mdc-snackbar__surface {
-      background: map.get(vars.$app-custom-colors, "betaki-error");
+      background: map.get(vars.$app-custom-colors, "semantic-error-strong");
 
       .mdc-snackbar__label {
-        color: map.get(vars.$app-custom-colors, "betaki-white100");
+        color: map.get(vars.$app-custom-colors, "neutral-white");
       }
     }
   }

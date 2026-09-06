@@ -9,7 +9,7 @@ button {
     height: 0.875rem;
     aspect-ratio: 1/1;
     font-size: 0.875rem;
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
+    color: map.get(theme-variables.$app-custom-colors, "brand-ink");
 
     @include utils.media("lt-sm-2") {
       font-size: 0.875rem;

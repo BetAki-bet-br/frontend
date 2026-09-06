@@ -10,7 +10,7 @@
 .subscriptions-item-label {
   min-width: 10rem;
   font-size: 0.875rem;
-  color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-60");
 }
 
 .field-wrapper-edit {
@@ -21,7 +21,7 @@
   flex-direction: column;
 
   .form-field-label {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     font-size: 0.75rem;
     margin-bottom: 0.25rem;
     margin-left: 1rem;
@@ -30,7 +30,7 @@
   }
 
   .toggle-icon {
-    // color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    // color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     padding: 0 12px 0 0;
     font-size: 1rem;
     width: 1rem;
@@ -38,7 +38,7 @@
   }
 
   .toggle-icon-focused {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-accent");
     padding: 0 0.75rem 0 0;
     font-size: 1rem;
     width: 1rem;
@@ -61,7 +61,7 @@
   // justify-content: space-between;
   padding: 1rem;
   font-size: 14px;
-  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-300");
   border-radius: 1rem;
   box-shadow: none;
   flex-grow: 1;
@@ -69,7 +69,7 @@
   gap: 1rem;
 
   .label {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -228,7 +228,7 @@ mat-card {
 // }
 
 // .no-records-mobile {
-//   color: map.get(theme-variables.$app-custom-colors, "ATL_white75");
+//   color: map.get(theme-variables.$app-custom-colors, "neutral-100");
 //   font-size: 0.875rem;
 //   margin-top: 1.5rem;
 // }

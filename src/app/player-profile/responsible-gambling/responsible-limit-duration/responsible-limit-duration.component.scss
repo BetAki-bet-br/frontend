@@ -10,7 +10,7 @@
 .subscriptions-item-label {
   min-width: 10rem;
   font-size: 0.875rem;
-  color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+  color: map.get(theme-variables.$app-custom-colors, "neutral-60");
 }
 
 .field-wrapper-edit {
@@ -21,7 +21,7 @@
   flex-direction: column;
 
   .form-field-label {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     font-size: 0.75rem;
     margin-bottom: 0.25rem;
     margin-left: 1rem;
@@ -30,7 +30,7 @@
   }
 
   .toggle-icon {
-    // color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    // color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     padding: 0 12px 0 0;
     font-size: 1rem;
     width: 1rem;
@@ -38,7 +38,7 @@
   }
 
   .toggle-icon-focused {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-accent");
     padding: 0 0.75rem 0 0;
     font-size: 1rem;
     width: 1rem;
@@ -49,7 +49,7 @@
     font-size: 1rem;
     width: 1rem;
     height: 1rem;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
   }
 
   @include utils.media("lt-sm-2") {
@@ -150,7 +150,7 @@
 // }
 
 // .account-responsible-gaming-session-item-status-indicator-warning {
-//   background-color: map.get(theme-variables.$app-custom-colors, "Betaki_error");
+//   background-color: map.get(theme-variables.$app-custom-colors, "semantic-error");
 //   width: 0.375rem;
 //   height: 0.375rem;
 //   min-width: 0.375rem;

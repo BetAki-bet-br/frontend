@@ -13,7 +13,7 @@
 .mat-mdc-radio-checked {
   .mdc-radio__outer-circle {
     border-width: 5px !important;
-    border-color: map.get(vars.$app-custom-colors, "neutral-10") !important;
+    border-color: map.get(vars.$app-custom-colors, "brand-background") !important;
   }
 
   .mdc-radio__inner-circle {

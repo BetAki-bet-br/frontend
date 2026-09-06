@@ -41,7 +41,7 @@
 
     .mat-expansion-panel-header:hover {
       .mat-expansion-panel-header-title > h4 {
-        color: map.get(theme-variables.$app-custom-colors, "neutral-10");
+        color: map.get(theme-variables.$app-custom-colors, "brand-background");
       }
     }
 
@@ -88,7 +88,7 @@
 .mat-accordion {
   .mat-expansion-panel {
     &.profile-panel {
-      background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+      background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
       border-radius: 1rem;
       padding: 1.5rem;
       min-width: 15rem;
@@ -104,14 +104,14 @@
       }
 
       .mat-expansion-panel-header {
-        background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+        background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
         border-radius: 0;
         padding: 0;
         margin-bottom: 0;
         height: 2.5rem;
 
         &:hover:not([aria-disabled="true"]) {
-          background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+          background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
         }
       }
 
@@ -123,7 +123,7 @@
     }
 
     &.messages-panel {
-      background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+      background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
       border-radius: 1rem;
       padding: 1.5rem;
       min-width: 15rem;
@@ -139,7 +139,7 @@
       }
 
       .mat-expansion-panel-header {
-        background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+        background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
         border-radius: 0;
         padding: 0;
         margin-bottom: 0;
@@ -147,7 +147,7 @@
         align-items: center;
 
         &:hover:not([aria-disabled="true"]) {
-          background-color: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+          background-color: map.get(theme-variables.$app-custom-colors, "neutral-white");
         }
 
         .mat-expansion-indicator {

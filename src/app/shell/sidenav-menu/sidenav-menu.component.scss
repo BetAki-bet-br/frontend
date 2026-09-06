@@ -4,7 +4,7 @@
 @use "theme/theme-variables" as theme-variables;
 
 mat-sidenav-container {
-  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-300");
 
   @include utils.media("lt-sm-2") {
     padding-bottom: 3.5rem;

@@ -14,19 +14,19 @@ table {
   width: 100%;
   min-height: 4.5rem;
   height: 100%;
-  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-300");
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
 }
 
 ::ng-deep .mdc-data-table__content .mat-mdc-cell {
-  border-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
-  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  border-color: map.get(theme-variables.$app-custom-colors, "neutral-300");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-300");
 }
 
 ::ng-deep .mdc-data-table__content .mdc-data-table__row:last-child .mat-mdc-cell {
-  border-bottom: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  border-bottom: map.get(theme-variables.$app-custom-colors, "neutral-300");
 }
 
 td:first-child .table-cell-content {
@@ -103,7 +103,7 @@ tr.detail-row {
 }
 
 :host ::ng-deep .mat-mdc-paginator-range-actions {
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "brand-surface");
 
   & button {
     filter: invert(1);

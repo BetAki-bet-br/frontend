@@ -114,7 +114,9 @@ Scripts npm: `build:betaki`, `build:girosbet`, `start:betaki`, `start:girosbet` 
 
 - Tailwind: `--color-betaki-*` vira `--color-brand-*` (mesma escala 200/400/500/600/800/darker). Codemod: `(bg|text|border|ring|from|to|via|fill|stroke|shadow|outline|decoration|accent|placeholder)-betaki-` → `$1-brand-`. `shark-*`, `accent*`, `--font-*`, `--custom-radius`, alturas ficam como estão e passam a viver no `brand-theme.scss` da marca (a GirosBet sobrescreve os neutros com os roxos escuros dela).
 - Nova família por marca: `--font-display` (BetAki: a mesma sans; GirosBet: Bebas Neue).
-- Mapa SCSS: fase 1 mantém as chaves (`Betaki_*`) para risco zero; fase 2 renomeia para `brand_*` com sed nos ~25 arquivos consumidores.
+- Mapa SCSS: **feito**. As chaves `Betaki_*`/`betaki-*`/`ATL_*` viraram `brand-*` (o que muda por
+  marca) e `neutral-*`/`semantic-*` (o que não muda, agora em `src/theme/palette.scss`); as ~40
+  chaves que ninguém lia foram removidas. O CSS compilado da betaki não mudou.
 
 ### 2.4 Strings e assets
 

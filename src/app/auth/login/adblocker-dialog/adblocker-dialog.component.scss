@@ -4,7 +4,7 @@
 @use "theme/theme-variables" as theme-variables;
 
 .dialog-title {
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+  color: map.get(theme-variables.$app-custom-colors, "brand-accent");
   font-size: 1.125rem;
   text-align: center;
   padding-top: 32px;

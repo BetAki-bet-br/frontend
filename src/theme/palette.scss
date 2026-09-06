@@ -1,0 +1,36 @@
+/*
+ * Colours that are the same under every brand.
+ *
+ * `brands/<slug>/brand-variables.scss` merges this map with the handful of entries that really do
+ * belong to the brand, and exposes the result as `$app-custom-colors`. Keeping the shared half here
+ * means a new brand package declares nine colours instead of copying a sixty-entry palette it is
+ * not allowed to change.
+ *
+ * A brand that needs a different value for one of these declares the same key in its own
+ * `$brand-colors`: `map.merge` lets the brand win.
+ *
+ * The `neutral-*` numbers run from dark to light. They are a legacy ramp, not a lightness scale.
+ */
+
+$shared-colors: (
+  // Neutrals: text, borders, icons, table chrome
+  "neutral-black": #000,
+  "neutral-black-overlay": #111,
+  "neutral-dark": #1e1e1e,
+  "neutral-30": #182e39,
+  "neutral-33": #757575,
+  "neutral-35": #80898e,
+  "neutral-45": #848585,
+  "neutral-60": #8f8f8f,
+  "neutral-90": #d0d0d0,
+  "neutral-100": #d3d4d7,
+  "neutral-150": #dddfe4,
+  "neutral-200": #f5f5f5,
+  "neutral-300": #eff1f2,
+  "neutral-350": #f6f8f9,
+  "neutral-white": #fff,
+
+  // Semantic states
+  "semantic-error": #f06143,
+  "semantic-error-strong": #fd3f3f
+);

@@ -9,7 +9,7 @@
   h4,
   h5 {
     font-family: var(--font-sans);
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     font-size: 1.5rem;
     font-style: normal;
     font-weight: 500;
@@ -30,7 +30,7 @@
   }
 
   p {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -38,7 +38,7 @@
     margin: 0.5rem 0 1rem;
 
     &.meta {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-60");
       font-size: 0.875rem;
       font-style: normal;
       font-weight: 400;
@@ -51,7 +51,7 @@
   }
 
   a {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-accent");
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -59,7 +59,7 @@
   }
 
   a:hover {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-accent");
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;
@@ -75,7 +75,7 @@
   ul,
   ol {
     padding: 0 1.5rem;
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     font-size: 0.875rem;
     font-style: normal;
     font-weight: 400;

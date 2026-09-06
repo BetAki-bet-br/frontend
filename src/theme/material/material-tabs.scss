@@ -28,7 +28,7 @@
 
   .mat-mdc-tab .mdc-tab__text-label,
   .mat-mdc-tab-link .mdc-tab__text-label {
-    color: map.get(vars.$app-custom-colors, "Betaki_black");
+    color: map.get(vars.$app-custom-colors, "brand-ink");
     font-size: 1rem;
     font-weight: 400;
     font-family: var(--font-sans);
@@ -37,7 +37,7 @@
 
   .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
   .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
-    color: map.get(vars.$app-custom-colors, "Betaki_success");
+    color: map.get(vars.$app-custom-colors, "brand-accent");
   }
 
   .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
@@ -78,12 +78,12 @@
 
   .mdc-tab-indicator--active .mdc-tab-indicator__content {
     /* stylelint-disable-next-line declaration-no-important */
-    border-color: map.get(vars.$app-custom-colors, "Betaki_success") !important;
+    border-color: map.get(vars.$app-custom-colors, "brand-accent") !important;
     border-top-width: 0.1875rem;
   }
 
   .mat-mdc-tab-header-pagination-chevron {
-    border-color: map.get(vars.$app-custom-colors, "Betaki_success");
+    border-color: map.get(vars.$app-custom-colors, "brand-accent");
   }
 
   .mat-mdc-tab-header {
@@ -148,17 +148,17 @@
 
   .mat-mdc-tab .mdc-tab__text-label,
   .mat-mdc-tab-link .mdc-tab__text-label {
-    color: map.get(vars.$app-custom-colors, "Betaki_black");
+    color: map.get(vars.$app-custom-colors, "brand-ink");
   }
 
   .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
   .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
-    color: map.get(vars.$app-custom-colors, "Betaki_black");
+    color: map.get(vars.$app-custom-colors, "brand-ink");
   }
 
   .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
   .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
-    border-color: map.get(vars.$app-custom-colors, "Betaki_success");
+    border-color: map.get(vars.$app-custom-colors, "brand-accent");
   }
 
   .mat-mdc-tab-body-wrapper {
@@ -238,7 +238,7 @@ app-responsible-limits {
 }
 
 .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
-  border-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_success"), $alpha: -1);
+  border-color: color.adjust(map.get(vars.$app-custom-colors, "brand-accent"), $alpha: -1);
 }
 
 .mat-mdc-tab-header-pagination {

@@ -6,10 +6,10 @@
 .main-container {
   width: 100%;
   min-height: 100vh;
-  background-color: map.get(theme-variables.$app-custom-colors, "Betaki_grey_10");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-350");
   padding: 4rem;
   gap: 4rem;
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_black");
+  color: map.get(theme-variables.$app-custom-colors, "brand-ink");
   text-align: center;
   justify-content: start;
 
@@ -20,7 +20,7 @@
 }
 
 .title {
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "brand-surface");
   width: 100%;
   text-align: center;
   font-weight: 700;
@@ -84,7 +84,7 @@
 
   .login-button {
     span {
-      color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     }
   }
 }
@@ -172,7 +172,7 @@
   letter-spacing: 0%;
   text-align: center;
   vertical-align: middle;
-  color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+  color: map.get(theme-variables.$app-custom-colors, "brand-accent");
 
   @include utils.media("lt-sm-2") {
     font-size: 1.125rem;
@@ -209,11 +209,11 @@
 }
 
 .showHidePasswordButton {
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_olivia");
+  color: map.get(theme-variables.$app-custom-colors, "brand-surface");
   transition: color 0.3s ease;
 
   &:hover {
-    color: color.adjust(map.get(theme-variables.$app-custom-colors, "Betaki_olivia"), $alpha: -0.4);
+    color: color.adjust(map.get(theme-variables.$app-custom-colors, "brand-surface"), $alpha: -0.4);
   }
 }
 

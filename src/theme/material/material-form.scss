@@ -19,7 +19,7 @@
 
 .register-gender {
   .mat-mdc-radio-button.mat-accent {
-    --radio-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+    --radio-color: #{map.get(vars.$app-custom-colors, "brand-background")};
     --mat-radio-disabled-selected-icon-color: var(--radio-color);
     --mat-radio-disabled-unselected-icon-color: var(--radio-color);
     --mat-radio-unselected-focus-icon-color: var(--radio-color);
@@ -44,13 +44,13 @@
 
   .mat-mdc-select-arrow {
     display: none;
-    color: map.get(vars.$app-custom-colors, "betaki-green100");
+    color: map.get(vars.$app-custom-colors, "brand-accent");
 
     // color: map.get(vars.$app-custom-colors, "neutral-white");
   }
 
   .mat-mdc-select-value {
-    color: map.get(vars.$app-custom-colors, "betaki-black100");
+    color: map.get(vars.$app-custom-colors, "brand-surface");
 
     // color: map.get(vars.$app-custom-colors, "neutral-white");
     font-size: 0.75rem;
@@ -58,7 +58,7 @@
   }
 
   .mat-mdc-select-placeholder {
-    color: color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.25);
+    color: color.adjust(map.get(vars.$app-custom-colors, "brand-surface"), $alpha: -0.25);
 
     // color: color.adjust(map.get(vars.$app-custom-colors, "neutral-white"), $alpha: -0.25);
     font-weight: 400;
@@ -70,23 +70,23 @@
   .mat-mdc-select-trigger
   .mat-mdc-select-arrow-wrapper
   .mat-mdc-select-arrow {
-  color: map.get(vars.$app-custom-colors, "betaki-green100");
+  color: map.get(vars.$app-custom-colors, "brand-accent");
 
   // color: map.get(vars.$app-custom-colors, "neutral-white");
 }
 
 .mat-mdc-form-field.mat-focused.mat-primary .mat-mdc-select .mat-mdc-select-arrow {
-  color: map.get(vars.$app-custom-colors, "betaki-green100");
+  color: map.get(vars.$app-custom-colors, "brand-accent");
 
   // color: map.get(vars.$app-custom-colors, "neutral-white");
 }
 
 .cdk-overlay-pane .mdc-menu-surface.mat-mdc-select-panel.mdc-menu-surface--open {
-  background-color: map.get(vars.$app-custom-colors, "betaki-white100");
+  background-color: map.get(vars.$app-custom-colors, "neutral-white");
 
-  // background-color: map.get(vars.$app-custom-colors, "neutral-10");
+  // background-color: map.get(vars.$app-custom-colors, "brand-background");
 
-  border: 1px solid map.get(vars.$app-custom-colors, "betaki-grey80");
+  border: 1px solid map.get(vars.$app-custom-colors, "neutral-90");
 
   // border: 1px solid color.adjust(map.get(vars.$app-custom-colors, "neutral-white"), $alpha: -0.25);
   margin-top: 0.25rem; // 0.313rem;
@@ -110,12 +110,12 @@
     min-height: 1rem;
 
     &:not(:last-child) {
-      border-bottom: 1px solid map.get(vars.$app-custom-colors, "betaki-grey80");
+      border-bottom: 1px solid map.get(vars.$app-custom-colors, "neutral-90");
     }
   }
 
   .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
-    background-color: color.adjust(map.get(vars.$app-custom-colors, "betaki-grey80"), $alpha: -0.8);
+    background-color: color.adjust(map.get(vars.$app-custom-colors, "neutral-90"), $alpha: -0.8);
 
     // background-color: color.adjust(map.get(vars.$app-custom-colors, "neutral-white"), $alpha: -0.9);
     border-radius: 0;
@@ -125,7 +125,7 @@
   .mat-mdc-option .mat-pseudo-checkbox-full {
     margin-right: 0.5rem;
     border-radius: 0.25rem;
-    color: map.get(vars.$app-custom-colors, "betaki-black100");
+    color: map.get(vars.$app-custom-colors, "brand-surface");
   }
 
   .mat-pseudo-checkbox {
@@ -135,25 +135,25 @@
 
   .mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
   .mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
-    background: map.get(vars.$app-custom-colors, "betaki-green100"); // #caab72;
+    background: map.get(vars.$app-custom-colors, "brand-accent"); // #caab72;
   }
 }
 
 .mat-mdc-option.mdc-list-item .mdc-list-item__primary-text {
-  color: map.get(vars.$app-custom-colors, "betaki-black100");
+  color: map.get(vars.$app-custom-colors, "brand-surface");
 
   // color: map.get(vars.$app-custom-colors, "neutral-white");
   font-size: 0.75rem;
 }
 
 .mat-primary .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
-  background-color: map.get(vars.$app-custom-colors, "betaki-grey30");
+  background-color: map.get(vars.$app-custom-colors, "neutral-300");
 
-  // background-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_error"), $alpha: -0.8);
+  // background-color: color.adjust(map.get(vars.$app-custom-colors, "semantic-error"), $alpha: -0.8);
   border-radius: 0;
 
   .mdc-list-item__primary-text {
-    color: map.get(vars.$app-custom-colors, "betaki-black100");
+    color: map.get(vars.$app-custom-colors, "brand-surface");
 
     // color: map.get(vars.$app-custom-colors, "neutral-white");
   }
@@ -161,7 +161,7 @@
 
 // calendar
 .cdk-overlay-pane.mat-datepicker-popup {
-  border: 1px solid map.get(vars.$app-custom-colors, "betaki-grey30");
+  border: 1px solid map.get(vars.$app-custom-colors, "neutral-300");
 
   // border: 1px solid color.adjust(map.get(vars.$app-custom-colors, "neutral-white"), $alpha: -0.25);
   margin-top: 0.313rem;
@@ -169,13 +169,13 @@
 }
 
 .mat-datepicker-content {
-  background-color: map.get(vars.$app-custom-colors, "betaki-white100");
+  background-color: map.get(vars.$app-custom-colors, "neutral-white");
 
-  // background-color: map.get(vars.$app-custom-colors, "neutral-10");
+  // background-color: map.get(vars.$app-custom-colors, "brand-background");
 }
 
 .mat-calendar-body-cell-content {
-  color: map.get(vars.$app-custom-colors, "betaki-black100");
+  color: map.get(vars.$app-custom-colors, "brand-surface");
 
   // color: map.get(vars.$app-custom-colors, "neutral-white");
 }
@@ -183,7 +183,7 @@
 .mat-calendar-table-header,
 .mat-calendar-body-label,
 .mat-mdc-icon-button:disabled {
-  color: color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.5);
+  color: color.adjust(map.get(vars.$app-custom-colors, "brand-surface"), $alpha: -0.5);
 
   // color: color.adjust(map.get(vars.$app-custom-colors, "neutral-white"), $alpha: -0.5);
 }
@@ -191,36 +191,36 @@
 /* stylelint-disable-next-line max-line-length */
 .mat-calendar-body-disabled
   > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-  color: color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.5);
+  color: color.adjust(map.get(vars.$app-custom-colors, "brand-surface"), $alpha: -0.5);
 
   // color: color.adjust(map.get(vars.$app-custom-colors, "neutral-white"), $alpha: -0.5);
 }
 
 .mat-calendar-table-header-divider::after {
-  background: color.adjust(map.get(vars.$app-custom-colors, "betaki-black100"), $alpha: -0.5);
+  background: color.adjust(map.get(vars.$app-custom-colors, "brand-surface"), $alpha: -0.5);
 
   // background: color.adjust(map.get(vars.$app-custom-colors, "neutral-white"), $alpha: -0.5);
 }
 
 .mat-datepicker-content .mat-calendar-next-button,
 .mat-datepicker-content .mat-calendar-previous-button {
-  color: map.get(vars.$app-custom-colors, "betaki-black100");
+  color: map.get(vars.$app-custom-colors, "brand-surface");
 
   // color: map.get(vars.$app-custom-colors, "neutral-white");
 }
 
 .mat-calendar-body-selected {
-  background-color: map.get(vars.$app-custom-colors, "betaki-green100");
+  background-color: map.get(vars.$app-custom-colors, "brand-accent");
 
-  // background-color: map.get(vars.$app-custom-colors, "Betaki_error");
+  // background-color: map.get(vars.$app-custom-colors, "semantic-error");
 }
 
 .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
   > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical),
 .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-  background-color: color.adjust(map.get(vars.$app-custom-colors, "betaki-green100"), $alpha: -0.8);
+  background-color: color.adjust(map.get(vars.$app-custom-colors, "brand-accent"), $alpha: -0.8);
 
-  // background-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_error"), $alpha: -0.8);
+  // background-color: color.adjust(map.get(vars.$app-custom-colors, "semantic-error"), $alpha: -0.8);
 }
 
 .mat-calendar-body-today.mat-calendar-body-selected {
@@ -232,7 +232,7 @@
     width: unset;
 
     .mdc-text-field__input::placeholder {
-      color: map.get(vars.$app-custom-colors, "betaki-grey80");
+      color: map.get(vars.$app-custom-colors, "neutral-90");
 
       // color: map.get(vars.$app-custom-colors, "neutral-white");
     }
@@ -273,7 +273,7 @@
   font-family: var(--font-sans);
 
   .mat-mdc-text-field-wrapper {
-    background-color: map.get(vars.$app-custom-colors, neutral-100);
+    background-color: map.get(vars.$app-custom-colors, "neutral-100");
     height: 3rem;
     padding-left: 0.75rem;
 
@@ -422,7 +422,7 @@
   width: 100%;
   border-radius: 1rem;
 
-  // border: 1px solid map.get(vars.$app-custom-colors, "betaki-grey100");
+  // border: 1px solid map.get(vars.$app-custom-colors, "neutral-60");
 
   --mat-shape-small: 1rem;
 
@@ -440,7 +440,7 @@
     // background-color: map.get(vars.$app-custom-colors, "neutral-30");
     height: 2.5rem;
     padding-left: 0.75rem;
-    background-color: map.get(vars.$app-custom-colors, "Betaki_grey30");
+    background-color: map.get(vars.$app-custom-colors, "neutral-300");
 
     .mat-mdc-form-field-flex {
       height: 2.5rem;
@@ -458,7 +458,7 @@
         &:-webkit-autofill:hover,
         &:-webkit-autofill:focus,
         &:-webkit-autofill:active {
-          -webkit-text-fill-color: map.get(vars.$app-custom-colors, "Betaki_black");
+          -webkit-text-fill-color: map.get(vars.$app-custom-colors, "brand-ink");
         }
       }
     }
@@ -466,11 +466,11 @@
     .mat-mdc-input-element {
       height: 2.5rem;
       font-size: 1rem;
-      color: map.get(vars.$app-custom-colors, "Betaki_black");
+      color: map.get(vars.$app-custom-colors, "brand-ink");
       padding-top: 0.1rem;
 
       &::placeholder {
-        color: map.get(vars.$app-custom-colors, "Betaki_black_30");
+        color: map.get(vars.$app-custom-colors, "brand-ink-30");
       }
     }
 
@@ -484,25 +484,25 @@
         border-top: 1px solid;
         border-bottom: 1px solid;
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+        border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
       }
 
       .mdc-notched-outline__leading {
         border-left: 1px solid;
 
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+        border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
       }
 
       .mdc-notched-outline__trailing {
         border-right: 1px solid;
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+        border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
       }
     }
 
     &.mdc-text-field--disabled {
-      background-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_grey30"), $alpha: -0.9);
+      background-color: color.adjust(map.get(vars.$app-custom-colors, "neutral-300"), $alpha: -0.9);
       border: none;
 
       .mdc-notched-outline__leading,
@@ -533,7 +533,7 @@
         border-top: 1px solid;
         border-bottom: 1px solid;
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "betaki-grey100") !important;
+        border-color: map.get(vars.$app-custom-colors, "neutral-60") !important;
       }
     }
   }
@@ -545,7 +545,7 @@
       .mdc-notched-outline__leading {
         border-left: 1px solid;
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+        border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
       }
 
       .mdc-notched-outline__trailing {
@@ -560,7 +560,7 @@
         border-top: 1px solid;
         border-bottom: 1px solid;
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "betaki-grey100") !important;
+        border-color: map.get(vars.$app-custom-colors, "neutral-60") !important;
       }
     }
 
@@ -575,26 +575,26 @@
     .mat-mdc-text-field-wrapper:not(.mdc-text-field--invalid) {
       .mdc-notched-outline__leading {
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "Betaki_grey30") !important;
+        border-color: map.get(vars.$app-custom-colors, "neutral-300") !important;
       }
 
       .mdc-notched-outline__trailing {
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "Betaki_grey30") !important;
+        border-color: map.get(vars.$app-custom-colors, "neutral-300") !important;
       }
 
       .mdc-notched-outline__leading,
       .mdc-notched-outline__notch,
       .mdc-notched-outline__trailing {
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "Betaki_grey30") !important;
+        border-color: map.get(vars.$app-custom-colors, "neutral-300") !important;
       }
     }
   }
 
   .mdc-text-field--disabled {
     /* stylelint-disable-next-line declaration-no-important */
-    border: 0.0625rem solid map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+    border: 0.0625rem solid map.get(vars.$app-custom-colors, "brand-surface") !important;
   }
 
   &.mat-form-field-disabled {
@@ -705,7 +705,7 @@
 
   &.deposit-form-field {
     .mat-mdc-text-field-wrapper {
-      background-color: #dfdfdf; // map.get(vars.$app-custom-colors, "Betaki_grey80");
+      background-color: #dfdfdf; // map.get(vars.$app-custom-colors, "neutral-90");
       border-radius: 0.4688rem;
     }
 
@@ -742,7 +742,7 @@
     }
 
     &.error-border {
-      --mat-theme-error: #{map.get(vars.$app-custom-colors, "Betaki_error300")};
+      --mat-theme-error: #{map.get(vars.$app-custom-colors, "semantic-error-strong")};
 
       .mdc-text-field--outlined .mdc-notched-outline .mdc-notched-outline__leading {
         border-radius: 0.4688rem 0 0 0.4688rem;
@@ -756,7 +756,7 @@
         .mdc-notched-outline__leading {
           border-left: 1px solid;
           /* stylelint-disable-next-line declaration-no-important */
-          border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+          border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
         }
 
         .mdc-notched-outline__trailing {
@@ -797,7 +797,7 @@
         &:-webkit-autofill:hover,
         &:-webkit-autofill:focus,
         &:-webkit-autofill:active {
-          -webkit-text-fill-color: map.get(vars.$app-custom-colors, "Betaki_black");
+          -webkit-text-fill-color: map.get(vars.$app-custom-colors, "brand-ink");
         }
       }
     }
@@ -805,11 +805,11 @@
     .mat-mdc-input-element {
       height: 3.75rem;
       font-size: 1rem;
-      color: map.get(vars.$app-custom-colors, "Betaki_black");
+      color: map.get(vars.$app-custom-colors, "brand-ink");
       padding-top: 0.1rem;
 
       &::placeholder {
-        color: map.get(vars.$app-custom-colors, "Betaki_black_30");
+        color: map.get(vars.$app-custom-colors, "brand-ink-30");
       }
     }
 
@@ -878,13 +878,13 @@
   }
 
   &.error-border {
-    --mat-theme-error: #{map.get(vars.$app-custom-colors, "Betaki_error300")};
+    --mat-theme-error: #{map.get(vars.$app-custom-colors, "semantic-error-strong")};
 
     .mat-mdc-text-field-wrapper:not(.mdc-text-field--invalid) {
       .mdc-notched-outline__leading {
         border-left: 1px solid;
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+        border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
       }
 
       .mdc-notched-outline__trailing {
@@ -899,14 +899,14 @@
         border-top: 1px solid;
         border-bottom: 1px solid;
         /* stylelint-disable-next-line declaration-no-important */
-        border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+        border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
       }
     }
   }
 
   .mdc-text-field--disabled {
     /* stylelint-disable-next-line declaration-no-important */
-    border: 0.0625rem solid map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+    border: 0.0625rem solid map.get(vars.$app-custom-colors, "brand-surface") !important;
   }
 
   &.mat-form-field-disabled {
@@ -1053,7 +1053,7 @@
         &:-webkit-autofill:hover,
         &:-webkit-autofill:focus,
         &:-webkit-autofill:active {
-          -webkit-text-fill-color: map.get(vars.$app-custom-colors, "Betaki_black");
+          -webkit-text-fill-color: map.get(vars.$app-custom-colors, "brand-ink");
         }
       }
     }
@@ -1061,11 +1061,11 @@
     .mat-mdc-input-element {
       height: 1.3125rem;
       font-size: 0.875rem;
-      color: map.get(vars.$app-custom-colors, "Betaki_black");
+      color: map.get(vars.$app-custom-colors, "brand-ink");
       padding-top: 0;
 
       &::placeholder {
-        color: map.get(vars.$app-custom-colors, "Betaki_black_30");
+        color: map.get(vars.$app-custom-colors, "brand-ink-30");
       }
     }
 
@@ -1166,7 +1166,7 @@
   //         border-top: 1px solid;
   //         border-bottom: 1px solid;
   //         /* stylelint-disable-next-line declaration-no-important */
-  //         border-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_error"), $alpha: -0.5) !important;
+  //         border-color: color.adjust(map.get(vars.$app-custom-colors, "semantic-error"), $alpha: -0.5) !important;
   //       }
   //     }
   //   }
@@ -1288,7 +1288,7 @@
     }
 
     .mat-mdc-select-value {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
       font-size: 0.875rem;
       padding-top: 0.125rem;
     }
@@ -1366,7 +1366,7 @@
     }
 
     .mat-mdc-select-value {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
       font-size: 0.875rem;
       padding-top: 0.125rem;
     }
@@ -1423,7 +1423,7 @@
       // .mdc-notched-outline__leading:not(.mat-focused),
       // .mdc-notched-outline__notch:not(.mat-focused),
       // .mdc-notched-outline__trailing:not(.mat-focused) {
-      //   border-color: map.get(vars.$app-custom-colors, "betaki-grey80");
+      //   border-color: map.get(vars.$app-custom-colors, "neutral-90");
       // }
     }
   }
@@ -1463,7 +1463,7 @@
     }
 
     .mat-mdc-select-value {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
       font-size: 0.875rem;
       padding-top: 0.125rem;
     }
@@ -1477,7 +1477,7 @@
     .mdc-notched-outline__leading:not(.mat-focused),
     .mdc-notched-outline__notch:not(.mat-focused),
     .mdc-notched-outline__trailing:not(.mat-focused) {
-      border-color: map.get(vars.$app-custom-colors, "Betaki_error");
+      border-color: map.get(vars.$app-custom-colors, "semantic-error");
     }
   }
 
@@ -1488,7 +1488,7 @@
   //     .mdc-notched-outline__leading {
   //       border-left: 1px solid;
   //       /* stylelint-disable-next-line declaration-no-important */
-  //       border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+  //       border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
   //     }
 
   //     .mdc-notched-outline__trailing {
@@ -1503,7 +1503,7 @@
   //       border-top: 1px solid;
   //       border-bottom: 1px solid;
   //       /* stylelint-disable-next-line declaration-no-important */
-  //       border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+  //       border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
   //     }
   //   }
   // }
@@ -1520,7 +1520,7 @@
 
   .mat-mdc-text-field-wrapper:not(.mdc-text-field--focused) {
     height: 2.5rem;
-    background-color: map.get(vars.$app-custom-colors, "Betaki_grey30");
+    background-color: map.get(vars.$app-custom-colors, "neutral-300");
     border-radius: 1rem;
 
     --mat-shape-small: 1rem;
@@ -1555,7 +1555,7 @@
       // .mdc-notched-outline__leading:not(.mat-focused),
       // .mdc-notched-outline__notch:not(.mat-focused),
       // .mdc-notched-outline__trailing:not(.mat-focused) {
-      //   border-color: map.get(vars.$app-custom-colors, "betaki-grey80");
+      //   border-color: map.get(vars.$app-custom-colors, "neutral-90");
       // }
     }
   }
@@ -1595,13 +1595,13 @@
     }
 
     .mat-mdc-select-value {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
       font-size: 1rem;
       padding-top: 0.125rem;
     }
 
     .mat-mdc-select-placeholder {
-      color: map.get(vars.$app-custom-colors, "betaki-grey80");
+      color: map.get(vars.$app-custom-colors, "neutral-90");
     }
   }
 
@@ -1609,7 +1609,7 @@
     .mdc-notched-outline__leading:not(.mat-focused),
     .mdc-notched-outline__notch:not(.mat-focused),
     .mdc-notched-outline__trailing:not(.mat-focused) {
-      border-color: map.get(vars.$app-custom-colors, "Betaki_error");
+      border-color: map.get(vars.$app-custom-colors, "semantic-error");
     }
   }
 
@@ -1620,7 +1620,7 @@
   //     .mdc-notched-outline__leading {
   //       border-left: 1px solid;
   //       /* stylelint-disable-next-line declaration-no-important */
-  //       border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+  //       border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
   //     }
 
   //     .mdc-notched-outline__trailing {
@@ -1635,7 +1635,7 @@
   //       border-top: 1px solid;
   //       border-bottom: 1px solid;
   //       /* stylelint-disable-next-line declaration-no-important */
-  //       border-color: map.get(vars.$app-custom-colors, "Betaki_olivia") !important;
+  //       border-color: map.get(vars.$app-custom-colors, "brand-surface") !important;
   //     }
   //   }
   // }
@@ -1662,15 +1662,15 @@
 
 .mat-mdc-checkbox {
   &.mat-mdc-checkbox.mat-primary {
-    // --mat-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "betaki-white100")};
-    // --mat-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "betaki-white100")};
-    --mat-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-    --mat-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-    --mat-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "betaki-green100")};
-    --mat-checkbox-unselected-focus-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
-    --mat-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
-    --mat-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
-    --mat-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "betaki-black100")};
+    // --mat-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "neutral-white")};
+    // --mat-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "neutral-white")};
+    --mat-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "brand-accent")};
+    --mat-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "brand-accent")};
+    --mat-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "brand-accent")};
+    --mat-checkbox-unselected-focus-icon-color: #{map.get(vars.$app-custom-colors, "brand-surface")};
+    --mat-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "brand-surface")};
+    --mat-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "brand-surface")};
+    --mat-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "brand-surface")};
     --mat-checkbox-state-layer-size: 1.25rem;
   }
 }
@@ -1861,11 +1861,11 @@
       &:visited .mdc-list-item__primary-text,
       &:focus .mdc-list-item__primary-text,
       &:hover .mdc-list-item__primary-text {
-        color: map.get(vars.$app-custom-colors, "Betaki_error");
+        color: map.get(vars.$app-custom-colors, "semantic-error");
       }
 
       .mdc-list-item__primary-text {
-        color: map.get(vars.$app-custom-colors, "Betaki_error");
+        color: map.get(vars.$app-custom-colors, "semantic-error");
       }
     }
   }
@@ -1877,22 +1877,22 @@
 
     .mdc-list-item__start,
     .mdc-list-item__end {
-      --mat-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "Betaki_error")};
-      --mat-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mat-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mat-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mat-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mat-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mat-checkbox-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mat-checkbox-disabled-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mat-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
-      --mat-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+      --mat-checkbox-selected-checkmark-color: #{map.get(vars.$app-custom-colors, "semantic-error")};
+      --mat-checkbox-selected-focus-icon-color: #{map.get(vars.$app-custom-colors, "brand-background")};
+      --mat-checkbox-selected-hover-icon-color: #{map.get(vars.$app-custom-colors, "brand-background")};
+      --mat-checkbox-selected-icon-color: #{map.get(vars.$app-custom-colors, "brand-background")};
+      --mat-checkbox-selected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "brand-background")};
+      --mat-checkbox-unselected-hover-icon-color: #{map.get(vars.$app-custom-colors, "brand-background")};
+      --mat-checkbox-disabled-selected-icon-color: #{map.get(vars.$app-custom-colors, "brand-background")};
+      --mat-checkbox-disabled-unselected-icon-color: #{map.get(vars.$app-custom-colors, "brand-background")};
+      --mat-checkbox-unselected-icon-color: #{map.get(vars.$app-custom-colors, "brand-background")};
+      --mat-checkbox-unselected-pressed-icon-color: #{map.get(vars.$app-custom-colors, "brand-background")};
     }
 
     &:active .mdc-list-item__primary-text,
     &:visited .mdc-list-item__primary-text,
     &:hover .mdc-list-item__primary-text {
-      color: map.get(vars.$app-custom-colors, "Betaki_error");
+      color: map.get(vars.$app-custom-colors, "semantic-error");
     }
 
     &:focus .mdc-list-item__primary-text {
@@ -1919,7 +1919,7 @@
             &:not(:indeterminate) {
               &:not([data-indeterminate="true"]) ~ .mdc-checkbox__background {
                 border: none;
-                background-color: #{map.get(vars.$app-custom-colors, "neutral-10")};
+                background-color: #{map.get(vars.$app-custom-colors, "brand-background")};
               }
             }
           }

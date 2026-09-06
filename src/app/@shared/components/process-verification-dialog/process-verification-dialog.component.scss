@@ -52,7 +52,7 @@
     mat-icon {
       font-size: 0.875rem;
       align-content: center;
-      color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+      color: map.get(theme-variables.$app-custom-colors, "brand-accent");
     }
 
     &:hover {
@@ -64,13 +64,13 @@
     font-size: 0.75rem;
     align-self: center;
     text-align: left;
-    color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+    color: map.get(theme-variables.$app-custom-colors, "brand-accent");
   }
 }
 
 .checked {
   min-width: 1.5rem;
-  color: map.get(theme-variables.$app-custom-colors, "Betaki_success");
+  color: map.get(theme-variables.$app-custom-colors, "brand-accent");
 }
 
 .description {

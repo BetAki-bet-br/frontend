@@ -48,14 +48,18 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
 - `brand-theme.scss` — tokens Tailwind (`@theme`). A rampa `--color-brand-*` sai magenta de
   propósito; enquanto ela estiver magenta a marca não foi tematizada. Os comentários do arquivo
   dizem que elemento de UI cada token pinta.
-- `brand-variables.scss` — mapa `$app-custom-colors` consumido pelo SCSS escrito à mão em
-  `src/theme/` e por ~20 SCSS de componente. Pode subir sem alteração e ir trocando aos poucos.
-  Duas chaves têm nome enganoso e **precisam** ser trocadas já na primeira passada:
-  - `neutral-10` não é neutro: é o `background-color` do `body` (`src/theme/theme.scss`). Se ficar
-    com o valor da betaki (`#0d0f03`, um preto oliva), a página inteira da marca nova nasce oliva.
-  - `Betaki_lima-radiante`, `Betaki_success*` e `betaki-green*` são a cor primária da betaki com
-    outro nome. Os nomes das chaves têm de ficar como estão (há ~25 `map.get` em `src/`), só os
-    valores mudam.
+- `brand-variables.scss` — as nove cores que a marca pinta de forma diferente, em `$brand-colors`.
+  O arquivo faz `map.merge(palette.$shared-colors, $brand-colors)` e publica o resultado como
+  `$app-custom-colors`, que é o que o SCSS de `src/theme/` e os ~20 SCSS de componente leem. A
+  rampa neutra e os estados semânticos ficam em `src/theme/palette.scss` e são iguais em toda
+  marca: só declare uma dessas chaves no `$brand-colors` se a marca realmente precisar de outro
+  valor (a chave da marca ganha do compartilhado). As nove:
+  - `brand-background` — o `background-color` do `body`. É a cor que decide se a marca nasce
+    oliva, roxa ou preta; troque antes de qualquer outra.
+  - `brand-surface` / `brand-surface-30` — cards, headers e linhas de tabela.
+  - `brand-ink` / `brand-ink-30` — o tom mais escuro da marca, para bordas e sombras.
+  - `brand-accent` / `brand-accent-50` / `brand-accent-30` — a cor primária.
+  - `brand-success` — estado de confirmação (pago, aprovado, verificado).
 - `--font-sans` chega sozinho à página: desde a WL-7 o `src/theme/theme.scss` aplica
   `font-family: var(--font-sans)` em `html, body`. Declare a família no `@theme` e carregue a
   webfont pelo `index.html` da marca — não repita a regra `html, body` no `brand-theme.scss`.

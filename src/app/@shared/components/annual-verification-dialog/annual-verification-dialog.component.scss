@@ -20,7 +20,7 @@
   flex-direction: column;
 
   .form-field-label {
-    color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+    color: map.get(theme-variables.$app-custom-colors, "brand-surface");
     font-size: 0.75rem;
     margin-bottom: 0;
     margin-left: 1rem;

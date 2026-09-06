@@ -48,13 +48,13 @@ app-promotions-terms-and-conditions {
     }
 
     .expires {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-grey100");
+      color: map.get(theme-variables.$app-custom-colors, "neutral-60");
       font-size: 0.875rem;
       line-height: 150%;
     }
 
     li::marker {
-      color: map.get(theme-variables.$app-custom-colors, "betaki-green100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-accent");
       font-size: 1.5rem;
       vertical-align: bottom;
     }

@@ -4,8 +4,8 @@
 @use "theme/theme-variables" as theme-variables;
 
 .player-profile-page-container {
-  color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
-  background-color: map.get(theme-variables.$app-custom-colors, "betaki-grey30");
+  color: map.get(theme-variables.$app-custom-colors, "brand-surface");
+  background-color: map.get(theme-variables.$app-custom-colors, "neutral-300");
   padding: 2.5rem 2rem;
 
   @include utils.media("lt-sm-2") {
@@ -62,7 +62,7 @@
       letter-spacing: 0.77px;
       text-align: center;
       vertical-align: middle;
-      color: map.get(theme-variables.$app-custom-colors, "betaki-black100");
+      color: map.get(theme-variables.$app-custom-colors, "brand-surface");
 
       @include utils.media("lt-sm-2") {
         font-size: 0.875rem;

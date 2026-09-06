@@ -37,7 +37,7 @@
     border-radius: 1rem;
 
     &.label-dark {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
     }
 
     @include utils.media("lt-sm-2") {
@@ -59,7 +59,7 @@
     border-radius: 1rem;
 
     &.label-dark {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
     }
 
     @include utils.media("lt-sm-2") {
@@ -79,7 +79,7 @@
     letter-spacing: 0.048rem;
 
     &.label-dark {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
     }
   }
 
@@ -91,7 +91,7 @@
     letter-spacing: 0.048rem;
 
     &.label-dark {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
     }
 
     @include utils.media("lt-sm-2") {
@@ -111,7 +111,7 @@
     letter-spacing: 0.048rem;
 
     &.label-dark {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
     }
   }
 
@@ -123,7 +123,7 @@
     letter-spacing: 0.048rem;
 
     &.label-dark {
-      color: map.get(vars.$app-custom-colors, "betaki-black100");
+      color: map.get(vars.$app-custom-colors, "brand-surface");
     }
   }
 
@@ -147,20 +147,20 @@
 // <button mat-button>Basic</button>
 .mat-mdc-button {
   &.mat-unthemed {
-    background-color: map.get(vars.$app-custom-colors, "betaki-green100");
-    border: 1px solid map.get(vars.$app-custom-colors, "betaki-green100");
+    background-color: map.get(vars.$app-custom-colors, "brand-accent");
+    border: 1px solid map.get(vars.$app-custom-colors, "brand-accent");
 
-    // background-color: map.get(vars.$app-custom-colors, Betaki_success);
+    // background-color: map.get(vars.$app-custom-colors, "brand-accent");
 
     &:not(:disabled) {
-      color: map.get(vars.$app-custom-colors, "betaki-black30");
+      color: map.get(vars.$app-custom-colors, "brand-surface-30");
 
-      // color: map.get(vars.$app-custom-colors, primary-200);
+      // color: map.get(vars.$app-custom-colors, "primary-200");
     }
 
     &:hover {
-      background-color: map.get(vars.$app-custom-colors, "betaki-green50");
-      border: 1px solid map.get(vars.$app-custom-colors, "betaki-green100");
+      background-color: map.get(vars.$app-custom-colors, "brand-accent-50");
+      border: 1px solid map.get(vars.$app-custom-colors, "brand-accent");
     }
   }
 
@@ -169,20 +169,20 @@
   }
 
   &.secondary {
-    background-color: map.get(vars.$app-custom-colors, Betaki_success10);
-    border: 1px solid map.get(vars.$app-custom-colors, "betaki-green100");
+    background-color: map.get(vars.$app-custom-colors, "Betaki_success10");
+    border: 1px solid map.get(vars.$app-custom-colors, "brand-accent");
 
     &:not(:disabled) {
-      color: map.get(vars.$app-custom-colors, "betaki-black30");
+      color: map.get(vars.$app-custom-colors, "brand-surface-30");
 
-      // color: map.get(vars.$app-custom-colors, Betaki_black);
+      // color: map.get(vars.$app-custom-colors, "brand-ink");
     }
 
     &:hover {
-      background-color: map.get(vars.$app-custom-colors, "betaki-green50");
-      border: 1px solid map.get(vars.$app-custom-colors, "betaki-green100");
+      background-color: map.get(vars.$app-custom-colors, "brand-accent-50");
+      border: 1px solid map.get(vars.$app-custom-colors, "brand-accent");
 
-      // background-color: color.adjust(map.get(vars.$app-custom-colors, Betaki_success), $lightness: 10%);
+      // background-color: color.adjust(map.get(vars.$app-custom-colors, "brand-accent"), $lightness: 10%);
     }
   }
 }
@@ -191,14 +191,14 @@
 // <button mat-stroked-button>Basic</button>
 .mdc-button.mdc-button--outlined.mat-mdc-outlined-button {
   &.mat-unthemed {
-    color: map.get(vars.$app-custom-colors, Betaki_olivia); // map.get(vars.$app-custom-colors, "Betaki_error");
+    color: map.get(vars.$app-custom-colors, "brand-surface"); // map.get(vars.$app-custom-colors, "semantic-error");
 
     .mdc-button__ripple {
       border: 0.0625rem solid;
       border-color: map.get(
         vars.$app-custom-colors,
-        Betaki_success
-      ); // map.get(vars.$app-custom-colors, "Betaki_error");
+        "brand-accent"
+      ); // map.get(vars.$app-custom-colors, "semantic-error");
 
       transition:
         background-color 0.3s ease,
@@ -211,8 +211,8 @@
         border: 0.0625rem solid;
         border-color: map.get(
           vars.$app-custom-colors,
-          neutral-white
-        ); // map.get(vars.$app-custom-colors, "Betaki_error");
+          "neutral-white"
+        ); // map.get(vars.$app-custom-colors, "semantic-error");
 
         transition:
           background-color 0.3s ease,
@@ -225,12 +225,12 @@
       .mdc-button__ripple {
         background-color: map.get(
           vars.$app-custom-colors,
-          Betaki_success
-        ); // map.get(vars.$app-custom-colors, "Betaki_error");
+          "brand-accent"
+        ); // map.get(vars.$app-custom-colors, "semantic-error");
       }
 
       .mdc-button__label {
-        color: map.get(vars.$app-custom-colors, Betaki_olivia); // map.get(vars.$app-custom-colors, "neutral-10");
+        color: map.get(vars.$app-custom-colors, "brand-surface"); // map.get(vars.$app-custom-colors, "brand-background");
       }
     }
 
@@ -240,7 +240,7 @@
       }
 
       .mdc-button__ripple {
-        border-color: color.adjust(map.get(vars.$app-custom-colors, Betaki_success), $alpha: -0.75);
+        border-color: color.adjust(map.get(vars.$app-custom-colors, "brand-accent"), $alpha: -0.75);
       }
     }
   }
@@ -261,17 +261,17 @@
     &.mat-unthemed {
       --mat-button-text-label-text-color: map.get(vars.$app-custom-colors, "neutral-white");
 
-      background-color: color.adjust(map.get(vars.$app-custom-colors, "neutral-10"), $alpha: -0.7);
+      background-color: color.adjust(map.get(vars.$app-custom-colors, "brand-background"), $alpha: -0.7);
       color: white;
       transition: color 0.3s ease;
 
       &:hover {
-        color: map.get(vars.$app-custom-colors, "Betaki_error");
+        color: map.get(vars.$app-custom-colors, "semantic-error");
       }
 
       &.active-button {
-        background-color: color.adjust(map.get(vars.$app-custom-colors, "neutral-10"), $alpha: -0.5);
-        color: map.get(vars.$app-custom-colors, "Betaki_error");
+        background-color: color.adjust(map.get(vars.$app-custom-colors, "brand-background"), $alpha: -0.5);
+        color: map.get(vars.$app-custom-colors, "semantic-error");
       }
 
       &:disabled {
@@ -308,14 +308,14 @@
 }
 
 .mat-mdc-outlined-button[disabled][disabled] {
-  --mat-button-outlined-outline-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_error"), $alpha: -0.75);
+  --mat-button-outlined-outline-color: color.adjust(map.get(vars.$app-custom-colors, "semantic-error"), $alpha: -0.75);
 }
 
 app-payments-table {
   .button-container {
     @include utils.media("gt-sm-1") {
       .mdc-button:hover {
-        background-color: color.adjust(map.get(vars.$app-custom-colors, "Betaki_error"), $lightness: 10%);
+        background-color: color.adjust(map.get(vars.$app-custom-colors, "semantic-error"), $lightness: 10%);
       }
     }
   }

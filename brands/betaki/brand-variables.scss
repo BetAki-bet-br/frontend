@@ -3,6 +3,7 @@
  */
 
 @use "sass:map" as map;
+@use "theme/palette" as palette;
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
@@ -17,103 +18,38 @@
 // Brand artwork referenced from SCSS. Keep in sync with `assets.logo` in `brand.config.ts`;
 // stylesheets cannot read the TypeScript config.
 $brand-logo-url: "/assets/brand/logo.png";
-$app-custom-colors: (
-  // Base colors
-  // Accent colors: emphasize actions and highlighted information
-  // Semantic colors: success, error, warning, information, etc
-  // "semantic-100": #fff,
-  // Neutral colors: text, borders, icons, etc
-  "neutral-black-overlay": #111,
-  "neutral-black": #000,
-  "neutral-dark": #1e1e1e,
-  "neutral-white": #fff,
-  "neutral-10": #0d0f03,
-  "neutral-10-35": #0d0f0359,
-  "neutral-10-50": #0d0f0380,
-  "neutral-20": #15262d,
-  "neutral-30": #182e39,
-  "neutral-32": #313631,
-  "neutral-33": #757575,
-  "neutral-35": #80898e,
-  "neutral-40": #8c9099,
-  "neutral-45": #848585,
-  "neutral-47": #9e9e9e,
-  "neutral-50": #a7a9b0,
-  "neutral-100": #d3d4d7,
-  "neutral-150": #dddfe4,
-  "neutral-200": #f5f5f5,
-  "neutral-300": #eff1f2,
-  "neutral-400": #e0e0e0,
 
-  "Betaki_black": #090b01,
-  "Betaki_black_30": #090b014d,
-  "Betaki_black_40": #080a01,
+// Everything this brand paints differently. Merged over `src/theme/palette.scss`,
+// which holds the neutral ramp and the semantic states every brand shares.
+$brand-colors: (
+  // Page background (`body`) and the tint behind dialogs.
+  "brand-background": #0d0f03,
 
-  "ATL_white10": #d3d4d7,
-  "ATL_white75": #d3d4d7,
+  // Cards, headers, table rows: the surface the content sits on.
+  "brand-surface": #202400,
 
-  "Betaki_ebano_profundo": #070707,
-  "Betaki_ebano_profundo_75": #070707bf,
-  "Betaki_ebano_profundo_35": #07070759,
+  // `brand-surface` at 30% alpha, for overlays over artwork.
+  "brand-surface-30": #2024004d,
 
-  "Betaki_lima-radiante": #c6d42d,
-  "Betaiki_lima-radiante_35": #c6d42d59,
-  "Betaiki_lima-radiante_10": #c6d42d1a,
+  // The darkest brand tone; borders and shadows on `brand-surface`.
+  "brand-ink": #090b01,
 
-  "Betaki_olivia_noturna": #20210e,
-  "Betaki_olivia": #202400,
+  // `brand-ink` at 30% alpha.
+  "brand-ink-30": #090b014d,
 
-  "Betaki_branco_neve": #fff,
-  "Betaki_branco_neve_100": #eff1f2,
-  "Betaki_branco_neve_75": #ffffffbf,
-  "Betaki_branco_neve_50": #ffffff80,
-  "Betaki_branco_neve_35": #ffffff59,
-  "Betaki_branco_neve_25": #ffffff40,
-  "Betaki_branco_neve_15": #ffffff26,
-  "Betaki_branco_neve_10": #ffffff1a,
+  // The brand colour: primary buttons, active states, highlights.
+  "brand-accent": #869502,
 
-  "Betaki_grey500": #1b1b1b,
-  "Betaki_grey100": #313131,
-  "Betaki_grey80": #d0d0d0,
-  "Betaki_grey50": #9e9e9e,
-  "Betaki_grey30": #eff1f2,
-  "Betaki_grey_20": #20240033,
-  "Betaki_grey_10": #f6f8f9,
-  "Betaki_grey200": #363a1a,
+  // `brand-accent` at 50% alpha.
+  "brand-accent-50": #86950280,
 
-  "Betaki_error": #f06143,
-  "Betaki_error300": #fd3f3f,
+  // `brand-accent` at 30% alpha.
+  "brand-accent-30": #8695024d,
 
-  "Betaki_success": #869502,
-  "Betaki_success30": #8695024d,
-  "Betaki_success50": #d0d93f,
-  "Betaki_success75": #869502bf,
-  "Betaki_success100": #398e3d,
-
-  "Betaki_yellow": #f0cd43,
-
-  "Betaki_orange": #ffc107,
-
-  "Betaki_lightblue": #43d0f0,
-
-  "Betaki_sponsorship_light": #313329,
-  "Betaki_sponsorship_dark": #272b17,
-
-  // colors from palette
-  "betaki-white100": #fff,
-  "betaki-white50": #f4f4f4,
-  "betaki-grey30": #eff1f2,
-  "betaki-grey80": #d0d0d0,
-  "betaki-grey100": #8f8f8f,
-  "betaki-black10": #2024001a,
-  "betaki-black30": #2024004d,
-  "betaki-black100": #202400,
-  "betaki-green30": #8695024d,
-  "betaki-green50": #86950280,
-  "betaki-green100": #869502,
-  "betaki-success": #398e3d,
-  "betaki-error": #fd3f3f
+  // Confirmation state (paid, approved, verified).
+  "brand-success": #398e3d
 );
+$app-custom-colors: map.merge(palette.$shared-colors, $brand-colors);
 
 // $action-gradient: linear-gradient(
 //   to right,

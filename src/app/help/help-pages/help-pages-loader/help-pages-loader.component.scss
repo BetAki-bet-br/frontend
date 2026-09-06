@@ -3,7 +3,7 @@
 @use "theme/theme-variables" as theme-variables;
 
 .html-assets {
-  background: map.get(theme-variables.$app-custom-colors, "betaki-white100");
+  background: map.get(theme-variables.$app-custom-colors, "neutral-white");
   border-radius: 1rem;
   padding: 2rem;
 
