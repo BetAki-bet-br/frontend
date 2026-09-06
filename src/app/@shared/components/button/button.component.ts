@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@angular/core';
 
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
 export type ButtonVariant =
   | 'primary'
   | 'secondary'
@@ -22,7 +19,6 @@ export type ButtonShape = 'rectangle' | 'pill' | 'circle';
 
 @Component({
   selector: 'app-button',
-  imports: [MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],
   host: {
