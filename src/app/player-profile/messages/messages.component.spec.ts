@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MessagesComponent } from './messages.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
@@ -15,12 +13,11 @@ describe('MessagesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatSnackBarModule, TranslateModule.forRoot(), MessagesComponent],
+      imports: [MatSnackBarModule, MessagesComponent],
       providers: [
         { provide: Dialog, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
         { provide: PlayerProfileService, useClass: PlayerProfileServiceMock },
-        provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 

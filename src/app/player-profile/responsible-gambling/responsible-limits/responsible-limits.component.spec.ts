@@ -27,7 +27,7 @@
 
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
-//       imports: [FormsModule, MatSelectModule, ReactiveFormsModule, TranslateModule.forRoot()],
+//       imports: [FormsModule, MatSelectModule, ReactiveFormsModule],
 //       declarations: [ResponsibleLimitsComponent],
 //       providers: [
 //         SnackbarService,

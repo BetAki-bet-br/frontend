@@ -8,6 +8,7 @@ import { Logger } from '@app/@shared/logger.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatError, MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 import { LoaderComponent } from '@app/@shared/loader/loader.component';
 import { UpperCasePipe } from '@angular/common';
 
@@ -23,6 +24,7 @@ interface ResendUnlockInstructionsForm {
   styleUrls: [/*'./resend-unlock-instructions.component.scss',*/ '../users-page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatInput,
     MatError,
     MatFormField,
     LoaderComponent,

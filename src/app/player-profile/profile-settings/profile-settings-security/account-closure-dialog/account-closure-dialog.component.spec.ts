@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountClosureDialogComponent } from './account-closure-dialog.component';
 import { DialogRef } from '@angular/cdk/dialog';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('AccountClosureDialogComponent', () => {
   let component: AccountClosureDialogComponent;
@@ -10,7 +9,7 @@ describe('AccountClosureDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), AccountClosureDialogComponent],
+      imports: [AccountClosureDialogComponent],
       providers: [{ provide: DialogRef, useValue: { updateSize: () => {}, close: () => {} } }],
     }).compileComponents();
 

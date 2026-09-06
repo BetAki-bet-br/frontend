@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideDialogTesting } from '@testing/dialog-testing';
 
 import { WithdrawalAuthenticationDialogComponent } from './withdrawal-authentication-dialog.component';
 
@@ -9,6 +10,7 @@ describe('WithdrawalAuthenticationDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WithdrawalAuthenticationDialogComponent],
+      providers: [...provideDialogTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WithdrawalAuthenticationDialogComponent);

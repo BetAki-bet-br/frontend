@@ -12,6 +12,7 @@ describe('Top10List', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(Top10List);
+    fixture.componentRef.setInput('categoryId', 1);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

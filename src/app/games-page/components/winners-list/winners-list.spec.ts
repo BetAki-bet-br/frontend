@@ -12,6 +12,7 @@ describe('WinnersList', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(WinnersList);
+    fixture.componentRef.setInput('winnersToList', 4);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

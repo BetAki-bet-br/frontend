@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PasswordStrengthIndicatorComponent } from './password-strength-indicator.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('PasswordStrengthIndicatorComponent', () => {
   let component: PasswordStrengthIndicatorComponent;
@@ -9,7 +8,7 @@ describe('PasswordStrengthIndicatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), PasswordStrengthIndicatorComponent],
+      imports: [PasswordStrengthIndicatorComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PasswordStrengthIndicatorComponent);

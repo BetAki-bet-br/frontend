@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import { CdnizePipe } from './cdnize.pipe';
 
 describe('CdnizePipe', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [TranslateModule.forRoot()] });
+    TestBed.configureTestingModule({});
   });
 
   it('create an instance', () => {

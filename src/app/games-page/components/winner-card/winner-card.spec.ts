@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { winnerFixture } from '@testing/fixtures';
 
 import { WinnerCard } from './winner-card';
 
@@ -12,6 +13,7 @@ describe('WinnerCard', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(WinnerCard);
+    fixture.componentRef.setInput('winner', winnerFixture());
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

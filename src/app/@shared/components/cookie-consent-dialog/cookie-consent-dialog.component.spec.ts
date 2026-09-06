@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CookieConsentDialogComponent } from './cookie-consent-dialog.component';
 import { DialogRef } from '@angular/cdk/dialog';
-import { TranslateModule } from '@ngx-translate/core';
 import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 
 describe('CookieConsentDialogComponent', () => {
@@ -10,7 +9,7 @@ describe('CookieConsentDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), CookieConsentDialogComponent, BaseDialogComponent],
+      imports: [CookieConsentDialogComponent, BaseDialogComponent],
       providers: [{ provide: DialogRef, useValue: { updateSize: () => {}, close: () => {} } }],
     }).compileComponents();
 

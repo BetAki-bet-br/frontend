@@ -19,6 +19,10 @@ class MockTranslateService {
     });
   }
 
+  getCurrentLang() {
+    return this.currentLang;
+  }
+
   getBrowserCultureLang() {
     return 'en-US';
   }

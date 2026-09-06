@@ -230,7 +230,15 @@
             },
             "scripts": [],
             "styles": ["src/main.scss"],
-            "assets": ["src/assets", "src/assetslocal"]
+            "assets": [
+              "src/assets",
+              "src/assetslocal",
+              {
+                "glob": "**/*",
+                "input": "brands/betaki/assets",
+                "output": "/assets/brand"
+              }
+            ]
           },
           "configurations": {
             "ci": {

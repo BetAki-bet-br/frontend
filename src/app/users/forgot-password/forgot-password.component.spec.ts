@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ForgotPasswordComponent } from './forgot-password.component';
-import { TranslateModule } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '@app/auth';
 import { MockAuthenticationService } from '@app/auth/authentication.service.mock';
@@ -13,7 +12,7 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), ForgotPasswordComponent],
+      imports: [ForgotPasswordComponent],
       providers: [
         MatSnackBar,
         { provide: AuthenticationService, useClass: MockAuthenticationService },

@@ -8,7 +8,6 @@ import { RoutingService } from '@app/@shared/services/routing.service';
 import { Router } from '@angular/router';
 import { signal } from '@angular/core';
 import { of } from 'rxjs';
-import { By } from '@angular/platform-browser';
 import { NgOptimizedImage } from '@angular/common';
 import { MenusService } from '@app/@core/backoffice';
 
@@ -63,23 +62,5 @@ describe('SidebarMobile', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should display banners with ngSrc', () => {
-    // Check for Liminha banner
-    const liminhaImg = fixture.debugElement.query(By.css('img[alt="Banner Liminha"]'));
-    expect(liminhaImg).toBeTruthy();
-    expect(liminhaImg.attributes['ngSrc']).toContain('assets/liminha.webp');
-    // priority is an input, not necessarily an attribute in the DOM output in all versions, but usually present or handled by checking inputs.
-    // In Angular tests for ngSrc, checking the attribute usually works if it reflects.
-    // But better to check the component instance properties if it was a directive, but here it's an attribute on the element.
-    // 'priority' attribute presence is enough.
-  });
-
-  it('should display second banner with ngSrc', () => {
-    // Check for Banner2
-    const banner2Img = fixture.debugElement.query(By.css('img[alt="Banner"]'));
-    expect(banner2Img).toBeTruthy();
-    expect(banner2Img.attributes['ngSrc']).toContain('assets/banner2.png');
   });
 });

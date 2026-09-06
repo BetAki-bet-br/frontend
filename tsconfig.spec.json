@@ -4,6 +4,12 @@
     "outDir": "./out-tsc/spec",
     "types": ["jasmine", "node"]
   },
-  "include": ["src/**/*.spec.ts", "src/**/*.mock.ts", "src/**/*.d.ts", "node_modules/@icore/**/*.ts"],
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.mock.ts",
+    "src/**/*.d.ts",
+    "src/testing/**/*.ts",
+    "node_modules/@icore/**/*.ts"
+  ],
   "exclude": ["./cypress.config.ts"]
 }

@@ -25,7 +25,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZonelessChangeDetection(),
     provideTranslateService({
-      defaultLanguage: BRAND_CONFIG.i18n.defaultLanguage,
+      fallbackLang: BRAND_CONFIG.i18n.defaultLanguage,
     }),
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: materialFormDefaultOptions },
     { provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: materialCheckboxDefaultOptions },

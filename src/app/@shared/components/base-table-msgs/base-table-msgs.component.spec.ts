@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BaseTableMsgsComponent } from './base-table-msgs.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('BaseTableMsgsComponent', () => {
   let component: BaseTableMsgsComponent<any>;
@@ -9,7 +8,7 @@ describe('BaseTableMsgsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), BaseTableMsgsComponent],
+      imports: [BaseTableMsgsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BaseTableMsgsComponent);

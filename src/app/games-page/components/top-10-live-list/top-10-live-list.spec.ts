@@ -12,6 +12,7 @@ describe('Top10LiveList', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(Top10LiveList);
+    fixture.componentRef.setInput('categoryId', 1);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

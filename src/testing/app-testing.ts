@@ -1,0 +1,35 @@
+import { EnvironmentProviders, Provider } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angular/material/checkbox';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+import { provideRouter } from '@angular/router';
+import { BRAND_CONFIG } from '@app/@core/brand';
+import { provideApi } from '@icore/ngx-portalgateway-api-client-atl';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideNgxMask } from 'ngx-mask';
+
+/**
+ * The slice of `src/app.config.ts` every component needs to be instantiated at all: the router,
+ * an HTTP client, translations, input masks and the Material defaults.
+ *
+ * `src/testing/global-test-setup.spec.ts` installs these for the whole run, so a plain
+ * `TestBed.configureTestingModule({ imports: [TheComponent] })` is enough for a smoke test. A spec
+ * that needs a different double for one of them still overrides it in its own `providers`, which
+ * wins: providers registered later shadow earlier ones.
+ */
+export function provideAppTesting(): (Provider | EnvironmentProviders)[] {
+  const formFieldOptions: MatFormFieldDefaultOptions = { appearance: 'outline', floatLabel: 'always' };
+  const checkboxOptions: MatCheckboxDefaultOptions = { color: 'primary' };
+
+  return [
+    provideRouter([]),
+    provideHttpClient(),
+    provideHttpClientTesting(),
+    provideTranslateService({ fallbackLang: BRAND_CONFIG.i18n.defaultLanguage }),
+    provideNgxMask(),
+    provideApi({ basePath: '' }),
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldOptions },
+    { provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: checkboxOptions },
+  ];
+}

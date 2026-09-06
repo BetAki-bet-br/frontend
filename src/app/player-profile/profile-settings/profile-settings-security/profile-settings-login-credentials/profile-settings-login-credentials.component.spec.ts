@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileSettingsLoginCredentialsComponent } from './profile-settings-login-credentials.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProfileSettingsLoginCredentialsComponent', () => {
   let component: ProfileSettingsLoginCredentialsComponent;
@@ -9,7 +8,7 @@ describe('ProfileSettingsLoginCredentialsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), ProfileSettingsLoginCredentialsComponent],
+      imports: [ProfileSettingsLoginCredentialsComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileSettingsLoginCredentialsComponent);

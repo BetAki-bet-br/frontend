@@ -7,9 +7,12 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 import { Slot } from '@app/@core/backoffice';
 import { SoftswissGameLauncherComponent } from '../softswiss-game-launcher/softswiss-game-launcher.component';
 
+/** What the page shows before `ingamePageResolver` has produced anything. */
+const NO_GAME: IngamePageData = { game: undefined, gameUrl: null, isSoftswissGame: false, softswissLaunchData: null };
+
 @Component({
   selector: 'app-ingame-page',
-  imports: [SoftswissGameLauncherComponent], // Add
+  imports: [SoftswissGameLauncherComponent],
   templateUrl: './ingame-page.html',
   styleUrl: './ingame-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,9 +20,10 @@ import { SoftswissGameLauncherComponent } from '../softswiss-game-launcher/softs
 export class IngamePage {
   private readonly route = inject(ActivatedRoute);
 
-  private readonly data: Signal<IngamePageData> = toSignal(this.route.data.pipe(map((d) => d['data'])), {
-    initialValue: { game: undefined, gameUrl: null, isSoftswissGame: false, softswissLaunchData: null },
-  });
+  private readonly data: Signal<IngamePageData> = toSignal(
+    this.route.data.pipe(map((d) => (d['data'] as IngamePageData | undefined) ?? NO_GAME)),
+    { initialValue: NO_GAME },
+  );
 
   readonly game: Signal<Slot | undefined> = computed(() => this.data().game);
   readonly gameUrl: Signal<SafeResourceUrl | null> = computed(() => this.data().gameUrl);

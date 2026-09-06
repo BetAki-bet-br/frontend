@@ -12,6 +12,8 @@ describe('GameList', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameList);
+    fixture.componentRef.setInput('categoryId', 1);
+    fixture.componentRef.setInput('gameCount', 0);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

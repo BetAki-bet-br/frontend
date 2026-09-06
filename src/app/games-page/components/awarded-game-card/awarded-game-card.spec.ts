@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { gameFixture } from '@testing/fixtures';
 
 import { AwardedGameCard } from './awarded-game-card';
 
@@ -12,6 +13,7 @@ describe('AwardedGameCard', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(AwardedGameCard);
+    fixture.componentRef.setInput('game', gameFixture());
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

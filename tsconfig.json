@@ -22,6 +22,7 @@
       "@shared": ["src/app/@shared"],
       "@shared/*": ["src/app/@shared/*"],
       "@env/*": ["src/environments/*"],
+      "@testing/*": ["src/testing/*"],
       "@brand/*": ["brands/betaki/*"],
       "ngx-atl-pp-templates-shared": ["node_modules/@icore/ngx-atl-pp-templates-shared"],
       "ngx-atl-pp-templates-shared/*": ["node_modules/@icore/ngx-atl-pp-templates-shared/*"],

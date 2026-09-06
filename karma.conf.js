@@ -31,10 +31,9 @@ module.exports = function (config) {
     ],
     client: {
       jasmine: {
-        // you can add configuration options for Jasmine here
-        // the possible options are listed at https://jasmine.github.io/api/edge/Configuration.html
-        // for example, you can disable the random execution with `random: false`
-        // or set a specific seed with `seed: 4321`
+        // Deterministic order: when a spec hangs or leaks state into the next one, the run has to
+        // be reproducible for the failure to be worth anything.
+        random: false,
       },
       captureConsole: Boolean(process.env.KARMA_ENABLE_CONSOLE),
     },

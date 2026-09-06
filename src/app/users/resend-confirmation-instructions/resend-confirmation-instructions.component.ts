@@ -10,6 +10,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoaderComponent } from '@app/@shared/loader/loader.component';
 import { UpperCasePipe } from '@angular/common';
 import { MatFormField, MatError } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 
 const log = new Logger('ResendConfirmationInstructionsComponent');
 
@@ -23,6 +24,7 @@ interface ResendConfirmationInstructionsForm {
   styleUrls: [/*'./resend-confirmation-instructions.component.scss',*/ '../users-page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    MatInput,
     LoaderComponent,
     UpperCasePipe,
     TranslateModule,
