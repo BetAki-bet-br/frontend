@@ -30,6 +30,18 @@ const projectRules = {
     },
   ],
   '@angular-eslint/no-empty-lifecycle-method': 'off',
+
+  // The Console Ninja editor extension rewrites `console.log(a, b)` into
+  // `console.log(...oo_oo('id', a, b))` and appends ~40 lines of obfuscated runtime to the file.
+  // Two of those files had already been committed. Fail the lint instead of shipping them.
+  'no-restricted-syntax': [
+    'error',
+    {
+      selector: "Identifier[name=/^oo_(cm|oo|tr|tx|ts|te)$/]",
+      message:
+        'Console Ninja instrumentation. Remove the oo_* helpers and the `...oo_*()` wrappers before committing.',
+    },
+  ],
 };
 
 module.exports = [

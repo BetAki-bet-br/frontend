@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject, input, output } from '@angular/core';
 import { I18nService, LanguageConfig } from './i18n.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CommonModule, KeyValue } from '@angular/common';
+import { KeyValue } from '@angular/common';
 import { Logger } from '@app/@shared/logger.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +15,7 @@ const log = new Logger('LanguageSelectorComponent');
   templateUrl: './language-selector.component.html',
   styleUrls: ['./language-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, TranslateModule, MatMenuModule, MatButtonModule, MatIconModule, CdnizePipe],
+  imports: [TranslateModule, MatMenuModule, MatButtonModule, MatIconModule, CdnizePipe],
 })
 export class LanguageSelectorComponent implements OnInit {
   private i18nService = inject(I18nService);
