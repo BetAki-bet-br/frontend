@@ -6,7 +6,7 @@ import { Logger } from '@app/@shared/logger.service';
 import { CONTENT_GATEWAY, CmsBanner, CmsTemplate } from '@app/@core/gateway';
 import { CredentialsService } from '@app/auth';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, ReplaySubject, catchError, forkJoin, map, of, switchMap, tap } from 'rxjs';
+import { Observable, ReplaySubject, catchError, forkJoin, map, of, skip, switchMap, tap } from 'rxjs';
 import { AppBreakpoints } from '../app-breakpoints';
 import { Banner } from '../models/banner.model';
 import {
@@ -292,9 +292,17 @@ export class CmsService {
       )
       .subscribe();
 
-    // Reload the banners on login/logout
+    // Reload the banners on login/logout.
+    //
+    // `isAuthenticated$` vem de um `BehaviorSubject`, então entrega o estado atual assim que
+    // alguém assina. Como este construtor roda enquanto o `AppStartupService` está sendo montado,
+    // essa primeira emissão acontecia antes de `initI18n()`: a busca saía com `language=undefined`
+    // (o `I18nService` lê o idioma do `TranslateService`, que ainda não tinha recebido `use()`) e
+    // logo depois o `initCms()` repetia a mesma busca, aí sim com `pt-BR`. `skip(1)` deixa a carga
+    // inicial com quem é dela e este assinante só reage a login e logout de verdade.
     this.credentialsService.isAuthenticated$
       .pipe(
+        skip(1),
         switchMap((isAuth) => {
           return this.getActiveMainBanners(this.breakpointObserver.isMatched(AppBreakpoints.LtSmall2));
         }),
