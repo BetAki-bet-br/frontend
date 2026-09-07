@@ -45,8 +45,18 @@ export const BRAND_CONFIG: BrandConfig = {
     // The published demo has no Laravel behind it: /backoffice is answered there by the
     // recorded CMS snapshot (see docs/white-label/04-demo-deploy.md), on the same path shape.
     backofficeApiUrl: brandEnv({ dev: 'http://localhost:8080', prod: '/backoffice', demo: '/backoffice' }),
+    // Base url of the house backend, read by the `house` adapters below. It has to be filled in,
+    // or those adapters fall back to the CMS url, which the api-key interceptor skips, and the key
+    // never leaves the browser. The demo build has no backend at all, so nothing there reads it.
+    playerApiUrl: brandEnv({ dev: 'http://localhost:5080', prod: '/gateway', demo: undefined }),
+    // The house backend knows the brand by its own key; the PortalGateway one stays for the ports
+    // still pointed at `comtrade`.
     // TODO(girosbet): placeholder — replace with GirosBet credentials
-    apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
+    apiKey: brandEnv({
+      dev: 'dev-girosbet-key',
+      prod: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
+      demo: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
+    }),
     // TODO(girosbet): placeholder — replace with GirosBet credentials
     gamesThumbsBaseUrl: 'https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails',
     // TODO(girosbet): placeholder — replace with GirosBet credentials
@@ -144,8 +154,8 @@ export const BRAND_CONFIG: BrandConfig = {
   // endpoints exist; `demo` runs the brand with no backend at all, for a local demo.
   gateways: brandEnv({
     dev: {
-      auth: 'comtrade',
-      player: 'comtrade',
+      auth: 'house',
+      player: 'house',
       games: 'comtrade',
       wallet: 'comtrade',
       messages: 'comtrade',
