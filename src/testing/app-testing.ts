@@ -5,9 +5,10 @@ import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angula
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { provideRouter } from '@angular/router';
 import { BRAND_CONFIG } from '@app/@core/brand';
-import { AUTH_GATEWAY, GAMES_GATEWAY, PLAYER_GATEWAY, WALLET_GATEWAY } from '@app/@core/gateway';
+import { AUTH_GATEWAY, GAMES_GATEWAY, MESSAGES_GATEWAY, PLAYER_GATEWAY, WALLET_GATEWAY } from '@app/@core/gateway';
 import { DemoAuthGateway } from '@app/@core/gateway/auth/adapters/demo-auth.gateway';
 import { DemoGamesGateway } from '@app/@core/gateway/games/adapters/demo-games.gateway';
+import { DemoMessagesGateway } from '@app/@core/gateway/messages/adapters/demo-messages.gateway';
 import { DemoPlayerGateway } from '@app/@core/gateway/player/adapters/demo-player.gateway';
 import { DemoWalletGateway } from '@app/@core/gateway/wallet/adapters/demo-wallet.gateway';
 import { provideApi } from '@icore/ngx-portalgateway-api-client-atl';
@@ -42,5 +43,6 @@ export function provideAppTesting(): (Provider | EnvironmentProviders)[] {
     { provide: PLAYER_GATEWAY, useClass: DemoPlayerGateway },
     { provide: GAMES_GATEWAY, useClass: DemoGamesGateway },
     { provide: WALLET_GATEWAY, useClass: DemoWalletGateway },
+    { provide: MESSAGES_GATEWAY, useClass: DemoMessagesGateway },
   ];
 }

@@ -24,7 +24,7 @@ import {
 import { PlayerMessageResolved } from '@app/@shared/models';
 import { MessageService } from '@app/@shared/services/message.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { ChangeMessageTypeEnum, PopupStateEnum } from '@icore/ngx-portalgateway-api-client-atl';
+import { MessageState } from '@app/@core/gateway';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { concatMap, from } from 'rxjs';
 import { PlayerProfileService } from '../player-profile.service';
@@ -111,7 +111,7 @@ export class MessagesComponent implements OnInit {
   selectAll = false;
   selection: number[] = [];
 
-  PopupStateEnum = PopupStateEnum;
+  MessageState = MessageState;
 
   ngOnInit(): void {
     this.tableColumns = getTableColumns(this.arrowTemplate());
@@ -120,10 +120,10 @@ export class MessagesComponent implements OnInit {
         if (this.tableData.length === 0) {
           this.tableData = [...data];
           this.tableData.sort((a, b) => {
-            if (a.state === PopupStateEnum.Unread && b.state !== PopupStateEnum.Unread) {
+            if (a.state === MessageState.Unread && b.state !== MessageState.Unread) {
               return -1;
             }
-            if (a.state !== PopupStateEnum.Unread && b.state === PopupStateEnum.Unread) {
+            if (a.state !== MessageState.Unread && b.state === MessageState.Unread) {
               return 1;
             }
             return (b.id ?? 0) - (a.id ?? 0);
@@ -148,10 +148,10 @@ export class MessagesComponent implements OnInit {
 
           this.tableData = [...newData];
           this.tableData.sort((a, b) => {
-            if (a.state === PopupStateEnum.Unread && b.state !== PopupStateEnum.Unread) {
+            if (a.state === MessageState.Unread && b.state !== MessageState.Unread) {
               return -1;
             }
-            if (a.state !== PopupStateEnum.Unread && b.state === PopupStateEnum.Unread) {
+            if (a.state !== MessageState.Unread && b.state === MessageState.Unread) {
               return 1;
             }
             return (b.id ?? 0) - (a.id ?? 0);
@@ -282,10 +282,10 @@ export class MessagesComponent implements OnInit {
   }
 
   displayRow(row: PlayerMessageResolved) {
-    if (row.id && row.state !== ChangeMessageTypeEnum.Read) {
+    if (row.id && row.state !== MessageState.Read) {
       this.playerProfileService.toReadMessage(row.id).subscribe({
         next: (data: any) => {
-          row.state = ChangeMessageTypeEnum.Read;
+          row.state = MessageState.Read;
           this.messageService.updateUnreadCount();
         },
         error: (err) => {},

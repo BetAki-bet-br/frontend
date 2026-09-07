@@ -270,12 +270,7 @@ export class LoginPage implements OnDestroy {
               case 'AdditionalEmailMFARequired':
                 // reuse openPopupDialog to show additional error information
                 this.openPopupDialog({
-                  actions: [
-                    {
-                      name: this.translate.instant('I understand'),
-                      actionType: 0,
-                    },
-                  ],
+                  actions: [{ id: 0, label: this.translate.instant('I understand') }],
                   title: this.translate.instant('AdditionalEmailMFARequired_Info_Title'),
                   contents: this.translate.instant('AdditionalEmailMFARequired_Info_Text'),
                   showCloseButton: true,

@@ -6,6 +6,7 @@ import { ConfigurationService } from '@app/@core/configuration.service';
 import {
   AUTH_GATEWAY,
   FaceAuthTicket,
+  MESSAGES_GATEWAY,
   PlayerVerificationStatuses,
   TransactionStatus,
   WithdrawalOutcome,
@@ -27,7 +28,6 @@ import {
 } from '@app/@shared/components/process-verification-dialog/process-verification-dialog.component';
 import { PopupMessagesService } from '@app/@shared/services/popup-messages.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
-import { MessageService } from '@icore/ngx-portalgateway-api-client-atl';
 import { catchError, finalize, first, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { CredentialsService } from './credentials.service';
@@ -72,7 +72,7 @@ export enum AccountVerificationActionEnum {
   providedIn: 'root',
 })
 export class AuthDialogService {
-  private messageServiceApi = inject(MessageService);
+  private messagesGateway = inject(MESSAGES_GATEWAY);
   private credentialsService = inject(CredentialsService);
   private authenticationService = inject(AuthenticationService);
   private configurationService = inject(ConfigurationService);
@@ -473,9 +473,9 @@ export class AuthDialogService {
         if (res?.acceptTC && updatedTCActionId != null) {
           localStorage.removeItem('T&C_ActionId');
 
-          return this.messageServiceApi.apiPortalV1MessageHandleActionIdPost(updatedTCActionId).pipe(
-            switchMap((response) => {
-              log.debug('handleMessage() returned from api:', response);
+          return this.messagesGateway.resolveAction(updatedTCActionId).pipe(
+            switchMap(() => {
+              log.debug('the gateway accepted the updated terms');
               return of(true);
             }),
             catchError((err) => {

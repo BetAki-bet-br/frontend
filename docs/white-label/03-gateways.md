@@ -37,6 +37,13 @@ src/app/@core/gateway/
       comtrade-wallet.gateway.ts
       house-wallet.gateway.ts
       demo-wallet.gateway.ts
+  messages/
+    messages.models.ts     PlayerMessage, PopupMessage, MessageAction, MessageState
+    messages.gateway.ts    a porta MessagesGateway + o token MESSAGES_GATEWAY
+    adapters/
+      comtrade-messages.gateway.ts
+      house-messages.gateway.ts
+      demo-messages.gateway.ts
 ```
 
 ## As regras que fazem a troca ser barata
@@ -59,10 +66,10 @@ src/app/@core/gateway/
 1. Implemente a interface da porta em `<porta>/adapters/<provedor>-<porta>.gateway.ts`, com
    `@Injectable()` (sem `providedIn`: quem provê é o `provideGateways`).
 2. Acrescente o id em `GatewayId` (`gateway.models.ts`) e registre a classe no mapa da porta
-   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`, `GAMES_ADAPTERS`, `WALLET_ADAPTERS`) em
-   `provide-gateways.ts`.
-3. Aponte a marca: `gateways: { auth: '<id>', player: '<id>', games: '<id>', wallet: '<id>' }` no
-   `brands/<slug>/brand.config.ts`.
+   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`, `GAMES_ADAPTERS`, `WALLET_ADAPTERS`, `MESSAGES_ADAPTERS`)
+   em `provide-gateways.ts`.
+3. Aponte a marca: `gateways: { auth, player, games, wallet, messages }` no
+   `brands/<slug>/brand.config.ts`, um id por porta.
 4. Se algum spec cria um componente que chega na porta, ligue o adapter `demo` ao token em
    `src/testing/app-testing.ts`.
 
@@ -114,16 +121,17 @@ Guarda tudo no `localStorage`: o de auth aceita a senha `demo` para qualquer usu
 challenge nenhum; o de player inventa um jogador brasileiro completo, verificado e com saldo; o de
 games tem um catálogo curto, um mês de histórico gerado e um jogo de mentira que abre numa página
 `data:`; o de carteira tem dez dias de extrato semeado na primeira leitura, uma cobrança Pix que
-ninguém consegue pagar (o QR diz `DEMO`) e um saque que sempre passa.
+ninguém consegue pagar (o QR diz `DEMO`) e um saque que sempre passa; o de mensagens tem três
+recados na caixa de entrada, um deles não lido, e nenhum popup de propósito (uma demo que abre
+diálogo na cara do visitante é uma demo pior).
 
 Serve para dois trabalhos: abrir a metade logada do app localmente (os hosts do portal gateway
 estão mortos e o backend da casa ainda não existe) e mostrar uma marca de ponta a ponta numa demo. Sozinho o adapter de auth não bastava — o app logava e morria na primeira chamada de saldo.
 `provideGateways()` **recusa** `demo` num build de produção, em qualquer porta: a marca não sobe com
 conta de mentira.
 
-Os testes usam os mesmos adapters: `provideAppTesting()` liga `AUTH_GATEWAY`, `PLAYER_GATEWAY`,
-`GAMES_GATEWAY` e `WALLET_GATEWAY` neles, então um componente que chega numa porta consegue ser
-criado sem HTTP.
+Os testes usam os mesmos adapters: `provideAppTesting()` liga todos os tokens neles, então um
+componente que chega numa porta consegue ser criado sem HTTP.
 
 ## O contrato do backend da casa: o player
 
@@ -224,15 +232,41 @@ nome (`Deposit`, `Paid`) em vez de número, e esses nomes são também as chaves
 e o diálogo de biometria) injetam a porta direto. Do que era carteira no `PlayerProfileService`
 sobrou só a formatação do extrato no locale do jogador.
 
+## O contrato do backend da casa: as mensagens
+
+`HouseMessagesGateway` cobre as duas coisas que o operador manda para o jogador: a caixa de entrada
+e os popups. São uma porta só porque são uma funcionalidade só — a mesma mensagem pode ir para a
+caixa ou aparecer como diálogo, e o número no sino conta as duas.
+
+| rota                                       | entrada | saída             |
+| ------------------------------------------ | ------- | ----------------- |
+| `GET /api/v1/messages`                     |         | `PlayerMessage[]` |
+| `GET /api/v1/messages/unread-count`        |         | `{ count }`       |
+| `GET /api/v1/messages/popups`              |         | `PopupMessage[]`  |
+| `PUT /api/v1/messages/{messageId}/read`    |         | 204               |
+| `DELETE /api/v1/messages/{messageId}`      |         | 204               |
+| `POST /api/v1/messages/actions/{actionId}` |         | 204               |
+
+Três decisões que valem explicar:
+
+- **`GET /messages` devolve a caixa inteira.** Quem pagina é o browser, então não há paginação no
+  wire. O dia em que uma marca tiver jogador com milhares de mensagens, a porta ganha um objeto de
+  consulta e a rota ganha query string.
+- **O não lido é um número só.** Se o backend guarda popup e caixa separados é problema dele; o sino
+  mostra a soma. Na Comtrade são dois contadores, e somá-los é trabalho do adapter.
+- **A ação do popup é o que aceita os termos.** O diálogo de termos e condições atualizados é um
+  popup como outro qualquer, e `POST /messages/actions/{actionId}` é o que diz sim.
+
+`contents` é HTML que o operador escreveu, nos dois casos, e o app renderiza sem escapar. Quem
+escreve isso é confiável; continue sendo.
+
+`PlayerProfileService` **parou de importar o SDK do fornecedor**: era a última coisa que faltava.
+
 ## O que ainda não tem porta
 
-`auth`, `player`, `games` e `wallet` estão portados. O resto continua chamando o cliente gerado
-direto, e cada um vira uma porta seguindo o mesmo desenho:
+`auth`, `player`, `games`, `wallet` e `messages` estão portados. Sobram duas, e o desenho é o mesmo:
 
-| porta             | quem faz hoje                                                    | o que fica lá                   |
-| ----------------- | ---------------------------------------------------------------- | ------------------------------- |
-| `BonusGateway`    | `BonusesService`, `PlayerPromoService`                           | bônus ativos, cupom de promoção |
-| `MessagesGateway` | `MessageService`, `PopupMessagesService`, `PlayerProfileService` | caixa de mensagens e popups     |
-| `ContentGateway`  | `TemplateService`, `HelpService`, `CmsService`                   | textos e páginas do portal      |
-
-As mensagens são o único motivo de `PlayerProfileService` ainda importar o SDK do fornecedor.
+| porta            | quem faz hoje                                                          | o que fica lá                               |
+| ---------------- | ---------------------------------------------------------------------- | ------------------------------------------- |
+| `ContentGateway` | `CmsService`, `TemplateService`, `HelpService`, `ConfigurationService` | banners, templates, termos, países e moedas |
+| `BonusGateway`   | `BonusesService`, `PlayerPromoService`                                 | bônus ativos, cupom de promoção             |

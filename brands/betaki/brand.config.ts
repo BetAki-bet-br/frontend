@@ -135,5 +135,6 @@ export const BRAND_CONFIG: BrandConfig = {
     player: 'comtrade',
     games: 'comtrade',
     wallet: 'comtrade',
+    messages: 'comtrade',
   },
 };

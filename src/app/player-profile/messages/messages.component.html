@@ -37,12 +37,12 @@
                       class="msg-checkbox mdc-form-field-alignment-normal"
                       (click)="$event.stopPropagation()"
                     >
-                      <span [class]="row.state !== PopupStateEnum.Read ? 'title' : ''">{{ row.titleResolved }}</span>
+                      <span [class]="row.state !== MessageState.Read ? 'title' : ''">{{ row.titleResolved }}</span>
                     </mat-checkbox>
                   </div>
                 </div>
                 <div class="item-date">
-                  <span class="right-text">{{ row.createdDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                  <span class="right-text">{{ row.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
                 </div>
               </mat-panel-title>
             </mat-expansion-panel-header>

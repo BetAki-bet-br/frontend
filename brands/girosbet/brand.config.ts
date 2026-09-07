@@ -143,11 +143,11 @@ export const BRAND_CONFIG: BrandConfig = {
   // BetAki, with GirosBet's own ids. The regulated half is meant to move to `house` once those
   // endpoints exist; `demo` runs the brand with no backend at all, for a local demo.
   gateways: brandEnv({
-    dev: { auth: 'comtrade', player: 'comtrade', games: 'comtrade', wallet: 'comtrade' },
-    prod: { auth: 'comtrade', player: 'comtrade', games: 'comtrade', wallet: 'comtrade' },
+    dev: { auth: 'comtrade', player: 'comtrade', games: 'comtrade', wallet: 'comtrade', messages: 'comtrade' },
+    prod: { auth: 'comtrade', player: 'comtrade', games: 'comtrade', wallet: 'comtrade', messages: 'comtrade' },
     // The published demo runs on nobody's backend: accounts, balance, games and the statement
     // are all invented in the browser. provideGateways() only allows this because
     // environment.demo.ts says so.
-    demo: { auth: 'demo', player: 'demo', games: 'demo', wallet: 'demo' },
+    demo: { auth: 'demo', player: 'demo', games: 'demo', wallet: 'demo', messages: 'demo' },
   }),
 };

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { MESSAGES_GATEWAY } from '@app/@core/gateway';
 import { CredentialsService } from '@app/auth';
-import { MessageService as MessageServiceApi, MessageTypeEnum } from '@icore/ngx-portalgateway-api-client-atl';
 import { catchError, exhaustMap, Observable, of, ReplaySubject, retry, switchMap, timer } from 'rxjs';
 import { Logger } from '../logger.service';
 import { PlayerMessageResolved } from '../models';
@@ -12,12 +12,9 @@ const log = new Logger('MessageService');
   providedIn: 'root',
 })
 export class MessageService {
-  private messageServiceApi = inject(MessageServiceApi);
+  private gateway = inject(MESSAGES_GATEWAY);
   private credentialsService = inject(CredentialsService);
   private router = inject(Router);
-
-  private pageSize = 10000;
-  private pageNumber = 1;
 
   private unreadCountSub = new ReplaySubject<number | null>(1);
   private messagesSub = new ReplaySubject<PlayerMessageResolved[] | null>(1);
@@ -62,20 +59,9 @@ export class MessageService {
   updateUnreadCount(): Observable<number | null> {
     if (!this.credentialsService.isAuthenticated()) return of(null);
 
-    return this.messageServiceApi.apiPortalV1MessageUnreadCountGet().pipe(
-      switchMap((response) => {
-        let numMessages = 0;
-
-        if (response.unreadCount || response.unreadCount === 0) {
-          numMessages += response.unreadCount;
-        }
-
-        if (response.unreadPopupCount || response.unreadPopupCount === 0) {
-          numMessages += response.unreadPopupCount;
-        }
-
-        this.unreadCountSub.next(numMessages);
-
+    return this.gateway.getUnreadCount().pipe(
+      switchMap((unreadCount) => {
+        this.unreadCountSub.next(unreadCount);
         return of(null);
       }),
     );
@@ -84,25 +70,17 @@ export class MessageService {
   updateMessages(): Observable<PlayerMessageResolved[] | null> {
     if (!this.credentialsService.isAuthenticated()) return of(null);
 
-    return this.messageServiceApi.apiPortalV1MessagesGet(this.pageSize, this.pageNumber, true).pipe(
-      switchMap((response) => {
-        let newMsgs: PlayerMessageResolved[] =
-          response.messages?.map((msg) => {
-            const resolved: PlayerMessageResolved = {
-              ...msg,
-              titleResolved: msg.title ?? '/',
-              createdDateDate: msg.createdDate ? new Date(Date.parse(msg.createdDate ?? '')) : new Date(0),
-              createdDateResolved: msg.createdDate
-                ? new Date(Date.parse(msg.createdDate ?? '')).toLocaleTimeString()
-                : '/',
-              contentsResolved: msg.contents ?? '/',
-              selected: false,
-            };
+    return this.gateway.getMessages().pipe(
+      switchMap((messages) => {
+        this.messagesSub.next(
+          messages.map((message) => ({
+            ...message,
+            titleResolved: message.title || '/',
+            contentsResolved: message.contents || '/',
+            selected: false,
+          })),
+        );
 
-            return resolved;
-          }) ?? [];
-
-        this.messagesSub.next(newMsgs);
         return of(null);
       }),
     );

@@ -72,5 +72,9 @@ export type {
   WithdrawalOutcome,
   WithdrawalRefusal,
 } from './wallet/wallet.models';
+export { MESSAGES_GATEWAY } from './messages/messages.gateway';
+export type { MessagesGateway } from './messages/messages.gateway';
+export { MessageState } from './messages/messages.models';
+export type { MessageAction, PlayerMessage, PopupMessage } from './messages/messages.models';
 export type { GatewayId, GatewaySelection } from './gateway.models';
 export { provideGateways } from './provide-gateways';

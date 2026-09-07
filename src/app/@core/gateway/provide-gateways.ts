@@ -10,6 +10,10 @@ import { DemoGamesGateway } from './games/adapters/demo-games.gateway';
 import { HouseGamesGateway } from './games/adapters/house-games.gateway';
 import { GAMES_GATEWAY, GamesGateway } from './games/games.gateway';
 import { GatewayId, GatewaySelection } from './gateway.models';
+import { ComtradeMessagesGateway } from './messages/adapters/comtrade-messages.gateway';
+import { DemoMessagesGateway } from './messages/adapters/demo-messages.gateway';
+import { HouseMessagesGateway } from './messages/adapters/house-messages.gateway';
+import { MESSAGES_GATEWAY, MessagesGateway } from './messages/messages.gateway';
 import { ComtradePlayerGateway } from './player/adapters/comtrade-player.gateway';
 import { DemoPlayerGateway } from './player/adapters/demo-player.gateway';
 import { HousePlayerGateway } from './player/adapters/house-player.gateway';
@@ -47,6 +51,13 @@ const WALLET_ADAPTERS: Record<GatewayId, Type<WalletGateway>> = {
   demo: DemoWalletGateway,
 };
 
+/** Every adapter that can answer `MESSAGES_GATEWAY`. */
+const MESSAGES_ADAPTERS: Record<GatewayId, Type<MessagesGateway>> = {
+  comtrade: ComtradeMessagesGateway,
+  house: HouseMessagesGateway,
+  demo: DemoMessagesGateway,
+};
+
 /**
  * Binds each gateway port to the adapter the running brand asked for in
  * `BrandConfig.gateways`.
@@ -68,6 +79,7 @@ export function provideGateways(): EnvironmentProviders {
   const playerAdapter = PLAYER_ADAPTERS[selection.player];
   const gamesAdapter = GAMES_ADAPTERS[selection.games];
   const walletAdapter = WALLET_ADAPTERS[selection.wallet];
+  const messagesAdapter = MESSAGES_ADAPTERS[selection.messages];
 
   return makeEnvironmentProviders([
     authAdapter,
@@ -78,6 +90,8 @@ export function provideGateways(): EnvironmentProviders {
     { provide: GAMES_GATEWAY, useExisting: gamesAdapter },
     walletAdapter,
     { provide: WALLET_GATEWAY, useExisting: walletAdapter },
+    messagesAdapter,
+    { provide: MESSAGES_GATEWAY, useExisting: messagesAdapter },
   ]);
 }
 

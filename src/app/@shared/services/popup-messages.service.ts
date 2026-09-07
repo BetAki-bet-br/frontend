@@ -1,6 +1,6 @@
 import { DestroyRef, Injectable, OnDestroy, inject } from '@angular/core';
 import { Logger } from '../logger.service';
-import { Message, MessageService } from '@icore/ngx-portalgateway-api-client-atl';
+import { MESSAGES_GATEWAY, PopupMessage } from '@app/@core/gateway';
 import { catchError, map, Observable, of, switchMap, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthEvent, AuthEventsService, CredentialsService } from '@app/auth';
@@ -13,13 +13,13 @@ const log = new Logger('PopupMessagesService');
   providedIn: 'root',
 })
 export class PopupMessagesService implements OnDestroy {
-  private messageService = inject(MessageService);
+  private gateway = inject(MESSAGES_GATEWAY);
   private router = inject(Router);
   private credentialsService = inject(CredentialsService);
   private authEventsService = inject(AuthEventsService);
   private dialog = inject(Dialog);
   private destroyRef = inject(DestroyRef);
-  private messagesStack: Message[] = [];
+  private messagesStack: PopupMessage[] = [];
 
   isMessageDisplayed = false;
   canDisplayMessage = true;
@@ -50,13 +50,10 @@ export class PopupMessagesService implements OnDestroy {
       return of();
     }
 
-    return this.messageService.apiPortalV1MessagePopupsGet().pipe(
-      map((res) => {
-        if (res?.messages) {
-          log.debug('fetchPopupMessages returned: ', res.messages);
-
-          this.messagesStack = [...res.messages];
-        }
+    return this.gateway.getPopups().pipe(
+      map((messages) => {
+        log.debug('fetchPopupMessages returned: ', messages);
+        this.messagesStack = [...messages];
       }),
       catchError((err) => {
         log.debug('fetchPopupMessages returned error: ', err);
@@ -65,7 +62,7 @@ export class PopupMessagesService implements OnDestroy {
     );
   }
 
-  checkMessages(): Message | null {
+  checkMessages(): PopupMessage | null {
     if (this.messagesStack.length > 0 && !this.isMessageDisplayed && this.canDisplayMessage) {
       return this.messagesStack[0];
     }
@@ -73,10 +70,9 @@ export class PopupMessagesService implements OnDestroy {
   }
 
   resolveMessageAction(actionId: number) {
-    return this.messageService.apiPortalV1MessageHandleActionIdPost(actionId).pipe(
-      map((res) => {
+    return this.gateway.resolveAction(actionId).pipe(
+      map(() => {
         this.messagesStack.shift();
-        return res;
       }),
       catchError((err) => {
         throw err;

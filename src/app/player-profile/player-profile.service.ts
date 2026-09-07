@@ -11,6 +11,7 @@ import {
   GAMES_GATEWAY,
   GameHistoryPage,
   HistoryQuery,
+  MESSAGES_GATEWAY,
   PLAYER_GATEWAY,
   PlayerLimit as GatewayPlayerLimit,
   PlayerSession,
@@ -38,7 +39,6 @@ import { CountryCode } from '@app/@shared/models/countries-code.model';
 import { GetBetHistoryResponseResolved, SportsbookBetHistoryModelResolved } from '@app/@shared/models/sportsbook.model';
 import { CredentialsService } from '@app/auth/credentials.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { ChangeMessageTypeEnum, MessageService } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, map, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
@@ -61,8 +61,8 @@ const log = new Logger('PlayerProfileService');
  * The wallet goes through {@link WALLET_GATEWAY}, and what is left of it here is the formatting the
  * statement table needs.
  *
- * The message calls below still talk to the generated PortalGateway client, because their port
- * (MessagesGateway) is not written yet. They are the reason this file still imports a vendor SDK.
+ * The inbox goes through {@link MESSAGES_GATEWAY}: the two calls left here are the ones the inbox
+ * screen makes through this service, and they are pass-through.
  */
 @Injectable({
   providedIn: 'root',
@@ -75,7 +75,7 @@ export class PlayerProfileService {
   private gamesGateway = inject(GAMES_GATEWAY);
   private walletGateway = inject(WALLET_GATEWAY);
   private credentialsService = inject(CredentialsService);
-  private messagesService = inject(MessageService);
+  private messagesGateway = inject(MESSAGES_GATEWAY);
 
   private playerLocale: string | undefined;
 
@@ -394,25 +394,19 @@ export class PlayerProfileService {
     return this.playerGateway.requestAnnualReport();
   }
 
-  deleteMessage(id: number) {
-    return this.messagesService.apiPortalV1MessageMessageIdDelete(id).pipe(
-      map((response) => {
-        return response;
-      }),
+  deleteMessage(id: number): Observable<void> {
+    return this.messagesGateway.deleteMessage(id).pipe(
       catchError((err) => {
-        log.debug('apiPortalV1MessageMessageIdDelete() returned error:', err);
+        log.debug('deleteMessage() returned error:', err);
         throw err;
       }),
     );
   }
 
-  toReadMessage(id: number) {
-    return this.messagesService.apiPortalV1MessageMessageIdPut(id, ChangeMessageTypeEnum.Read).pipe(
-      map((response) => {
-        return response;
-      }),
+  toReadMessage(id: number): Observable<void> {
+    return this.messagesGateway.markAsRead(id).pipe(
       catchError((err) => {
-        log.debug('apiPortalV1MessageMessageIdPut() returned error:', err);
+        log.debug('toReadMessage() returned error:', err);
         throw err;
       }),
     );
