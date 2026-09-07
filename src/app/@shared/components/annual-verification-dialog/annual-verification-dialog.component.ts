@@ -1,4 +1,5 @@
 import { ButtonComponent } from '@app/@shared/components/button/button.component';
+import { AUTH_GATEWAY } from '@app/@core/gateway';
 import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -9,12 +10,7 @@ import { brazilianMobileValidator } from '@app/@shared/validators/brazilian-mobi
 import { UsernameOrEmailTakenValidator } from '@app/@shared/validators/username-or-email-taken.validator';
 import { AccountVerificationActionEnum, FaceAuthParams, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
-import {
-  AnnualVerificationAuthRequest,
-  Country,
-  PlayerDetails,
-  PlayerService,
-} from '@icore/ngx-portalgateway-api-client-atl';
+import { AnnualVerificationAuthRequest, Country, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
@@ -47,7 +43,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
   private authDialogService = inject(AuthDialogService);
   private translateService = inject(TranslateService);
   private snackbarService = inject(SnackbarService);
-  private playerService = inject(PlayerService);
+  private authGateway = inject(AUTH_GATEWAY);
   private dataStoreService = inject(DataStoreService);
   private destroyRef = inject(DestroyRef);
   countryList: Country[] = [];
@@ -61,7 +57,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
       updateOn: 'blur',
       validators: [Validators.email, Validators.required, Validators.maxLength(100)],
       asyncValidators: [
-        UsernameOrEmailTakenValidator.usernameOrEmailTakenValidator(this.playerService, this.dataStoreService, 'Email'),
+        UsernameOrEmailTakenValidator.usernameOrEmailTakenValidator(this.authGateway, this.dataStoreService, 'Email'),
       ],
     }),
     firstName: this.fb.control<string>('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),

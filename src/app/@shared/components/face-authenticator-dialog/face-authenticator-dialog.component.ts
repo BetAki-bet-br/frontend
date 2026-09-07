@@ -74,7 +74,7 @@ export class FaceAuthenticatorDialogComponent implements OnInit, OnDestroy {
       } else {
         this.authenticationService.getFaceAuthenticationStatus(providerId).subscribe({
           next: (result) => {
-            if (result?.status === FaceAuthenticationProcessStatusEnum.Approved) {
+            if (result === 'approved') {
               this.dialogRef.close({ success: true });
             }
           },

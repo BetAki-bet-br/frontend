@@ -11,6 +11,7 @@ import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angula
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { authInterceptor } from '@app/@shared/http/auth.interceptor';
 import { provideNgxMask } from 'ngx-mask';
+import { provideGateways } from '@app/@core/gateway';
 
 const materialFormDefaultOptions: MatFormFieldDefaultOptions = {
   appearance: 'outline',
@@ -36,5 +37,8 @@ export const appConfig: ApplicationConfig = {
     provideApi({
       basePath: environment.API_BASE_PATH,
     }),
+    // Binds the gateway ports to the adapters this brand asked for. Everything the app knows about
+    // the player accounts, the wallet and the games goes through these.
+    provideGateways(),
   ],
 };

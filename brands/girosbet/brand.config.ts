@@ -136,4 +136,11 @@ export const BRAND_CONFIG: BrandConfig = {
     defaultLanguage: 'pt-BR',
     supportedLanguages: ['en-US', 'pt-BR'],
   },
+
+  // Unchanged from what the brand ran before the gateway ports existed: the same PortalGateway as
+  // BetAki, with GirosBet's own ids. The regulated half is meant to move to `house` once those
+  // endpoints exist; `demo` runs the brand with no backend at all, for a local demo.
+  gateways: {
+    auth: 'comtrade',
+  },
 };

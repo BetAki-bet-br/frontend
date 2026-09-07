@@ -119,7 +119,7 @@ export class ForgotPasswordComponent implements OnDestroy {
             const faceAuthParams: FaceAuthParams = {
               providerId: response.referenceId,
               faceAuthUrl: response?.url ?? undefined,
-              faceAuthUrlQR: response?.quickResponseCodeUrl ?? undefined,
+              faceAuthUrlQR: response?.qrCodeUrl ?? undefined,
             };
 
             return this.authDialogService.openFaceAuthDialog(faceAuthParams, false);

@@ -144,4 +144,10 @@ export const BRAND_CONFIG: BrandConfig = {
     defaultLanguage: 'pt-BR',
     supportedLanguages: ['en-US', 'pt-BR'],
   },
+
+  // Who holds the player accounts. `comtrade` for a PortalGateway brand, `house` for our own
+  // backend, `demo` while there is none (development only - a production build refuses it).
+  gateways: {
+    auth: 'demo',
+  },
 };

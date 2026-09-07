@@ -16,7 +16,6 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { Dialog } from '@angular/cdk/dialog';
 import { finalize, map, of, Subscription, switchMap, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { PortalGatewayErrorResponse } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { Banner } from '@app/@shared/models';
@@ -187,7 +186,7 @@ export class LoginPage implements OnDestroy {
               if (result.credentials.faceAuthRequired) {
                 const faceAuthReferenceId = result?.loginFaceAuth?.referenceId;
                 const faceAuthUrl = result?.loginFaceAuth?.url ?? undefined;
-                const faceAuthUrlQR = result?.loginFaceAuth?.quickResponseCodeUrl ?? undefined;
+                const faceAuthUrlQR = result?.loginFaceAuth?.qrCodeUrl ?? undefined;
 
                 if (faceAuthReferenceId) {
                   const faceAuthParams: FaceAuthParams = {
@@ -236,7 +235,9 @@ export class LoginPage implements OnDestroy {
           error: (error) => {
             log.debug(`Login error: ${error}`);
 
-            const responseError = (error as HttpErrorResponse).error as PortalGatewayErrorResponse;
+            // Narrow shape rather than the provider's DTO: every gateway is expected to put something
+            // readable in `errorMessage`, and the screen only needs that.
+            const responseError = ((error as HttpErrorResponse).error ?? {}) as { errorMessage?: string };
 
             if (responseError.errorMessage === 'PlayerLockedOut') {
               this.router.navigate(['/unlock-account']);

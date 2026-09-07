@@ -1,5 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { BRAND_CONFIG } from '@brand/brand.config';
+import type { GatewaySelection } from '@app/@core/gateway/gateway.models';
 
 /**
  * Everything that changes when the same application is shipped under a different brand.
@@ -54,6 +55,12 @@ export interface BrandConfig {
   api: {
     /** Backoffice (Laravel) base url, already resolved for the active environment. */
     backofficeApiUrl: string;
+    /**
+     * Base url of the house player backend, for brands whose `gateways` point at the `house`
+     * adapters. Defaults to {@link backofficeApiUrl} while the player endpoints live in the same
+     * Laravel app as the CMS.
+     */
+    playerApiUrl?: string;
     /** `X-Api-Key` sent to the portal gateway. */
     apiKey: string;
     gamesThumbsBaseUrl: string;
@@ -175,6 +182,15 @@ export interface BrandConfig {
     defaultLanguage: string;
     supportedLanguages: string[];
   };
+
+  /**
+   * Which adapter answers each gateway port: who holds the player accounts, the wallet and the
+   * games. One entry per port, so a brand can take auth from one provider and games from another.
+   *
+   * The adapters live in `src/app/@core/gateway`; `provideGateways()` reads this and binds the
+   * tokens. See `docs/white-label/03-gateways.md`.
+   */
+  gateways: GatewaySelection;
 }
 
 /**

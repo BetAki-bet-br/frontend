@@ -7,6 +7,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { AUTH_GATEWAY } from '@app/@core/gateway';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -18,7 +19,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatIcon } from '@angular/material/icon';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { UsernameOrEmailTakenValidator } from '@app/@shared/validators/username-or-email-taken.validator';
-import { PlayerService } from '@icore/ngx-portalgateway-api-client-atl';
 import { DataStoreService } from '@app/@core';
 import { RegisterData } from '@app/@shared/models';
 import { AffiliatesService } from '@app/@shared/services/affiliates.service';
@@ -64,7 +64,7 @@ export class RegisterPage {
   private readonly tawkToScriptService = inject(TawkToScriptService);
   private readonly authDialogService = inject(AuthDialogService);
   private readonly authenticationService = inject(AuthenticationService);
-  private readonly playerService = inject(PlayerService);
+  private readonly authGateway = inject(AUTH_GATEWAY);
   private readonly dataStoreService = inject(DataStoreService);
   private readonly legitimuzGeoService = inject(LegitimuzGeolocationService);
   private readonly affiliateService = inject(AffiliatesService);
@@ -112,7 +112,7 @@ export class RegisterPage {
         validators: [Validators.required, cpfValidator()],
         asyncValidators: [
           UsernameOrEmailTakenValidator.usernameOrEmailTakenValidator(
-            this.playerService,
+            this.authGateway,
             this.dataStoreService,
             'Username',
           ),
@@ -122,11 +122,7 @@ export class RegisterPage {
       email: new FormControl('', {
         validators: [Validators.required, Validators.email],
         asyncValidators: [
-          UsernameOrEmailTakenValidator.usernameOrEmailTakenValidator(
-            this.playerService,
-            this.dataStoreService,
-            'Email',
-          ),
+          UsernameOrEmailTakenValidator.usernameOrEmailTakenValidator(this.authGateway, this.dataStoreService, 'Email'),
         ],
         updateOn: 'blur',
       }),
@@ -196,7 +192,7 @@ export class RegisterPage {
             faceAuthParams = {
               providerId: res.loginFaceAuth?.referenceId ?? '',
               faceAuthUrl: res.loginFaceAuth?.url ?? undefined,
-              faceAuthUrlQR: res.loginFaceAuth?.quickResponseCodeUrl ?? undefined,
+              faceAuthUrlQR: res.loginFaceAuth?.qrCodeUrl ?? undefined,
             };
           } else {
             faceAuthParams = {

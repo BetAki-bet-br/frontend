@@ -6,16 +6,14 @@ import { ConfirmationInstructionsData, RegisterData, UnlockInstructionsData } fr
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { I18nService } from '@app/i18n';
 import {
-  ChangeForgottenPasswordRequest,
-  CreatePlayerRequest,
-  FaceAuthenticationProcessStatusEnum,
-  FaceAuthProcessResponse,
-  FaceAuthResponse,
-  LoginRequest,
-  MessageTypeEnum,
-  PlayerService,
-} from '@icore/ngx-portalgateway-api-client-atl';
-import { catchError, delay, EMPTY, expand, finalize, map, Observable, of, switchMap, takeLast } from 'rxjs';
+  AUTH_GATEWAY,
+  AuthChallenge,
+  AuthSession,
+  FaceAuthOutcome,
+  FaceAuthTicket,
+  ResetPasswordInput,
+} from '@app/@core/gateway';
+import { catchError, finalize, map, Observable, of, switchMap } from 'rxjs';
 import { Credentials, CredentialsService } from './credentials.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthEventsService, AuthEvent } from './auth-events.service';
@@ -48,7 +46,7 @@ export interface ChangePasswordContext {
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private playerServiceApi = inject(PlayerService);
+  private readonly gateway = inject(AUTH_GATEWAY);
   private credentialsService = inject(CredentialsService);
   private dataStoreService = inject(DataStoreService);
   private router = inject(Router);
@@ -65,81 +63,81 @@ export class AuthenticationService {
    */
   login(context: LoginContext): Observable<{
     credentials: Credentials;
-    loginFaceAuth: FaceAuthResponse | null;
+    loginFaceAuth: FaceAuthTicket | null;
     lastLoginTime: string | undefined | null;
   }> {
-    const request: LoginRequest = {
-      userName: context.username,
-      password: context.password,
-      portalId: this.dataStoreService.defaultPortalId,
-      deviceFingerprint: context.fingerprintRequestId, // Abused deviceFingerprint parameter to pass fingerprintRequestId string
-    };
+    return this.gateway
+      .login({
+        username: context.username,
+        password: context.password,
+        deviceFingerprintId: context.fingerprintRequestId,
+      })
+      .pipe(
+        switchMap((session) => {
+          const credentials = this.toCredentials(session);
 
-    return this.playerServiceApi.apiPortalV1PlayerLoginPost(request).pipe(
-      switchMap((result) => {
-        const credentials: Credentials = {
-          username: context.username ?? '',
-          jwt: '',
-          sessionKey: result.logonSession?.sessionToken ?? '',
-          userId: result.logonSession?.playerId ?? 0,
-          renewalToken: '',
-          lastLoginTime: result.lastLoginTime,
-          logonTime: result.logonSession?.logonTime,
-          // Terms and conditions
-          updatedTCActionId:
-            result?.messages
-              ?.find((o) => o.messageType === MessageTypeEnum.LoginPopup && o.messageGroup === '15')
-              ?.actions?.find((o) => o.actionType == 0)?.id ?? undefined,
-          // Required
-          faceAuthRequired: result.statusCode === 'FacialAuthenticationRequired',
-          playerVerificationRequired:
-            result.statusCode === 'ClosedByPlayerVerificationRequired' ||
-            result.statusCode === 'SelfExcludedVerificationRequired' ||
-            result.statusCode === 'VerificationRequired',
-          // For verification iframe
-          referenceId: result?.referenceId ?? undefined,
-          reverificationURL: result?.reverificationUrl ?? undefined,
-          quickResponseCodeReverificationUrl: result?.quickResponseCodeReverificationUrl ?? undefined,
-        };
-
-        if (result.statusCode === 'FacialAuthenticationRequired') {
-          return this.playerServiceApi
-            .apiPortalV1PlayerLoginFaceAuthPost({})
-            .pipe(map((loginFaceAuth) => ({ credentials, loginFaceAuth, lastLoginTime: result.lastLoginTime })));
-        }
-
-        return of({ credentials, loginFaceAuth: null, lastLoginTime: result.lastLoginTime });
-      }),
-      switchMap(({ credentials, loginFaceAuth, lastLoginTime }) => {
-        // Clear the games data, as logged in users can have different games as anonymous
-        return this.credentialsService.setCredentials(credentials).pipe(
-          map((result) => {
-            // store credentials
-            if (result) {
+          // A gateway that demands biometry at login hands out the url in a second call.
+          return credentials.faceAuthRequired
+            ? this.gateway
+                .startLoginFaceAuth()
+                .pipe(map((loginFaceAuth) => ({ credentials, loginFaceAuth, lastLoginTime: session.lastLoginAt })))
+            : of({ credentials, loginFaceAuth: null as FaceAuthTicket | null, lastLoginTime: session.lastLoginAt });
+        }),
+        switchMap(({ credentials, loginFaceAuth, lastLoginTime }) => {
+          // Clear the games data, as logged in users can have different games as anonymous
+          return this.credentialsService.setCredentials(credentials).pipe(
+            map((stored) => {
+              if (!stored) {
+                throw new Error('Error saving credentials');
+              }
               // Push GTM event tag - User Login successful
               this.googleTagManagerServiceImpl.pushGtmTag({ event: 'login' });
               return { credentials, loginFaceAuth, lastLoginTime };
-            } else {
-              throw new Error('Error saving credentials');
-            }
-          }),
-        );
-      }),
-      switchMap(({ credentials, loginFaceAuth, lastLoginTime }) => {
-        return this.playerPromoService.handlePromoActivation().pipe(
-          map(() => {
-            return { credentials, loginFaceAuth, lastLoginTime };
-          }),
-          catchError((err) => {
-            return of({ credentials, loginFaceAuth, lastLoginTime });
-          }),
-        );
-      }),
-      catchError((err) => {
-        log.debug('Login failed with error:', err);
-        throw err;
-      }),
-    );
+            }),
+          );
+        }),
+        switchMap(({ credentials, loginFaceAuth, lastLoginTime }) =>
+          this.playerPromoService.handlePromoActivation().pipe(
+            map(() => ({ credentials, loginFaceAuth, lastLoginTime })),
+            catchError(() => of({ credentials, loginFaceAuth, lastLoginTime })),
+          ),
+        ),
+        catchError((err) => {
+          log.debug('Login failed with error:', err);
+          throw err;
+        }),
+      );
+  }
+
+  /**
+   * Turns what the gateway said into the credentials the rest of the app stores.
+   *
+   * `Credentials` predates the gateway port and keeps its flags, so the challenge list is flattened
+   * back into them here rather than in every screen.
+   */
+  private toCredentials(session: AuthSession): Credentials {
+    const challenge = <K extends AuthChallenge['kind']>(kind: K) =>
+      session.challenges.find((c): c is Extract<AuthChallenge, { kind: K }> => c.kind === kind);
+
+    const verification = challenge('identity-verification');
+
+    return {
+      username: session.username,
+      jwt: '',
+      sessionKey: session.sessionToken,
+      // `Credentials.userId` is numeric for historical reasons; a gateway that issues non-numeric
+      // player ids needs that field widened before it can be plugged in.
+      userId: Number(session.playerId) || 0,
+      renewalToken: '',
+      lastLoginTime: session.lastLoginAt,
+      logonTime: session.loggedInAt,
+      updatedTCActionId: challenge('accept-updated-terms')?.actionId,
+      faceAuthRequired: !!challenge('face-auth'),
+      playerVerificationRequired: !!verification,
+      referenceId: verification?.referenceId,
+      reverificationURL: verification?.url,
+      quickResponseCodeReverificationUrl: verification?.qrCodeUrl,
+    };
   }
 
   /**
@@ -149,55 +147,46 @@ export class AuthenticationService {
    */
   register(registerData: RegisterData): Observable<{
     credentials: Credentials;
-    loginFaceAuth: FaceAuthResponse | null;
+    loginFaceAuth: FaceAuthTicket | null;
     lastLoginTime: string | undefined | null;
   } | null> {
-    const request: CreatePlayerRequest = {
-      player: {
-        userName: registerData.username,
+    return this.gateway
+      .register({
+        username: registerData.username,
+        email: registerData.email,
         password: registerData.password,
-        eMail: registerData.email,
-        firstName: 'N/A',
-        lastName: 'N/A',
+        cpf: registerData.cpf,
         dateOfBirth: registerData.dateOfBirth,
-        portalId: this.dataStoreService.defaultPortalId,
-        countryCode: 'BR',
-        currencyCode: 'BRL',
-        locale: this.dataStoreService.defaultLanguage,
-        receiveNews: true,
-        receiveSMSFromOperator: true,
-        receiveEmailFromOperator: true,
-        customParameters: { CPF: registerData.cpf },
-        mobilePhone: registerData.phone,
-      },
-      trackingSource: registerData.trackingSource,
-      deviceFingerprint: registerData.fingerprintRequestId ?? '', //Abused deviceFingerprint parameter to pass fingerprintRequestId string
-    };
+        phone: registerData.phone,
+        promotionalOffers: registerData.promotionalOffers,
+        deviceFingerprintId: registerData.fingerprintRequestId,
+        affiliate: registerData.trackingSource,
+      })
+      .pipe(
+        catchError((err) => {
+          log.debug('register error', err);
+          throw {
+            error: this.translateService.instant(err?.error?.errorMessage) ?? '',
+            call: 'register',
+          };
+        }),
+        switchMap((result) => {
+          log.debug('created player', result);
 
-    return this.playerServiceApi.apiPortalV1PlayerPost(request).pipe(
-      catchError((err) => {
-        log.debug('register error', err);
-        throw {
-          error: this.translateService.instant(err?.error?.errorMessage) ?? '',
-          call: 'register',
-        };
-      }),
-      switchMap((result) => {
-        log.debug('created player', result);
+          if (result.playerId) {
+            // Push GTM event tag - User Registration successful
+            this.googleTagManagerServiceImpl.pushGtmTag({ event: 'user_register' });
+          }
 
-        const loginData: LoginContext = {
-          username: registerData.cpf,
-          password: registerData.password,
-          fingerprintRequestId: registerData?.fingerprintRequestId,
-        };
-
-        if (result.playerId)
-          // Push GTM event tag - User Registration successful
-          this.googleTagManagerServiceImpl.pushGtmTag({ event: 'user_register' });
-
-        return this.login(loginData);
-      }),
-    );
+          // Sign the new player in through the same path a returning one takes, so the session
+          // bookkeeping happens in exactly one place.
+          return this.login({
+            username: registerData.cpf,
+            password: registerData.password,
+            fingerprintRequestId: registerData?.fingerprintRequestId,
+          });
+        }),
+      );
   }
 
   // onboardingPlayerPlayer(registerData: RegisterData): Observable<string> {
@@ -233,17 +222,8 @@ export class AuthenticationService {
    * @param cpf CPF number.
    * @return
    */
-  forgotPassword(cpf: string): Observable<FaceAuthResponse> {
-    return this.playerServiceApi
-      .apiPortalV1PlayerForgotPasswordFaceAuthPost({
-        cpfNumber: cpf,
-        portalId: this.dataStoreService.defaultPortalId,
-      })
-      .pipe(
-        map((result) => {
-          return result;
-        }),
-      );
+  forgotPassword(cpf: string): Observable<FaceAuthTicket> {
+    return this.gateway.requestPasswordReset(cpf);
   }
 
   /**
@@ -251,16 +231,11 @@ export class AuthenticationService {
    * @param resetPasswordData The reset password parameters.
    * @return
    */
-  changePasswordForgot(resetPasswordData: ChangeForgottenPasswordRequest): Observable<boolean> {
-    const request: ChangeForgottenPasswordRequest = {
+  changePasswordForgot(resetPasswordData: ResetPasswordInput): Observable<boolean> {
+    return this.gateway.resetPassword({
       newPassword: resetPasswordData.newPassword,
       secureKey: resetPasswordData.secureKey,
-    };
-    return this.playerServiceApi.apiPortalV1PlayerPasswordResetPost(request).pipe(
-      map((result) => {
-        return result;
-      }),
-    );
+    });
   }
 
   /**
@@ -269,8 +244,7 @@ export class AuthenticationService {
    * @return
    */
   unlockInstructions(unlockInstructionsData: UnlockInstructionsData): Observable<boolean> {
-    return of(true);
-    // TODO: need to call real unlockInstructions api
+    return this.gateway.resendUnlockInstructions(unlockInstructionsData.email);
   }
 
   /**
@@ -279,8 +253,7 @@ export class AuthenticationService {
    * @return
    */
   confirmationInstructions(confirmationInstructionsData: ConfirmationInstructionsData): Observable<boolean> {
-    return of(true);
-    // TODO: need to call real confirmationInstructions api
+    return this.gateway.resendConfirmationInstructions(confirmationInstructionsData.email);
   }
 
   /**
@@ -355,11 +328,7 @@ export class AuthenticationService {
     let ret$: Observable<void> = of();
 
     if (callApi) {
-      ret$ = this.playerServiceApi.apiPortalV1PlayerLogoutPost().pipe(
-        map((response) => {
-          log.debug('logout() returned from api:', response);
-          return undefined;
-        }),
+      ret$ = this.gateway.logout().pipe(
         catchError((err) => {
           log.debug('logout() returned error:', err);
 
@@ -382,23 +351,13 @@ export class AuthenticationService {
     );
   }
 
-  getFaceAuthenticationStatus(providerId: string): Observable<FaceAuthProcessResponse | null> {
+  /**
+   * Resolves the outcome of a biometry check. The gateway is the one that knows whether it has to
+   * poll for it, so this only forwards.
+   */
+  getFaceAuthenticationStatus(providerId: string): Observable<FaceAuthOutcome> {
     log.debug('getFaceAuthenticationStatus invoked with providerId:', providerId);
-    return this.playerServiceApi.apiPortalV1PlayerFaceAuthStatusGet(providerId).pipe(
-      delay(1000),
-      expand((response: FaceAuthProcessResponse) => {
-        log.debug('getFaceAuthenticationStatus response:', response);
-        if (response.status === FaceAuthenticationProcessStatusEnum.Processing) {
-          return this.playerServiceApi.apiPortalV1PlayerFaceAuthStatusGet(providerId).pipe(delay(1000));
-        }
-        return EMPTY;
-      }),
-      catchError((error) => {
-        log.error(error);
-        throw error;
-      }),
-      takeLast(1),
-    );
+    return this.gateway.faceAuthenticationStatus(providerId);
   }
 
   private clearUserData() {

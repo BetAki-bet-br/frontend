@@ -128,4 +128,9 @@ export const BRAND_CONFIG: BrandConfig = {
     defaultLanguage: 'pt-BR',
     supportedLanguages: ['en-US', 'pt-BR'],
   },
+
+  // BetAki's accounts, wallet and games are Comtrade's; the lobby content is ours (the backoffice).
+  gateways: {
+    auth: 'comtrade',
+  },
 };

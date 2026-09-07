@@ -21,7 +21,6 @@ import {
 import { PopupMessagesService } from '@app/@shared/services/popup-messages.service';
 import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-profile/player-profile.service';
 import {
-  FaceAuthenticationProcessStatusEnum,
   FaceAuthResponse,
   MessageService,
   PlayerService,
@@ -397,7 +396,7 @@ export class AuthDialogService {
         // First that matches 'Approved' will go trough
         first((result) => {
           log.debug('Get face authentication status result:', result);
-          return result?.status === FaceAuthenticationProcessStatusEnum.Approved;
+          return result === 'approved';
         }),
         switchMap(() => of(true)),
         catchError((err) => {
