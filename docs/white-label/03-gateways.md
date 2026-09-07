@@ -119,6 +119,10 @@ Resumo do que existe hoje:
 | `POST /api/v1/player/auth/login/face-auth`           | `{}`                                           | `FaceAuthTicket \| null` |
 | `POST /api/v1/player/auth/register`                  | `RegisterInput`                                | `{ playerId }`           |
 | `POST /api/v1/player/auth/logout`                    | `{}`                                           | 204                      |
+| `POST /api/v1/player/auth/email/confirm`             | `{ token }`                                    | 204                      |
+| `POST /api/v1/player/auth/activate`                  | `{ token }`                                    | 204                      |
+| `POST /api/v1/player/auth/reactivate`                | `{ token }`                                    | `AuthSession`            |
+| `POST /api/v1/player/auth/annual-report/confirm`     | `{ token }`                                    | 204                      |
 | `POST /api/v1/player/auth/password/forgot`           | `{ cpf }`                                      | `FaceAuthTicket`         |
 | `POST /api/v1/player/auth/password/reset`            | `{ secureKey, newPassword }`                   | `{ ok }`                 |
 | `GET /api/v1/player/auth/face-auth/{referenceId}`    |                                                | `{ outcome }`            |
@@ -128,6 +132,10 @@ Resumo do que existe hoje:
 
 401 no login e 422 com `message` no registro já são o que as telas esperam de um `HttpErrorResponse`.
 Não precisa de envelope de erro próprio para começar.
+
+As quatro rotas de `token` são os links que o operador manda por e-mail. `reactivate` devolve
+`AuthSession` porque é isso que ela é: quem clicou está logado, com os mesmos desafios que um login
+poderia levantar.
 
 ## O adapter `demo`
 
@@ -334,13 +342,9 @@ Três decisões que valem explicar:
 
 ## O que ainda não tem porta
 
-Nenhuma porta nova. Sobra um serviço: `PlayerActivationService` chama o `PlayerService` do SDK
-direto para as quatro rotas de link de e-mail (verificar e-mail, ativar conta, reativar conta
-inativa, confirmar informe anual). São da porta `auth`, e entram nela.
-
-Fora isso e dos dois `provideApi` (`app.config.ts` e `src/testing/app-testing.ts`), que configuram o
-cliente gerado para os adapters `comtrade` usarem, nada no app importa
-`@icore/ngx-portalgateway-api-client-atl`.
+Nada. Nenhum arquivo do app fora de `@core/gateway/` importa
+`@icore/ngx-portalgateway-api-client-atl` — só `app.config.ts` e `src/testing/app-testing.ts`, que
+configuram o cliente gerado (`provideApi`) para os adapters `comtrade` usarem.
 
 O caminho para trocar de fornecedor é o mesmo desde o começo: escrever sete adapters e mudar sete
 linhas no `brand.config.ts` da marca. Ou menos: uma marca pode misturar, e é o que o `_template`

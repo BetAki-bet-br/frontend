@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { CheckUserRegistrationReturn, PlayerService } from '@icore/ngx-portalgateway-api-client-atl';
 import { catchError, filter, map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { Logger } from '../logger.service';
 import {
@@ -24,7 +23,6 @@ const log = new Logger('PlayerActivationService');
 })
 export class PlayerActivationService {
   private activatedRoute = inject(ActivatedRoute);
-  private playerServiceApi = inject(PlayerService);
   private authGateway = inject(AUTH_GATEWAY);
   private playerGateway = inject(PLAYER_GATEWAY);
   private dialog = inject(Dialog);
@@ -40,14 +38,14 @@ export class PlayerActivationService {
    * Handle email activation urls.
    */
 
-  processEmailActivationUrl(): Observable<CheckUserRegistrationReturn> {
+  processEmailActivationUrl(): Observable<void> {
     return this.activatedRoute.queryParams.pipe(
       filter((params: Params) => params['emailverificationtoken']),
       take(1),
       switchMap((params) => {
         const activationtoken: string = params['emailverificationtoken'];
 
-        return this.playerServiceApi.apiPortalV1PlayerEmailVerificationPut(activationtoken).pipe(
+        return this.authGateway.confirmEmailFromLink(activationtoken).pipe(
           catchError((error) => {
             log.debug('Player activation failed: ', error);
             const dialogRef = this.dialog.open(MessageDialogComponent, {
@@ -87,60 +85,56 @@ export class PlayerActivationService {
   /**
    * Handle activation urls.
    */
-  processActivationUrl(): Observable<CheckUserRegistrationReturn> {
+  processActivationUrl(): Observable<void> {
     return this.activatedRoute.queryParams.pipe(
       filter((params: Params) => params['activationtoken']),
       take(1),
       switchMap((params) => {
         const activationtoken: string = params['activationtoken'];
 
-        return this.playerServiceApi
-          .apiPortalV1PlayerActivatePost({
-            secureToken: activationtoken,
-          })
-          .pipe(
-            catchError((error) => {
-              log.debug('Player activation failed: ', error);
-              const dialogRef = this.dialog.open(MessageDialogComponent, {
-                width: '31.125rem',
-                data: {
-                  title: this.translateService.instant('Player activation failed'),
-                  description: this.translateService.instant(
-                    'There was a problem with the activation process, please contact support.',
-                  ),
-                },
-              });
+        return this.authGateway.activateAccountFromLink(activationtoken).pipe(
+          catchError((error) => {
+            log.debug('Player activation failed: ', error);
+            const dialogRef = this.dialog.open(MessageDialogComponent, {
+              width: '31.125rem',
+              data: {
+                title: this.translateService.instant('Player activation failed'),
+                description: this.translateService.instant(
+                  'There was a problem with the activation process, please contact support.',
+                ),
+              },
+            });
 
-              return dialogRef.closed.pipe(
-                switchMap(() => {
-                  this.router.navigate([], {
-                    relativeTo: this.activatedRoute,
-                  });
+            return dialogRef.closed.pipe(
+              switchMap(() => {
+                this.router.navigate([], {
+                  relativeTo: this.activatedRoute,
+                });
 
-                  throw error;
-                }),
-              );
-            }),
-            tap(() => {
-              const dialogRef = this.dialog.open<PlayerActivationDialogResult>(PlayerActivationDialogComponent, {
-                width: '31.125rem',
-              });
+                throw error;
+              }),
+            );
+          }),
+          tap(() => {
+            const dialogRef = this.dialog.open<PlayerActivationDialogResult>(PlayerActivationDialogComponent, {
+              width: '31.125rem',
+            });
 
-              return dialogRef.closed.pipe(
-                tap((result) => {
-                  this.router.navigate([], {
-                    relativeTo: this.activatedRoute,
-                  });
+            return dialogRef.closed.pipe(
+              tap((result) => {
+                this.router.navigate([], {
+                  relativeTo: this.activatedRoute,
+                });
 
-                  // if (result?.closeEvent === 'signIn') {
-                  //   return this.authDialog.loginDialog();
-                  // } else {
-                  return of(result);
-                  //}
-                }),
-              );
-            }),
-          );
+                // if (result?.closeEvent === 'signIn') {
+                //   return this.authDialog.loginDialog();
+                // } else {
+                return of(result);
+                //}
+              }),
+            );
+          }),
+        );
       }),
     );
   }
@@ -156,103 +150,101 @@ export class PlayerActivationService {
         const token: string = params['inactiveactivationtoken'];
 
         // Step 1: Activate the inactive player
-        return this.playerServiceApi
-          .apiPortalV1PlayerActivateInactivePost({
-            token: token,
-          })
-          .pipe(
-            switchMap((activationResult) => {
-              // Step 2: Retrieve player details
-              return this.playerGateway.getProfile().pipe(
-                switchMap((player) => {
-                  const credentials: Credentials = {
-                    username: player?.username || '',
-                    jwt: '',
-                    sessionKey: activationResult.logonSession?.sessionToken || '',
-                    userId: activationResult.logonSession?.playerId || 0,
-                    renewalToken: '',
-                    faceAuthRequired: activationResult.statusCode === 'FacialAuthenticationRequired',
-                    updatedTCActionId:
-                      activationResult?.messages?.find((o) => o.messageType === 'LoginPopup')?.id ?? undefined,
-                  };
+        return this.authGateway.reactivateAccountFromLink(token).pipe(
+          switchMap((session) => {
+            // Step 2: Retrieve player details
+            return this.playerGateway.getProfile().pipe(
+              switchMap((player) => {
+                const updatedTerms = session.challenges.find((challenge) => challenge.kind === 'accept-updated-terms');
+                const needsFaceAuth = session.challenges.some((challenge) => challenge.kind === 'face-auth');
 
-                  // Step 3: Handle facial authentication if required
-                  if (activationResult.statusCode === 'FacialAuthenticationRequired') {
-                    return this.authGateway.startLoginFaceAuth().pipe(
-                      switchMap((loginFaceAuth) => {
-                        if (loginFaceAuth?.referenceId) {
-                          const faceAuthParams: FaceAuthParams = {
-                            providerId: loginFaceAuth.referenceId,
-                            faceAuthUrl: loginFaceAuth.url ?? undefined,
-                            faceAuthUrlQR: loginFaceAuth?.qrCodeUrl ?? undefined,
-                          };
-                          return this.authDialog
-                            .openFaceAuthDialog(faceAuthParams)
-                            .pipe(map(() => ({ credentials, loginFaceAuth })));
-                        }
-                        return of({ credentials, loginFaceAuth });
-                      }),
-                    );
-                  }
+                const credentials: Credentials = {
+                  username: player?.username || '',
+                  jwt: '',
+                  sessionKey: session.sessionToken,
+                  userId: Number(session.playerId) || 0,
+                  renewalToken: '',
+                  faceAuthRequired: needsFaceAuth,
+                  updatedTCActionId: updatedTerms?.actionId,
+                };
 
-                  return of({ credentials, loginFaceAuth: null });
-                }),
-              );
-            }),
-            switchMap(({ credentials, loginFaceAuth }) => {
-              // Step 4: Clear games data and set credentials
+                // Step 3: Handle facial authentication if required
+                if (needsFaceAuth) {
+                  return this.authGateway.startLoginFaceAuth().pipe(
+                    switchMap((loginFaceAuth) => {
+                      if (loginFaceAuth?.referenceId) {
+                        const faceAuthParams: FaceAuthParams = {
+                          providerId: loginFaceAuth.referenceId,
+                          faceAuthUrl: loginFaceAuth.url ?? undefined,
+                          faceAuthUrlQR: loginFaceAuth?.qrCodeUrl ?? undefined,
+                        };
+                        return this.authDialog
+                          .openFaceAuthDialog(faceAuthParams)
+                          .pipe(map(() => ({ credentials, loginFaceAuth })));
+                      }
+                      return of({ credentials, loginFaceAuth });
+                    }),
+                  );
+                }
 
-              // set credentials to credentials service
-              return this.credentialsService.setCredentials(credentials).pipe(
-                map((setResult) => {
-                  if (!setResult) {
-                    throw new Error('Error saving credentials');
-                  }
+                return of({ credentials, loginFaceAuth: null });
+              }),
+            );
+          }),
+          switchMap(({ credentials, loginFaceAuth }) => {
+            // Step 4: Clear games data and set credentials
 
-                  // Push GTM event tag
-                  this.googleTagManagerServiceImpl.pushGtmTag({ event: 'login' });
-                  return { credentials, loginFaceAuth };
-                }),
-              );
-            }),
-            switchMap(({ credentials, loginFaceAuth }) => {
-              // Handle updated terms and conditions if needed
-              if (credentials?.updatedTCActionId != null) {
-                return this.authDialog.openTermsAndConditionsDialog(credentials.updatedTCActionId);
-              }
-              return of();
-            }),
-            tap(() => {
-              // Step 5: Navigate to the current route
-              this.router.navigate([], {
-                relativeTo: this.activatedRoute,
-              });
-            }),
-            catchError((error) => {
-              // Step 6: Handle errors and show a dialog
-              log.debug('Player activation failed: ', error);
+            // set credentials to credentials service
+            return this.credentialsService.setCredentials(credentials).pipe(
+              map((setResult) => {
+                if (!setResult) {
+                  throw new Error('Error saving credentials');
+                }
 
-              const dialogRef = this.dialog.open(MessageDialogComponent, {
-                width: '31.125rem',
-                data: {
-                  title: this.translateService.instant('Player activation failed'),
-                  description: this.translateService.instant(
-                    'There was a problem with the activation process, please contact support.',
-                  ),
-                },
-              });
+                // Push GTM event tag
+                this.googleTagManagerServiceImpl.pushGtmTag({ event: 'login' });
+                return { credentials, loginFaceAuth };
+              }),
+            );
+          }),
+          switchMap(({ credentials, loginFaceAuth }) => {
+            // Handle updated terms and conditions if needed
+            if (credentials?.updatedTCActionId != null) {
+              return this.authDialog.openTermsAndConditionsDialog(credentials.updatedTCActionId);
+            }
+            return of();
+          }),
+          tap(() => {
+            // Step 5: Navigate to the current route
+            this.router.navigate([], {
+              relativeTo: this.activatedRoute,
+            });
+          }),
+          catchError((error) => {
+            // Step 6: Handle errors and show a dialog
+            log.debug('Player activation failed: ', error);
 
-              return dialogRef.closed.pipe(
-                switchMap(() => {
-                  this.router.navigate([], {
-                    relativeTo: this.activatedRoute,
-                  });
+            const dialogRef = this.dialog.open(MessageDialogComponent, {
+              width: '31.125rem',
+              data: {
+                title: this.translateService.instant('Player activation failed'),
+                description: this.translateService.instant(
+                  'There was a problem with the activation process, please contact support.',
+                ),
+              },
+            });
 
-                  throw error;
-                }),
-              );
-            }),
-          );
+            return dialogRef.closed.pipe(
+              switchMap(() => {
+                this.router.navigate([], {
+                  relativeTo: this.activatedRoute,
+                });
+
+                throw error;
+              }),
+            );
+          }),
+        );
       }),
     );
   }
@@ -260,14 +252,14 @@ export class PlayerActivationService {
   /**
    * Handle activation urls.
    */
-  processAnnualIncomeReportUrl(): Observable<CheckUserRegistrationReturn> {
+  processAnnualIncomeReportUrl(): Observable<void> {
     return this.activatedRoute.queryParams.pipe(
       filter((params: Params) => params['annualincometoken']),
       take(1),
       switchMap((params) => {
         const annualincometoken: string = params['annualincometoken'];
 
-        return this.playerServiceApi.apiPortalV1PlayerAnnualReportConfirmPost(annualincometoken).pipe(
+        return this.authGateway.confirmAnnualReportFromLink(annualincometoken).pipe(
           tap(() => {
             this.router.navigate([], {
               relativeTo: this.activatedRoute,

@@ -62,6 +62,22 @@ export class HouseAuthGateway implements AuthGateway {
     return this.http.post<{ playerId: string | null }>(`${this.base}/auth/register`, input);
   }
 
+  confirmEmailFromLink(token: string): Observable<void> {
+    return this.http.post<void>(`${this.base}/auth/email/confirm`, { token });
+  }
+
+  activateAccountFromLink(token: string): Observable<void> {
+    return this.http.post<void>(`${this.base}/auth/activate`, { token });
+  }
+
+  reactivateAccountFromLink(token: string): Observable<AuthSession> {
+    return this.http.post<AuthSession>(`${this.base}/auth/reactivate`, { token });
+  }
+
+  confirmAnnualReportFromLink(token: string): Observable<void> {
+    return this.http.post<void>(`${this.base}/auth/annual-report/confirm`, { token });
+  }
+
   logout(): Observable<void> {
     return this.http.post<void>(`${this.base}/auth/logout`, {});
   }

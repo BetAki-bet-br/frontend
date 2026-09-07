@@ -57,6 +57,30 @@ export interface AuthGateway {
   logout(): Observable<void>;
 
   /**
+   * Confirms an e-mail address from the link the player clicked in their inbox.
+   *
+   * The four `*FromLink` calls are the same shape on purpose: the player arrives on a url carrying
+   * a token, the app hands the token over, and what comes back is either nothing to say or a
+   * session. Which query parameter carried it is `PlayerActivationService`'s business.
+   */
+  confirmEmailFromLink(token: string): Observable<void>;
+
+  /** Activates a newly registered account from its activation link. */
+  activateAccountFromLink(token: string): Observable<void>;
+
+  /**
+   * Brings back an account the operator had made inactive, and signs the player in.
+   *
+   * Answers with a session because that is what it is: the same {@link AuthSession} a login gives,
+   * challenges included, so the app puts the player through the same steps. The username is not
+   * part of it; the caller reads the profile it has to fetch anyway.
+   */
+  reactivateAccountFromLink(token: string): Observable<AuthSession>;
+
+  /** Confirms the yearly income statement from the link in the operator's e-mail. */
+  confirmAnnualReportFromLink(token: string): Observable<void>;
+
+  /**
    * Starts the "forgot my password" flow for a CPF and returns where to send the player to prove
    * who they are. The reset key arrives through whatever channel the gateway uses (e-mail, SMS)
    * and comes back in {@link resetPassword}.

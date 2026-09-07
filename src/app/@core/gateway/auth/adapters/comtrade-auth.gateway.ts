@@ -8,6 +8,7 @@ import {
   FaceAuthResponse,
   FaceAuthenticationProcessStatusEnum,
   LoginRequest,
+  LoginResponseExtended,
   MessageTypeEnum,
   PlayerService,
 } from '@icore/ngx-portalgateway-api-client-atl';
@@ -58,46 +59,7 @@ export class ComtradeAuthGateway implements AuthGateway {
       deviceFingerprint: input.deviceFingerprintId,
     };
 
-    return this.api.apiPortalV1PlayerLoginPost(request).pipe(
-      map((result) => {
-        const challenges: AuthChallenge[] = [];
-
-        if (result.statusCode === 'FacialAuthenticationRequired') {
-          // The url for this one arrives from `startLoginFaceAuth`, in a second call.
-          challenges.push({ kind: 'face-auth' });
-        }
-
-        if (ComtradeAuthGateway.VERIFICATION_STATUS_CODES.includes(result.statusCode ?? '')) {
-          challenges.push({
-            kind: 'identity-verification',
-            referenceId: result.referenceId ?? undefined,
-            url: result.reverificationUrl ?? undefined,
-            qrCodeUrl: result.quickResponseCodeReverificationUrl ?? undefined,
-          });
-        }
-
-        const termsActionId = result.messages
-          ?.find(
-            (message) =>
-              message.messageType === MessageTypeEnum.LoginPopup &&
-              message.messageGroup === ComtradeAuthGateway.UPDATED_TERMS_MESSAGE_GROUP,
-          )
-          ?.actions?.find((action) => action.actionType === 0)?.id;
-
-        if (termsActionId) {
-          challenges.push({ kind: 'accept-updated-terms', actionId: termsActionId });
-        }
-
-        return {
-          playerId: String(result.logonSession?.playerId ?? 0),
-          username: input.username,
-          sessionToken: result.logonSession?.sessionToken ?? '',
-          lastLoginAt: result.lastLoginTime,
-          loggedInAt: result.logonSession?.logonTime,
-          challenges,
-        } satisfies AuthSession;
-      }),
-    );
+    return this.api.apiPortalV1PlayerLoginPost(request).pipe(map((result) => this.toSession(result, input.username)));
   }
 
   startLoginFaceAuth(): Observable<FaceAuthTicket | null> {
@@ -135,6 +97,29 @@ export class ComtradeAuthGateway implements AuthGateway {
 
   logout(): Observable<void> {
     return this.api.apiPortalV1PlayerLogoutPost().pipe(map(() => undefined));
+  }
+
+  confirmEmailFromLink(token: string): Observable<void> {
+    return this.api.apiPortalV1PlayerEmailVerificationPut(token).pipe(map(() => undefined));
+  }
+
+  activateAccountFromLink(token: string): Observable<void> {
+    return this.api.apiPortalV1PlayerActivatePost({ secureToken: token }).pipe(map(() => undefined));
+  }
+
+  /**
+   * The gateway answers this one with the same payload as a login, so it is read as one: whoever
+   * clicked the link is signed in, and any challenge a login could raise can be raised here too.
+   *
+   * The username is not in the payload; the caller already has to fetch the profile to build its
+   * credentials, and takes it from there.
+   */
+  reactivateAccountFromLink(token: string): Observable<AuthSession> {
+    return this.api.apiPortalV1PlayerActivateInactivePost({ token }).pipe(map((result) => this.toSession(result, '')));
+  }
+
+  confirmAnnualReportFromLink(token: string): Observable<void> {
+    return this.api.apiPortalV1PlayerAnnualReportConfirmPost(token).pipe(map(() => undefined));
   }
 
   requestPasswordReset(cpf: string): Observable<FaceAuthTicket> {
@@ -202,6 +187,53 @@ export class ComtradeAuthGateway implements AuthGateway {
       url: response.url ?? undefined,
       qrCodeUrl: response.quickResponseCodeUrl ?? undefined,
       referenceId: response.referenceId ?? undefined,
+    };
+  }
+
+  /**
+   * The gateway's login payload, in the port's words.
+   *
+   * Shared by `login` and `reactivateAccountFromLink` because the gateway answers both with the
+   * same thing: a session plus whatever the player still has to clear. Reactivation answers with
+   * the narrower payload of the two, which has no re-verification fields; they are optional here,
+   * so it reads as a login that raised no such challenge.
+   */
+  private toSession(result: LoginResponseExtended, username: string): AuthSession {
+    const challenges: AuthChallenge[] = [];
+
+    if (result.statusCode === 'FacialAuthenticationRequired') {
+      // The url for this one arrives from `startLoginFaceAuth`, in a second call.
+      challenges.push({ kind: 'face-auth' });
+    }
+
+    if (ComtradeAuthGateway.VERIFICATION_STATUS_CODES.includes(result.statusCode ?? '')) {
+      challenges.push({
+        kind: 'identity-verification',
+        referenceId: result.referenceId ?? undefined,
+        url: result.reverificationUrl ?? undefined,
+        qrCodeUrl: result.quickResponseCodeReverificationUrl ?? undefined,
+      });
+    }
+
+    const termsActionId = result.messages
+      ?.find(
+        (message) =>
+          message.messageType === MessageTypeEnum.LoginPopup &&
+          message.messageGroup === ComtradeAuthGateway.UPDATED_TERMS_MESSAGE_GROUP,
+      )
+      ?.actions?.find((action) => action.actionType === 0)?.id;
+
+    if (termsActionId) {
+      challenges.push({ kind: 'accept-updated-terms', actionId: termsActionId });
+    }
+
+    return {
+      playerId: String(result.logonSession?.playerId ?? 0),
+      username,
+      sessionToken: result.logonSession?.sessionToken ?? '',
+      lastLoginAt: result.lastLoginTime,
+      loggedInAt: result.logonSession?.logonTime,
+      challenges,
     };
   }
 

@@ -84,6 +84,30 @@ export class DemoAuthGateway implements AuthGateway {
     return of(true).pipe(delay(LATENCY_MS));
   }
 
+  /** The links are all accepted: a demo has no inbox to have clicked one from anyway. */
+  confirmEmailFromLink(): Observable<void> {
+    return of(undefined).pipe(delay(LATENCY_MS));
+  }
+
+  activateAccountFromLink(): Observable<void> {
+    return of(undefined).pipe(delay(LATENCY_MS));
+  }
+
+  reactivateAccountFromLink(): Observable<AuthSession> {
+    return of<AuthSession>({
+      playerId: '1',
+      username: '000.000.000-00',
+      sessionToken: 'demo-session',
+      lastLoginAt: new Date().toISOString(),
+      loggedInAt: new Date().toISOString(),
+      challenges: [],
+    }).pipe(delay(LATENCY_MS));
+  }
+
+  confirmAnnualReportFromLink(): Observable<void> {
+    return of(undefined).pipe(delay(LATENCY_MS));
+  }
+
   faceAuthenticationStatus(): Observable<FaceAuthOutcome> {
     return of<FaceAuthOutcome>('approved').pipe(delay(LATENCY_MS));
   }
