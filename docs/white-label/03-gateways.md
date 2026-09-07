@@ -130,8 +130,10 @@ Resumo do que existe hoje:
 | `POST /api/v1/player/auth/confirmation-instructions` | `{ email }`                                    | `{ ok }`                 |
 | `POST /api/v1/player/auth/unlock-instructions`       | `{ email }`                                    | `{ ok }`                 |
 
-401 no login e 422 com `message` no registro já são o que as telas esperam de um `HttpErrorResponse`.
-Não precisa de envelope de erro próprio para começar.
+401 no login e 422 no registro já são o que as telas esperam de um `HttpErrorResponse`. O corpo do
+erro é sempre `{ "errorMessage": "..." }`, em qualquer status: a tela de registro passa esse valor
+por `translate.instant()`, então ele é chave de tradução quando existe uma (`PlayerAlreadyExists`) e
+frase legível quando não.
 
 As quatro rotas de `token` são os links que o operador manda por e-mail. `reactivate` devolve
 `AuthSession` porque é isso que ela é: quem clicou está logado, com os mesmos desafios que um login

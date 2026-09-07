@@ -38,8 +38,10 @@ import {
  *   POST   /api/v1/player/auth/confirmation-instructions  { email } -> { ok }
  *   POST   /api/v1/player/auth/unlock-instructions        { email } -> { ok }
  *
- * A 401 on login and a 422 with a `message` on register are what the screens already expect from
- * an `HttpErrorResponse`, so the backend does not need a bespoke error envelope to start with.
+ * Errors travel in one envelope, `{ "errorMessage": "..." }`, on every status. The register screen
+ * puts that value through `translate.instant()`, so it is a translation key when there is one
+ * (`PlayerAlreadyExists`) and a readable sentence when there is not. A 401 on login and a 422 on
+ * register are what the screens already expect from an `HttpErrorResponse`.
  */
 @Injectable()
 export class HouseAuthGateway implements AuthGateway {
