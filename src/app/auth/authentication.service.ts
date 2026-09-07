@@ -320,11 +320,17 @@ export class AuthenticationService {
 
   /**
    * Logs out the user and clear credentials.
+   *
+   * Order matters: the gateway call is what revokes the session on the backend, and it only counts
+   * as this player's if it still carries the bearer token. Clearing the credentials first, as this
+   * used to, took the `Authorization` header off the request, so the backend answered 401 and the
+   * session stayed valid until it expired on its own — the app logged itself out and nothing else
+   * did. The local clear moves into the `finalize` so it happens either way: a gateway that fails
+   * is not a reason to keep somebody signed in.
+   *
    * @param callApi weather the method also calls the logout api
    */
   logout(callApi: boolean = true): Observable<void> {
-    this.clearUserData();
-
     let ret$: Observable<void> = of();
 
     if (callApi) {
@@ -339,6 +345,7 @@ export class AuthenticationService {
 
     return ret$.pipe(
       finalize(() => {
+        this.clearUserData();
         this.authEventsService.emitEvent(AuthEvent.Logout); // Emit logout event
         // 'reload' does not trigger reloading of components, but it triggers the NavigationEnd
         // event on routing, so components can handle that if needed

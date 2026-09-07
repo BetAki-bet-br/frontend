@@ -25,7 +25,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         (error.status === 401 || (error.error && error.error.errorMessage === 'PlayerSessionCheckFailed'))
       ) {
         console.error('Authentication error detected. Logging out user.');
-        authService.logout();
+        // Subscribed, because the work is inside the observable now: `logout()` clears the
+        // credentials when the revocation call settles, and an observable nobody subscribes to
+        // never settles.
+        authService.logout().subscribe();
         return EMPTY;
       }
       return throwError(() => error);

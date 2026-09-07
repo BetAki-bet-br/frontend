@@ -144,7 +144,7 @@ export class SidebarMobile {
   }
 
   logout() {
-    this.authService.logout();
+    this.authService.logout().subscribe();
     this.close();
   }
 
