@@ -155,5 +155,6 @@ export const BRAND_CONFIG: BrandConfig = {
     wallet: 'demo',
     messages: 'demo',
     content: 'demo',
+    bonus: 'demo',
   },
 };

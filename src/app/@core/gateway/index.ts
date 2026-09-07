@@ -79,5 +79,9 @@ export type { MessageAction, PlayerMessage, PopupMessage } from './messages/mess
 export { CONTENT_GATEWAY } from './content/content.gateway';
 export type { ContentGateway } from './content/content.gateway';
 export type { CmsBanner, CmsTemplate, Country } from './content/content.models';
+export { BONUS_GATEWAY } from './bonus/bonus.gateway';
+export type { BonusGateway } from './bonus/bonus.gateway';
+export { BonusStatus } from './bonus/bonus.models';
+export type { BonusTemplate, PlayerBonus } from './bonus/bonus.models';
 export type { GatewayId, GatewaySelection } from './gateway.models';
 export { provideGateways } from './provide-gateways';

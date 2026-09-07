@@ -7,6 +7,7 @@ import { provideRouter } from '@angular/router';
 import { BRAND_CONFIG } from '@app/@core/brand';
 import {
   AUTH_GATEWAY,
+  BONUS_GATEWAY,
   CONTENT_GATEWAY,
   GAMES_GATEWAY,
   MESSAGES_GATEWAY,
@@ -14,6 +15,7 @@ import {
   WALLET_GATEWAY,
 } from '@app/@core/gateway';
 import { DemoAuthGateway } from '@app/@core/gateway/auth/adapters/demo-auth.gateway';
+import { DemoBonusGateway } from '@app/@core/gateway/bonus/adapters/demo-bonus.gateway';
 import { DemoContentGateway } from '@app/@core/gateway/content/adapters/demo-content.gateway';
 import { DemoGamesGateway } from '@app/@core/gateway/games/adapters/demo-games.gateway';
 import { DemoMessagesGateway } from '@app/@core/gateway/messages/adapters/demo-messages.gateway';
@@ -53,5 +55,6 @@ export function provideAppTesting(): (Provider | EnvironmentProviders)[] {
     { provide: WALLET_GATEWAY, useClass: DemoWalletGateway },
     { provide: MESSAGES_GATEWAY, useClass: DemoMessagesGateway },
     { provide: CONTENT_GATEWAY, useClass: DemoContentGateway },
+    { provide: BONUS_GATEWAY, useClass: DemoBonusGateway },
   ];
 }

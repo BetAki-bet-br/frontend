@@ -1,8 +1,8 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { BONUS_GATEWAY } from '@app/@core/gateway';
 import { CredentialsService } from '@app/auth';
-import { BonusService } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, filter, map, Observable, of, switchMap, take } from 'rxjs';
 import { MessageDialogComponent } from '../components/message-dialog/message-dialog.component';
@@ -16,7 +16,7 @@ export class PlayerPromoService {
   private credentialsService = inject(CredentialsService);
   private router = inject(Router);
   private translateService = inject(TranslateService);
-  private bonusService = inject(BonusService);
+  private gateway = inject(BONUS_GATEWAY);
 
   /**
    * Handle promotion activation urls.
@@ -50,19 +50,15 @@ export class PlayerPromoService {
   handlePromoActivation(): Observable<any> {
     if (localStorage.getItem('promoShow')) {
       if (this.credentialsService.isAuthenticated()) {
-        return this.bonusService
-          .apiPortalV1BonusOptInPost({
-            optInCode: localStorage.getItem('promoShow') ?? '',
-          })
-          .pipe(
-            map((res) => {
-              localStorage.removeItem('promoShow');
-            }),
-            catchError((err) => {
-              localStorage.removeItem('promoShow');
-              return of(null);
-            }),
-          );
+        return this.gateway.optInWithCode(localStorage.getItem('promoShow') ?? '').pipe(
+          map((res) => {
+            localStorage.removeItem('promoShow');
+          }),
+          catchError((err) => {
+            localStorage.removeItem('promoShow');
+            return of(null);
+          }),
+        );
       } else {
         this.router.navigate(['/sign-in']);
         return of(null);

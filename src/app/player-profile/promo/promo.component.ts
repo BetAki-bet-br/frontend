@@ -16,9 +16,8 @@ import {
   Breadcrumbs,
   PageBreadcrumbsComponent,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
-import { PlayerBonusDataResolved, PlayerBonusResolved } from '@app/@shared/models';
+import { PlayerBonusResolved } from '@app/@shared/models';
 import { BonusesService } from '@app/@shared/services/bonuses.service';
-import { BonusProductTypeSummary } from '@icore/ngx-portalgateway-api-client-atl';
 import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { TemplateService } from '@app/@shared/services/template.service';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
@@ -81,14 +80,13 @@ export class PromoComponent implements OnInit {
   bonusOfferList: PlayerBonusResolved[] = [];
   bonusOngoingList: PlayerBonusResolved[] = [];
   bonusActiveList: PlayerBonusResolved[] = [];
-  bonusSummaryPerProductType: BonusProductTypeSummary[] = [];
 
   casinoBonusBalanceAmount: number = 0;
   sportsbookBonusBalanceAmount: number = 0;
   currencySymbol: string | undefined;
 
   private refreshBonuses$ = new BehaviorSubject<void>(undefined);
-  bonuses$: Observable<PlayerBonusDataResolved> = this.refreshBonuses$.pipe(
+  bonuses$: Observable<PlayerBonusResolved[]> = this.refreshBonuses$.pipe(
     switchMap(() => this.bonusesService.getBonusesData()),
   );
 
@@ -130,9 +128,9 @@ export class PromoComponent implements OnInit {
     this.bonuses$
       .pipe(
         map((bonuses) => {
-          this.bonusOfferList = bonuses.playerBonusHistoryResolved.filter((item) => item.templateOffersHtml);
-          this.bonusOngoingList = bonuses.playerBonusHistoryResolved.filter((item) => item.templateOngoingHtml);
-          this.bonusActiveList = bonuses.playerBonusHistoryResolved.filter((item) => item.templateActiveHtml);
+          this.bonusOfferList = bonuses.filter((item) => item.templateOffersHtml);
+          this.bonusOngoingList = bonuses.filter((item) => item.templateOngoingHtml);
+          this.bonusActiveList = bonuses.filter((item) => item.templateActiveHtml);
           this.cdr.markForCheck();
         }),
         switchMap(() => {
@@ -158,9 +156,7 @@ export class PromoComponent implements OnInit {
   bonusOptIn(playerBonusId: number | undefined) {
     if (playerBonusId) {
       let bonusAction$ = null;
-      bonusAction$ = this.bonusesService.bonusOptInToBonus({
-        playerBonusId: playerBonusId,
-      });
+      bonusAction$ = this.bonusesService.bonusOptIn(playerBonusId);
 
       bonusAction$?.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
         next: (response) => {

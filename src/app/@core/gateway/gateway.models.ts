@@ -18,4 +18,5 @@ export interface GatewaySelection {
   wallet: GatewayId;
   messages: GatewayId;
   content: GatewayId;
+  bonus: GatewayId;
 }

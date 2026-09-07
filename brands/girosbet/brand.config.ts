@@ -150,6 +150,7 @@ export const BRAND_CONFIG: BrandConfig = {
       wallet: 'comtrade',
       messages: 'comtrade',
       content: 'comtrade',
+      bonus: 'comtrade',
     },
     prod: {
       auth: 'comtrade',
@@ -158,10 +159,19 @@ export const BRAND_CONFIG: BrandConfig = {
       wallet: 'comtrade',
       messages: 'comtrade',
       content: 'comtrade',
+      bonus: 'comtrade',
     },
     // The published demo runs on nobody's backend: accounts, balance, games and the statement
     // are all invented in the browser. provideGateways() only allows this because
     // environment.demo.ts says so.
-    demo: { auth: 'demo', player: 'demo', games: 'demo', wallet: 'demo', messages: 'demo', content: 'demo' },
+    demo: {
+      auth: 'demo',
+      player: 'demo',
+      games: 'demo',
+      wallet: 'demo',
+      messages: 'demo',
+      content: 'demo',
+      bonus: 'demo',
+    },
   }),
 };

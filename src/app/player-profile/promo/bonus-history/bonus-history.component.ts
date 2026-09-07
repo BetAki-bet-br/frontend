@@ -13,8 +13,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ShortDateFormat } from '@app/@core/date-formats';
 import { Logger } from '@app/@shared/logger.service';
+import { BonusStatus } from '@app/@core/gateway';
 import { PlayerBonusResolved } from '@app/@shared/models';
-import { PlayerBonusHistoryStatusEnum } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -258,15 +258,15 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
             // filter out all bonuses with ineligible statuses
             const allowedStatuses = Object.values(BonusHistoryStatusEnum);
             const allowedBonuses = bonusHistory.filter(
-              (bonus): bonus is PlayerBonusResolved & { status: PlayerBonusHistoryStatusEnum } =>
+              (bonus): bonus is PlayerBonusResolved & { status: BonusStatus } =>
                 !!bonus.status && allowedStatuses.includes(bonus.status as unknown as BonusHistoryStatusEnum),
             );
 
             // filter by period
             const filteredBonuses = allowedBonuses.filter((bonus) => {
-              if (!bonus.acceptedDate) return false;
+              if (!bonus.acceptedAt) return false;
 
-              const bonusDate = new Date(bonus.acceptedDate);
+              const bonusDate = new Date(bonus.acceptedAt);
               const from = this.setHours(this.filterForm.controls.dateFrom?.value, true);
               const to = this.setHours(this.filterForm.controls.dateTo?.value, false);
 
@@ -283,7 +283,7 @@ export class BonusHistoryComponent implements OnInit, OnDestroy {
             }
 
             this.bonusHistoryData.sort(
-              (a, b) => new Date(b.acceptedDate ?? '').getTime() - new Date(a.acceptedDate ?? '').getTime(),
+              (a, b) => new Date(b.acceptedAt ?? '').getTime() - new Date(a.acceptedAt ?? '').getTime(),
             );
 
             this.cdr.detectChanges();

@@ -9,6 +9,10 @@ import { ComtradeGamesGateway } from './games/adapters/comtrade-games.gateway';
 import { DemoGamesGateway } from './games/adapters/demo-games.gateway';
 import { HouseGamesGateway } from './games/adapters/house-games.gateway';
 import { GAMES_GATEWAY, GamesGateway } from './games/games.gateway';
+import { ComtradeBonusGateway } from './bonus/adapters/comtrade-bonus.gateway';
+import { DemoBonusGateway } from './bonus/adapters/demo-bonus.gateway';
+import { HouseBonusGateway } from './bonus/adapters/house-bonus.gateway';
+import { BONUS_GATEWAY, BonusGateway } from './bonus/bonus.gateway';
 import { ComtradeContentGateway } from './content/adapters/comtrade-content.gateway';
 import { DemoContentGateway } from './content/adapters/demo-content.gateway';
 import { HouseContentGateway } from './content/adapters/house-content.gateway';
@@ -69,6 +73,13 @@ const CONTENT_ADAPTERS: Record<GatewayId, Type<ContentGateway>> = {
   demo: DemoContentGateway,
 };
 
+/** Every adapter that can answer `BONUS_GATEWAY`. */
+const BONUS_ADAPTERS: Record<GatewayId, Type<BonusGateway>> = {
+  comtrade: ComtradeBonusGateway,
+  house: HouseBonusGateway,
+  demo: DemoBonusGateway,
+};
+
 /**
  * Binds each gateway port to the adapter the running brand asked for in
  * `BrandConfig.gateways`.
@@ -92,6 +103,7 @@ export function provideGateways(): EnvironmentProviders {
   const walletAdapter = WALLET_ADAPTERS[selection.wallet];
   const messagesAdapter = MESSAGES_ADAPTERS[selection.messages];
   const contentAdapter = CONTENT_ADAPTERS[selection.content];
+  const bonusAdapter = BONUS_ADAPTERS[selection.bonus];
 
   return makeEnvironmentProviders([
     authAdapter,
@@ -106,6 +118,8 @@ export function provideGateways(): EnvironmentProviders {
     { provide: MESSAGES_GATEWAY, useExisting: messagesAdapter },
     contentAdapter,
     { provide: CONTENT_GATEWAY, useExisting: contentAdapter },
+    bonusAdapter,
+    { provide: BONUS_GATEWAY, useExisting: bonusAdapter },
   ]);
 }
 

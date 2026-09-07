@@ -137,5 +137,6 @@ export const BRAND_CONFIG: BrandConfig = {
     wallet: 'comtrade',
     messages: 'comtrade',
     content: 'comtrade',
+    bonus: 'comtrade',
   },
 };

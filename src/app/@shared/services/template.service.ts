@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { Logger } from '../logger.service';
 import { Observable, Subject, map, of } from 'rxjs';
 import { CONTENT_GATEWAY, CmsTemplate } from '@app/@core/gateway';
-import { ContentFieldValue } from '@icore/ngx-portalgateway-api-client-atl';
 import { DataStoreService } from '@app/@core';
 import { TemplateAction, TemplateCustomEventData } from '../models/template.model';
 import { Router } from '@angular/router';
@@ -53,34 +52,6 @@ export class TemplateService {
         }
       }
     });
-  }
-
-  /**
-   * Flattens a provider field-value bag into the map a template is rendered with.
-   *
-   * The banners stopped needing this when they started arriving flattened from
-   * {@link CONTENT_GATEWAY}; what still calls it is `BonusesService`, over bonus templates that
-   * have no port yet. It goes away with `BonusGateway`, and so does the SDK import above.
-   */
-  transformContent(contentFieldValues: ContentFieldValue[] | undefined): { [key: string]: any } {
-    const newContent: { [key: string]: any } = {};
-    contentFieldValues?.map((value) => {
-      const fieldTypeName = value?.field?.fieldType?.name;
-      const key = value?.field?.name ?? 'undefined';
-      if (fieldTypeName === 'Image') {
-        if (value?.mediaFileId) {
-          newContent[key] = value?.mediaFile?.url;
-        } else {
-          newContent[key] = value?.value ?? '';
-        }
-      } else if (fieldTypeName === 'CheckBox') {
-        const val = value?.value;
-        newContent[key] = val?.toLowerCase() === 'true';
-      } else {
-        newContent[key] = value.value ?? '';
-      }
-    });
-    return newContent;
   }
 
   /** Every template the brand renders banners with, from the cache when there is one. */

@@ -24,7 +24,6 @@ import {
 import { defaultPasswordValidators } from '@app/@shared/form-utils';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
-import { PortalGatewayErrorResponse } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { catchError, EMPTY, of, Subscription, switchMap, throwError } from 'rxjs';
 
@@ -149,7 +148,9 @@ export class ProfileSettingsEditPasswordComponent implements OnInit, OnDestroy {
         }),
         catchError((err) => {
           // Handle errors from changePassword
-          const error: PortalGatewayErrorResponse = err.error;
+          // Narrow shape rather than the provider's DTO: every gateway is expected to put
+          // something readable in `errorMessage`, and the screen only needs that.
+          const error = (err.error ?? {}) as { errorMessage?: string };
 
           if (error.errorMessage === 'InvalidOldCred') {
             this.passwordResetForm.controls.oldPassword.setErrors({

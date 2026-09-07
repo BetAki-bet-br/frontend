@@ -1,5 +1,5 @@
 import { SafeHtml } from '@angular/platform-browser';
-import { GetBonusResponse, PlayerBonusHistory, PromotionDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import { PlayerBonus } from '@app/@core/gateway';
 import { CategoryKeyEnum } from './template.model';
 
 export interface Promotion {
@@ -11,13 +11,8 @@ export interface Promotion {
   color: string;
 }
 
-export interface PromotionDetailsResolved extends PromotionDetails {
-  templateHtml: SafeHtml | null;
-  templateActivateRaw: string;
-  templateActivateData: { [key: string]: any };
-}
-
-export interface PlayerBonusResolved extends PlayerBonusHistory {
+/** A bonus with the strings and the percentages the tiles and the table render. */
+export interface PlayerBonusResolved extends PlayerBonus {
   resolvedAmount: string;
   resolvedWagerMultiplier: string;
   currentWagered: number;
@@ -31,8 +26,4 @@ export interface PlayerBonusResolved extends PlayerBonusHistory {
   templateOffersHtml: SafeHtml | null;
   templateOngoingHtml: SafeHtml | null;
   templateActiveHtml: SafeHtml | null;
-}
-
-export interface PlayerBonusDataResolved extends GetBonusResponse {
-  playerBonusHistoryResolved: PlayerBonusResolved[];
 }

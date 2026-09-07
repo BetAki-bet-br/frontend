@@ -1,5 +1,5 @@
 import { ButtonComponent } from '@app/@shared/components/button/button.component';
-import { AUTH_GATEWAY } from '@app/@core/gateway';
+import { AUTH_GATEWAY, Country } from '@app/@core/gateway';
 import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,7 +11,6 @@ import { UsernameOrEmailTakenValidator } from '@app/@shared/validators/username-
 import { AccountVerificationActionEnum, FaceAuthParams, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { AnnualVerificationInput, PlayerProfile } from '@app/@core/gateway';
-import { Country } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';

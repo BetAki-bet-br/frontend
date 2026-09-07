@@ -52,6 +52,13 @@ src/app/@core/gateway/
       comtrade-content.gateway.ts
       house-content.gateway.ts
       demo-content.gateway.ts
+  bonus/
+    bonus.models.ts        PlayerBonus, BonusTemplate, BonusStatus
+    bonus.gateway.ts       a porta BonusGateway + o token BONUS_GATEWAY
+    adapters/
+      comtrade-bonus.gateway.ts
+      house-bonus.gateway.ts
+      demo-bonus.gateway.ts
 ```
 
 ## As regras que fazem a troca ser barata
@@ -74,8 +81,8 @@ src/app/@core/gateway/
 1. Implemente a interface da porta em `<porta>/adapters/<provedor>-<porta>.gateway.ts`, com
    `@Injectable()` (sem `providedIn`: quem provê é o `provideGateways`).
 2. Acrescente o id em `GatewayId` (`gateway.models.ts`) e registre a classe no mapa da porta
-   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`, ..., `CONTENT_ADAPTERS`) em `provide-gateways.ts`.
-3. Aponte a marca: `gateways: { auth, player, games, wallet, messages, content }` no
+   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`, ..., `BONUS_ADAPTERS`) em `provide-gateways.ts`.
+3. Aponte a marca: `gateways: { auth, player, games, wallet, messages, content, bonus }` no
    `brands/<slug>/brand.config.ts`, um id por porta.
 4. Se algum spec cria um componente que chega na porta, ligue o adapter `demo` ao token em
    `src/testing/app-testing.ts`.
@@ -131,7 +138,8 @@ games tem um catálogo curto, um mês de histórico gerado e um jogo de mentira 
 ninguém consegue pagar (o QR diz `DEMO`) e um saque que sempre passa; o de mensagens tem três
 recados na caixa de entrada, um deles não lido, e nenhum popup de propósito (uma demo que abre
 diálogo na cara do visitante é uma demo pior); o de conteúdo devolve os templates reais e nenhum
-banner, porque inventar banner é inventar oferta.
+banner, porque inventar banner é inventar oferta; o de bônus não tem bônus nenhum, pela mesma
+razão, e mais forte: bônus tem termos.
 
 Serve para dois trabalhos: abrir a metade logada do app localmente (os hosts do portal gateway
 estão mortos e o backend da casa ainda não existe) e mostrar uma marca de ponta a ponta numa demo. Sozinho o adapter de auth não bastava — o app logava e morria na primeira chamada de saldo.
@@ -301,13 +309,39 @@ edita a marcação do CMS sem ter um CMS.
 `globalization/countries` entrou aqui: é o mesmo tipo de coisa (uma lista que o portal publica) e
 era o que derrubava a tela de dados pessoais quando o portal estava morto.
 
+## O contrato do backend da casa: os bônus
+
+`HouseBonusGateway` fecha a série. O bônus mora com o jogador e a peça de marketing mora no CMS,
+então este adapter fala com as duas bases: `playerApiUrl` nas três primeiras rotas e
+`backofficeApiUrl` nos templates.
+
+| rota                                                                  | saída             |
+| --------------------------------------------------------------------- | ----------------- |
+| `GET /api/v1/bonuses`                                                 | `PlayerBonus[]`   |
+| `POST /api/v1/bonuses/{playerBonusId}/opt-in`                         | 204               |
+| `POST /api/v1/bonuses/opt-in` (`{ code }`)                            | 204               |
+| `GET /api/v1/content/bonus-templates?categories=&bonusIds=&language=` | `BonusTemplate[]` |
+
+Três decisões que valem explicar:
+
+- **`GET /bonuses` devolve tudo, vivo e liquidado.** Duas telas querem fatias diferentes e ambas
+  fatiam no browser. O dia em que essa lista crescer é o dia em que a porta ganha um filtro.
+- **`awardProgress` é um número ou não existe.** Se um bônus tem barra de progresso é uma decisão
+  sobre a condição de premiação, e o backend já a tomou. A barra de rollover é outra coisa, e o app
+  calcula sozinho a partir de `wageringRequirement`.
+- **`needsOptIn` diz se o jogador ainda tem que aceitar.** Na Comtrade isso é `optInBonus` e ainda
+  não `bonusMultiBonusChosen`; o que o backend modelar por baixo é problema dele.
+
 ## O que ainda não tem porta
 
-Sobra uma:
+Nenhuma porta nova. Sobra um serviço: `PlayerActivationService` chama o `PlayerService` do SDK
+direto para as quatro rotas de link de e-mail (verificar e-mail, ativar conta, reativar conta
+inativa, confirmar informe anual). São da porta `auth`, e entram nela.
 
-| porta          | quem faz hoje                          | o que fica lá                   |
-| -------------- | -------------------------------------- | ------------------------------- |
-| `BonusGateway` | `BonusesService`, `PlayerPromoService` | bônus ativos, cupom de promoção |
+Fora isso e dos dois `provideApi` (`app.config.ts` e `src/testing/app-testing.ts`), que configuram o
+cliente gerado para os adapters `comtrade` usarem, nada no app importa
+`@icore/ngx-portalgateway-api-client-atl`.
 
-`TemplateService.transformContent` ainda importa um tipo do SDK por causa dela: os templates de
-bônus chegam no mesmo saco de campos que os banners chegavam. Sai junto com a porta.
+O caminho para trocar de fornecedor é o mesmo desde o começo: escrever sete adapters e mudar sete
+linhas no `brand.config.ts` da marca. Ou menos: uma marca pode misturar, e é o que o `_template`
+faz ao rodar tudo em `demo`.

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContentFieldValue, TemplateData } from '@icore/ngx-portalgateway-api-client-atl';
+import { CmsTemplate } from '@app/@core/gateway';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -8,11 +8,7 @@ import { Observable, of } from 'rxjs';
 export class MockTemplateService {
   templateRouteChangeSubscribe(): void {}
 
-  transformContent(contentFieldValues: ContentFieldValue[] | undefined): { [key: string]: any } {
-    return {};
-  }
-
-  getTemplatesList(): Observable<TemplateData[]> {
+  getTemplatesList(): Observable<CmsTemplate[]> {
     return of([]);
   }
 }
