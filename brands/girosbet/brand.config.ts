@@ -44,11 +44,11 @@ export const BRAND_CONFIG: BrandConfig = {
     // TODO(girosbet): placeholder — replace with GirosBet credentials
     // The published demo has no Laravel behind it: /backoffice is answered there by the
     // recorded CMS snapshot (see docs/white-label/04-demo-deploy.md), on the same path shape.
-    backofficeApiUrl: brandEnv({ dev: 'http://localhost:8080', prod: '/backoffice', demo: '/backoffice' }),
+    backofficeApiUrl: brandEnv({ dev: '/backoffice', prod: '/backoffice', demo: '/backoffice' }),
     // Base url of the house backend, read by the `house` adapters below. It has to be filled in,
     // or those adapters fall back to the CMS url, which the api-key interceptor skips, and the key
     // never leaves the browser. The demo build has no backend at all, so nothing there reads it.
-    playerApiUrl: brandEnv({ dev: 'http://localhost:5080', prod: '/gateway', demo: undefined }),
+    playerApiUrl: brandEnv({ dev: '/gateway', prod: '/gateway', demo: undefined }),
     // The house backend knows the brand by its own key; the PortalGateway one stays for the ports
     // still pointed at `comtrade`.
     // TODO(girosbet): placeholder — replace with GirosBet credentials

@@ -26,7 +26,7 @@ export const BRAND_CONFIG: BrandConfig = {
   },
 
   api: {
-    backofficeApiUrl: brandEnv({ dev: 'http://localhost:8080', prod: '/backoffice' }),
+    backofficeApiUrl: brandEnv({ dev: '/backoffice', prod: '/backoffice' }),
     apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
     gamesThumbsBaseUrl: 'https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails',
     gamesThumbsUrlSuffix: '',

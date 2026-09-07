@@ -188,24 +188,42 @@ Em `package.json`, ao lado dos de `betaki`:
 
 ## Rodando com o CMS local
 
-O `api.backofficeApiUrl` de desenvolvimento das marcas aponta para `http://localhost:8080`, que é o
-backoffice Laravel rodando na máquina. Para levantá-lo, no repositório do backoffice:
+Os urls de API das marcas são os mesmos caminhos relativos em todos os ambientes: `/backoffice`
+para o CMS e `/gateway` para o backend próprio. Em dev quem resolve esses caminhos é o
+`proxy.conf.js` do dev-server (o `angular.json` já aponta para ele), então tudo é same-origin e
+nenhum dos dois backends precisa saber em que porta o app está sendo servido. Os alvos vêm de duas
+variáveis de ambiente, com padrão para a máquina local:
+
+| variável            | padrão                  | o que é                     |
+| ------------------- | ----------------------- | --------------------------- |
+| `CMS_URL`           | `http://127.0.0.1:8082` | o backoffice Laravel        |
+| `HOUSE_GATEWAY_URL` | `http://127.0.0.1:5080` | o backend próprio (.NET)    |
+
+Para levantar o CMS, no repositório do backoffice:
 
 ```bash
-docker compose up -d      # sobe app + banco em http://localhost:8080
+docker compose up -d      # sobe app + banco; o container publica a porta 8080
 php artisan demo:seed     # catálogo de demonstração: jogos, categorias, provedores,
                           # lobbies, menus, banners, carrosséis, ganhadores e premiações
 ```
 
-O CORS do container só libera a origem `http://localhost:4200`, então o dev-server precisa subir
-nessa porta:
+Se `localhost:8080` na sua máquina responder outra coisa (aqui é outro programa que ocupa
+`127.0.0.1:8080`), suba um proxy de loopback na rede do compose e aponte `CMS_URL` para ele:
 
 ```bash
-npx ng serve --configuration=<slug> --proxy-config proxy.conf.js --port 4200
+docker run -d --name cms_loopback_proxy --network backoffice_default -p 127.0.0.1:8082:80 \
+  -v "$PWD/cms-proxy.conf:/etc/nginx/conf.d/default.conf:ro" nginx:1.27-alpine
+# cms-proxy.conf: server { listen 80; location / { proxy_pass http://betaki_web:80; } }
 ```
 
-O `proxy.conf.js` continua valendo para o portal gateway (`/api/portal/v1/*`) — o backoffice é
-chamado direto na URL absoluta do `brand.config.ts`, sem passar pelo proxy.
+Aí o dev-server sobe em qualquer porta:
+
+```bash
+npx ng serve --configuration=<slug> --port 4400
+```
+
+Rodando mais de uma instância (por exemplo, um backend de desenvolvimento e um estável), cada
+dev-server recebe o seu alvo: `HOUSE_GATEWAY_URL=http://127.0.0.1:5081 npx ng serve ... --port 4401`.
 
 ## 8. Build e verificação
 

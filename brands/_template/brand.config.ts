@@ -47,11 +47,11 @@ export const BRAND_CONFIG: BrandConfig = {
     /**
      * Laravel backoffice. In production the reverse proxy serves it under `/backoffice`.
      * In development point it at the CMS you run locally — `http://localhost:8080` for the
-     * backoffice docker-compose stack (see `docs/white-label/02-como-criar-marca.md`,
-     * "Rodando com o CMS local"). That container only allows the `http://localhost:4200`
-     * origin, so serve the app on port 4200.
+     * backoffice docker-compose stack, reached through the dev-server proxy in `proxy.conf.js`
+     * (see `docs/white-label/02-como-criar-marca.md`, "Rodando com o CMS local"). Same relative
+     * path in every environment: only the proxy target changes.
      */
-    backofficeApiUrl: brandEnv({ dev: 'http://localhost:8080', prod: '/backoffice' }),
+    backofficeApiUrl: brandEnv({ dev: '/backoffice', prod: '/backoffice' }),
     /** `X-Api-Key` sent to the portal gateway. */
     apiKey: 'TODO-api-key',
     /** Root of the game thumbnail CDN, without a trailing slash. */
