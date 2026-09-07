@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon'; // Added MatIconModule
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, inject } from '@angular/core';
 import { Logger } from '@app/@shared/logger.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
-import { PlayerStatusesResponse } from '@icore/ngx-portalgateway-api-client-atl';
+import { PlayerVerificationStatuses } from '@app/@core/gateway';
 import { TranslateModule } from '@ngx-translate/core'; // Added TranslateModule
 import { BaseDialogComponent } from '../base-dialog/base-dialog.component'; // Added BaseDialogComponent
 import { CdnizePipe } from '@app/@pipes/cdnize.pipe'; // Added CdnizePipe
@@ -44,7 +44,7 @@ export class ProcessVerificationDialogComponent {
   data = inject<ProcessVerificationDialogData>(DIALOG_DATA, { optional: true });
 
   playerVerificationStatus = toSignal(this.playerProfileService.getPlayerVerificationStatus(), {
-    initialValue: {} as PlayerStatusesResponse,
+    initialValue: {} as PlayerVerificationStatuses,
   });
 
   ProcessVerificationResultEnum = ProcessVerificationResultEnum;

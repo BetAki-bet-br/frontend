@@ -25,7 +25,7 @@
                     #selectPeriod
                   >
                     @for (
-                      item of limitType.type === LimitTypeEnum.SiteSessionDuration
+                      item of limitType.type === LimitType.SiteSessionDuration
                         ? limitPeriodOptionsSession
                         : limitPeriodOptions;
                       track item
@@ -51,9 +51,7 @@
               <div class="field-wrapper-edit">
                 <div class="form-field-label" translate>
                   {{
-                    limitType.type !== LimitTypeEnum.SiteSessionDuration
-                      ? ('Amount' | translate)
-                      : ('Duration' | translate)
+                    limitType.type !== LimitType.SiteSessionDuration ? ('Amount' | translate) : ('Duration' | translate)
                   }}
                 </div>
                 <mat-form-field appearance="outline" class="form-input-edit mini" subscriptSizing="dynamic">
@@ -89,7 +87,7 @@
                     <div class="col wide">
                       <div class="label">
                         {{
-                          record.limitType === LimitTypeEnum.SiteSessionDuration
+                          record.limitType === LimitType.SiteSessionDuration
                             ? ('Duration' | translate)
                             : ('Amount' | translate)
                         }}

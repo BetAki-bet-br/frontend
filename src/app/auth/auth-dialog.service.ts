@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
+import { AUTH_GATEWAY, FaceAuthTicket, PlayerVerificationStatuses } from '@app/@core/gateway';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Logger } from '@app/@shared';
 import {
@@ -19,14 +20,8 @@ import {
   ProcessVerificationResultEnum,
 } from '@app/@shared/components/process-verification-dialog/process-verification-dialog.component';
 import { PopupMessagesService } from '@app/@shared/services/popup-messages.service';
-import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-profile/player-profile.service';
-import {
-  FaceAuthResponse,
-  MessageService,
-  PlayerService,
-  PlayerStatusesResponse,
-  WithdrawalFaceAuthProcessResponse,
-} from '@icore/ngx-portalgateway-api-client-atl';
+import { PlayerProfileService } from '@app/player-profile/player-profile.service';
+import { MessageService, WithdrawalFaceAuthProcessResponse } from '@icore/ngx-portalgateway-api-client-atl';
 import { catchError, finalize, first, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { CredentialsService } from './credentials.service';
@@ -71,12 +66,12 @@ export enum AccountVerificationActionEnum {
   providedIn: 'root',
 })
 export class AuthDialogService {
-  private playerServiceApi = inject(PlayerService);
   private messageServiceApi = inject(MessageService);
   private credentialsService = inject(CredentialsService);
   private authenticationService = inject(AuthenticationService);
   private configurationService = inject(ConfigurationService);
   private playerProfileService = inject(PlayerProfileService);
+  private authGateway = inject(AUTH_GATEWAY);
   private dataStoreService = inject(DataStoreService);
   private snackbarService = inject(SnackbarService);
   private dialog = inject(Dialog);
@@ -97,7 +92,7 @@ export class AuthDialogService {
       data,
     );
 
-    const api$: Observable<PlayerStatusesResponse | null> =
+    const api$: Observable<PlayerVerificationStatuses | null> =
       accountVerificationAction !== AccountVerificationActionEnum.Login
         ? this.playerProfileService.getPlayerVerificationStatus()
         : of(null);
@@ -276,7 +271,7 @@ export class AuthDialogService {
     log.debug('initProcessVerificationDialog invoked');
     return this.openProcessVerificationDialog(isWithdrawalProcess).pipe(
       switchMap((result) => {
-        let api$: Observable<FaceAuthResponse | null> = of(null);
+        let api$: Observable<FaceAuthTicket | null> = of(null);
 
         if (result === ProcessVerificationResultEnum.KYC) {
           api$ = this.playerProfileService.playerReverification();
@@ -284,7 +279,7 @@ export class AuthDialogService {
           // It redirects to player profile
           this.router.navigate(['profile/general/info'], { state: { openAddress: true } });
         } else if (result === ProcessVerificationResultEnum.Email) {
-          api$ = this.playerProfileService.verifyPlayerContactInfo(ContactInfoSubTypeIdEnum.Email).pipe(
+          api$ = this.playerProfileService.verifyPlayerContactInfo('email').pipe(
             switchMap((result) => {
               this.snackbarService.openCustomSuccess(
                 this.translate.instant('Email verification code resent successfully'),
@@ -324,7 +319,7 @@ export class AuthDialogService {
           const faceAuthParams: FaceAuthParams = {
             providerId: result.referenceId,
             faceAuthUrl: result?.url ?? undefined,
-            faceAuthUrlQR: result?.quickResponseCodeUrl ?? undefined,
+            faceAuthUrlQR: result?.qrCodeUrl ?? undefined,
           };
           // Open face authentication dialog
           return this.openFaceAuthDialog(faceAuthParams);
@@ -342,7 +337,7 @@ export class AuthDialogService {
           const faceAuthParams: FaceAuthParams = {
             providerId: result.referenceId,
             faceAuthUrl: result?.url ?? undefined,
-            faceAuthUrlQR: result?.quickResponseCodeUrl ?? undefined,
+            faceAuthUrlQR: result?.qrCodeUrl ?? undefined,
           };
           // Open face authentication dialog
           return this.openFaceAuthDialog(faceAuthParams);
@@ -495,9 +490,9 @@ export class AuthDialogService {
         this.credentialsService.setCredentials();
         localStorage.removeItem('T&C_ActionId');
 
-        return this.playerServiceApi.apiPortalV1PlayerLogoutPost().pipe(
-          switchMap((response) => {
-            log.debug('logout() returned from api:', response);
+        return this.authGateway.logout().pipe(
+          switchMap(() => {
+            log.debug('logout() returned from the gateway');
             return of(true);
           }),
           catchError((err) => {

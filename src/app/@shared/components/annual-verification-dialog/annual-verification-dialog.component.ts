@@ -10,7 +10,8 @@ import { brazilianMobileValidator } from '@app/@shared/validators/brazilian-mobi
 import { UsernameOrEmailTakenValidator } from '@app/@shared/validators/username-or-email-taken.validator';
 import { AccountVerificationActionEnum, FaceAuthParams, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
-import { AnnualVerificationAuthRequest, Country, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import { AnnualVerificationInput, PlayerProfile } from '@app/@core/gateway';
+import { Country } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
@@ -49,7 +50,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
   countryList: Country[] = [];
   mobilePrefix: string = '+55';
   isDataLoading = false;
-  playerInfo: PlayerDetails | null = null;
+  playerInfo: PlayerProfile | null = null;
 
   profileGeneralForm = this.fb.group({
     // basic
@@ -102,7 +103,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
       const playerInfo = data.playerInfo;
       if (playerInfo) {
         this.profileGeneralForm.patchValue({
-          email: playerInfo.eMail,
+          email: playerInfo.email,
           firstName: playerInfo.firstName,
           middleName: playerInfo.middleName,
           lastName: playerInfo.lastName,
@@ -145,9 +146,9 @@ export class AnnualVerificationDialogComponent implements OnInit {
       return;
     }
     const formValue = this.profileGeneralForm.getRawValue();
-    const request: AnnualVerificationAuthRequest = {
+    const request: AnnualVerificationInput = {
       id: this.playerInfo?.id ?? 0,
-      eMail: formValue.email ?? '',
+      email: formValue.email ?? '',
       firstName: formValue.firstName ?? '',
       middleName: formValue.middleName ?? '',
       lastName: formValue.lastName ?? '',
@@ -157,7 +158,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
       postalCode: formValue.postalCode ?? '',
       houseNumber: formValue.houseNumber ?? '',
       mobilePhone: this.mobilePrefix + (formValue.mobileNumber ?? ''),
-      state: formValue.state ?? '',
+      stateProvince: formValue.state ?? '',
     };
 
     this.isDataLoading = true;
@@ -171,7 +172,7 @@ export class AnnualVerificationDialogComponent implements OnInit {
             const faceAuthParams: FaceAuthParams = {
               providerId: response.referenceId,
               faceAuthUrl: response?.url ?? undefined,
-              faceAuthUrlQR: response?.quickResponseCodeUrl ?? undefined,
+              faceAuthUrlQR: response?.qrCodeUrl ?? undefined,
             };
 
             return this.authDialogService.initAccountVerificationWithParams(

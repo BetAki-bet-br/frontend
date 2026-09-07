@@ -13,4 +13,5 @@ export type GatewayId = 'comtrade' | 'house' | 'demo';
 /** Which adapter answers each port. One entry per port, so a brand can mix providers. */
 export interface GatewaySelection {
   auth: GatewayId;
+  player: GatewayId;
 }

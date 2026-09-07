@@ -19,7 +19,7 @@ import {
 import { PlayerLimit, TimePeriod } from '@app/@shared/models';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { LimitTypeEnum, PlayerDetails, TimeTypeEnum } from '@icore/ngx-portalgateway-api-client-atl';
+import { LimitPeriod, LimitType, PlayerProfile } from '@app/@core/gateway';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin, of, Subscription, switchMap } from 'rxjs';
 import { PlayerProfileService } from '../player-profile.service';
@@ -72,9 +72,9 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
 
   limits: PlayerLimit[] = [];
 
-  limitTypeEnum = LimitTypeEnum;
+  limitTypeEnum = LimitType;
 
-  playerInfo: PlayerDetails | null = null;
+  playerInfo: PlayerProfile | null = null;
 
   depositLimits: PlayerLimit[] = [];
   lossLimits: PlayerLimit[] = [];
@@ -87,8 +87,8 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
     amountRatio: undefined,
     id: undefined,
     limitStatus: undefined,
-    limitType: LimitTypeEnum.SiteSessionDuration,
-    time: TimeTypeEnum.Hour,
+    limitType: LimitType.SiteSessionDuration,
+    time: LimitPeriod.Hour,
   };
 
   coolingOffLimit: PlayerLimit = {
@@ -97,8 +97,8 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
     amountRatio: undefined,
     id: undefined,
     limitStatus: undefined,
-    limitType: LimitTypeEnum.SiteSessionDuration,
-    time: TimeTypeEnum.GameSession,
+    limitType: LimitType.SiteSessionDuration,
+    time: LimitPeriod.GameSession,
   };
 
   selfExcludeLimit: PlayerLimit = {
@@ -107,8 +107,8 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
     amountRatio: undefined,
     id: undefined,
     limitStatus: undefined,
-    limitType: LimitTypeEnum.SiteSessionDuration,
-    time: TimeTypeEnum.GameSession,
+    limitType: LimitType.SiteSessionDuration,
+    time: LimitPeriod.GameSession,
   };
 
   realityCheckLimit: PlayerLimit = {
@@ -117,8 +117,8 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
     amountRatio: undefined,
     id: undefined,
     limitStatus: undefined,
-    limitType: LimitTypeEnum.SiteSessionDuration,
-    time: TimeTypeEnum.GameSession,
+    limitType: LimitType.SiteSessionDuration,
+    time: LimitPeriod.GameSession,
   };
 
   form = new FormGroup({
@@ -199,10 +199,10 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.limits = data.playerLimits;
         this.playerInfo = data.playerDetails;
-        this.depositLimits = this.getLimits(this.limits, LimitTypeEnum.Deposit);
-        this.lossLimits = this.getLimits(this.limits, LimitTypeEnum.TotalLost);
-        this.wagerLimits = this.getLimits(this.limits, LimitTypeEnum.TotalWager);
-        this.sessionLimits = this.getLimits(this.limits, LimitTypeEnum.SiteSessionDuration);
+        this.depositLimits = this.getLimits(this.limits, LimitType.Deposit);
+        this.lossLimits = this.getLimits(this.limits, LimitType.TotalLost);
+        this.wagerLimits = this.getLimits(this.limits, LimitType.TotalWager);
+        this.sessionLimits = this.getLimits(this.limits, LimitType.SiteSessionDuration);
         // split remaining amount to hours and minutes
         this.sessionLimits.forEach((limit) => {
           if (limit.amountLeft) {
@@ -235,7 +235,7 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
     });
   }
 
-  getLimits(list: PlayerLimit[], limitType: LimitTypeEnum, time?: TimeTypeEnum): PlayerLimit[] {
+  getLimits(list: PlayerLimit[], limitType: LimitType, time?: LimitPeriod): PlayerLimit[] {
     let result: PlayerLimit[] = list.filter((element) => {
       if (
         element.limitType === limitType &&
@@ -296,7 +296,7 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
             const faceAuthParams: FaceAuthParams = {
               providerId: response.referenceId,
               faceAuthUrl: response?.url ?? undefined,
-              faceAuthUrlQR: response?.quickResponseCodeUrl ?? undefined,
+              faceAuthUrlQR: response?.qrCodeUrl ?? undefined,
             };
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,

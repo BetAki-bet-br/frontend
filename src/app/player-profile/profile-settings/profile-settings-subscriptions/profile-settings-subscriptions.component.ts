@@ -8,11 +8,7 @@ import {
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { Logger } from '@app/@shared/logger.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
-import {
-  ContactPrefChannels,
-  GetPlayerContactPreferencesResponse,
-  UpdatePlayerContactPrefRequest,
-} from '@icore/ngx-portalgateway-api-client-atl';
+import { ContactPreferences } from '@app/@core/gateway';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BRAND_PARAMS } from '@app/@core/brand';
 
@@ -74,7 +70,7 @@ export class ProfileSettingsSubscriptionsComponent implements OnInit {
     receivePromosByPopupInbox: this.fb.control<boolean | null>(null),
   });
 
-  private contactPreferences!: GetPlayerContactPreferencesResponse | UpdatePlayerContactPrefRequest | null;
+  private contactPreferences!: ContactPreferences | null;
 
   get receiveExclusiveOffersAndBonuses() {
     return this.subscriptionsForm.get('receiveExclusiveOffersAndBonuses')?.value;
@@ -157,9 +153,9 @@ export class ProfileSettingsSubscriptionsComponent implements OnInit {
   }
 
   updateContactPreferences() {
-    const request: UpdatePlayerContactPrefRequest = {
+    const request: ContactPreferences = {
       ...this.contactPreferences,
-      contactPrefChannels: {
+      channels: {
         sms: !!this.receivePromosBySMS && !!this.receiveExclusiveOffersAndBonuses,
         im: !!this.receivePromosByIm && !!this.receiveExclusiveOffersAndBonuses,
         email: !!this.receivePromosByEmail && !!this.receiveExclusiveOffersAndBonuses,
@@ -200,12 +196,12 @@ export class ProfileSettingsSubscriptionsComponent implements OnInit {
     this.subscriptionsForm.patchValue(
       {
         receiveExclusiveOffersAndBonuses: receiveOffers,
-        receivePromosBySMS: receiveOffers && this.contactPreferences?.contactPrefChannels?.sms,
-        receivePromosByIm: receiveOffers && this.contactPreferences?.contactPrefChannels?.im,
-        receivePromosByEmail: receiveOffers && this.contactPreferences?.contactPrefChannels?.email,
-        receivePromosByTelephone: receiveOffers && this.contactPreferences?.contactPrefChannels?.telephone,
-        receivePromosByPost: receiveOffers && this.contactPreferences?.contactPrefChannels?.post,
-        receivePromosByPopupInbox: receiveOffers && this.contactPreferences?.contactPrefChannels?.popupInbox,
+        receivePromosBySMS: receiveOffers && this.contactPreferences?.channels?.sms,
+        receivePromosByIm: receiveOffers && this.contactPreferences?.channels?.im,
+        receivePromosByEmail: receiveOffers && this.contactPreferences?.channels?.email,
+        receivePromosByTelephone: receiveOffers && this.contactPreferences?.channels?.telephone,
+        receivePromosByPost: receiveOffers && this.contactPreferences?.channels?.post,
+        receivePromosByPopupInbox: receiveOffers && this.contactPreferences?.channels?.popupInbox,
       },
       { emitEvent: false },
     );

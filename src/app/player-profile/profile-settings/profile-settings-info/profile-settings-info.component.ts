@@ -35,8 +35,9 @@ import {
 import { CountryCode } from '@app/@shared/models';
 import { validateNumber } from '@app/@shared/utils/validate-number';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
-import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-profile/player-profile.service';
-import { Country, FaceAuthUpdatePlayerRequest, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import { PlayerProfileService } from '@app/player-profile/player-profile.service';
+import { ContactVerificationStatus, PlayerProfile, UpdateProfileInput } from '@app/@core/gateway';
+import { Country } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { forkJoin, map, of, switchMap } from 'rxjs';
 import { GENDER_LIST } from './profile-settings-info.mock';
@@ -100,7 +101,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
 
   readonly matTabGroup = input<MatTabGroup>();
   readonly profileChanged = output<{
-    playerInfoData: PlayerDetails | null;
+    playerInfoData: PlayerProfile | null;
     phoneVerification: string;
   }>();
 
@@ -162,7 +163,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
   defaultYear: number = 1995;
   defaultMonth: number = 1;
 
-  playerDetails!: PlayerDetails | null;
+  playerDetails!: PlayerProfile | null;
   numberVerified?: boolean;
   mobilePhoneAdded: boolean = false;
   emailVerified: boolean = false;
@@ -223,7 +224,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
       next: ({ playerInfo, countryList, countryCodes, numberVerification, verificationStatus }) => {
         this.playerDetails = playerInfo;
 
-        this.numberVerified = !this.playerDetails?.mobilePhone || numberVerification === 'Verified';
+        this.numberVerified = !this.playerDetails?.mobilePhone || numberVerification === 'verified';
         this.mobilePhoneAdded = this.playerDetails?.mobilePhone ? true : false;
 
         this.genderList = GENDER_LIST;
@@ -252,9 +253,9 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
 
   // On save
   onSaveAddress() {
-    const request: FaceAuthUpdatePlayerRequest = {
+    const request: UpdateProfileInput = {
       id: this.playerDetails?.id ?? undefined,
-      eMail: this.profileGeneralForm.getRawValue()?.email ?? '',
+      email: this.profileGeneralForm.getRawValue()?.email ?? '',
       firstName: this.profileGeneralForm.getRawValue()?.firstName ?? '',
       lastName: this.profileGeneralForm.getRawValue()?.lastName ?? '',
       city: this.profileGeneralForm.getRawValue()?.city ?? undefined,
@@ -271,7 +272,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
             const faceAuthParams: FaceAuthParams = {
               providerId: response.referenceId,
               faceAuthUrl: response?.url ?? undefined,
-              faceAuthUrlQR: response?.quickResponseCodeUrl ?? undefined,
+              faceAuthUrlQR: response?.qrCodeUrl ?? undefined,
             };
 
             return this.authDialogService.initAccountVerificationWithParams(
@@ -364,9 +365,9 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
     const mobileNumber = mobileNumberControl.value?.toString();
     let mobilePhoneWithPrefix = mobileNumber ? `${this.mobilePrefix}${mobileNumber}` : '';
 
-    const request: FaceAuthUpdatePlayerRequest = {
+    const request: UpdateProfileInput = {
       id: this.playerDetails?.id ?? undefined,
-      eMail: this.profileGeneralForm.getRawValue()?.email ?? '',
+      email: this.profileGeneralForm.getRawValue()?.email ?? '',
       firstName: this.profileGeneralForm.getRawValue()?.firstName ?? '',
       lastName: this.profileGeneralForm.getRawValue()?.lastName ?? '',
       mobilePhone: mobilePhoneWithPrefix,
@@ -383,7 +384,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
             const faceAuthParams: FaceAuthParams = {
               providerId: response.referenceId,
               faceAuthUrl: response?.url ?? undefined,
-              faceAuthUrlQR: response?.quickResponseCodeUrl ?? undefined,
+              faceAuthUrlQR: response?.qrCodeUrl ?? undefined,
             };
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,
@@ -431,9 +432,9 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
 
   onSaveChavePix() {
     // TODO: [klemenb] it's not relevant now
-    /* const request: FaceAuthUpdatePlayerRequest = {
+    /* const request: UpdateProfileInput = {
       id: this.playerDetails?.id ?? undefined,
-      eMail: this.profileGeneralForm.getRawValue()?.email ?? '',
+      email: this.profileGeneralForm.getRawValue()?.email ?? '',
       firstName: this.profileGeneralForm.getRawValue()?.firstName ?? '',
       mobilePhone,
     };
@@ -445,7 +446,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
           const faceAuthParams: FaceAuthParams = {
             providerId: response?.referenceId ?? '',
             faceAuthUrl: response?.url ?? '',
-            faceAuthUrlQR: response?.quickResponseCodeUrl ?? '',
+            faceAuthUrlQR: response?.qrCodeUrl ?? '',
           };
           return this.authDialogService.initAccountVerification(AccountVerificationActionEnum.Account, faceAuthParams);
         })
@@ -459,7 +460,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
   }
 
   onResendEmailVerificationCode() {
-    this.playerProfileService.verifyPlayerContactInfo(ContactInfoSubTypeIdEnum.Email).subscribe({
+    this.playerProfileService.verifyPlayerContactInfo('email').subscribe({
       next: (response) => {
         this.snackbarService.openCustomSuccess(
           this.translate.instant('Email verification code resent successfully'),
@@ -505,10 +506,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
     this.profileGeneralForm.controls.emailVerificationCode.markAsTouched();
     if (this.profileGeneralForm.value.emailVerificationCode) {
       this.playerProfileService
-        .completeContactInfoVerification(
-          ContactInfoSubTypeIdEnum.Email,
-          this.profileGeneralForm.value.emailVerificationCode,
-        )
+        .completeContactInfoVerification('email', this.profileGeneralForm.value.emailVerificationCode)
         .pipe(
           switchMap((response) => {
             this.snackbarService.openCustomSuccess(
@@ -560,9 +558,9 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
     // check if mobile number field is enabled, prefix is filled and mobile number is empty
     else if (this.profileGeneralForm.controls.mobileNumber.enabled && mobilePrefix && !mobileNumber) return;
 
-    const request: FaceAuthUpdatePlayerRequest = {
+    const request: UpdateProfileInput = {
       id: this.playerDetails?.id ?? undefined,
-      eMail: this.profileGeneralForm.getRawValue()?.email ?? '',
+      email: this.profileGeneralForm.getRawValue()?.email ?? '',
       firstName: this.profileGeneralForm.getRawValue()?.firstName ?? '',
       city: this.profileGeneralForm.getRawValue()?.city ?? undefined,
       street: this.profileGeneralForm.getRawValue()?.street ?? undefined,
@@ -580,7 +578,7 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
             const faceAuthParams: FaceAuthParams = {
               providerId: response.referenceId,
               faceAuthUrl: response?.url ?? undefined,
-              faceAuthUrlQR: response?.quickResponseCodeUrl ?? undefined,
+              faceAuthUrlQR: response?.qrCodeUrl ?? undefined,
             };
             return this.authDialogService
               .initAccountVerification(AccountVerificationActionEnum.Account, faceAuthParams)
@@ -599,9 +597,9 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
       )
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (response: { playerInfo: PlayerDetails | null; numberVerification: string }) => {
+        next: (response: { playerInfo: PlayerProfile | null; numberVerification: ContactVerificationStatus }) => {
           this.playerDetails = response?.playerInfo;
-          this.numberVerified = !this.playerDetails?.mobilePhone || response.numberVerification === 'Verified';
+          this.numberVerified = !this.playerDetails?.mobilePhone || response.numberVerification === 'verified';
           this.mobilePhoneAdded = this.playerDetails?.mobilePhone ? true : false;
 
           this.setGeneralForm();
@@ -671,12 +669,12 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
     this.profileGeneralForm.patchValue(
       {
         // basic
-        username: this.playerDetails?.userName,
-        cpf: this.playerDetails?.userName,
+        username: this.playerDetails?.username,
+        cpf: this.playerDetails?.username,
         fullName: `${this.playerDetails?.firstName} ${this.playerDetails?.middleName ?? ''} ${
           this.playerDetails?.lastName
         }`,
-        email: this.playerDetails?.eMail,
+        email: this.playerDetails?.email,
         firstName: this.playerDetails?.firstName,
         lastName: this.playerDetails?.lastName,
         // date of birth

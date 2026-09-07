@@ -18,11 +18,11 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { DataStoreService } from '@app/@core';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Logger } from '@app/@shared';
+import { LimitPeriod, LimitStatus, LimitType } from '@app/@core/gateway';
 import { PlayerLimit } from '@app/@shared/models';
 import { validateNumber } from '@app/@shared/utils/validate-number';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { LimitStatusEnum, LimitTypeEnum, TimeTypeEnum } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { finalize, Subscription } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
@@ -41,13 +41,13 @@ export const RESPONSIBLE_DEPOSIT_MAXIMUM_LIMIT = 100000000000000000;
 
 interface TimePeriodOption {
   label: string;
-  value: TimeTypeEnum;
+  value: LimitPeriod;
 }
 
 const log = new Logger('ResponsibleLimitsComponent');
 
 export interface ResponsibleLimitForm {
-  limitPeriod: FormControl<TimeTypeEnum | null>;
+  limitPeriod: FormControl<LimitPeriod | null>;
   limitValue?: FormControl<number | null>;
 }
 
@@ -89,38 +89,38 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
 
   readonly refreshLimits = output<void>();
 
-  limitStatusEnum = LimitStatusEnum;
+  limitStatusEnum = LimitStatus;
 
   isDataLoading = false;
 
-  LimitTypeEnum = LimitTypeEnum;
+  LimitType = LimitType;
 
   limitMax = 99999999;
 
   limitList = [
     {
-      type: LimitTypeEnum.Deposit,
+      type: LimitType.Deposit,
       title: marker('Deposit limits'),
       description: marker(
         'Set a maximum amount you can deposit in a chosen time period. Period limitations can be set to 24 hours, 7 days, or 30 consecutive days. Once you reach the specified limit, you will not be able to add any more funds until the set time period has ended. If you reduce the limit, the change will take effect immediately. If you choose to increase the limit, the change will take effect 24 hours after the change.',
       ),
     },
     {
-      type: LimitTypeEnum.TotalWager,
+      type: LimitType.TotalWager,
       title: marker('Betting limits'),
       description: marker(
         'Set a maximum amount you can bet in a chosen time period. Period limitations can be set to 24 hours, 7 days or 30 consecutive days. Once you reach the specified limit, you will not be able to place any new bets until the set time has elapsed. If you reduce the limit, the change will be applied immediately. If you choose to increase the limit, the change will take effect 24 hours after the change.',
       ),
     },
     {
-      type: LimitTypeEnum.TotalLost,
+      type: LimitType.TotalLost,
       title: marker('Loss limits'),
       description: marker(
         'Set a maximum amount you are willing to lose in a chosen period of time. Period limitations can be set to 24 hours, 7 days or 30 consecutive days. Once you reach the loss limit, you will not be able to continue playing until the set time has elapsed. If you reduce the limit, the change will take effect immediately. If you choose to increase the limit, the change will take effect 24 hours after the change.',
       ),
     },
     {
-      type: LimitTypeEnum.SiteSessionDuration,
+      type: LimitType.SiteSessionDuration,
       title: marker('Time limits'),
       description: marker(
         'Set a time limit for how long you can play per session. Once you reach the set time, you will be automatically logged out and will only be able to play again after the time limit has ended or when you start a new session. If you reduce the limit, the change will take effect immediately. If you decide to increase the time, the change will take effect 24 hours later.',
@@ -129,26 +129,26 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
   ];
 
   depositForm = this.fb.group<ResponsibleLimitForm>({
-    limitPeriod: this.fb.control<TimeTypeEnum | null>(null, Validators.required),
+    limitPeriod: this.fb.control<LimitPeriod | null>(null, Validators.required),
     limitValue: this.fb.control<number | null>(null, Validators.required),
   });
 
   totalWagerForm = this.fb.group<ResponsibleLimitForm>({
-    limitPeriod: this.fb.control<TimeTypeEnum | null>(null, Validators.required),
+    limitPeriod: this.fb.control<LimitPeriod | null>(null, Validators.required),
     limitValue: this.fb.control<number | null>(null, Validators.required),
   });
 
   totalLostForm = this.fb.group<ResponsibleLimitForm>({
-    limitPeriod: this.fb.control<TimeTypeEnum | null>(null, Validators.required),
+    limitPeriod: this.fb.control<LimitPeriod | null>(null, Validators.required),
     limitValue: this.fb.control<number | null>(null, Validators.required),
   });
 
   siteSessionDurationForm = this.fb.group<ResponsibleLimitForm>({
-    limitPeriod: this.fb.control<TimeTypeEnum | null>(null, Validators.required),
+    limitPeriod: this.fb.control<LimitPeriod | null>(null, Validators.required),
     limitValue: this.fb.control<number | null>(null, Validators.required),
   });
 
-  formGroups: Map<LimitTypeEnum, FormGroup<ResponsibleLimitForm>> = new Map();
+  formGroups: Map<LimitType, FormGroup<ResponsibleLimitForm>> = new Map();
 
   depostLimis: PlayerLimit[] = [];
   totalWagerLimits: PlayerLimit[] = [];
@@ -158,31 +158,31 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
   limitPeriodOptions: TimePeriodOption[] = [
     {
       label: 'Daily',
-      value: TimeTypeEnum.Day,
+      value: LimitPeriod.Day,
     },
     {
       label: 'Weekly',
-      value: TimeTypeEnum.Week,
+      value: LimitPeriod.Week,
     },
     {
       label: 'Monthly',
-      value: TimeTypeEnum.Month,
+      value: LimitPeriod.Month,
     },
   ];
 
   limitPeriodOptionsSession: TimePeriodOption[] = [
     {
       label: 'Daily',
-      value: TimeTypeEnum.Day,
+      value: LimitPeriod.Day,
     },
     {
       label: 'Monthly',
-      value: TimeTypeEnum.Month,
+      value: LimitPeriod.Month,
     },
   ];
 
-  selectedTimePeriodTable = TimeTypeEnum.Day;
-  lastAddedPeriodTable = TimeTypeEnum.Day;
+  selectedTimePeriodTable = LimitPeriod.Day;
+  lastAddedPeriodTable = LimitPeriod.Day;
 
   // export to template
   validateNumber = validateNumber;
@@ -196,10 +196,10 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
 
     this.depositForm.updateValueAndValidity();
 
-    this.formGroups.set(LimitTypeEnum.Deposit, this.depositForm);
-    this.formGroups.set(LimitTypeEnum.TotalWager, this.totalWagerForm);
-    this.formGroups.set(LimitTypeEnum.TotalLost, this.totalLostForm);
-    this.formGroups.set(LimitTypeEnum.SiteSessionDuration, this.siteSessionDurationForm);
+    this.formGroups.set(LimitType.Deposit, this.depositForm);
+    this.formGroups.set(LimitType.TotalWager, this.totalWagerForm);
+    this.formGroups.set(LimitType.TotalLost, this.totalLostForm);
+    this.formGroups.set(LimitType.SiteSessionDuration, this.siteSessionDurationForm);
   }
 
   ngOnDestroy(): void {
@@ -215,35 +215,35 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
     if (limitsChange) {
       const limits = limitsChange.currentValue as PlayerLimit[];
 
-      this.depostLimis = this.getExistingLimits(limits, LimitTypeEnum.Deposit);
-      this.totalWagerLimits = this.getExistingLimits(limits, LimitTypeEnum.TotalWager);
-      this.totalLostLimits = this.getExistingLimits(limits, LimitTypeEnum.TotalLost);
-      this.siteSessionDurationLimits = this.getExistingLimits(limits, LimitTypeEnum.SiteSessionDuration);
+      this.depostLimis = this.getExistingLimits(limits, LimitType.Deposit);
+      this.totalWagerLimits = this.getExistingLimits(limits, LimitType.TotalWager);
+      this.totalLostLimits = this.getExistingLimits(limits, LimitType.TotalLost);
+      this.siteSessionDurationLimits = this.getExistingLimits(limits, LimitType.SiteSessionDuration);
 
       this.cdr.detectChanges();
     }
   }
 
-  getForm(limitType: LimitTypeEnum): FormGroup<ResponsibleLimitForm> {
+  getForm(limitType: LimitType): FormGroup<ResponsibleLimitForm> {
     return this.formGroups.get(limitType) ?? this.depositForm;
   }
 
-  getLimits(limitType: LimitTypeEnum): PlayerLimit[] {
+  getLimits(limitType: LimitType): PlayerLimit[] {
     switch (limitType) {
-      case LimitTypeEnum.Deposit:
+      case LimitType.Deposit:
         return this.depostLimis;
-      case LimitTypeEnum.TotalWager:
+      case LimitType.TotalWager:
         return this.totalWagerLimits;
-      case LimitTypeEnum.TotalLost:
+      case LimitType.TotalLost:
         return this.totalLostLimits;
-      case LimitTypeEnum.SiteSessionDuration:
+      case LimitType.SiteSessionDuration:
         return this.siteSessionDurationLimits;
     }
 
     return [];
   }
 
-  onAddLimit(limitType: LimitTypeEnum) {
+  onAddLimit(limitType: LimitType) {
     const formGroup = this.getForm(limitType);
 
     // formGroup.controls.limitPeriod?.setValidators([Validators.required]);
@@ -263,7 +263,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
     const request: PlayerLimit = {
       id: undefined,
       limitType: limitType,
-      limitStatus: LimitStatusEnum.Active,
+      limitStatus: LimitStatus.Active,
       amountValue: formGroup?.get('limitValue')?.value ?? undefined,
       amountLeft: formGroup?.get('limitValue')?.value ?? undefined,
       locked: false,
@@ -310,13 +310,13 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
     return '';
   }
 
-  getLimitPeriod(time: TimeTypeEnum | undefined): string {
+  getLimitPeriod(time: LimitPeriod | undefined): string {
     const timeResolved = this.limitPeriodOptions.find((item) => item.value === time)?.label ?? '-';
 
     return this.translate.instant(timeResolved ?? '-');
   }
 
-  getExistingLimits(limits: PlayerLimit[], limitType: LimitTypeEnum): PlayerLimit[] {
+  getExistingLimits(limits: PlayerLimit[], limitType: LimitType): PlayerLimit[] {
     return limits.filter((item) => item.limitType === limitType).map((item) => this.mapLimitItem(item));
   }
 
@@ -332,12 +332,12 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
       limitTypeResolved: this.resolveLimitType(item),
       limitResolved: this.resolveLimitText(item),
       timeLeftDate: this.calculateTimeLeftDate(item),
-      amountResolved: item.limitType === LimitTypeEnum.SiteSessionDuration ? duration : amountString,
+      amountResolved: item.limitType === LimitType.SiteSessionDuration ? duration : amountString,
     };
   }
 
   private resolveCurrency(item: PlayerLimit): string {
-    const isDurationType = [LimitTypeEnum.SiteSessionDuration, LimitTypeEnum.GameSessionDuration].includes(
+    const isDurationType = [LimitType.SiteSessionDuration, LimitType.GameSessionDuration].includes(
       item.limitType as any,
     );
 
@@ -364,7 +364,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
     const amountValue = this.getLimitAmountValue(item.amountValue ?? undefined);
     if (amountValue === 'No limit') return '';
 
-    const isDurationType = [LimitTypeEnum.SiteSessionDuration, LimitTypeEnum.GameSessionDuration].includes(
+    const isDurationType = [LimitType.SiteSessionDuration, LimitType.GameSessionDuration].includes(
       item.limitType as any,
     );
 
@@ -372,7 +372,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   private formatCurrencyLimit(item: PlayerLimit): string {
-    if (item.limitStatus === LimitStatusEnum.Pending) return `${item.amountLeft} ${this.currencyCode()}`;
+    if (item.limitStatus === LimitStatus.Pending) return `${item.amountLeft} ${this.currencyCode()}`;
 
     return `${item.amountLeft} ${this.translate.instant('of')} ${item.amountValue} ${this.currencyCode()} ${this.translate.instant('left')}`;
   }
@@ -382,7 +382,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
     const minutes = item.amountLeftMinutes ? `${item.amountLeftMinutes}m` : '';
     const duration = [hours, minutes].filter(Boolean).join(' ');
 
-    if (item.limitStatus === LimitStatusEnum.Pending) return `${duration} ${this.translate.instant('hours')}`;
+    if (item.limitStatus === LimitStatus.Pending) return `${duration} ${this.translate.instant('hours')}`;
 
     return `${duration} ${this.translate.instant('of')} ${item.amountValue} ${this.translate.instant(
       'hours left',
@@ -390,7 +390,7 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
   }
 
   private calculateTimeLeftDate(item: PlayerLimit): Date | null {
-    if (item.limitStatus !== 'Active' || item.time === TimeTypeEnum.GameSession) {
+    if (item.limitStatus !== 'Active' || item.time === LimitPeriod.GameSession) {
       return null;
     }
 
@@ -398,18 +398,18 @@ export class ResponsibleLimitsComponent implements OnInit, OnDestroy, OnChanges 
     const setEndOfDay = () => date.setUTCHours(23, 59, 59);
 
     switch (item.time) {
-      case TimeTypeEnum.Day:
+      case LimitPeriod.Day:
         setEndOfDay();
         break;
 
-      case TimeTypeEnum.Week: {
+      case LimitPeriod.Week: {
         const nextWeek = date.getUTCDate() + (7 - date.getUTCDay());
         date.setUTCDate(nextWeek);
         setEndOfDay();
         break;
       }
 
-      case TimeTypeEnum.Month: {
+      case LimitPeriod.Month: {
         const lastDayOfMonth = new Date(date.getUTCFullYear(), date.getUTCMonth() + 1, 0);
         date.setUTCDate(lastDayOfMonth.getUTCDate());
         setEndOfDay();

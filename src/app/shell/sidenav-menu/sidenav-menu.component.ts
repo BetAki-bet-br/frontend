@@ -17,7 +17,7 @@ import { AccountResolved } from '@app/@shared/models';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { AuthenticationService, CredentialsService } from '@app/auth';
-import { Loyalty, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import { LoyaltyStatus, PlayerProfile } from '@app/@core/gateway';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SideNavMenuMockCasino, SideNavMenuMockSportsbook } from './sidenav-menu.mock';
 import { SidenavMenuService } from './sidenav-menu.service';
@@ -59,8 +59,8 @@ export class SidenavMenuComponent implements OnInit {
 
   readonly hideSidenav = input(false);
   readonly isSignedIn = input(false);
-  readonly playerInfo = input<PlayerDetails | null>(null);
-  readonly loyaltyPoints = input<Loyalty | null>(null);
+  readonly playerInfo = input<PlayerProfile | null>(null);
+  readonly loyaltyPoints = input<LoyaltyStatus | null>(null);
   readonly balance = input<AccountResolved | null>(null);
   readonly sidenavStateChangeEvent = output<SidenavState>();
   readonly sidenav = viewChild.required(MatSidenav);

@@ -9,7 +9,6 @@ export * from './main-banner-data.model';
 export * from './payment-method.model';
 export * from './player-limit.model';
 export * from './player-message-resolved.model';
-export * from './player.model';
 export * from './promotion-bonus.model';
 export * from './promotion.model';
 export * from './promotions-custom-fields.model';

@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { CredentialsService } from '@app/auth';
-import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import { PlayerProfile } from '@app/@core/gateway';
 import { forkJoin } from 'rxjs';
 
 import { Header } from '../header-v2/header';
@@ -33,7 +33,7 @@ export class ShellComponent {
   readonly loadingService = inject(LoadingService);
 
   isSignedIn$ = this.credentialsService.isAuthenticated$;
-  playerInfo: PlayerDetails | null = null;
+  playerInfo: PlayerProfile | null = null;
 
   loyaltyPoints$ = this.playerService.loyaltyStatusSub$;
   balance$ = this.playerService.balanceSub$;

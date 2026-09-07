@@ -1,9 +1,9 @@
 import { ChatService } from '@app/@shared/services/chat.service';
 import { AuthenticationService } from '@app/auth';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
-import { LoginHistoryRequestParameters, PlayerProfileService } from '@app/player-profile/player-profile.service';
+import { PlayerSessionStatus, SessionHistoryQuery } from '@app/@core/gateway';
+import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { IdLabel } from '@app/player-profile/wallet/wallet-history/wallet-history.component';
-import { LogonSessionStatusEnum } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Observable, Subject, Subscription, interval, map, of, switchMap, take, takeUntil, tap } from 'rxjs';
@@ -120,9 +120,9 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
   sessionHistoryExpanded = false;
   closeAccountExpanded = false;
 
-  LogonSessionStatusEnum = LogonSessionStatusEnum;
+  LogonSessionStatusEnum = PlayerSessionStatus;
 
-  statusList: IdLabel[] = Object.values(LogonSessionStatusEnum).map((key: any, index: number) => ({
+  statusList: IdLabel[] = Object.values(PlayerSessionStatus).map((key: any, index: number) => ({
     id: index,
     label: key,
   }));
@@ -254,7 +254,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
 
   async terminateSession(session: SessionHistory) {
     const cpySessionHistory: SessionHistory[] = this.sessionHistoryData.map((h) => h);
-    const activeCount: number = cpySessionHistory.filter((sh) => sh.status === LogonSessionStatusEnum.Active)?.length;
+    const activeCount: number = cpySessionHistory.filter((sh) => sh.status === PlayerSessionStatus.Active)?.length;
 
     const subject: Subject<any> = new Subject<any>();
     const intervalInstance: Observable<SessionHistory[]> = interval(1000)
@@ -273,7 +273,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
             map((sessionHistoryData: SessionHistory[]) => {
               if (sessionHistoryData && sessionHistoryData !== null && sessionHistoryData.length > 0) {
                 const newActiveCount: number = sessionHistoryData.filter(
-                  (sh) => sh.status === LogonSessionStatusEnum.Active,
+                  (sh) => sh.status === PlayerSessionStatus.Active,
                 )?.length;
                 if (activeCount !== newActiveCount) {
                   subject.next('success');
@@ -334,7 +334,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
             const faceAuthParams: FaceAuthParams = {
               providerId: response.referenceId,
               faceAuthUrl: response?.url ?? undefined,
-              faceAuthUrlQR: response?.quickResponseCodeUrl ?? undefined,
+              faceAuthUrlQR: response?.qrCodeUrl ?? undefined,
             };
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,
@@ -391,7 +391,7 @@ export class ProfileSettingsSecurityComponent implements OnInit, OnDestroy {
   private getSessionHistory(): void {
     this.sessionHistoryData = [];
 
-    let filter: LoginHistoryRequestParameters = {
+    let filter: SessionHistoryQuery = {
       pageSize: this.pageSize,
       from: this.setHours(this.filterForm.controls.dateFrom?.value, true) ?? undefined,
       to: this.setHours(this.filterForm.controls.dateTo?.value, false) ?? undefined,

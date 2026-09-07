@@ -137,7 +137,7 @@ export class ProfileSettingsEditPasswordComponent implements OnInit, OnDestroy {
             const faceAuthParams: FaceAuthParams = {
               providerId: response.referenceId,
               faceAuthUrl: response?.url ?? undefined,
-              faceAuthUrlQR: response?.quickResponseCodeUrl ?? undefined,
+              faceAuthUrlQR: response?.qrCodeUrl ?? undefined,
             };
             return this.authDialogService.initAccountVerificationWithParams(
               AccountVerificationActionEnum.Account,

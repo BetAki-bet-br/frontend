@@ -17,7 +17,7 @@ export class UsernameOrEmailTakenValidator {
     type: 'Username' | 'Email',
   ): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (type === 'Email' && dataStoreService.playerInfoInMemory?.eMail === control.value) {
+      if (type === 'Email' && dataStoreService.playerInfoInMemory?.email === control.value) {
         return of(null); // Skip validation if the email is the same as the current one
       }
 

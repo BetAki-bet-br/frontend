@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { CheckUserRegistrationReturn, FaceAuthResponse, PlayerService } from '@icore/ngx-portalgateway-api-client-atl';
+import { CheckUserRegistrationReturn, PlayerService } from '@icore/ngx-portalgateway-api-client-atl';
 import { catchError, filter, map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { Logger } from '../logger.service';
 import {
@@ -10,6 +10,7 @@ import {
 import { Dialog } from '@angular/cdk/dialog';
 import { AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { MessageDialogComponent } from '../components/message-dialog/message-dialog.component';
+import { AUTH_GATEWAY, PLAYER_GATEWAY } from '@app/@core/gateway';
 import { Credentials, CredentialsService } from '@app/auth';
 import { DataStoreService } from '@app/@core';
 import { GoogleTagManagerImplementationService } from './google-tag-manager-implementation.service';
@@ -24,6 +25,8 @@ const log = new Logger('PlayerActivationService');
 export class PlayerActivationService {
   private activatedRoute = inject(ActivatedRoute);
   private playerServiceApi = inject(PlayerService);
+  private authGateway = inject(AUTH_GATEWAY);
+  private playerGateway = inject(PLAYER_GATEWAY);
   private dialog = inject(Dialog);
   private authDialog = inject(AuthDialogService);
   private dataStoreService = inject(DataStoreService);
@@ -160,10 +163,10 @@ export class PlayerActivationService {
           .pipe(
             switchMap((activationResult) => {
               // Step 2: Retrieve player details
-              return this.playerServiceApi.apiPortalV1PlayerGet().pipe(
+              return this.playerGateway.getProfile().pipe(
                 switchMap((player) => {
                   const credentials: Credentials = {
-                    username: player.player?.userName || '',
+                    username: player?.username || '',
                     jwt: '',
                     sessionKey: activationResult.logonSession?.sessionToken || '',
                     userId: activationResult.logonSession?.playerId || 0,
@@ -175,13 +178,13 @@ export class PlayerActivationService {
 
                   // Step 3: Handle facial authentication if required
                   if (activationResult.statusCode === 'FacialAuthenticationRequired') {
-                    return this.playerServiceApi.apiPortalV1PlayerLoginFaceAuthPost({}).pipe(
-                      switchMap((loginFaceAuth: FaceAuthResponse) => {
+                    return this.authGateway.startLoginFaceAuth().pipe(
+                      switchMap((loginFaceAuth) => {
                         if (loginFaceAuth?.referenceId) {
                           const faceAuthParams: FaceAuthParams = {
                             providerId: loginFaceAuth.referenceId,
                             faceAuthUrl: loginFaceAuth.url ?? undefined,
-                            faceAuthUrlQR: loginFaceAuth?.quickResponseCodeUrl ?? undefined,
+                            faceAuthUrlQR: loginFaceAuth?.qrCodeUrl ?? undefined,
                           };
                           return this.authDialog
                             .openFaceAuthDialog(faceAuthParams)

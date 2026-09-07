@@ -1,7 +1,8 @@
 import { ChatService } from '@app/@shared/services/chat.service';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { BRAND } from '@app/@core/brand';
-import { PaymentRequest, PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import { PlayerProfile } from '@app/@core/gateway';
+import { PaymentRequest } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { catchError, map, of, Subscription, switchMap, throwError } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
@@ -140,7 +141,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
     { label: this.translateService.instant('Email'), value: WithdrawalTypeEnum.Email },
   ];
 
-  playerInfo: PlayerDetails | null = null;
+  playerInfo: PlayerProfile | null = null;
   isLoading: boolean = false;
   faceAuthDialogOpen: boolean = false;
 
@@ -540,10 +541,10 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   private setKeyValue(type: string | null) {
     switch (type) {
       case 'document':
-        this.keyControl.setValue(this.playerInfo?.userName ?? '');
+        this.keyControl.setValue(this.playerInfo?.username ?? '');
         break;
       case 'email':
-        this.keyControl.setValue(this.playerInfo?.eMail ?? '');
+        this.keyControl.setValue(this.playerInfo?.email ?? '');
         break;
       case 'phone':
         this.keyControl.setValue(this.playerInfo?.mobilePhone ?? '');

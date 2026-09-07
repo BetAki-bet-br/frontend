@@ -2,7 +2,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { ConfigurationService } from './configuration.service';
 import { DataStoreService } from './data-store.service';
-import { GlobalizationService, PlayerService, ProdGameService } from '@icore/ngx-portalgateway-api-client-atl';
+import { PLAYER_GATEWAY } from '@app/@core/gateway';
+import { GlobalizationService, ProdGameService } from '@icore/ngx-portalgateway-api-client-atl';
 import { MockDataStoreService } from './data-store.service.mock';
 
 describe('ConfigurationService', () => {
@@ -13,7 +14,7 @@ describe('ConfigurationService', () => {
       providers: [
         { provide: DataStoreService, useClass: MockDataStoreService },
         { provide: GlobalizationService, useValue: {} },
-        { provide: PlayerService, useValue: {} },
+        { provide: PLAYER_GATEWAY, useValue: {} },
         { provide: ProdGameService, useValue: {} },
       ],
     });

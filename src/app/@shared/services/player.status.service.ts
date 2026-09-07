@@ -1,19 +1,10 @@
-import { Dialog } from '@angular/cdk/dialog';
 import { Injectable, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
+import { LoyaltyStatus, PLAYER_GATEWAY, PlayerBalance } from '@app/@core/gateway';
 import { Logger } from '@app/@shared/logger.service';
 import { AuthenticationService, CredentialsService } from '@app/auth';
-import {
-  Account,
-  BalanceService,
-  CheckUserRegistrationReturn,
-  Loyalty,
-  LoyaltyService,
-  PlayerService,
-} from '@icore/ngx-portalgateway-api-client-atl';
-import { TranslateService } from '@ngx-translate/core';
 import {
   Observable,
   ReplaySubject,
@@ -26,7 +17,6 @@ import {
   switchMap,
   take,
   tap,
-  throwError,
   timer,
 } from 'rxjs';
 import { AccountResolved } from '../models';
@@ -37,19 +27,14 @@ const log = new Logger('PlayerStatusService');
   providedIn: 'root',
 })
 export class PlayerStatusService {
-  private loyaltyServiceApi = inject(LoyaltyService);
-  private balanceService = inject(BalanceService);
+  private playerGateway = inject(PLAYER_GATEWAY);
   private configurationService = inject(ConfigurationService);
-  private playerServiceApi = inject(PlayerService);
   private dataStoreService = inject(DataStoreService);
   private credentialsService = inject(CredentialsService);
   private authenticationService = inject(AuthenticationService);
   private router = inject(Router);
-  private dialog = inject(Dialog);
-  private translate = inject(TranslateService);
-  private activatedRoute = inject(ActivatedRoute);
 
-  private loyaltyStatusSub = new ReplaySubject<Loyalty | null>(1);
+  private loyaltyStatusSub = new ReplaySubject<LoyaltyStatus | null>(1);
   private balanceSub = new ReplaySubject<AccountResolved | null>(1);
 
   loyaltyStatusSub$ = this.loyaltyStatusSub.asObservable();
@@ -57,7 +42,6 @@ export class PlayerStatusService {
 
   private readonly balanceUpdateInterval = 2000;
   private readonly responsibleGamingLimitUpdateInterval = 60000;
-  private readonly geolocationCheck = 1800000;
 
   private readonly balanceUpdateSpecificsConfig = {
     high: {
@@ -78,23 +62,15 @@ export class PlayerStatusService {
     this.startBalanceUpdate().subscribe();
     // subscribe to player gaming limit expire which repeats on 1 min and retries if error
     this.startSessionResponsibleGamingLimitExpireCheck().subscribe();
-    // subscribe to start geolocation check which repeats on 30 min and retries if error
-    // this.startGeolocationCheck().subscribe();
 
     // Update player balance on authentication change
     this.credentialsService.isAuthenticated$?.pipe(switchMap((_) => this.updatePlayerBalance())).subscribe();
   }
 
   // Returns loyalty for player and emits new data
-  updatePlayerLoyaltyStatus(): Observable<Loyalty | null> {
-    return this.loyaltyServiceApi.apiPortalV1LoyaltyGet().pipe(
-      map((response) => {
-        if (response.loyalty) {
-          this.loyaltyStatusSub.next(response.loyalty);
-          return response.loyalty;
-        }
-        return null;
-      }),
+  updatePlayerLoyaltyStatus(): Observable<LoyaltyStatus | null> {
+    return this.playerGateway.getLoyalty().pipe(
+      tap((loyalty) => this.loyaltyStatusSub.next(loyalty)),
       catchError((err) => {
         log.debug('Get loyalty failed with error:', err);
         throw err;
@@ -106,13 +82,8 @@ export class PlayerStatusService {
   updatePlayerBalance(): Observable<AccountResolved | null> {
     if (!this.credentialsService.isAuthenticated()) return of(null);
 
-    return this.balanceService.apiPortalV1BalanceGet('true', 'true').pipe(
-      switchMap((response) => {
-        if (response.accounts) {
-          return this.resolveAccount(response.accounts);
-        }
-        return of(null);
-      }),
+    return this.playerGateway.getBalance().pipe(
+      switchMap((balance) => (balance ? this.resolveBalance(balance) : of(null))),
       tap((resolved) => {
         this.balanceSub.next(resolved);
       }),
@@ -121,8 +92,8 @@ export class PlayerStatusService {
 
   // update all data and emit
   updatePlayerData(): Observable<{
-    loyalty: Loyalty | null;
-    balance: Account | null;
+    loyalty: LoyaltyStatus | null;
+    balance: AccountResolved | null;
   }> {
     return forkJoin({
       loyalty: this.updatePlayerLoyaltyStatus(),
@@ -130,24 +101,25 @@ export class PlayerStatusService {
     });
   }
 
-  startSessionResponsibleGamingLimitExpireCheck(): Observable<CheckUserRegistrationReturn | null> {
+  /**
+   * Tells the gateway the player is still here, once a minute.
+   *
+   * The answer that matters is `session-limit-reached`: a responsible-gaming limit has run out and
+   * the session is over, so the player is signed out. Which limit it was, and how the provider
+   * reported it, is the adapter's business.
+   */
+  startSessionResponsibleGamingLimitExpireCheck(): Observable<unknown> {
     return timer(0, this.responsibleGamingLimitUpdateInterval).pipe(
       exhaustMap(() => {
         if (!this.credentialsService.isAuthenticated()) return of(null);
 
-        return this.playerServiceApi.apiPortalV1PlayerPlayerActivityPost().pipe(
-          catchError((err) => {
-            log.debug('Get player activity failed with error:', err);
-            if (
-              err?.error?.errorMessage === 'RGLSiteSessionCheckFailed' ||
-              err?.error?.errorMessage === 'RGLDailySiteSessionCheckFailed' ||
-              err?.error?.errorMessage === 'RGLMonthlySiteSessionCheckFailed'
-            ) {
-              return this.authenticationService.logout(true).pipe(switchMap((_) => throwError(() => err)));
-            }
-            throw err;
-          }),
-        );
+        return this.playerGateway
+          .recordActivity()
+          .pipe(
+            switchMap((outcome) =>
+              outcome === 'session-limit-reached' ? this.authenticationService.logout(true) : of(outcome),
+            ),
+          );
       }),
       catchError((err) => {
         log.debug('Get player activity failed with error:', err);
@@ -198,37 +170,20 @@ export class PlayerStatusService {
     );
   }
 
-  private resolveAccount(accounts: Account[]): Observable<AccountResolved> {
+  /**
+   * The gateway already split the balance; this only adds the symbol the screens print, which
+   * depends on the player's locale and is therefore not the gateway's to know.
+   */
+  private resolveBalance(balance: PlayerBalance): Observable<AccountResolved> {
     return this.configurationService.getPlayerInfo().pipe(
       map((playerInfo) => {
-        const withdrawableBalance =
-          accounts.find((account) => account.accountType === 'WithdrawableBalance')?.balance ?? 0;
-        const nonWithdrawableBalance =
-          accounts.find((account) => account.accountType === 'NonWithdrawableBalance')?.balance ?? 0;
-        const realMoneyBalance = accounts.find((account) => account.accountType === 'Money')?.balance ?? 0;
-        const bonusCasinoBalance =
-          accounts.find((account) => account.accountType === 'BonusMoney' && account.productType === 'Casino')
-            ?.balance ?? 0;
-        const bonusSportsbookBalance =
-          accounts.find((account) => account.accountType === 'BonusMoney' && account.productType === 'Sportsbook')
-            ?.balance ?? 0;
-        const totalBalance = withdrawableBalance + nonWithdrawableBalance;
+        const currency = balance.currency ?? playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency;
 
-        const currency = accounts[0].currency ?? playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency;
-        const currencySymbol = this.dataStoreService.getCurrencySymbol(this.dataStoreService.defaultLanguage, currency);
-
-        const resolved: AccountResolved = {
-          totalBalance,
-          lockedBalance: nonWithdrawableBalance,
-          realMoneyBalance,
-          bonusCasinoBalance,
-          bonusSportsbookBalance,
-          currency: currency,
-          currencySymbol: currencySymbol,
-          withdrawableBalance,
+        return {
+          ...balance,
+          currency,
+          currencySymbol: this.dataStoreService.getCurrencySymbol(this.dataStoreService.defaultLanguage, currency),
         };
-
-        return resolved;
       }),
     );
   }

@@ -7,7 +7,7 @@ import { AuthenticationService } from '@app/auth';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { DataStoreService } from '@app/@core';
-import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import { PlayerProfile } from '@app/@core/gateway';
 import { CdnizePipe } from '../../../@pipes/cdnize.pipe';
 import { MatIcon } from '@angular/material/icon';
 import { take } from 'rxjs';
@@ -31,7 +31,7 @@ export class ProfileModal {
   isOpen = input.required<boolean>();
   logoutClicked = output<void>();
   myAccountClicked = output<void>();
-  playerDetails = signal<PlayerDetails | null>(null);
+  playerDetails = signal<PlayerProfile | null>(null);
 
   private balance = toSignal(this.playerService.balanceSub$);
   totalBalance = computed(() => this.balance()?.totalBalance ?? 0);

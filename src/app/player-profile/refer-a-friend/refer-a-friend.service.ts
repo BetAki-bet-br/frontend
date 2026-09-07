@@ -1,43 +1,19 @@
 import { Injectable, inject } from '@angular/core';
+import { PLAYER_GATEWAY, ReferAFriendInput, ReferAFriendStatistics } from '@app/@core/gateway';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import {
-  PlayerService,
-  ReferAFriendRequest,
-  ReferAFriendResponse,
-  ReferAFriendStatisticsResponse,
-} from '@icore/ngx-portalgateway-api-client-atl';
-import { Logger } from '@app/@shared';
-
-const log = new Logger('ReferAFriendService');
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReferAFriendService {
-  private playerServiceApi = inject(PlayerService);
+  private playerGateway = inject(PLAYER_GATEWAY);
 
-  getReferAFriendStatistics(): Observable<ReferAFriendStatisticsResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerReferAFriendGet().pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((err) => {
-        log.debug('getReferAFriendStatistics() returned error:', err);
-        throw err;
-      }),
-    );
+  getReferAFriendStatistics(): Observable<ReferAFriendStatistics> {
+    return this.playerGateway.getReferAFriendStatistics();
   }
 
-  referAFriend(request: ReferAFriendRequest): Observable<ReferAFriendResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerReferAFriendPost(request).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((err) => {
-        log.debug('referAFriend() returned error:', err);
-        throw err;
-      }),
-    );
+  /** `false` means the gateway rejected the batch, which the screen reports to the player. */
+  referAFriend(input: ReferAFriendInput): Observable<boolean> {
+    return this.playerGateway.referAFriend(input);
   }
 }

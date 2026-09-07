@@ -1,6 +1,7 @@
-import { GetPlayerLimit } from '@icore/ngx-portalgateway-api-client-atl';
+import { LimitType, PlayerLimit as GatewayPlayerLimit } from '@app/@core/gateway';
 
-export interface PlayerLimit extends GetPlayerLimit {
+/** A limit from the gateway, plus the strings and ratios the responsible-gaming screen shows. */
+export interface PlayerLimit extends GatewayPlayerLimit {
   amountRatio?: number;
   amountLeftHours?: number;
   amountLeftMinutes?: number;
@@ -12,11 +13,12 @@ export interface PlayerLimit extends GetPlayerLimit {
   amountResolved?: string;
 }
 
-export enum LimitTypeEnumResolved {
-  TotalWager = 'Wager',
-  TotalLost = 'Loss',
-  GameSessionDuration = 'Game Session',
-  MaxSingleBet = 'Max Single Bet',
-  Deposit = 'Deposit',
-  SiteSessionDuration = 'Session',
-}
+/** What each limit type is called on screen. Keyed by {@link LimitType}. */
+export const LimitTypeEnumResolved: Record<LimitType, string> = {
+  TotalWager: 'Wager',
+  TotalLost: 'Loss',
+  GameSessionDuration: 'Game Session',
+  MaxSingleBet: 'Max Single Bet',
+  Deposit: 'Deposit',
+  SiteSessionDuration: 'Session',
+};

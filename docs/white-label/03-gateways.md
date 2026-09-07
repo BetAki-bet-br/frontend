@@ -16,6 +16,13 @@ src/app/@core/gateway/
       comtrade-auth.gateway.ts   PortalGateway da Comtrade (o que a BetAki roda)
       house-auth.gateway.ts      nosso backend
       demo-auth.gateway.ts       sem backend, estado em localStorage
+  player/
+    player.models.ts       PlayerProfile, PlayerLimit, PlayerBalance, PlayerVerificationStatuses...
+    player.gateway.ts      a porta PlayerGateway + o token PLAYER_GATEWAY
+    adapters/
+      comtrade-player.gateway.ts
+      house-player.gateway.ts
+      demo-player.gateway.ts
 ```
 
 ## As regras que fazem a troca ser barata
@@ -35,13 +42,29 @@ src/app/@core/gateway/
 
 ## Escrever um adapter novo
 
-1. Implemente a interface da porta em `auth/adapters/<provedor>-auth.gateway.ts`, com `@Injectable()`
-   (sem `providedIn`: quem provê é o `provideGateways`).
-2. Acrescente o id em `GatewayId` (`gateway.models.ts`) e registre a classe em `AUTH_ADAPTERS`
-   (`provide-gateways.ts`).
-3. Aponte a marca: `gateways: { auth: '<id>' }` no `brands/<slug>/brand.config.ts`.
+1. Implemente a interface da porta em `<porta>/adapters/<provedor>-<porta>.gateway.ts`, com
+   `@Injectable()` (sem `providedIn`: quem provê é o `provideGateways`).
+2. Acrescente o id em `GatewayId` (`gateway.models.ts`) e registre a classe no mapa da porta
+   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`) em `provide-gateways.ts`.
+3. Aponte a marca: `gateways: { auth: '<id>', player: '<id>' }` no `brands/<slug>/brand.config.ts`.
+4. Se algum spec cria um componente que chega na porta, ligue o adapter `demo` ao token em
+   `src/testing/app-testing.ts`.
 
-Nada mais muda. Nenhuma tela, nenhum serviço, nenhum teste.
+Nada mais muda. Nenhuma tela, nenhum serviço.
+
+### Escrever uma porta nova
+
+O desenho é sempre o mesmo, e o `PlayerGateway` é o exemplo maior:
+
+1. `<porta>/<nome>.models.ts` com o vocabulário do app, sem nenhum tipo do cliente gerado. Um
+   modelo do app que hoje estende um DTO do fornecedor (`PlayerLimit`, `SessionHistory`,
+   `AccountResolved`) passa a estender o modelo da porta.
+2. `<porta>/<nome>.gateway.ts` com a interface e o `InjectionToken`, só com os métodos que alguma
+   tela chama de verdade.
+3. Os três adapters. O `comtrade-*` recebe o código que hoje está espalhado nos serviços, o
+   `house-*` é fino e o cabeçalho dele vira a spec do backend, o `demo-*` roda em memória.
+4. O serviço do app continua sendo o orquestrador (cache, formatação, diálogos) e mantém a API
+   pública, para os chamadores não mudarem.
 
 ## O contrato do backend da casa
 
@@ -71,28 +94,55 @@ Não precisa de envelope de erro próprio para começar.
 
 ## O adapter `demo`
 
-Guarda as contas no `localStorage`, aceita a senha `demo` para qualquer usuário e não devolve
-challenge nenhum. Serve para dois trabalhos: abrir a metade logada do app localmente (os hosts do
-portal gateway estão mortos e o backend da casa ainda não existe) e mostrar uma marca de ponta a
-ponta numa demo. `provideGateways()` **recusa** `demo` num build de produção — a marca não sobe com
-autenticação de mentira.
+Guarda tudo no `localStorage`: o de auth aceita a senha `demo` para qualquer usuário e não devolve
+challenge nenhum; o de player inventa um jogador brasileiro completo, verificado e com saldo. Serve
+para dois trabalhos: abrir a metade logada do app localmente (os hosts do portal gateway estão
+mortos e o backend da casa ainda não existe) e mostrar uma marca de ponta a ponta numa demo. Sozinho
+o adapter de auth não bastava — o app logava e morria na primeira chamada de saldo.
+`provideGateways()` **recusa** `demo` num build de produção, em qualquer porta: a marca não sobe com
+conta de mentira.
 
-Os testes usam o mesmo adapter: `provideAppTesting()` liga `AUTH_GATEWAY` nele, então um componente
-que chega na porta consegue ser criado sem HTTP.
+Os testes usam os mesmos adapters: `provideAppTesting()` liga `AUTH_GATEWAY` e `PLAYER_GATEWAY`
+neles, então um componente que chega numa porta consegue ser criado sem HTTP.
+
+## O contrato do backend da casa: o player
+
+`HousePlayerGateway` segue a mesma regra do de auth: o formato do wire é o vocabulário da porta, e o
+cabeçalho do arquivo lista as 24 rotas. A base é a mesma (`BrandConfig.api.playerApiUrl`, com
+fallback para `backofficeApiUrl`), e os grupos são:
+
+| grupo | rotas |
+| --- | --- |
+| perfil | `GET/PUT /profile`, `POST /profile/annual-verification`, `POST /profile/password`, `POST /profile/close`, `POST /profile/annual-report` |
+| verificação | `GET /verification/statuses`, `POST /verification/reverify`, `GET/POST/PUT /verification/contact/{channel}` |
+| sessões | `GET /sessions` |
+| preferências | `GET/PUT /contact-preferences` |
+| jogo responsável | `GET/POST /limits`, `DELETE /limits/{id}`, `POST /limits/self-exclusion`, `POST /limits/time-out`, `POST /activity` |
+| dinheiro | `GET /balance`, `GET /loyalty` |
+| indicação | `GET/POST /refer-a-friend` |
+
+Duas decisões que valem explicar:
+
+- **`POST /activity` responde `{ outcome }`.** O ping de atividade é o que descobre que um limite de
+  sessão do jogo responsável estourou. Na Comtrade isso chega como erro com mensagem `RGL...`; a
+  porta transforma em `session-limit-reached` e quem desloga é o `PlayerStatusService`.
+- **`GET /balance` já devolve o saldo dividido** (sacável, travado, bônus de cassino, bônus de
+  esportes). Só o adapter sabe como o provedor nomeia as contas por trás desses números. O símbolo
+  da moeda não é do gateway: é formatação, e quem faz é o app.
 
 ## O que ainda não tem porta
 
-Só `auth` está portado. O resto continua chamando o cliente gerado direto, e cada um vira uma porta
-seguindo o mesmo desenho:
+`auth` e `player` estão portados. O resto continua chamando o cliente gerado direto, e cada um vira
+uma porta seguindo o mesmo desenho:
 
-| porta | quem faz hoje | arquivos que chamam o cliente gerado |
+| porta | quem faz hoje | o que fica lá |
 | --- | --- | --- |
-| `PlayerGateway` | `PlayerProfileService`, `PlayerService` (v2), `PlayerStatusService` | 4 |
-| `WalletGateway` | `PaymentService` | 2 |
-| `BonusGateway` | `BonusesService`, `PlayerPromoService` | 2 |
-| `GamesGateway` | `GameService`, `WinnersService` | 2 |
-| `MessagesGateway` | `MessageService`, `PopupMessagesService` | 2 |
-| `ContentGateway` | `TemplateService`, `HelpService`, `CmsService` | 3 |
+| `WalletGateway` | `PaymentService`, `PlayerProfileService` | depósito, saque, extrato e detalhe de transação |
+| `GamesGateway` | `GameService`, `WinnersService`, `PlayerProfileService` | lista de jogos, launch, top winners, histórico de jogo e de esportes |
+| `BonusGateway` | `BonusesService`, `PlayerPromoService` | bônus ativos, cupom de promoção |
+| `MessagesGateway` | `MessageService`, `PopupMessagesService`, `PlayerProfileService` | caixa de mensagens e popups |
+| `ContentGateway` | `TemplateService`, `HelpService`, `CmsService` | textos e páginas que ainda vêm do portal |
 
-`PlayerProfileService` (1.048 linhas) é o maior e o que mais mistura orquestração com chamada de
-provedor; vale quebrar em porta + serviço antes de crescer mais.
+`PlayerProfileService` caiu de 1.048 para ~630 linhas: o que sobrou é orquestração (cache, formatação
+por locale, ordenação) mais as chamadas de carteira, histórico e mensagens que ainda não têm porta.
+Elas são o único motivo de o arquivo ainda importar o SDK do fornecedor.

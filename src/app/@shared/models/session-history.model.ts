@@ -1,6 +1,7 @@
-import { LogonSessionDetail } from '@icore/ngx-portalgateway-api-client-atl';
+import { PlayerSession } from '@app/@core/gateway';
 
-export interface SessionHistory extends LogonSessionDetail {
+/** A login from the gateway, plus the strings the security screen shows. */
+export interface SessionHistory extends PlayerSession {
   client: string;
   userAgent: string;
   logonLocal: string;

@@ -142,5 +142,6 @@ export const BRAND_CONFIG: BrandConfig = {
   // endpoints exist; `demo` runs the brand with no backend at all, for a local demo.
   gateways: {
     auth: 'comtrade',
+    player: 'comtrade',
   },
 };

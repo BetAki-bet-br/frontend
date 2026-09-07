@@ -6,8 +6,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { SidebarService } from '@app/@shared/services/sidebar-mobile.service';
 import { AuthenticationService, CredentialsService } from '@app/auth';
-import { PlayerService } from '@app/@shared/services/player.service-v2';
-import { PlayerDetails } from '@icore/ngx-portalgateway-api-client-atl';
+import { ConfigurationService } from '@app/@core/configuration.service';
+import { PlayerProfile } from '@app/@core/gateway';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 import { RoutingService } from '@app/@shared/services/routing.service';
 import { MenuItem } from '../mobile-menu/menu-item.model';
@@ -28,7 +28,7 @@ export class SidebarMobile {
   protected readonly credentialsService: CredentialsService = inject(CredentialsService);
   protected readonly routingService: RoutingService = inject(RoutingService);
   protected readonly authService: AuthenticationService = inject(AuthenticationService);
-  private readonly playerService: PlayerService = inject(PlayerService);
+  private readonly configurationService = inject(ConfigurationService);
   private readonly menusService = inject(MenusService);
   private readonly bannerService = inject(BannersService);
   private readonly document: Document = inject(DOCUMENT);
@@ -39,10 +39,8 @@ export class SidebarMobile {
   protected readonly isOpen = this.sidebarService.isOpen;
   protected readonly isAuthenticated = this.credentialsService.isAuthenticated;
   protected readonly playerDetails = this.credentialsService.isAuthenticated()
-    ? toSignal<PlayerDetails | null>(
-        this.playerService.getPlayerDetails().pipe(map((details) => details.player ?? null)),
-      )
-    : signal<PlayerDetails | null>(null);
+    ? toSignal<PlayerProfile | null>(this.configurationService.getPlayerInfo())
+    : signal<PlayerProfile | null>(null);
 
   isLoadingMenu = signal(true);
   loadedImages = signal<Set<string>>(new Set());

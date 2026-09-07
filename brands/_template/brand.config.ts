@@ -149,5 +149,6 @@ export const BRAND_CONFIG: BrandConfig = {
   // backend, `demo` while there is none (development only - a production build refuses it).
   gateways: {
     auth: 'demo',
+    player: 'demo',
   },
 };

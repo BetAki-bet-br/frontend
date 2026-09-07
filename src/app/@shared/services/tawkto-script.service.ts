@@ -82,7 +82,7 @@ export class TawkToScriptService {
         }),
       )
       .subscribe((res) => {
-        this.setCredentials(res?.eMail ?? '', res?.firstName ?? '');
+        this.setCredentials(res?.email ?? '', res?.firstName ?? '');
       });
   }
 }

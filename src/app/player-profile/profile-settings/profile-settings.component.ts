@@ -103,7 +103,7 @@ export class ProfileSettingsComponent implements OnInit, OnDestroy {
     });
 
     this.playerProfileService.checkNumberVerification().subscribe((response) => {
-      this.phoneNumberVerified = response.toLowerCase() !== 'not verified';
+      this.phoneNumberVerified = response === 'verified';
       this.cdr.detectChanges();
     });
 

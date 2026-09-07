@@ -5,13 +5,24 @@ import { DemoAuthGateway } from './auth/adapters/demo-auth.gateway';
 import { ComtradeAuthGateway } from './auth/adapters/comtrade-auth.gateway';
 import { HouseAuthGateway } from './auth/adapters/house-auth.gateway';
 import { AUTH_GATEWAY, AuthGateway } from './auth/auth.gateway';
-import { GatewayId } from './gateway.models';
+import { GatewayId, GatewaySelection } from './gateway.models';
+import { ComtradePlayerGateway } from './player/adapters/comtrade-player.gateway';
+import { DemoPlayerGateway } from './player/adapters/demo-player.gateway';
+import { HousePlayerGateway } from './player/adapters/house-player.gateway';
+import { PLAYER_GATEWAY, PlayerGateway } from './player/player.gateway';
 
 /** Every adapter that can answer `AUTH_GATEWAY`, keyed by the id a brand writes in its config. */
 const AUTH_ADAPTERS: Record<GatewayId, Type<AuthGateway>> = {
   comtrade: ComtradeAuthGateway,
   house: HouseAuthGateway,
   demo: DemoAuthGateway,
+};
+
+/** Every adapter that can answer `PLAYER_GATEWAY`. */
+const PLAYER_ADAPTERS: Record<GatewayId, Type<PlayerGateway>> = {
+  comtrade: ComtradePlayerGateway,
+  house: HousePlayerGateway,
+  demo: DemoPlayerGateway,
 };
 
 /**
@@ -29,14 +40,34 @@ const AUTH_ADAPTERS: Record<GatewayId, Type<AuthGateway>> = {
 export function provideGateways(): EnvironmentProviders {
   const selection = BRAND_CONFIG.gateways;
 
-  if (environment.production && selection.auth === 'demo') {
-    throw new Error(
-      `Brand "${BRAND_CONFIG.slug}" selects the demo auth gateway, which keeps accounts in localStorage. ` +
-        'Point `gateways.auth` at a real adapter before building for production.',
-    );
-  }
+  refuseDemoInProduction(selection);
 
   const authAdapter = AUTH_ADAPTERS[selection.auth];
+  const playerAdapter = PLAYER_ADAPTERS[selection.player];
 
-  return makeEnvironmentProviders([authAdapter, { provide: AUTH_GATEWAY, useExisting: authAdapter }]);
+  return makeEnvironmentProviders([
+    authAdapter,
+    { provide: AUTH_GATEWAY, useExisting: authAdapter },
+    playerAdapter,
+    { provide: PLAYER_GATEWAY, useExisting: playerAdapter },
+  ]);
+}
+
+/**
+ * The demo adapters keep accounts, balances and limits in `localStorage`. A brand that shipped
+ * with one would be inviting people to gamble against a fixture, so the build fails instead.
+ */
+function refuseDemoInProduction(selection: GatewaySelection): void {
+  if (!environment.production) return;
+
+  const demoPorts = Object.entries(selection)
+    .filter(([, id]) => id === 'demo')
+    .map(([port]) => port);
+
+  if (demoPorts.length) {
+    throw new Error(
+      `Brand "${BRAND_CONFIG.slug}" selects the demo adapter for ${demoPorts.join(', ')}, which keeps state in ` +
+        'localStorage. Point those gateways at a real adapter before building for production.',
+    );
+  }
 }

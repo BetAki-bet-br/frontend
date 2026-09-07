@@ -1,14 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 
-import {
-  Country,
-  Currency,
-  GameCategory,
-  GlobalizationService,
-  PlayerDetails,
-  PlayerService,
-} from '@icore/ngx-portalgateway-api-client-atl';
+// Deep imports: the gateway index pulls in every adapter, and an adapter depends on this file.
+import { PLAYER_GATEWAY } from '@app/@core/gateway/player/player.gateway';
+import type { PlayerProfile } from '@app/@core/gateway/player/player.models';
+import { Country, Currency, GameCategory, GlobalizationService } from '@icore/ngx-portalgateway-api-client-atl';
 import { Observable, filter, finalize, forkJoin, map, of, switchMap, take } from 'rxjs';
 
 export interface MenuGameCategory {
@@ -27,7 +23,7 @@ export interface MenuGameCategory {
 export class ConfigurationService {
   private dataStoreService = inject(DataStoreService);
   private globalizationServiceApi = inject(GlobalizationService);
-  private playerServiceApi = inject(PlayerService);
+  private playerGateway = inject(PLAYER_GATEWAY);
 
   getCountriesList(): Observable<Country[]> {
     // if already cached, return from dataStore
@@ -67,9 +63,9 @@ export class ConfigurationService {
    * Fetch player info from cache or API and reduce redundant API calls using the pending flag
    *
    * @param { boolean } useCache
-   * @returns { Observable<PlayerDetails | null> }
+   * @returns { Observable<PlayerProfile | null> }
    */
-  getPlayerInfo(useCache: boolean = true): Observable<PlayerDetails | null> {
+  getPlayerInfo(useCache: boolean = true): Observable<PlayerProfile | null> {
     return this.dataStoreService.playerInfoInMemoryPending$.pipe(
       filter((cacheIsPending) => (cacheIsPending ?? false) === false),
       take(1),
@@ -88,17 +84,17 @@ export class ConfigurationService {
     );
   }
 
-  private getPlayerInfoData(useCache: boolean = true): Observable<PlayerDetails> {
+  private getPlayerInfoData(useCache: boolean = true): Observable<PlayerProfile> {
     if (this.dataStoreService.isPlayerInfoInMemoryCached() && useCache) {
-      const playerInfoData: PlayerDetails = this.dataStoreService.playerInfoInMemory;
+      const playerInfoData: PlayerProfile = this.dataStoreService.playerInfoInMemory;
       return of(playerInfoData);
     } else {
       this.dataStoreService.setPlayerInfoInMemoryPending(true);
-      return this.playerServiceApi.apiPortalV1PlayerGet().pipe(
-        map((response) => {
-          this.dataStoreService.playerInfoInMemory = response?.player ? response.player : {};
+      return this.playerGateway.getProfile().pipe(
+        map((profile) => {
+          this.dataStoreService.playerInfoInMemory = profile ?? {};
           this.dataStoreService.setPlayerInfoInMemoryPending(false);
-          return response?.player ? response.player : {};
+          return profile ?? {};
         }),
         finalize(() => {
           this.dataStoreService.setPlayerInfoInMemoryPending(false);

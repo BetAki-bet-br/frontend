@@ -21,14 +21,9 @@ import { Banner } from '@app/@shared/models';
 import { GameMenuCategoryModel, GameProviderData, GameTile } from '@app/@shared/models/game.model';
 import { Credentials } from '@app/auth';
 import { I18nService } from '@app/i18n';
-import {
-  Country,
-  Currency,
-  GameCategory,
-  PlayerDetails,
-  PlayerStatusesResponse,
-  TemplateData,
-} from '@icore/ngx-portalgateway-api-client-atl';
+// Deep, type-only: the gateway index pulls in every adapter, and the adapters depend on this file.
+import type { PlayerProfile, PlayerVerificationStatuses } from '@app/@core/gateway/player/player.models';
+import { Country, Currency, GameCategory, TemplateData } from '@icore/ngx-portalgateway-api-client-atl';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -162,7 +157,7 @@ export class DataStoreService {
       timestamp: Date.now(),
     },
     playerVerificationStatus: {
-      data: null as PlayerStatusesResponse | null,
+      data: null as PlayerVerificationStatuses | null,
       timestamp: Date.now(),
     },
   };
@@ -176,7 +171,7 @@ export class DataStoreService {
 
   private _inMemoryConfigurationCache: { [name: string]: CacheItem<any> } = {
     playerInfo: {
-      data: null as PlayerDetails | null,
+      data: null as PlayerProfile | null,
       timestamp: Date.now(),
     },
   };
@@ -299,7 +294,7 @@ export class DataStoreService {
         timestamp: Date.now(),
       },
       playerVerificationStatus: {
-        data: null as PlayerStatusesResponse | null,
+        data: null as PlayerVerificationStatuses | null,
         timestamp: Date.now(),
       },
     };
@@ -311,7 +306,7 @@ export class DataStoreService {
   clearInMemoryConfigurationCache() {
     this._inMemoryConfigurationCache = {
       playerInfo: {
-        data: null as PlayerDetails | null,
+        data: null as PlayerProfile | null,
         timestamp: Date.now(),
       },
     };
@@ -337,7 +332,7 @@ export class DataStoreService {
         timestamp: Date.now(),
       },
       playerVerificationStatus: {
-        data: null as PlayerStatusesResponse | null,
+        data: null as PlayerVerificationStatuses | null,
         timestamp: Date.now(),
       },
     };
@@ -421,7 +416,7 @@ export class DataStoreService {
   /**
    * Get/Set PlayerInfo inMemory cache
    */
-  set playerInfoInMemory(profileInfo: PlayerDetails) {
+  set playerInfoInMemory(profileInfo: PlayerProfile) {
     this.setInMemoryCachedItem('playerInfo', profileInfo);
   }
 
@@ -506,10 +501,10 @@ export class DataStoreService {
   /**
    * Get/Set Player verification status data configuration cache
    */
-  set playerVerificationStatus(value: PlayerStatusesResponse) {
+  set playerVerificationStatus(value: PlayerVerificationStatuses) {
     this.setCachedItem('playerVerificationStatus', value);
   }
-  get playerVerificationStatus(): PlayerStatusesResponse {
+  get playerVerificationStatus(): PlayerVerificationStatuses {
     // return a copy
     return this.getCachedItem('playerVerificationStatus');
   }

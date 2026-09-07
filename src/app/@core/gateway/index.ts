@@ -17,5 +17,28 @@ export type {
   RegisterInput,
   ResetPasswordInput,
 } from './auth/auth.models';
+export { PLAYER_GATEWAY } from './player/player.gateway';
+export type { PlayerGateway } from './player/player.gateway';
+export { LimitPeriod, LimitStatus, LimitType, PlayerSessionStatus } from './player/player.models';
+export type {
+  ActivityOutcome,
+  AnnualVerificationInput,
+  ContactChannel,
+  ContactChannelPreferences,
+  ContactPreferences,
+  ContactVerificationStatus,
+  LoyaltyStatus,
+  PlayerBalance,
+  PlayerLimit,
+  PlayerProfile,
+  PlayerSession,
+  PlayerVerificationStatuses,
+  ReferAFriendInput,
+  ReferAFriendStatistics,
+  Referee,
+  SessionHistoryQuery,
+  SetLimitInput,
+  UpdateProfileInput,
+} from './player/player.models';
 export type { GatewayId, GatewaySelection } from './gateway.models';
 export { provideGateways } from './provide-gateways';

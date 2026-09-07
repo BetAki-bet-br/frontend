@@ -5,8 +5,9 @@ import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angula
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { provideRouter } from '@angular/router';
 import { BRAND_CONFIG } from '@app/@core/brand';
-import { AUTH_GATEWAY } from '@app/@core/gateway';
+import { AUTH_GATEWAY, PLAYER_GATEWAY } from '@app/@core/gateway';
 import { DemoAuthGateway } from '@app/@core/gateway/auth/adapters/demo-auth.gateway';
+import { DemoPlayerGateway } from '@app/@core/gateway/player/adapters/demo-player.gateway';
 import { provideApi } from '@icore/ngx-portalgateway-api-client-atl';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
@@ -33,8 +34,9 @@ export function provideAppTesting(): (Provider | EnvironmentProviders)[] {
     provideApi({ basePath: '' }),
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: formFieldOptions },
     { provide: MAT_CHECKBOX_DEFAULT_OPTIONS, useValue: checkboxOptions },
-    // The brand's real adapter is chosen by `provideGateways()`, which tests do not run. The demo
-    // adapter answers in memory, so a component that reaches the auth gateway can still be created.
+    // The brand's real adapters are chosen by `provideGateways()`, which tests do not run. The demo
+    // adapters answer in memory, so a component that reaches a gateway can still be created.
     { provide: AUTH_GATEWAY, useClass: DemoAuthGateway },
+    { provide: PLAYER_GATEWAY, useClass: DemoPlayerGateway },
   ];
 }

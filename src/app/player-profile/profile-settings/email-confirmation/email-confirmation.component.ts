@@ -1,5 +1,5 @@
 import { ChatService } from '@app/@shared/services/chat.service';
-import { ContactInfoSubTypeIdEnum, PlayerProfileService } from '@app/player-profile/player-profile.service';
+import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -103,29 +103,27 @@ export class EmailConfirmationComponent implements OnInit, OnDestroy {
     this.clearVerifyError();
 
     if (otpCode.length === this.otpLength) {
-      this.playerProfileService
-        .completeContactInfoVerification(ContactInfoSubTypeIdEnum.Email, this.getOtpCode())
-        .subscribe({
-          next: (response) => {
-            log.debug('Verification response:', response);
-            this.verificationStep = 2;
-            this.isSuccess = true;
-            this.cdr.markForCheck();
-          },
-          error: () => {
-            log.debug('Verification error returned error');
-            //this.verificationStep = 2;
-            this.isSuccess = false;
-            this.isVerifyError = true;
-            this.cdr.markForCheck();
-          },
-        });
+      this.playerProfileService.completeContactInfoVerification('email', this.getOtpCode()).subscribe({
+        next: (response) => {
+          log.debug('Verification response:', response);
+          this.verificationStep = 2;
+          this.isSuccess = true;
+          this.cdr.markForCheck();
+        },
+        error: () => {
+          log.debug('Verification error returned error');
+          //this.verificationStep = 2;
+          this.isSuccess = false;
+          this.isVerifyError = true;
+          this.cdr.markForCheck();
+        },
+      });
     }
   }
 
   onResendCode() {
     log.debug('onResendCode() invoked');
-    this.playerProfileService.verifyPlayerContactInfo(ContactInfoSubTypeIdEnum.Email).subscribe({
+    this.playerProfileService.verifyPlayerContactInfo('email').subscribe({
       next: (response) => {
         this.snackbarService.openCustomSuccess(
           this.translate.instant('Email verification code resent successfully'),

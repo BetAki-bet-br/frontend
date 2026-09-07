@@ -1,14 +1,26 @@
 import { Injectable, inject } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
-import { Country } from '@app/@shared/form-utils';
+import {
+  AnnualVerificationInput,
+  ContactChannel,
+  ContactPreferences,
+  ContactVerificationStatus,
+  FaceAuthTicket,
+  PLAYER_GATEWAY,
+  PlayerLimit as GatewayPlayerLimit,
+  PlayerSession,
+  PlayerSessionStatus,
+  PlayerVerificationStatuses,
+  SessionHistoryQuery,
+  UpdateProfileInput,
+} from '@app/@core/gateway';
 import { Logger } from '@app/@shared/logger.service';
 import {
   GetGameHistoryResponseResolved,
   GetPlayerTransactionsResponseResolved,
   HistoryResolved,
   LimitTypeEnumResolved,
-  PlayerContactInfo,
   PlayerLimit,
   SessionHistory,
   TransactionHistoryModel,
@@ -21,88 +33,53 @@ import {
   SportsbookBetHistoryModelResolved,
   TransactionDetailsResolved,
 } from '@app/@shared/models/sportsbook.model';
-import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { CredentialsService } from '@app/auth/credentials.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import {
-  AnnualVerificationAuthRequest,
   BalanceService,
   BetStatusEnum,
-  BonusService,
   ChangeMessageTypeEnum,
-  ChangePlayerPasswordRequest,
-  DeclinePlayerBonusContextRequest,
-  FaceAuthResponse,
-  FaceAuthUpdatePlayerRequest,
   GetBetHistoryResponse,
   GetGameHistoryResponse,
-  GetPlayerContactPreferencesResponse,
-  GetPlayerLimit,
   GetPlayerTransactionsRequest,
   GetPlayerTransactionsResponse,
-  LogonSessionDetail,
-  LogonSessionStatusEnum,
   MessageService,
-  PlayerDetailsResponse,
-  PlayerDocument,
-  PlayerService,
-  PlayerStatusesResponse,
   ProdGameService,
-  PromotionsCouponCodeRequest,
-  ReVerificationResponse,
-  ReferAFriendRequest,
-  ReferAFriendResponse,
-  ReferAFriendStatisticsResponse,
-  SetPlayerLimitRequest,
   SportsbookService,
-  TimeOutPlayerRequest,
-  UpdatePlayerContactPrefRequest,
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, Subject, map, of, throwError } from 'rxjs';
+import { Observable, map, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { COUNTRY_LIST } from './profile-settings/profile-settings-info/profile-settings-info.mock';
 import { COUNTRY_CODES } from './country-codes';
 import { IdLabel } from './wallet/wallet-history/wallet-history.component';
 
 const log = new Logger('PlayerProfileService');
 
-export interface LoginHistoryRequestParameters {
-  from?: Date;
-  to?: Date;
-  pageNumber?: number;
-  pageSize?: number;
-  orderBy?: string;
-  descending?: boolean;
-}
-
-export enum ContactInfoSubTypeIdEnum {
-  Home = 1,
-  Mobile1 = 2,
-  Mobile2 = 3,
-  Work = 4,
-  Fax = 5,
-  Other = 6,
-  Email = 200,
-}
-
+/**
+ * Everything the profile screens do, in one place: the player's data, the responsible-gaming
+ * limits, the history tables and the account's paperwork.
+ *
+ * The identity half now goes through {@link PLAYER_GATEWAY}, and what is left here is
+ * orchestration: caching the verification statuses, turning amounts into strings in the player's
+ * locale, and sorting a list before a table renders it.
+ *
+ * The wallet, game and sportsbook history and the message calls below still talk to the generated
+ * PortalGateway client, because their ports (WalletGateway, GamesGateway, MessagesGateway) are not
+ * written yet. They are the reason this file still imports a vendor SDK.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class PlayerProfileService {
-  private playerServiceApi = inject(PlayerService);
+  private playerGateway = inject(PLAYER_GATEWAY);
   private dataStoreService = inject(DataStoreService);
   private configurationService = inject(ConfigurationService);
   private translateService = inject(TranslateService);
   private balanceApi = inject(BalanceService);
-  private bonusApi = inject(BonusService);
   private gamesApi = inject(ProdGameService);
   private sportsBookApi = inject(SportsbookService);
-  private playerStatusService = inject(PlayerStatusService);
   private credentialsService = inject(CredentialsService);
   private messagesService = inject(MessageService);
-
-  numberChanged: Subject<boolean> = new Subject();
 
   private playerLocale: string | undefined;
 
@@ -128,109 +105,47 @@ export class PlayerProfileService {
       });
   }
 
-  getPlayerVerificationStatus(useCache: boolean = false): Observable<PlayerStatusesResponse> {
-    // if already cached, return from dataStore
+  /** The verification gates, from the cache when the caller can live with a stale answer. */
+  getPlayerVerificationStatus(useCache: boolean = false): Observable<PlayerVerificationStatuses> {
     if (useCache && this.dataStoreService.isPlayerVerificationStatusCached()) {
       return of(this.dataStoreService.playerVerificationStatus);
-    } else {
-      // otherwise, get them from api
-      return this.playerServiceApi.apiPortalV1PlayerPlayerStatusesPost().pipe(
-        map((response) => {
-          this.dataStoreService.playerVerificationStatus = response;
-          return response;
-        }),
-        catchError((err) => {
-          log.debug('apiPortalV1PlayerPlayerStatusesPost() returned error:', err);
-          throw err;
-        }),
-      );
     }
-  }
 
-  playerReverification(): Observable<ReVerificationResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerReverificationPost({}).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((err) => {
-        log.debug('getPlayerReverification() returned error:', err);
-        throw err;
+    return this.playerGateway.getVerificationStatuses().pipe(
+      map((statuses) => {
+        this.dataStoreService.playerVerificationStatus = statuses;
+        return statuses;
       }),
     );
   }
 
-  playerSelfExclusion(excludedUntil: string): Observable<FaceAuthResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerSelfExcludeFaceAuthPost(excludedUntil).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((err) => {
-        log.debug('playerSelfExclusion() returned error:', err);
-        throw err;
-      }),
-    );
+  /** Opens an identity check for a player the operator wants to see again. */
+  playerReverification(): Observable<FaceAuthTicket | null> {
+    return this.playerGateway.startReverification();
   }
 
-  playerSetTimeout(excludedUntil: string): Observable<any> {
-    return this.playerServiceApi.apiPortalV1PlayerTimeOutPut({ excludedUntil }).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((err) => {
-        log.debug('playerSetTimeout() returned error:', err);
-        throw err;
-      }),
-    );
+  /** Bars the player until the given ISO timestamp. They cannot undo it. */
+  playerSelfExclusion(untilIso: string): Observable<FaceAuthTicket | null> {
+    return this.playerGateway.selfExclude(untilIso);
   }
 
-  verifyPlayerContactInfo(contactInfoSubTypeId: ContactInfoSubTypeIdEnum): Observable<any> {
-    return this.playerServiceApi.apiPortalV1PlayerContactInfoVerificationPost(contactInfoSubTypeId).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((err) => {
-        log.debug('getPlayerContactInfoVerification() returned error:', err);
-        throw err;
-      }),
-    );
+  /** A break that ends by itself at the given ISO timestamp. */
+  playerSetTimeout(untilIso: string): Observable<void> {
+    return this.playerGateway.timeOut(untilIso);
   }
 
-  completeContactInfoVerification(
-    contactInfoSubTypeId: ContactInfoSubTypeIdEnum,
-    verificationCode: string,
-  ): Observable<any> {
-    log.debug('completeContactInfoVerification() invoked with:', contactInfoSubTypeId, verificationCode);
-    return this.playerServiceApi
-      .apiPortalV1PlayerContactInfoVerificationPut(contactInfoSubTypeId, verificationCode)
-      .pipe(
-        map((response) => {
-          log.debug('completeContactInfoVerification() returned result:', response);
-          return response;
-        }),
-        catchError((err) => {
-          log.debug('completeContactInfoVerification() returned error:', err);
-          throw err;
-        }),
-      );
+  /** Sends a confirmation code to the player's e-mail address or phone. */
+  verifyPlayerContactInfo(channel: ContactChannel): Observable<void> {
+    return this.playerGateway.startContactVerification(channel);
   }
 
-  /* getGenderData(): Observable<Gender[]> {
-    // TODO: api call
-    return of(GENDER_LIST);
-  } */
-
-  getCountries(): Observable<Country[]> {
-    // TODO: api call
-    return of(COUNTRY_LIST);
+  /** Confirms a channel with the code the player received. */
+  completeContactInfoVerification(channel: ContactChannel, verificationCode: string): Observable<void> {
+    return this.playerGateway.confirmContactVerification(channel, verificationCode);
   }
 
   getCountryCodes(): Observable<CountryCode[]> {
     return of(COUNTRY_CODES);
-  }
-
-  saveProfileSettings(): Observable<boolean> {
-    // TODO: api call
-    return of(true);
   }
 
   getWalletTransactions(
@@ -292,313 +207,59 @@ export class PlayerProfileService {
     );
   }
 
-  getSessionHistory(filter?: LoginHistoryRequestParameters): Observable<SessionHistory[]> {
-    log.debug('getSessionHistory() invoked');
+  getSessionHistory(filter?: SessionHistoryQuery): Observable<SessionHistory[]> {
+    const query: SessionHistoryQuery = { pageNumber: 1, pageSize: 1000, ...filter };
 
-    // Default filter
-    let requestParams: LoginHistoryRequestParameters = {
-      pageNumber: 1,
-      pageSize: 1000,
-    };
-
-    requestParams = Object.assign(requestParams, filter);
-
-    return this.playerServiceApi
-      .apiPortalV1PlayerLoginHistoryGet(
-        requestParams.from?.toISOString(),
-        requestParams.to?.toISOString(),
-        requestParams.pageNumber,
-        requestParams.pageSize,
-        requestParams.orderBy,
-        requestParams.descending,
-      )
-      .pipe(
-        switchMap((result) => {
-          log.debug('getSessionHistory() returned result:', result);
-          return this.resolveSessionHistory(result);
-        }),
-        catchError((err) => {
-          log.debug('getSessionHistory() returned error:', err);
-          throw err;
-        }),
-      );
+    return this.playerGateway.getSessions(query).pipe(map((sessions) => this.resolveSessionHistory(sessions)));
   }
 
-  changePassword(oldPassword: string, newPassword: string): Observable<FaceAuthResponse> {
-    log.debug('changePassword() invoked with:', oldPassword, newPassword);
-
-    const request: ChangePlayerPasswordRequest = {
-      oldPassword,
-      newPassword,
-    };
-
-    return this.playerServiceApi.apiPortalV1PlayerChangePlayerPasswordFaceAuthPost(request).pipe(
-      map((result) => {
-        log.debug('changePassword() returned result:', result);
-        return result;
-      }),
-      catchError((err) => {
-        log.debug('changePassword() returned error:', err);
-        throw err;
-      }),
-    );
+  changePassword(oldPassword: string, newPassword: string): Observable<FaceAuthTicket | null> {
+    return this.playerGateway.changePassword(oldPassword, newPassword);
   }
 
   getPlayerLimits(): Observable<PlayerLimit[]> {
-    log.debug('getPlayerLimits() invoked.');
-
-    // return of(PLAYER_LIMIT_MOCK_DATA);
-    return this.playerServiceApi.apiPortalV1PlayerLimitsGet().pipe(
-      switchMap((response) => {
-        log.debug('getPlayerLimits() returned result:', response);
-        return of(this.resolvePlayerLimits(response));
-      }),
-      catchError((err) => {
-        log.debug('getPlayerLimits() returned error:', err);
-        throw err;
-      }),
-    );
+    return this.playerGateway.getLimits().pipe(map((limits) => this.resolvePlayerLimits(limits)));
   }
 
-  setPlayerLimit(limit: PlayerLimit): Observable<any> {
-    log.debug('savePlayerLimit() invoked with: ', limit);
-
+  setPlayerLimit(limit: PlayerLimit): Observable<void> {
     if (!limit.limitType)
       return throwError(
         () => new Error(this.translateService.instant(marker('Cannot set player limit without limit type.'))),
       );
 
-    const request: SetPlayerLimitRequest = {
-      limit: {
-        amountValue: limit.amountValue,
-        // limitStatus: limit.limitStatus,
-        limitType: limit.limitType,
-        // locked: limit.locked,
-        reason: limit.reason,
-        time: limit.time,
-      },
-    };
-
-    // return of(PLAYER_LIMIT_MOCK_DATA);
-    return this.playerServiceApi.apiPortalV1PlayerLimitPost(request).pipe(
-      switchMap((response) => {
-        log.debug('savePlayerLimit() returned result:', response);
-        return of(response);
-      }),
-      catchError((err) => {
-        log.debug('savePlayerLimit() returned error:', err);
-        throw err;
-      }),
-    );
+    return this.playerGateway.setLimit({
+      limitType: limit.limitType,
+      time: limit.time,
+      amountValue: limit.amountValue,
+      reason: limit.reason,
+    });
   }
 
-  deletePlayerLimit(limitId: number): Observable<any> {
-    log.debug('deletePlayerLimit() invoked with: ', limitId);
-
-    // return of(PLAYER_LIMIT_MOCK_DATA);
-    return this.playerServiceApi.apiPortalV1PlayerLimitLimitIdDelete(limitId).pipe(
-      switchMap((response) => {
-        log.debug('deletePlayerLimit() returned result:', response);
-        return of(response);
-      }),
-      catchError((err) => {
-        log.debug('deletePlayerLimit() returned error:', err);
-        throw err;
-      }),
-    );
+  deletePlayerLimit(limitId: number): Observable<void> {
+    return this.playerGateway.deleteLimit(limitId);
   }
 
-  /* setSelfExclusion(numMonth: number): Observable<any> {
-    log.debug('setSelfExclusion() invoked with: ', numMonth);
-
-    const now = new Date();
-    //const d = now.getUTCDate();
-
-    let date = now;
-    date.setMonth(now.getMonth() + +numMonth);
-
-    //if (date.getUTCDate() != d) {
-    //  date.setUTCDate(0);
-    //}
-
-    const request: ExcludePlayerRequest = {
-      excludedUntil: date.toISOString(),
-    };
-
-    return this.playerServiceApi.apiPortalV1PlayerSelfExcludePost(request).pipe(
-      switchMap((response) => {
-        log.debug('setSelfExclusion() returned result:', response);
-        return of(response);
-      }),
-      catchError((err) => {
-        log.debug('setSelfExclusion() returned error:', err);
-        throw err;
-      })
-    );
-  } */
-
-  setTimeoutLimit(numDays: number): Observable<any> {
-    log.debug('setTimeoutLimit() invoked with: ', numDays);
-
-    const now = new Date();
-    //const d = now.getUTCDate();
-
-    let date = now;
-    date.setDate(now.getDate() + +numDays);
-
-    //if (date.getUTCDate() != d) {
-    //  date.setUTCDate(0);
-    //}
-
-    const request: TimeOutPlayerRequest = {
-      excludedUntil: date.toISOString(),
-    };
-
-    return this.playerServiceApi.apiPortalV1PlayerTimeOutPut(request).pipe(
-      switchMap((response) => {
-        log.debug('setTimeoutLimit() returned result:', response);
-        return of(response);
-      }),
-      catchError((err) => {
-        log.debug('setTimeoutLimit() returned error:', err);
-        throw err;
-      }),
-    );
+  /** Saves the profile screen's changes. A ticket in the answer means biometry is still owed. */
+  updatePlayerSettings(input: UpdateProfileInput): Observable<FaceAuthTicket | null> {
+    return this.playerGateway.updateProfile(input);
   }
 
-  verifyPhoneNumber(): Observable<boolean> {
-    return of(true);
+  /** Submits the yearly re-check the regulator requires. */
+  updatePlayerAnnualReverification(input: AnnualVerificationInput): Observable<FaceAuthTicket | null> {
+    return this.playerGateway.annualVerification(input);
   }
 
-  uploadDocument(file: Blob): Observable<any> {
-    // return this.playerServiceApi.apiPortalV1PlayerDocumentPostForm(file).pipe(
-    //   map((response) => {
-    //     return response;
-    //   }),
-    //   catchError((err) => {
-    //     throw err;
-    //   })
-    // );
-    return of();
+  getContactPreferences(): Observable<ContactPreferences> {
+    return this.playerGateway.getContactPreferences();
   }
 
-  getPlayerSettings(): Observable<PlayerDetailsResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerGet().pipe(
-      map((result) => result),
-      catchError((err) => {
-        log.debug('Getting player settings failed with error:', err);
-        throw err;
-      }),
-    );
+  /** Whether the player's phone number has been confirmed. */
+  checkNumberVerification(): Observable<ContactVerificationStatus> {
+    return this.playerGateway.getContactVerificationStatus('mobile-phone');
   }
 
-  updatePlayerSettings(request: FaceAuthUpdatePlayerRequest): Observable<FaceAuthResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerUpdateFaceAuthPut(request).pipe(
-      map((result) => result),
-      catchError((err) => {
-        log.debug('Updating player settings failed with error:', err);
-        throw err;
-      }),
-    );
-  }
-
-  updatePlayerAnnualReverification(request: AnnualVerificationAuthRequest): Observable<FaceAuthResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerAnnualVerificationFaceAuthPost(request).pipe(
-      map((result) => result),
-      catchError((err) => {
-        log.debug('Updating player annual reverification failed with error:', err);
-        throw err;
-      }),
-    );
-  }
-
-  getContactPreferences(): Observable<GetPlayerContactPreferencesResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerContactPreferencesGet().pipe(
-      map((result) => result),
-      catchError((err) => {
-        log.debug('Getting contact preferences failed with error:', err);
-        throw err;
-      }),
-    );
-  }
-
-  checkNumberVerification(): Observable<string> {
-    return this.playerServiceApi.apiPortalV1PlayerContactInfoVerificationGet(PlayerContactInfo.MobilePhone).pipe(
-      map((response) => {
-        if (response.contactInfoVerificationStatus) {
-          return response.contactInfoVerificationStatus;
-        }
-        return 'Not Verified';
-      }),
-      catchError((err) => {
-        throw err;
-      }),
-    );
-  }
-
-  getUploadedDocument(): Observable<PlayerDocument[]> {
-    return this.playerServiceApi.apiPortalV1PlayerDocumentsGet().pipe(
-      map((response) => {
-        if (response.documents) {
-          return response.documents;
-        } else {
-          return [];
-        }
-      }),
-      catchError((err) => {
-        throw err;
-      }),
-    );
-  }
-
-  updateContactPreferences(request: UpdatePlayerContactPrefRequest): Observable<any> {
-    return this.playerServiceApi.apiPortalV1PlayerContactPreferencesPut(request).pipe(
-      map((result) => result),
-      catchError((err) => {
-        log.debug('Updating contact preferences failed with error:', err);
-        throw err;
-      }),
-    );
-  }
-
-  sendPromotionCoupon(promoCode: string) {
-    log.debug('sendPromotionCoupon() invoked with:', promoCode);
-
-    const request: PromotionsCouponCodeRequest = {
-      couponCode: promoCode,
-    };
-
-    return this.bonusApi.apiPortalV1BonusPromotionCouponPost(request).pipe(
-      switchMap((result) => {
-        log.debug('sendPromotionCoupon() returned result:', result);
-        // update player data, but return the coupon code api result
-        return this.playerStatusService.updatePlayerData().pipe(map(() => result));
-      }),
-      catchError((err) => {
-        log.debug('sendPromotionCoupon() returned error:', err);
-        throw err;
-      }),
-    );
-  }
-
-  cancelBonus(playerBonusContextId: number) {
-    log.debug('cancelBonus() invoked with:', playerBonusContextId);
-
-    const request: DeclinePlayerBonusContextRequest = {
-      playerBonusContextId,
-    };
-
-    return this.bonusApi.apiPortalV1BonusDeclinePost(request).pipe(
-      map((result) => {
-        log.debug('cancelBonus() returned result:', result);
-        this.playerStatusService.updatePlayerData().subscribe();
-        return result;
-      }),
-      catchError((err) => {
-        log.debug('cancelBonus() returned error:', err);
-        throw err;
-      }),
-    );
+  updateContactPreferences(preferences: ContactPreferences): Observable<void> {
+    return this.playerGateway.updateContactPreferences(preferences);
   }
 
   getGameHistory(
@@ -815,40 +476,12 @@ export class PlayerProfileService {
     return this.playerLocale;
   }
 
-  getPlayerCurrencySymbol(): Observable<string> {
-    return this.configurationService.getPlayerInfo().pipe(
-      map((playerInfo) => {
-        return new Intl.NumberFormat(playerInfo?.locale ?? '', {
-          style: 'currency',
-          currency: playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency,
-        })
-          .format(0)
-          .replace(/\d|\.|\,/g, '')
-          .trim();
-      }),
-    );
+  closePlayerAccount(): Observable<FaceAuthTicket | null> {
+    return this.playerGateway.closeAccount();
   }
 
-  getPlayerCurrencySymbolLocaleIndependent(): Observable<string> {
-    return this.configurationService.getPlayerInfo().pipe(
-      map((playerInfo) => {
-        return new Intl.NumberFormat(undefined, {
-          style: 'currency',
-          currency: playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency,
-        })
-          .format(0)
-          .replace(/\d|\.|\,/g, '')
-          .trim();
-      }),
-    );
-  }
-
-  closePlayerAccount() {
-    return this.playerServiceApi.apiPortalV1PlayerCloseAccountFaceAuthPost();
-  }
-
-  requestAnnualReport() {
-    return this.playerServiceApi.apiPortalV1PlayerAnnualReportRequestPost();
+  requestAnnualReport(): Observable<void> {
+    return this.playerGateway.requestAnnualReport();
   }
 
   deleteMessage(id: number) {
@@ -875,87 +508,39 @@ export class PlayerProfileService {
     );
   }
 
-  playerStatistics() {
-    return this.playerServiceApi.apiPortalV1PlayerPlayerStatisticsPost().pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((err) => {
-        log.debug('apiPortalV1PlayerPlayerStatisticsPost() returned error:', err);
-        throw err;
-      }),
+  /**
+   * Active sessions first, plus the strings the security screen prints.
+   *
+   * When more than one session says it is active the list cannot tell which one is this browser's,
+   * so the rest are shown as incomplete and nobody is offered a terminate button.
+   */
+  private resolveSessionHistory(sessions: PlayerSession[]): SessionHistory[] {
+    const order = Object.values(PlayerSessionStatus);
+    const sorted = [...sessions].sort(
+      (a, b) =>
+        order.indexOf(a.status ?? PlayerSessionStatus.Closed) - order.indexOf(b.status ?? PlayerSessionStatus.Closed),
     );
-  }
 
-  getReferAFriendStatistics(): Observable<ReferAFriendStatisticsResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerReferAFriendGet().pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((err) => {
-        log.debug('getReferAFriendStatistics() returned error:', err);
-        throw err;
-      }),
-    );
-  }
+    const activeCount = sorted.filter((session) => session.status === PlayerSessionStatus.Active).length;
 
-  referAFriend(request: ReferAFriendRequest): Observable<ReferAFriendResponse> {
-    return this.playerServiceApi.apiPortalV1PlayerReferAFriendPost(request).pipe(
-      map((response) => {
-        return response;
-      }),
-      catchError((err) => {
-        log.debug('referAFriend() returned error:', err);
-        throw err;
-      }),
-    );
-  }
-
-  private resolveSessionHistory(sessions: LogonSessionDetail[]): Observable<SessionHistory[]> {
-    return this.configurationService.getPlayerInfo().pipe(
-      map((playerInfo) => {
-        const resolved: SessionHistory[] = [];
-
-        let activeCount = 0;
-
-        // Sort active sessions first
-        const order = Object.values(LogonSessionStatusEnum);
-        sessions.sort(
-          (a, b) =>
-            order.indexOf(a.status ?? LogonSessionStatusEnum.Closed) -
-            order.indexOf(b.status ?? LogonSessionStatusEnum.Closed),
-        );
-
-        // Count active if Terminate is displayed
-        activeCount = sessions.filter((session) => session.status === LogonSessionStatusEnum.Active)?.length ?? 0;
-
-        sessions.forEach((session) => {
-          resolved.push({
-            ...session,
-            client: 'Missing',
-            userAgent: 'Missing',
-            logonLocal: session.logonTime?.toLocaleString() ?? '',
-            logoutLocal: session.logoutTime?.toLocaleString() ?? '',
-            status:
-              session.status === LogonSessionStatusEnum.Active && activeCount <= 1
-                ? LogonSessionStatusEnum.Active
-                : session.status === LogonSessionStatusEnum.Active && activeCount > 1
-                  ? LogonSessionStatusEnum.Incomplete
-                  : session.status,
-            statusResolved:
-              session.status === LogonSessionStatusEnum.Active || session.status === LogonSessionStatusEnum.Incomplete
-                ? this.translateService.instant(LogonSessionStatusEnum.Active)
-                : this.translateService.instant(LogonSessionStatusEnum.Closed),
-
-            ipResolved: `${(session.realClientIp ? session.realClientIp : session.clientIp) ?? ''} ${
-              session.countryCode ?? ''
-            }`,
-          });
-        });
-
-        return resolved;
-      }),
-    );
+    return sorted.map((session) => ({
+      ...session,
+      client: 'Missing',
+      userAgent: 'Missing',
+      logonLocal: session.logonTime?.toLocaleString() ?? '',
+      logoutLocal: session.logoutTime?.toLocaleString() ?? '',
+      status:
+        session.status === PlayerSessionStatus.Active && activeCount > 1
+          ? PlayerSessionStatus.Incomplete
+          : session.status,
+      statusResolved:
+        session.status === PlayerSessionStatus.Active || session.status === PlayerSessionStatus.Incomplete
+          ? this.translateService.instant(PlayerSessionStatus.Active)
+          : this.translateService.instant(PlayerSessionStatus.Closed),
+      ipResolved: `${(session.realClientIp ? session.realClientIp : session.clientIp) ?? ''} ${
+        session.countryCode ?? ''
+      }`,
+    }));
   }
 
   private resolveWalletTransactions(
@@ -1028,7 +613,7 @@ export class PlayerProfileService {
     );
   }
 
-  private resolvePlayerLimits(limit: GetPlayerLimit[]): PlayerLimit[] {
+  private resolvePlayerLimits(limit: GatewayPlayerLimit[]): PlayerLimit[] {
     const resolved: PlayerLimit[] = [];
 
     limit?.forEach((limit) => {

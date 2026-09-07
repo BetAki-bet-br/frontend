@@ -3,11 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReferAFriendService } from './refer-a-friend.service';
-import {
-  ReferAFriendStatisticsResponse,
-  ReferAFriendRequest,
-  RequestTypeEnum,
-} from '@icore/ngx-portalgateway-api-client-atl';
+import { ReferAFriendInput, ReferAFriendStatistics } from '@app/@core/gateway';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { BRAND } from '@app/@core/brand';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,7 +28,7 @@ export class ReferAFriendComponent implements OnInit {
   private snackBar = inject(MatSnackBar);
   private readonly brand = inject(BRAND);
 
-  statistics = toSignal<ReferAFriendStatisticsResponse | null>(this.referAFriendService.getReferAFriendStatistics(), {
+  statistics = toSignal<ReferAFriendStatistics | null>(this.referAFriendService.getReferAFriendStatistics(), {
     initialValue: null,
   });
   referForm: FormGroup;
@@ -95,8 +91,7 @@ export class ReferAFriendComponent implements OnInit {
     this.isLoading.set(true);
     const formValue = this.referForm.value;
 
-    const request: ReferAFriendRequest = {
-      requestType: RequestTypeEnum.Email,
+    const request: ReferAFriendInput = {
       language: this.translateService.currentLang,
       registrationLink: '/register',
       homeLink: window.location.origin,
@@ -104,9 +99,9 @@ export class ReferAFriendComponent implements OnInit {
     };
 
     this.referAFriendService.referAFriend(request).subscribe({
-      next: (res) => {
+      next: (accepted) => {
         this.isLoading.set(false);
-        if (res.rafRequestValid) {
+        if (accepted) {
           this.snackBar.open(this.translateService.instant(marker('Invitations sent successfully!')), 'OK', {
             duration: 3000,
           });

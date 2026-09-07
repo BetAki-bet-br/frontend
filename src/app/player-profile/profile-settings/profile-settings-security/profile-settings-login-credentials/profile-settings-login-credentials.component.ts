@@ -49,7 +49,7 @@ export class ProfileSettingsLoginCredentialsComponent implements OnInit {
   private loadData() {
     this.configurationService.getPlayerInfo(true).subscribe({
       next: (player) => {
-        this.playerEmail = player?.eMail ?? '';
+        this.playerEmail = player?.email ?? '';
       },
     });
   }

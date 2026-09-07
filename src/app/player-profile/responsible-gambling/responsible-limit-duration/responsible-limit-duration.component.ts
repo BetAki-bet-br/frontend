@@ -12,11 +12,11 @@ import {
   output,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { LimitStatus, LimitType } from '@app/@core/gateway';
 import { PlayerLimit, TimePeriod } from '@app/@shared/models';
 import { AuthDialogService } from '@app/auth/auth-dialog.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { LimitStatusEnum, LimitTypeEnum } from '@icore/ngx-portalgateway-api-client-atl';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Subscription } from 'rxjs';
 import {
@@ -75,7 +75,7 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
   readonly updateLimit = output<PlayerLimit>();
   readonly deleteLimit = output<number | undefined>();
 
-  limitStatusEnum = LimitStatusEnum;
+  limitStatusEnum = LimitStatus;
 
   extendContent = true;
 
@@ -184,8 +184,8 @@ export class ResponsibleLimitDurationComponent implements OnInit, OnDestroy, OnC
       reason: 'Player changed session limit',
       time: undefined,
       locked: false,
-      limitStatus: LimitStatusEnum.Active,
-      limitType: LimitTypeEnum.SiteSessionDuration,
+      limitStatus: LimitStatus.Active,
+      limitType: LimitType.SiteSessionDuration,
     };
 
     this.updateLimit.emit(playerSessionLimit);
