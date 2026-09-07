@@ -279,7 +279,11 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
               faceAuthParams,
             );
           }
-          return of(null);
+
+          // No ticket means the gateway asked for no biometry, which the port allows and both the
+          // house and demo gateways do. The address is already saved at this point, so this is a
+          // success: answering `null` here made a saved address show the red failure snackbar.
+          return of({ success: true });
         }),
       )
       .subscribe({
@@ -390,7 +394,10 @@ export class ProfileSettingsInfoComponent implements OnInit, OnDestroy {
               faceAuthParams,
             );
           }
-          return of(null);
+
+          // Same as `onSaveAddress`: no ticket is the port's "no biometry needed", and the number
+          // has already been saved by the time this runs.
+          return of({ success: true });
         }),
       )
       .subscribe({
