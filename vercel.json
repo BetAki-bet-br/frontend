@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build:girosbet-demo",
+  "outputDirectory": "dist/girosbet-demo/browser",
+  "framework": null,
+  "functions": {
+    "api/cms.js": {
+      "includeFiles": "demo/cms/**"
+    }
+  },
+  "rewrites": [
+    { "source": "/backoffice/api/v1/:path*", "destination": "/api/cms?path=:path*" },
+    { "source": "/((?!api/|assets|assetslocal|assetshtml|static/).*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ]
+}

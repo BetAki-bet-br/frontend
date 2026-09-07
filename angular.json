@@ -179,6 +179,56 @@
                   "output": "/"
                 }
               ]
+            },
+            "girosbet-demo": {
+              "tsConfig": "tsconfig.brand-girosbet.json",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.demo.ts"
+                }
+              ],
+              "index": "brands/girosbet/index.html",
+              "outputPath": {
+                "base": "dist/girosbet-demo"
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["brands/girosbet", ".", "node_modules", "src"]
+              },
+              "assets": [
+                "src/assetslocal",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "static",
+                  "output": "/static/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/girosbet/assets",
+                  "output": "/assets/brand"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/girosbet/legal",
+                  "output": "/assetshtml"
+                },
+                {
+                  "glob": "robots.txt",
+                  "input": "brands/girosbet",
+                  "output": "/"
+                },
+                {
+                  "glob": "sitemap.xml",
+                  "input": "brands/girosbet",
+                  "output": "/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "demo/public",
+                  "output": "/"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

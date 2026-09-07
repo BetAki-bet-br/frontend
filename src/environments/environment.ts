@@ -7,6 +7,12 @@ import { env } from './.env';
  */
 export const environment = {
   production: false,
+  /**
+   * A build meant to be looked at, not played on: the demo adapters answer every gateway and the
+   * backoffice is a recorded snapshot. Only `environment.demo.ts` turns it on. See
+   * `docs/white-label/04-demo-deploy.md`.
+   */
+  showcase: false,
   version: env['npm_package_version'] + '-dev',
   API_BASE_PATH: '',
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',

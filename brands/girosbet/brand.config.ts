@@ -42,7 +42,9 @@ export const BRAND_CONFIG: BrandConfig = {
 
   api: {
     // TODO(girosbet): placeholder — replace with GirosBet credentials
-    backofficeApiUrl: brandEnv({ dev: 'http://localhost:8080', prod: '/backoffice' }),
+    // The published demo has no Laravel behind it: /backoffice is answered there by the
+    // recorded CMS snapshot (see docs/white-label/04-demo-deploy.md), on the same path shape.
+    backofficeApiUrl: brandEnv({ dev: 'http://localhost:8080', prod: '/backoffice', demo: '/backoffice' }),
     // TODO(girosbet): placeholder — replace with GirosBet credentials
     apiKey: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
     // TODO(girosbet): placeholder — replace with GirosBet credentials
@@ -140,9 +142,11 @@ export const BRAND_CONFIG: BrandConfig = {
   // Unchanged from what the brand ran before the gateway ports existed: the same PortalGateway as
   // BetAki, with GirosBet's own ids. The regulated half is meant to move to `house` once those
   // endpoints exist; `demo` runs the brand with no backend at all, for a local demo.
-  gateways: {
-    auth: 'comtrade',
-    player: 'comtrade',
-    games: 'comtrade',
-  },
+  gateways: brandEnv({
+    dev: { auth: 'comtrade', player: 'comtrade', games: 'comtrade' },
+    prod: { auth: 'comtrade', player: 'comtrade', games: 'comtrade' },
+    // The published demo runs on nobody's backend: accounts, balance and games are all invented
+    // in the browser. provideGateways() only allows this because environment.demo.ts says so.
+    demo: { auth: 'demo', player: 'demo', games: 'demo' },
+  }),
 };

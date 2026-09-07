@@ -4,6 +4,8 @@
  */
 export const environment = {
   production: true,
+  /** See `environment.ts`. A real brand build is never a showcase. */
+  showcase: false,
   version: 1.0,
   API_BASE_PATH: '',
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',

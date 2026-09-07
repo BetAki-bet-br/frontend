@@ -1,0 +1,4 @@
+# This is a demo build: invented accounts, invented balances, and a recorded snapshot of the CMS.
+# It is not an operator and must never be indexed as one.
+User-agent: *
+Disallow: /

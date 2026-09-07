@@ -71,9 +71,13 @@ export function provideGateways(): EnvironmentProviders {
  * The demo adapters keep accounts, balances, limits and game rounds in `localStorage`. A brand
  * that shipped with one would be inviting people to gamble against a fixture, so the build fails
  * instead.
+ *
+ * The published demo is the one build that is allowed them, and it says so in its own environment
+ * file rather than here: `environment.demo.ts` is the only one that sets `showcase`, and it is
+ * never the environment a brand serving real players is built with.
  */
 function refuseDemoInProduction(selection: GatewaySelection): void {
-  if (!environment.production) return;
+  if (!environment.production || environment.showcase) return;
 
   const demoPorts = Object.entries(selection)
     .filter(([, id]) => id === 'demo')
