@@ -230,7 +230,10 @@
       }
 
       .mdc-button__label {
-        color: map.get(vars.$app-custom-colors, "brand-surface"); // map.get(vars.$app-custom-colors, "brand-background");
+        color: map.get(
+          vars.$app-custom-colors,
+          "brand-surface"
+        ); // map.get(vars.$app-custom-colors, "brand-background");
       }
     }
 
@@ -308,7 +311,10 @@
 }
 
 .mat-mdc-outlined-button[disabled][disabled] {
-  --mat-button-outlined-outline-color: #{color.adjust(map.get(vars.$app-custom-colors, "semantic-error"), $alpha: -0.75)};
+  --mat-button-outlined-outline-color: #{color.adjust(
+      map.get(vars.$app-custom-colors, "semantic-error"),
+      $alpha: -0.75
+    )};
 }
 
 app-payments-table {

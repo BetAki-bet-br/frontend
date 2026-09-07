@@ -18,8 +18,7 @@
           ></path>
         </svg>
       </div>
-      }
-      @if (registerBannerDesktop()?.cover_url) {
+      } @if (registerBannerDesktop()?.cover_url) {
       <img
         [ngSrc]="registerBannerDesktop()!.cover_url!"
         alt="Banner"
@@ -54,8 +53,7 @@
             ></path>
           </svg>
         </div>
-        }
-        @if (registerBannerMobile()?.cover_url) {
+        } @if (registerBannerMobile()?.cover_url) {
         <img
           [ngSrc]="registerBannerMobile()!.cover_url!"
           alt="Banner"
