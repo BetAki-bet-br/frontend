@@ -12,7 +12,7 @@ import {
   Breadcrumbs,
   PageBreadcrumbsComponent,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
-import { SportsbookBetHistoryModelResolved, TransactionStatusEnum } from '@app/@shared/models';
+import { SportsbookBetHistoryModelResolved } from '@app/@shared/models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { switchMap } from 'rxjs';
@@ -147,7 +147,6 @@ export class SportsbookHistoryComponent implements OnInit {
   tableData: SportsbookBetHistoryModelResolved[] = [];
   filteredTableData: SportsbookBetHistoryModelResolved[] = [];
 
-  TransactionStatusEnum = TransactionStatusEnum;
   isDataLoading = false;
 
   playerCurrency: string = '';
@@ -400,37 +399,6 @@ export class SportsbookHistoryComponent implements OnInit {
       default:
         return 'unknown-class';
     }
-  }
-
-  isCompleted(status: TransactionStatusEnum) {
-    const transactions = [
-      TransactionStatusEnum.Approved,
-      TransactionStatusEnum.Paid,
-      TransactionStatusEnum.Refunded,
-      TransactionStatusEnum.ChargedBack,
-      TransactionStatusEnum.ChargeBackReversed,
-      TransactionStatusEnum.Returned,
-      TransactionStatusEnum.ReturnReversed,
-      TransactionStatusEnum.Completed,
-    ];
-
-    return transactions.indexOf(status) >= 0;
-  }
-
-  isAborted(status: TransactionStatusEnum) {
-    const transactions = [
-      TransactionStatusEnum.Declined,
-      TransactionStatusEnum.Cancelled,
-      TransactionStatusEnum.ErrorOrTimeout,
-    ];
-
-    return transactions.indexOf(status) >= 0;
-  }
-
-  isPending(status: TransactionStatusEnum) {
-    const transactions = [TransactionStatusEnum.Pending];
-
-    return transactions.indexOf(status) >= 0;
   }
 
   /**

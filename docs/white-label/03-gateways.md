@@ -30,6 +30,13 @@ src/app/@core/gateway/
       comtrade-games.gateway.ts
       house-games.gateway.ts
       demo-games.gateway.ts
+  wallet/
+    wallet.models.ts       DepositResult, WithdrawalEligibility, Transaction, TransactionStep...
+    wallet.gateway.ts      a porta WalletGateway + o token WALLET_GATEWAY
+    adapters/
+      comtrade-wallet.gateway.ts
+      house-wallet.gateway.ts
+      demo-wallet.gateway.ts
 ```
 
 ## As regras que fazem a troca ser barata
@@ -52,8 +59,9 @@ src/app/@core/gateway/
 1. Implemente a interface da porta em `<porta>/adapters/<provedor>-<porta>.gateway.ts`, com
    `@Injectable()` (sem `providedIn`: quem provê é o `provideGateways`).
 2. Acrescente o id em `GatewayId` (`gateway.models.ts`) e registre a classe no mapa da porta
-   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`, `GAMES_ADAPTERS`) em `provide-gateways.ts`.
-3. Aponte a marca: `gateways: { auth: '<id>', player: '<id>', games: '<id>' }` no
+   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`, `GAMES_ADAPTERS`, `WALLET_ADAPTERS`) em
+   `provide-gateways.ts`.
+3. Aponte a marca: `gateways: { auth: '<id>', player: '<id>', games: '<id>', wallet: '<id>' }` no
    `brands/<slug>/brand.config.ts`.
 4. Se algum spec cria um componente que chega na porta, ligue o adapter `demo` ao token em
    `src/testing/app-testing.ts`.
@@ -105,14 +113,17 @@ Não precisa de envelope de erro próprio para começar.
 Guarda tudo no `localStorage`: o de auth aceita a senha `demo` para qualquer usuário e não devolve
 challenge nenhum; o de player inventa um jogador brasileiro completo, verificado e com saldo; o de
 games tem um catálogo curto, um mês de histórico gerado e um jogo de mentira que abre numa página
-`data:`. Serve para dois trabalhos: abrir a metade logada do app localmente (os hosts do portal
-gateway estão mortos e o backend da casa ainda não existe) e mostrar uma marca de ponta a ponta numa
-demo. Sozinho o adapter de auth não bastava — o app logava e morria na primeira chamada de saldo.
+`data:`; o de carteira tem dez dias de extrato semeado na primeira leitura, uma cobrança Pix que
+ninguém consegue pagar (o QR diz `DEMO`) e um saque que sempre passa.
+
+Serve para dois trabalhos: abrir a metade logada do app localmente (os hosts do portal gateway
+estão mortos e o backend da casa ainda não existe) e mostrar uma marca de ponta a ponta numa demo. Sozinho o adapter de auth não bastava — o app logava e morria na primeira chamada de saldo.
 `provideGateways()` **recusa** `demo` num build de produção, em qualquer porta: a marca não sobe com
 conta de mentira.
 
-Os testes usam os mesmos adapters: `provideAppTesting()` liga `AUTH_GATEWAY`, `PLAYER_GATEWAY` e
-`GAMES_GATEWAY` neles, então um componente que chega numa porta consegue ser criado sem HTTP.
+Os testes usam os mesmos adapters: `provideAppTesting()` liga `AUTH_GATEWAY`, `PLAYER_GATEWAY`,
+`GAMES_GATEWAY` e `WALLET_GATEWAY` neles, então um componente que chega numa porta consegue ser
+criado sem HTTP.
 
 ## O contrato do backend da casa: o player
 
@@ -172,18 +183,56 @@ Três decisões que valem explicar:
 ninguém fazia (`getLobbyGames`, `getCasinoGames`, `getGamesByCategory`, `getGameById`...) saíram
 junto com os modelos de resposta do fornecedor que só elas usavam.
 
+## O contrato do backend da casa: a carteira
+
+`HouseWalletGateway` fecha o mesmo padrão. A porta é estreita porque as telas são: uma cobrança Pix
+para depositar, três passos para sacar, o extrato e o detalhe de um lançamento.
+
+| rota                                                               | entrada           | saída                    |
+| ------------------------------------------------------------------ | ----------------- | ------------------------ |
+| `POST /api/v1/wallet/deposits`                                     | `DepositInput`    | `DepositResult`          |
+| `POST /api/v1/wallet/withdrawals/eligibility`                      | `WithdrawalInput` | `WithdrawalEligibility`  |
+| `POST /api/v1/wallet/withdrawals`                                  | `WithdrawalInput` | `FaceAuthTicket \| null` |
+| `GET /api/v1/wallet/withdrawals/{referenceId}`                     |                   | `WithdrawalOutcome`      |
+| `GET /api/v1/wallet/transactions?from=&to=&page=&pageSize=&types=` |                   | `TransactionPage`        |
+| `GET /api/v1/wallet/transactions/{reference}/steps`                |                   | `TransactionStep[]`      |
+
+Quatro decisões que valem explicar:
+
+- **Recusa é 200.** `{ "outcome": "refused", "reason": "paused" }` num depósito e
+  `{ "outcome": "refused", "reason": "not-enough-funds" }` num saque são respostas, não erros: a
+  tela tem palavras para cada uma. Backend fora do ar continua sendo 4xx/5xx e o jogador vê a
+  mensagem genérica. Na Comtrade a conta pausada chega como `errorMessage: 'InvalidPlayerStatus'`, e
+  os motivos de saque vêm num `declineReasonCode`.
+- **O saque são três chamadas porque o fluxo tem três passos**, e cada um pode encerrá-lo: perguntar
+  se o jogador pode sacar, começar o saque e receber a biometria, e descobrir o que o dinheiro fez
+  depois que a biometria foi respondida. `GET /withdrawals/{referenceId}` responde quando a decisão
+  saiu; quem não conseguir segurar a requisição responde `{ "authentication": "processing" }` e o
+  adapter passa a fazer o polling, como o da Comtrade faz.
+- **O saldo não está aqui.** Quanto o jogador tem é `PlayerGateway.getBalance()`; esta porta é só
+  sobre dinheiro se movendo.
+- **A porta não tem meio de pagamento.** Toda marca deposita e saca por Pix e nenhuma tela oferece
+  escolha, então qual instrumento pedir ao fornecedor é do adapter (na Comtrade, o número 1).
+
+`Transaction` chega com `balanceBefore` e `balanceAfter` já do ponto de vista do jogador. A Comtrade
+reporta o saldo do razão (um depósito já entrou no momento em que foi aberto, um saque já saiu antes
+de ser pago) e a aritmética que desfaz isso mora no adapter, não na tela. O tipo e o status viram
+nome (`Deposit`, `Paid`) em vez de número, e esses nomes são também as chaves de tradução, como no
+`GameRoundStatus`.
+
+`PaymentsService` deixou de existir: era repasse puro, e as três telas que o usavam (depósito, saque
+e o diálogo de biometria) injetam a porta direto. Do que era carteira no `PlayerProfileService`
+sobrou só a formatação do extrato no locale do jogador.
+
 ## O que ainda não tem porta
 
-`auth`, `player` e `games` estão portados. O resto continua chamando o cliente gerado direto, e cada
-um vira uma porta seguindo o mesmo desenho:
+`auth`, `player`, `games` e `wallet` estão portados. O resto continua chamando o cliente gerado
+direto, e cada um vira uma porta seguindo o mesmo desenho:
 
-| porta             | quem faz hoje                                                    | o que fica lá                                   |
-| ----------------- | ---------------------------------------------------------------- | ----------------------------------------------- |
-| `WalletGateway`   | `PaymentService`, `PlayerProfileService`                         | depósito, saque, extrato e detalhe de transação |
-| `BonusGateway`    | `BonusesService`, `PlayerPromoService`                           | bônus ativos, cupom de promoção                 |
-| `MessagesGateway` | `MessageService`, `PopupMessagesService`, `PlayerProfileService` | caixa de mensagens e popups                     |
-| `ContentGateway`  | `TemplateService`, `HelpService`, `CmsService`                   | textos e páginas que ainda vêm do portal        |
+| porta             | quem faz hoje                                                    | o que fica lá                   |
+| ----------------- | ---------------------------------------------------------------- | ------------------------------- |
+| `BonusGateway`    | `BonusesService`, `PlayerPromoService`                           | bônus ativos, cupom de promoção |
+| `MessagesGateway` | `MessageService`, `PopupMessagesService`, `PlayerProfileService` | caixa de mensagens e popups     |
+| `ContentGateway`  | `TemplateService`, `HelpService`, `CmsService`                   | textos e páginas do portal      |
 
-`PlayerProfileService` caiu de 1.048 para ~600 linhas: o que sobrou é orquestração (cache,
-formatação por locale, ordenação) mais as chamadas de carteira e mensagens que ainda não têm porta.
-Elas são o único motivo de o arquivo ainda importar o SDK do fornecedor.
+As mensagens são o único motivo de `PlayerProfileService` ainda importar o SDK do fornecedor.

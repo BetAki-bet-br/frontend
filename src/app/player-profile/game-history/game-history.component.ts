@@ -16,7 +16,7 @@ import {
   Breadcrumbs,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { BaseTableMsgsComponent } from '@app/@shared/components/base-table-msgs/base-table-msgs.component';
-import { HistoryResolved, TransactionStatusEnum } from '@app/@shared/models';
+import { HistoryResolved } from '@app/@shared/models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { switchMap } from 'rxjs';
@@ -149,7 +149,6 @@ export class GameHistoryComponent implements OnInit {
   tableData: HistoryResolved[] = [];
   filteredTableData: HistoryResolved[] = [];
 
-  TransactionStatusEnum = TransactionStatusEnum;
   isDataLoading = false;
 
   playerCurrency: string = '';
@@ -389,37 +388,6 @@ export class GameHistoryComponent implements OnInit {
     }
 
     return 'finance-extract';
-  }
-
-  isCompleted(status: TransactionStatusEnum) {
-    const transactions = [
-      TransactionStatusEnum.Approved,
-      TransactionStatusEnum.Paid,
-      TransactionStatusEnum.Refunded,
-      TransactionStatusEnum.ChargedBack,
-      TransactionStatusEnum.ChargeBackReversed,
-      TransactionStatusEnum.Returned,
-      TransactionStatusEnum.ReturnReversed,
-      TransactionStatusEnum.Completed,
-    ];
-
-    return transactions.indexOf(status) >= 0;
-  }
-
-  isAborted(status: TransactionStatusEnum) {
-    const transactions = [
-      TransactionStatusEnum.Declined,
-      TransactionStatusEnum.Cancelled,
-      TransactionStatusEnum.ErrorOrTimeout,
-    ];
-
-    return transactions.indexOf(status) >= 0;
-  }
-
-  isPending(status: TransactionStatusEnum) {
-    const transactions = [TransactionStatusEnum.Pending];
-
-    return transactions.indexOf(status) >= 0;
   }
 
   /**

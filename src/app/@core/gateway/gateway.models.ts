@@ -15,4 +15,5 @@ export interface GatewaySelection {
   auth: GatewayId;
   player: GatewayId;
   games: GatewayId;
+  wallet: GatewayId;
 }

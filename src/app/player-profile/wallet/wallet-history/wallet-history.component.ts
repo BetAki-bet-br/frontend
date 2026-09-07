@@ -11,7 +11,8 @@ import {
   Breadcrumbs,
   PageBreadcrumbsComponent,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
-import { FilterTransactionTypeEnum, TransactionHistoryModel, TransactionStatusEnum } from '@app/@shared/models';
+import { TransactionType } from '@app/@core/gateway';
+import { TransactionHistoryModel } from '@app/@shared/models';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -32,13 +33,20 @@ export interface WalletHistoryFormGroup {
   period: FormControl<IdLabel | null>;
   dateFrom: FormControl<Date | null>;
   dateTo: FormControl<Date | null>;
-  type: FormControl<IdLabel[] | null>;
+  type: FormControl<TransactionTypeOption[] | null>;
   pageNumber: FormControl<number | null>;
   pageSize: FormControl<number | null>;
 }
 
+/** One option of a filter dropdown, keyed by a number the screen assigns itself. */
 export interface IdLabel {
   id: number;
+  label: string;
+}
+
+/** One option of the statement's type filter: the kind it selects, and what it reads as. */
+export interface TransactionTypeOption {
+  id: TransactionType;
   label: string;
 }
 
@@ -93,19 +101,13 @@ export class WalletHistoryComponent implements OnInit {
 
   dateFormat = TwentyFourDateFormat;
 
-  typeList: IdLabel[] = Object.values(FilterTransactionTypeEnum)
-    .filter((v) => !isNaN(Number(v)))
-    .map((key: any) => ({
-      id: key as number,
-      label: this.translateService.instant(FilterTransactionTypeEnum[key]),
-    }));
-
-  statusList: IdLabel[] = Object.values(TransactionStatusEnum)
-    .filter((v) => !isNaN(Number(v)) && Number(v) < 5)
-    .map((key: any) => ({
-      id: key as number,
-      label: this.translateService.instant(TransactionStatusEnum[key]),
-    }));
+  /**
+   * What the type filter offers. `Other` is the catch-all the port reads as "neither in nor out",
+   * so a manual correction is filtered by it and still labelled as itself in the table.
+   */
+  typeList: TransactionTypeOption[] = [TransactionType.Deposit, TransactionType.Withdrawal, TransactionType.Other].map(
+    (type) => ({ id: type, label: this.translateService.instant(type) }),
+  );
 
   periodList: IdLabel[] = [
     {
@@ -148,7 +150,7 @@ export class WalletHistoryComponent implements OnInit {
   endRecord = 0;
 
   filterForm: FormGroup<WalletHistoryFormGroup> = new FormGroup({
-    type: new FormControl<IdLabel[] | null>(null),
+    type: new FormControl<TransactionTypeOption[] | null>(null),
     period: new FormControl<IdLabel>(this.periodList[0]),
     dateFrom: new FormControl<Date | null>(null),
     dateTo: new FormControl<Date | null>(null),
@@ -160,7 +162,6 @@ export class WalletHistoryComponent implements OnInit {
   tableData: TransactionHistoryModel[] = [];
   filteredTableData: TransactionHistoryModel[] = [];
 
-  TransactionStatusEnum = TransactionStatusEnum;
   isDataLoading = false;
 
   constructor() {
@@ -293,7 +294,7 @@ export class WalletHistoryComponent implements OnInit {
         next: (data) => {
           this.tableData = data.transactions ? [...data.transactions] : [];
 
-          this.recordsCount = data.recordcount ? data.recordcount : 0;
+          this.recordsCount = data.recordCount;
 
           this.pageNumber = 0;
           this.totalPages = Math.ceil(this.recordsCount / this.pageSize);
@@ -355,37 +356,6 @@ export class WalletHistoryComponent implements OnInit {
     }
 
     return 'finance-extract';
-  }
-
-  isCompleted(status: TransactionStatusEnum) {
-    const transactions = [
-      TransactionStatusEnum.Approved,
-      TransactionStatusEnum.Paid,
-      TransactionStatusEnum.Refunded,
-      TransactionStatusEnum.ChargedBack,
-      TransactionStatusEnum.ChargeBackReversed,
-      TransactionStatusEnum.Returned,
-      TransactionStatusEnum.ReturnReversed,
-      TransactionStatusEnum.Completed,
-    ];
-
-    return transactions.indexOf(status) >= 0;
-  }
-
-  isAborted(status: TransactionStatusEnum) {
-    const transactions = [
-      TransactionStatusEnum.Declined,
-      TransactionStatusEnum.Cancelled,
-      TransactionStatusEnum.ErrorOrTimeout,
-    ];
-
-    return transactions.indexOf(status) >= 0;
-  }
-
-  isPending(status: TransactionStatusEnum) {
-    const transactions = [TransactionStatusEnum.Pending];
-
-    return transactions.indexOf(status) >= 0;
   }
 
   /**

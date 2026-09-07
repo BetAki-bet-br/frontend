@@ -1,8 +1,14 @@
 import { ChatService } from '@app/@shared/services/chat.service';
 import { AccountVerificationActionEnum, AuthDialogService, FaceAuthParams } from '@app/auth/auth-dialog.service';
 import { BRAND } from '@app/@core/brand';
-import { PlayerProfile } from '@app/@core/gateway';
-import { PaymentRequest } from '@icore/ngx-portalgateway-api-client-atl';
+import {
+  PixKeyType,
+  PlayerProfile,
+  TransactionStatus,
+  WALLET_GATEWAY,
+  WithdrawalInput,
+  WithdrawalRefusal,
+} from '@app/@core/gateway';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { catchError, map, of, Subscription, switchMap, throwError } from 'rxjs';
 import { MatIcon } from '@angular/material/icon';
@@ -44,11 +50,10 @@ import {
   WithdrawalAuthenticationDialogComponent,
 } from '@app/@shared/components/withdrawal-authentication-dialog/withdrawal-authentication-dialog.component';
 import { WithdrawalDialogComponent } from '@app/@shared/components/withdrawal-dialog/withdrawal-dialog.component';
-import { WithdrawalError, TransactionStatusStringEnum } from '@app/@shared/models';
+import { WithdrawalError } from '@app/@shared/models';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
 import { NgxMaskDirective } from 'ngx-mask';
 
-import { PaymentsService } from '@app/@shared/services/payment.service';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { ButtonComponent } from '@app/@shared/components/button/button.component';
@@ -56,20 +61,14 @@ import { ButtonComponent } from '@app/@shared/components/button/button.component
 const log = new Logger('WalletWithdrawalComponent');
 
 interface WithdrawalForm {
-  type: FormControl<WithdrawalTypeEnum | null>;
+  type: FormControl<PixKeyType | null>;
   amount: FormControl<number | null>;
   key: FormControl<string | null>;
 }
 
 interface WithdrawalType {
   label: string;
-  value: WithdrawalTypeEnum;
-}
-
-enum WithdrawalTypeEnum {
-  Document = 'document',
-  Phone = 'phone',
-  Email = 'email',
+  value: PixKeyType;
 }
 
 @Component({
@@ -94,7 +93,6 @@ enum WithdrawalTypeEnum {
   ],
 })
 export class WalletWithdrawalComponent implements OnInit, OnDestroy {
-  private paymentsService = inject(PaymentsService);
   private cdr = inject(ChangeDetectorRef);
   private snackbarService = inject(SnackbarService);
   private translateService = inject(TranslateService);
@@ -104,7 +102,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   private chatService = inject(ChatService);
   private playerService = inject(PlayerStatusService);
   private authDialogService = inject(AuthDialogService);
-  private paymentService = inject(PaymentsService);
+  private wallet = inject(WALLET_GATEWAY);
   private configurationService = inject(ConfigurationService);
   private destroyRef = inject(DestroyRef);
   private readonly brand = inject(BRAND);
@@ -126,7 +124,7 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   faceAuthParams!: FaceAuthParams;
 
   withdrawalForm: FormGroup<WithdrawalForm> = new FormGroup({
-    type: new FormControl<WithdrawalTypeEnum | null>(WithdrawalTypeEnum.Document, Validators.required),
+    type: new FormControl<PixKeyType | null>(PixKeyType.Document, Validators.required),
     key: new FormControl<string | null>(null, Validators.required),
     amount: new FormControl<number | null>(null, [
       Validators.required,
@@ -136,9 +134,9 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   });
 
   typeList: WithdrawalType[] = [
-    { label: this.translateService.instant('CPF'), value: WithdrawalTypeEnum.Document },
-    { label: this.translateService.instant('Telephone'), value: WithdrawalTypeEnum.Phone },
-    { label: this.translateService.instant('Email'), value: WithdrawalTypeEnum.Email },
+    { label: this.translateService.instant('CPF'), value: PixKeyType.Document },
+    { label: this.translateService.instant('Telephone'), value: PixKeyType.Phone },
+    { label: this.translateService.instant('Email'), value: PixKeyType.Email },
   ];
 
   playerInfo: PlayerProfile | null = null;
@@ -174,11 +172,11 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
   }
 
   get valuePlaceholder(): string {
-    if (this.typeControl.value === WithdrawalTypeEnum.Document) {
+    if (this.typeControl.value === PixKeyType.Document) {
       return 'CPF';
-    } else if (this.typeControl.value === WithdrawalTypeEnum.Email) {
+    } else if (this.typeControl.value === PixKeyType.Email) {
       return 'Email';
-    } else if (this.typeControl.value === WithdrawalTypeEnum.Phone) {
+    } else if (this.typeControl.value === PixKeyType.Phone) {
       return 'Telephone';
     } else {
       return '';
@@ -238,19 +236,10 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const requestEligibility: PaymentRequest = {
-      paymentInstrumentId: 1,
-      amount: this.amountControl.value,
-    };
-
-    const requestWithdrawal: PaymentRequest = {
-      paymentInstrumentId: 1,
-      amount: this.amountControl.value,
-    };
-
-    requestWithdrawal.parameters = {
-      PixKeyType: this.typeControl.value ?? WithdrawalTypeEnum.Document,
-      PixKeyValue: this.keyControl.value ?? '',
+    const request: WithdrawalInput = {
+      amount: this.amountControl.value ?? 0,
+      keyType: this.typeControl.value ?? PixKeyType.Document,
+      key: this.keyControl.value ?? '',
     };
 
     this.isLoading = true;
@@ -260,66 +249,56 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap((result) => {
           this.withdrawCanceled = false;
-          if (result?.success) {
-            return this.paymentService.createWithdrawal(requestEligibility);
-          } else {
-            return of({
-              declineReasonCode: 'ReverificationAborted',
-              abortFurtherProcessing: true,
-              declineReason: 'Player not eligible for withdrawal',
-            });
-          }
-        }),
-        switchMap((response) => {
-          log.debug('Withdrawal eligibility check response:', response);
-          if (
-            response?.abortFurtherProcessing &&
-            response?.declineReason !== 'Not all player statuses are not fulfilled'
-          ) {
-            this.withdrawSuccess = false;
-            if (response.declineReasonCode === 'NotEnoughFunds')
-              this.withdrawalForm.controls.amount.setErrors({ notEnoughFunds: true });
-            else if (response.declineReasonCode === 'TransactionTypeDisabled') {
-              this.withdrawalDisabledErrorDialog();
-            } else {
-              const errors = { ...this.amountControl.errors };
-              delete errors['notEnoughFunds'];
-              this.amountControl.setErrors(Object.keys(errors).length === 0 ? null : errors);
-            }
-            return of(null);
-          } else if (response?.declineReasonCode === 'ReverificationAborted') {
-            return of(null);
-          } else {
-            return this.paymentService.getWithdrawalFaceAuth(requestWithdrawal);
-          }
-        }),
-        switchMap((faceAuthParams) => {
-          if (faceAuthParams) {
-            this.faceAuthParams = faceAuthParams;
 
-            const dialogRef = this.dialog.open<WithdrawalAuthenticationDialogResult>(
-              WithdrawalAuthenticationDialogComponent,
-              {
-                data: {
-                  title: this.translateService.instant('Authentication'),
-                  description: this.translateService.instant(
-                    'Click the button below to verify your account and identity, it’s quick and easy.',
-                  ),
-                },
+          // Null is the player walking out of the re-verification the withdrawal is gated behind:
+          // nothing was asked of the gateway, and nothing is said to the player.
+          return result?.success ? this.wallet.checkWithdrawalEligibility(request) : of(null);
+        }),
+        switchMap((eligibility) => {
+          log.debug('Withdrawal eligibility:', eligibility);
+
+          if (eligibility === null) {
+            return of(null);
+          }
+
+          if (eligibility.outcome === 'refused') {
+            this.explainRefusal(eligibility.reason);
+            return of(null);
+          }
+
+          return this.wallet.startWithdrawal(request);
+        }),
+        switchMap((ticket) => {
+          if (!ticket?.referenceId) {
+            return of(null);
+          }
+
+          this.faceAuthParams = {
+            providerId: ticket.referenceId,
+            faceAuthUrl: ticket.url,
+            faceAuthUrlQR: ticket.qrCodeUrl,
+          };
+
+          const dialogRef = this.dialog.open<WithdrawalAuthenticationDialogResult>(
+            WithdrawalAuthenticationDialogComponent,
+            {
+              data: {
+                title: this.translateService.instant('Authentication'),
+                description: this.translateService.instant(
+                  'Click the button below to verify your account and identity, it’s quick and easy.',
+                ),
               },
-            );
+            },
+          );
 
-            return dialogRef.closed.pipe(
-              switchMap((result) => {
-                if (result && result?.auth) {
-                  return this.onVerify();
-                }
-                return of(null);
-              }),
-            );
-          }
-
-          return of(null);
+          return dialogRef.closed.pipe(
+            switchMap((result) => {
+              if (result && result?.auth) {
+                return this.onVerify();
+              }
+              return of(null);
+            }),
+          );
         }),
       )
       .subscribe({
@@ -347,13 +326,34 @@ export class WalletWithdrawalComponent implements OnInit, OnDestroy {
           this.isLoading = false;
 
           // for declined withdrawals, show a specific error dialog
-          if (err instanceof WithdrawalError && err.transactionError === TransactionStatusStringEnum.Declined) {
+          if (err instanceof WithdrawalError && err.transactionError === TransactionStatus.Declined) {
             this.withdrawalDeclinedErrorDialog();
           } else {
             this.withdrawalErrorDialog();
           }
         },
       });
+  }
+
+  /** The gateway would not start the withdrawal, and the screen says so in the player's words. */
+  private explainRefusal(reason: WithdrawalRefusal) {
+    this.withdrawSuccess = false;
+
+    if (reason === 'not-enough-funds') {
+      this.withdrawalForm.controls.amount.setErrors({ notEnoughFunds: true });
+      return;
+    }
+
+    if (reason === 'withdrawals-disabled') {
+      this.withdrawalDisabledErrorDialog();
+      return;
+    }
+
+    // Refused for something the amount field cannot explain, so the marker it may still be
+    // carrying from a previous attempt comes off.
+    const errors = { ...this.amountControl.errors };
+    delete errors['notEnoughFunds'];
+    this.amountControl.setErrors(Object.keys(errors).length === 0 ? null : errors);
   }
 
   private withdrawalSuccessDialog() {

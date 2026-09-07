@@ -55,5 +55,22 @@ export type {
   SportsbookBetHistoryPage,
   TopWinner,
 } from './games/games.models';
+export { WALLET_GATEWAY } from './wallet/wallet.gateway';
+export type { WalletGateway } from './wallet/wallet.gateway';
+export { PixKeyType, TransactionStatus, TransactionType } from './wallet/wallet.models';
+export type {
+  DepositCharge,
+  DepositInput,
+  DepositRefusal,
+  DepositResult,
+  Transaction,
+  TransactionPage,
+  TransactionQuery,
+  TransactionStep,
+  WithdrawalEligibility,
+  WithdrawalInput,
+  WithdrawalOutcome,
+  WithdrawalRefusal,
+} from './wallet/wallet.models';
 export type { GatewayId, GatewaySelection } from './gateway.models';
 export { provideGateways } from './provide-gateways';

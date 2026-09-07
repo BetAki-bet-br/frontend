@@ -11,14 +11,10 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { DataStoreService } from '@app/@core';
+import { WALLET_GATEWAY, WithdrawalOutcome } from '@app/@core/gateway';
 import { Logger } from '@app/@shared/logger.service';
-import { PaymentsService } from '@app/@shared/services/payment.service';
 import { AuthenticationService } from '@app/auth';
 import { FaceAuthParams } from '@app/auth/auth-dialog.service';
-import {
-  FaceAuthenticationProcessStatusEnum,
-  WithdrawalFaceAuthProcessResponse,
-} from '@icore/ngx-portalgateway-api-client-atl';
 import { BaseDialogComponent } from '../base-dialog/base-dialog.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
@@ -34,7 +30,11 @@ export interface FaceAuthenticatorDialogResult {
   error?: HttpErrorResponse;
 }
 
-export type FaceAuthenticatorDialogResultType = FaceAuthenticatorDialogResult | WithdrawalFaceAuthProcessResponse;
+/**
+ * What the dialog closes with. A withdrawal answers with the money's fate as well as the biometry's,
+ * because that is the one call that settles both.
+ */
+export type FaceAuthenticatorDialogResultType = FaceAuthenticatorDialogResult | WithdrawalOutcome;
 
 @Component({
   selector: 'app-face-authenticator-dialog',
@@ -47,7 +47,7 @@ export class FaceAuthenticatorDialogComponent implements OnInit, OnDestroy {
   private dialogRef = inject<DialogRef<FaceAuthenticatorDialogResultType>>(DialogRef);
   private data = inject<FaceAuthenticatorDialogData>(DIALOG_DATA);
   private authenticationService = inject(AuthenticationService);
-  private paymentsService = inject(PaymentsService);
+  private wallet = inject(WALLET_GATEWAY);
   private dataStoreService = inject(DataStoreService);
   private sanitizer = inject(DomSanitizer);
   private cdr = inject(ChangeDetectorRef);
@@ -65,9 +65,9 @@ export class FaceAuthenticatorDialogComponent implements OnInit, OnDestroy {
       this.isLoading = true;
       this.cdr.markForCheck();
       if (isWithdrawal) {
-        this.paymentsService.getWithdrawalFaceAuthenticationStatus(providerId).subscribe((result) => {
+        this.wallet.getWithdrawalOutcome(providerId).subscribe((result) => {
           log.debug('Withdrawal face authentication status:', result);
-          if (result?.withdrawalFacialAuthProcessStatus === FaceAuthenticationProcessStatusEnum.Approved) {
+          if (result.authentication === 'approved') {
             this.dialogRef.close(result);
           }
         });
@@ -97,44 +97,6 @@ export class FaceAuthenticatorDialogComponent implements OnInit, OnDestroy {
       const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(faceAuthUrl);
       this.safeUrl = sanitizedUrl;
     }
-
-    // window.addEventListener(
-    //   'message',
-    //   (event) => {
-    //     // const actionName = event?.data?.name;
-    //     // const responseCode = event?.data?.status;
-    //     // const providerId = this.data.faceAuthParams.providerId;
-    //     // const isWithdrawal = this.data.isWithdrawal;
-    //     // if ((actionName === 'faceindex' || actionName === 'facematch') && responseCode === 'success') {
-    //     //   this.isLoading = true;
-    //     //   this.cdr.markForCheck();
-    //     //   if (isWithdrawal) {
-    //     //     this.paymentsService.getWithdrawalFaceAuthenticationStatus(providerId).subscribe((result) => {
-    //     //       log.debug('Withdrawal face authentication status:', result);
-    //     //       if (result?.withdrawalFacialAuthProcessStatus === FaceAuthenticationProcessStatusEnum.Approved) {
-    //     //         this.dialogRef.close(result);
-    //     //       }
-    //     //     });
-    //     //   } else {
-    //     //     this.authenticationService.getFaceAuthenticationStatus(providerId).subscribe({
-    //     //       next: (result) => {
-    //     //         window.removeEventListener('message', (event) => {}, false);
-
-    //     //         if (result?.status === FaceAuthenticationProcessStatusEnum.Approved) {
-    //     //           this.dialogRef.close({ success: true });
-    //     //         }
-    //     //       },
-    //     //       error: (err: HttpErrorResponse) => {
-    //     //         window.removeEventListener('message', (event) => {}, false);
-
-    //     //         this.dialogRef.close({ success: false, error: err });
-    //     //       },
-    //     //     });
-    //     //   }
-    //     // }
-    //   },
-    //   false
-    // );
   }
 
   cancel() {

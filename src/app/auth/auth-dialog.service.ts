@@ -3,7 +3,13 @@ import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
-import { AUTH_GATEWAY, FaceAuthTicket, PlayerVerificationStatuses } from '@app/@core/gateway';
+import {
+  AUTH_GATEWAY,
+  FaceAuthTicket,
+  PlayerVerificationStatuses,
+  TransactionStatus,
+  WithdrawalOutcome,
+} from '@app/@core/gateway';
 import { SnackbarService } from '@app/@core/snackbar.service';
 import { Logger } from '@app/@shared';
 import {
@@ -21,7 +27,7 @@ import {
 } from '@app/@shared/components/process-verification-dialog/process-verification-dialog.component';
 import { PopupMessagesService } from '@app/@shared/services/popup-messages.service';
 import { PlayerProfileService } from '@app/player-profile/player-profile.service';
-import { MessageService, WithdrawalFaceAuthProcessResponse } from '@icore/ngx-portalgateway-api-client-atl';
+import { MessageService } from '@icore/ngx-portalgateway-api-client-atl';
 import { catchError, finalize, first, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { CredentialsService } from './credentials.service';
@@ -30,7 +36,7 @@ import {
   TermsAndConditionsUpdatedDialogResult,
 } from './login/terms-and-conditions-updated-dialog/terms-and-conditions-updated-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
-import { TransactionStatusStringEnum, WithdrawalError } from '@app/@shared/models';
+import { WithdrawalError } from '@app/@shared/models';
 
 const log = new Logger('AuthDialogService');
 
@@ -423,23 +429,18 @@ export class AuthDialogService {
         this.popupMessageService.canDisplayMessage = true;
 
         if (isWithdrawal) {
-          if (result as WithdrawalFaceAuthProcessResponse) {
-            result = result as WithdrawalFaceAuthProcessResponse;
-            log.debug('Withdrawal face authentication dialog result:', result);
+          const outcome = result as WithdrawalOutcome | undefined;
+          if (outcome) {
+            log.debug('Withdrawal face authentication dialog result:', outcome);
             // for withdrawal, only 'Paid' or 'Pending' payment statuses mark a successfull withdrawal transaction,
             // for others, throw error
-            if (
-              result?.paymentStatus === TransactionStatusStringEnum.Paid ||
-              result?.paymentStatus === TransactionStatusStringEnum.Pending
-            ) {
+            if (outcome.status === TransactionStatus.Paid || outcome.status === TransactionStatus.Pending) {
               return this.credentialsService.resetFaceAuthRequired().pipe(map(() => true));
             } else {
               // throw error, but first reset face auth required
               return this.credentialsService.resetFaceAuthRequired().pipe(
                 map(() => {
-                  throw new WithdrawalError(
-                    ((result as WithdrawalFaceAuthProcessResponse)?.paymentStatus as TransactionStatusStringEnum) ?? '',
-                  );
+                  throw new WithdrawalError(outcome.status ?? '');
                 }),
               );
             }

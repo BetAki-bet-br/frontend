@@ -14,6 +14,10 @@ import { ComtradePlayerGateway } from './player/adapters/comtrade-player.gateway
 import { DemoPlayerGateway } from './player/adapters/demo-player.gateway';
 import { HousePlayerGateway } from './player/adapters/house-player.gateway';
 import { PLAYER_GATEWAY, PlayerGateway } from './player/player.gateway';
+import { ComtradeWalletGateway } from './wallet/adapters/comtrade-wallet.gateway';
+import { DemoWalletGateway } from './wallet/adapters/demo-wallet.gateway';
+import { HouseWalletGateway } from './wallet/adapters/house-wallet.gateway';
+import { WALLET_GATEWAY, WalletGateway } from './wallet/wallet.gateway';
 
 /** Every adapter that can answer `AUTH_GATEWAY`, keyed by the id a brand writes in its config. */
 const AUTH_ADAPTERS: Record<GatewayId, Type<AuthGateway>> = {
@@ -36,6 +40,13 @@ const GAMES_ADAPTERS: Record<GatewayId, Type<GamesGateway>> = {
   demo: DemoGamesGateway,
 };
 
+/** Every adapter that can answer `WALLET_GATEWAY`. */
+const WALLET_ADAPTERS: Record<GatewayId, Type<WalletGateway>> = {
+  comtrade: ComtradeWalletGateway,
+  house: HouseWalletGateway,
+  demo: DemoWalletGateway,
+};
+
 /**
  * Binds each gateway port to the adapter the running brand asked for in
  * `BrandConfig.gateways`.
@@ -56,6 +67,7 @@ export function provideGateways(): EnvironmentProviders {
   const authAdapter = AUTH_ADAPTERS[selection.auth];
   const playerAdapter = PLAYER_ADAPTERS[selection.player];
   const gamesAdapter = GAMES_ADAPTERS[selection.games];
+  const walletAdapter = WALLET_ADAPTERS[selection.wallet];
 
   return makeEnvironmentProviders([
     authAdapter,
@@ -64,13 +76,15 @@ export function provideGateways(): EnvironmentProviders {
     { provide: PLAYER_GATEWAY, useExisting: playerAdapter },
     gamesAdapter,
     { provide: GAMES_GATEWAY, useExisting: gamesAdapter },
+    walletAdapter,
+    { provide: WALLET_GATEWAY, useExisting: walletAdapter },
   ]);
 }
 
 /**
- * The demo adapters keep accounts, balances, limits and game rounds in `localStorage`. A brand
- * that shipped with one would be inviting people to gamble against a fixture, so the build fails
- * instead.
+ * The demo adapters keep accounts, balances, limits, game rounds and statements in `localStorage`.
+ * A brand that shipped with one would be inviting people to gamble against a fixture, so the build
+ * fails instead.
  *
  * The published demo is the one build that is allowed them, and it says so in its own environment
  * file rather than here: `environment.demo.ts` is the only one that sets `showcase`, and it is

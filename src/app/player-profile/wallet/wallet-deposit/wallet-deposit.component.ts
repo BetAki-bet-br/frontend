@@ -2,7 +2,7 @@ import { ChatService } from '@app/@shared/services/chat.service';
 import { AccountVerificationActionEnum, AuthDialogService } from '@app/auth/auth-dialog.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { BRAND, BRAND_PARAMS } from '@app/@core/brand';
-import { CreatePaymentResponse, PaymentRequest } from '@icore/ngx-portalgateway-api-client-atl';
+import { DepositRefusal, WALLET_GATEWAY } from '@app/@core/gateway';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of, switchMap } from 'rxjs';
 import { MatFormField, MatHint } from '@angular/material/form-field';
@@ -26,7 +26,6 @@ import { Banner } from '@app/@shared/models';
 import { CategoryKeyEnum } from '@app/@shared/models/template.model';
 import { CmsService } from '@app/@shared/services/cms.service';
 import { GoogleTagManagerImplementationService } from '@app/@shared/services/google-tag-manager-implementation.service';
-import { PaymentsService } from '@app/@shared/services/payment.service';
 import { PlayerStatusService } from '@app/@shared/services/player.status.service';
 import { TawkToScriptService } from '@app/@shared/services/tawkto-script.service';
 
@@ -56,7 +55,7 @@ interface DepositForm {
 })
 export class WalletDepositComponent implements OnInit {
   protected readonly brandParams = BRAND_PARAMS;
-  private paymentsService = inject(PaymentsService);
+  private wallet = inject(WALLET_GATEWAY);
   private cdr = inject(ChangeDetectorRef);
   private clipboard = inject(Clipboard);
   private snackbarService = inject(SnackbarService);
@@ -172,33 +171,24 @@ export class WalletDepositComponent implements OnInit {
       .initAccountVerification(AccountVerificationActionEnum.Deposit)
       .pipe(
         switchMap((result) => {
-          if (result?.canDeposit) {
-            const request: PaymentRequest = {
-              paymentInstrumentId: 1,
-              amount: this.parseAmount(this.amountControl.value),
-              currency: 'BRL',
-            };
-
-            this.isLoading = true;
-
-            return this.paymentsService.createDeposit(request);
-          } else {
-            return of('DepositCanceled');
+          if (!result?.canDeposit) {
+            return of(null);
           }
+
+          this.isLoading = true;
+
+          return this.wallet.deposit({ amount: this.parseAmount(this.amountControl.value) });
         }),
       )
       .subscribe({
-        next: (response) => {
-          if (response === 'DepositCanceled') {
+        next: (result) => {
+          // The player backed out of the verification the deposit is gated behind.
+          if (result === null) {
             return;
           }
 
-          if ((response as CreatePaymentResponse)?.paymentStatus === 'Declined') {
-            this.processFailedDeposit({
-              error: {
-                errorMessage: marker('Deposit declined'),
-              },
-            });
+          if (result.outcome === 'refused') {
+            this.processRefusedDeposit(result.reason);
             return;
           }
 
@@ -210,22 +200,14 @@ export class WalletDepositComponent implements OnInit {
 
           this.isLoading = false;
 
-          this.qrCodeImage = (response as CreatePaymentResponse)?.parameters?.['QRCodeImage'] ?? null;
-          this.qrCodeText = (response as CreatePaymentResponse)?.parameters?.['QRCode'] ?? '';
-
-          this.depositId = (response as CreatePaymentResponse)?.transactionId ?? '';
+          this.qrCodeImage = result.charge.qrCodeImageUrl || null;
+          this.qrCodeText = result.charge.code;
+          this.depositId = result.charge.transactionId;
 
           // Push the deposit_request event to GTM
           const accountId = this.dataStoreService.getCredentials()?.userId;
           const stake = this.parseAmount(this.amountControl.value);
           const currency = this.dataStoreService.defaultCurrency;
-
-          console.log('Pushing deposit_request event to GTM:', {
-            event: 'deposit_request',
-            accountID: accountId,
-            stake: stake,
-            currency: currency,
-          });
 
           this.googleTagManagerServiceImpl.pushGtmTag({
             event: 'deposit_request',
@@ -294,16 +276,25 @@ export class WalletDepositComponent implements OnInit {
     this.amountControl.markAsDirty();
   }
 
-  private processFailedDeposit(err: any) {
-    log.debug('processFailedDeposit(): deposit error: ', err);
-    if (err) {
-      this.error = err.error?.errorMessage || '';
-      // set specific error for InvalidPlayerStatus
-      if (this.error === 'InvalidPlayerStatus') {
-        this.error = marker('Deposits are not possible while Pause Period is active.');
-      }
-    }
+  /** The gateway would take no money, and said why. */
+  private processRefusedDeposit(reason: DepositRefusal) {
+    log.debug('processRefusedDeposit(): deposit refused:', reason);
 
+    this.error =
+      reason === 'paused'
+        ? marker('Deposits are not possible while Pause Period is active.')
+        : marker('Deposit declined');
+
+    this.failDeposit();
+  }
+
+  private processFailedDeposit(err: unknown) {
+    log.debug('processFailedDeposit(): deposit error: ', err);
+    this.error = '';
+    this.failDeposit();
+  }
+
+  private failDeposit() {
     this.isLoading = false;
     this.cdr.markForCheck();
     this.snackbarService.openCustomError(this.translateService.instant('Deposit failed'), 'center', 'top');

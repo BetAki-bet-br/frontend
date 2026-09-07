@@ -107,13 +107,13 @@
             <mat-expansion-panel-header>
               <mat-panel-title class="section-item-container nowrap">
                 <div class="section-item">
-                  <mat-icon class="item-icon" svgIcon="{{ findIcon(item?.paymentInstrumentName ?? 'unknown') }}" />
+                  <mat-icon class="item-icon" svgIcon="{{ findIcon(item.paymentMethod) }}" />
                   <div class="flex flex-col">
                     <div class="flex flex-col item-title">
                       {{ item.typeResolved | translate }}
                     </div>
                     <div class="flex flex-col item-description">
-                      {{ item.paymentInstrumentName }}
+                      {{ item.paymentMethod }}
                     </div>
                   </div>
                 </div>
@@ -140,7 +140,7 @@
                   <div class="transaction-details-row">
                     <div class="transaction-details-field">{{ 'Date' | translate }}</div>
                     <div class="transaction-details-value">
-                      {{ item.createTime | date: dateFormat }}
+                      {{ item.createdAt | date: dateFormat }}
                     </div>
                   </div>
                   <div class="transaction-details-row">

@@ -1,5 +1,4 @@
-import { GameRound } from '@app/@core/gateway';
-import { TransactionDetailsResolved } from './sportsbook.model';
+import { GameRound, TransactionStep } from '@app/@core/gateway';
 
 export interface GameTile {
   id?: number;
@@ -25,7 +24,7 @@ export interface GameHistoryModel {
 
 /** A casino round with the amounts already formatted in the player's locale. */
 export interface HistoryResolved extends GameRound {
-  transactionDetails?: TransactionDetailsResolved[];
+  transactionDetails?: TransactionStep[];
   balanceBefore?: number;
   balanceBeforeResolved?: string;
   balanceAfter?: number;

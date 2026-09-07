@@ -18,7 +18,11 @@ import {
   PlayerVerificationStatuses,
   SessionHistoryQuery,
   SportsbookBetHistoryPage,
+  TransactionPage,
+  TransactionStep,
+  TransactionQuery,
   UpdateProfileInput,
+  WALLET_GATEWAY,
 } from '@app/@core/gateway';
 import { Logger } from '@app/@shared/logger.service';
 import {
@@ -29,29 +33,17 @@ import {
   PlayerLimit,
   SessionHistory,
   TransactionHistoryModel,
-  TransactionStatusEnum,
-  TransactionTypeEnum,
 } from '@app/@shared/models';
 import { CountryCode } from '@app/@shared/models/countries-code.model';
-import {
-  GetBetHistoryResponseResolved,
-  SportsbookBetHistoryModelResolved,
-  TransactionDetailsResolved,
-} from '@app/@shared/models/sportsbook.model';
+import { GetBetHistoryResponseResolved, SportsbookBetHistoryModelResolved } from '@app/@shared/models/sportsbook.model';
 import { CredentialsService } from '@app/auth/credentials.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import {
-  BalanceService,
-  ChangeMessageTypeEnum,
-  GetPlayerTransactionsRequest,
-  GetPlayerTransactionsResponse,
-  MessageService,
-} from '@icore/ngx-portalgateway-api-client-atl';
+import { ChangeMessageTypeEnum, MessageService } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, map, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { COUNTRY_CODES } from './country-codes';
-import { IdLabel } from './wallet/wallet-history/wallet-history.component';
+import { TransactionTypeOption } from './wallet/wallet-history/wallet-history.component';
 
 const log = new Logger('PlayerProfileService');
 
@@ -66,9 +58,11 @@ const log = new Logger('PlayerProfileService');
  * The game and sportsbook history now go through {@link GAMES_GATEWAY}, and what is left of them
  * here is the same orchestration: turning amounts into strings in the player's locale.
  *
- * The wallet and message calls below still talk to the generated PortalGateway client, because
- * their ports (WalletGateway, MessagesGateway) are not written yet. They are the reason this file
- * still imports a vendor SDK.
+ * The wallet goes through {@link WALLET_GATEWAY}, and what is left of it here is the formatting the
+ * statement table needs.
+ *
+ * The message calls below still talk to the generated PortalGateway client, because their port
+ * (MessagesGateway) is not written yet. They are the reason this file still imports a vendor SDK.
  */
 @Injectable({
   providedIn: 'root',
@@ -79,7 +73,7 @@ export class PlayerProfileService {
   private configurationService = inject(ConfigurationService);
   private translateService = inject(TranslateService);
   private gamesGateway = inject(GAMES_GATEWAY);
-  private balanceApi = inject(BalanceService);
+  private walletGateway = inject(WALLET_GATEWAY);
   private credentialsService = inject(CredentialsService);
   private messagesService = inject(MessageService);
 
@@ -150,63 +144,32 @@ export class PlayerProfileService {
     return of(COUNTRY_CODES);
   }
 
+  /**
+   * A page of the statement, with every amount already a string in the player's locale.
+   *
+   * The filter form is the screen's shape; what "Other" covers is the port's promise, so the list
+   * of types travels as it is.
+   */
   getWalletTransactions(
     filters: Partial<{
       dateFrom: Date | null;
       dateTo: Date | null;
-      type: IdLabel[] | null;
-      status: IdLabel | null;
+      type: TransactionTypeOption[] | null;
       pageNumber: number | null;
       pageSize: number | null;
     }>,
   ): Observable<GetPlayerTransactionsResponseResolved> {
-    log.debug('getWalletTransactions() invoked with:', filters, filters.dateFrom?.toISOString());
+    log.debug('getWalletTransactions() invoked with:', filters);
 
-    const request: GetPlayerTransactionsRequest = {
+    const query: TransactionQuery = {
+      from: filters.dateFrom ?? new Date(0),
+      to: filters.dateTo ?? new Date(),
       pageNumber: filters.pageNumber ?? 1,
       pageSize: filters.pageSize ?? 5,
-      fromDate: filters.dateFrom?.toISOString() ?? new Date(0).toISOString(),
-      toDate: filters.dateTo?.toISOString() ?? new Date().toISOString(),
-      retrieveChildTransactions: false,
-      withManualTransactions: true,
+      types: filters.type?.map((type) => type.id),
     };
 
-    return this.balanceApi.apiPortalV1BalanceTransactionsPost(request).pipe(
-      switchMap((result) => {
-        log.debug('getWalletTransactions() returned result:', result);
-
-        let transactionList = result.transactions;
-
-        if (filters.type) {
-          if (!filters.type?.some((type) => type.id === TransactionTypeEnum.Other)) {
-            transactionList = transactionList?.filter(
-              (transaction) =>
-                transaction.type == TransactionTypeEnum.Deposit || transaction.type == TransactionTypeEnum.Withdrawal,
-            );
-          }
-
-          if (!filters.type?.some((type) => type.id === TransactionTypeEnum.Deposit)) {
-            transactionList = transactionList?.filter((transaction) => transaction.type != TransactionTypeEnum.Deposit);
-          }
-
-          if (!filters.type?.some((type) => type.id === TransactionTypeEnum.Withdrawal)) {
-            transactionList = transactionList?.filter(
-              (transaction) => transaction.type != TransactionTypeEnum.Withdrawal,
-            );
-          }
-        }
-
-        result.transactions = transactionList;
-        result.recordcount = transactionList?.length;
-
-        // mocked transactions for testing purposes can be found in 'player-profile-mock.service.ts'
-        return this.resolveWalletTransactions(result);
-      }),
-      catchError((err) => {
-        log.debug('getWalletTransactions() returned error:', err);
-        throw err;
-      }),
-    );
+    return this.walletGateway.getTransactions(query).pipe(switchMap((page) => this.resolveWalletTransactions(page)));
   }
 
   getSessionHistory(filter?: SessionHistoryQuery): Observable<SessionHistory[]> {
@@ -393,34 +356,14 @@ export class PlayerProfileService {
     });
   }
 
-  getTransactionDetails(reference: string): Observable<TransactionDetailsResolved[]> {
-    return this.balanceApi
-      .apiPortalV1BalanceTransactionDetailsPost({
-        referenceObject: reference,
-      })
-      .pipe(
-        map((response) => {
-          const mappedData: TransactionDetailsResolved[] =
-            response?.transactionDetailsInfo
-              ?.sort((a, b) => (a.id ?? 0) - (b.id ?? 0))
-              ?.map((m) => {
-                return {
-                  balanceAfter: m.amountAfter ?? 0,
-                  balanceBefore: m.amountBefore ?? 0,
-                  transactionStepTypeName: m.transactionStepTypeName ?? '',
-                  transactionStepTypeResolved: m.transactionStepTypeName
-                    ? this.resolveStepType(m.transactionStepTypeName)
-                    : '',
-                };
-              }) ?? [];
-
-          return mappedData;
-        }),
-        catchError((err) => {
-          log.debug('getTransactionDetails() returned error:', err);
-          throw err;
-        }),
-      );
+  /** How one movement was settled, for the row a history screen has just expanded. */
+  getTransactionDetails(reference: string): Observable<TransactionStep[]> {
+    return this.walletGateway.getTransactionSteps(reference).pipe(
+      catchError((err) => {
+        log.debug('getTransactionDetails() returned error:', err);
+        throw err;
+      }),
+    );
   }
 
   terminateAllSessions(): Observable<any> {
@@ -510,72 +453,26 @@ export class PlayerProfileService {
     }));
   }
 
-  private resolveWalletTransactions(
-    data: GetPlayerTransactionsResponse,
-  ): Observable<GetPlayerTransactionsResponseResolved> {
-    const transactions = data.transactions ?? [];
-
-    transactions.sort((a, b) => {
-      const valA = typeof a.createTime === 'string' ? new Date(a.createTime) : a.createTime;
-      const valB = typeof b.createTime === 'string' ? new Date(b.createTime) : b.createTime;
-      return (valB?.valueOf() ?? 0) - (valA?.valueOf() ?? 0);
-    });
-
+  private resolveWalletTransactions(page: TransactionPage): Observable<GetPlayerTransactionsResponseResolved> {
     return this.configurationService.getPlayerInfo().pipe(
       map((playerInfo) => {
-        const currencySymbol = new Intl.NumberFormat(playerInfo?.locale ?? '', {
-          style: 'currency',
-          currencyDisplay: 'narrowSymbol',
-          currency: playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency,
-        })
-          .format(0)
-          .replace(/\d|\.|\,/g, '')
-          .trim();
+        const currencySymbol = this.currencySymbolFor(playerInfo);
+        const decimalFormatter = this.decimalFormatterFor(playerInfo);
+        const money = (value: number) => `${currencySymbol} ${decimalFormatter.format(value)}`;
 
-        const decimalFormatter = new Intl.NumberFormat(playerInfo?.locale ?? '', {
-          style: 'decimal',
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2,
-        });
-        const resolved: TransactionHistoryModel[] = [];
-        transactions.forEach((transaction) => {
-          const amount = Math.trunc((transaction.amount ?? 0) * 100) / 100;
-          const balanceAfterOrigin = Math.trunc((transaction.balanceAfter ?? 0) * 100) / 100;
-          const balanceAfter =
-            transaction.type === 1 && transaction.status !== 3 && transaction.status !== 2 // DEPOSIT with status that is not success or failed
-              ? Math.trunc(((transaction.balanceAfter ?? 0) + (transaction.amount ?? 0)) * 100) / 100
-              : balanceAfterOrigin;
-          const balanceBefore =
-            transaction.status === 3 //DEPOSIT subtracts amount from balance after
-              ? Math.trunc(((transaction.balanceAfter ?? 0) - (transaction.amount ?? 0)) * 100) / 100
-              : transaction.type === 2 || transaction.status === 5 //WITHDRAWAL adds amount to balance after
-                ? Math.trunc(((transaction.balanceAfter ?? 0) + (transaction.amount ?? 0)) * 100) / 100
-                : balanceAfterOrigin;
-
-          resolved.push({
-            ...transaction,
-            payMethod: transaction.paymentInstrumentName ?? '',
-            statusResolved: transaction.status
-              ? this.translateService.instant(TransactionStatusEnum[transaction.status ?? 0] ?? '/')
-              : '/',
-            typeResolved: transaction.type
-              ? this.translateService.instant(TransactionTypeEnum[transaction.type ?? 0] ?? '/')
-              : '/',
-            amount,
-            amountResolved: `${currencySymbol} ${decimalFormatter.format(amount)}`,
-            balanceAfter,
-            balanceAfterResolved: `${currencySymbol} ${decimalFormatter.format(balanceAfter)}`,
-            balanceBefore,
-            balanceBeforeResolved: `${currencySymbol} ${decimalFormatter.format(balanceBefore)}`,
-          });
-        });
-
-        const response: GetPlayerTransactionsResponseResolved = {
-          ...data,
-          transactions: resolved,
+        return {
+          recordCount: page.recordCount,
+          transactions: page.transactions.map(
+            (transaction): TransactionHistoryModel => ({
+              ...transaction,
+              statusResolved: transaction.status ? this.translateService.instant(transaction.status) : '/',
+              typeResolved: this.translateService.instant(transaction.type),
+              amountResolved: money(transaction.amount),
+              balanceAfterResolved: money(transaction.balanceAfter),
+              balanceBeforeResolved: money(transaction.balanceBefore),
+            }),
+          ),
         };
-
-        return response;
       }),
     );
   }
@@ -592,10 +489,6 @@ export class PlayerProfileService {
     });
 
     return resolved;
-  }
-
-  private resolveStepType(stepType: string) {
-    return marker(stepType === 'Debit' ? 'Bet' : stepType === 'Credit' ? 'Win' : 'Correction');
   }
 }
 
