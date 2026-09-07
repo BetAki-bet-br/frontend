@@ -10,7 +10,6 @@
   },
   "rewrites": [
     { "source": "/backoffice/api/v1/(.*)", "destination": "/api/cms?path=$1" },
-    { "source": "/api/portal/(.*)", "destination": "/api/portal" },
     { "source": "/((?!api/|assets|assetslocal|assetshtml|static/).*)", "destination": "/index.html" }
   ],
   "headers": [

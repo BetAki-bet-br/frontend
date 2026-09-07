@@ -63,7 +63,7 @@ otimizado igual produção, com o `environment.demo.ts` no lugar do `environment
 ## A senha
 
 O Password Protection da Vercel é recurso do plano Pro, e o projeto está no Hobby. O
-`middleware.js` faz o portão no edge: roda antes do bundle, antes da função e antes do stub, então é
+`middleware.js` faz o portão no edge: roda antes do bundle e antes da função, então é
 portão de verdade, não uma tela que a página desenha depois de já ter entregado o código dela. A
 senha mora na variável `DEMO_PASSWORD` do projeto na Vercel, nunca no repositório; sem ela a demo
 fica fechada em vez de cair aberta.
@@ -75,14 +75,13 @@ então o visitante seria expulso no primeiro XHR autenticado. Por isso o Basic �
 passar por ele planta um cookie (`demo_gate`, com um hash da senha), e é o cookie que julga todo
 pedido seguinte. Cookie viaja em XHR independente do que o header Authorization esteja carregando.
 
-## O stub do portal gateway
+## O portal gateway não é mais chamado
 
-`MessageService`, `TemplateService` e os banners legados ainda falam com o portal gateway da
-Comtrade direto, porque `MessagesGateway` e `ContentGateway` não existem. Na demo não há nada em
-`/api/portal/v1/*`, e `api/portal.js` está lá para essas chamadas serem **404 e nunca 401** — um 401
-faria o interceptor deslogar o visitante no meio da demo. Os chamadores já degradam numa falha, que
-é como sobrevivem ao portal gateway morto em desenvolvimento. O stub some no dia em que essas duas
-portas existirem.
+Havia um stub (`api/portal.js`) devolvendo 404 para `/api/portal/v1/*`, porque `MessageService`,
+`TemplateService` e os banners legados falavam com a Comtrade direto e um 401 faria o
+`authInterceptor` deslogar o visitante no meio da demo. Com `MessagesGateway`, `ContentGateway` e
+`BonusGateway` escritos, a demo responde tudo em memória: uma passada pelo app inteiro, deslogado e
+logado, não faz nenhuma chamada para `/api/portal/`. O stub e o rewrite dele saíram.
 
 Some-se a isso o `robots.txt` com `Disallow: /` e o header `X-Robots-Tag: noindex, nofollow`.
 
