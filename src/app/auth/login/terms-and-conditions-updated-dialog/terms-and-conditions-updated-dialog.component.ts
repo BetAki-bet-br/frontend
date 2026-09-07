@@ -2,7 +2,6 @@ import { ButtonComponent } from '@app/@shared/components/button/button.component
 import { DialogRef } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { HelpService } from '@app/help/help.service';
-import { CurrentTermsAndConditionsResponse } from '@icore/ngx-portalgateway-api-client-atl';
 import { BaseDialogComponent } from '@app/@shared/components/base-dialog/base-dialog.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,7 +24,7 @@ export class TermsAndConditionsUpdatedDialogComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   destroyRef = inject(DestroyRef);
   // Terms and conditions content should have a div around it for scroll to work
-  termsAndConditions: CurrentTermsAndConditionsResponse | undefined;
+  termsAndConditions: string | undefined;
 
   ngOnInit(): void {
     this.helpService

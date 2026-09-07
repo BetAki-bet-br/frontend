@@ -3,9 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { CurrentBannersData, DataStoreService } from '@app/@core';
 import { RenderTemplatePipe } from '@app/@pipes/render-template.pipe';
 import { Logger } from '@app/@shared/logger.service';
+import { CONTENT_GATEWAY, CmsBanner, CmsTemplate } from '@app/@core/gateway';
 import { CredentialsService } from '@app/auth';
-import { I18nService } from '@app/i18n';
-import { BannerService, ContentSchedule } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, ReplaySubject, catchError, forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { AppBreakpoints } from '../app-breakpoints';
@@ -25,13 +24,12 @@ const log = new Logger('CmsService');
 })
 export class CmsService {
   private renderTemplate = inject(RenderTemplatePipe);
-  private bannerService = inject(BannerService);
+  private gateway = inject(CONTENT_GATEWAY);
   private credentialsService = inject(CredentialsService);
   private dataStoreService = inject(DataStoreService);
   private templateService = inject(TemplateService);
   private breakpointObserver = inject(BreakpointObserver);
   private slugService = inject(CmsSlugService);
-  private i18nService = inject(I18nService);
   private translate = inject(TranslateService);
 
   private activeMainBannersSub = new ReplaySubject<CurrentBannersData | null>(1);
@@ -54,56 +52,24 @@ export class CmsService {
       this.activeMainBannersSub.next(renderedCurrentBanner);
       return of(renderedCurrentBanner);
     } else {
-      if (!this.i18nService.language && !this.dataStoreService.defaultLanguage) {
-        return of();
-      }
-      // otherwise, get them from api
-      const getBanners$ = this.credentialsService.isAuthenticated()
-        ? forkJoin({
-            banners: this.bannerService.apiPortalV1CmsPlayerBannersGet(
-              [
-                isMobile
-                  ? this.slugService.getCmsSlug(CategoryKeyEnum.MainPageBannersSmall)
-                  : this.slugService.getCmsSlug(CategoryKeyEnum.MainPageBannersLarge),
-              ],
-              this.dataStoreService.defaultPortalId,
-              this.i18nService.language ?? this.dataStoreService.defaultLanguage,
-            ),
-            templatesList: this.templateService.getTemplatesList(),
-          })
-        : forkJoin({
-            banners: this.bannerService.apiPortalV1CmsBannersGet(
-              [
-                isMobile
-                  ? this.slugService.getCmsSlug(CategoryKeyEnum.MainPageBannersSmall)
-                  : this.slugService.getCmsSlug(CategoryKeyEnum.MainPageBannersLarge),
-              ],
-              this.dataStoreService.defaultPortalId,
-              this.i18nService.language ?? this.dataStoreService.defaultLanguage,
-            ),
-            templatesList: this.templateService.getTemplatesList(),
-          });
+      const slug = this.slugService.getCmsSlug(
+        isMobile ? CategoryKeyEnum.MainPageBannersSmall : CategoryKeyEnum.MainPageBannersLarge,
+      );
+
+      const getBanners$ = forkJoin({
+        banners: this.gateway.getBanners([slug]),
+        templatesList: this.templateService.getTemplatesList(),
+      });
 
       log.debug('getActiveBanners(): invoked');
       return getBanners$.pipe(
         map(({ banners, templatesList }) => {
-          banners.sort((a, b) => {
-            const aPosition = a.position ?? Number.MAX_SAFE_INTEGER;
-            const bPosition = b.position ?? Number.MAX_SAFE_INTEGER;
-
-            return aPosition > bPosition ? 1 : aPosition < bPosition ? -1 : 0;
-          });
-
-          const currentBanners: Banner[] = banners.map((banner) => {
-            const template: string = templatesList.find((t) => t.id === banner.templateId)?.htmlDefinition ?? '';
-            const content = this.templateService.transformContent(banner?.contentFieldValues ?? undefined);
-
-            return {
-              ...banner,
-              template,
-              content,
-            } as Banner;
-          });
+          const currentBanners: Banner[] = byPosition(banners).map((banner) => ({
+            name: banner.name,
+            title: banner.name,
+            template: htmlFor(banner, templatesList),
+            content: banner.content,
+          }));
 
           if (this.dataStoreService.currentBanners) {
             this.dataStoreService.currentBanners = {
@@ -142,41 +108,21 @@ export class CmsService {
       promoBanners$ = of(cachedPromoBanners);
     } else {
       // get template for promotion banner
-      const getPromotionTemplates$ = this.credentialsService.isAuthenticated()
-        ? this.bannerService.apiPortalV1CmsPlayerBannersGet(
-            [CategoryKeyEnum.PromotionPagePromotionBanner],
-            this.dataStoreService.defaultPortalId,
-            this.dataStoreService.defaultLanguage,
-          )
-        : this.bannerService.apiPortalV1CmsBannersGet(
-            [CategoryKeyEnum.PromotionPagePromotionBanner],
-            this.dataStoreService.defaultPortalId,
-            this.dataStoreService.defaultLanguage,
-          );
-
+      const getPromotionTemplates$ = this.gateway.getBanners([CategoryKeyEnum.PromotionPagePromotionBanner]);
       const getTemplatesList$ = this.templateService.getTemplatesList();
 
       promoBanners$ = forkJoin({ banners: getPromotionTemplates$, templatesList: getTemplatesList$ }).pipe(
         map(({ banners, templatesList }) => {
-          banners.sort((a, b) => {
-            const aPosition = a.position ?? Number.MAX_SAFE_INTEGER;
-            const bPosition = b.position ?? Number.MAX_SAFE_INTEGER;
-
-            return aPosition > bPosition ? 1 : aPosition < bPosition ? -1 : 0;
-          });
-
           // Create the banners from the api response
-          const promoBanners: Banner[] = banners.map((b) => {
-            const template = templatesList.find((t) => t.id === b.templateId)?.htmlDefinition ?? '';
-            const content = this.templateService.transformContent(b?.contentFieldValues ?? undefined);
-            const renderedTemplate = this.renderTemplate.transform(template, {
-              ...content,
-            });
+          const promoBanners: Banner[] = byPosition(banners).map((banner) => {
+            const template = htmlFor(banner, templatesList);
+            const content = banner.content;
+
             return {
-              title: content[PromotionBannerTemplateFieldsEnum['Title 1']],
+              title: content[PromotionBannerTemplateFieldsEnum['Title 1']] as string,
               template,
               content,
-              templateHtml: renderedTemplate,
+              templateHtml: this.renderTemplate.transform(template, { ...content }),
             };
           });
 
@@ -221,43 +167,22 @@ export class CmsService {
       promoBanners$ = of(cachedPromoBanners);
     } else {
       // get template for promotion banner
-      const getPromotionTemplates$ = this.credentialsService.isAuthenticated()
-        ? this.bannerService.apiPortalV1CmsPlayerBannersGet(
-            [CategoryKeyEnum.BannerPromotionsPageBanners],
-            this.dataStoreService.defaultPortalId,
-            this.i18nService.language ?? this.dataStoreService.defaultLanguage,
-          )
-        : this.bannerService.apiPortalV1CmsBannersGet(
-            [CategoryKeyEnum.BannerPromotionsPageBanners],
-            this.dataStoreService.defaultPortalId,
-            this.i18nService.language ?? this.dataStoreService.defaultLanguage,
-          );
-
+      const getPromotionTemplates$ = this.gateway.getBanners([CategoryKeyEnum.BannerPromotionsPageBanners]);
       const getTemplatesList$ = this.templateService.getTemplatesList();
 
       promoBanners$ = forkJoin({ banners: getPromotionTemplates$, templatesList: getTemplatesList$ }).pipe(
         map(({ banners, templatesList }) => {
-          // Filter out null or undefined banners
-          const filteredBanners = (banners || []).filter((b) => b != null);
-
-          filteredBanners.sort((a, b) => {
-            const aPosition = a.position ?? Number.MAX_SAFE_INTEGER;
-            const bPosition = b.position ?? Number.MAX_SAFE_INTEGER;
-
-            return aPosition > bPosition ? 1 : aPosition < bPosition ? -1 : 0;
-          });
-
           // Create the banners from the api response
-          const promoBanners: Banner[] = filteredBanners.map((b) => {
-            const template = templatesList.find((t) => t.id === b.templateId)?.htmlDefinition ?? '';
-            const content = this.templateService.transformContent(b?.contentFieldValues ?? undefined);
+          const promoBanners: Banner[] = byPosition(banners).map((banner) => {
+            const template = htmlFor(banner, templatesList);
+            const content = banner.content;
             const renderedTemplate = this.renderTemplate.transform(template, {
               ...content,
-              'Time remaining': this.getTimeRemainingText(b.contentSchedule?.endDate),
+              'Time remaining': this.getTimeRemainingText(banner.endsAt),
             });
 
             return {
-              title: content[BannerPromotionsPageBannersTemplateFieldsEnum['Header - text']],
+              title: content[BannerPromotionsPageBannersTemplateFieldsEnum['Header - text']] as string,
               template,
               content,
               templateHtml: renderedTemplate,
@@ -294,24 +219,20 @@ export class CmsService {
    */
   getBannersBySlug(slug: CategoryKeyEnum, position = 0): Observable<Banner> {
     const getBanners$ = forkJoin({
-      banners: this.bannerService.apiPortalV1CmsBannersGet(
-        [this.slugService.getCmsSlug(slug)],
-        this.dataStoreService.defaultPortalId,
-        this.i18nService.language ?? this.dataStoreService.defaultLanguage,
-      ),
+      banners: this.gateway.getBanners([this.slugService.getCmsSlug(slug)]),
       templatesList: this.templateService.getTemplatesList(),
     });
 
     log.debug('getActiveBanners(): invoked');
     return getBanners$.pipe(
       map(({ banners, templatesList }) => {
-        const template: string =
-          templatesList.find((t) => t.id === banners[position]?.templateId)?.htmlDefinition ?? '';
-        const content = this.templateService.transformContent(banners[position]?.contentFieldValues ?? undefined);
+        const banner = byPosition(banners)[position];
+        const template = banner ? htmlFor(banner, templatesList) : '';
+        const content = banner?.content ?? {};
 
         const ret: Banner = {
-          name: banners[position]?.name ?? '',
-          title: banners[position]?.name ?? '',
+          name: banner?.name ?? '',
+          title: banner?.name ?? '',
           template,
           content,
           templateHtml: this.renderTemplate.transform(template, content),
@@ -394,18 +315,14 @@ export class CmsService {
     }
     return newCurrentBanners;
   }
+}
 
-  // Check if banner is active
-  private isBannerActive(contentSchedule?: ContentSchedule): boolean {
-    if (contentSchedule === null) {
-      return true;
-    }
+/** Banners as the operator ordered them, lowest position first. */
+function byPosition(banners: CmsBanner[]): CmsBanner[] {
+  return [...banners].sort((a, b) => a.position - b.position);
+}
 
-    if (contentSchedule?.startDate && contentSchedule?.endDate) {
-      const now = new Date();
-      return now >= new Date(contentSchedule.startDate) && now <= new Date(contentSchedule.endDate);
-    } else {
-      return false;
-    }
-  }
+/** The HTML a banner is rendered with, or nothing when its template is missing. */
+function htmlFor(banner: CmsBanner, templates: CmsTemplate[]): string {
+  return templates.find((template) => template.id === banner.templateId)?.html ?? '';
 }

@@ -44,6 +44,14 @@ src/app/@core/gateway/
       comtrade-messages.gateway.ts
       house-messages.gateway.ts
       demo-messages.gateway.ts
+  content/
+    content.models.ts      CmsBanner, CmsTemplate, Country
+    content.gateway.ts     a porta ContentGateway + o token CONTENT_GATEWAY
+    dev-templates.ts       os templates do CMS copiados, para rodar sem CMS
+    adapters/
+      comtrade-content.gateway.ts
+      house-content.gateway.ts
+      demo-content.gateway.ts
 ```
 
 ## As regras que fazem a troca ser barata
@@ -66,9 +74,8 @@ src/app/@core/gateway/
 1. Implemente a interface da porta em `<porta>/adapters/<provedor>-<porta>.gateway.ts`, com
    `@Injectable()` (sem `providedIn`: quem provê é o `provideGateways`).
 2. Acrescente o id em `GatewayId` (`gateway.models.ts`) e registre a classe no mapa da porta
-   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`, `GAMES_ADAPTERS`, `WALLET_ADAPTERS`, `MESSAGES_ADAPTERS`)
-   em `provide-gateways.ts`.
-3. Aponte a marca: `gateways: { auth, player, games, wallet, messages }` no
+   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`, ..., `CONTENT_ADAPTERS`) em `provide-gateways.ts`.
+3. Aponte a marca: `gateways: { auth, player, games, wallet, messages, content }` no
    `brands/<slug>/brand.config.ts`, um id por porta.
 4. Se algum spec cria um componente que chega na porta, ligue o adapter `demo` ao token em
    `src/testing/app-testing.ts`.
@@ -123,7 +130,8 @@ games tem um catálogo curto, um mês de histórico gerado e um jogo de mentira 
 `data:`; o de carteira tem dez dias de extrato semeado na primeira leitura, uma cobrança Pix que
 ninguém consegue pagar (o QR diz `DEMO`) e um saque que sempre passa; o de mensagens tem três
 recados na caixa de entrada, um deles não lido, e nenhum popup de propósito (uma demo que abre
-diálogo na cara do visitante é uma demo pior).
+diálogo na cara do visitante é uma demo pior); o de conteúdo devolve os templates reais e nenhum
+banner, porque inventar banner é inventar oferta.
 
 Serve para dois trabalhos: abrir a metade logada do app localmente (os hosts do portal gateway
 estão mortos e o backend da casa ainda não existe) e mostrar uma marca de ponta a ponta numa demo. Sozinho o adapter de auth não bastava — o app logava e morria na primeira chamada de saldo.
@@ -262,11 +270,44 @@ escreve isso é confiável; continue sendo.
 
 `PlayerProfileService` **parou de importar o SDK do fornecedor**: era a última coisa que faltava.
 
+## O contrato do backend da casa: o conteúdo
+
+`HouseContentGateway` é o único que já existe pela metade: o backoffice **é** o nosso CMS, e é de
+onde as fileiras e a arte do lobby já vêm. O que falta são estas quatro rotas sobre o mesmo
+conteúdo. A base aqui é `backofficeApiUrl`, não a do player.
+
+| rota                                           | saída           |
+| ---------------------------------------------- | --------------- |
+| `GET /api/v1/content/banners?slugs=&language=` | `CmsBanner[]`   |
+| `GET /api/v1/content/templates`                | `CmsTemplate[]` |
+| `GET /api/v1/content/terms?language=`          | `{ html }`      |
+| `GET /api/v1/content/countries`                | `Country[]`     |
+
+Três decisões que valem explicar:
+
+- **O banner chega achatado.** `content` é um mapa de nome de campo para valor, com imagem já
+  resolvida para url e checkbox para booleano. A Comtrade manda um saco de valores tipados e quem
+  desmonta isso é o adapter; o formato que o CMS guarda é problema dele.
+- **`GET /banners` decide sozinho se personaliza.** A Comtrade tem dois endpoints de banner, um
+  deles personalizado para o jogador logado, e escolher entre os dois não é decisão de tela: agora é
+  uma linha no adapter. (Antes três telas escolhiam e uma quarta, a do depósito, sempre pedia o
+  anônimo mesmo logada. Agora todas seguem a mesma regra.)
+- **A marca vem da credencial**, não da query string. Um deploy serve uma marca.
+
+Os templates do CMS estão copiados em `content/dev-templates.ts`, que é o que o adapter `demo`
+devolve e o que o da Comtrade usa quando `environment.useLocalHtmlTemplates` está ligado. É como se
+edita a marcação do CMS sem ter um CMS.
+
+`globalization/countries` entrou aqui: é o mesmo tipo de coisa (uma lista que o portal publica) e
+era o que derrubava a tela de dados pessoais quando o portal estava morto.
+
 ## O que ainda não tem porta
 
-`auth`, `player`, `games`, `wallet` e `messages` estão portados. Sobram duas, e o desenho é o mesmo:
+Sobra uma:
 
-| porta            | quem faz hoje                                                          | o que fica lá                               |
-| ---------------- | ---------------------------------------------------------------------- | ------------------------------------------- |
-| `ContentGateway` | `CmsService`, `TemplateService`, `HelpService`, `ConfigurationService` | banners, templates, termos, países e moedas |
-| `BonusGateway`   | `BonusesService`, `PlayerPromoService`                                 | bônus ativos, cupom de promoção             |
+| porta          | quem faz hoje                          | o que fica lá                   |
+| -------------- | -------------------------------------- | ------------------------------- |
+| `BonusGateway` | `BonusesService`, `PlayerPromoService` | bônus ativos, cupom de promoção |
+
+`TemplateService.transformContent` ainda importa um tipo do SDK por causa dela: os templates de
+bônus chegam no mesmo saco de campos que os banners chegavam. Sai junto com a porta.

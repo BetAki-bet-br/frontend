@@ -1,11 +1,22 @@
-import { TemplateData } from '@icore/ngx-portalgateway-api-client-atl';
+import { CmsTemplate } from './content.models';
 
 // ContentType: Promotion = 3; Banner = 2
 
 /**
- * Definition of templates as they are in the database. This should be ONLY USED IN DEVELOPMENT!
+ * The templates as they are in the CMS database, copied here so a local run does not need one.
+ *
+ * Only `id` and `html` cross the port; the rest of each entry is kept because it is how a reader
+ * tells which template is which. Used by `DemoContentGateway`, and by `ComtradeContentGateway`
+ * when `environment.useLocalHtmlTemplates` is on.
  */
-export const TEMPLATES: TemplateData[] = [
+interface DevTemplate extends CmsTemplate {
+  contentType: string;
+  brandId: number;
+  name: string;
+  description: string;
+}
+
+export const TEMPLATES: DevTemplate[] = [
   /**
    * Fields
       Image
@@ -27,7 +38,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Promotion page',
     description: 'Promotion Template 1',
-    htmlDefinition: `
+    html: `
 <div class="promotion-tile-template">
   <div class="bonus-item">
     <img
@@ -137,7 +148,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Header - promotion notification',
     description: 'Promotion Template 2',
-    htmlDefinition: `
+    html: `
 <div class="promotion-notification-template">
   <img
     src="{{Image 1}}"
@@ -189,7 +200,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Header - promotion notification - activate',
     description: 'Promotion Template 3',
-    htmlDefinition: `
+    html: `
 <div class="promotion-notification-activate-template">
   <div class="header-text pr-22">{{Title 1}}</div>
   <div class="flex flex-col items-center gap-24">
@@ -285,7 +296,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Content embedded in image - Large',
     description: 'Banner Template 1',
-    htmlDefinition: `
+    html: `
 <div class="banner-template-image">
   <div class="tile-container flex justify-start">
     <div class="tile flex flex-col justify-center items-start">
@@ -326,7 +337,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Content embedded in image - Small',
     description: 'Banner Template 2',
-    htmlDefinition: `
+    html: `
 <div class="banner-template-image small">
   <div class="tile-container flex justify-start">
     <div class="tile flex flex-col justify-start items-center">
@@ -372,7 +383,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Content on the left',
     description: 'Banner Template 3',
-    htmlDefinition: `
+    html: `
 <div class="banner-template-promotion-left" onclick="
   window.dispatchEvent(
     new window.CustomEvent(
@@ -441,7 +452,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Content on the right',
     description: 'Banner Template 4',
-    htmlDefinition: `
+    html: `
 <div class="banner-template-promotion-right" onclick="
   window.dispatchEvent(
     new window.CustomEvent(
@@ -510,7 +521,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Content in the middle',
     description: 'Banner Template 5',
-    htmlDefinition: `
+    html: `
 <div class="banner-template-promotion-middle" onclick="
   window.dispatchEvent(
     new window.CustomEvent(
@@ -580,7 +591,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Background illustration - Content left',
     description: 'Banner Template 6',
-    htmlDefinition: `
+    html: `
     <div class="banner-background-illustration content-left">
       <div class="banner-container absolute">
         <img
@@ -648,7 +659,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Background illustration - Content right',
     description: 'Banner Template 7',
-    htmlDefinition: `
+    html: `
     <div class="banner-background-illustration content-right">
       <div class="banner-container absolute">
         <img
@@ -716,7 +727,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Background illustration - Content middle',
     description: 'Banner Template 8',
-    htmlDefinition: `
+    html: `
     <div class="banner-background-illustration content-middle">
       <div class="banner-container absolute">
         <img
@@ -780,7 +791,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Background illustration small - Content left',
     description: 'Banner Template 9',
-    htmlDefinition: `
+    html: `
     <div class="banner-background-illustration small content-left">
     <div class="banner-container absolute">
       <img
@@ -831,7 +842,7 @@ export const TEMPLATES: TemplateData[] = [
     brandId: 3,
     name: 'Background illustration small - Content left wide',
     description: 'Banner Template 10',
-    htmlDefinition: `
+    html: `
     <div class="banner-background-illustration small content-left wide">
     <div class="banner-container absolute">
       <img
@@ -882,7 +893,7 @@ Open URLs in new tab
     brandId: 3,
     name: 'Background illustration small - Content right',
     description: 'Banner Template 11',
-    htmlDefinition: `
+    html: `
     <div class="banner-background-illustration small content-right">
     <div class="banner-container absolute">
       <img
@@ -933,7 +944,7 @@ Open URLs in new tab
     brandId: 3,
     name: 'Background illustration small - Content right wide',
     description: 'Banner Template 12',
-    htmlDefinition: `
+    html: `
   <div class="banner-background-illustration small content-right wide">
   <div class="banner-container absolute">
     <img
@@ -982,7 +993,7 @@ Open URLs in new tab
     brandId: 3,
     name: 'Background illustration - Image only',
     description: 'Banner Template 13',
-    htmlDefinition: `
+    html: `
     <div class="banner-background-illustration"
       onclick="
       window.dispatchEvent(
@@ -1022,7 +1033,7 @@ Open URLs in new tab
     brandId: 3,
     name: 'Background illustration small - Image only',
     description: 'Banner Template 14',
-    htmlDefinition: `
+    html: `
     <div class="banner-background-illustration small"
       onclick="
       window.dispatchEvent(
@@ -1070,7 +1081,7 @@ Button - Label
     brandId: 4,
     name: 'Bonus offering',
     description: 'Bonus Template 1',
-    htmlDefinition: `
+    html: `
     <div class="bonus-template bonus-offering">
       <img
         class="promo-image"
@@ -1150,7 +1161,7 @@ Progress value
     brandId: 4,
     name: 'Bonus in progress - active',
     description: 'Bonus Template 2',
-    htmlDefinition: `
+    html: `
     <div class="bonus-template bonus-in-progress-active">
       <div class="content-container">
         <div class="content-wrapper">
@@ -1267,7 +1278,7 @@ Time remaining
     brandId: 4,
     name: 'Banner offering',
     description: 'Banner Template 1',
-    htmlDefinition: `
+    html: `
     <div class="promotion-banner-template banner-offering">
       <img
         class="promo-image"

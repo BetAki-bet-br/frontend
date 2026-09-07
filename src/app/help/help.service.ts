@@ -1,21 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { DataStoreService } from '@app/@core';
-import { I18nService } from '@app/i18n';
-import { TemplateService } from '@icore/ngx-portalgateway-api-client-atl';
+import { CONTENT_GATEWAY } from '@app/@core/gateway';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HelpService {
-  private templateService = inject(TemplateService);
-  private dataStoreService = inject(DataStoreService);
-  private i18nService = inject(I18nService);
+  private gateway = inject(CONTENT_GATEWAY);
 
-  public getTermsAndConditions() {
-    return this.templateService.apiPortalV1TemplateTermsAndConditionsGet(
-      this.dataStoreService.defaultPortalId,
-      this.i18nService.language,
-      //this.dataStoreService.defaultLanguage,
-    );
+  /** The current terms and conditions, as HTML. */
+  public getTermsAndConditions(): Observable<string> {
+    return this.gateway.getTermsAndConditions();
   }
 }

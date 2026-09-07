@@ -2,10 +2,11 @@ import { Injectable, inject } from '@angular/core';
 import { DataStoreService } from '@app/@core';
 
 // Deep imports: the gateway index pulls in every adapter, and an adapter depends on this file.
+import { CONTENT_GATEWAY } from '@app/@core/gateway/content/content.gateway';
+import type { Country } from '@app/@core/gateway/content/content.models';
 import { PLAYER_GATEWAY } from '@app/@core/gateway/player/player.gateway';
 import type { PlayerProfile } from '@app/@core/gateway/player/player.models';
-import { Country, Currency, GameCategory, GlobalizationService } from '@icore/ngx-portalgateway-api-client-atl';
-import { Observable, filter, finalize, forkJoin, map, of, switchMap, take } from 'rxjs';
+import { Observable, filter, finalize, map, of, switchMap, take } from 'rxjs';
 
 export interface MenuGameCategory {
   path: string;
@@ -22,41 +23,21 @@ export interface MenuGameCategory {
 })
 export class ConfigurationService {
   private dataStoreService = inject(DataStoreService);
-  private globalizationServiceApi = inject(GlobalizationService);
+  private contentGateway = inject(CONTENT_GATEWAY);
   private playerGateway = inject(PLAYER_GATEWAY);
 
+  /** The countries the address forms offer, from the cache when there is one. */
   getCountriesList(): Observable<Country[]> {
-    // if already cached, return from dataStore
     if (this.dataStoreService.isCountriesListCached()) {
       return of(this.dataStoreService.countriesList);
-    } else {
-      // otherwise, get them from api
-      return this.globalizationServiceApi
-        .apiPortalV1GlobalizationCountriesGet(this.dataStoreService.defaultPortalId)
-        .pipe(
-          map((response) => {
-            this.dataStoreService.countriesList = response?.filter((value) => value.name !== 'Unknown') ?? [];
-            return this.dataStoreService.countriesList;
-          }),
-        );
     }
-  }
 
-  getCurrenciesList(): Observable<Currency[]> {
-    // if already cached, return from dataStore
-    if (this.dataStoreService.isCurrenciesListCached()) {
-      return of(this.dataStoreService.currenciesList);
-    } else {
-      // otherwise, get them from api
-      return this.globalizationServiceApi
-        .apiPortalV1GlobalizationCurrenciesPortalIdGet(this.dataStoreService.defaultPortalId)
-        .pipe(
-          map((response) => {
-            this.dataStoreService.currenciesList = response;
-            return response;
-          }),
-        );
-    }
+    return this.contentGateway.getCountries().pipe(
+      map((countries) => {
+        this.dataStoreService.countriesList = countries;
+        return this.dataStoreService.countriesList;
+      }),
+    );
   }
 
   /**

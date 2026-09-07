@@ -23,7 +23,7 @@ import { Credentials } from '@app/auth';
 import { I18nService } from '@app/i18n';
 // Deep, type-only: the gateway index pulls in every adapter, and the adapters depend on this file.
 import type { PlayerProfile, PlayerVerificationStatuses } from '@app/@core/gateway/player/player.models';
-import { Country, Currency, GameCategory, TemplateData } from '@icore/ngx-portalgateway-api-client-atl';
+import type { CmsTemplate, Country } from '@app/@core/gateway/content/content.models';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -64,21 +64,9 @@ interface GameProvidersLevel {
   [levelId: string]: CacheItem<GameProviderData[]>;
 }
 
-interface MenuCategoryPortal {
-  [portalId: number]: { data: GameCategory[]; timestamp: number };
-}
-
 interface CacheItem<T> {
   data: T;
   timestamp: number;
-}
-
-export interface GameCategoryId {
-  [name: string]: number;
-}
-
-export interface GameCategoryIdsPortal {
-  [portalId: number]: { data: GameCategoryId };
 }
 
 export interface CurrentBannersData {
@@ -140,12 +128,8 @@ export class DataStoreService {
       data: null as any[] | null, // NativeApiLanguageData[],
       timestamp: Date.now(),
     },
-    currenciesList: {
-      data: null as Currency[] | null,
-      timestamp: Date.now(),
-    },
     templatesList: {
-      data: null as TemplateData[] | null,
+      data: null as CmsTemplate[] | null,
       timestamp: Date.now(),
     },
     currentBanners: {
@@ -277,12 +261,8 @@ export class DataStoreService {
         data: null as any[] | null, // NativeApiLanguageData[],
         timestamp: Date.now(),
       },
-      currenciesList: {
-        data: null as Currency[] | null,
-        timestamp: Date.now(),
-      },
       templatesList: {
-        data: null as TemplateData[] | null,
+        data: null as CmsTemplate[] | null,
         timestamp: Date.now(),
       },
       currentBanners: {
@@ -362,7 +342,7 @@ export class DataStoreService {
   /**
    * Get/Set Countries list configuration cache
    */
-  set countriesList(countriesList: any /*Array<NativeApiCountryData>*/) {
+  set countriesList(countriesList: Array<Country>) {
     this.setCachedItem('countriesList', countriesList);
   }
   get countriesList() {
@@ -374,24 +354,6 @@ export class DataStoreService {
     return (
       !!this._configurationCache['countriesList']?.data &&
       this._configurationCache['countriesList']?.timestamp + this.cacheLifeSpan > Date.now()
-    );
-  }
-
-  /**
-   * Get/Set Countries list configuration cache
-   */
-  set currenciesList(currenciesList: any /*Array<NativeApiCountryData>*/) {
-    this.setCachedItem('currenciesList', currenciesList);
-  }
-  get currenciesList() {
-    // return a copy
-    return this.getCachedItem('currenciesList');
-  }
-
-  isCurrenciesListCached() {
-    return (
-      !!this._configurationCache['currenciesList']?.data &&
-      this._configurationCache['currenciesList']?.timestamp + this.cacheLifeSpan > Date.now()
     );
   }
 
@@ -440,7 +402,7 @@ export class DataStoreService {
   /**
    * Get/Set Templates list configuration cache
    */
-  set templatesList(templatesList: Array<TemplateData>) {
+  set templatesList(templatesList: Array<CmsTemplate>) {
     this.setCachedItem('templatesList', templatesList);
   }
   get templatesList() {

@@ -1,16 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Logger } from '../logger.service';
 import { Observable, Subject, map, of } from 'rxjs';
-import {
-  ContentFieldValue,
-  TemplateData,
-  TemplateService as TemplateServiceApi,
-} from '@icore/ngx-portalgateway-api-client-atl';
+import { CONTENT_GATEWAY, CmsTemplate } from '@app/@core/gateway';
+import { ContentFieldValue } from '@icore/ngx-portalgateway-api-client-atl';
 import { DataStoreService } from '@app/@core';
-import { environment } from '@env/environment';
-import { BRAND } from '@app/@core/brand';
 import { TemplateAction, TemplateCustomEventData } from '../models/template.model';
-import { TEMPLATES } from './cms-templates-data';
 import { Router } from '@angular/router';
 
 const log = new Logger('TemplateService');
@@ -20,9 +14,8 @@ const log = new Logger('TemplateService');
 })
 export class TemplateService {
   private dataStoreService = inject(DataStoreService);
-  private templateService = inject(TemplateServiceApi);
+  private gateway = inject(CONTENT_GATEWAY);
   private router = inject(Router);
-  private readonly brand = inject(BRAND);
 
   private templateActionSub = new Subject<TemplateAction | null>();
 
@@ -62,6 +55,13 @@ export class TemplateService {
     });
   }
 
+  /**
+   * Flattens a provider field-value bag into the map a template is rendered with.
+   *
+   * The banners stopped needing this when they started arriving flattened from
+   * {@link CONTENT_GATEWAY}; what still calls it is `BonusesService`, over bonus templates that
+   * have no port yet. It goes away with `BonusGateway`, and so does the SDK import above.
+   */
   transformContent(contentFieldValues: ContentFieldValue[] | undefined): { [key: string]: any } {
     const newContent: { [key: string]: any } = {};
     contentFieldValues?.map((value) => {
@@ -83,24 +83,18 @@ export class TemplateService {
     return newContent;
   }
 
-  getTemplatesList(): Observable<TemplateData[]> {
-    // if already cached, return from dataStore
+  /** Every template the brand renders banners with, from the cache when there is one. */
+  getTemplatesList(): Observable<CmsTemplate[]> {
     if (this.dataStoreService.isTemplatesListCached()) {
       return of(this.dataStoreService.templatesList);
-    } else {
-      // For dev we use local templates for easier changes
-      if (environment.useLocalHtmlTemplates) {
-        return of(TEMPLATES);
-      }
-
-      // otherwise, get them from api
-      return this.templateService.apiPortalV1CmsTemplatesGet(this.brand.ids.brandId).pipe(
-        map((response) => {
-          this.dataStoreService.templatesList = response;
-          return this.dataStoreService.templatesList;
-        }),
-      );
     }
+
+    return this.gateway.getTemplates().pipe(
+      map((templates) => {
+        this.dataStoreService.templatesList = templates;
+        return this.dataStoreService.templatesList;
+      }),
+    );
   }
 
   private isAbsoluteUrl(url: string) {
