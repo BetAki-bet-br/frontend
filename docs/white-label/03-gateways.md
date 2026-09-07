@@ -23,6 +23,13 @@ src/app/@core/gateway/
       comtrade-player.gateway.ts
       house-player.gateway.ts
       demo-player.gateway.ts
+  games/
+    games.models.ts        Game, GameLaunchResult, TopWinner, GameRound, SportsbookBet...
+    games.gateway.ts       a porta GamesGateway + o token GAMES_GATEWAY
+    adapters/
+      comtrade-games.gateway.ts
+      house-games.gateway.ts
+      demo-games.gateway.ts
 ```
 
 ## As regras que fazem a troca ser barata
@@ -45,8 +52,9 @@ src/app/@core/gateway/
 1. Implemente a interface da porta em `<porta>/adapters/<provedor>-<porta>.gateway.ts`, com
    `@Injectable()` (sem `providedIn`: quem provê é o `provideGateways`).
 2. Acrescente o id em `GatewayId` (`gateway.models.ts`) e registre a classe no mapa da porta
-   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`) em `provide-gateways.ts`.
-3. Aponte a marca: `gateways: { auth: '<id>', player: '<id>' }` no `brands/<slug>/brand.config.ts`.
+   (`AUTH_ADAPTERS`, `PLAYER_ADAPTERS`, `GAMES_ADAPTERS`) em `provide-gateways.ts`.
+3. Aponte a marca: `gateways: { auth: '<id>', player: '<id>', games: '<id>' }` no
+   `brands/<slug>/brand.config.ts`.
 4. Se algum spec cria um componente que chega na porta, ligue o adapter `demo` ao token em
    `src/testing/app-testing.ts`.
 
@@ -76,18 +84,18 @@ morarem no mesmo Laravel do CMS.
 
 Resumo do que existe hoje:
 
-| rota | entrada | saída |
-| --- | --- | --- |
-| `POST /api/v1/player/auth/login` | `{ username, password, deviceFingerprintId? }` | `AuthSession` |
-| `POST /api/v1/player/auth/login/face-auth` | `{}` | `FaceAuthTicket \| null` |
-| `POST /api/v1/player/auth/register` | `RegisterInput` | `{ playerId }` |
-| `POST /api/v1/player/auth/logout` | `{}` | 204 |
-| `POST /api/v1/player/auth/password/forgot` | `{ cpf }` | `FaceAuthTicket` |
-| `POST /api/v1/player/auth/password/reset` | `{ secureKey, newPassword }` | `{ ok }` |
-| `GET /api/v1/player/auth/face-auth/{referenceId}` | | `{ outcome }` |
-| `GET /api/v1/player/availability?field=&value=` | | `{ taken }` |
-| `POST /api/v1/player/auth/confirmation-instructions` | `{ email }` | `{ ok }` |
-| `POST /api/v1/player/auth/unlock-instructions` | `{ email }` | `{ ok }` |
+| rota                                                 | entrada                                        | saída                    |
+| ---------------------------------------------------- | ---------------------------------------------- | ------------------------ |
+| `POST /api/v1/player/auth/login`                     | `{ username, password, deviceFingerprintId? }` | `AuthSession`            |
+| `POST /api/v1/player/auth/login/face-auth`           | `{}`                                           | `FaceAuthTicket \| null` |
+| `POST /api/v1/player/auth/register`                  | `RegisterInput`                                | `{ playerId }`           |
+| `POST /api/v1/player/auth/logout`                    | `{}`                                           | 204                      |
+| `POST /api/v1/player/auth/password/forgot`           | `{ cpf }`                                      | `FaceAuthTicket`         |
+| `POST /api/v1/player/auth/password/reset`            | `{ secureKey, newPassword }`                   | `{ ok }`                 |
+| `GET /api/v1/player/auth/face-auth/{referenceId}`    |                                                | `{ outcome }`            |
+| `GET /api/v1/player/availability?field=&value=`      |                                                | `{ taken }`              |
+| `POST /api/v1/player/auth/confirmation-instructions` | `{ email }`                                    | `{ ok }`                 |
+| `POST /api/v1/player/auth/unlock-instructions`       | `{ email }`                                    | `{ ok }`                 |
 
 401 no login e 422 com `message` no registro já são o que as telas esperam de um `HttpErrorResponse`.
 Não precisa de envelope de erro próprio para começar.
@@ -95,15 +103,16 @@ Não precisa de envelope de erro próprio para começar.
 ## O adapter `demo`
 
 Guarda tudo no `localStorage`: o de auth aceita a senha `demo` para qualquer usuário e não devolve
-challenge nenhum; o de player inventa um jogador brasileiro completo, verificado e com saldo. Serve
-para dois trabalhos: abrir a metade logada do app localmente (os hosts do portal gateway estão
-mortos e o backend da casa ainda não existe) e mostrar uma marca de ponta a ponta numa demo. Sozinho
-o adapter de auth não bastava — o app logava e morria na primeira chamada de saldo.
+challenge nenhum; o de player inventa um jogador brasileiro completo, verificado e com saldo; o de
+games tem um catálogo curto, um mês de histórico gerado e um jogo de mentira que abre numa página
+`data:`. Serve para dois trabalhos: abrir a metade logada do app localmente (os hosts do portal
+gateway estão mortos e o backend da casa ainda não existe) e mostrar uma marca de ponta a ponta numa
+demo. Sozinho o adapter de auth não bastava — o app logava e morria na primeira chamada de saldo.
 `provideGateways()` **recusa** `demo` num build de produção, em qualquer porta: a marca não sobe com
 conta de mentira.
 
-Os testes usam os mesmos adapters: `provideAppTesting()` liga `AUTH_GATEWAY` e `PLAYER_GATEWAY`
-neles, então um componente que chega numa porta consegue ser criado sem HTTP.
+Os testes usam os mesmos adapters: `provideAppTesting()` liga `AUTH_GATEWAY`, `PLAYER_GATEWAY` e
+`GAMES_GATEWAY` neles, então um componente que chega numa porta consegue ser criado sem HTTP.
 
 ## O contrato do backend da casa: o player
 
@@ -111,15 +120,15 @@ neles, então um componente que chega numa porta consegue ser criado sem HTTP.
 cabeçalho do arquivo lista as 24 rotas. A base é a mesma (`BrandConfig.api.playerApiUrl`, com
 fallback para `backofficeApiUrl`), e os grupos são:
 
-| grupo | rotas |
-| --- | --- |
-| perfil | `GET/PUT /profile`, `POST /profile/annual-verification`, `POST /profile/password`, `POST /profile/close`, `POST /profile/annual-report` |
-| verificação | `GET /verification/statuses`, `POST /verification/reverify`, `GET/POST/PUT /verification/contact/{channel}` |
-| sessões | `GET /sessions` |
-| preferências | `GET/PUT /contact-preferences` |
-| jogo responsável | `GET/POST /limits`, `DELETE /limits/{id}`, `POST /limits/self-exclusion`, `POST /limits/time-out`, `POST /activity` |
-| dinheiro | `GET /balance`, `GET /loyalty` |
-| indicação | `GET/POST /refer-a-friend` |
+| grupo            | rotas                                                                                                                                   |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| perfil           | `GET/PUT /profile`, `POST /profile/annual-verification`, `POST /profile/password`, `POST /profile/close`, `POST /profile/annual-report` |
+| verificação      | `GET /verification/statuses`, `POST /verification/reverify`, `GET/POST/PUT /verification/contact/{channel}`                             |
+| sessões          | `GET /sessions`                                                                                                                         |
+| preferências     | `GET/PUT /contact-preferences`                                                                                                          |
+| jogo responsável | `GET/POST /limits`, `DELETE /limits/{id}`, `POST /limits/self-exclusion`, `POST /limits/time-out`, `POST /activity`                     |
+| dinheiro         | `GET /balance`, `GET /loyalty`                                                                                                          |
+| indicação        | `GET/POST /refer-a-friend`                                                                                                              |
 
 Duas decisões que valem explicar:
 
@@ -130,19 +139,51 @@ Duas decisões que valem explicar:
   esportes). Só o adapter sabe como o provedor nomeia as contas por trás desses números. O símbolo
   da moeda não é do gateway: é formatação, e quem faz é o app.
 
+## O contrato do backend da casa: os jogos
+
+`HouseGamesGateway` fecha o mesmo padrão, e a porta é mais estreita do que o nome sugere: **o lobby
+não passa por aqui**. Quais fileiras existem, que jogos entram nelas, a arte e o texto vêm do nosso
+backoffice. O que é do fornecedor de jogos é o catálogo do que ele consegue servir, o launch, o
+ticker de ganhadores e o histórico do próprio jogador.
+
+| rota                                                    | entrada           | saída                                            |
+| ------------------------------------------------------- | ----------------- | ------------------------------------------------ |
+| `GET /api/v1/games`                                     |                   | `Game[]`                                         |
+| `GET /api/v1/games/recent?count=`                       |                   | `string[]` (ids externos, mais recente primeiro) |
+| `POST /api/v1/games/launch`                             | `LaunchGameInput` | `GameLaunchResult`                               |
+| `GET /api/v1/games/top-winners`                         |                   | `TopWinner[]`                                    |
+| `GET /api/v1/games/history?from=&to=&page=&pageSize=`   |                   | `GameHistoryPage`                                |
+| `GET /api/v1/sportsbook/bets?from=&to=&page=&pageSize=` |                   | `SportsbookBetHistoryPage`                       |
+
+Três decisões que valem explicar:
+
+- **`GET /games` devolve o que é jogável.** Jogo em manutenção e jogo que o operador tirou do ar já
+  saíram; a tela mostra o que recebe. Na Comtrade essa é a única lista de ids banidos do projeto, e
+  ela mora no adapter.
+- **`POST /games/launch` responde `{ "outcome": "unavailable" }` com 200** quando o jogo existe mas
+  não pode abrir agora. Uma falha de verdade é 4xx/5xx como em qualquer lugar, e o jogador vê a
+  mensagem genérica. Na Comtrade isso chega como `errorMessage: 'GameAvailability'`.
+- **A porta não tem `portalId`.** Ele é configuração de fornecedor: o adapter da Comtrade lê o
+  portal certo pro dispositivo do `DataStoreService`, que já resolve `desktopPortalId` /
+  `mobilePortalId` da marca. O mesmo vale pro id da lista de ganhadores, pra moeda e pro idioma do
+  launch.
+
+`GameService` sobrou com 48 linhas: o cache do catálogo e dois repasses. As nove chamadas que
+ninguém fazia (`getLobbyGames`, `getCasinoGames`, `getGamesByCategory`, `getGameById`...) saíram
+junto com os modelos de resposta do fornecedor que só elas usavam.
+
 ## O que ainda não tem porta
 
-`auth` e `player` estão portados. O resto continua chamando o cliente gerado direto, e cada um vira
-uma porta seguindo o mesmo desenho:
+`auth`, `player` e `games` estão portados. O resto continua chamando o cliente gerado direto, e cada
+um vira uma porta seguindo o mesmo desenho:
 
-| porta | quem faz hoje | o que fica lá |
-| --- | --- | --- |
-| `WalletGateway` | `PaymentService`, `PlayerProfileService` | depósito, saque, extrato e detalhe de transação |
-| `GamesGateway` | `GameService`, `WinnersService`, `PlayerProfileService` | lista de jogos, launch, top winners, histórico de jogo e de esportes |
-| `BonusGateway` | `BonusesService`, `PlayerPromoService` | bônus ativos, cupom de promoção |
-| `MessagesGateway` | `MessageService`, `PopupMessagesService`, `PlayerProfileService` | caixa de mensagens e popups |
-| `ContentGateway` | `TemplateService`, `HelpService`, `CmsService` | textos e páginas que ainda vêm do portal |
+| porta             | quem faz hoje                                                    | o que fica lá                                   |
+| ----------------- | ---------------------------------------------------------------- | ----------------------------------------------- |
+| `WalletGateway`   | `PaymentService`, `PlayerProfileService`                         | depósito, saque, extrato e detalhe de transação |
+| `BonusGateway`    | `BonusesService`, `PlayerPromoService`                           | bônus ativos, cupom de promoção                 |
+| `MessagesGateway` | `MessageService`, `PopupMessagesService`, `PlayerProfileService` | caixa de mensagens e popups                     |
+| `ContentGateway`  | `TemplateService`, `HelpService`, `CmsService`                   | textos e páginas que ainda vêm do portal        |
 
-`PlayerProfileService` caiu de 1.048 para ~630 linhas: o que sobrou é orquestração (cache, formatação
-por locale, ordenação) mais as chamadas de carteira, histórico e mensagens que ainda não têm porta.
+`PlayerProfileService` caiu de 1.048 para ~600 linhas: o que sobrou é orquestração (cache,
+formatação por locale, ordenação) mais as chamadas de carteira e mensagens que ainda não têm porta.
 Elas são o único motivo de o arquivo ainda importar o SDK do fornecedor.

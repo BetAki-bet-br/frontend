@@ -145,10 +145,12 @@ export const BRAND_CONFIG: BrandConfig = {
     supportedLanguages: ['en-US', 'pt-BR'],
   },
 
-  // Who holds the player accounts. `comtrade` for a PortalGateway brand, `house` for our own
-  // backend, `demo` while there is none (development only - a production build refuses it).
+  // Who holds the player accounts and supplies the games. `comtrade` for a PortalGateway brand,
+  // `house` for our own backend, `demo` while there is none (development only - a production
+  // build refuses it). One entry per port, so a brand can mix providers.
   gateways: {
     auth: 'demo',
     player: 'demo',
+    games: 'demo',
   },
 };

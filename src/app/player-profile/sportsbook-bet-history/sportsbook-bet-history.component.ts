@@ -17,7 +17,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { switchMap } from 'rxjs';
 import { PlayerProfileService } from '../player-profile.service';
-import { BetStatusEnum } from '@icore/ngx-portalgateway-api-client-atl';
+import { BetStatus } from '@app/@core/gateway';
 import { MatFormField, MatError } from '@angular/material/form-field';
 import { MatSelect } from '@angular/material/select';
 import { MatIcon } from '@angular/material/icon';
@@ -390,12 +390,12 @@ export class SportsbookHistoryComponent implements OnInit {
   }
 
   getStatusItemClass(item: SportsbookBetHistoryModelResolved) {
-    switch (item.statusId) {
-      case BetStatusEnum.Won:
+    switch (item.status) {
+      case BetStatus.Won:
         return 'win-class';
-      case BetStatusEnum.Lost:
+      case BetStatus.Lost:
         return 'loss-class';
-      case BetStatusEnum.Running:
+      case BetStatus.Running:
         return 'running-class';
       default:
         return 'unknown-class';

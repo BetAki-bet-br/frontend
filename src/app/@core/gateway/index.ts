@@ -40,5 +40,20 @@ export type {
   SetLimitInput,
   UpdateProfileInput,
 } from './player/player.models';
+export { GAMES_GATEWAY } from './games/games.gateway';
+export type { GamesGateway } from './games/games.gateway';
+export { BetStatus, GameRoundStatus } from './games/games.models';
+export type {
+  Game,
+  GameHistoryPage,
+  GameLaunch,
+  GameLaunchResult,
+  GameRound,
+  HistoryQuery,
+  LaunchGameInput,
+  SportsbookBet,
+  SportsbookBetHistoryPage,
+  TopWinner,
+} from './games/games.models';
 export type { GatewayId, GatewaySelection } from './gateway.models';
 export { provideGateways } from './provide-gateways';

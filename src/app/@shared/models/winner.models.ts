@@ -1,17 +1,10 @@
-export interface TopWinner {
-  playerId: string;
-  username: string;
+import { TopWinner as GatewayTopWinner } from '@app/@core/gateway';
+
+/** A row of the winner ticker, whichever source produced it. */
+export interface TopWinner extends GatewayTopWinner {
   /**
-   * Already-masked name to render as-is. Only the backoffice batch fallback sets it; the portal
-   * gateway returns the real username, which the ticker replaces with a generated placeholder.
+   * Already-masked name to render as-is. Only the backoffice batch fallback sets it; the games
+   * gateway does not hand out names at all, and the ticker generates a placeholder instead.
    */
   displayName?: string;
-  gameExternalId: string;
-  gameName: string;
-  productName: string;
-  amount: string;
-  currencyId: string;
-  currencyCode: string;
-  winDate: string;
-  betAmount: string;
 }

@@ -1,6 +1,7 @@
-import { Betinfo, GetBetHistoryResponse } from '@icore/ngx-portalgateway-api-client-atl';
+import { SportsbookBet } from '@app/@core/gateway';
 
-export interface SportsbookBetHistoryModelResolved extends Betinfo {
+/** A bet slip with the amounts already formatted in the player's locale. */
+export interface SportsbookBetHistoryModelResolved extends SportsbookBet {
   transactionDetails?: TransactionDetailsResolved[];
   wasExpanded?: boolean;
   locale?: string;
@@ -24,6 +25,9 @@ export interface TransactionDetailsResolved {
   transactionStepTypeResolved?: string;
 }
 
-export interface GetBetHistoryResponseResolved extends GetBetHistoryResponse {
+/** A page of bet slips, as the sportsbook history table consumes it. */
+export interface GetBetHistoryResponseResolved {
   historyListResolved?: Array<SportsbookBetHistoryModelResolved> | null;
+  /** How many bets the filter matches in total, for the paginator. */
+  recordCount?: number | null;
 }

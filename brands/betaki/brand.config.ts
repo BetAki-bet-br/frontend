@@ -133,5 +133,6 @@ export const BRAND_CONFIG: BrandConfig = {
   gateways: {
     auth: 'comtrade',
     player: 'comtrade',
+    games: 'comtrade',
   },
 };

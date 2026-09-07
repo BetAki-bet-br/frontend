@@ -13,20 +13,9 @@ export function gameFixture(overrides: Partial<GameMain> = {}): GameMain {
   return {
     id: 1,
     externalId: 'game-1',
-    productSupplierId: 1,
-    productSupplierName: 'Supplier',
-    productId: 1,
-    productName: 'Product',
     name: 'Test Game',
-    gameName: 'Test Game',
-    demoPlayRestricted: false,
-    realPlayRestricted: false,
-    maintenanceModeEnabled: false,
-    progressiveJackpots: null,
-    translations: null,
-    parameters: null,
+    productSupplierName: 'Supplier',
     gameTypeName: 'slots',
-    gameTypeId: 1,
     ...overrides,
   };
 }

@@ -3,16 +3,21 @@ import { DataStoreService } from '@app/@core';
 import { ConfigurationService } from '@app/@core/configuration.service';
 import {
   AnnualVerificationInput,
+  BetStatus,
   ContactChannel,
   ContactPreferences,
   ContactVerificationStatus,
   FaceAuthTicket,
+  GAMES_GATEWAY,
+  GameHistoryPage,
+  HistoryQuery,
   PLAYER_GATEWAY,
   PlayerLimit as GatewayPlayerLimit,
   PlayerSession,
   PlayerSessionStatus,
   PlayerVerificationStatuses,
   SessionHistoryQuery,
+  SportsbookBetHistoryPage,
   UpdateProfileInput,
 } from '@app/@core/gateway';
 import { Logger } from '@app/@shared/logger.service';
@@ -37,15 +42,10 @@ import { CredentialsService } from '@app/auth/credentials.service';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import {
   BalanceService,
-  BetStatusEnum,
   ChangeMessageTypeEnum,
-  GetBetHistoryResponse,
-  GetGameHistoryResponse,
   GetPlayerTransactionsRequest,
   GetPlayerTransactionsResponse,
   MessageService,
-  ProdGameService,
-  SportsbookService,
 } from '@icore/ngx-portalgateway-api-client-atl';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, map, of, throwError } from 'rxjs';
@@ -63,9 +63,12 @@ const log = new Logger('PlayerProfileService');
  * orchestration: caching the verification statuses, turning amounts into strings in the player's
  * locale, and sorting a list before a table renders it.
  *
- * The wallet, game and sportsbook history and the message calls below still talk to the generated
- * PortalGateway client, because their ports (WalletGateway, GamesGateway, MessagesGateway) are not
- * written yet. They are the reason this file still imports a vendor SDK.
+ * The game and sportsbook history now go through {@link GAMES_GATEWAY}, and what is left of them
+ * here is the same orchestration: turning amounts into strings in the player's locale.
+ *
+ * The wallet and message calls below still talk to the generated PortalGateway client, because
+ * their ports (WalletGateway, MessagesGateway) are not written yet. They are the reason this file
+ * still imports a vendor SDK.
  */
 @Injectable({
   providedIn: 'root',
@@ -75,9 +78,8 @@ export class PlayerProfileService {
   private dataStoreService = inject(DataStoreService);
   private configurationService = inject(ConfigurationService);
   private translateService = inject(TranslateService);
+  private gamesGateway = inject(GAMES_GATEWAY);
   private balanceApi = inject(BalanceService);
-  private gamesApi = inject(ProdGameService);
-  private sportsBookApi = inject(SportsbookService);
   private credentialsService = inject(CredentialsService);
   private messagesService = inject(MessageService);
 
@@ -270,71 +272,43 @@ export class PlayerProfileService {
       pageSize: number | null;
     }>,
   ): Observable<GetGameHistoryResponseResolved> {
-    return this.gamesApi
-      .apiPortalV1ProdGameGamesHistoryGet(
-        filters.dateFrom?.toISOString() ?? new Date(0)?.toISOString(),
-        filters.dateTo?.toISOString() ?? new Date()?.toISOString(),
-        filters.pageSize ?? 5,
-        filters.pageNumber ?? 1,
-        undefined,
-        undefined,
-      )
-      .pipe(
-        switchMap((response) => {
-          log.debug('getGameHistory() returned result', response);
-          return this.resolveHistoryList(response);
-        }),
-        catchError((err) => {
-          log.debug('getGameHistory() returned error:', err);
-          throw err;
-        }),
-      );
+    return this.gamesGateway.getGameHistory(toHistoryQuery(filters)).pipe(
+      switchMap((page) => {
+        log.debug('getGameHistory() returned result', page);
+        return this.resolveHistoryList(page);
+      }),
+      catchError((err) => {
+        log.debug('getGameHistory() returned error:', err);
+        throw err;
+      }),
+    );
   }
 
-  resolveHistoryList(response: GetGameHistoryResponse): Observable<GetGameHistoryResponseResolved> {
+  resolveHistoryList(page: GameHistoryPage): Observable<GetGameHistoryResponseResolved> {
     return this.configurationService.getPlayerInfo().pipe(
       map((playerInfo) => {
-        const currencySymbol = new Intl.NumberFormat(playerInfo?.locale ?? '', {
-          style: 'currency',
-          currencyDisplay: 'narrowSymbol',
-          currency: playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency,
-        })
-          .format(0)
-          .replace(/\d|\.|\,/g, '')
-          .trim();
+        const currencySymbol = this.currencySymbolFor(playerInfo);
+        const decimalFormatter = this.decimalFormatterFor(playerInfo);
 
-        const decimalFormatter = new Intl.NumberFormat(playerInfo?.locale ?? '', {
-          style: 'decimal',
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2,
+        const historyList: HistoryResolved[] = page.rounds.map((round) => {
+          const netWin = (round.won ?? 0) - (round.stake ?? 0);
+
+          return {
+            ...round,
+            stakeResolved: currencySymbol + ' ' + decimalFormatter.format(round.stake ?? 0),
+            wonResolved: currencySymbol + ' ' + decimalFormatter.format(round.won ?? 0),
+            balanceBefore: 0,
+            balanceBeforeResolved: currencySymbol + ' ' + decimalFormatter.format(0),
+            balanceAfter: 0,
+            balanceAfterResolved: currencySymbol + ' ' + decimalFormatter.format(0),
+            netWin: netWin,
+            netWinResolved: currencySymbol + ' ' + decimalFormatter.format(netWin),
+            isWin: netWin > 0,
+            locale: playerInfo?.locale ?? '',
+          };
         });
 
-        const historyList: HistoryResolved[] =
-          response.historyList?.map((transaction) => {
-            const netWin = (transaction.won ?? 0) - (transaction.stake ?? 0);
-            const resolved: HistoryResolved = {
-              ...transaction,
-              stakeResolved: currencySymbol + ' ' + decimalFormatter.format(transaction.stake ?? 0),
-              wonResolved: currencySymbol + ' ' + decimalFormatter.format(transaction.won ?? 0),
-              balanceBefore: 0,
-              balanceBeforeResolved: currencySymbol + ' ' + decimalFormatter.format(0),
-              balanceAfter: 0,
-              balanceAfterResolved: currencySymbol + ' ' + decimalFormatter.format(0),
-              netWin: netWin,
-              netWinResolved: currencySymbol + ' ' + decimalFormatter.format(netWin),
-              isWin: netWin > 0,
-              locale: playerInfo?.locale ?? '',
-            };
-
-            return resolved;
-          }) ?? [];
-
-        const result: GetGameHistoryResponseResolved = {
-          ...response,
-          historyListResolved: historyList ?? [],
-        };
-
-        return result;
+        return { historyListResolved: historyList, recordCount: page.recordCount };
       }),
       catchError((err) => {
         log.debug('resolveHistoryList() returned error:', err);
@@ -351,79 +325,72 @@ export class PlayerProfileService {
       pageSize: number | null;
     }>,
   ): Observable<GetBetHistoryResponseResolved> {
-    return this.sportsBookApi
-      .apiPortalV1SportsbookBetsGet(
-        filters.dateFrom?.toISOString() ?? new Date(0)?.toISOString(),
-        filters.dateTo?.toISOString() ?? new Date()?.toISOString(),
-        filters.pageSize ?? 5,
-        filters.pageNumber ?? 1,
-        undefined,
-        undefined,
-      )
-      .pipe(
-        switchMap((response) => {
-          log.debug('getSportsbookBetHistory() returned result', response);
-          return this.resolveSportsbookHistoryList(response);
-        }),
-        catchError((err) => {
-          log.debug('getSportsbookBetHistory() returned error:', err);
-          throw err;
-        }),
-      );
-  }
-
-  resolveSportsbookHistoryList(response: GetBetHistoryResponse): Observable<GetBetHistoryResponseResolved> {
-    return this.configurationService.getPlayerInfo().pipe(
-      map((playerInfo) => {
-        const currencySymbol = new Intl.NumberFormat(playerInfo?.locale ?? '', {
-          style: 'currency',
-          currencyDisplay: 'narrowSymbol',
-          currency: playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency,
-        })
-          .format(0)
-          .replace(/\d|\.|\,/g, '')
-          .trim();
-
-        const decimalFormatter = new Intl.NumberFormat(playerInfo?.locale ?? '', {
-          style: 'decimal',
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2,
-        });
-
-        const historyList: SportsbookBetHistoryModelResolved[] =
-          response.historyList?.map((transaction) => {
-            const netWin = (transaction.winAmount ?? 0) - (transaction.generalStake ?? 0);
-            const resolved: SportsbookBetHistoryModelResolved = {
-              ...transaction,
-              generalStakeResolved: currencySymbol + ' ' + decimalFormatter.format(transaction.generalStake ?? 0),
-              winAmountResolved: currencySymbol + ' ' + decimalFormatter.format(transaction.winAmount ?? 0),
-              balanceBefore: 0,
-              balanceBeforeResolved: currencySymbol + ' ' + decimalFormatter.format(0),
-              balanceAfter: 0,
-              balanceAfterResolved: currencySymbol + ' ' + decimalFormatter.format(0),
-              netWin: netWin,
-              netWinResolved: currencySymbol + ' ' + decimalFormatter.format(netWin),
-              isWin: transaction.statusId === BetStatusEnum.Won,
-              locale: playerInfo?.locale ?? '',
-            };
-
-            return resolved;
-          }) ?? [];
-
-        const result: GetBetHistoryResponseResolved = {
-          ...response,
-          historyListResolved: historyList ?? [],
-        };
-
-        console.table(result.historyListResolved);
-
-        return result;
+    return this.gamesGateway.getSportsbookBetHistory(toHistoryQuery(filters)).pipe(
+      switchMap((page) => {
+        log.debug('getSportsbookBetHistory() returned result', page);
+        return this.resolveSportsbookHistoryList(page);
       }),
       catchError((err) => {
-        log.debug('resolveHistoryList() returned error:', err);
+        log.debug('getSportsbookBetHistory() returned error:', err);
         throw err;
       }),
     );
+  }
+
+  resolveSportsbookHistoryList(page: SportsbookBetHistoryPage): Observable<GetBetHistoryResponseResolved> {
+    return this.configurationService.getPlayerInfo().pipe(
+      map((playerInfo) => {
+        const currencySymbol = this.currencySymbolFor(playerInfo);
+        const decimalFormatter = this.decimalFormatterFor(playerInfo);
+
+        const historyList: SportsbookBetHistoryModelResolved[] = page.bets.map((bet) => {
+          const netWin = (bet.winAmount ?? 0) - (bet.generalStake ?? 0);
+
+          return {
+            ...bet,
+            generalStakeResolved: currencySymbol + ' ' + decimalFormatter.format(bet.generalStake ?? 0),
+            winAmountResolved: currencySymbol + ' ' + decimalFormatter.format(bet.winAmount ?? 0),
+            balanceBefore: 0,
+            balanceBeforeResolved: currencySymbol + ' ' + decimalFormatter.format(0),
+            balanceAfter: 0,
+            balanceAfterResolved: currencySymbol + ' ' + decimalFormatter.format(0),
+            netWin: netWin,
+            netWinResolved: currencySymbol + ' ' + decimalFormatter.format(netWin),
+            isWin: bet.status === BetStatus.Won,
+            locale: playerInfo?.locale ?? '',
+          };
+        });
+
+        return { historyListResolved: historyList, recordCount: page.recordCount };
+      }),
+      catchError((err) => {
+        log.debug('resolveSportsbookHistoryList() returned error:', err);
+        throw err;
+      }),
+    );
+  }
+
+  /**
+   * The player's currency symbol on its own, which `Intl` will not hand over directly: format zero
+   * and strip the digits back out.
+   */
+  private currencySymbolFor(playerInfo: { locale?: string; currencyCode?: string } | null): string {
+    return new Intl.NumberFormat(playerInfo?.locale ?? '', {
+      style: 'currency',
+      currencyDisplay: 'narrowSymbol',
+      currency: playerInfo?.currencyCode ?? this.dataStoreService.defaultCurrency,
+    })
+      .format(0)
+      .replace(/\d|\.|\,/g, '')
+      .trim();
+  }
+
+  private decimalFormatterFor(playerInfo: { locale?: string } | null): Intl.NumberFormat {
+    return new Intl.NumberFormat(playerInfo?.locale ?? '', {
+      style: 'decimal',
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2,
+    });
   }
 
   getTransactionDetails(reference: string): Observable<TransactionDetailsResolved[]> {
@@ -630,4 +597,26 @@ export class PlayerProfileService {
   private resolveStepType(stepType: string) {
     return marker(stepType === 'Debit' ? 'Bet' : stepType === 'Credit' ? 'Win' : 'Correction');
   }
+}
+
+/**
+ * The history filter form, as the port wants it.
+ *
+ * Both history screens hand over a partially filled form: a window they left open means "since the
+ * beginning" and "until now", and a page they never touched is the first one.
+ */
+function toHistoryQuery(
+  filters: Partial<{
+    dateFrom: Date | null;
+    dateTo: Date | null;
+    pageNumber: number | null;
+    pageSize: number | null;
+  }>,
+): HistoryQuery {
+  return {
+    from: filters.dateFrom ?? new Date(0),
+    to: filters.dateTo ?? new Date(),
+    pageNumber: filters.pageNumber ?? 1,
+    pageSize: filters.pageSize ?? 5,
+  };
 }

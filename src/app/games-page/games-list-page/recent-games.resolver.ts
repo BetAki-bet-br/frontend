@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { GameService } from '@app/@shared/services/game.service';
-import { PortalService } from '@app/@shared/services/portal.service';
 import { Observable, catchError, map, switchMap, of } from 'rxjs';
 import { Logger } from '@app/@shared/logger.service';
 import { CredentialsService } from '@app/auth';
@@ -16,7 +15,6 @@ export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (
   state: RouterStateSnapshot,
 ): Observable<SubLevel | undefined> => {
   const gameService = inject(GameService);
-  const portalService = inject(PortalService);
   const sessionService = inject(CredentialsService);
   const slotsService = inject(SlotsService);
 
@@ -26,8 +24,7 @@ export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (
     return of(undefined);
   }
 
-  return gameService.getRecentGames(url.includes('/games/category/recent') ? 50 : 15, portalService.portalId).pipe(
-    map((games) => games.map((g) => g.gameExternalId).filter((id): id is string => !!id)),
+  return gameService.getRecentlyPlayedIds(url.includes('/games/category/recent') ? 50 : 15).pipe(
     switchMap((ids) => {
       if (ids.length === 0) return of([]);
       return slotsService.getSlotsByExternalIds(ids);
@@ -37,19 +34,8 @@ export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (
         id: slot.id ?? 0,
         externalId: slot['provider_game_id'] ?? '',
         name: slot['title'] ?? '',
-        gameName: slot['title'] ?? '',
         gameTypeName: slot.tags.gameTypeName ?? '',
         productSupplierName: slot['provider'] ?? '',
-        productSupplierId: 0,
-        productId: 0,
-        productName: slot['provider'] ?? '',
-        demoPlayRestricted: false,
-        realPlayRestricted: false,
-        maintenanceModeEnabled: false,
-        progressiveJackpots: null,
-        translations: null,
-        gameTypeId: 0,
-        parameters: null,
         rtp: slot['rtp'],
         volatility: slot['volatility'],
         minBet: slot['min_bet'] as string,
@@ -66,9 +52,9 @@ export const recentGamesResolver: ResolveFn<SubLevel | undefined> = (
         parentId: undefined,
       };
     }),
-    // The recent-games list comes from the Comtrade portal gateway, which can be unreachable.
-    // A resolver that errors cancels the navigation and leaves the lobby blank, so degrade to
-    // "no recent games" instead.
+    // The recently-played list comes from the games gateway, which can be unreachable. A resolver
+    // that errors cancels the navigation and leaves the lobby blank, so degrade to "no recent
+    // games" instead.
     catchError((err) => {
       log.debug('Recent games unavailable:', err);
       return of(undefined);

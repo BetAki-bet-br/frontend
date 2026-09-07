@@ -123,7 +123,7 @@
                   <div class="transaction-details-row">
                     <div class="transaction-details-field">{{ 'Bet end' | translate }}</div>
                     <div class="transaction-details-value">
-                      {{ item.status === 'Active' ? '/' : (item.settleTime | date: dateFormat) }}
+                      {{ item.status === 'Running' ? '/' : (item.settleTime | date: dateFormat) }}
                     </div>
                   </div>
                   <div class="transaction-details-row">

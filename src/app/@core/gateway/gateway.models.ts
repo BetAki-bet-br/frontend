@@ -14,4 +14,5 @@ export type GatewayId = 'comtrade' | 'house' | 'demo';
 export interface GatewaySelection {
   auth: GatewayId;
   player: GatewayId;
+  games: GatewayId;
 }

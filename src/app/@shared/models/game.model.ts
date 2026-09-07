@@ -1,4 +1,4 @@
-import { GetGameHistoryResponse, History } from '@icore/ngx-portalgateway-api-client-atl';
+import { GameRound } from '@app/@core/gateway';
 import { TransactionDetailsResolved } from './sportsbook.model';
 
 export interface GameTile {
@@ -23,7 +23,8 @@ export interface GameHistoryModel {
   expanded?: boolean;
 }
 
-export interface HistoryResolved extends History {
+/** A casino round with the amounts already formatted in the player's locale. */
+export interface HistoryResolved extends GameRound {
   transactionDetails?: TransactionDetailsResolved[];
   balanceBefore?: number;
   balanceBeforeResolved?: string;
@@ -38,8 +39,11 @@ export interface HistoryResolved extends History {
   locale?: string;
 }
 
-export interface GetGameHistoryResponseResolved extends GetGameHistoryResponse {
+/** A page of casino rounds, as the history table consumes it. */
+export interface GetGameHistoryResponseResolved {
   historyListResolved?: Array<HistoryResolved> | null;
+  /** How many rounds the filter matches in total, for the paginator. */
+  recordCount?: number | null;
 }
 
 export interface GameMenuCategoryModel {

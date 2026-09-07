@@ -5,8 +5,9 @@ import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angula
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { provideRouter } from '@angular/router';
 import { BRAND_CONFIG } from '@app/@core/brand';
-import { AUTH_GATEWAY, PLAYER_GATEWAY } from '@app/@core/gateway';
+import { AUTH_GATEWAY, GAMES_GATEWAY, PLAYER_GATEWAY } from '@app/@core/gateway';
 import { DemoAuthGateway } from '@app/@core/gateway/auth/adapters/demo-auth.gateway';
+import { DemoGamesGateway } from '@app/@core/gateway/games/adapters/demo-games.gateway';
 import { DemoPlayerGateway } from '@app/@core/gateway/player/adapters/demo-player.gateway';
 import { provideApi } from '@icore/ngx-portalgateway-api-client-atl';
 import { provideTranslateService } from '@ngx-translate/core';
@@ -38,5 +39,6 @@ export function provideAppTesting(): (Provider | EnvironmentProviders)[] {
     // adapters answer in memory, so a component that reaches a gateway can still be created.
     { provide: AUTH_GATEWAY, useClass: DemoAuthGateway },
     { provide: PLAYER_GATEWAY, useClass: DemoPlayerGateway },
+    { provide: GAMES_GATEWAY, useClass: DemoGamesGateway },
   ];
 }

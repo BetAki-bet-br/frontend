@@ -5,6 +5,10 @@ import { DemoAuthGateway } from './auth/adapters/demo-auth.gateway';
 import { ComtradeAuthGateway } from './auth/adapters/comtrade-auth.gateway';
 import { HouseAuthGateway } from './auth/adapters/house-auth.gateway';
 import { AUTH_GATEWAY, AuthGateway } from './auth/auth.gateway';
+import { ComtradeGamesGateway } from './games/adapters/comtrade-games.gateway';
+import { DemoGamesGateway } from './games/adapters/demo-games.gateway';
+import { HouseGamesGateway } from './games/adapters/house-games.gateway';
+import { GAMES_GATEWAY, GamesGateway } from './games/games.gateway';
 import { GatewayId, GatewaySelection } from './gateway.models';
 import { ComtradePlayerGateway } from './player/adapters/comtrade-player.gateway';
 import { DemoPlayerGateway } from './player/adapters/demo-player.gateway';
@@ -23,6 +27,13 @@ const PLAYER_ADAPTERS: Record<GatewayId, Type<PlayerGateway>> = {
   comtrade: ComtradePlayerGateway,
   house: HousePlayerGateway,
   demo: DemoPlayerGateway,
+};
+
+/** Every adapter that can answer `GAMES_GATEWAY`. */
+const GAMES_ADAPTERS: Record<GatewayId, Type<GamesGateway>> = {
+  comtrade: ComtradeGamesGateway,
+  house: HouseGamesGateway,
+  demo: DemoGamesGateway,
 };
 
 /**
@@ -44,18 +55,22 @@ export function provideGateways(): EnvironmentProviders {
 
   const authAdapter = AUTH_ADAPTERS[selection.auth];
   const playerAdapter = PLAYER_ADAPTERS[selection.player];
+  const gamesAdapter = GAMES_ADAPTERS[selection.games];
 
   return makeEnvironmentProviders([
     authAdapter,
     { provide: AUTH_GATEWAY, useExisting: authAdapter },
     playerAdapter,
     { provide: PLAYER_GATEWAY, useExisting: playerAdapter },
+    gamesAdapter,
+    { provide: GAMES_GATEWAY, useExisting: gamesAdapter },
   ]);
 }
 
 /**
- * The demo adapters keep accounts, balances and limits in `localStorage`. A brand that shipped
- * with one would be inviting people to gamble against a fixture, so the build fails instead.
+ * The demo adapters keep accounts, balances, limits and game rounds in `localStorage`. A brand
+ * that shipped with one would be inviting people to gamble against a fixture, so the build fails
+ * instead.
  */
 function refuseDemoInProduction(selection: GatewaySelection): void {
   if (!environment.production) return;

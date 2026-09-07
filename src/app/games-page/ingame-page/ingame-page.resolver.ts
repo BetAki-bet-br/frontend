@@ -5,13 +5,14 @@ import { ActivatedRouteSnapshot, ResolveFn } from '@angular/router';
 import { GameService } from '@app/@shared/services/game.service';
 import { LoadingService } from '@app/@shared/services/loading.service';
 import { SnackbarService } from '@app/@core/snackbar.service';
-import { Observable, of, throwError, EMPTY } from 'rxjs';
+import { Observable, of, EMPTY } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
-import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { CredentialsService } from '@app/auth';
-import { PostGameResponse } from '../models/game.models';
 import { Slot, SlotsService } from '@app/@core/backoffice';
+import { Logger } from '@app/@shared/logger.service';
+
+const log = new Logger('ingamePageResolver');
 
 export interface IngamePageData {
   game: Slot | undefined;
@@ -31,9 +32,6 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
   const loadingService = inject(LoadingService);
   const snackbarService = inject(SnackbarService);
   const location = inject(Location);
-  const deviceDetectorService = inject(DeviceDetectorService);
-  const isMobile = deviceDetectorService.isMobile();
-  const portalId = isMobile ? 6 : 5;
   const gameId = route.paramMap.get('id')!;
 
   const game$: Observable<Slot | undefined> = slotService
@@ -57,72 +55,63 @@ export const ingamePageResolver: ResolveFn<IngamePageData> = (
 
       const baseUrl = `${window.location.protocol}//${window.location.host}`;
       const isLive = route.url.some((segment) => segment.path === 'live');
-      const properties: Record<string, string> = {
-        lobbyUrl: baseUrl + '/games',
-        returnUrl: baseUrl + (isLive ? '/games-live' : '/games'),
-        depositUrl: baseUrl + '/profile/wallet/deposit',
-      };
 
-      const launchGame$: Observable<PostGameResponse | null> = gameService
-        .launchGame(gameId, portalId, properties)
+      return gameService
+        .launchGame({
+          gameId,
+          lobbyUrl: baseUrl + '/games',
+          returnUrl: baseUrl + (isLive ? '/games-live' : '/games'),
+          depositUrl: baseUrl + '/profile/wallet/deposit',
+        })
         .pipe(
-          catchError((error) => {
-            if (error.errorMessage === 'GameAvailability') {
-              return throwError(() => new Error('GameAvailability'));
-            }
+          map((result) => {
             loadingService.hideInline();
+
+            if (result.outcome === 'unavailable') {
+              snackbarService.openCustomError('Desculpe, este jogo não está disponível no momento.');
+              location.back();
+              return { game, gameUrl: null, error: 'Jogo indisponível' };
+            }
+
+            const launch = result.launch;
+            // Softswiss games are drawn by their own launcher instead of an iframe, and the
+            // gateway does not label them: the provider name from the CMS, or the launcher's own
+            // host in the url, is what gives them away.
+            const isSoftSwiss =
+              game.provider === 'Softswiss Bgaming Casino' ||
+              game.provider === 'Softswiss' ||
+              launch.url.includes('s3.eu-central-1.amazonaws.com/ignition.button');
+
+            if (isSoftSwiss) {
+              return {
+                game,
+                gameUrl: null,
+                isSoftswissGame: true,
+                softswissLaunchData: {
+                  id: launch.id,
+                  gameExternalId: launch.gameExternalId,
+                  launch_url: launch.url,
+                  parameters: launch.parameters,
+                  webMethod: launch.webMethod,
+                },
+              };
+            }
+
+            const url = new URL(launch.url);
+            for (const key in launch.parameters) {
+              url.searchParams.set(key, launch.parameters[key]);
+            }
+
+            return { game, gameUrl: sanitizer.bypassSecurityTrustResourceUrl(url.toString()), isSoftswissGame: false };
+          }),
+          catchError((err) => {
+            loadingService.hideInline();
+            log.debug('Game launch failed:', err);
             snackbarService.openCustomError('Não foi possível carregar o jogo. Tente novamente mais tarde.');
             location.back();
             return EMPTY;
           }),
         );
-
-      return launchGame$.pipe(
-        map((launchData) => {
-          if (!launchData) {
-            return {
-              game,
-              gameUrl: null,
-              error: 'Não foi possível carregar o jogo. Tente novamente mais tarde.',
-            };
-          }
-
-          const isSoftSwiss =
-            game.provider === 'Softswiss Bgaming Casino' ||
-            game.provider === 'Softswiss' ||
-            launchData.location?.includes('s3.eu-central-1.amazonaws.com/ignition.button');
-
-          if (isSoftSwiss) {
-            const softswissLaunchData = {
-              id: launchData.id,
-              gameExternalId: launchData.gameExternalId,
-              launch_url: launchData.location,
-              parameters: launchData.parameters ?? {},
-              webMethod: launchData.webMethod || 'GET',
-            };
-            loadingService.hideInline();
-            return { game, gameUrl: null, isSoftswissGame: true, softswissLaunchData };
-          }
-
-          const url = new URL(launchData.location as string);
-          for (const key in launchData.parameters) {
-            url.searchParams.set(key, launchData.parameters[key]);
-          }
-          const sanitizedUrl = sanitizer.bypassSecurityTrustResourceUrl(url.toString());
-          loadingService.hideInline();
-          return { game, gameUrl: sanitizedUrl, isSoftswissGame: false };
-        }),
-        catchError((error) => {
-          loadingService.hideInline();
-          const errorMessage =
-            error.message === 'GameAvailability'
-              ? 'Desculpe, este jogo não está disponível no momento.'
-              : 'Não foi possível carregar o jogo. Tente novamente mais tarde.';
-          snackbarService.openCustomError(errorMessage);
-          location.back();
-          return EMPTY;
-        }),
-      );
     }),
   );
 };
