@@ -1704,44 +1704,283 @@ app-shell-player-profile {
   width: 8.125rem !important;
 }
 
-.promotion-banner-template.bki.banner-offering {
-  height: 100%;
+// -----------------------------------------------------------------------------
+// Cards de bônus e banners de promoção, vindos do CMS
+// -----------------------------------------------------------------------------
+// O CSS do fornecedor (`@icore/ngx-atl-pp-templates-shared`) desenha estas peças, mas cada regra
+// dele exige uma classe com nome de marca: `.bonus-template.bki`, `.promotion-banner-template.bki`.
+// Nenhum dos 20 templates do CMS emite `bki` (o HTML sai `class="bonus-template bonus-offering"`),
+// então nada casava e os cards apareciam empilhados, com o texto certo e estilo nenhum.
+
+// Num produto white-label não dá para consertar isso pedindo `bki`: seria a marca do parceiro
+// dependendo de uma classe com o nome de outra marca, e as cores do fornecedor são as da BetAki
+// (lima #bcd200, oliva #363a1a) escritas à mão. Então o desenho é nosso, preso às classes que o
+// CMS de fato emite, e as cores saem dos tokens da marca (`--color-action`, `--color-shark-*`,
+// `$app-custom-colors`), o que faz cada marca pintar o card com a paleta dela sem tocar aqui.
+
+// A geometria é a mesma que o esqueleto de carregamento das próprias telas já desenha
+// (`bonus-offering.component.html`, `banner-promotions.component.html`): 30.875rem de altura,
+// cantos de 1.5rem, metade de cima para a arte. Assim o card não pula de forma quando chega.
+
+.bonus-template,
+.promotion-banner-template {
+  display: flex;
+  flex-flow: column;
   min-width: unset;
+  overflow: hidden;
+  border: 1px solid var(--color-shark-700);
+  border-radius: 1.5rem;
+  background-color: var(--color-shark-800);
+  color: var(--color-shark-50);
 
   .promo-image {
+    width: 100%;
     max-width: 100%;
-    height: unset;
-    min-height: unset;
+    height: 11.6875rem;
+    min-height: 11.6875rem;
+    object-fit: cover;
+  }
+
+  .content-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    font-size: 1rem;
+  }
+
+  .content-wrapper {
+    display: flex;
+    flex-flow: column;
+    gap: 1.5rem;
   }
 
   .top-content {
+    display: flex;
+    flex-flow: row;
     flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+  }
+
+  .tag-container {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .tag-label {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    background-color: var(--color-shark-700);
+    color: var(--color-shark-50);
+    font-size: 0.75rem;
+    text-align: center;
+    align-content: center;
+  }
+
+  .timer-container {
+    color: var(--color-shark-300);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .main-content {
+    display: flex;
+    flex-flow: column;
+    gap: 1.5rem;
+  }
+
+  .header-container {
+    display: flex;
+  }
+
+  .main-title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5rem;
+  }
+
+  .description {
+    color: var(--color-shark-200);
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  .cta-container {
+    display: flex;
+  }
+
+  .cta-button {
+    width: 100%;
+    height: 2.5rem;
+    border: unset;
+    border-radius: var(--radius-button);
+    background-color: var(--color-action);
+    color: var(--color-action-foreground);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    /* stylelint-disable-next-line selector-max-specificity */
+    &:hover {
+      background-color: var(--color-action-hover);
+    }
   }
 }
 
-.bonuses-container .promotion-banner-template.bki,
-.bonuses-container .bonus-template.bki.bonus-offering {
-  height: 100%;
-  min-width: unset;
+// A oferta e o banner de oferta são cards de altura fixa numa grade; dentro do container de bônus
+// eles esticam para a linha inteira.
+.bonus-template.bonus-offering,
+.promotion-banner-template.banner-offering {
+  height: 30.875rem;
+}
 
-  /* stylelint-disable-next-line no-descending-specificity, selector-max-specificity */
-  .promo-image {
-    max-width: 100%;
-    height: unset;
-    min-height: unset;
+.bonuses-container .bonus-template,
+.bonuses-container .promotion-banner-template {
+  height: 100%;
+}
+
+// O bônus em andamento não tem arte: é texto, uma barra de progresso e as condições.
+.bonus-template.bonus-in-progress-active {
+  /* stylelint-disable-next-line no-descending-specificity */
+  .content-container {
+    padding: 2.5rem;
+  }
+
+  .header-container {
+    flex-flow: row;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .main-title {
+    font-size: 1.25rem;
+  }
+
+  .header-amount {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 2.25rem;
+  }
+
+  .header-amount-currency {
+    font-size: 1.5rem;
+  }
+
+  .header-status {
+    display: flex;
+    align-items: flex-end;
+    color: var(--color-action-foreground);
+  }
+
+  .status-label {
+    padding: 0.25rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
   }
 
   /* stylelint-disable-next-line selector-max-specificity */
-  .top-content {
-    flex-wrap: wrap;
+  .header-status.active > .status-label {
+    background-color: map.get(theme-variables.$app-custom-colors, "brand-success");
   }
-}
 
-/* stylelint-disable-next-line selector-max-specificity */
-.bonuses-container .bonus-template.bonus-in-progress-active.bonus-template.bki {
-  min-width: unset;
+  /* stylelint-disable-next-line selector-max-specificity */
+  .header-status.pending > .status-label {
+    background-color: map.get(theme-variables.$app-custom-colors, "semantic-warning");
+    color: map.get(theme-variables.$app-custom-colors, "neutral-dark");
+  }
+
+  .progress-bar-container {
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: right;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .progress-track-wrapper {
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 0.375rem;
+  }
+
+  .progress-track {
+    flex-grow: 1;
+    height: 0.25rem;
+    border-radius: 0.25rem;
+    background-color: var(--color-shark-700);
+  }
+
+  .progress-fill {
+    position: absolute;
+    top: 0;
+    height: 0.375rem;
+    border-radius: 0.25rem;
+    background-color: var(--color-action);
+    transition: width 0.3s ease;
+  }
+
+  .conditions-container {
+    display: flex;
+    flex-flow: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    background-color: var(--color-shark-900);
+  }
+
+  .conditions-header {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .conditions-wrapper {
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+  }
+
+  .conditions-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .conditions-dot {
+    min-width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--color-action);
+  }
+
+  .conditions-text {
+    color: var(--color-shark-200);
+  }
 
   @include utils.media("lt-sm-2") {
+    /* stylelint-disable-next-line no-descending-specificity, selector-max-specificity */
+    .content-container {
+      padding: 1.5rem;
+    }
+
     /* stylelint-disable-next-line selector-max-specificity */
     .top-content {
       flex-flow: column;
@@ -1749,25 +1988,15 @@ app-shell-player-profile {
       gap: 0.5rem;
     }
 
-    /* stylelint-disable-next-line selector-max-specificity */
+    /* stylelint-disable-next-line no-descending-specificity, selector-max-specificity */
     .header-container {
       flex-wrap: wrap;
     }
 
-    /* stylelint-disable-next-line selector-max-specificity */
+    /* stylelint-disable-next-line no-descending-specificity, selector-max-specificity */
     .timer-container {
       font-size: 0.75rem;
     }
-  }
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-.bonus-template.bki .cta-container .cta-button,
-.promotion-banner-template.bki .cta-container .cta-button {
-  /* stylelint-disable-next-line selector-max-specificity */
-  &:hover {
-    background-color: map.get(theme-variables.$app-custom-colors, "brand-accent-50");
-    border: 1px solid map.get(theme-variables.$app-custom-colors, "brand-accent");
   }
 }
 
