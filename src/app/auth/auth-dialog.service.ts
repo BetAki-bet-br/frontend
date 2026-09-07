@@ -52,6 +52,15 @@ export interface AccountVerificationData {
   redirectToSportsbook?: boolean;
 }
 
+/**
+ * O que um ramo do diálogo de verificação fez.
+ *
+ * `called: true` é uma porta que respondeu, e aí `ticket` nulo significa "não precisa de biometria"
+ * (sucesso). `called: false` é um ramo que não chamou porta nenhuma: redirecionou para outra tela,
+ * ou o jogador fechou o diálogo.
+ */
+type VerificationAttempt = { called: true; ticket: FaceAuthTicket | null } | { called: false };
+
 export interface InitAccountVerificationResponse {
   canPlayGame?: boolean;
   canDeposit?: boolean;
@@ -277,16 +286,20 @@ export class AuthDialogService {
     log.debug('initProcessVerificationDialog invoked');
     return this.openProcessVerificationDialog(isWithdrawalProcess).pipe(
       switchMap((result) => {
-        let api$: Observable<FaceAuthTicket | null> = of(null);
+        // Duas coisas diferentes que o código antigo confundia: uma porta que respondeu sem ticket
+        // (`{ called: true, ticket: null }`, ou seja, sucesso sem biometria) e um caminho que nem
+        // chamou porta nenhuma (`{ called: false }`, porque redirecionou ou porque o jogador fechou
+        // o diálogo).
+        let api$: Observable<VerificationAttempt> = of({ called: false });
 
         if (result === ProcessVerificationResultEnum.KYC) {
-          api$ = this.playerProfileService.playerReverification();
+          api$ = this.playerProfileService.playerReverification().pipe(map((ticket) => ({ called: true, ticket })));
         } else if (result === ProcessVerificationResultEnum.Address) {
           // It redirects to player profile
           this.router.navigate(['profile/general/info'], { state: { openAddress: true } });
         } else if (result === ProcessVerificationResultEnum.Email) {
           api$ = this.playerProfileService.verifyPlayerContactInfo('email').pipe(
-            switchMap((result) => {
+            switchMap(() => {
               this.snackbarService.openCustomSuccess(
                 this.translate.instant('Email verification code resent successfully'),
                 'center',
@@ -300,7 +313,8 @@ export class AuthDialogService {
                   emailVerification: true,
                 },
               });
-              return of(null);
+              // Quem termina a confirmação é a tela do código, não este fluxo.
+              return of<VerificationAttempt>({ called: false });
             }),
           );
         } else if (result === ProcessVerificationResultEnum.PhoneNumber) {
@@ -315,41 +329,47 @@ export class AuthDialogService {
 
         return api$;
       }),
-      switchMap((result) => {
-        /**
-         * if referenceId exists open face authentication dialog
-         * else do nothing
-         */
+      switchMap((attempt) => {
+        if (!attempt.called) {
+          return of(false);
+        }
 
-        if (result && result?.referenceId) {
+        const ticket = attempt.ticket;
+
+        if (ticket?.referenceId) {
           const faceAuthParams: FaceAuthParams = {
-            providerId: result.referenceId,
-            faceAuthUrl: result?.url ?? undefined,
-            faceAuthUrlQR: result?.qrCodeUrl ?? undefined,
+            providerId: ticket.referenceId,
+            faceAuthUrl: ticket.url ?? undefined,
+            faceAuthUrlQR: ticket.qrCodeUrl ?? undefined,
           };
           // Open face authentication dialog
           return this.openFaceAuthDialog(faceAuthParams);
         }
 
-        return of(false);
+        // Ticket nulo é o "não precisa de biometria" da porta (`PlayerGateway.startReverification`:
+        // "null means the gateway had nothing for the player to do"), e é o que os gateways da casa
+        // e de demo respondem. O passo pedido está feito, então isto é sucesso.
+        return of(true);
       }),
     );
   }
 
   initRegistrationVerification() {
     return this.playerProfileService.playerReverification().pipe(
-      switchMap((result) => {
-        if (result && result?.referenceId) {
+      switchMap((ticket) => {
+        if (ticket?.referenceId) {
           const faceAuthParams: FaceAuthParams = {
-            providerId: result.referenceId,
-            faceAuthUrl: result?.url ?? undefined,
-            faceAuthUrlQR: result?.qrCodeUrl ?? undefined,
+            providerId: ticket.referenceId,
+            faceAuthUrl: ticket.url ?? undefined,
+            faceAuthUrlQR: ticket.qrCodeUrl ?? undefined,
           };
           // Open face authentication dialog
           return this.openFaceAuthDialog(faceAuthParams);
         }
 
-        return of(false);
+        // Mesmo critério do `initProcessVerificationDialog`: sem ticket não há biometria a fazer, e
+        // a verificação de quem acabou de se registrar está concluída.
+        return of(true);
       }),
     );
   }

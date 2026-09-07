@@ -304,7 +304,11 @@ export class ResponsibleGamblingComponent implements OnInit, OnDestroy {
             );
           }
 
-          return of(null);
+          // Ticket nulo é o "não precisa de biometria" da porta (`PlayerGateway.selfExclude`), e é
+          // o que o backend da casa responde: a autoexclusão volta 204. A conta já está barrada
+          // quando esta linha roda, então isto é sucesso; responder `null` deixava a tela muda
+          // depois de uma exclusão que aconteceu de verdade.
+          return of({ success: true });
         }),
       )
       .subscribe({
