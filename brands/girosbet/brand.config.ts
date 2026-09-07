@@ -159,7 +159,7 @@ export const BRAND_CONFIG: BrandConfig = {
       games: 'house',
       wallet: 'house',
       messages: 'house',
-      content: 'comtrade',
+      content: 'house',
       bonus: 'house',
     },
     prod: {
