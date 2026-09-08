@@ -85,6 +85,23 @@ logado, não faz nenhuma chamada para `/api/portal/`. O stub e o rewrite dele sa
 
 Some-se a isso o `robots.txt` com `Disallow: /` e o header `X-Robots-Tag: noindex, nofollow`.
 
+## Uma demo por marca
+
+A gravação do CMS é uma só e foi feita contra o CMS da GirosBet; o resto é por marca.
+
+- **Build:** uma configuração `<slug>-demo` no `angular.json` espelhando `girosbet-demo` (mesmo
+  `fileReplacements` para o `environment.demo.ts`, mesma entrada `demo/public`, saída em
+  `dist/<slug>-demo`) e o script `build:<slug>-demo`. A `superbet` já tem a dela.
+- **Nome da marca no conteúdo gravado:** a gravação traz "GirosBet" em alguns textos do CMS (o menu
+  do clube, por exemplo). Com `DEMO_BRAND_NAME=Superbet` a função devolve a gravação com esse nome
+  no lugar, que é o que o CMS daquela marca teria. Sem a variável nada muda.
+- **Preview local:** `node scripts/preview-demo.mjs dist/superbet-demo/browser 8091 Superbet`
+  (pasta, porta e nome, os três opcionais; o padrão é a girosbet em 8090 sem troca de nome). Duas
+  ou três marcas lado a lado é uma porta por marca.
+- **Na Vercel:** um projeto por marca. `buildCommand` e `outputDirectory` do projeto apontando para
+  o build daquela marca (as configurações do projeto ganham do `vercel.json`) e `DEMO_BRAND_NAME`
+  nas variáveis de ambiente, ao lado do `DEMO_PASSWORD`.
+
 ## Conferir antes de publicar
 
 ```

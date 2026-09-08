@@ -6,6 +6,10 @@
  * artifact that is about to be published can be walked through before it is.
  *
  *   npm run build:girosbet-demo && node scripts/preview-demo.mjs
+ *   node scripts/preview-demo.mjs dist/superbet-demo/browser 8091 Superbet   # another brand: its dist, port and name
+ *
+ * The third argument becomes DEMO_BRAND_NAME for `api/cms.js`, which swaps the recorded brand name
+ * for it; leave it out for the brand the snapshot was recorded with.
  */
 import http from 'node:http';
 import fs from 'node:fs';
@@ -13,6 +17,8 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 const handler = createRequire(import.meta.url)('../api/cms.js');
 const ROOT = path.resolve(process.argv[2] ?? 'dist/girosbet-demo/browser');
+const PORT = Number(process.argv[3] ?? 8090);
+if (process.argv[4]) process.env.DEMO_BRAND_NAME = process.argv[4];
 const TYPES = {
   '.html': 'text/html',
   '.js': 'text/javascript',
@@ -42,4 +48,4 @@ http
     res.setHeader('content-type', TYPES[path.extname(file)] ?? 'application/octet-stream');
     fs.createReadStream(file).pipe(res);
   })
-  .listen(8090, '127.0.0.1', () => console.log('preview on http://127.0.0.1:8090'));
+  .listen(PORT, '127.0.0.1', () => console.log(`preview on http://127.0.0.1:${PORT}`));

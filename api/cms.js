@@ -15,6 +15,20 @@ const path = require('node:path');
 
 const ROOT = path.join(process.cwd(), 'demo', 'cms');
 
+/**
+ * The snapshot was recorded against the GirosBet CMS, so a few strings in it carry that brand's
+ * name (the loyalty-club menu, for one). A demo of another brand sets DEMO_BRAND_NAME and gets the
+ * recording with its own name in those places, which is what that brand's own CMS would hold.
+ * Nothing else changes: same games, same lobbies, same banners. Unset, the recording is served as is.
+ */
+const RECORDED_BRAND_NAME = 'GirosBet';
+
+function rebrand(text) {
+  const name = (process.env.DEMO_BRAND_NAME ?? '').trim();
+  if (!name || name === RECORDED_BRAND_NAME) return text;
+  return text.split(RECORDED_BRAND_NAME).join(JSON.stringify(name).slice(1, -1));
+}
+
 const index = readJson(path.join(ROOT, 'index.json'), {});
 const catalogue = readJson(path.join(ROOT, 'slots-catalogue.json'), {});
 
@@ -52,7 +66,7 @@ function send(res, status, payload) {
   res.setHeader('content-type', 'application/json; charset=utf-8');
   // The snapshot only changes when someone re-records it and redeploys.
   res.setHeader('cache-control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800');
-  res.end(typeof payload === 'string' ? payload : JSON.stringify(payload));
+  res.end(rebrand(typeof payload === 'string' ? payload : JSON.stringify(payload)));
 }
 
 function recorded(name) {
