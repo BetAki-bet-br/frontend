@@ -22,6 +22,14 @@ export interface GameHistoryModel {
   expanded?: boolean;
 }
 
+/**
+ * O que a rodada foi para o jogador. As três palavras são também chaves de tradução.
+ *
+ * `Voided` existe porque uma rodada anulada devolve a aposta como ganho: o líquido dá zero, e um
+ * booleano `ganhou/perdeu` só sabia dizer PERDEU para quem não perdeu nada.
+ */
+export type GameRoundOutcome = 'Won' | 'Lost' | 'Voided';
+
 /** A casino round with the amounts already formatted in the player's locale. */
 export interface HistoryResolved extends GameRound {
   transactionDetails?: TransactionStep[];
@@ -33,7 +41,7 @@ export interface HistoryResolved extends GameRound {
   wonResolved?: string;
   netWin?: number;
   netWinResolved?: string;
-  isWin?: boolean;
+  outcome?: GameRoundOutcome;
   wasExpanded?: boolean;
   locale?: string;
 }

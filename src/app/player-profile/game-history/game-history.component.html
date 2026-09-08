@@ -108,8 +108,8 @@
                   </div>
                 </div>
                 <div class="item-additional-text">
-                  <div [class]="item.isWin ? 'win-class' : 'loss-class'">
-                    {{ (item.isWin ? ('Won' | translate) : ('Lost' | translate)) | uppercase }}
+                  <div [class]="outcomeClass(item.outcome)">
+                    {{ item.outcome ?? 'Lost' | translate | uppercase }}
                   </div>
                 </div>
               </mat-panel-title>

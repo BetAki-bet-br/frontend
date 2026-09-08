@@ -16,7 +16,7 @@ import {
   Breadcrumbs,
 } from '@app/@shared/components/page-breadcrumbs/page-breadcrumbs.component';
 import { BaseTableMsgsComponent } from '@app/@shared/components/base-table-msgs/base-table-msgs.component';
-import { HistoryResolved } from '@app/@shared/models';
+import { GameRoundOutcome, HistoryResolved } from '@app/@shared/models';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { switchMap } from 'rxjs';
@@ -388,6 +388,18 @@ export class GameHistoryComponent implements OnInit {
     }
 
     return 'finance-extract';
+  }
+
+  /** A cor do selo da rodada. Anulada não é verde nem vermelha: não houve ganho nem perda. */
+  outcomeClass(outcome: GameRoundOutcome | undefined): string {
+    switch (outcome) {
+      case 'Won':
+        return 'win-class';
+      case 'Voided':
+        return 'void-class';
+      default:
+        return 'loss-class';
+    }
   }
 
   /**

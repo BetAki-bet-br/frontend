@@ -10,6 +10,7 @@ import {
   FaceAuthTicket,
   GAMES_GATEWAY,
   GameHistoryPage,
+  GameRoundStatus,
   HistoryQuery,
   MESSAGES_GATEWAY,
   PLAYER_GATEWAY,
@@ -266,7 +267,9 @@ export class PlayerProfileService {
             balanceAfterResolved: currencySymbol + ' ' + decimalFormatter.format(0),
             netWin: netWin,
             netWinResolved: currencySymbol + ' ' + decimalFormatter.format(netWin),
-            isWin: netWin > 0,
+            // Rodada anulada devolve a aposta como ganho, então o líquido dá zero: sem este caso a
+            // tela dizia PERDEU para quem teve a aposta de volta.
+            outcome: round.status === GameRoundStatus.Voided ? 'Voided' : netWin > 0 ? 'Won' : 'Lost',
             locale: playerInfo?.locale ?? '',
           };
         });
