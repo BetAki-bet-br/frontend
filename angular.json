@@ -229,6 +229,95 @@
                   "output": "/"
                 }
               ]
+            },
+            "superbet": {
+              "tsConfig": "tsconfig.brand-superbet.json",
+              "index": "brands/superbet/index.html",
+              "outputPath": {
+                "base": "dist/superbet"
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["brands/superbet", ".", "node_modules", "src"]
+              },
+              "assets": [
+                "src/assetslocal",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "static",
+                  "output": "/static/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/superbet/assets",
+                  "output": "/assets/brand"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/superbet/legal",
+                  "output": "/assetshtml"
+                },
+                {
+                  "glob": "robots.txt",
+                  "input": "brands/superbet",
+                  "output": "/"
+                },
+                {
+                  "glob": "sitemap.xml",
+                  "input": "brands/superbet",
+                  "output": "/"
+                }
+              ]
+            },
+            "superbet-demo": {
+              "tsConfig": "tsconfig.brand-superbet.json",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.demo.ts"
+                }
+              ],
+              "index": "brands/superbet/index.html",
+              "outputPath": {
+                "base": "dist/superbet-demo"
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["brands/superbet", ".", "node_modules", "src"]
+              },
+              "assets": [
+                "src/assetslocal",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "static",
+                  "output": "/static/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/superbet/assets",
+                  "output": "/assets/brand"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/superbet/legal",
+                  "output": "/assetshtml"
+                },
+                {
+                  "glob": "robots.txt",
+                  "input": "brands/superbet",
+                  "output": "/"
+                },
+                {
+                  "glob": "sitemap.xml",
+                  "input": "brands/superbet",
+                  "output": "/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "demo/public",
+                  "output": "/"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -250,6 +339,9 @@
             },
             "girosbet": {
               "buildTarget": "angular-pp:build:development,girosbet"
+            },
+            "superbet": {
+              "buildTarget": "angular-pp:build:development,superbet"
             },
             "development-ssl": {
               "ssl": true,

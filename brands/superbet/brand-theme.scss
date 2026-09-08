@@ -1,0 +1,170 @@
+/*
+ * Superbet design tokens (Tailwind v4 `@theme`).
+ *
+ * Source of truth for the palette: `docs/superbet/01-levantamento-marca.md` (tokens captured from
+ * https://superbet.bet.br/). The brand carries two families over the same neutral base, red for
+ * sports and magenta for the casino lobby; this skin takes the red one, which is the public
+ * identity, because GirosBet already occupies the magenta slot.
+ *
+ * Loaded by `src/main.scss` through the brand include path, after `@use "tailwindcss"`.
+ */
+
+@use "theme/scrollbar" as scrollbar;
+
+@theme {
+  --breakpoint-xs: 30rem;
+
+  // Body copy, navigation and buttons are Inter (the live site loads the 400..900 variable);
+  // headings are Roboto Flex 700 in caps. Both are pulled from Google Fonts by
+  // `brands/superbet/index.html`.
+  --font-sans: "Inter", sans-serif;
+  --font-alt: "Inter", sans-serif;
+  --font-display: "Roboto Flex", "Inter", sans-serif;
+
+  // ---------------------------------------------------------------------------------------------
+  // Brand ramp: the SDS `dark-red-*` family.
+  // ---------------------------------------------------------------------------------------------
+
+  // Lightest tint, unused by `src/` today. `dark-red-100`.
+  --color-brand-200: #ffb4a3;
+
+  // Bright text/icon colour on dark surfaces (`text-brand-400`, spinners, active sidebar entries,
+  // `bg-brand-400/20`). `dark-red-300`, the colour the live site paints active menu items and the
+  // "Ver tudo" links with.
+  --color-brand-400: #ff4638;
+
+  // The primary: header background, primary buttons, focus rings, selected chips and tabs.
+  // `bg-primary` of the live site, the red of the "Entrar" and "Jogar" pills.
+  --color-brand-500: #c21e1c;
+
+  // Hover/pressed state of everything painted with `brand-500`. `bg-primary-hover`.
+  --color-brand-600: #f5171f;
+
+  // Darkest shade of the ramp. `dark-red-600`.
+  --color-brand-800: #7a1d16;
+
+  // Muted brand tone for filled surfaces that must not shout (mobile sidebar buttons).
+  // `bg-elevation-secondary`, the dark red the site fills brand-tinted panels with.
+  --color-brand-darker: #561912;
+
+  // ---------------------------------------------------------------------------------------------
+  // Accent: section borders, highlighted labels, promo borders.
+  // ---------------------------------------------------------------------------------------------
+  --color-accent: #c21e1c;
+  --color-accent-highlight: #f5171f;
+
+  // ---------------------------------------------------------------------------------------------
+  // Neutral ramp ("shark"): the SDS `dark-grey-*` family, which is what actually paints the
+  // interface. Superbet's dark end is a true near-black with a hint of blue, not a tinted red, so
+  // the brand reads through the accents and not through the background.
+  // ---------------------------------------------------------------------------------------------
+  --color-shark-50: #fff;
+  --color-shark-100: #edeeef;
+  --color-shark-200: #dee0e1;
+  --color-shark-300: #c3c7c9;
+  --color-shark-400: #848d91;
+  --color-shark-500: #5b6569;
+  --color-shark-600: #495155;
+  --color-shark-700: #3b4144; // hairline separators (`bg-neutral`)
+  --color-shark-800: #181a1b; // footer and card background (`bg-elevation-layer-1`)
+  --color-shark-900: #111214; // raised surfaces, hover states
+  --color-shark-950: #070708; // page background (`bg-elevation-body`)
+
+  // Neutrals outside the ramp.
+  --color-black: #070708;
+  --color-alt-light: #dee0e1;
+  --color-auth-placeholder: #0707084d;
+
+  // ---------------------------------------------------------------------------------------------
+  // Layout and effects.
+  // ---------------------------------------------------------------------------------------------
+  --header-height-desktop: 64px;
+  --header-height-mobile: 55px;
+  --winer-card-background: linear-gradient(135deg, var(--color-shark-950) 0%, var(--color-shark-900) 100%);
+
+  // Superbet banners are 16px and the game tiles 10px; 12px sits between the two.
+  --custom-radius: 0.75rem;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-7, replacing hexes that used to be hardcoded in `src/`.
+  // -----------------------------------------------------------------------------------------
+
+  // Dark brand foreground on light surfaces: dialog action buttons, hairline dividers.
+  // `dark-red-950`, the near-black end of the red ramp.
+  --color-brand-ink: #100502;
+
+  // Dark brand fill sitting behind brand-coloured text (the withdrawal action panel):
+  // `--color-brand-400` has to stay legible on it. `dark-red-800`.
+  --color-brand-900: #45170f;
+
+  // Darkest fill of the ramp: the "Depósito" call to action sitting on the brand header.
+  // It has to read as a distinct block on top of `--color-brand-500`. `dark-red-900`.
+  --color-brand-950: #2d120a;
+
+  // Light surface behind the auth pages, the profile shell and form inputs. Superbet's light theme
+  // is a cold neutral, so this one stays grey instead of being tinted red.
+  --color-surface-auth: #f4f5f6;
+
+  // Placeholder block shown while a game thumbnail / panel is still loading: the same grey the
+  // live site paints its tile skeletons with.
+  --color-surface-skeleton: #2b343a;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-8a: what <app-button> and the shell chrome paint with.
+  // The values come from the button anatomy of superbet.bet.br.
+  // -----------------------------------------------------------------------------------------
+
+  // Fill of the primary call to action (`bg-action`): the "Entrar" pill.
+  --color-action: #c21e1c;
+
+  // Hover/pressed fill of the call to action: `bg-primary-hover`.
+  --color-action-hover: #f5171f;
+
+  // Label and icon colour sitting on top of `--color-action`.
+  --color-action-foreground: #fff;
+
+  // Background of the application header (`bg-surface-header`): the middle of the red glow the
+  // live site draws behind its floating bar, between `#410101` and the page background.
+  --color-surface-header: #200405;
+
+  // Fill of the `secondary` button ("Registre-se"): a translucent white block over the header,
+  // exactly as the live site paints it.
+  --color-button-secondary: rgb(255 255 255 / 16%);
+
+  // Hairline around the `secondary` button: the site has none, so this is the faintest white edge
+  // that still separates the pill from a dark banner behind it.
+  --color-button-secondary-border: rgb(255 255 255 / 8%);
+
+  // Label of the `outline` button at rest: the light red, which reads on the dark surfaces.
+  --color-button-outline-text: #ff4638;
+
+  // Destructive actions (`bg-danger`): the light red, kept distinct from the primary so a delete
+  // button is not the same colour as the main call to action.
+  --color-danger: #ff4638;
+
+  // Corner radius of <app-button> in its `rectangle` shape: superbet.bet.br buttons are pills.
+  --radius-button: 9999px;
+}
+
+/*
+ * Tokens consumed only by hand-written CSS (`src/theme/*.scss`, component stylesheets) and never
+ * by a utility class. Tailwind tree-shakes `@theme` variables that no utility references, so these
+ * live in a `static` block to guarantee they reach `:root`.
+ */
+@theme static {
+  // Brand colour of the full-page loader and of the inline loading bar: the bright red, which is
+  // the one that shows up against the near-black background.
+  --color-brand-spinner: #f5171f;
+}
+
+/*
+ * A barra de rolagem da página e a das sidebars, pintadas com o preto neutro da marca: trilha na
+ * cor do header (o vermelho quase preto do brilho), polegar no cinza da rampa, um tom mais claro
+ * sob o mouse. Sem isto a barra da sidebar sai como a clássica cinza do sistema, e a da página como
+ * a fina do Chrome: duas barras diferentes na mesma tela.
+ */
+@include scrollbar.themed(
+  $thumb: var(--color-shark-600, #495155),
+  $track: var(--color-surface-header, #200405),
+  $thumb-hover: var(--color-shark-500, #5b6569)
+);

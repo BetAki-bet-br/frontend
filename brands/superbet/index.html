@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <!--
+      Google Tag Manager is NOT inlined here. It is injected at startup from
+      `BRAND.integrations.gtmId`, which Superbet leaves undefined: this reference skin ships
+      without a tag manager.
+    -->
+    <!-- needs to be right at the top to prevent Chrome from reloading favicon on every route change -->
+    <link id="fav-icon" rel="icon" type="image/x-icon" href="/assets/brand/favicon.png" />
+    <title>Superbet | Cassino Online, Slots e Jogos ao Vivo</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#070708" />
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <!-- Keep in sync with `seo.description` in brand.config.ts: this one is what crawlers read first. -->
+    <meta
+      name="description"
+      content="No cassino da Superbet você encontra slots, roleta, blackjack, Bac Bo, jogos de crash e jackpots dos melhores provedores, com depósito via PIX e promoções toda semana. Jogue com segurança e responsabilidade."
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png" />
+
+    <!-- TODO(superbet): placeholder, this is BetAki's asset CDN, swap it for Superbet's. -->
+    <link rel="preconnect" href="https://pp-assets.icbkiassets.com" />
+
+    <!-- Brand webfonts: Inter (--font-sans / --font-alt) and Roboto Flex (--font-display). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Flex:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+      rel="stylesheet"
+    />
+
+    <!-- Softswiss connector.js - mandatory for correct game loading across all providers -->
+    <script src="https://s3.eu-central-1.amazonaws.com/ignition.button/round-1/connector.js" defer></script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

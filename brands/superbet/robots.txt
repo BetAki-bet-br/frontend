@@ -1,0 +1,11 @@
+# www.robotstxt.org/
+
+# Allow crawling of all content, with exceptions listed bellow
+User-agent: *
+Disallow: /*.js$
+Disallow: /*.ttf$
+Disallow: /*.woff$
+Disallow: /*.woff2$
+Disallow: /*.json$
+
+Sitemap: https://superbet.example.com/sitemap.xml

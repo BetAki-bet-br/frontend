@@ -1,0 +1,80 @@
+/*
+ * Superbet SCSS variables.
+ *
+ * The other half of the theme: the Tailwind tokens live in `brand-theme.scss`, and the
+ * `$app-custom-colors` map below feeds the hand-written SCSS under `src/theme/` and the ~20
+ * component stylesheets that do `@use "theme/theme-variables"`. `src/theme/theme-variables.scss`
+ * is a one-line forwarder, so whichever brand directory is first on the include path wins.
+ *
+ * The keys keep their historical `Betaki_*` / `betaki-*` names on purpose: ~25 consumers in `src/`
+ * do `map.get($app-custom-colors, "Betaki_...")`, and renaming one silently drops the declaration.
+ * Only the *values* are Superbet's: the lime/olive family became the brand reds (`#c21e1c`
+ * primary, `#181a1b` cards, `#070708` background), while the neutral, error, yellow, orange and
+ * light-blue entries are untouched. Phase 2 of the white-label work renames the keys to `brand_*`
+ * across all consumers.
+ */
+
+@use "sass:map" as map;
+@use "theme/palette" as palette;
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+
+// Plus imports for other components in your app.
+
+// Material theme and palettes
+@forward "material-variables" show $app-primary, $app-accent, $app-warn, $app-theme,
+  $material-design-icons-font-directory-path, $custom-typography;
+
+// Brand artwork referenced from SCSS. Keep in sync with `assets.logo` in `brand.config.ts`;
+// stylesheets cannot read the TypeScript config.
+$brand-logo-url: "/assets/brand/logo.png";
+
+// Everything this brand paints differently. Merged over `src/theme/palette.scss`,
+// which holds the neutral ramp and the semantic states every brand shares.
+$brand-colors: (
+  // Page background (`body`) and the tint behind dialogs: the SDS `bg-elevation-body`.
+  "brand-background": #070708,
+
+  // Cards, headers, table rows: the surface the content sits on, `bg-elevation-layer-1`.
+  "brand-surface": #181a1b,
+
+  // `brand-surface` at 30% alpha, for overlays over artwork.
+  "brand-surface-30": #181a1b4d,
+
+  // The darkest brand tone; borders and shadows on `brand-surface`. Superbet's near-black is the
+  // page background itself, so the two match.
+  "brand-ink": #070708,
+
+  // `brand-ink` at 30% alpha.
+  "brand-ink-30": #0707084d,
+
+  // The brand colour: primary buttons, active states, highlights.
+  "brand-accent": #c21e1c,
+
+  // `brand-accent` at 50% alpha.
+  "brand-accent-50": #c21e1c80,
+
+  // `brand-accent` at 10% alpha.
+  "brand-accent-10": #c21e1c1a,
+
+  // `brand-accent` at 30% alpha.
+  "brand-accent-30": #c21e1c4d,
+
+  // Confirmation state (paid, approved, verified): the light green of the SDS success token, which
+  // stays readable on the dark surfaces where the red would read as an error.
+  "brand-success": #2fa16a
+);
+$app-custom-colors: map.merge(palette.$shared-colors, $brand-colors);
+
+// $action-gradient: linear-gradient(
+//   to right,
+//   map.get(theme-variables.$app-custom-colors, "blue-50"),
+//   map.get(theme-variables.$app-custom-colors, "purple")
+// );
+
+// max width of the main content (on the home page only?)
+$home-content-max-width: 1218px;
+$home-category-card-content-padding: 1.25rem;
+$home-category-card-content-padding-mobile: 1.6rem 1.25rem;
