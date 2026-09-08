@@ -350,12 +350,28 @@ export class WalletHistoryComponent implements OnInit {
     this.loadData();
   }
 
-  findIcon(provider: string): string {
-    if (provider.toLowerCase() === 'pix') {
-      return 'finance-pix';
+  /**
+   * O ícone da linha do extrato, pelo que o lançamento é.
+   *
+   * O jogo da casa move dinheiro sem meio de pagamento: aposta, prêmio e estorno chegam com
+   * `paymentMethod` ausente. Ler `provider.toLowerCase()` direto estourava nesses lançamentos e a
+   * linha inteira saía em branco, sem rótulo e sem ícone, porque a exceção derrubava a renderização
+   * daquela linha. Agora o tipo escolhe o ícone e o meio de pagamento só desempata depósito e saque.
+   */
+  findIcon(transaction: TransactionHistoryModel): string {
+    switch (transaction.type) {
+      case TransactionType.Bet:
+        return 'casino';
+      case TransactionType.Win:
+        return 'finance-money';
+      case TransactionType.BetRefund:
+        return 'essentials-arrows-horizontal';
+      case TransactionType.Deposit:
+      case TransactionType.Withdrawal:
+        return transaction.paymentMethod?.toLowerCase() === 'pix' ? 'finance-pix' : 'finance-extract';
+      default:
+        return 'finance-extract';
     }
-
-    return 'finance-extract';
   }
 
   /**

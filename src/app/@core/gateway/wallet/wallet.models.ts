@@ -120,6 +120,12 @@ export const TransactionType = {
   Withdrawal: 'Withdrawal',
   /** The operator moving money by hand: a goodwill payment, a correction. */
   ManualBalanceCorrection: 'ManualBalanceCorrection',
+  /** Money leaving the balance to back a bet. */
+  Bet: 'Bet',
+  /** What a bet paid back. */
+  Win: 'Win',
+  /** The stake coming home because the round never finished. */
+  BetRefund: 'BetRefund',
   /** Anything else the provider reports. */
   Other: 'Other',
 } as const;
@@ -161,8 +167,13 @@ export interface Transaction {
   /** What the account was worth before the movement, and after it. */
   balanceBefore: number;
   balanceAfter: number;
-  /** How the money travelled, as the player would name it: "Pix". */
-  paymentMethod: string;
+  /**
+   * How the money travelled, as the player would name it: "Pix".
+   *
+   * Absent when the money never left the house: a bet and a win have no payment instrument, and
+   * the gateway does not invent one for them.
+   */
+  paymentMethod?: string;
 }
 
 /**
