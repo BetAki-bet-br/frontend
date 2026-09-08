@@ -78,8 +78,9 @@
   // ---------------------------------------------------------------------------------------------
   // Layout and effects.
   // ---------------------------------------------------------------------------------------------
-  --header-height-desktop: 64px;
-  --header-height-mobile: 55px;
+  // The floating header is a 64px bar with 16px above it; the mobile bar is 44px, as on superbet.bet.br.
+  --header-height-desktop: 80px;
+  --header-height-mobile: 44px;
   --winer-card-background: linear-gradient(135deg, var(--color-shark-950) 0%, var(--color-shark-900) 100%);
 
   // Superbet banners are 16px and the game tiles 10px; 12px sits between the two.
@@ -144,6 +145,24 @@
 
   // Corner radius of <app-button> in its `rectangle` shape: superbet.bet.br buttons are pills.
   --radius-button: 9999px;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-9: what the `floating` header, the `pills` sidebar and the
+  // `tabs` mobile navigation paint with. Brands on the other layouts declare them too (the
+  // utilities exist in every build), with values that match their own chrome.
+  // -----------------------------------------------------------------------------------------
+
+  // Top of the gradient the `floating` header sits on; it fades into the page background.
+  --color-surface-header-glow: #410101;
+
+  // Text and icon of the active item in the `pills` sidebar and in the `tabs` mobile navigation.
+  --color-nav-active: #ff4638;
+
+  // Fill behind the active `pills` sidebar item; the utility fades it out to the right.
+  --color-nav-active-fill: rgb(194 30 28 / 24%);
+
+  // Background of the `tabs` mobile navigation bar.
+  --color-surface-nav-mobile: #0f0506;
 }
 
 /*

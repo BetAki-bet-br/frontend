@@ -145,10 +145,16 @@ export const BRAND_CONFIG: BrandConfig = {
   },
 
   layout: {
-    // Superbet ships the superbet.bet.br chrome: dark header with a Cassino/Ao vivo toggle and an
-    // inline search, plus the desktop sidebar with the CMS blocks.
-    header: 'dark',
+    // The superbet.bet.br chrome, as surveyed in docs/superbet/01-levantamento-marca.md: a rounded
+    // header floating over a glow, the desktop sidebar reduced to pill items, a regulatory footer,
+    // and on mobile the sticky account bar above a five-item tab bar. Every key here is a layout
+    // option of the shell; BetAki and GirosBet keep theirs.
+    header: 'floating',
     desktopSidebar: true,
+    sidebarStyle: 'pills',
+    footer: 'regulatory',
+    mobileNav: 'tabs',
+    mobileAccountBar: true,
   },
 
   i18n: {

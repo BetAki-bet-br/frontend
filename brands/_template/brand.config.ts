@@ -138,6 +138,10 @@ export const BRAND_CONFIG: BrandConfig = {
     header: 'brand-bar',
     /** Turn on to get the desktop sidebar with the CMS blocks next to the lobby. */
     desktopSidebar: false,
+    // Optional, each defaulting to the chrome above. Together they are the Superbet shell:
+    //   header: 'floating', sidebarStyle: 'pills', footer: 'regulatory', mobileNav: 'tabs',
+    //   mobileAccountBar: true
+    // See `BrandConfig.layout` for what each one changes.
   },
 
   i18n: {

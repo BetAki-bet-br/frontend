@@ -95,6 +95,24 @@
 
   // Corner radius of <app-button> in its `rectangle` shape (`rounded-button`).
   --radius-button: 0.375rem;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-9: what the `floating` header, the `pills` sidebar and the
+  // `tabs` mobile navigation paint with. Brands on the other layouts declare them too (the
+  // utilities exist in every build), with values that match their own chrome.
+  // -----------------------------------------------------------------------------------------
+
+  // Top of the gradient the `floating` header sits on; it fades into the page background.
+  --color-surface-header-glow: #869502;
+
+  // Text and icon of the active item in the `pills` sidebar and in the `tabs` mobile navigation.
+  --color-nav-active: #e8fb20;
+
+  // Fill behind the active `pills` sidebar item; the utility fades it out to the right.
+  --color-nav-active-fill: rgb(134 149 2 / 24%);
+
+  // Background of the `tabs` mobile navigation bar.
+  --color-surface-nav-mobile: #000000;
 }
 
 /*

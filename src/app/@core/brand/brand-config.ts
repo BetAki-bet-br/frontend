@@ -172,10 +172,37 @@ export interface BrandConfig {
     /**
      * `brand-bar`: full-colour header bar with text links (BetAki).
      * `dark`: dark header with a Cassino/Ao vivo toggle, inline search and CTA (GirosBet).
+     * `floating`: rounded bar floating over a glow in the brand colour, product links instead of
+     * the toggle, icon-only search and account, pill CTAs; below `md` a 44px bar with the account
+     * icon, the centred wordmark, promotions and search (Superbet).
      */
-    header: 'brand-bar' | 'dark';
+    header: 'brand-bar' | 'dark' | 'floating';
     /** Desktop sidebar with CMS-driven blocks (banner, promo tiles, shortcut/popular/help menus). */
     desktopSidebar: boolean;
+    /**
+     * How the desktop sidebar renders. `blocks` (default): CMS banner, promo tiles and the grouped
+     * menus (GirosBet). `pills`: the grouped menus alone as 40px pill items on a transparent
+     * background, no banner or tiles, the active item painted with `--color-nav-active*`
+     * (Superbet).
+     */
+    sidebarStyle?: 'blocks' | 'pills';
+    /**
+     * `columns` (default): link columns, logo and socials, sponsors, seals, disclaimer.
+     * `regulatory`: logo, responsible-gaming copy and seals first, then the link columns, the
+     * disclaimer and a socials row closed by the wordmark (Superbet).
+     */
+    footer?: 'columns' | 'regulatory';
+    /**
+     * Mobile bottom navigation. `classic` (default): home pill, Ao vivo, Depositar, Cassino, Menu
+     * (BetAki, GirosBet). `tabs`: five flat items, Início, Jogos, Ao vivo, Promoções and the
+     * product switch (Esportes when the brand integrates a sportsbook, otherwise Menu).
+     */
+    mobileNav?: 'classic' | 'tabs';
+    /**
+     * Sticky bar above the mobile bottom navigation with the two account CTAs (Criar conta and
+     * Entrar), shown while logged out. Default false.
+     */
+    mobileAccountBar?: boolean;
   };
 
   i18n: {
