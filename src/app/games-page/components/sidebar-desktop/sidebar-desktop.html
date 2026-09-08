@@ -1,9 +1,13 @@
+<!-- `blocks` keeps the dark column with its right border; `pills` floats the menus over the page. -->
 <aside
-  class="themed-scrollbar hidden lg:flex sticky top-(--header-height-desktop) h-[calc(100vh-var(--header-height-desktop))] shrink-0 flex-col gap-4 overflow-y-auto border-r border-shark-700 bg-shark-900 p-3 transition-all duration-300"
-  [class.w-60]="!isCollapsed()"
-  [class.w-16]="isCollapsed()"
+  [class]="
+    'themed-scrollbar hidden lg:flex sticky top-(--header-height-desktop) h-[calc(100vh-var(--header-height-desktop))] shrink-0 flex-col gap-4 overflow-y-auto ' +
+    (isPills ? '' : 'border-r border-shark-700 bg-shark-900 ') +
+    'p-3 transition-all duration-300 ' +
+    (isCollapsed() ? 'w-16' : 'w-60')
+  "
 >
-  <!-- 1. Banner do CMS (slug `banner-sidebar-top`), escondido no trilho colapsado. -->
+  <!-- 1. Banner do CMS (slug `banner-sidebar-top`), escondido no trilho colapsado e no estilo `pills`. -->
   @if (!isCollapsed() && banner(); as sidebarBanner) {
   <a
     class="relative block h-[60px] w-full shrink-0 overflow-hidden rounded-xl bg-surface-skeleton"
@@ -23,7 +27,8 @@
   </a>
   }
 
-  <!-- 2. Tiles de promoção. -->
+  <!-- 2. Tiles de promoção. O estilo `pills` não os tem: só menus. -->
+  @if (!isPills) {
   <div class="grid shrink-0 gap-2" [class.grid-cols-2]="!isCollapsed()" [class.grid-cols-1]="isCollapsed()">
     <a
       routerLink="/promotions"
@@ -82,6 +87,7 @@
       }
     </a>
   </div>
+  }
 
   <!-- 3. Menus do backoffice, agrupados por `meta.group`. -->
   @if (isLoading()) {
@@ -100,15 +106,20 @@
     @if (!isCollapsed()) {
     <h2 class="px-3 text-[10px] font-bold uppercase tracking-[0.06em] text-white/70">{{ block.title }}</h2>
     } @for (item of block.items; track item.label) {
+    <!-- `pills`: 40px, raio total, ativo com texto na cor da marca sobre um preenchimento que esvai
+         para a direita. `blocks`: 36px, raio 12, ativo com anel. Os dois compartilham o destaque
+         da entrada de fidelidade e o trilho colapsado. -->
     <button
       type="button"
-      class="flex h-9 cursor-pointer items-center gap-3 rounded-xl text-sm text-white transition-colors hover:bg-shark-800"
       [class]="
-        (isActive(item) ? 'bg-brand-500/20 ring-1 ring-inset ring-brand-500/40 ' : '') +
-        (block.key === 'atalhos' && isHighlighted(item) ? 'bg-tournaments mb-1' : '')
+        (isPills
+          ? 'flex h-10 cursor-pointer items-center gap-3 rounded-full text-sm font-semibold transition-colors hover:bg-white/5 ' +
+            (isActive(item) ? 'text-nav-active bg-linear-to-r from-nav-active-fill from-56% to-transparent ' : 'text-white/80 ')
+          : 'flex h-9 cursor-pointer items-center gap-3 rounded-xl text-sm text-white transition-colors hover:bg-shark-800 ' +
+            (isActive(item) ? 'bg-brand-500/20 ring-1 ring-inset ring-brand-500/40 ' : '')) +
+        (block.key === 'atalhos' && isHighlighted(item) ? 'bg-tournaments mb-1 ' : '') +
+        (isCollapsed() ? 'justify-center' : 'px-3')
       "
-      [class.px-3]="!isCollapsed()"
-      [class.justify-center]="isCollapsed()"
       [attr.title]="isCollapsed() ? item.label : null"
       (click)="activate(item)"
     >

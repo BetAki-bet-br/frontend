@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { catchError, map, of, tap } from 'rxjs';
+import { EMPTY, catchError, map, of, tap } from 'rxjs';
 
-import { BannersService, MenusService } from '@app/@core/backoffice';
+import { Banner, BannersService, MenusService } from '@app/@core/backoffice';
 import { BRAND } from '@app/@core/brand';
 import { MenuGroup } from '@app/@shared/models/menu-api.model';
 import { RoutingService } from '@app/@shared/services/routing.service';
@@ -41,9 +41,13 @@ const BANNER_SLUG = 'banner-sidebar-top';
  * Desktop sidebar of the lobby: CMS banner, promo tiles and the backoffice menus grouped into
  * shortcuts / popular games / help.
  *
- * Only rendered by brands with `layout.desktopSidebar` (see `games-page.html`). The collapsed
- * state lives in `ShellService` because the header owns the toggle button; this component only
- * reads it, seeds it from `localStorage` on first paint and writes the user's choice back.
+ * Only rendered by brands with `layout.desktopSidebar` (see `games-page.html`). `layout.sidebarStyle`
+ * picks the skin: `blocks` (default) is the full column above, `pills` drops the banner and the tiles
+ * and paints the same menus as 40px pill items on a transparent column.
+ *
+ * The collapsed state lives in `ShellService` because the header owns the toggle button; this
+ * component only reads it, seeds it from `localStorage` on first paint and writes the user's
+ * choice back.
  */
 @Component({
   selector: 'app-sidebar-desktop',
@@ -59,6 +63,12 @@ export class SidebarDesktop {
   private readonly brand = inject(BRAND);
   protected readonly routingService = inject(RoutingService);
 
+  /**
+   * `pills`: menus only, on a transparent column. Read once because the brand of a bundle never
+   * changes at runtime.
+   */
+  protected readonly isPills = this.brand.layout.sidebarStyle === 'pills';
+
   /** Owned by `ShellService`: the header toggle and this component drive the same signal. */
   protected readonly isCollapsed = this.shellService.desktopSidebarCollapsed;
 
@@ -66,11 +76,14 @@ export class SidebarDesktop {
 
   private readonly loadedImages = signal<ReadonlySet<string>>(new Set<string>());
 
-  protected readonly banner = toSignal(
-    this.bannersService.getBanners({ q: BANNER_SLUG }).pipe(
-      map((response) => response.data[0] ?? null),
-      catchError(() => of(null)),
-    ),
+  protected readonly banner = toSignal<Banner | null>(
+    // `pills` has no banner slot, so the CMS is never asked for one.
+    this.isPills
+      ? EMPTY
+      : this.bannersService.getBanners({ q: BANNER_SLUG }).pipe(
+          map((response) => response.data[0] ?? null),
+          catchError(() => of(null)),
+        ),
     { initialValue: null },
   );
 

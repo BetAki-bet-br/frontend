@@ -1,3 +1,108 @@
+@if (isRegulatory) {
+<!-- Composição `regulatory`: marca e jogo responsável à esquerda, colunas de link à direita,
+     o parágrafo regulatório embaixo e uma linha final fechada pelo wordmark. -->
+<footer class="relative z-3 flex justify-center border-t border-shark-700 bg-shark-950 text-shark-50">
+  <div class="flex w-full max-w-3xl flex-col gap-6 px-6 py-8 md:max-w-4xl xl:max-w-[1400px]">
+    <div class="grid gap-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
+      <div class="flex flex-col gap-3.5">
+        <img [src]="brandLogo" [alt]="brandName" class="h-6 w-auto self-start" width="120" height="45" />
+
+        <p class="max-w-[380px] text-[13px] leading-5 text-shark-300">
+          O jogo deve ser uma forma de entretenimento. Defina limites de depósito e de tempo na sua conta e procure
+          ajuda se perceber sinais de comportamento compulsivo.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-3">
+          @for (image of certificationImages; track image.src) {
+          <img [src]="image.src" [alt]="image.alt" class="h-8 w-auto" [width]="image.width" [height]="image.height" />
+          } @for (seal of regulatorySeals; track seal.src) {
+          <a [href]="seal.url" target="_blank" rel="noopener noreferrer">
+            <img [src]="seal.src" [alt]="seal.alt" class="h-8 w-auto" [width]="seal.width" [height]="seal.height" />
+          </a>
+          }
+        </div>
+      </div>
+
+      @for (column of linkColumns; track column.title) {
+      <div>
+        <h5 class="mb-3 text-xs font-bold uppercase tracking-[0.06em] text-white">{{ column.title }}</h5>
+        @for (link of column.links; track link.text) {
+        <a [href]="link.url" class="block text-[13px] leading-5 text-shark-300 hover:text-white">{{ link.text }}</a>
+        }
+      </div>
+      }
+
+      <div>
+        <h5 class="mb-3 text-xs font-bold uppercase tracking-[0.06em] text-white">Pagamentos</h5>
+        <img src="/assets/footer/pix.png" alt="Pix logo" class="h-10 w-auto" width="100" height="36" />
+        <button
+          type="button"
+          class="inline-flex mt-4 items-center justify-center font-medium transition-colors cursor-pointer rounded-md focus:outline-none focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed px-3 py-1.5 text-sm border-2 border-transparent text-brand-400 w-auto bg-shark-900! hover:bg-shark-50/20!"
+          (click)="openTawkChat()"
+        >
+          <span class="mr-2">
+            <img [src]="brandSupportIcon" alt="" width="54" height="53" class="w-[1.125rem] h-auto" /> </span
+          >Contate-nos
+        </button>
+      </div>
+    </div>
+
+    @if (sponsors.length > 0) {
+    <div class="flex flex-col items-center justify-center gap-2">
+      <h5 class="text-xl md:text-2xl leading-normal text-center">{{ sponsorHeading }}</h5>
+
+      <div class="flex flex-row flex-wrap items-center justify-center gap-4 sm:gap-10 mt-2">
+        @for (sponsor of sponsors; track sponsor.url) {
+        <a [href]="sponsor.url" target="_blank">
+          <img [src]="sponsor.logo" [alt]="sponsor.name" [class]="sponsor.class" />
+        </a>
+        }
+      </div>
+    </div>
+    }
+
+    <div class="h-px bg-shark-700"></div>
+
+    <p class="max-w-4xl text-xs leading-[18px] text-shark-400">{{ legalDisclaimer }}</p>
+
+    <div [class]="'flex flex-wrap items-center justify-between gap-4 md:pb-0 ' + bottomClearance">
+      <div class="flex flex-wrap items-center gap-2">
+        @for (icon of socialIcons; track icon.src) {
+        <a
+          [href]="icon.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex size-8 items-center justify-center rounded-full bg-white/8 transition-colors hover:bg-white/16"
+          [attr.aria-label]="icon.alt"
+        >
+          <img
+            [src]="icon.src"
+            [alt]="icon.alt"
+            class="w-[1.125rem] h-[1.125rem]"
+            [width]="icon.width"
+            [height]="icon.height"
+          />
+        </a>
+        }
+
+        <span class="ms-2 text-xs text-shark-400">{{ copyright }}</span>
+
+        @for (item of supportOptions; track $index) {
+        <p
+          class="text-xs leading-normal text-brand-400 hover:underline font-normal text-center cursor-pointer"
+          [routerLink]="item.url"
+          [class]="$index < supportOptions.length - 1 ? 'pe-3 border-e border-shark-500' : ''"
+        >
+          {{ item.name }}
+        </p>
+        }
+      </div>
+
+      <img [src]="brandLogo" alt="" class="h-10 w-auto opacity-30" width="120" height="45" />
+    </div>
+  </div>
+</footer>
+} @else {
 <footer class="flex justify-center items-center pt-7 z-3 relative border-t border-accent bg-shark-800 text-shark-50">
   <div class="max-w-3xl md:max-w-4xl w-full sm:mx-30 flex flex-col xl:max-w-[1400px]">
     <div
@@ -139,3 +244,4 @@
     </div>
   </div>
 </footer>
+}

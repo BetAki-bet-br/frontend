@@ -34,6 +34,24 @@ interface SupportOption {
   url: string;
 }
 
+/** One official seal of the regulatory footer, with the page it links to. */
+interface RegulatorySeal {
+  src: string;
+  alt: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
+/**
+ * Footer of the shell, in the composition the brand asked for.
+ *
+ * `layout.footer = 'columns'` (default) is the classic stack: link columns, logo and socials,
+ * sponsors, seals, disclaimer. `regulatory` reorders the same data into the wide regulated-market
+ * shape: brand and responsible-gaming copy first, link columns beside it, then the disclaimer and
+ * a closing row of socials and copyright. Nothing here is brand copy except what comes off
+ * `BRAND`, and no colour is named outside the theme tokens.
+ */
 @Component({
   selector: 'app-footer',
   imports: [RouterLink],
@@ -44,6 +62,18 @@ interface SupportOption {
 export class Footer {
   private readonly tawkMessengerService = inject(TawkToScriptService);
   private readonly brand = inject(BRAND);
+
+  /** `regulatory` composition (Superbet); `columns` is the default everywhere else. */
+  readonly isRegulatory = this.brand.layout.footer === 'regulatory';
+
+  readonly brandName = this.brand.name;
+  readonly copyright = `© ${new Date().getFullYear()} ${this.brand.name}. Todos os direitos reservados.`;
+
+  /**
+   * Bottom clearance of the last row on mobile: the bottom navigation, plus the 57px sticky
+   * account bar when the brand mounts one above it.
+   */
+  readonly bottomClearance = this.brand.layout.mobileAccountBar ? 'pb-[145px]' : 'pb-22';
 
   readonly brandLogo = this.brand.assets.logoColor;
   readonly brandSupportIcon = this.brand.assets.icons.support;
@@ -156,6 +186,34 @@ export class Footer {
       class: 'h-8 md:h-10 w-auto',
       width: 140,
       height: 54,
+    },
+  ];
+
+  /**
+   * The three official seals. The classic footer keeps its own inline copy of this markup so its
+   * DOM stays frozen for the brands that ship it; only the regulatory composition reads this list.
+   */
+  regulatorySeals: RegulatorySeal[] = [
+    {
+      src: '/assets/footer/autorizado.png',
+      alt: 'Autorizado pelo ministério da fazenda logo',
+      url: 'https://www.editoraroncarati.com.br/v2/Diario-Oficial/Diario-Oficial/PORTARIA-SPA-MF-N%C2%BA-693-DE-01-04-2025.html',
+      width: 150,
+      height: 44,
+    },
+    {
+      src: '/assets/footer/reclame-aqui.png',
+      alt: 'Selo Reclame Aqui',
+      url: 'https://www.reclameaqui.com.br/empresa/bet-aki/?utm_source=referralutm_medium=embbed&utm_campaign=ra_verificada&utm_term=horizontal',
+      width: 200,
+      height: 71,
+    },
+    {
+      src: '/assets/footer/direito-consumidor.png',
+      alt: 'Aqui respeitamos o consumidor',
+      url: 'https://www.gov.br/mj/pt-br/assuntos/seus-direitos/consumidor/Anexos/cdc-portugues-2013.pdf',
+      width: 200,
+      height: 71,
     },
   ];
 
