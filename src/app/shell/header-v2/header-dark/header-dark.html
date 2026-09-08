@@ -14,14 +14,20 @@
     />
   </a>
 
-  <!-- Below `xs` the wordmark has to give the search and the two CTAs room on a 390px bar. -->
-  <a class="shrink-0 cursor-pointer md:hidden" routerLink="/">
+  <!--
+    Below `md` the wordmark takes whatever room the search and the account actions leave on the bar:
+    the link is the only flex item allowed to shrink, so a wide wordmark (Superbet's is 7:1) scales
+    down inside its box instead of pushing the actions off a 390px screen, and a narrow one (GirosBet)
+    keeps its intrinsic width whenever it fits. The floor keeps the mark legible next to the balance
+    pill of the logged-in state.
+  -->
+  <a class="min-w-20 shrink cursor-pointer md:hidden" routerLink="/">
     <img
       [ngSrc]="brandMobileLogo"
       alt="Logo"
       [width]="brandLogoSize.width"
       [height]="brandLogoSize.height"
-      class="h-8 w-auto xs:h-10"
+      class="h-8 w-auto max-w-full object-contain object-left xs:h-10"
     />
   </a>
 
