@@ -52,12 +52,21 @@ function isLimeFamily(hex) {
   return hue >= 50 && hue <= 95 && s >= 0.25 && l >= 0.03 && l <= 0.85;
 }
 
+// The template ships every icon in this placeholder magenta; a kept file that still carries it was
+// copied from `brands/_template` and never regenerated.
+const PLACEHOLDER = /#(a21caf|831693|5c0f68)\b/i;
+
 let written = 0;
 let skipped = 0;
 const leftovers = new Map();
-for (const name of fs.readdirSync(srcDir).filter((f) => f.endsWith('.svg')).sort()) {
+const stale = [];
+for (const name of fs
+  .readdirSync(srcDir)
+  .filter((f) => f.endsWith('.svg'))
+  .sort()) {
   const out = path.join(dstDir, name);
   if (fs.existsSync(out) && !force) {
+    if (PLACEHOLDER.test(fs.readFileSync(out, 'utf8'))) stale.push(name);
     skipped++;
     continue;
   }
@@ -67,11 +76,15 @@ for (const name of fs.readdirSync(srcDir).filter((f) => f.endsWith('.svg')).sort
   }
   // Editor ids that name the source brand ("[BETAKI] Card", "betaki-logo") do not belong in
   // another brand's bundle.
-  svg = svg.replace(/id="([^"]*)"/g, (m, id) => `id="${id.replace(new RegExp(`\\[?${source}\\]?\\s*`, 'gi'), '').trim() || 'icon'}"`);
+  svg = svg.replace(
+    /id="([^"]*)"/g,
+    (m, id) => `id="${id.replace(new RegExp(`\\[?${source}\\]?\\s*`, 'gi'), '').trim() || 'icon'}"`,
+  );
   fs.writeFileSync(out, svg);
   written++;
   for (const hex of svg.match(/#[0-9a-f]{6}\b/gi) || []) {
-    if (isLimeFamily(hex.toLowerCase())) leftovers.set(name, [...new Set([...(leftovers.get(name) || []), hex.toLowerCase()])]);
+    if (isLimeFamily(hex.toLowerCase()))
+      leftovers.set(name, [...new Set([...(leftovers.get(name) || []), hex.toLowerCase()])]);
   }
 }
 
@@ -79,5 +92,12 @@ console.log(`${target}: ${written} icon(s) written, ${skipped} kept (use --force
 if (leftovers.size) {
   console.log('colours still in the source family — add them to icon-colors.json:');
   for (const [name, hexes] of leftovers) console.log(`  ${name}: ${hexes.join(' ')}`);
+  process.exitCode = 2;
+}
+if (stale.length) {
+  console.log(
+    `${stale.length} kept file(s) still carry the template placeholder magenta — delete them or run with --force:`,
+  );
+  for (const name of stale) console.log(`  ${name}`);
   process.exitCode = 2;
 }
