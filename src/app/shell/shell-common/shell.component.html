@@ -10,12 +10,31 @@
 <app-header />
 
 <!-- Main container -->
-<div class="main-container pt-(--header-height-mobile)! md:pt-(--header-height-desktop)!">
+<div
+  class="main-container pt-(--header-height-mobile)! md:pt-(--header-height-desktop)!"
+  [ngClass]="{
+    'relative z-0': hasFloatingHeader,
+    'pb-[57px] md:pb-0': showMobileAccountBar(),
+  }"
+>
+  @if (hasFloatingHeader) {
+    <!--
+      The glow the `floating` header sits on. It belongs to the page and not to the bar, so it
+      scrolls away while the bar stays, and it is painted behind everything the routed page renders.
+    -->
+    <div
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-60 bg-gradient-to-b from-surface-header-glow to-transparent"
+    ></div>
+  }
   <router-outlet />
 </div>
 
 @if (!routingService.isSportsbook() && !routingService.isIngame()) {
   <app-sidebar-mobile></app-sidebar-mobile>
+  @if (showMobileAccountBar()) {
+    <app-mobile-account-bar />
+  }
   <app-mobile-menu></app-mobile-menu>
   @if (!routingService.isProfile() && !routingService.isPromotions()) {
     <app-footer></app-footer>

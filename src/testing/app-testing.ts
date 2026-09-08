@@ -4,7 +4,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { MAT_CHECKBOX_DEFAULT_OPTIONS, MatCheckboxDefaultOptions } from '@angular/material/checkbox';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { provideRouter } from '@angular/router';
-import { BRAND_CONFIG } from '@app/@core/brand';
+import { BRAND, BRAND_CONFIG, BrandConfig } from '@app/@core/brand';
 import {
   AUTH_GATEWAY,
   BONUS_GATEWAY,
@@ -57,4 +57,26 @@ export function provideAppTesting(): (Provider | EnvironmentProviders)[] {
     { provide: CONTENT_GATEWAY, useClass: DemoContentGateway },
     { provide: BONUS_GATEWAY, useClass: DemoBonusGateway },
   ];
+}
+
+/**
+ * The active brand with a different shell layout, for specs that exercise a layout option the brand
+ * the tests compile against does not ship.
+ *
+ * `provideAppTesting()` is installed for the whole run, so a spec that adds this to its own
+ * `providers` wins: providers registered later shadow earlier ones. Everything except the keys
+ * handed in stays the real brand's, which keeps the assets and the copy realistic.
+ */
+export function provideBrandLayout(
+  layout: Partial<BrandConfig['layout']>,
+  integrations: Partial<BrandConfig['integrations']> = {},
+): Provider {
+  return {
+    provide: BRAND,
+    useValue: {
+      ...BRAND_CONFIG,
+      layout: { ...BRAND_CONFIG.layout, ...layout },
+      integrations: { ...BRAND_CONFIG.integrations, ...integrations },
+    } satisfies BrandConfig,
+  };
 }

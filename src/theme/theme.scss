@@ -68,6 +68,16 @@ app-root {
   height: 100%;
 }
 
+/*
+ * Height of the fixed mobile bottom navigation, read by the mobile sidebar's bottom padding and by
+ * the sticky account bar. The shell stamps this class on itself when the brand asks for the `tabs`
+ * bar; the `classic` bar never declared the property and still does not, so nothing changes for the
+ * brands that ship it.
+ */
+.mobile-nav-tabs {
+  --mobile-menu-height: 58px;
+}
+
 svg {
   pointer-events: none;
 }

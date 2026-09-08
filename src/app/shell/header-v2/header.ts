@@ -12,6 +12,7 @@ import { FullscreenService } from '@app/@shared/services/fullscreen.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { BRAND } from '@app/@core/brand';
 import { HeaderDark } from './header-dark/header-dark';
+import { HeaderFloating } from './header-floating/header-floating';
 
 interface RouteWithLabel {
   path: string;
@@ -29,6 +30,7 @@ interface RouteWithLabel {
     ClickOutsideDirective,
     TranslateModule,
     HeaderDark,
+    HeaderFloating,
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
@@ -67,20 +69,33 @@ export class Header {
   brandLogoSize = this.brand.assets.logoSize;
 
   /** Which non-game nav the brand ships. Structure only: the colours come from the theme tokens. */
-  readonly isDarkHeader = this.brand.layout.header === 'dark';
+  readonly headerLayout = this.brand.layout.header;
 
   /**
-   * Classes of the bar itself. The two layouts share the geometry and `--color-surface-header`;
-   * only the dark layout trades the translucent blur for a hairline bottom border, and only
-   * outside game mode, whose nav is shared by both layouts.
+   * Classes of the bar itself. `brand-bar` and `dark` share the geometry and
+   * `--color-surface-header`, and only `dark` trades the translucent blur for a hairline bottom
+   * border. `floating` paints nothing at all: its own rounded bar carries the fill, so the page and
+   * the glow behind it read through the gutters around it, and the empty bar stops swallowing the
+   * clicks that belong to whatever scrolled underneath. Game mode is the same nav for every layout,
+   * so there the filled bar comes back.
    */
   readonly headerClasses = computed(() => {
     const base =
-      'fixed header-wrapper h-(--header-height-mobile) md:h-(--header-height-desktop) w-full flex justify-center z-40 bg-surface-header';
+      'fixed header-wrapper h-(--header-height-mobile) md:h-(--header-height-desktop) w-full flex justify-center z-40';
+    const filled = `${base} bg-surface-header`;
 
-    return this.isDarkHeader && !this.isGameMode()
-      ? `${base} border-b border-white/10`
-      : `${base} backdrop-blur-3xl bg-opacity-90`;
+    if (this.isGameMode()) {
+      return `${filled} backdrop-blur-3xl bg-opacity-90`;
+    }
+
+    switch (this.headerLayout) {
+      case 'dark':
+        return `${filled} border-b border-white/10`;
+      case 'floating':
+        return `${base} pointer-events-none`;
+      default:
+        return `${filled} backdrop-blur-3xl bg-opacity-90`;
+    }
   });
 
   goBack() {

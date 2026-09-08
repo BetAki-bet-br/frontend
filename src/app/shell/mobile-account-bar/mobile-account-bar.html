@@ -1,0 +1,12 @@
+<div
+  animate.enter="animate-slide-up"
+  animate.leave="animate-fade-out"
+  class="md:hidden fixed bottom-[var(--mobile-menu-height,58px)] left-0 right-0 z-39 flex gap-2 h-[57px] px-3 pt-3 pb-[13px] bg-gradient-to-b from-transparent to-shark-950 to-[45%]"
+>
+  <app-button variant="secondary" size="md" fullWidth class="flex-1" (click)="navigateTo('/auth/register')"
+    >Criar conta</app-button
+  >
+  <app-button variant="primary" size="md" fullWidth class="flex-1" (click)="navigateTo('/auth/login')"
+    >Entrar</app-button
+  >
+</div>

@@ -28,6 +28,8 @@ export class RoutingService {
   isProfile = signal(false);
   isPromotions = signal(false);
   isSearch = signal(false);
+  /** Login, registration and the e-mail link pages under `/auth`. */
+  isAuth = signal(false);
 
   /**
    * Bumped on every `NavigationEnd`. `isLinkActive` reads it so that OnPush
@@ -49,6 +51,7 @@ export class RoutingService {
         this.isIngame.set(event.urlAfterRedirects.startsWith('/game/'));
         this.isProfile.set(event.urlAfterRedirects.startsWith('/profile'));
         this.isPromotions.set(event.urlAfterRedirects.startsWith('/promotions'));
+        this.isAuth.set(event.urlAfterRedirects.startsWith('/auth'));
         // url is /game/search
         this.isSearch.set(event.urlAfterRedirects.includes('/search'));
         this.sidebarService.close();

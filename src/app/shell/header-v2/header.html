@@ -1,12 +1,19 @@
 <header [class]="headerClasses()">
-  @if (!isGameMode() && isDarkHeader) {
+  @if (!isGameMode() && headerLayout === 'dark') {
   <app-header-dark
     [isLoggedIn]="isLoggedIn()"
     [amount]="amount()"
     [isBalanceVisible]="isBalanceVisible()"
     (profileClick)="toggleProfileModal()"
   />
-  } @if (!isGameMode() && !isDarkHeader) {
+  } @if (!isGameMode() && headerLayout === 'floating') {
+  <app-header-floating
+    [isLoggedIn]="isLoggedIn()"
+    [amount]="amount()"
+    [isBalanceVisible]="isBalanceVisible()"
+    (profileClick)="toggleProfileModal()"
+  />
+  } @if (!isGameMode() && headerLayout === 'brand-bar') {
   <nav
     animate.enter="animate-enter-slide-down"
     animate.leave="animate-leave-slide-up"

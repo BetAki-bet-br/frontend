@@ -1,0 +1,285 @@
+<!--
+  md+: the rounded bar. 16px above it and 64px tall fills the 80px the brand declares for the
+  desktop header, so the outer bar keeps sizing from the tokens.
+-->
+<div class="hidden w-full px-6 md:block">
+  <nav
+    animate.enter="animate-enter-slide-down"
+    animate.leave="animate-leave-slide-up"
+    class="pointer-events-auto mt-4 flex h-16 flex-row items-center gap-3 rounded-2xl border border-white/5 bg-surface-header/80 pr-4 pl-5 backdrop-blur-md transition-opacity duration-300"
+  >
+    <a class="flex shrink-0 items-center" routerLink="/">
+      <img
+        [ngSrc]="brandLogo"
+        priority
+        alt="Logo"
+        [width]="brandLogoSize.width"
+        [height]="brandLogoSize.height"
+        class="h-[22px] w-auto"
+      />
+    </a>
+
+    @if (hasDesktopSidebar) {
+    <button
+      type="button"
+      aria-label="Alternar o menu lateral"
+      class="hidden h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white lg:flex"
+      (click)="toggleDesktopSidebar()"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-[18px] w-[18px]"
+        aria-hidden="true"
+      >
+        <rect x="3" y="4" width="18" height="16" rx="2" />
+        <path d="M9 4v16" />
+      </svg>
+    </button>
+    }
+
+    <div class="flex min-w-0 shrink items-center gap-1">
+      @for (item of productLinks; track item.path) {
+      <a
+        [routerLink]="item.path"
+        class="inline-flex h-8 items-center rounded-lg px-2.5 text-sm font-semibold whitespace-nowrap transition-colors hover:bg-white/[0.06]"
+        [class]="item.active() ? activeLinkClass : inactiveLinkClass"
+        >{{ item.label }}</a
+      >
+      } @if (hasSportsbook) {
+      <span class="mx-1.5 h-5 w-px shrink-0 bg-white/[0.16]" aria-hidden="true"></span>
+      <a
+        routerLink="/sportsbook"
+        class="inline-flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-sm font-semibold whitespace-nowrap transition-colors hover:bg-white/[0.06]"
+        [class]="isSportsbookActive() ? activeLinkClass : inactiveLinkClass"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-4 w-4"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 3a9 9 0 0 0 0 18M3 12h18" />
+        </svg>
+        Esportes
+      </a>
+      }
+    </div>
+
+    <div class="ml-auto flex shrink-0 flex-row items-center gap-2">
+      <button
+        type="button"
+        aria-label="Buscar jogos ou provedores"
+        [routerLink]="searchLink()"
+        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/[0.08] text-white transition-colors hover:bg-white/[0.16]"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-4 w-4"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="7" />
+          <path d="m20 20-3.5-3.5" />
+        </svg>
+      </button>
+
+      @if (isLoggedIn()) {
+      <button
+        type="button"
+        aria-label="Abrir o menu da conta"
+        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/[0.08] text-white transition-colors hover:bg-white/[0.16]"
+        (click)="profileClick.emit(); $event.stopPropagation()"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-4 w-4"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 20a8 8 0 0 1 16 0" />
+        </svg>
+      </button>
+
+      <div class="flex items-center rounded-lg bg-white p-0.75 sm:px-1">
+        @if (isBalanceVisible()) {
+        <span class="text-sm font-semibold text-nowrap text-black"
+          >R$ {{ (amount() | currency: 'BRL')?.slice(2) }}</span
+        >
+        } @else {
+        <span class="text-sm font-semibold text-black">R$ *****</span>
+        }
+
+        <button
+          class="ml-2 cursor-pointer rounded-button bg-action px-2 py-2 text-sm font-bold text-action-foreground transition-opacity duration-200 ease-in-out hover:opacity-80 md:px-2 md:py-2"
+          routerLink="/profile/wallet/deposit"
+        >
+          Depósito
+        </button>
+      </div>
+      } @else {
+      <button
+        type="button"
+        aria-label="Entrar na sua conta"
+        routerLink="/auth/login"
+        class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/[0.08] text-white transition-colors hover:bg-white/[0.16]"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-4 w-4"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="4" />
+          <path d="M4 20a8 8 0 0 1 16 0" />
+        </svg>
+      </button>
+
+      <app-button variant="secondary" size="md" (click)="navigateTo('/auth/register')">Criar conta</app-button>
+      <app-button variant="primary" size="md" (click)="navigateTo('/auth/login')">Entrar</app-button>
+      }
+    </div>
+  </nav>
+</div>
+
+<!--
+  Below md: a flat 44px bar. The two side groups share the leftover width evenly (`flex-1 basis-0`),
+  so the wordmark between them is centred on the screen whatever the actions hold.
+-->
+<div
+  animate.enter="animate-enter-slide-down"
+  animate.leave="animate-leave-slide-up"
+  class="pointer-events-auto flex h-full w-full flex-row items-center px-1 transition-opacity duration-300 md:hidden"
+>
+  <div class="flex flex-1 basis-0 items-center justify-start">
+    @if (isLoggedIn()) {
+    <button
+      type="button"
+      aria-label="Abrir o menu da conta"
+      class="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full text-white transition-colors hover:bg-white/[0.08]"
+      (click)="profileClick.emit(); $event.stopPropagation()"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-5 w-5"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 20a8 8 0 0 1 16 0" />
+      </svg>
+    </button>
+    } @else {
+    <button
+      type="button"
+      aria-label="Entrar na sua conta"
+      routerLink="/auth/login"
+      class="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full text-white transition-colors hover:bg-white/[0.08]"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-5 w-5"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 20a8 8 0 0 1 16 0" />
+      </svg>
+    </button>
+    }
+  </div>
+
+  <a class="flex min-w-0 shrink items-center justify-center" routerLink="/">
+    <img
+      [ngSrc]="brandMobileLogo"
+      alt="Logo"
+      [width]="brandLogoSize.width"
+      [height]="brandLogoSize.height"
+      class="h-4 w-auto max-w-full object-contain"
+    />
+  </a>
+
+  <div class="flex flex-1 basis-0 items-center justify-end gap-1">
+    @if (isLoggedIn()) {
+    <a
+      routerLink="/profile/wallet/deposit"
+      class="flex h-8 shrink items-center rounded-full bg-white/[0.08] px-3 text-xs font-bold text-nowrap text-white"
+    >
+      @if (isBalanceVisible()) { R$ {{ (amount() | currency: 'BRL')?.slice(2) }} } @else { R$ ***** }
+    </a>
+    } @else {
+    <button
+      type="button"
+      aria-label="Promoções"
+      routerLink="/promotions"
+      class="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full text-white transition-colors hover:bg-white/[0.08]"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-5 w-5"
+        aria-hidden="true"
+      >
+        <rect x="3" y="8" width="18" height="4" rx="1" />
+        <path d="M5 12v8h14v-8M12 8v12" />
+        <path d="M12 8c-2-3-6-3-6-1s3 1 6 1c3 0 6 1 6-1s-4-2-6 1" />
+      </svg>
+    </button>
+    }
+
+    <button
+      type="button"
+      aria-label="Buscar jogos ou provedores"
+      [routerLink]="searchLink()"
+      class="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full text-white transition-colors hover:bg-white/[0.08]"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-5 w-5"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </svg>
+    </button>
+  </div>
+</div>
