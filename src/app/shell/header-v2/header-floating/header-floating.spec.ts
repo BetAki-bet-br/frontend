@@ -57,6 +57,12 @@ describe('HeaderFloating', () => {
     it('leaves "Esportes" out of the bar', () => {
       expect(render({ isLoggedIn: false }).textContent).not.toContain('Esportes');
     });
+
+    it('fills the mobile bar with the glow colour, so it keeps a background once the glow scrolls away', () => {
+      const mobileBar = render({ isLoggedIn: false }).querySelector('[class*="md:hidden"]');
+
+      expect(mobileBar?.classList).toContain('bg-surface-header-glow');
+    });
   });
 
   describe('on a brand with a sportsbook', () => {

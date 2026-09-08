@@ -58,9 +58,8 @@ export class ShellComponent {
   readonly hasTabsNav = this.brand.layout.mobileNav === 'tabs';
 
   /**
-   * Whether the sticky account bar is on screen. It is also what pads the content, so the two can
-   * never disagree; game mode is already excluded by the block that mounts it. The auth pages are
-   * the two actions themselves, so the bar stays out of them.
+   * Whether the sticky account bar is on screen. Game mode is already excluded by the block that
+   * mounts it. The auth pages are the two actions themselves, so the bar stays out of them.
    */
   readonly showMobileAccountBar = computed(
     () =>
@@ -69,6 +68,21 @@ export class ShellComponent {
       !this.fullscreenService.isFullscreen() &&
       !this.routingService.isAuth(),
   );
+
+  /** The mobile chrome (sidebar, menu, account bar) stays out of the sportsbook and of a game. */
+  readonly showMobileChrome = computed(() => !this.routingService.isSportsbook() && !this.routingService.isIngame());
+
+  /** Whether the footer follows the routed page; the profile and promotions pages end on their own. */
+  readonly showFooter = computed(
+    () => this.showMobileChrome() && !this.routingService.isProfile() && !this.routingService.isPromotions(),
+  );
+
+  /**
+   * Whether the container itself keeps the account bar off the routed page. The footer already
+   * reserves that clearance in its last row, so padding the container as well would only open a
+   * gap between a short page and the footer: the container pads only when nothing follows it.
+   */
+  readonly padsForMobileAccountBar = computed(() => this.showMobileAccountBar() && !this.showFooter());
 
   loyaltyPoints$ = this.playerService.loyaltyStatusSub$;
   balance$ = this.playerService.balanceSub$;

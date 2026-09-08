@@ -19,9 +19,10 @@ interface HeaderProductLink {
  *
  * Above `md` it is a rounded bar sitting over the page with 24px of gutter on each side, filled with
  * a translucent `--color-surface-header` and blurred, so the glow the shell paints behind the page
- * reads around it. Below `md` the same bar goes flat and transparent: the account icon on the left,
- * the wordmark centred between two equal halves, promotions (or the balance) and search on the
- * right.
+ * reads around it. Below `md` the same bar goes flat, edge to edge, filled with
+ * `--color-surface-header-glow` so it merges with the glow at the top of the page and still has a
+ * background once the glow has scrolled away: the account icon on the left, the wordmark centred
+ * between two equal halves, promotions (or the balance) and search on the right.
  *
  * As in `HeaderDark`, the `<header>` bar itself, the game-mode nav and the shared state (auth,
  * balance, profile modal) stay in the parent `Header`; this component only paints the brand's own

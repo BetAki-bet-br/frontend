@@ -166,12 +166,14 @@
 
 <!--
   Below md: a flat 44px bar. The two side groups share the leftover width evenly (`flex-1 basis-0`),
-  so the wordmark between them is centred on the screen whatever the actions hold.
+  so the wordmark between them is centred on the screen whatever the actions hold. It carries its
+  own fill, the top colour of the glow: at the top of the page the two are one surface, and once
+  the glow scrolls away the fixed bar keeps a background over the content instead of going see-through.
 -->
 <div
   animate.enter="animate-enter-slide-down"
   animate.leave="animate-leave-slide-up"
-  class="pointer-events-auto flex h-full w-full flex-row items-center px-1 transition-opacity duration-300 md:hidden"
+  class="pointer-events-auto flex h-full w-full flex-row items-center bg-surface-header-glow px-1 transition-opacity duration-300 md:hidden"
 >
   <div class="flex flex-1 basis-0 items-center justify-start">
     @if (isLoggedIn()) {

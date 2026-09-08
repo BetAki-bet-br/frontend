@@ -74,10 +74,11 @@ export class Header {
   /**
    * Classes of the bar itself. `brand-bar` and `dark` share the geometry and
    * `--color-surface-header`, and only `dark` trades the translucent blur for a hairline bottom
-   * border. `floating` paints nothing at all: its own rounded bar carries the fill, so the page and
-   * the glow behind it read through the gutters around it, and the empty bar stops swallowing the
-   * clicks that belong to whatever scrolled underneath. Game mode is the same nav for every layout,
-   * so there the filled bar comes back.
+   * border. `floating` paints nothing at all: its own bars carry the fill (the rounded one above
+   * `md`, the flat one below), so on desktop the page and the glow behind it read through the
+   * gutters around the bar, and the empty wrapper stops swallowing the clicks that belong to
+   * whatever scrolled underneath. Game mode is the same nav for every layout, so there the filled
+   * bar comes back.
    */
   readonly headerClasses = computed(() => {
     const base =
