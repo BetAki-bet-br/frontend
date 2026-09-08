@@ -160,3 +160,15 @@
   // Brand colour of the full-page loader (`app-loading`) and of the inline loading bar.
   --color-brand-spinner: #a21caf;
 }
+
+/*
+ * Opcional: barra de rolagem com a cara da marca, na página e nas sidebars (classe
+ * `themed-scrollbar`). Sem isto fica a barra do sistema. Para ligar, adicione no topo do arquivo
+ * `@use "theme/scrollbar" as scrollbar;` e descomente:
+ *
+ * @include scrollbar.themed(
+ *   $thumb: var(--color-shark-600),
+ *   $track: var(--color-surface-header),
+ *   $thumb-hover: var(--color-shark-500)
+ * );
+ */

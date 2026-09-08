@@ -9,6 +9,8 @@
  * Loaded by `src/main.scss` through the brand include path, after `@use "tailwindcss"`.
  */
 
+@use "theme/scrollbar" as scrollbar;
+
 @theme {
   --breakpoint-xs: 30rem;
 
@@ -146,3 +148,15 @@
   // Brand colour of the full-page loader and of the inline loading bar.
   --color-brand-spinner: #e145ff;
 }
+
+/*
+ * A barra de rolagem da página e a das sidebars, pintadas com o roxo-preto da marca: trilha na cor
+ * do header, polegar no cinza da rampa, um tom mais claro sob o mouse. Sem isto a barra da sidebar
+ * sai como a clássica cinza do sistema, e a da página como a fina do Chrome: duas barras diferentes
+ * na mesma tela.
+ */
+@include scrollbar.themed(
+  $thumb: var(--color-shark-600, #595959),
+  $track: var(--color-surface-header, #050013),
+  $thumb-hover: var(--color-shark-500, #727272)
+);

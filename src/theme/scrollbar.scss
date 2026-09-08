@@ -1,0 +1,58 @@
+/*
+ * Barra de rolagem com a cara da marca.
+ *
+ * Por padrão o browser desenha a barra da página e a de um contêiner interno de jeitos diferentes:
+ * no Chrome do Windows a da raiz é fina e sobreposta, a de um `overflow: auto` é a clássica cinza.
+ * Numa sidebar escura a clássica salta aos olhos. O mixin pinta as duas com os mesmos tokens, então
+ * elas ficam iguais por construção e não por coincidência do sistema.
+ *
+ * É opt-in por marca: quem quer, inclui no `brand-theme.scss`. A BetAki não inclui e continua com a
+ * barra do sistema. Os contêineres internos entram pela classe `themed-scrollbar`; a raiz entra
+ * sozinha.
+ *
+ * Chrome e Safari usam os pseudo-elementos `::-webkit-scrollbar` (largura, canto arredondado).
+ * Firefox não os tem e lê `scrollbar-color` / `scrollbar-width`, declarados só para ele: no Chrome
+ * essas duas propriedades, quando definidas, desligam os pseudo-elementos.
+ */
+
+@mixin themed($thumb, $track, $thumb-hover: $thumb, $size: 0.5rem, $radius: 999px) {
+  :root,
+  .themed-scrollbar {
+    // Só onde não há pseudo-elementos (Firefox): no Chrome, `scrollbar-color` definido faz o browser
+    // ignorar os `::-webkit-scrollbar` abaixo e voltar à barra fina do sistema.
+    @supports not selector(::-webkit-scrollbar) {
+      scrollbar-width: thin;
+      scrollbar-color: #{$thumb} #{$track};
+    }
+
+    &::-webkit-scrollbar {
+      width: $size;
+      height: $size;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: $track;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $thumb;
+      border-radius: $radius;
+
+      // Uma borda da cor da trilha afasta o polegar das bordas, como o Chrome faz na barra sobreposta.
+      border: 2px solid $track;
+      background-clip: padding-box;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: $thumb-hover;
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+
+    &::-webkit-scrollbar-corner {
+      background: $track;
+    }
+  }
+}
