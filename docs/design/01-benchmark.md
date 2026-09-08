@@ -37,6 +37,7 @@
 - **Stake (mobile):** barra inferior com 5 itens (Navegar, Cassino, Promoções, Esportes, Suporte); destaques como cards com valor e prazo; busca larga acima dos chips.
 - **KTO (mobile):** botões "Entrar" e "Registrar" em linha, largura total, logo abaixo do header; selos regulatórios dentro da arte do banner; título de seção com frase editorial.
 - **Superbet (mobile):** barra sticky "Registre-se / Entrar" acima da barra inferior; ícones circulares de atalho (Promoções, Virtuais, ...) que lembram os tiles Cupom/Promo da v1.
+- **Superbet (desktop e mobile, levantamento completo em `docs/superbet/01-levantamento-marca.md`, 2026-09-08):** header flutuante de 64 px com cantos de 16 px sobre um brilho na cor do produto; troca Esportes/Cassino que recolore o chrome inteiro (vermelho → magenta) sem mudar o layout; sidebar de 240 px com itens em pílula; tiles retrato 130×162 com nome abaixo; top 10 com numerais gigantes; título de seção em Roboto Flex caixa alta com "Ver tudo" na cor clara; menu inferior de 5 itens em que o último é a troca de produto.
 - **Betano (desktop):** "Mais premiados / Menos premiados" em lista com percentual; contadores de jogos nas categorias da sidebar.
 
 ## 4. Backlog de layout (ordem sugerida, depois da trilha A)
@@ -54,6 +55,10 @@
 | L9 | Mobile: header enxuto, CTA de conta na barra inferior, 5 itens, ícone da marca, grade 4 por linha | `shell/mobile-menu`, `sidebar-mobile`, `game-list` | não | pendente |
 | L10 | Diálogo único de entrada (idade + cookies) no layout da v1 | `age-confirmation-dialog`, `cookie-consent-dialog` | não | pendente |
 | L11 | Rodapé regulatório completo via `BRAND.legal` e footer do CMS | `shell/footer-v2`, `BrandConfig.legal` | sim: footer com grupos | pendente |
+| L12 | Header flutuante: barra arredondada da largura do conteúdo sobre um gradiente da cor da marca (Superbet) | `shell/header-v2/header-dark`, token `--color-surface-header-glow` | não | pendente |
+| L13 | Barra fixa de conta no mobile (Registre-se / Entrar em pílulas iguais) acima do menu inferior, some logado (Superbet, KTO) | `shell/mobile-menu`, `header-dark` | não | pendente |
+| L14 | Atalhos circulares com arte por categoria abaixo do hero e fileira "Top 10" com numerais na cor da marca (Superbet) | `game-filter-list`, novo `top-ten-row` | sim: `meta.icon` nas categorias, categoria `top-10` | pendente |
+| L15 | Troca de produto (Cassino/Esportes) que troca a família de cor do chrome por rota (Superbet) | `BrandConfig.layout`, tokens semânticos por produto | não | pendente |
 
 Critério de pronto de cada item: screenshot da label GirosBet ao lado do screenshot correspondente da v1 nas duas larguras, e o build do BetAki inalterado (o BetAki continua com o layout atual através dos seus próprios tokens e menus).
 
@@ -63,4 +68,4 @@ Decisão de 2026-09-03 (Vinícius): as superfícies ficam com os tokens roxo-pre
 
 - Nossa label: `docs/girosbet/screenshots/girosbet-{home,live,category,providers,login,mobile-home}.png`.
 - girosbet.io v1: capturas Puppeteer de 2026-09-03 (desktop 1440×900 e mobile 390×844) e sessão no Chrome (`docs/girosbet/01-levantamento-marca.md`).
-- Referências: Stake, KTO, Superbet (mobile via Puppeteer), Betano (desktop via Chrome). Estrela Bet e Blaze bloqueados pela extensão.
+- Referências: Stake, KTO, Superbet (mobile via Puppeteer em 03/09; desktop 1920 px e mobile 320 px via Chrome em 08/09, ver `docs/superbet/01-levantamento-marca.md`), Betano (desktop via Chrome). Estrela Bet e Blaze bloqueados pela extensão.
