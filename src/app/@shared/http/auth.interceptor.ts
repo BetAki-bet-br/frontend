@@ -8,7 +8,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthenticationService);
   const token = credentialsService.credentials?.sessionKey;
 
-  if (token && !req.url.includes('logout')) {
+  // O logout leva o Bearer como qualquer outra chamada: é justamente o token que ele manda
+  // revogar. Enquanto ele saía sem cabeçalho (sobra da integração com a Comtrade, que encerrava
+  // a sessão de outro jeito), o backend da casa respondia 401 e nada era revogado: a sessão e o
+  // token de jogo continuavam valendo depois de o jogador sair pelo menu.
+  if (token) {
     req = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
@@ -19,6 +23,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       console.error('HTTP Error:', error);
+      // Aqui a exclusão do logout continua fazendo sentido: um 401 na própria revogação não pode
+      // disparar outro logout, ou o app entra em laço.
       if (
         token &&
         !req.url.includes('logout') &&
