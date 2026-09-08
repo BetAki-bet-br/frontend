@@ -52,7 +52,13 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
 - `layout` — que chrome a marca usa. `header: 'brand-bar'` é a barra colorida com links de texto
   (BetAki); `header: 'dark'` é o header escuro com o alternador Cassino/Ao vivo, busca embutida e
   CTA (GirosBet). `desktopSidebar: true` liga a sidebar de desktop com os blocos do CMS. É
-  estrutura, não cor — a cor vem dos tokens do `brand-theme.scss`.
+  estrutura, não cor — a cor vem dos tokens do `brand-theme.scss`. Desde a WL-9 há mais quatro
+  chaves opcionais, todas com o chrome de hoje como padrão: `header: 'floating'` (barra arredondada
+  flutuando sobre um brilho na cor da marca, links de produto, lupa e conta em botões-ícone),
+  `sidebarStyle: 'pills'` (só os menus do CMS, em pílulas, sem banner nem tiles), `footer:
+  'regulatory'` (logo, jogo responsável e selos antes das colunas), `mobileNav: 'tabs'` (cinco
+  itens planos; o último é Esportes com sportsbook, senão Menu) e `mobileAccountBar: true` (Criar
+  conta e Entrar fixos acima do menu inferior). Juntas são o shell da Superbet.
 - `gateways` — não deixe o objeto simples que o template traz: use `brandEnv({ dev, prod, demo })`
   como a girosbet, um adapter por porta. O build de produção recusa o adapter `demo`, e a
   configuração `<slug>-demo` (passo 6) só existe por causa do slot `demo`. O mesmo slot vale para
@@ -93,6 +99,11 @@ por PowerShell ou `WriteAllText`, que preservam CRLF).
   `--color-button-secondary*`, `--color-button-outline-text`, `--color-danger`, `--radius-button`)
   são o que `<app-button>` e o header pintam. Responda a eles e os botões da marca ficam certos sem
   tocar em nenhuma classe de `src/`.
+- Os quatro tokens da WL-9 (`--color-surface-header-glow`, `--color-nav-active`,
+  `--color-nav-active-fill`, `--color-surface-nav-mobile`) são o que o header `floating`, a sidebar
+  `pills` e o menu `tabs` pintam. Toda marca declara os quatro, mesmo sem usar esses layouts; o
+  template traz valores coerentes com o placeholder. Uma marca com header `floating` também sobe
+  `--header-height-desktop` para 80px (64 de barra + 16 acima) e `--header-height-mobile` para 44px.
 - O bloco `@theme static` do fim do arquivo existe porque o Tailwind faz tree-shaking das
   variáveis de `@theme` que nenhuma classe utilitária usa. `--color-brand-spinner` só é lido por
   SCSS de componente (que o Tailwind não escaneia), então precisa ficar lá para chegar ao `:root`.

@@ -54,11 +54,11 @@
 | L8 | Páginas internas sem hero; título à esquerda | `games-list-page`, `*-category-page` | não | pendente |
 | L9 | Mobile: header enxuto, CTA de conta na barra inferior, 5 itens, ícone da marca, grade 4 por linha | `shell/mobile-menu`, `sidebar-mobile`, `game-list` | não | pendente |
 | L10 | Diálogo único de entrada (idade + cookies) no layout da v1 | `age-confirmation-dialog`, `cookie-consent-dialog` | não | pendente |
-| L11 | Rodapé regulatório completo via `BRAND.legal` e footer do CMS | `shell/footer-v2`, `BrandConfig.legal` | sim: footer com grupos | pendente |
-| L12 | Header flutuante: barra arredondada da largura do conteúdo sobre um gradiente da cor da marca (Superbet) | `shell/header-v2/header-dark`, token `--color-surface-header-glow` | não | pendente |
-| L13 | Barra fixa de conta no mobile (Registre-se / Entrar em pílulas iguais) acima do menu inferior, some logado (Superbet, KTO) | `shell/mobile-menu`, `header-dark` | não | pendente |
+| L11 | Rodapé regulatório completo via `BRAND.legal` e footer do CMS | `shell/footer-v2`, `BrandConfig.legal` | sim: footer com grupos | ✅ feito (WL-9, `layout.footer: 'regulatory'`; a superbet usa, betaki e girosbet seguem com o rodapé de colunas) |
+| L12 | Header flutuante: barra arredondada da largura do conteúdo sobre um gradiente da cor da marca (Superbet) | `shell/header-v2/header-dark`, token `--color-surface-header-glow` | não | ✅ feito (WL-9, `layout.header: 'floating'` + token `--color-surface-header-glow`; o brilho rola com a página, a barra fica) |
+| L13 | Barra fixa de conta no mobile (Registre-se / Entrar em pílulas iguais) acima do menu inferior, some logado (Superbet, KTO) | `shell/mobile-menu`, `header-dark` | não | ✅ feito (WL-9, `layout.mobileAccountBar`; some logado e nas rotas de autenticação) |
 | L14 | Atalhos circulares com arte por categoria abaixo do hero e fileira "Top 10" com numerais na cor da marca (Superbet) | `game-filter-list`, novo `top-ten-row` | sim: `meta.icon` nas categorias, categoria `top-10` | pendente |
-| L15 | Troca de produto (Cassino/Esportes) que troca a família de cor do chrome por rota (Superbet) | `BrandConfig.layout`, tokens semânticos por produto | não | pendente |
+| L15 | Troca de produto (Cassino/Esportes) que troca a família de cor do chrome por rota (Superbet) | `BrandConfig.layout`, tokens semânticos por produto | não | parcial (WL-9): o quinto item do menu `tabs` e o link do header viram Esportes quando a marca declara `integrations.sportsbook`; a troca de família de cor por rota continua pendente |
 
 Critério de pronto de cada item: screenshot da label GirosBet ao lado do screenshot correspondente da v1 nas duas larguras, e o build do BetAki inalterado (o BetAki continua com o layout atual através dos seus próprios tokens e menus).
 

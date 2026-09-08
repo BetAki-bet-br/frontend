@@ -221,6 +221,70 @@ publicando uma versão nova da lib.
 - Pendências do ambiente, não do código: `assets/icons/play-icon.svg` ("Crash Games") é preto e some no fundo
   escuro; o CORS do backoffice local só aceita as origens 4200/8080.
 
+### O que WL-9 mudou
+
+- `layout.sidebarStyle` decide a pele da sidebar desktop. `blocks` (padrão, girosbet) continua sendo a
+  coluna escura com o banner do CMS, os tiles Cupom/Promo e os menus agrupados. `pills` (superbet) apaga
+  fundo e borda direita da `<aside>`, não pede o banner ao CMS e não desenha os tiles: sobram os mesmos
+  menus agrupados, agora em pílulas de 40 px (`h-10 rounded-full px-3`, ícone de 20 px, rótulo truncado).
+  Largura, offset sticky (`--header-height-desktop`), rolagem e o trilho colapsado de 64 px são os mesmos
+  nas duas peles.
+- O item ativo da pele `pills` é o primeiro consumidor dos tokens de navegação: `text-nav-active` sobre
+  `bg-linear-to-r from-nav-active-fill from-56% to-transparent`. As três marcas declaram os dois tokens,
+  então o mesmo markup se pinta sozinho em cada uma. O destaque da entrada de fidelidade
+  (`features.highlightedMenuLabels`) e o spinner de carregamento não mudaram.
+- `layout.footer` decide a composição do rodapé. `columns` (padrão, betaki e girosbet) é o empilhamento
+  clássico. `regulatory` (superbet) recompõe os mesmos dados em uma grade de cinco colunas
+  (`lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]`) sobre `bg-shark-950`: marca, texto de jogo responsável e a
+  fileira de selos à esquerda; as colunas de link e Pagamentos à direita; embaixo o parágrafo regulatório
+  e uma linha final com as redes sociais, o copyright, Ouvidoria/Privacidade e o wordmark grande a 30 %
+  de opacidade. Nenhum dado novo: `linkColumns`, `socialIcons`, `certificationImages`, `supportOptions`,
+  `sponsors`, `legal.disclaimer` e `assets.logoColor` são os de sempre.
+- O respiro inferior do rodapé no mobile passou a depender de `layout.mobileAccountBar`: 88 px para quem
+  só tem o menu inferior, 145 px para quem tem a barra fixa de conta de 57 px acima dele.
+- Os dois componentes ficaram sem `class` estático nos elementos que mudam de pele: a classe inteira é
+  concatenada em um `[class]`, o que deixa a string renderizada idêntica à de hoje para a pele padrão.
+  Prova: 0 pixels de diferença na faixa da sidebar da girosbet (260 x 900) contra a baseline, e o diff de
+  CSS das duas marcas antigas só acusa regras novas mais as custom properties de tema.
+- Fica de fora: a marca de referência não declara redes sociais nem patrocinadores, então a linha de
+  ícones sociais e o bloco de patrocínio do rodapé `regulatory` existem no template mas não aparecem na
+  superbet.
+- `layout.header` deixou de ser um booleano: o header pai escolhe entre `brand-bar`, `dark` e `floating`, e
+  as duas peles antigas produzem exatamente a mesma string de classes de antes. Fora do jogo, o `floating`
+  não pinta barra nenhuma (sem `bg-surface-header`, sem blur, sem borda) e ainda desliga os eventos de
+  ponteiro na faixa vazia, para que a página apareça nas laterais e o clique caia em quem está embaixo. No
+  modo jogo as três peles voltam à barra cheia de sempre, porque a navegação de jogo é a mesma nas três.
+- `app-header-floating` tem o host em `display: contents` e as mesmas entradas e saídas do
+  `app-header-dark`. Acima de `md` é uma barra arredondada de 64 px com 16 px acima e 24 px de gutter,
+  `bg-surface-header/80` com `backdrop-blur-md` e borda `white/5`; dentro, o logo de 22 px, o botão da
+  sidebar desktop quando a marca a declara, os links de produto em 14/600 com o ativo em `text-nav-active`,
+  um separador de 1 px e "Esportes" só quando existe `integrations.sportsbook`, e à direita busca e conta
+  como botões redondos de 32 px mais os dois CTAs em `<app-button>` (ou o bloco de saldo + Depósito quando
+  logado). Abaixo de `md` é uma barra de 44 px transparente: conta à esquerda, wordmark centrado entre duas
+  metades de largura igual (`flex-1 basis-0`), promoções (ou a pílula de saldo, quando logado) e busca à
+  direita. Todos os ícones são SVG inline na grade de 24 em `currentColor`, nenhum arquivo de marca novo.
+- O brilho do `floating` é da página e não da barra: um gradiente de 240 px `from-surface-header-glow`
+  montado pelo shell no topo do `main-container` (`-z-10`, sem eventos de ponteiro), que rola junto com o
+  conteúdo enquanto a barra fica parada, como na superbet.bet.br. O container só vira contexto de
+  empilhamento (`relative z-0`) para essa marca; betaki e girosbet não ganham nem o div nem as classes,
+  porque tudo entra por `[ngClass]`.
+- `layout.mobileNav` decide o menu inferior. `classic` (betaki, girosbet) é o mesmo markup de sempre, agora
+  no ramo `@else`. `tabs` (superbet) é uma barra de 58 px em `bg-surface-nav-mobile` com borda superior
+  `white/5` e cinco itens planos de ícone 20 px e rótulo 11/400, ativo em branco e inativos em branco 56 %:
+  Início, Jogos, Ao vivo, Promoções e, como quinto, a troca de produto (Esportes quando a marca integra um
+  sportsbook, senão Menu, que abre a gaveta com os menus do CMS).
+- `layout.mobileAccountBar` monta `app-mobile-account-bar` logo acima do menu inferior enquanto o jogador
+  está deslogado: 57 px, dois `<app-button>` em metades (Criar conta e Entrar) sobre um gradiente que
+  dissolve no fundo da página. Quem decide se ela existe é o shell, porque a mesma resposta acrescenta o
+  respiro de 57 px no conteúdo; some sozinha quando o jogador entra.
+- `--mobile-menu-height` ganhou casa: a classe `.mobile-nav-tabs`, que o shell carimba em si mesmo quando a
+  marca pede `tabs`, declara os 58 px que a sidebar mobile e a barra de conta leem. As marcas `classic`
+  continuam sem a propriedade, exatamente como antes.
+- Ficou em aberto: a barra fixa de conta também aparece sobre as telas claras de login e de promoções, onde
+  o gradiente escuro destoa; e o `app-ghost-color-layer` do lobby continua espalhando manchas da cor da
+  marca por trás do brilho, o que deixa o fundo da superbet mais avermelhado que o do canvas de referência.
+  Os dois estão fora dos arquivos desta parte.
+
 ## 4. Critérios de aceite globais
 
 1. `npm run build:betaki` produz a mesma UI de hoje (CSS diff só com renomes; screenshots iguais).
