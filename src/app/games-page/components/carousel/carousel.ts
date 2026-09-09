@@ -145,10 +145,14 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
         height: '100%',
       };
 
+      // A geometria de antes de abril de 2026. Naquele mês o slide cresceu para 1920/800 e os
+      // vizinhos ficaram inteiros à vista, sem desfoque, para os avisos de encerramento da BetAki
+      // caberem legíveis; passado o aviso, o lobby volta ao slide baixo, com os vizinhos espiando
+      // pelas bordas e os mais distantes escondidos.
       if (isSmall) {
         style['transform'] = `translateX(${offset * 100}%)`;
         style['filter'] = 'blur(0)';
-        style['opacity'] = 1;
+        style['opacity'] = absOffset === 0 ? 1 : 0;
         style['visibility'] = absOffset <= 1 ? 'visible' : 'hidden';
       } else {
         if (offset === 0) {
@@ -156,15 +160,14 @@ export class CarouselComponent implements OnInit, OnDestroy, OnChanges {
           style['opacity'] = 1;
           style['filter'] = 'blur(0)';
         } else if (offset === -1) {
-          style['transform'] = 'translateX(-70%) scale(0.6)';
-          style['opacity'] = 1;
+          style['transform'] = 'translateX(-40%) scale(0.6)';
         } else if (offset === 1) {
-          style['transform'] = 'translateX(70%) scale(0.6)';
-          style['opacity'] = 1;
+          style['transform'] = 'translateX(40%) scale(0.6)';
         } else {
-          style['transform'] = `translateX(${Math.sign(offset) * 130}%) scale(0.5)`;
-          style['opacity'] = 1;
-          style['filter'] = 'blur(0)';
+          style['transform'] = `translateX(${Math.sign(offset) * 50}%) scale(0.5)`;
+          style['opacity'] = 0;
+          style['filter'] = 'blur(5px)';
+          style['pointer-events'] = 'none';
         }
       }
       return style;
