@@ -13,6 +13,7 @@
     "start:girosbet": "npm run write:env -s && ng serve --configuration=girosbet --proxy-config proxy.conf.js --host 0.0.0.0",
     "build:girosbet": "npm run write:env -s && ng build --configuration=production,girosbet",
     "build:girosbet-demo": "npm run write:env -s && ng build --configuration=production,girosbet-demo",
+    "build:girosbet-house": "npm run write:env -s && ng build --configuration=production,girosbet-house",
     "start:superbet": "npm run write:env -s && ng serve --configuration=superbet --proxy-config proxy.conf.js --host 0.0.0.0",
     "build:superbet": "npm run write:env -s && ng build --configuration=production,superbet",
     "build:superbet-demo": "npm run write:env -s && ng build --configuration=production,superbet-demo",

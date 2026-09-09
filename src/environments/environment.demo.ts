@@ -11,6 +11,8 @@
 export const environment = {
   production: true,
   showcase: true,
+  /** See `environment.ts`. The demo has no backend at all, house or otherwise. */
+  house: false,
   version: 1.0,
   API_BASE_PATH: '',
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',

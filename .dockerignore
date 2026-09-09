@@ -1,0 +1,15 @@
+# The build context is the whole tree minus what is local, heavy, or another brand's.
+# `dist/girosbet-house` is the exception: it is what the default target copies.
+node_modules
+.angular
+.git
+.husky
+.vscode
+.idea
+cypress
+lighthouse_reports
+reports
+.lighthouseci
+dist
+!dist/girosbet-house
+*.log

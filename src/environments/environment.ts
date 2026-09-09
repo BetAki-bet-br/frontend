@@ -13,6 +13,11 @@ export const environment = {
    * `docs/white-label/04-demo-deploy.md`.
    */
   showcase: false,
+  /**
+   * A build for the house's own install: the site, the CMS and the house backend on one origin.
+   * Only `environment.house.ts` turns it on. See `deploy/subiu/` in the backend-gateway repo.
+   */
+  house: false,
   version: env['npm_package_version'] + '-dev',
   API_BASE_PATH: '',
   API_GEOLOCATION_PATH: 'https://ipapi.co/json/',
