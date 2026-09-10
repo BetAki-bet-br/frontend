@@ -28,7 +28,12 @@ import { FullscreenService } from '@app/@shared/services/fullscreen.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   // `--mobile-menu-height` is declared for the `tabs` bar only (see `src/theme/theme.scss`): the
   // classic bar never had the property, and the mobile sidebar keeps reading whatever it finds.
-  host: { '[class.mobile-nav-tabs]': 'hasTabsNav' },
+  // The second class gives the account bar its height, and with it the bottom inset that the
+  // bottom sheets of the games pages reserve, only while the bar is really on screen.
+  host: {
+    '[class.mobile-nav-tabs]': 'hasTabsNav',
+    '[class.mobile-account-bar-visible]': 'showMobileAccountBar()',
+  },
   imports: [Header, RouterOutlet, Footer, MobileMenu, MobileAccountBar, SidebarMobile, Loading, InlineLoading, NgClass],
 })
 export class ShellComponent {

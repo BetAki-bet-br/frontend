@@ -78,6 +78,22 @@ app-root {
   --mobile-menu-height: 58px;
 }
 
+/*
+ * Bottom chrome of the shell: how much of the viewport the fixed bars take away from a page that
+ * rises from the bottom edge. Declared on the shell itself, so it resolves with that element's own
+ * menu height (the `tabs` bar above, the `classic` bar through the fallback), and read by the
+ * sheets of the games pages so their call to action ends above whatever bars are on screen. The
+ * account bar only counts while the shell mounts it, which is the same class that gives it height.
+ */
+app-shell {
+  --mobile-account-bar-height: 0px;
+  --shell-bottom-inset: calc(var(--mobile-menu-height, 55.5px) + var(--mobile-account-bar-height));
+
+  &.mobile-account-bar-visible {
+    --mobile-account-bar-height: 57px;
+  }
+}
+
 svg {
   pointer-events: none;
 }

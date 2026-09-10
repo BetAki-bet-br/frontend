@@ -10,7 +10,8 @@ import { ButtonComponent } from '@app/@shared/components/button/button.component
  * Whether it is mounted at all is the shell's decision (brand option, session and game mode), which
  * is also what pads the content underneath, so this component only paints the bar. It sits on the
  * bottom navigation's height, read from `--mobile-menu-height` with the `tabs` height as the
- * fallback, and fades from transparent into the page background so the content scrolling behind it
+ * fallback, takes its own height from `--mobile-account-bar-height` (the same value the shell pads
+ * the content with and the bottom sheets reserve, declared in `src/theme/theme.scss`), and fades from transparent into the page background so the content scrolling behind it
  * dissolves instead of being cut.
  */
 @Component({

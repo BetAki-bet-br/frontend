@@ -14,7 +14,7 @@
   class="main-container pt-(--header-height-mobile)! md:pt-(--header-height-desktop)!"
   [ngClass]="{
     'relative z-0': hasFloatingHeader,
-    'pb-[57px] md:pb-0': padsForMobileAccountBar(),
+    'pb-(--mobile-account-bar-height) md:pb-0': padsForMobileAccountBar(),
   }"
 >
   @if (hasFloatingHeader) {
