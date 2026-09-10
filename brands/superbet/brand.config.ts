@@ -15,6 +15,18 @@ import type { BrandConfig } from '@app/@core/brand/brand-config';
 
 const SEO_TITLE = 'Superbet | Cassino Online, Slots e Jogos ao Vivo';
 
+/**
+ * The brand's key on the house backend, used by the `house` build (`environment.house.ts`).
+ *
+ * A brand key in a browser app was never a secret: it travels on every request and it is in the
+ * bundle. What an install wants is a key of *its own* rather than the development one, and that one
+ * enters at build time: the frontend's `Dockerfile` rewrites this value with the key generated on
+ * the server (`SUPERBET_BRAND_API_KEY`; see `deploy/subiu/` in the backend-gateway repo). Without
+ * Docker the build keeps the development key, which is the one the gateway's
+ * `appsettings.Development.json` already ships.
+ */
+const HOUSE_BRAND_API_KEY = 'dev-superbet-key';
+
 export const BRAND_CONFIG: BrandConfig = {
   slug: 'superbet',
   name: 'Superbet',
@@ -61,6 +73,7 @@ export const BRAND_CONFIG: BrandConfig = {
       dev: 'dev-superbet-key',
       prod: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
       demo: 'e3d8ca29-c8a4-40c1-9246-94887777ed6a',
+      house: HOUSE_BRAND_API_KEY,
     }),
     // TODO(superbet): placeholder, replace with Superbet credentials
     gamesThumbsBaseUrl: 'https://pp-assets.icbkiassets.com/cmslibrary/bki/assets/general/gamethumbnails',
@@ -182,6 +195,20 @@ export const BRAND_CONFIG: BrandConfig = {
       messages: 'comtrade',
       content: 'comtrade',
       bonus: 'comtrade',
+    },
+    // The house install: all seven ports on the house backend, served from the same origin under
+    // `/gateway`, with the CMS under `/backoffice`. This is what `environment.house.ts` selects,
+    // and it is what the second instance on the home server runs (`deploy/subiu/` in the
+    // backend-gateway repo). Without this block `house` would fall back to `prod` and the brand
+    // would talk to the vendor's PortalGateway, which this reference skin has no account on.
+    house: {
+      auth: 'house',
+      player: 'house',
+      games: 'house',
+      wallet: 'house',
+      messages: 'house',
+      content: 'house',
+      bonus: 'house',
     },
     // The published demo runs on nobody's backend: accounts, balance, games and the statement
     // are all invented in the browser. provideGateways() only allows this because

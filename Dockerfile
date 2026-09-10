@@ -19,10 +19,20 @@
 # `brands/girosbet/brand.config.ts`). In a browser app it is not a secret, since it travels on
 # every request, but each install has its own, and this is where the install's key enters the
 # bundle.
+#
+# `BRAND` is which brand this image serves, and it is the only difference between two instances of
+# the same product standing side by side: it picks the `dist/<brand>-house/` that is copied in, the
+# `brand.config.ts` whose key is rewritten, and how the development key is spelled inside the
+# bundle. Everything else, nginx included, is the same file for every brand.
+#
+#   docker build --build-arg BRAND=superbet --build-arg HOUSE_BRAND_API_KEY=... -t superbet-web .
 
 # --------------------------------------------------------------------------------- source
 # The full build, from scratch. Not the default target; see the header.
+ARG BRAND=girosbet
+
 FROM node:22 AS build
+ARG BRAND
 WORKDIR /app
 
 # `postinstall` runs `npm run generate-api`, which is the openapi-generator, which is Java.
@@ -48,19 +58,21 @@ COPY . .
 ARG HOUSE_BRAND_API_KEY=
 RUN if [ -n "$HOUSE_BRAND_API_KEY" ]; then \
       sed -i "s|^const HOUSE_BRAND_API_KEY = '.*';|const HOUSE_BRAND_API_KEY = '${HOUSE_BRAND_API_KEY}';|" \
-        brands/girosbet/brand.config.ts; \
+        "brands/${BRAND}/brand.config.ts"; \
     fi \
- && npm run build:girosbet-house
+ && npm run "build:${BRAND}-house"
 
 FROM nginx:alpine AS source
+ARG BRAND
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist/girosbet-house/browser /usr/share/nginx/html
+COPY --from=build /app/dist/${BRAND}-house/browser /usr/share/nginx/html
 
 # ----------------------------------------------------------------------------------- dist
 # The default target: the `dist/` arrives ready from the host.
 FROM nginx:alpine AS dist
+ARG BRAND
 COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
-COPY dist/girosbet-house/browser /usr/share/nginx/html
+COPY dist/${BRAND}-house/browser /usr/share/nginx/html
 
 # The brand key goes into the already-built bundle here, rather than into the source as the
 # `source` target does: `ng build` happened on the host, before this image existed, and the
@@ -73,7 +85,7 @@ COPY dist/girosbet-house/browser /usr/share/nginx/html
 ARG HOUSE_BRAND_API_KEY=
 RUN if [ -n "$HOUSE_BRAND_API_KEY" ]; then \
       find /usr/share/nginx/html -name '*.js' \
-        -exec sed -i "s/dev-girosbet-key/${HOUSE_BRAND_API_KEY}/g" {} + ; \
+        -exec sed -i "s/dev-${BRAND}-key/${HOUSE_BRAND_API_KEY}/g" {} + ; \
       grep -rq "$HOUSE_BRAND_API_KEY" /usr/share/nginx/html \
         || { echo "the brand key did not make it into the bundle" >&2; exit 1; }; \
     fi

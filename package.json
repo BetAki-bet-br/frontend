@@ -17,6 +17,7 @@
     "start:superbet": "npm run write:env -s && ng serve --configuration=superbet --proxy-config proxy.conf.js --host 0.0.0.0",
     "build:superbet": "npm run write:env -s && ng build --configuration=production,superbet",
     "build:superbet-demo": "npm run write:env -s && ng build --configuration=production,superbet-demo",
+    "build:superbet-house": "npm run write:env -s && ng build --configuration=production,superbet-house",
     "build:stats": "ng build --named-chunks --stats-json",
     "analyze": "webpack-bundle-analyzer dist/stats.json",
     "lint": "ng lint && stylelint \"src/**/*.scss\" \"brands/**/*.scss\"",
