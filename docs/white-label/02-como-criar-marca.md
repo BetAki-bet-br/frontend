@@ -24,8 +24,8 @@ aparecem no commit depois que você colocar os arquivos da marca lá dentro (pas
 
 O que o pacote precisa ter, para não depender dos README apagados:
 
-| `assets/` (8 na raiz + `icons/`)                                                                                                                              | `legal/` (8 fragmentos)                                                                                                                                                                                                                                           |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `assets/` (8 na raiz + `icons/`)                                                                                                                                            | `legal/` (8 fragmentos)                                                                                                                                                                                                                                              |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `favicon.png`, `apple-touch-icon.png`, `logo.png`, `logo-white.svg`, `logo-color.svg`, `icon.svg`, `logo-mobile.webp`, `agecap.svg`, `icons/*.svg` (51, gerados no passo 4) | `terms-and-conditions/terms-and-conditions.html`, `privacy-policy/privacy-policy.html`, `aml/aml.html`, `responsible-gaming/responsible-gaming.html`, `sportsbook/sportsbook-annex.html`, `contact/contact.html`, `support/support.html`, `ouvidoria/ouvidoria.html` |
 
 Os nomes em `assets/` são livres (o que vale é `assets.*` no `brand.config.ts`); os de `legal/` não.
@@ -56,7 +56,7 @@ Todo campo com `TODO` precisa de valor. Os que costumam travar:
   chaves opcionais, todas com o chrome de hoje como padrão: `header: 'floating'` (barra arredondada
   flutuando sobre um brilho na cor da marca, links de produto, lupa e conta em botões-ícone),
   `sidebarStyle: 'pills'` (só os menus do CMS, em pílulas, sem banner nem tiles), `footer:
-  'regulatory'` (logo, jogo responsável e selos antes das colunas), `mobileNav: 'tabs'` (cinco
+'regulatory'` (logo, jogo responsável e selos antes das colunas), `mobileNav: 'tabs'` (cinco
   itens planos; o último é Esportes com sportsbook, senão Menu) e `mobileAccountBar: true` (Criar
   conta e Entrar fixos acima do menu inferior). Juntas são o shell da Superbet.
 - `gateways` — não deixe o objeto simples que o template traz: use `brandEnv({ dev, prod, demo })`
@@ -104,6 +104,22 @@ por PowerShell ou `WriteAllText`, que preservam CRLF).
   `pills` e o menu `tabs` pintam. Toda marca declara os quatro, mesmo sem usar esses layouts; o
   template traz valores coerentes com o placeholder. Uma marca com header `floating` também sobe
   `--header-height-desktop` para 80px (64 de barra + 16 acima) e `--header-height-mobile` para 44px.
+  O wordmark dentro da barra flutuante tem altura fixa por padrão (22px desktop, 16px mobile, medidas
+  para um wordmark 7:1); um wordmark mais compacto fica pequeno, então declare
+  `--header-logo-height-desktop` e `--header-logo-height-mobile` no tema (a aurabet, 4,25:1, usa 30px e 22px).
+- Os dois tokens do card premiado (`--color-award` e `--color-award-ink`) **não precisam ser
+  declarados**: `src/theme/brand-defaults.scss` traz o padrão já derivado dos tokens que toda marca
+  preenche: `--color-award` nasce em `var(--color-accent)` e `--color-award-ink` em
+  `var(--color-brand-ink)`. É o lugar compartilhado de padrão de token do projeto: o `src/main.scss`
+  o carrega entre o `tailwindcss` e o `brand-theme`, então um valor repetido no tema da marca ganha.
+  `--color-award` pinta a moldura de 5px do card da fileira "mais-premiados" e o anel do selo 🔥;
+  `--color-award-ink` é o tom escuro em que essa moldura e o véu sobre a capa terminam. Sobrescreva
+  quando o accent **não separar** o card premiado dos comuns: ou porque é a mesma cor que já pinta
+  bordas, links e réguas de seção (betaki, dourado `#f4cc32` no lugar da lima), ou porque some no
+  fundo e na arte dos jogos (girosbet, âmbar `#ffb020` no lugar do magenta; superbet, prata
+  `#d8dde1` no lugar do vermelho). O override vai no bloco `@theme static`, junto do
+  `--color-brand-spinner`, e o `--color-award-ink` costuma ficar no padrão. As três marcas lado a
+  lado estão em `docs/design/screenshots/awarded-cards/`.
 - O bloco `@theme static` do fim do arquivo existe porque o Tailwind faz tree-shaking das
   variáveis de `@theme` que nenhuma classe utilitária usa. `--color-brand-spinner` só é lido por
   SCSS de componente (que o Tailwind não escaneia), então precisa ficar lá para chegar ao `:root`.
@@ -182,11 +198,11 @@ repetidos aqui — só `@brand/*` é específico da marca.
       "ngx-atl-pp-templates-shared/*": ["node_modules/@icore/ngx-atl-pp-templates-shared/*"],
       "@icore/ngx-portalgateway-api-client-atl": ["node_modules/@icore/ngx-portalgateway-api-client-atl"],
       "@icore/ngx-portalgateway-api-client-atl/*": ["node_modules/@icore/ngx-portalgateway-api-client-atl/*"],
-      "theme/*": ["src/theme/*"]
-    }
+      "theme/*": ["src/theme/*"],
+    },
   },
   "include": ["src/**/*.ts", "brands/<slug>/**/*.ts", "node_modules/@icore/**/*.ts"],
-  "exclude": ["src/**/*.spec.ts", "cypress.config.ts"]
+  "exclude": ["src/**/*.spec.ts", "cypress.config.ts"],
 }
 ```
 
@@ -254,10 +270,10 @@ para o CMS e `/gateway` para o backend próprio. Em dev quem resolve esses camin
 nenhum dos dois backends precisa saber em que porta o app está sendo servido. Os alvos vêm de duas
 variáveis de ambiente, com padrão para a máquina local:
 
-| variável            | padrão                  | o que é                     |
-| ------------------- | ----------------------- | --------------------------- |
-| `CMS_URL`           | `http://127.0.0.1:8082` | o backoffice Laravel        |
-| `HOUSE_GATEWAY_URL` | `http://127.0.0.1:5080` | o backend próprio (.NET)    |
+| variável            | padrão                  | o que é                  |
+| ------------------- | ----------------------- | ------------------------ |
+| `CMS_URL`           | `http://127.0.0.1:8082` | o backoffice Laravel     |
+| `HOUSE_GATEWAY_URL` | `http://127.0.0.1:5080` | o backend próprio (.NET) |
 
 Para levantar o CMS, no repositório do backoffice:
 

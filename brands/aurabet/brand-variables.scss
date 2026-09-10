@@ -1,0 +1,79 @@
+/*
+ * Aura Bet SCSS variables.
+ *
+ * The other half of the theme: the Tailwind tokens live in `brand-theme.scss`, and the
+ * `$app-custom-colors` map below feeds the hand-written SCSS under `src/theme/` and the ~20
+ * component stylesheets that do `@use "theme/theme-variables"`. `src/theme/theme-variables.scss`
+ * is a one-line forwarder, so whichever brand directory is first on the include path wins.
+ *
+ * The keys keep their historical `Betaki_*` / `betaki-*` names on purpose: ~25 consumers in `src/`
+ * do `map.get($app-custom-colors, "Betaki_...")`, and renaming one silently drops the declaration.
+ * Only the *values* are Aura Bet's: the lime/olive family became the volcano orange (`#ff4d00`
+ * primary, `#1f1e1b` cards, `#0c0b0a` background), while the neutral, error, yellow, orange and
+ * light-blue entries stay as `src/theme/palette.scss` declares them.
+ */
+
+@use "sass:map" as map;
+@use "theme/palette" as palette;
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+
+// Plus imports for other components in your app.
+
+// Material theme and palettes
+@forward "material-variables" show $app-primary, $app-accent, $app-warn, $app-theme,
+  $material-design-icons-font-directory-path, $custom-typography;
+
+// Brand artwork referenced from SCSS. Keep in sync with `assets.logo` in `brand.config.ts`;
+// stylesheets cannot read the TypeScript config.
+$brand-logo-url: "/assets/brand/logo.png";
+
+// Everything this brand paints differently. Merged over `src/theme/palette.scss`,
+// which holds the neutral ramp and the semantic states every brand shares.
+$brand-colors: (
+  // Page background (`body`) and the tint behind dialogs: the warm near-black.
+  "brand-background": #0c0b0a,
+
+  // Cards, headers, table rows: the surface the content sits on.
+  "brand-surface": #1f1e1b,
+
+  // `brand-surface` at 30% alpha, for overlays over artwork.
+  "brand-surface-30": #1f1e1b4d,
+
+  // The darkest brand tone; borders and shadows on `brand-surface`. This brand's black is the page
+  // background itself, so the two match.
+  "brand-ink": #0c0b0a,
+
+  // `brand-ink` at 30% alpha.
+  "brand-ink-30": #0c0b0a4d,
+
+  // The brand colour: primary buttons, active states, highlights.
+  "brand-accent": #ff4d00,
+
+  // `brand-accent` at 50% alpha.
+  "brand-accent-50": #ff4d0080,
+
+  // `brand-accent` at 10% alpha.
+  "brand-accent-10": #ff4d001a,
+
+  // `brand-accent` at 30% alpha.
+  "brand-accent-30": #ff4d004d,
+
+  // Confirmation state (paid, approved, verified): a green that stays readable on the dark
+  // surfaces and never collides with the orange.
+  "brand-success": #27c46b
+);
+$app-custom-colors: map.merge(palette.$shared-colors, $brand-colors);
+
+// $action-gradient: linear-gradient(
+//   to right,
+//   map.get(theme-variables.$app-custom-colors, "blue-50"),
+//   map.get(theme-variables.$app-custom-colors, "purple")
+// );
+
+// max width of the main content (on the home page only?)
+$home-content-max-width: 1218px;
+$home-category-card-content-padding: 1.25rem;
+$home-category-card-content-padding-mobile: 1.6rem 1.25rem;

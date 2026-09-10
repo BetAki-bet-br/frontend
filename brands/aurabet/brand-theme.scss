@@ -1,0 +1,200 @@
+/*
+ * Aura Bet design tokens (Tailwind v4 `@theme`).
+ *
+ * Source of truth for the palette: `docs/aurabet/01-identidade-marca.md`, section "Mapeamento para
+ * os tokens da label `aurabet`". This brand is ours, not a reading of somebody else's site: the
+ * territory is volcano orange on a warm near-black, chosen to sit far from BetAki's lime, from
+ * GirosBet's purple/magenta and from Superbet's red. The primary never darkens towards red — the
+ * pressed step is `#d94100`, not a burgundy.
+ *
+ * Loaded by `src/main.scss` through the brand include path, after `@use "tailwindcss"`.
+ */
+
+@use "theme/scrollbar" as scrollbar;
+
+@theme {
+  --breakpoint-xs: 30rem;
+
+  // Body copy, navigation and buttons are Barlow (400/500/600/700); headings, the wordmark, tile
+  // names and odds are Barlow Condensed 800/900 italic in caps. Both are OFL and both are pulled
+  // from Google Fonts by `brands/aurabet/index.html`.
+  --font-sans: "Barlow", sans-serif;
+  --font-alt: "Barlow", sans-serif;
+  --font-display: "Barlow Condensed", "Barlow", sans-serif;
+
+  // ---------------------------------------------------------------------------------------------
+  // Brand ramp: the volcano orange family.
+  // ---------------------------------------------------------------------------------------------
+
+  // Lightest tint, unused by `src/` today: text over a dark orange fill.
+  --color-brand-200: #ffb999;
+
+  // Bright text/icon colour on dark surfaces (`text-brand-400`, spinners, active sidebar entries,
+  // `bg-brand-400/20`): the light orange the links and the "Ver todos" chevrons are painted with.
+  --color-brand-400: #ff9466;
+
+  // The primary: primary buttons, focus rings, selected chips and tabs, badges, the glow.
+  --color-brand-500: #ff4d00;
+
+  // Hover state of everything painted with `brand-500`. The ramp brightens on hover instead of
+  // darkening, so the orange never reads as red.
+  --color-brand-600: #ff7133;
+
+  // Darkest shade of the ramp still used as a fill: gradients and badge backgrounds.
+  --color-brand-800: #ad3400;
+
+  // Muted brand tone for filled surfaces that must not shout (mobile sidebar buttons), and the
+  // band behind the header.
+  --color-brand-darker: #7d2600;
+
+  // ---------------------------------------------------------------------------------------------
+  // Accent: section borders, highlighted labels, promo borders.
+  // ---------------------------------------------------------------------------------------------
+  --color-accent: #ff4d00;
+  --color-accent-highlight: #ff7133;
+
+  // ---------------------------------------------------------------------------------------------
+  // Neutral ramp ("shark"): a warm near-black. The whole interface is painted from here, so the
+  // orange only ever appears where the brand is speaking.
+  // ---------------------------------------------------------------------------------------------
+  --color-shark-50: #f5f3f0; // on-dark text, warm off-white
+  --color-shark-100: #e9e6e1;
+  --color-shark-200: #d6d2cc;
+  --color-shark-300: #a09b94; // secondary text
+  --color-shark-400: #6f6a63; // tertiary/disabled text
+  --color-shark-500: #4a4640;
+  --color-shark-600: #3a3733;
+  --color-shark-700: #2f2d29; // hairline separators
+  --color-shark-800: #1f1e1b; // cards and footer
+  --color-shark-900: #171614; // raised surfaces, hover states
+  --color-shark-950: #0c0b0a; // page background
+
+  // Neutrals outside the ramp.
+  --color-black: #0c0b0a;
+  --color-alt-light: #e9e6e1;
+  --color-auth-placeholder: #0c0b0a4d;
+
+  // ---------------------------------------------------------------------------------------------
+  // Layout and effects.
+  // ---------------------------------------------------------------------------------------------
+  // The `floating` header is a 64px rounded bar with 16px of air above it, which is the 80px
+  // below; on mobile it is a 44px bar painted with `--color-surface-header-glow`. The sticky
+  // sidebar and the fullscreen game view offset against these two.
+  --header-height-desktop: 80px;
+  --header-height-mobile: 44px;
+
+  // Height of the wordmark inside the floating bar. The shell's defaults (22px / 16px) were tuned
+  // for the 7:1 Superbet mark; AURABET is 4.25:1 and needs more height to read at the same weight.
+  --header-logo-height-desktop: 30px;
+  --header-logo-height-mobile: 22px;
+  --winer-card-background: linear-gradient(135deg, var(--color-shark-950) 0%, var(--color-shark-900) 100%);
+
+  // 8px on cards and banners; buttons are squarer still (`--radius-button`), because the pill is
+  // Superbet's shape and this brand is cut with straight diagonals.
+  --custom-radius: 0.5rem;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-7, replacing hexes that used to be hardcoded in `src/`.
+  // -----------------------------------------------------------------------------------------
+
+  // Dark brand foreground on light surfaces: dialog action buttons, hairline dividers.
+  --color-brand-ink: #260b00;
+
+  // Dark brand fill sitting behind brand-coloured text (the withdrawal action panel):
+  // `--color-brand-400` has to stay legible on it.
+  --color-brand-900: #4f1800;
+
+  // Darkest fill of the ramp: the "Depósito" call to action sitting on the brand header.
+  --color-brand-950: #260b00;
+
+  // Light surface behind the auth pages, the profile shell and form inputs: the warm off-white of
+  // the light half of the palette, not a cold grey.
+  --color-surface-auth: #f6f4f1;
+
+  // Placeholder block shown while a game thumbnail / panel is still loading.
+  --color-surface-skeleton: #2a2724;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-8a: what <app-button> and the shell chrome paint with.
+  // -----------------------------------------------------------------------------------------
+
+  // Fill of the primary call to action (`bg-action`): "Entrar", "Depositar", "Apostar agora".
+  --color-action: #ff4d00;
+
+  // Hover/pressed fill of the call to action.
+  --color-action-hover: #ff7133;
+
+  // Label and icon colour sitting on top of `--color-action`.
+  --color-action-foreground: #fff;
+
+  // Background of the application header (`bg-surface-header`): the middle of the diagonal glow
+  // the brand draws behind the top of the page, between `#4f1800` and the page background. The
+  // `floating` bar paints it at 80% over a backdrop blur, so it reads a shade lighter than this.
+  --color-surface-header: #2a1006;
+
+  // Fill of the `secondary` button ("Criar conta" in the mobile account bar, "Entrar" in the
+  // header). The identity asks for a solid white block with dark text, but the variant in
+  // `src/app/@shared/components/button/button.component.ts` hardcodes `!text-white`, so a white
+  // fill would be white on white: this is the identity's "botão neutro" instead, a translucent
+  // white block over the dark chrome.
+  --color-button-secondary: rgb(255 255 255 / 12%);
+
+  // Hairline around the `secondary` button: the faintest white edge that still separates the
+  // block from a dark banner behind it.
+  --color-button-secondary-border: rgb(255 255 255 / 8%);
+
+  // Label of the `outline` button at rest: the light orange, which reads on the dark surfaces.
+  --color-button-outline-text: #ff9466;
+
+  // Destructive actions (`bg-danger`): a pink-red kept clearly apart from the orange primary, so
+  // a delete button is never mistaken for the main call to action.
+  --color-danger: #ff2d55;
+
+  // Corner radius of <app-button> in its `rectangle` shape: 4px, the brand's own corner.
+  --radius-button: 4px;
+
+  // -----------------------------------------------------------------------------------------
+  // Semantic tokens introduced by WL-9: what the `floating` header, the `pills` sidebar and the
+  // `tabs` mobile navigation paint with. This brand uses the `floating` header and the `tabs`
+  // navigation; the `pills` sidebar stays off (`sidebarStyle` at its default `blocks`), and its
+  // token is declared all the same, as every brand does.
+  // -----------------------------------------------------------------------------------------
+
+  // Top of the gradient the `floating` header sits on: the top of the brand's diagonal glow, which
+  // fades into the page background over 240px. It is also the solid fill of the 44px mobile bar,
+  // so the wordmark has to read on it.
+  --color-surface-header-glow: #4f1800;
+
+  // Text and icon of the active item in the `pills` sidebar and in the `tabs` mobile navigation.
+  --color-nav-active: #ff4d00;
+
+  // Fill behind the active `pills` sidebar item; the utility fades it out to the right.
+  --color-nav-active-fill: #ff4d001f;
+
+  // Background of the `tabs` mobile navigation bar: a shade under the page background, so the bar
+  // reads as a floor and not as part of the lobby.
+  --color-surface-nav-mobile: #0f0e0c;
+}
+
+/*
+ * Tokens consumed only by hand-written CSS (`src/theme/*.scss`, component stylesheets) and never
+ * by a utility class. Tailwind tree-shakes `@theme` variables that no utility references, so these
+ * live in a `static` block to guarantee they reach `:root`.
+ */
+@theme static {
+  // Brand colour of the full-page loader and of the inline loading bar: the light orange, which is
+  // the one that carries against the near-black background.
+  --color-brand-spinner: #ff7133;
+}
+
+/*
+ * A barra de rolagem da página e a das sidebars, pintadas com o preto quente da marca: trilha na
+ * cor do header (o marrom queimado do brilho), polegar no cinza da rampa, um tom mais claro sob o
+ * mouse. Sem isto a barra da sidebar sai como a clássica cinza do sistema, e a da página como a
+ * fina do Chrome: duas barras diferentes na mesma tela.
+ */
+@include scrollbar.themed(
+  $thumb: var(--color-shark-600, #3a3733),
+  $track: var(--color-surface-header, #2a1006),
+  $thumb-hover: var(--color-shark-500, #4a4640)
+);

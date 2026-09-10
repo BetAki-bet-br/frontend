@@ -408,6 +408,145 @@
                   "output": "/"
                 }
               ]
+            },
+            "aurabet-house": {
+              "tsConfig": "tsconfig.brand-aurabet.json",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.house.ts"
+                }
+              ],
+              "index": "brands/aurabet/index.html",
+              "outputPath": {
+                "base": "dist/aurabet-house"
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["brands/aurabet", ".", "node_modules", "src"]
+              },
+              "assets": [
+                "src/assetslocal",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "static",
+                  "output": "/static/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/aurabet/assets",
+                  "output": "/assets/brand"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/aurabet/legal",
+                  "output": "/assetshtml"
+                },
+                {
+                  "glob": "robots.txt",
+                  "input": "brands/aurabet",
+                  "output": "/"
+                },
+                {
+                  "glob": "sitemap.xml",
+                  "input": "brands/aurabet",
+                  "output": "/"
+                }
+              ]
+            },
+            "aurabet": {
+              "tsConfig": "tsconfig.brand-aurabet.json",
+              "index": "brands/aurabet/index.html",
+              "outputPath": {
+                "base": "dist/aurabet"
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["brands/aurabet", ".", "node_modules", "src"]
+              },
+              "assets": [
+                "src/assetslocal",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "static",
+                  "output": "/static/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/aurabet/assets",
+                  "output": "/assets/brand"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/aurabet/legal",
+                  "output": "/assetshtml"
+                },
+                {
+                  "glob": "robots.txt",
+                  "input": "brands/aurabet",
+                  "output": "/"
+                },
+                {
+                  "glob": "sitemap.xml",
+                  "input": "brands/aurabet",
+                  "output": "/"
+                }
+              ]
+            },
+            "aurabet-demo": {
+              "tsConfig": "tsconfig.brand-aurabet.json",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.demo.ts"
+                }
+              ],
+              "index": "brands/aurabet/index.html",
+              "outputPath": {
+                "base": "dist/aurabet-demo"
+              },
+              "stylePreprocessorOptions": {
+                "includePaths": ["brands/aurabet", ".", "node_modules", "src"]
+              },
+              "assets": [
+                "src/assetslocal",
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "static",
+                  "output": "/static/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/aurabet/assets",
+                  "output": "/assets/brand"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "brands/aurabet/legal",
+                  "output": "/assetshtml"
+                },
+                {
+                  "glob": "robots.txt",
+                  "input": "brands/aurabet",
+                  "output": "/"
+                },
+                {
+                  "glob": "sitemap.xml",
+                  "input": "brands/aurabet",
+                  "output": "/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "demo/public",
+                  "output": "/"
+                },
+                {
+                  "glob": "**/*",
+                  "input": "demo/media/aurabet",
+                  "output": "/demo-media/aurabet"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -432,6 +571,9 @@
             },
             "superbet": {
               "buildTarget": "angular-pp:build:development,superbet"
+            },
+            "aurabet": {
+              "buildTarget": "angular-pp:build:development,aurabet"
             },
             "development-ssl": {
               "ssl": true,

@@ -1,0 +1,116 @@
+/*
+ * Aura Bet Angular Material palettes.
+ *
+ * Forwarded by `brand-variables.scss` and consumed by `src/theme/material-theming.scss`.
+ * The 500 step of `$pp-palette` matches `--color-brand-500` in `brand-theme.scss` (`#ff4d00`);
+ * the accent is the same ramp moved one step towards the light, so its 500 lands on `#ff7133`,
+ * the hover orange.
+ */
+@use "sass:map" as map;
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+
+// Material design icons font path
+$material-design-icons-font-directory-path: "../dist/fonts/";
+
+// Custom typography config that overrides the font-family. Barlow is loaded by `index.html`.
+$custom-typography: mat.m2-define-typography-config(
+  $font-family: "'Barlow', sans-serif",
+);
+$dark-primary-text: rgb(black, 0.87);
+$light-primary-text: white;
+
+// The volcano orange ramp, with 500 on the brand primary. The lighter steps are the tints used for
+// text on dark fills, the darker ones the pressed shades Material reuses for ripples and elevation
+// overlays. The ramp never bends towards red: 600 is `#d94100`, not a burgundy.
+$pp-palette: (
+  50: #fff1ea,
+  100: #ffdccc,
+  200: #ffb999,
+  300: #ff9466,
+  400: #ff7133,
+  500: #ff4d00,
+  600: #d94100,
+  700: #ad3400,
+  800: #7d2600,
+  900: #4f1800,
+  A100: #ffd9c7,
+  A200: #ff8a4d,
+  A400: #ff5c14,
+  A700: #f04400,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
+// Accent: the same orange ramp, moved one step lighter so 500 lands on `#ff7133`, the colour the
+// brand hovers its primary with.
+$accent-palette: (
+  50: #fff1ea,
+  100: #ffdccc,
+  200: #ffb999,
+  300: #ffa680,
+  400: #ff9466,
+  500: #ff7133,
+  600: #ff4d00,
+  700: #d94100,
+  800: #ad3400,
+  900: #7d2600,
+  A100: #ffd9c7,
+  A200: #ff8a4d,
+  A400: #ff5c14,
+  A700: #f04400,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $dark-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  ),
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$app-primary: mat.m2-define-palette($pp-palette);
+$app-accent: mat.m2-define-palette($accent-palette, 500, A200, 700);
+
+// The warn palette is optional (defaults to red).
+$app-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$app-theme: mat.m2-define-light-theme(
+  (
+    color: (
+      primary: $app-primary,
+      accent: $app-accent,
+      warn: $app-warn,
+    ),
+    typography: $custom-typography,
+  )
+);
