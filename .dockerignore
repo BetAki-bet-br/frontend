@@ -1,5 +1,7 @@
-# The build context is the whole tree minus what is local, heavy, or another brand's.
-# `dist/girosbet-house` is the exception: it is what the default target copies.
+# The build context is the whole tree minus what is local, heavy, or not a brand's install build.
+# The `dist/<brand>-house/` builds are the exception: one of them is what the default target copies,
+# and which one is the `BRAND` build arg. Everything else under `dist/` (the demo builds, the vendor
+# build) would only make the context heavier.
 node_modules
 .angular
 .git
@@ -11,5 +13,5 @@ lighthouse_reports
 reports
 .lighthouseci
 dist
-!dist/girosbet-house
+!dist/*-house
 *.log
