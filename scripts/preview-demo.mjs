@@ -7,18 +7,24 @@
  *
  *   npm run build:girosbet-demo && node scripts/preview-demo.mjs
  *   node scripts/preview-demo.mjs dist/superbet-demo/browser 8091 Superbet   # another brand: its dist, port and name
+ *   node scripts/preview-demo.mjs dist/aurabet-demo/browser 8092 "Aura Bet" aurabet   # with its own snapshot
  *
  * The third argument becomes DEMO_BRAND_NAME for `api/cms.js`, which swaps the recorded brand name
- * for it; leave it out for the brand the snapshot was recorded with.
+ * for it; leave it out for the brand the snapshot was recorded with. The fourth is the brand slug:
+ * with it the function serves `demo/cms-<slug>` when that recording exists, and the shared
+ * `demo/cms` when it does not. `DEMO_CMS_DIR` names a directory outright and wins over the slug.
  */
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-const handler = createRequire(import.meta.url)('../api/cms.js');
+const require = createRequire(import.meta.url);
 const ROOT = path.resolve(process.argv[2] ?? 'dist/girosbet-demo/browser');
 const PORT = Number(process.argv[3] ?? 8090);
 if (process.argv[4]) process.env.DEMO_BRAND_NAME = process.argv[4];
+if (process.argv[5]) process.env.DEMO_BRAND_SLUG = process.argv[5];
+// Loaded only after the environment is set: the function picks its snapshot root at load time.
+const handler = require('../api/cms.js');
 const TYPES = {
   '.html': 'text/html',
   '.js': 'text/javascript',

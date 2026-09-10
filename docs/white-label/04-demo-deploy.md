@@ -87,7 +87,8 @@ Some-se a isso o `robots.txt` com `Disallow: /` e o header `X-Robots-Tag: noinde
 
 ## Uma demo por marca
 
-A gravação do CMS é uma só e foi feita contra o CMS da GirosBet; o resto é por marca.
+A gravação do CMS pode ser uma só, feita contra o CMS da GirosBet e compartilhada, ou uma por marca
+quando aquela marca tem conteúdo próprio no CMS; o resto é por marca.
 
 - **Build:** uma configuração `<slug>-demo` no `angular.json` espelhando `girosbet-demo` (mesmo
   `fileReplacements` para o `environment.demo.ts`, mesma entrada `demo/public`, saída em
@@ -95,12 +96,27 @@ A gravação do CMS é uma só e foi feita contra o CMS da GirosBet; o resto é 
 - **Nome da marca no conteúdo gravado:** a gravação traz "GirosBet" em alguns textos do CMS (o menu
   do clube, por exemplo). Com `DEMO_BRAND_NAME=Superbet` a função devolve a gravação com esse nome
   no lugar, que é o que o CMS daquela marca teria. Sem a variável nada muda.
+- **Gravação própria:** quando a marca tem conteúdo dela no CMS (carrossel, capas, banners), grave
+  `demo/cms-<slug>` em vez de reaproveitar o snapshot compartilhado. A função escolhe a raiz assim,
+  nesta ordem: `DEMO_CMS_DIR` (um diretório dito na mão), `demo/cms-<slug>` quando
+  `DEMO_BRAND_SLUG=<slug>`, e `demo/cms` como último caso. Só conta a pasta que tem um `index.json`
+  dentro, então um slug sem gravação cai no snapshot compartilhado em vez de responder 404 em tudo.
+  O `includeFiles` da função no `vercel.json` é `demo/cms*/**`, então todas as gravações vão junto.
+- **Mídias da marca sem CMS:** as URLs que a gravação traz apontam para onde o CMS local serve as
+  imagens (`http://127.0.0.1:8082/media/<slug>/…`), endereço que não existe na demo publicada. Por
+  isso os PNG usados moram em `demo/media/<slug>/`, a configuração `<slug>-demo` do `angular.json`
+  os copia para `/demo-media/<slug>` no dist (mesmo mecanismo `glob`/`input`/`output` das artes da
+  marca), e a gravação é reescrita para o caminho relativo `/demo-media/<slug>/…`. O `vercel.json`
+  tira `demo-media/` do rewrite que manda tudo para o `index.html`. A `aurabet` é a primeira assim.
 - **Preview local:** `node scripts/preview-demo.mjs dist/superbet-demo/browser 8091 Superbet`
-  (pasta, porta e nome, os três opcionais; o padrão é a girosbet em 8090 sem troca de nome). Duas
-  ou três marcas lado a lado é uma porta por marca.
+  (pasta, porta e nome, os três opcionais; o padrão é a girosbet em 8090 sem troca de nome). Um
+  quarto argumento é o slug da gravação:
+  `node scripts/preview-demo.mjs dist/aurabet-demo/browser 8092 "Aura Bet" aurabet`. Duas ou três
+  marcas lado a lado é uma porta por marca.
 - **Na Vercel:** um projeto por marca. `buildCommand` e `outputDirectory` do projeto apontando para
   o build daquela marca (as configurações do projeto ganham do `vercel.json`) e `DEMO_BRAND_NAME`
-  nas variáveis de ambiente, ao lado do `DEMO_PASSWORD`.
+  nas variáveis de ambiente, ao lado do `DEMO_PASSWORD` — mais `DEMO_BRAND_SLUG` quando a marca tem
+  gravação própria.
 
 ## Conferir antes de publicar
 

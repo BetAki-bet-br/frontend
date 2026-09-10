@@ -5,12 +5,12 @@
   "framework": null,
   "functions": {
     "api/cms.js": {
-      "includeFiles": "demo/cms/**"
+      "includeFiles": "demo/cms*/**"
     }
   },
   "rewrites": [
     { "source": "/backoffice/api/v1/(.*)", "destination": "/api/cms?path=$1" },
-    { "source": "/((?!api/|assets|assetslocal|assetshtml|static/).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|assets|assetslocal|assetshtml|static/|demo-media/).*)", "destination": "/index.html" }
   ],
   "headers": [
     {

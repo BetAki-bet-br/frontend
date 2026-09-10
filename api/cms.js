@@ -13,7 +13,28 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
-const ROOT = path.join(process.cwd(), 'demo', 'cms');
+/**
+ * Which recording to serve. The snapshot is per brand when there is one for that brand:
+ * `DEMO_CMS_DIR` names a directory outright, `DEMO_BRAND_SLUG` asks for `demo/cms-<slug>`, and
+ * whatever is not there falls back to `demo/cms`, the shared recording made against GirosBet.
+ * A directory only counts if it actually holds an `index.json`, so a typo degrades to the
+ * fallback instead of serving 404 for every path.
+ */
+function resolveRoot() {
+  const candidates = [];
+  const dir = (process.env.DEMO_CMS_DIR ?? '').trim();
+  const slug = (process.env.DEMO_BRAND_SLUG ?? '').trim();
+  if (dir) candidates.push(path.isAbsolute(dir) ? dir : path.join(process.cwd(), dir));
+  if (slug) candidates.push(path.join(process.cwd(), 'demo', `cms-${slug}`));
+  const fallback = path.join(process.cwd(), 'demo', 'cms');
+  candidates.push(fallback);
+  for (const candidate of candidates) {
+    if (fs.existsSync(path.join(candidate, 'index.json'))) return candidate;
+  }
+  return fallback;
+}
+
+const ROOT = resolveRoot();
 
 /**
  * The snapshot was recorded against the GirosBet CMS, so a few strings in it carry that brand's
