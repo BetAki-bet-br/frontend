@@ -123,4 +123,11 @@
 @theme static {
   // Brand colour of the full-page loader and of the inline loading bar.
   --color-brand-spinner: #bcd200;
+
+  // Frame and badge ring of the awarded game card (the "mais-premiados" row). The shared default in
+  // `src/theme/brand-defaults.scss` is `--color-accent`, but BetAki's accent is the same lime that
+  // already paints borders, links and section rules, so the awarded card stopped reading as special.
+  // This gold is a warmer neighbour of the lime: it says "prize" without leaving the hue family.
+  // `--color-award-ink` keeps the derived default, the near-black olive of `--color-brand-ink`.
+  --color-award: #f4cc32;
 }

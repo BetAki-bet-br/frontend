@@ -1,10 +1,20 @@
+/*
+ * The prize colours are `--color-award` (the frame and the badge ring) and `--color-award-ink` (the
+ * dark tone both the frame and the veil end on). Their default is derived from tokens every brand
+ * declares — see `src/theme/brand-defaults.scss` — and a brand overrides them in its own
+ * `brand-theme.scss`. The second level of each `var()` chain is the token the default is derived
+ * from, so the card still paints in the house colour if it is ever built without the shared file.
+ */
+$award: var(--color-award, var(--color-accent));
+$award-ink: var(--color-award-ink, var(--color-brand-ink));
+
 .awarded-gradient {
   // Use a pseudo-element to create an overlay on top of the image.
   &::after {
     content: "";
     position: absolute;
     inset: 0; // Cover the entire parent.
-    background: linear-gradient(180.19deg, rgb(158 62 107 / 0%) 43.61%, #271b48 99.83%);
+    background: linear-gradient(180.19deg, transparent 43.61%, $award-ink 99.83%);
 
     // The parent element has `rounded-lg` (0.5rem).
     // The pseudo-element needs to have the same border-radius to not overflow the rounded corners,
@@ -14,7 +24,7 @@
 }
 
 .bg-gradient-awarded {
-  background: linear-gradient(161.87deg, #f4cc32 13.18%, #181616 93.23%), #0f2135;
+  background: linear-gradient(161.87deg, $award 13.18%, $award-ink 93.23%);
 }
 
 .pop-out-card {

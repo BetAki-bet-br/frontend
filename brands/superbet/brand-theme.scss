@@ -174,6 +174,14 @@
   // Brand colour of the full-page loader and of the inline loading bar: the bright red, which is
   // the one that shows up against the near-black background.
   --color-brand-spinner: #f5171f;
+
+  // Frame and badge ring of the awarded game card (the "mais-premiados" row). The shared default in
+  // `src/theme/brand-defaults.scss` is `--color-accent`, the brand red, which both sinks into the
+  // near-black page and collides with the red the game art is full of. Silver separates the awarded
+  // row from everything else without introducing a second brand colour, and it sits on the light
+  // end of the grey ramp the interface is already built from. `--color-award-ink` keeps the
+  // derived default.
+  --color-award: #d8dde1;
 }
 
 /*

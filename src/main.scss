@@ -1,5 +1,8 @@
 @use "theme/theme";
 @use "tailwindcss";
+
+/* Defaults derived from the tokens every brand fills in; `brand-theme` comes after and wins. */
+@use "theme/brand-defaults";
 @use "brand-theme";
 
 /* The brands' legal pages are plain CMS html served as static assets, not app templates.

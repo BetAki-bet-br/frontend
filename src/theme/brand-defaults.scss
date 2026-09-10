@@ -1,0 +1,34 @@
+/*
+ * Shared defaults for the brand tokens a brand package may leave out.
+ *
+ * `src/main.scss` loads this file between `tailwindcss` and `brand-theme`, so what is declared here
+ * is what a brand inherits by declaring nothing, and a brand that repeats the same token in its own
+ * `brands/<slug>/brand-theme.scss` wins.
+ *
+ * Only a token whose default can be *derived* from tokens every brand already fills in belongs
+ * here: the point is that a new brand package renders in the house colours before anybody sits down
+ * to tune it. A token with no sensible brand-agnostic value stays in the brand packages.
+ *
+ * The block is `static` because Tailwind tree-shakes `@theme` variables that no utility class
+ * references, and these are also read from component stylesheets, which it does not scan. Utility
+ * classes (`bg-award`, `border-award`, ...) are generated all the same.
+ */
+
+@theme static {
+  /*
+   * Awarded game card (the "mais-premiados" row): the 5px frame around the card and the ring of
+   * the 🔥 badge. Defaults to the brand accent, so the frame reads as the house colour instead of
+   * the fixed yellow this card used to be painted with. A brand whose accent does not separate the
+   * awarded card from the ordinary ones overrides it with a colour that contrasts with the palette
+   * — see `docs/white-label/02-como-criar-marca.md`.
+   */
+  --color-award: var(--color-accent);
+
+  /*
+   * The dark end of that frame, and the colour the veil over the thumbnail fades into. Defaults to
+   * the darkest brand tone, so the bottom of the card melts into the page instead of into a fixed
+   * navy/purple. Override it together with `--color-award` when the chosen award colour needs a
+   * different shadow underneath it.
+   */
+  --color-award-ink: var(--color-brand-ink);
+}

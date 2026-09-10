@@ -165,6 +165,14 @@
 @theme static {
   // Brand colour of the full-page loader and of the inline loading bar.
   --color-brand-spinner: #e145ff;
+
+  // Frame and badge ring of the awarded game card (the "mais-premiados" row). The shared default in
+  // `src/theme/brand-defaults.scss` is `--color-accent`, the CTA magenta, which melts into the
+  // purple game art and repeats the colour the rest of the chrome already shouts with. This amber
+  // gold is the complement of the brand purple, so the awarded row is the one warm block on the
+  // page. `--color-award-ink` keeps the derived default, the near-black purple of
+  // `--color-brand-ink`.
+  --color-award: #ffb020;
 }
 
 /*
